@@ -13,12 +13,14 @@ from math import exp
 
 class ResPartnerSegmentAffinity(models.Model):
     _name = "res.partner.segment.affinity"
+    _description = "Partner segment affinity"
+    _order = "partner_id desc, affinity desc"
 
     partner_id = fields.Many2one("res.partner", "Partner")
     segment_id = fields.Many2one("res.partner.segment", "Segment")
 
     affinity = fields.Float(
-        help='affinity of the partner for this segment (in percentage).')
+        help="affinity of the partner for this segment (in percentage).")
 
     # matrix used to compute partner segmentation.
     # This was given by GMC (on a spreadsheet)
@@ -65,13 +67,11 @@ class ResPartnerSegmentAffinity(models.Model):
         :param vals: values used for model creation
         :return: id of the newly created model
         """
-        seg_affin_id = super(ResPartnerSegmentAffinity, self.sudo()).create(vals)
+        seg_affin = super(ResPartnerSegmentAffinity, self.sudo()).create(vals)
 
         # update partner.all_segment_affinity will trigger primary and secondary segment computation
-        # seg_affin_id.partner_id.write({'all_segments_affinity': [(4, seg_affin_id.id)]})
-        seg_affin_id.partner_id.all_segments_affinity = [(4, seg_affin_id.id)]
-        # seg_affin_id.partner_id._compute_prim_sec_segments()
-        return seg_affin_id
+        seg_affin.partner_id.segments_affinity_ids = [(4, seg_affin.id)]
+        return seg_affin
 
     @api.multi
     def unlink(self):
@@ -80,9 +80,8 @@ class ResPartnerSegmentAffinity(models.Model):
         :return: True
         """
         for seg_affin in self:
-            seg_affin.partner_id.all_segments_affinity = [(2, seg_affin.id)]
-            super(ResPartnerSegmentAffinity, seg_affin).unlink()
-        return True
+            seg_affin.partner_id.segments_affinity_ids = [(2, seg_affin.id)]
+        return super().unlink()
 
     @api.model
     def segment_affinity_engine(self, answer_as_array, partner_id):
@@ -93,7 +92,7 @@ class ResPartnerSegmentAffinity(models.Model):
 
         :param answer_as_array: A well formatted list of user_input_line quizz_mark
         (see partner_compassion.survey)
-        :param partner_id: the partner related to the answers
+        :param partner_id: the id of the partner related to the answers
         :return: True (update partner all_segments_affinity)
         """
 
@@ -102,7 +101,7 @@ class ResPartnerSegmentAffinity(models.Model):
         # -> segmentation percentage (= segmentation affinity)
 
         vals = {
-            'partner_id': partner_id.id
+            "partner_id": partner_id
         }
 
         # first each row of the engine matrix is multiplied by the nth entry in the answer array.
@@ -125,10 +124,10 @@ class ResPartnerSegmentAffinity(models.Model):
 
         # create a segment_affinity for each segment (with the partner)
         for index, percent_value in enumerate(segment_percent):
-            seg = self.env['res.partner.segment'].search([('segment_index', '=', index)])
+            seg = self.env["res.partner.segment"].search([("segment_index", "=", index)])
 
-            vals['segment_id'] = seg.id
-            vals['affinity'] = round(percent_value * 100, 3)
+            vals["segment_id"] = seg.id
+            vals["affinity"] = round(percent_value * 100, 3)
 
             self.create(vals)
 

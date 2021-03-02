@@ -25,7 +25,7 @@
                     </group>
                     <group>
                         <group string="Primary Partners">
-                            <field name="primary_partners"  class="pr-2" widget="one2many" nolabel="1">
+                            <field name="primary_partners_ids" class="pr-2" widget="one2many" nolabel="1">
                                 <tree>
                                     <field name="firstname"/>
                                     <field name="lastname"/>
@@ -33,7 +33,7 @@
                             </field>
                         </group>
                         <group string="Secondary Partners">
-                            <field name="secondary_partners" class="pl-2" widget="one2many" nolabel="1">
+                            <field name="secondary_partners_ids" class="pl-2" widget="one2many" nolabel="1">
                                 <tree>
                                     <field name="firstname"/>
                                     <field name="lastname"/>

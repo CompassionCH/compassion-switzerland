@@ -90,7 +90,7 @@ class ResPartner(models.Model):
         store=True
     )
 
-    all_segments_affinity = fields.Many2many(
+    segments_affinity_ids = fields.Many2many(
         "res.partner.segment.affinity",
         string="Affinity for each segment")
 
@@ -300,22 +300,11 @@ class ResPartner(models.Model):
                 THANKYOU_MAPPING[partner.thankyou_preference]
 
     @api.multi
-    @api.depends("all_segments_affinity", "all_segments_affinity.affinity")
+    @api.depends("segments_affinity_ids", "segments_affinity_ids.affinity")
     def _compute_prim_sec_segments(self):
         for partner in self:
-            affinity_for_segments = sorted([(s.affinity, s) for s in partner.all_segments_affinity])[::-1]
-
-            if affinity_for_segments and len(affinity_for_segments) > 1:
-                partner.primary_segment_id = affinity_for_segments[0][1].segment_id
-                partner.secondary_segment_id = affinity_for_segments[1][1].segment_id
-
-            elif affinity_for_segments and len(affinity_for_segments) > 0:
-                partner.primary_segment_id = affinity_for_segments[0][1].segment_id
-                partner.secondary_segment_id = None
-
-            else:
-                partner.primary_segment_id = None
-                partner.secondary_segment_id = None
+            partner.primary_segment_id = partner.segments_affinity_ids[:1].segment_id
+            partner.secondary_segment_id = partner.segments_affinity_ids[1:2].segment_id
 
     ##########################################################################
     #                              ORM METHODS                               #

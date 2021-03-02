@@ -16,7 +16,7 @@ class SurveyQuestion(models.Model):
 
     # when used this field tells the validation process that the maximum number of option answer should be validated
     max_checked_option = fields.Integer(
-        string='if used_max_check_options. maximum number of options allowed for the user')
+        help="if set, maximum number of options allowed for the user")
 
     @api.multi
     def validate_multiple_choice(self, post, answer_tag):
@@ -36,7 +36,7 @@ class SurveyLabel(models.Model):
     _inherit = "survey.label"
 
     order_in_question = fields.Integer(
-        'Order of the question. Used in multiple options question when order is important. should starts at 0',
+        "Order of the question. Used in multiple options question when order is important. should starts at 0",
     )
 
 
@@ -44,14 +44,16 @@ class SurveyUserInput(models.Model):
     _inherit = "survey.user_input"
 
     def write(self, vals):
-        out = super(SurveyUserInput, self).write(vals)
+        out = super().write(vals)
 
         # compute segment affinity if needed
-        state = 'state' in vals and vals['state'] == 'done'
-        _id = self.survey_id == self.env.ref('partner_compassion.partner_segmentation_survey')
-        if state and _id:
-            ans = self._get_answer_as_array()
-            self.env['res.partner.segment.affinity'].segment_affinity_engine(ans, self.partner_id)
+        is_done = vals.get("state") == "done"
+        segment_survey = self.env.ref("partner_compassion.partner_segmentation_survey")
+
+        for user_input in self:
+            if user_input.survey_id == segment_survey and is_done:
+                ans = self._get_answer_as_array()
+                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, self.partner_id.id)
 
         return out
 
@@ -74,7 +76,7 @@ class SurveyUserInput(models.Model):
                 out.append([user_input_line.quizz_mark])
 
             # multiple_choice require further steps. expected output (for a multiple_choice question) is an array with
-            # 0 for unselected option and 'quizz_mark' for selected option.
+            # 0 for unselected option and "quizz_mark" for selected option.
             elif user_input_line.question_id.type == "multiple_choice":
 
                 q = user_input_line.question_id
@@ -83,8 +85,8 @@ class SurveyUserInput(models.Model):
                     # if this question as not been seen yet. create a 0 filled array with as many entry as label for
                     # this question (label = answering option). add the array to a dictionary to use it for
                     # user_input_line related to the same question.
-                    all_options[q.id] = [0 for _ in self.env['survey.label'].search(
-                        [('question_id', '=', q.id)])]
+                    all_options[q.id] = [0 for _ in self.env["survey.label"].search(
+                        [("question_id", "=", q.id)])]
 
                     # when comment counts as an answer add a 0 to the array
                     if q.comments_allowed and q.comment_count_as_answer:
@@ -94,7 +96,7 @@ class SurveyUserInput(models.Model):
                     # affect the output by reference.
                     out.append(all_options[q.id])
 
-                if q.comment_count_as_answer and user_input_line.answer_type == 'text':
+                if q.comment_count_as_answer and user_input_line.answer_type == "text":
                     # if current input is user comment append a value of 1 at the end of the array (comment always at
                     # the end).
                     all_options[q.id][-1] = 1

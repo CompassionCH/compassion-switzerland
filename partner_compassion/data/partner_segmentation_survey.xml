@@ -45,6 +45,7 @@
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
         <field name="page_id" ref="pss_page1"/>
     </record>
     <record id="pss_q1_1" model="survey.label">
@@ -88,6 +89,7 @@
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
         <field name="page_id" ref="pss_page2"/>
     </record>
     <record id="pss_q2_1" model="survey.label">
@@ -131,6 +133,7 @@
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
         <field name="page_id" ref="pss_page3"/>
     </record>
     <record id="pss_q3_1" model="survey.label">
@@ -174,6 +177,7 @@
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
         <field name="page_id" ref="pss_page4"/>
     </record>
     <record id="pss_q4_1" model="survey.label">
@@ -219,6 +223,7 @@
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
         <field name="page_id" ref="pss_page5"/>
     </record>
     <record id="pss_q5_1" model="survey.label">
