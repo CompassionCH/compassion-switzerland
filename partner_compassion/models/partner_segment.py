@@ -7,13 +7,14 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ResPartnerSegment(models.Model):
     _name = "res.partner.segment"
     _description = "Partner Segmentation"
 
+    segment_index = fields.Integer(string='Segment Index used for segment computation by segmentation engine')
     name = fields.Char(string='Name')
     main_driver = fields.Char(string='Main driver', help='short description of the segment')
 

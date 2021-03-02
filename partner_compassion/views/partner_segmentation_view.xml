@@ -51,10 +51,10 @@
         <field name="name">res.partner.segment.tree</field>
         <field name="model">res.partner.segment</field>
         <field name="arch" type="xml">
-            <tree order="segment_total desc">
+            <tree default_order="segment_total desc">
                 <field name="name"/>
                 <field name="segment_size"/>
-                <field name="segment_total" sum="total"/>
+                <field name="segment_total" sum="segment_total"/>
             </tree>
         </field>
     </record>
