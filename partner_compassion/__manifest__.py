@@ -64,7 +64,6 @@
         "data/calendar_event_type.xml",
         "data/ir_cron.xml",
         "data/mail_channel.xml",
-        "data/activity_data.xml",
         "data/res_partner_actions.xml",
         "data/gist_indexes.xml",
         "data/partner_action_rules.xml",

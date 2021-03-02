@@ -10,7 +10,6 @@
 
 from odoo import api, models
 from odoo.addons.queue_job.job import job
-from datetime import datetime, timedelta
 
 class MatchPartner(models.AbstractModel):
     """
@@ -38,24 +37,6 @@ class MatchPartner(models.AbstractModel):
                 # We unarchive the partner to make it visible
                 partner.write({"active": True, "contact_id": False})
         return super().match_after_match(partner, new_partner, infos, opt)
-
-    @api.model
-    def match_create(self, partner_obj, infos, options=None):
-        """Create a new partner from a selection of the given infos."""
-        create_infos = self.match_process_create_infos(infos, options)
-        create_infos.setdefault("lang", self.env.lang)
-        create_infos.setdefault("tz", "Europe/Zurich")
-        partner = partner_obj.create(create_infos)
-        partner.activity_schedule(
-            'partner_compassion.activity_check_duplicates',
-            date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
-            summary="Verify new partner",
-            note="Please verify that this partner doesn't already exist",
-            user_id=self.env["ir.config_parameter"].sudo().get_param(
-                "cms_form_compassion.match_validation_responsible", self.env.uid)
-        )
-        return partner
-
 
     @job
     @api.model
