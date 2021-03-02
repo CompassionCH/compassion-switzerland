@@ -76,6 +76,24 @@ class ResPartner(models.Model):
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
+
+    primary_segment_id = fields.Many2one(
+        "res.partner.segment",
+        string="Primary segmentation category",
+        compute="_compute_prim_sec_segments",
+        store=True
+    )
+    secondary_segment_id = fields.Many2one(
+        "res.partner.segment",
+        string="Secondary segmentation category",
+        compute="_compute_prim_sec_segments",
+        store=True
+    )
+
+    segments_affinity_ids = fields.Many2many(
+        "res.partner.segment.affinity",
+        string="Affinity for each segment")
+
     lang = fields.Selection(default=False)
     total_invoiced = fields.Monetary(groups=False)
     # Track address changes
@@ -280,6 +298,13 @@ class ResPartner(models.Model):
         for partner in self:
             partner.thankyou_letter = \
                 THANKYOU_MAPPING[partner.thankyou_preference]
+
+    @api.multi
+    @api.depends("segments_affinity_ids", "segments_affinity_ids.affinity")
+    def _compute_prim_sec_segments(self):
+        for partner in self:
+            partner.primary_segment_id = partner.segments_affinity_ids[:1].segment_id
+            partner.secondary_segment_id = partner.segments_affinity_ids[1:2].segment_id
 
     ##########################################################################
     #                              ORM METHODS                               #
