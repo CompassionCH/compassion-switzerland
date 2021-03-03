@@ -14,7 +14,6 @@ from odoo.addons.queue_job.job import job
 
 
 class MassMailingContact(models.Model):
-
     _inherit = "mail.mass_mailing.contact"
 
     partner_id = fields.Many2one(
@@ -41,6 +40,21 @@ class MassMailingContact(models.Model):
                 ("contact_type", "=", "standalone"),
                 ("opt_out", "!=", True)
             ], limit=1).id
+
+    @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
+    @api.model
+    def update_partner_merge_fields_job(self, partner_id):
+        """Update one contact merge fields.
+        Preferred approach to avoid overloading the network.
+        :return: True or False
+        """
+        mailing_contact = self.search([("partner_id", "=", partner_id)], limit=1)
+        if mailing_contact:
+            try:
+                mailing_contact.action_update_to_mailchimp()
+            except:
+                return False
+        return True
 
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
     @api.model
