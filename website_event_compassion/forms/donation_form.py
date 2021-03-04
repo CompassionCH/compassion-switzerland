@@ -19,7 +19,7 @@ class EventDonationForm(models.AbstractModel):
     form_id = "modal_donation"
     _form_model = "account.invoice"
 
-    amount = fields.Float(required=True)
+    amount = fields.Float("Amount (CHF)", required=True)
     ambassador_id = fields.Many2one("res.partner", readonly=False)
     event_id = fields.Many2one("crm.event.compassion", readonly=False)
     gtc_accept = fields.Boolean("Terms and conditions", required=True)
@@ -35,7 +35,7 @@ class EventDonationForm(models.AbstractModel):
             if not value or float(value) < 1:
                 return "amount", _("Please set an amount")
         except ValueError:
-            return "amount", _("Please set an amount")
+            return "amount", _("Please set a valid amount (only numbers)")
         return 0, 0
 
     @property

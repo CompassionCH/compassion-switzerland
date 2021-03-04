@@ -31,7 +31,7 @@ class CrowdfundingDonationForm(models.AbstractModel):
             if not value or float(value) < 1:
                 return "amount", _("Please set an amount")
         except ValueError:
-            return "amount", _("Please set an amount")
+            return "amount", _("Please set a valid amount (only numbers)")
         return 0, 0
 
     @property
