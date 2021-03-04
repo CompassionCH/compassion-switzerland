@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, _
 
 
 class CrowdfundingDonationForm(models.AbstractModel):
@@ -27,7 +27,10 @@ class CrowdfundingDonationForm(models.AbstractModel):
     partner_city = fields.Char(required=True)
 
     def _form_validate_amount(self, value, **kwargs):
-        if not value or float(value) < 1:
+        try:
+            if not value or float(value) < 1:
+                return "amount", _("Please set an amount")
+        except ValueError:
             return "amount", _("Please set an amount")
         return 0, 0
 
