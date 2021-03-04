@@ -117,6 +117,10 @@ class MassMailingContact(models.Model):
                 if len(children_names) > 1:
                     contact.write({"merged_child": children_names})
                 contact.write({"merged_salutation": self.compute_salutation(partner_ids)})
+            if 'odoo_list_ids' in vals_list:
+                for odoo_list_id in vals_list['odoo_list_ids']:
+                    vals = {'list_id': odoo_list_id.odoo_list_id.id, 'contact_id': contact.id}
+                    contact.subscription_list_ids.create(vals)
         return records
 
     @api.multi
