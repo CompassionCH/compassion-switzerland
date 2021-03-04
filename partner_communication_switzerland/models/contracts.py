@@ -430,7 +430,7 @@ class RecurringContract(models.Model):
         # due months are only recomputed when new invoices are generated
         # which could take up to one year for yearly payers.
         multi_month = self.search(
-            search_domain + [("group_id.advance_billing_months", ">", 3)]
+            search_domain + [("group_id.advance_billing_months", ">=", 3)]
         )
         multi_month.compute_due_invoices()
         for sponsorship in self.search(
