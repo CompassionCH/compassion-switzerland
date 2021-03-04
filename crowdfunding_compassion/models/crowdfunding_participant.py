@@ -9,6 +9,7 @@ class CrowdfundingParticipant(models.Model):
     _description = "Participant to one of our crowd-fundings"
     _inherit = ["website.seo.metadata", "website.published.multi.mixin", "mail.thread"]
     _inherits = {'utm.source': 'source_id'}
+    _order = "project_id desc, name asc"
 
     project_id = fields.Many2one(
         "crowdfunding.project",
@@ -16,6 +17,7 @@ class CrowdfundingParticipant(models.Model):
     partner_id = fields.Many2one(
         "res.partner", string="Partner", required=True, index=True, ondelete="cascade"
     )
+    name = fields.Char(related="partner_id.name", readonly=True, store=True)
     personal_motivation = fields.Text(translate=True)
     product_number_goal = fields.Integer(default=0)
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")
