@@ -27,6 +27,10 @@ class MassMailingContact(models.Model):
         for contact in records:
             if not contact.partner_id:
                 contact.write({"partner_id": contact.get_partner(contact.email)})
+            if 'odoo_list_ids' in vals_list:
+                for odoo_list_id in vals_list['odoo_list_ids']:
+                    vals = {'list_id': odoo_list_id.odoo_list_id.id, 'contact_id': contact.id}
+                    contact.subscription_list_ids.create(vals)
         return records
 
     @api.multi

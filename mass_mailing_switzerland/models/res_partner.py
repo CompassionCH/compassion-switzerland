@@ -16,6 +16,11 @@ from odoo.http import request
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    def _default_odoo_list_ids(self):
+        default_val = self.env['mailchimp.lists'].search([])
+        return default_val
+
+    odoo_list_ids = fields.Many2many('mailchimp.lists', string='MailChimp Lists', default=_default_odoo_list_ids)
     date_opt_out = fields.Date()
     mailing_contact_ids = fields.One2many(
         "mail.mass_mailing.contact", "partner_id", "Mass Mailing Contacts")
@@ -127,8 +132,16 @@ class ResPartner(models.Model):
     def create(self, vals):
         if vals.get("opt_out"):
             vals["date_opt_out"] = fields.Date.today()
+            return super().create(vals)
+        elif vals.get("email"):
+            partners = super().create(vals)
+            vals["partner_id"] = partners.id
+            vals["odoo_list_ids"] = partners.odoo_list_ids
+            mass_mailing_contact = self.env["mail.mass_mailing.contact"].create(vals)
+            mass_mailing_contact.name = partners.firstname + " " + partners.lastname
+            mass_mailing_contact.action_export_to_mailchimp()
+            return partners
         return super().create(vals)
-
     @api.multi
     def write(self, vals):
         """
@@ -164,8 +177,16 @@ class ResPartner(models.Model):
                     update_partner_ids.append(contact.id)
                     break
         super().write(vals)
+        if vals.get("email") and len(self.mailing_contact_ids) == 0:
+            partner = self.filtered(lambda c: c.odoo_list_ids)
+            if not partner.opt_out:
+                vals["partner_id"] = partner.id
+                vals["odoo_list_ids"] = partner.odoo_list_ids
+                mass_mailing_contact = self.env["mail.mass_mailing.contact"].create(vals)
+                mass_mailing_contact.name = self.firstname + " " + self.lastname
+                mass_mailing_contact.action_export_to_mailchimp()
         if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
-            self.env["mail.mass_mailing.contact"]\
+            self.env["mail.mass_mailing.contact"] \
                 .with_delay().update_all_merge_fields_job(update_partner_ids)
         return True
 
