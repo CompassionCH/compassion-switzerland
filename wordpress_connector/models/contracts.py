@@ -209,12 +209,23 @@ class Contracts(models.Model):
             # We catch any exception to make sure we don't lose any
             # sponsorship made from the website
             _logger.error("Error during wordpress sponsorship import", exc_info=True)
+            child = self.env["compassion.child"].search([
+                ("local_id", "=", child_local_id)], limit=1)
             sponsorship_vals = {
                 "type": "S" if utm_source != "wrpr" else "SC",
-                "child_id": self.env["compassion.child"]
-                .search([("local_id", "=", child_local_id)], limit=1)
-                .id,
+                "child_id": child.id,
             }
+            self.env.clear()
+            # Notify staff
+            child.activity_schedule(
+                'mail.mail_activity_data_todo',
+                summary="[URGENT] Sponsorship from website failed",
+                note="Please verify this new sponsorship made from the website with "
+                     f"following information: {form_data} lang: {sponsor_lang} "
+                     f"source: {utm_source} medium: {utm_medium} "
+                     f"campaign: {utm_campaign}",
+                user_id=21  # EMA
+            )
         finally:
             if not test_mode:
                 return self.with_delay().create_sponsorship_job(
