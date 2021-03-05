@@ -2,9 +2,33 @@
 <odoo>
     <!-- Partner segmentation survey-->
     <record id="partner_segmentation_survey" model="survey.survey">
-        <field name="auth_required">True</field>
-        <field name="users_can_go_back">True</field>
-        <field name="title">Partner segmentation survey</field>
+        <field name="auth_required" eval="True"/>
+        <field name="users_can_go_back" eval="False"/>
+        <field name="title">Let's get to know each other</field>
+        <field name="description" type="html">
+            <p>
+            Welcome! Before we get started together we would like to invite you to participate in this 10-minute survey that will allow Compassion to learn more about how we can better serve supporters like you.
+            </p>
+            <p>
+            Your time will do more than help us better partner with you. When you complete this survey, you will be provided information and resources to help you better live out your calling in God’s Kingdom.
+            </p>
+            <p>
+            Please be assured that this survey is completely confidential, and we will only use this information for research purposes. We will never publish or share your personal data with third parties without your permission.
+            </p>
+            <p>
+            So let's get started!
+            </p>
+        </field>
+        <field name="thank_you_message" type="html">
+            <p>
+                Let's see your results and discover your profile!
+            </p>
+             <div style="margin:20px auto; text-align: center; text-transform: uppercase;">
+               <a href="/my/profile-survey-result" class="btn btn-primary" role="button">
+                Discover my profile
+               </a>
+            </div>
+        </field>
     </record>
     <record id="pss_page1" model="survey.page">
         <field name="title">Support and acknowledgement</field>
@@ -37,11 +61,9 @@
     <!-- Question 1-->
     <record id="pss_question_1" model="survey.question">
         <field name="question">Which of the following sentences do you agree more with ?</field>
-        <field name="description" type="html">
-            <p><b>1</b>: It's nice to receive acknowledgement, however small, when I support a cause</p>
-            <p><b>2</b>: Receiving acknowledgement when I support a cause doesn't really matter to me</p>
-        </field>
         <field name="type">simple_choice</field>
+        <field name="left_label">It's nice to receive acknowledgement, however small, when I support a cause</field>
+        <field name="right_label">Receiving acknowledgement when I support a cause doesn't really matter to me</field>
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
@@ -49,43 +71,41 @@
         <field name="page_id" ref="pss_page1"/>
     </record>
     <record id="pss_q1_1" model="survey.label">
-        <field name="value">Agree with 1 more</field>
+        <field name="value">Agree with left/above statement more</field>
         <field name="quizz_mark">1</field>
         <field name="question_id" ref="pss_question_1"/>
     </record>
     <record id="pss_q1_2" model="survey.label">
-        <field name="value">Agree with 1 somewhat more</field>
+        <field name="value">Agree with left/above statement somewhat more</field>
         <field name="quizz_mark">2</field>
         <field name="question_id" ref="pss_question_1"/>
     </record>
     <record id="pss_q1_3" model="survey.label">
-        <field name="value">Agree with 1 a little more</field>
+        <field name="value">Agree with left/above statement a little more</field>
         <field name="quizz_mark">3</field>
         <field name="question_id" ref="pss_question_1"/>
     </record>
     <record id="pss_q1_4" model="survey.label">
-        <field name="value">Agree with 2 a little more</field>
+        <field name="value">Agree with right/below statement a little more</field>
         <field name="quizz_mark">4</field>
         <field name="question_id" ref="pss_question_1"/>
     </record>
     <record id="pss_q1_5" model="survey.label">
-        <field name="value">Agree with 2 somewhat more</field>
+        <field name="value">Agree with right/below statement somewhat more</field>
         <field name="quizz_mark">5</field>
         <field name="question_id" ref="pss_question_1"/>
     </record>
     <record id="pss_q1_6" model="survey.label">
-        <field name="value">Agree with 2 more</field>
+        <field name="value">Agree with right/below statement more</field>
         <field name="quizz_mark">6</field>
         <field name="question_id" ref="pss_question_1"/>
     </record>
     <!-- Question 2-->
     <record id="pss_question_2" model="survey.question">
         <field name="question">Which of the following sentences do you agree more with ?</field>
-        <field name="description" type="html">
-            <p><b>1</b>: I want to travel to see firsthand what those in need are experiencing</p>
-            <p><b>2</b>: I'd rather not travel to see firsthand what those in need are experiencing</p>
-        </field>
         <field name="type">simple_choice</field>
+        <field name="left_label">I want to travel to see firsthand what those in need are experiencing</field>
+        <field name="right_label">I'd rather not travel to see firsthand what those in need are experiencing</field>
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
@@ -93,43 +113,41 @@
         <field name="page_id" ref="pss_page2"/>
     </record>
     <record id="pss_q2_1" model="survey.label">
-        <field name="value">Agree with 1 more</field>
+        <field name="value">Agree with left/above statement more</field>
         <field name="quizz_mark">1</field>
         <field name="question_id" ref="pss_question_2"/>
     </record>
     <record id="pss_q2_2" model="survey.label">
-        <field name="value">Agree with 1 somewhat more</field>
+        <field name="value">Agree with left/above statement somewhat more</field>
         <field name="quizz_mark">2</field>
         <field name="question_id" ref="pss_question_2"/>
     </record>
     <record id="pss_q2_3" model="survey.label">
-        <field name="value">Agree with 1 a little more</field>
+        <field name="value">Agree with left/above statement a little more</field>
         <field name="quizz_mark">3</field>
         <field name="question_id" ref="pss_question_2"/>
     </record>
     <record id="pss_q2_4" model="survey.label">
-        <field name="value">Agree with 2 a little more</field>
+        <field name="value">Agree with right/below statement a little more</field>
         <field name="quizz_mark">4</field>
         <field name="question_id" ref="pss_question_2"/>
     </record>
     <record id="pss_q2_5" model="survey.label">
-        <field name="value">Agree with 2 somewhat more</field>
+        <field name="value">Agree with right/below statement somewhat more</field>
         <field name="quizz_mark">5</field>
         <field name="question_id" ref="pss_question_2"/>
     </record>
     <record id="pss_q2_6" model="survey.label">
-        <field name="value">Agree with 2 more</field>
+        <field name="value">Agree with right/below statement more</field>
         <field name="quizz_mark">6</field>
         <field name="question_id" ref="pss_question_2"/>
     </record>
     <!-- Question 3-->
     <record id="pss_question_3" model="survey.question">
         <field name="question">Which of the following sentences do you agree more with ?</field>
-        <field name="description" type="html">
-            <p><b>1</b>: I give as the opportunity arises</p>
-            <p><b>2</b>: I give on a regular schedule</p>
-        </field>
         <field name="type">simple_choice</field>
+        <field name="left_label">I give as the opportunity arises</field>
+        <field name="right_label">I give on a regular schedule</field>
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
@@ -137,43 +155,41 @@
         <field name="page_id" ref="pss_page3"/>
     </record>
     <record id="pss_q3_1" model="survey.label">
-        <field name="value">Agree with 1 more</field>
+        <field name="value">Agree with left/above statement more</field>
         <field name="quizz_mark">1</field>
         <field name="question_id" ref="pss_question_3"/>
     </record>
     <record id="pss_q3_2" model="survey.label">
-        <field name="value">Agree with 1 somewhat more</field>
+        <field name="value">Agree with left/above statement somewhat more</field>
         <field name="quizz_mark">2</field>
         <field name="question_id" ref="pss_question_3"/>
     </record>
     <record id="pss_q3_3" model="survey.label">
-        <field name="value">Agree with 1 a little more</field>
+        <field name="value">Agree with left/above statement a little more</field>
         <field name="quizz_mark">3</field>
         <field name="question_id" ref="pss_question_3"/>
     </record>
     <record id="pss_q3_4" model="survey.label">
-        <field name="value">Agree with 2 a little more</field>
+        <field name="value">Agree with right/below statement a little more</field>
         <field name="quizz_mark">4</field>
         <field name="question_id" ref="pss_question_3"/>
     </record>
     <record id="pss_q3_5" model="survey.label">
-        <field name="value">Agree with 2 somewhat more</field>
+        <field name="value">Agree with right/below statement somewhat more</field>
         <field name="quizz_mark">5</field>
         <field name="question_id" ref="pss_question_3"/>
     </record>
     <record id="pss_q3_6" model="survey.label">
-        <field name="value">Agree with 2 more</field>
+        <field name="value">Agree with right/below statement more</field>
         <field name="quizz_mark">6</field>
         <field name="question_id" ref="pss_question_3"/>
     </record>
     <!-- Question 4-->
     <record id="pss_question_4" model="survey.question">
         <field name="question">Which of the following sentences do you agree more with ?</field>
-        <field name="description" type="html">
-            <p><b>1</b>: I prefer to make a spiritual impact before anything else</p>
-            <p><b>2</b>: I prefer to make a physical and cognitive impact before anything else</p>
-        </field>
         <field name="type">simple_choice</field>
+        <field name="left_label">I prefer to make a spiritual impact before anything else</field>
+        <field name="right_label">I prefer to make a physical and cognitive impact before anything else</field>
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
@@ -181,45 +197,41 @@
         <field name="page_id" ref="pss_page4"/>
     </record>
     <record id="pss_q4_1" model="survey.label">
-        <field name="value">Agree with 1 more</field>
+        <field name="value">Agree with left/above statement more</field>
         <field name="quizz_mark">1</field>
         <field name="question_id" ref="pss_question_4"/>
     </record>
     <record id="pss_q4_2" model="survey.label">
-        <field name="value">Agree with 1 somewhat more</field>
+        <field name="value">Agree with left/above statement somewhat more</field>
         <field name="quizz_mark">2</field>
         <field name="question_id" ref="pss_question_4"/>
     </record>
     <record id="pss_q4_3" model="survey.label">
-        <field name="value">Agree with 1 a little more</field>
+        <field name="value">Agree with left/above statement a little more</field>
         <field name="quizz_mark">3</field>
         <field name="question_id" ref="pss_question_4"/>
     </record>
     <record id="pss_q4_4" model="survey.label">
-        <field name="value">Agree with 2 a little more</field>
+        <field name="value">Agree with right/below statement a little more</field>
         <field name="quizz_mark">4</field>
         <field name="question_id" ref="pss_question_4"/>
     </record>
     <record id="pss_q4_5" model="survey.label">
-        <field name="value">Agree with 2 somewhat more</field>
+        <field name="value">Agree with right/below statement somewhat more</field>
         <field name="quizz_mark">5</field>
         <field name="question_id" ref="pss_question_4"/>
     </record>
     <record id="pss_q4_6" model="survey.label">
-        <field name="value">Agree with 2 more</field>
+        <field name="value">Agree with right/below statement more</field>
         <field name="quizz_mark">6</field>
         <field name="question_id" ref="pss_question_4"/>
     </record>
     <!-- Question 5-->
     <record id="pss_question_5" model="survey.question">
         <field name="question">Which of the following sentences do you agree more with ?</field>
-        <field name="description" type="html">
-            <p><b>1</b>: It is critical that I personally play some role in sharing the gospel with others when I'm
-                helping a
-                cause</p>
-            <p><b>2</b>: I do not personally need to share the gospel with others when helping a cause</p>
-        </field>
         <field name="type">simple_choice</field>
+        <field name="left_label">It is critical that I personally play some role in sharing the gospel with others when I'm helping a cause</field>
+        <field name="right_label">I do not personally need to share the gospel with others when helping a cause</field>
         <field name="display_mode">columns</field>
         <field name="comments_allowed" eval="False"/>
         <field name="constr_mandatory">True</field>
@@ -227,32 +239,32 @@
         <field name="page_id" ref="pss_page5"/>
     </record>
     <record id="pss_q5_1" model="survey.label">
-        <field name="value">Agree with 1 more</field>
+        <field name="value">Agree with left/above statement more</field>
         <field name="quizz_mark">1</field>
         <field name="question_id" ref="pss_question_5"/>
     </record>
     <record id="pss_q5_2" model="survey.label">
-        <field name="value">Agree with 1 somewhat more</field>
+        <field name="value">Agree with left/above statement somewhat more</field>
         <field name="quizz_mark">2</field>
         <field name="question_id" ref="pss_question_5"/>
     </record>
     <record id="pss_q5_3" model="survey.label">
-        <field name="value">Agree with 1 a little more</field>
+        <field name="value">Agree with left/above statement a little more</field>
         <field name="quizz_mark">3</field>
         <field name="question_id" ref="pss_question_5"/>
     </record>
     <record id="pss_q5_4" model="survey.label">
-        <field name="value">Agree with 2 a little more</field>
+        <field name="value">Agree with right/below statement a little more</field>
         <field name="quizz_mark">4</field>
         <field name="question_id" ref="pss_question_5"/>
     </record>
     <record id="pss_q5_5" model="survey.label">
-        <field name="value">Agree with 2 somewhat more</field>
+        <field name="value">Agree with right/below statement somewhat more</field>
         <field name="quizz_mark">5</field>
         <field name="question_id" ref="pss_question_5"/>
     </record>
     <record id="pss_q5_6" model="survey.label">
-        <field name="value">Agree with 2 more</field>
+        <field name="value">Agree with right/below statement more</field>
         <field name="quizz_mark">6</field>
         <field name="question_id" ref="pss_question_5"/>
     </record>
