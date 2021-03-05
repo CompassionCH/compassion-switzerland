@@ -9,6 +9,7 @@ class CrowdfundingParticipant(models.Model):
     _description = "Participant to one of our crowd-fundings"
     _inherit = ["website.seo.metadata", "website.published.multi.mixin", "mail.thread"]
     _inherits = {'utm.source': 'source_id'}
+    _order = "project_id desc, name asc"
 
     project_id = fields.Many2one(
         "crowdfunding.project",

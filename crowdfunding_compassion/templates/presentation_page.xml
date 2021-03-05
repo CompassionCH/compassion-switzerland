@@ -193,7 +193,7 @@
                             </div>
 
                             <!-- Side content -->
-                            <div id="impacts" class="col-12 col-lg-4" style="overflow:auto;max-height:1280px;">
+                            <div id="impacts" class="col-12 col-lg-4" style="overflow:auto;max-height:360px;">
 
                                 <t t-if="impact">
                                     <h3 class="blue text-center uppercase">Impact so far</h3>
@@ -216,6 +216,11 @@
                             <t t-if="project.type == 'collective'">
                                 <div class="my-5">
                                     <h2 class="blue text-center mb-5">Participants</h2>
+                                    <t t-if="len(project.participant_ids) > 6">
+                                        <form style="width: 50%" class="mx-auto mb-5">
+                                            <input id="searchInputParticipant" class="form-control" type="search" placeholder="Quick search" aria-label="Quick search" />
+                                        </form>
+                                    </t>
                                     <div class="participants">
                                         <t t-foreach="project.participant_ids" t-as="participant">
                                             <t t-call="crowdfunding_compassion.participant_card"/>
