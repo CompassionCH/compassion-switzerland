@@ -9,6 +9,7 @@
 from datetime import datetime, timedelta
 from base64 import b64decode, b64encode
 from os import path, remove
+from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 
@@ -157,10 +158,22 @@ class MyAccountController(PaymentFormController):
     @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
         # All this paths needs to be redirected
-        if request.env.user.partner_id.sponsorship_ids:
+        partner = request.env.user.partner_id
+        if not partner.primary_segment_id:
+            # Redirect to the segmentation survey
+            survey = request.env.ref(
+                "partner_compassion.partner_segmentation_survey").sudo()
+            return request.redirect(urlparse(survey.public_url).path)
+        if partner.sponsorship_ids:
             return request.redirect("/my/children")
         else:
             return request.redirect("/my/information")
+
+    @route("/my/profile-survey-result", type="http", auth="user", website=True)
+    def segmentation_result(self):
+        return request.render("website_compassion.segmentation_result", {
+            "partner": request.env.user.partner_id
+        })
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
