@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="page_custom" name="Page Custom" inherit_id="survey.page">
+
+            <!-- Remove text-muted attribute in question description -->
+            <xpath expr="//div[@class='text-muted oe_no_empty']" position="attributes">
+                <attribute name="class">oe_no_empty</attribute>
+            </xpath>
+            <!-- Change next and previous page order (more logical in interface)-->
+            <xpath expr="//div[@class='text-center mt16 mb16']" position="replace">
+                <div class="text-center mt16 mb16">
+                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit
+                        survey</button>
+                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next
+                        page</button>
+                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary"
+                            name="button_submit" value="previous">Previous page</button>
+                </div>
+            </xpath>
+
+        </template>
+
+        <template id="custom_multiple_choice" name="multiple choice custom" inherit_id="survey.multiple_choice">
+
+            <xpath expr="//label/span" position="attributes">
+                <attribute name="class">font-weight-normal</attribute>
+            </xpath>
+
+        </template>
+
+        <template id="custom_simple_choice" name="simple choice custom" inherit_id="survey.simple_choice">
+
+            <xpath expr="//label/input" position="attributes">
+                <attribute name="class">w-100 mx-auto</attribute>
+            </xpath>
+
+            <xpath expr="//label/span" position="attributes">
+                <attribute name="class">d-block text-center</attribute>
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>

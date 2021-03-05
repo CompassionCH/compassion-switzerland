@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="savvy_stewards" model="res.partner.segment">
+        <field name="name">Savvy Stewards</field>
+        <field name="main_driver">I need to direct my giving where I trust it will achieve maximum impact.</field>
+        <field name="segment_index">0</field>
+    </record>
+    <record id="movement_mobilizers" model="res.partner.segment">
+        <field name="name">Movement Mobilizers</field>
+        <field name="main_driver">I need a platform for my voice to move others to action.</field>
+        <field name="segment_index">1</field>
+    </record>
+    <record id="compassionate_caregiver" model="res.partner.segment">
+        <field name="name">Compassionate Caregivers</field>
+        <field name="main_driver">I need to responsively give to others when my deep empathy moves me.</field>
+        <field name="segment_index">2</field>
+    </record>
+    <record id="hands_on_helpers" model="res.partner.segment">
+        <field name="name">Hands-On Helpers</field>
+        <field name="main_driver">I need to participate in a community that puts its skills to use to serve
+            others.</field>
+        <field name="segment_index">3</field>
+    </record>
+    <record id="curious_novices" model="res.partner.segment">
+        <field name="name">Curious Novices</field>
+        <field name="main_driver">I need guidance and motivation to confidently deepen my giving.</field>
+        <field name="segment_index">4</field>
+    </record>
+</odoo>

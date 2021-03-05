@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Partner segmentation survey-->
+    <record id="partner_segmentation_survey" model="survey.survey">
+        <field name="auth_required">True</field>
+        <field name="users_can_go_back">True</field>
+        <field name="title">Partner segmentation survey</field>
+    </record>
+    <record id="pss_page1" model="survey.page">
+        <field name="title">Support and acknowledgement</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <record id="pss_page2" model="survey.page">
+        <field name="title">Firsthand experience</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <record id="pss_page3" model="survey.page">
+        <field name="title">View on giving</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <record id="pss_page4" model="survey.page">
+        <field name="title">Physical and spiritual impact</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <record id="pss_page5" model="survey.page">
+        <field name="title">Sharing the gospel</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <record id="pss_page6" model="survey.page">
+        <field name="title">Charitable implication</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <record id="pss_page7" model="survey.page">
+        <field name="title">Actions of support</field>
+        <field name="survey_id" ref="partner_segmentation_survey"/>
+    </record>
+    <!-- Question 1-->
+    <record id="pss_question_1" model="survey.question">
+        <field name="question">Which of the following sentences do you agree more with ?</field>
+        <field name="description" type="html">
+            <p><b>1</b>: It's nice to receive acknowledgement, however small, when I support a cause</p>
+            <p><b>2</b>: Receiving acknowledgement when I support a cause doesn't really matter to me</p>
+        </field>
+        <field name="type">simple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="False"/>
+        <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
+        <field name="page_id" ref="pss_page1"/>
+    </record>
+    <record id="pss_q1_1" model="survey.label">
+        <field name="value">Agree with 1 more</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_1"/>
+    </record>
+    <record id="pss_q1_2" model="survey.label">
+        <field name="value">Agree with 1 somewhat more</field>
+        <field name="quizz_mark">2</field>
+        <field name="question_id" ref="pss_question_1"/>
+    </record>
+    <record id="pss_q1_3" model="survey.label">
+        <field name="value">Agree with 1 a little more</field>
+        <field name="quizz_mark">3</field>
+        <field name="question_id" ref="pss_question_1"/>
+    </record>
+    <record id="pss_q1_4" model="survey.label">
+        <field name="value">Agree with 2 a little more</field>
+        <field name="quizz_mark">4</field>
+        <field name="question_id" ref="pss_question_1"/>
+    </record>
+    <record id="pss_q1_5" model="survey.label">
+        <field name="value">Agree with 2 somewhat more</field>
+        <field name="quizz_mark">5</field>
+        <field name="question_id" ref="pss_question_1"/>
+    </record>
+    <record id="pss_q1_6" model="survey.label">
+        <field name="value">Agree with 2 more</field>
+        <field name="quizz_mark">6</field>
+        <field name="question_id" ref="pss_question_1"/>
+    </record>
+    <!-- Question 2-->
+    <record id="pss_question_2" model="survey.question">
+        <field name="question">Which of the following sentences do you agree more with ?</field>
+        <field name="description" type="html">
+            <p><b>1</b>: I want to travel to see firsthand what those in need are experiencing</p>
+            <p><b>2</b>: I'd rather not travel to see firsthand what those in need are experiencing</p>
+        </field>
+        <field name="type">simple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="False"/>
+        <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
+        <field name="page_id" ref="pss_page2"/>
+    </record>
+    <record id="pss_q2_1" model="survey.label">
+        <field name="value">Agree with 1 more</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_2"/>
+    </record>
+    <record id="pss_q2_2" model="survey.label">
+        <field name="value">Agree with 1 somewhat more</field>
+        <field name="quizz_mark">2</field>
+        <field name="question_id" ref="pss_question_2"/>
+    </record>
+    <record id="pss_q2_3" model="survey.label">
+        <field name="value">Agree with 1 a little more</field>
+        <field name="quizz_mark">3</field>
+        <field name="question_id" ref="pss_question_2"/>
+    </record>
+    <record id="pss_q2_4" model="survey.label">
+        <field name="value">Agree with 2 a little more</field>
+        <field name="quizz_mark">4</field>
+        <field name="question_id" ref="pss_question_2"/>
+    </record>
+    <record id="pss_q2_5" model="survey.label">
+        <field name="value">Agree with 2 somewhat more</field>
+        <field name="quizz_mark">5</field>
+        <field name="question_id" ref="pss_question_2"/>
+    </record>
+    <record id="pss_q2_6" model="survey.label">
+        <field name="value">Agree with 2 more</field>
+        <field name="quizz_mark">6</field>
+        <field name="question_id" ref="pss_question_2"/>
+    </record>
+    <!-- Question 3-->
+    <record id="pss_question_3" model="survey.question">
+        <field name="question">Which of the following sentences do you agree more with ?</field>
+        <field name="description" type="html">
+            <p><b>1</b>: I give as the opportunity arises</p>
+            <p><b>2</b>: I give on a regular schedule</p>
+        </field>
+        <field name="type">simple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="False"/>
+        <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
+        <field name="page_id" ref="pss_page3"/>
+    </record>
+    <record id="pss_q3_1" model="survey.label">
+        <field name="value">Agree with 1 more</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_3"/>
+    </record>
+    <record id="pss_q3_2" model="survey.label">
+        <field name="value">Agree with 1 somewhat more</field>
+        <field name="quizz_mark">2</field>
+        <field name="question_id" ref="pss_question_3"/>
+    </record>
+    <record id="pss_q3_3" model="survey.label">
+        <field name="value">Agree with 1 a little more</field>
+        <field name="quizz_mark">3</field>
+        <field name="question_id" ref="pss_question_3"/>
+    </record>
+    <record id="pss_q3_4" model="survey.label">
+        <field name="value">Agree with 2 a little more</field>
+        <field name="quizz_mark">4</field>
+        <field name="question_id" ref="pss_question_3"/>
+    </record>
+    <record id="pss_q3_5" model="survey.label">
+        <field name="value">Agree with 2 somewhat more</field>
+        <field name="quizz_mark">5</field>
+        <field name="question_id" ref="pss_question_3"/>
+    </record>
+    <record id="pss_q3_6" model="survey.label">
+        <field name="value">Agree with 2 more</field>
+        <field name="quizz_mark">6</field>
+        <field name="question_id" ref="pss_question_3"/>
+    </record>
+    <!-- Question 4-->
+    <record id="pss_question_4" model="survey.question">
+        <field name="question">Which of the following sentences do you agree more with ?</field>
+        <field name="description" type="html">
+            <p><b>1</b>: I prefer to make a spiritual impact before anything else</p>
+            <p><b>2</b>: I prefer to make a physical and cognitive impact before anything else</p>
+        </field>
+        <field name="type">simple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="False"/>
+        <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
+        <field name="page_id" ref="pss_page4"/>
+    </record>
+    <record id="pss_q4_1" model="survey.label">
+        <field name="value">Agree with 1 more</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_4"/>
+    </record>
+    <record id="pss_q4_2" model="survey.label">
+        <field name="value">Agree with 1 somewhat more</field>
+        <field name="quizz_mark">2</field>
+        <field name="question_id" ref="pss_question_4"/>
+    </record>
+    <record id="pss_q4_3" model="survey.label">
+        <field name="value">Agree with 1 a little more</field>
+        <field name="quizz_mark">3</field>
+        <field name="question_id" ref="pss_question_4"/>
+    </record>
+    <record id="pss_q4_4" model="survey.label">
+        <field name="value">Agree with 2 a little more</field>
+        <field name="quizz_mark">4</field>
+        <field name="question_id" ref="pss_question_4"/>
+    </record>
+    <record id="pss_q4_5" model="survey.label">
+        <field name="value">Agree with 2 somewhat more</field>
+        <field name="quizz_mark">5</field>
+        <field name="question_id" ref="pss_question_4"/>
+    </record>
+    <record id="pss_q4_6" model="survey.label">
+        <field name="value">Agree with 2 more</field>
+        <field name="quizz_mark">6</field>
+        <field name="question_id" ref="pss_question_4"/>
+    </record>
+    <!-- Question 5-->
+    <record id="pss_question_5" model="survey.question">
+        <field name="question">Which of the following sentences do you agree more with ?</field>
+        <field name="description" type="html">
+            <p><b>1</b>: It is critical that I personally play some role in sharing the gospel with others when I'm
+                helping a
+                cause</p>
+            <p><b>2</b>: I do not personally need to share the gospel with others when helping a cause</p>
+        </field>
+        <field name="type">simple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="False"/>
+        <field name="constr_mandatory">True</field>
+        <field name="column_nb">2</field>
+        <field name="page_id" ref="pss_page5"/>
+    </record>
+    <record id="pss_q5_1" model="survey.label">
+        <field name="value">Agree with 1 more</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_5"/>
+    </record>
+    <record id="pss_q5_2" model="survey.label">
+        <field name="value">Agree with 1 somewhat more</field>
+        <field name="quizz_mark">2</field>
+        <field name="question_id" ref="pss_question_5"/>
+    </record>
+    <record id="pss_q5_3" model="survey.label">
+        <field name="value">Agree with 1 a little more</field>
+        <field name="quizz_mark">3</field>
+        <field name="question_id" ref="pss_question_5"/>
+    </record>
+    <record id="pss_q5_4" model="survey.label">
+        <field name="value">Agree with 2 a little more</field>
+        <field name="quizz_mark">4</field>
+        <field name="question_id" ref="pss_question_5"/>
+    </record>
+    <record id="pss_q5_5" model="survey.label">
+        <field name="value">Agree with 2 somewhat more</field>
+        <field name="quizz_mark">5</field>
+        <field name="question_id" ref="pss_question_5"/>
+    </record>
+    <record id="pss_q5_6" model="survey.label">
+        <field name="value">Agree with 2 more</field>
+        <field name="quizz_mark">6</field>
+        <field name="question_id" ref="pss_question_5"/>
+    </record>
+    <!-- Question 6-->
+    <record id="pss_question_6" model="survey.question">
+        <field name="question">Select the best matching answers</field>
+        <field name="description" type="html">
+            <p>
+                If you were to find a charitable cause you loved or was really important to you,<br/> which
+                of the following would describe you and your role in that cause? <b>Choose up to 3 options</b>.
+            </p>
+        </field>
+        <field name="type">multiple_choice</field>
+        <field name="max_checked_option">3</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="False"/>
+        <field name="constr_mandatory">True</field>
+        <field name="constr_error_msg">This question require an answer. A maximum of 3 options can be selected.</field>
+        <field name="page_id" ref="pss_page6"/>
+    </record>
+    <record id="pss_q6_1" model="survey.label">
+        <field name="value">Someone who is gentle, kind, hospitable, generous, and focused on social good as a way to
+            have a positive impact</field>
+        <field name="order_in_question">0</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_2" model="survey.label">
+        <field name="value">Someone who wants to take part in advocacy and political events to seek change</field>
+        <field name="order_in_question">1</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_3" model="survey.label">
+        <field name="value">Someone who enjoys the communal aspects of helping a cause and uses the community around
+            them to connect people to work together to have a positive impact </field>
+        <field name="order_in_question">2</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_4" model="survey.label">
+        <field name="value">Someone who currently puts their professional skills and expertise to use for the cause, or
+            plans to use their skills and expertise in the future</field>
+        <field name="order_in_question">3</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_5" model="survey.label">
+        <field name="value">Someone who does everything they can to have a positive impact because they've personally
+            experienced hardships </field>
+        <field name="order_in_question">4</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_6" model="survey.label">
+        <field name="value">Someone who faithfully gives financially but needs no further engagement</field>
+        <field name="order_in_question">5</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_7" model="survey.label">
+        <field name="value">Someone who gives their resources to others they know will use it most effectively and
+            efficiently to help those in need</field>
+        <field name="order_in_question">6</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_8" model="survey.label">
+        <field name="value">Someone who prays for others who tackle this problem</field>
+        <field name="order_in_question">7</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <record id="pss_q6_9" model="survey.label">
+        <field name="value">None of the above</field>
+        <field name="order_in_question">8</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_6"/>
+    </record>
+    <!-- Question 7-->
+    <record id="pss_question_7" model="survey.question">
+        <field name="question">Select the best matching answers</field>
+        <field name="description">Which of the following actions, if any, have you ever taken to support a charitable
+            cause or non-profit organization? </field>
+        <field name="type">multiple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="comments_allowed" eval="True"/>
+        <field name="comment_count_as_answer" eval="True"/>
+        <field name="constr_mandatory">True</field>
+        <field name="page_id" ref="pss_page7"/>
+    </record>
+    <record id="pss_q7_1" model="survey.label">
+        <field name="value">Volunteered my time</field>
+        <field name="order_in_question">0</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_2" model="survey.label">
+        <field name="value">Donated money on a one-time basis</field>
+        <field name="order_in_question">1</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_3" model="survey.label">
+        <field name="value">Donated money on a monthly or regular basis</field>
+        <field name="order_in_question">2</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_4" model="survey.label">
+        <field name="value">Donated goods, products, or resources</field>
+        <field name="order_in_question">3</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_5" model="survey.label">
+        <field name="value">Done a small act of kindness (e.g., cooking a meal for someone in need, offering someone in
+            need a place to rest)</field>
+        <field name="order_in_question">4</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_6" model="survey.label">
+        <field name="value">Used a talent or skill to raise money and awareness for a cause</field>
+        <field name="order_in_question">5</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_7" model="survey.label">
+        <field name="value">Participated in protests/marches</field>
+        <field name="order_in_question">6</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_8" model="survey.label">
+        <field name="value">Created posts and engaged in discussions on social media</field>
+        <field name="order_in_question">7</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_9" model="survey.label">
+        <field name="value">Contacted a politician or government representative to advocate for the cause</field>
+        <field name="order_in_question">8</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_10" model="survey.label">
+        <field name="value">Talked to my friends about the cause</field>
+        <field name="order_in_question">9</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_11" model="survey.label">
+        <field name="value">Shared my opinion about the cause with those around me (e.g., students, coworkers, friends,
+            etc.)</field>
+        <field name="order_in_question">10</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_12" model="survey.label">
+        <field name="value">Participated in a charity event (e.g., Walk-a-thon)</field>
+        <field name="order_in_question">11</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_13" model="survey.label">
+        <field name="value">Signed a petition online</field>
+        <field name="order_in_question">12</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+    <record id="pss_q7_14" model="survey.label">
+        <field name="value"> None of the above</field>
+        <field name="order_in_question">13</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="pss_question_7"/>
+    </record>
+
+
+</odoo>
