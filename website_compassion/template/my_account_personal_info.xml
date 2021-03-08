@@ -39,64 +39,52 @@
             <h3 class="mt-4">Coordinates</h3>
 
             <!-- Title -->
-            <t t-set="key" t-value="'Title'"/>
             <t t-set="value" t-value="partner.title.name"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Title</t>
 
             <!-- Name -->
-            <t t-set="key" t-value="'Name'"/>
             <t t-set="value" t-value="partner.name"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Name</t>
 
             <!-- Communication name -->
-            <t t-set="key" t-value="'Communication name'"/>
             <t t-set="value" t-value="partner.preferred_name"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Communication name</t>
 
             <!-- Birthdate -->
-            <t t-set="key" t-value="'Birthdate'"/>
             <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Birthdate</t>
 
             <!-- Street -->
-            <t t-set="key" t-value="'Street'"/>
             <t t-set="value" t-value="partner.street"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Street</t>
 
             <!-- City -->
-            <t t-set="key" t-value="'City'"/>
             <t t-set="value" t-value="' '.join(list(filter(None, [partner.zip, partner.city])))"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">City</t>
 
             <!-- Country -->
-            <t t-set="key" t-value="'Country'"/>
             <t t-set="value" t-value="partner.country_id.name"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Country</t>
 
             <!-- Phone -->
-            <t t-set="key" t-value="'Phone'"/>
             <t t-set="value" t-value="partner.phone"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Phone</t>
 
             <!-- Mobile -->
-            <t t-set="key" t-value="'Mobile'"/>
             <t t-set="value" t-value="partner.mobile"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Mobile</t>
 
             <!-- Birthdate -->
-            <t t-set="key" t-value="'Birthdate'"/>
             <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Birthdate</t>
 
             <!-- Email -->
-            <t t-set="key" t-value="'Email / login'"/>
             <t t-set="value" t-value="partner.email"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Email / login</t>
 
             <!-- Church -->
-            <t t-set="key" t-value="'Church'"/>
             <t t-set="value" t-value="partner.church_id.name"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Church</t>
 
             <!-- This button opens the form to modify the personal info -->
             <button type="button"
@@ -201,30 +189,25 @@
             <h3 class="mt-4">Communication preferences</h3>
 
             <!-- Language -->
-            <t t-set="key" t-value="'Language'"/>
             <t t-set="value" t-value="request.env['res.lang'].search([('code', '=', partner.lang)]).name"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Language</t>
 
             <!-- Spoken languages -->
-            <t t-set="key" t-value="'Spoken languages'"/>
             <t t-set="value" t-value="partner.get_list('spoken_lang_ids.name').capitalize()"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-call="website_compassion.fill_key_value">Spoken languages</t>
 
             <!-- TODO: Post or email, precise not ALL communications are impacted -->
             <!-- Communication type preference -->
-            <t t-set="key" t-value="'Communication preference'"/>
-            <t t-set="value" t-value="'No' if partner.global_communication_delivery_preference == 'none' else 'Physical' if partner.global_communication_delivery_preference == 'physical' else 'Post and physical' if partner.global_communication_delivery_preference == 'both' else 'Email'"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-set="value" t-value="partner.translate('global_communication_delivery_preference')"/>
+            <t t-call="website_compassion.fill_key_value">Communication preference</t>
 
             <!-- Photo delivery type -->
-            <t t-set="key" t-value="'Photo delivery type'"/>
-            <t t-set="value" t-value="'No' if partner.photo_delivery_preference == 'none' else 'Physical' if partner.photo_delivery_preference == 'physical' else 'Email and physical' if partner.photo_delivery_preference == 'both' else 'Email'"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-set="value" t-value="partner.translate('photo_delivery_preference')"/>
+            <t t-call="website_compassion.fill_key_value">Photo delivery type</t>
 
             <!-- Magazine -->
-            <t t-set="key" t-value="'Magazine'"/>
-            <t t-set="value" t-value="'No' if partner.nbmag == 'no_mag' else 'Email' if partner.nbmag == 'email' else 'Physical'"/>
-            <t t-call="website_compassion.fill_key_value"/>
+            <t t-set="value" t-value="partner.translate('nbmag')"/>
+            <t t-call="website_compassion.fill_key_value">Magazine</t>
 
             <!-- Opens a form to modify the communication preferences -->
             <button type="button"

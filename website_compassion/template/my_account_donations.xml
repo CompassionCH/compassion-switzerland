@@ -46,29 +46,24 @@
                                     <!-- Payments option -->
                                     <h4><t t-esc="group.display_name"></t></h4>
                                     <!-- Payment mode -->
-                                    <t t-set="key" t-value="'Payment mode'"/>
                                     <t t-set="value" t-value="group.payment_mode_id.name"/>
-                                    <t t-call="website_compassion.fill_key_value"/>
+                                    <t t-call="website_compassion.fill_key_value">Payment mode</t>
 
                                     <!-- Payment amount -->
-                                    <t t-set="key" t-value="'Additional amount'"/>
                                     <t t-set="value" t-value="str(amount_by_group[i]).replace('.0', '.-') + ' CHF'"/>
-                                    <t t-call="website_compassion.fill_key_value"/>
+                                    <t t-call="website_compassion.fill_key_value">Additional amount</t>
 
                                     <!-- Payment frequency -->
-                                    <t t-set="key" t-value="'Payment frequency'"/>
                                     <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
-                                    <t t-call="website_compassion.fill_key_value"/>
+                                    <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
                                     <!-- Number of fully paid children -->
-                                    <t t-set="key" t-value="'Number of fully paid children'"/>
                                     <t t-set="value" t-value="paid_sponsor_count_by_group[i]"/>
-                                    <t t-call="website_compassion.fill_key_value"/>
+                                    <t t-call="website_compassion.fill_key_value">Number of fully paid children</t>
 
                                     <!-- Number of Write and Pray children -->
-                                    <t t-set="key" t-value="'Number of Write and Pray children'"/>
                                     <t t-set="value" t-value="wp_sponsor_count_by_group[i]"/>
-                                    <t t-call="website_compassion.fill_key_value"/>
+                                    <t t-call="website_compassion.fill_key_value">Number of Write and Pray children</t>
                                 </li>
                             </div>
                         </t>
@@ -76,7 +71,6 @@
                 </div>
 
                 <!-- Total additional amount (for all groups) -->
-                <t t-set="key" t-value="'Total additional amount'"/>
                 <t t-set="value" t-value="str(sum(amount_by_group)).replace('.0', '.-') + ' CHF'"/>
                 <div class="row" t-if="value">
                     <div class="col-6 border-right">
@@ -86,7 +80,7 @@
                         </label>
                     </div>
                     <div class="col-6">
-                        <label><t t-esc="value"/></label>
+                        <label>Total additional amount</label>
                     </div>
                 </div>
 
@@ -115,22 +109,19 @@
                 <!-- Payments option -->
                 <h3><t t-esc="group.display_name"></t></h3>
                 <!-- Payment mode -->
-                <t t-set="key" t-value="'Payment mode'"/>
                 <t t-set="value" t-value="group.payment_mode_id.name"/>
-                <t t-call="website_compassion.fill_key_value"/>
+                <t t-call="website_compassion.fill_key_value">Payment mode</t>
 
                 <!-- Payment frequency -->
-                <t t-set="key" t-value="'Payment frequency'"/>
                 <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
-                <t t-call="website_compassion.fill_key_value"/>
+                <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
                 <!-- Total additional amount -->
-                <t t-set="key" t-value="'Total additional amount'"/>
                 <t t-set="value" t-value="str(amount_by_group[0]).replace('.0', '.-') + ' CHF'"/>
                 <div class="row" t-if="value">
                     <div class="col-6 border-right">
                         <label>
-                            <t t-esc="key"/>
+                            <span>Total additional amount</span>
                             <i class="fa fa-info-circle ml-1" data-toggle="tooltip" title="This amount supports children that are not yet sponsored." id="amount_toggle"/>
                         </label>
                     </div>
@@ -146,14 +137,12 @@
                 </script>
 
                 <!-- Number of fully paid children -->
-                <t t-set="key" t-value="'Number of fully paid children'"/>
                 <t t-set="value" t-value="paid_sponsor_count_by_group[0]"/>
-                <t t-call="website_compassion.fill_key_value"/>
+                <t t-call="website_compassion.fill_key_value">Number of fully paid children</t>
 
                 <!-- Number of Write and Pray children -->
-                <t t-set="key" t-value="'Number of Write and Pray children'"/>
                 <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
-                <t t-call="website_compassion.fill_key_value"/>
+                <t t-call="website_compassion.fill_key_value">Number of Write and Pray children</t>
 
                 <!-- Button to open the payment options form -->
                 <button type="button"
