@@ -98,10 +98,10 @@
         <template id="letter_text_content">
             <div class="w-100x">
                 <a class="btn btn-primary mb-2" href="https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/" target="_blank">
-                    What should I write ?
+                    <span>What should I write ?</span>
                 </a>
                 <a class="btn btn-primary mb-2" href="https://compassion.ch/le-voyage-de-vos-lettres/" target="_blank">
-                    What happens to my letter ?
+                    <span>What happens to my letter ?</span>
                 </a>
             </div>
             <textarea id="letter_content" class="w-100" placeholder="Write your text here..." style="height: 30rem; resize: none;"/>
@@ -111,7 +111,7 @@
         <template id="letter_actions">
             <input id="file_selector" type="file" accept="image/*" style="display: none;"/>
             <button class="btn btn-primary w-100 mb-2" onclick="document.getElementById('file_selector').click();">
-                Add images
+                <span>Add images</span>
             </button>
             <!-- TODO CI-765: Use this warning when no image was added to list -->
             <div id="letter_images_duplicated" class="alert alert-info alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">

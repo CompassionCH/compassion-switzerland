@@ -18,10 +18,10 @@
                         <div class="container">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li t-attf-class="nav-item#{' active' if state == 'active' else ''}">
-                                    <a class="nav-link" t-attf-href="/my/children?state=active&amp;child_id=#{child_id.id}">Active sponsorships</a>
+                                    <a class="nav-link" t-attf-href="/my/children?state=active&amp;child_id=#{child_id.id}"><span>Active sponsorships</span></a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if state == 'terminated' else ''}">
-                                    <a class="nav-link" t-attf-href="/my/children?state=terminated&amp;child_id=#{child_id.id}">Terminated sponsorships</a>
+                                    <a class="nav-link" t-attf-href="/my/children?state=terminated&amp;child_id=#{child_id.id}"><span>Terminated sponsorships</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -38,22 +38,22 @@
                             <ul id="section_menu" class="nav navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="#info_section">
-                                        General information
+                                        <span>General information</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#pictures_section">
-                                        <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures
+                                        <span>Pictures of </span><t t-esc="child_id.preferred_name"/>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#gift_history_section">
-                                        Gift history
+                                        <span>Gift history</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#letters_section">
-                                        Letters
+                                        <span>Letters</span>
                                     </a>
                                 </li>
                             </ul>
@@ -122,24 +122,20 @@
                         <t t-if="child_id.age or child_id.birthdate or child_id.gender or child_id.hobby_ids">
                             <h3>General information</h3>
                             <!-- Age -->
-                            <t t-set="key" t-value="'Age'"/>
                             <t t-set="value" t-value="child_id.age"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Age</t>
 
                             <!-- Birthdate -->
-                            <t t-set="key" t-value="'Birthdate'"/>
                             <t t-set="value" t-value="child_id.get_date('birthdate', 'date_full')"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Birthdate</t>
 
                             <!-- Gender -->
-                            <t t-set="key" t-value="'Gender'"/>
                             <t t-set="value" t-value="child_id.translate('gender')"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Gender</t>
 
                             <!-- Hobbies -->
-                            <t t-set="key" t-value="'Hobbies'"/>
                             <t t-set="value" t-value="child_id.get_list('hobby_ids.value').capitalize()"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Hobbies</t>
 
                             <br/>
                         </t>
@@ -148,14 +144,12 @@
                         <t t-if="child_id.education_level or child_id.academic_performance">
                             <h3>Education</h3>
                             <!-- Education level -->
-                            <t t-set="key" t-value="'Education level'"/>
                             <t t-set="value" t-value="child_id.education_level"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Education level</t>
 
                             <!-- Academic performance -->
-                            <t t-set="key" t-value="'Academic performance'"/>
                             <t t-set="value" t-value="child_id.academic_performance"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Academic performance</t>
 
                             <br/>
                         </t>
@@ -168,7 +162,7 @@
                             <!-- Legal representatives, not a single string so we have to construct it -->
                             <div class="row" t-if="child_id.household_id.member_ids">
                                 <div class="col-6 border-right">
-                                    <label><t t-esc="'Legal representatives'"/></label><br/>
+                                    <label>Legal representatives</label><br/>
                                 </div>
                                 <div class="col-6">
                                     <t t-foreach="child_id.household_id.member_ids" t-as="member">
@@ -182,7 +176,7 @@
                             <!-- Family, not a single string so we have to construct it -->
                             <div class="row" t-if="child_id.household_id.member_ids">
                                 <div class="col-6 border-right">
-                                    <label><t t-esc="'Family'"/></label><br/>
+                                    <label>Family</label><br/>
                                 </div>
                                 <div class="col-6">
                                     <t t-foreach="child_id.household_id.member_ids" t-as="member">
@@ -194,19 +188,16 @@
                             </div>
 
                             <!-- Father/representative's job -->
-                            <t t-set="key" t-value="'Father/representative\'s job'"/>
                             <t t-set="value" t-value="child_id.household_id.male_guardian_job"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Father/representative's job</t>
 
                             <!-- Mother/representative's job -->
-                            <t t-set="key" t-value="'Mother/representative\'s job'"/>
                             <t t-set="value" t-value="child_id.household_id.female_guardian_job"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Mother/representative's job</t>
 
                             <!-- Household duties -->
-                            <t t-set="key" t-value="'Household duties'"/>
                             <t t-set="value" t-value="child_id.get_list('duty_ids.value').capitalize()"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Household duties</t>
 
                             <br/>
                         </t>
@@ -218,29 +209,24 @@
                         <t t-if="child_id.project_id.closest_city or child_id.project_id.country_id.name or child_id.project_id.community_population or child_id.project_id.primary_language_id.name or child_id.project_id.primary_adults_occupation_ids or child_id.project_id.primary_diet_ids">
                             <h3>Community</h3>
                             <!-- Location (city, country), one or both may be empty, so we handle properly -->
-                            <t t-set="key" t-value="'Location'"/>
                             <t t-set="value" t-value="', '.join(list(filter(None, [child_id.project_id.closest_city, child_id.project_id.country_id.name])))"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Location</t>
 
                             <!-- Population -->
-                            <t t-set="key" t-value="'Population'"/>
                             <t t-set="value" t-value="child_id.project_id.community_population"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Population</t>
 
                             <!-- Language -->
-                            <t t-set="key" t-value="'Language'"/>
                             <t t-set="value" t-value="child_id.project_id.primary_language_id.name"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Language</t>
 
                             <!-- Common job -->
-                            <t t-set="key" t-value="'Common jobs'"/>
                             <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Common jobs</t>
 
                             <!-- Typical food -->
-                            <t t-set="key" t-value="'Typical food'"/>
                             <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Typical food</t>
 
                             <br/>
                         </t>
@@ -251,20 +237,17 @@
                         <t t-if="child_id.project_id.local_church_name or child_id.project_id.sponsorships_count or child_activities">
                             <h3>Compassion center</h3>
                             <!-- Project name -->
-                            <t t-set="key" t-value="'Project name'"/>
                             <t t-set="value" t-value="child_id.project_id.local_church_name"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Project name</t>
 
                             <!-- Number of sponsor children -->
-                            <t t-set="key" t-value="'Number of sponsored children'"/>
                             <t t-set="value" t-value="child_id.project_id.sponsorships_count"/>
-                            <t t-call="website_compassion.fill_key_value"/>
+                            <t t-call="website_compassion.fill_key_value">Number of sponsored children</t>
 
                             <!-- Project activities -->
                             <t t-if="child_activities">
-                                <t t-set="key" t-value="'Project activities'"/>
                                 <t t-set="value" t-value="', '.join(child_activities.mapped('value')).capitalize()"/>
-                                <t t-call="website_compassion.fill_key_value"/>
+                                <t t-call="website_compassion.fill_key_value">Project activities</t>
                             </t>
 
                             <br/>
@@ -299,10 +282,10 @@
                     This may take a few minutes... Please wait
                 </div>
                 <a t-attf-href="/my/download/picture?child_id={{child_id.id}}">
-                    Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures
+                    <span>Download all pictures of </span><t t-esc="child_id.preferred_name"/>
                 </a>
                 <a t-attf-href="/my/download/picture" onclick="displayAlert('my_children_images')" style="float: right;">
-                    Download all children's pictures
+                    <span>Download all children's pictures</span>
                 </a>
             </div>
         </template>
@@ -343,14 +326,12 @@
         <template id="my_children_letters">
             <div id="letters_section" class="row mt-4">
                 <div class="col-md-6">
-                    <t t-set="title" t-value="'My letters'"/>
                     <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Supporter To Beneficiary')"/>
-                    <t t-call="website_compassion.display_letters"/>
+                    <t t-call="website_compassion.display_letters">My letters</t>
                 </div>
                 <div class="col-md-6">
-                    <t t-set="title" t-value="child_id.preferred_name + ('\'' if child_id.preferred_name[-1] == 's' else '\'s') + ' letters'"/>
                     <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Beneficiary To Supporter')"/>
-                    <t t-call="website_compassion.display_letters"/>
+                    <t t-call="website_compassion.display_letters">Letters from <t t-esc="child_id.preferred_name"/></t>
                 </div>
             </div>
             <hr/>
@@ -359,10 +340,10 @@
                 This may take a few minutes... Please wait
             </div>
             <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
-                Download all <t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> correspondence
+                <span>Download all correspondence of </span><t t-esc="child_id.preferred_name"/>
             </a>
             <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
-                Download all children's correspondence
+                <span>Download all children's correspondence</span>
             </a>
         </template>
 
@@ -370,7 +351,7 @@
         <!--  and one for the B2S-->
         <template id="display_letters">
             <div class="container" t-if="letters_to_display">
-                <h3><t t-esc="title"/></h3>
+                <h3><t t-raw="0"/></h3>
                 <div class="row">
                     <div class="col-4">
                         <label><b>Date</b></label>

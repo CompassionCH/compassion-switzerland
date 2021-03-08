@@ -350,6 +350,8 @@ class MyAccountController(PaymentFormController):
         # We pass some arguments to the form
         kw["total_amount"] = sum(amount_by_group)
         kw["bvr_reference"] = bvr_reference
+        # This allows translations to work
+        kw.pop("edit_translations", False)
         payment_options_form = self.get_form(
             "recurring.contract.group", groups[:1].id, **kw
         )
