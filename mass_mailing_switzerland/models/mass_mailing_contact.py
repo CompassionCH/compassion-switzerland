@@ -41,6 +41,19 @@ class MassMailingContact(models.Model):
                 ("opt_out", "!=", True)
             ], limit=1).id
 
+    @api.multi
+    def write(self, values):
+        out = super().write(values)
+        # can't be simplified because we are looking for is_email_valid == False
+        # AND is_email_valid is in values (return None otherwise)
+        if values.get('is_email_valid') is False:
+            for mailing_contact in self:
+                # assure is_valid_email as not been reset (compute field might have been trigger)
+                if mailing_contact.is_email_valid:
+                    mailing_contact.is_email_valid = False
+
+        return out
+
     @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
     @api.model
     def update_partner_merge_fields_job(self, partner_id):
