@@ -50,10 +50,6 @@
             <t t-set="value" t-value="partner.preferred_name"/>
             <t t-call="website_compassion.fill_key_value">Communication name</t>
 
-            <!-- Birthdate -->
-            <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
-            <t t-call="website_compassion.fill_key_value">Birthdate</t>
-
             <!-- Street -->
             <t t-set="value" t-value="partner.street"/>
             <t t-call="website_compassion.fill_key_value">Street</t>
@@ -74,17 +70,9 @@
             <t t-set="value" t-value="partner.mobile"/>
             <t t-call="website_compassion.fill_key_value">Mobile</t>
 
-            <!-- Birthdate -->
-            <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
-            <t t-call="website_compassion.fill_key_value">Birthdate</t>
-
             <!-- Email -->
             <t t-set="value" t-value="partner.email"/>
             <t t-call="website_compassion.fill_key_value">Email / login</t>
-
-            <!-- Church -->
-            <t t-set="value" t-value="partner.church_id.name"/>
-            <t t-call="website_compassion.fill_key_value">Church</t>
 
             <!-- This button opens the form to modify the personal info -->
             <button type="button"
@@ -154,7 +142,9 @@
                 </div>
                 <div class="col-6">
                     <t t-if="partner.date_agreed_child_protection_charter">
-                        Signing date: <t t-esc="partner.get_date('date_agreed_child_protection_charter', 'date_full')"/>
+                        <span>Signing date: </span>
+                        <t t-esc="partner.get_date('date_agreed_child_protection_charter', 'date_short')"/>
+                        <a t-attf-href="/partner/#{partner.uuid}/child-protection-charter">(view agreement)</a>
                     </t>
                     <t t-else="">
                         <form t-attf-action="/partner/{{partner.uuid}}/child-protection-charter">
@@ -172,10 +162,12 @@
                 </div>
                 <div class="col-6">
                     <t t-if="partner.privacy_statement_ids">
-                        Signing date: <t t-esc="partner.get_date('privacy_statement_ids.agreement_date', 'date_full')"/>
+                        <span>Signing date: </span>
+                        <t t-esc="partner.get_date('privacy_statement_ids.agreement_date', 'date_short')"/>
+                        <a href="https://compassion.ch/protection-des-donnees/" target="_blank">(view agreement)</a>
                     </t>
                     <t t-else="">
-                        <form t-attf-action="/partner/{{partner.uuid}}/privacy-statement-agreement">
+                        <form t-attf-action="/partner/#{partner.uuid}/privacy-statement-agreement">
                             <input type="hidden" name="redirect" t-att-value="request.httprequest.path" id="redirect"/>
                             <input id="privacy_charter" class="btn btn-primary w-100" type="submit" value="Accept Privacy Policy"/>
                         </form>
@@ -196,18 +188,9 @@
             <t t-set="value" t-value="partner.get_list('spoken_lang_ids.name').capitalize()"/>
             <t t-call="website_compassion.fill_key_value">Spoken languages</t>
 
-            <!-- TODO: Post or email, precise not ALL communications are impacted -->
             <!-- Communication type preference -->
             <t t-set="value" t-value="partner.translate('global_communication_delivery_preference')"/>
             <t t-call="website_compassion.fill_key_value">Communication preference</t>
-
-            <!-- Photo delivery type -->
-            <t t-set="value" t-value="partner.translate('photo_delivery_preference')"/>
-            <t t-call="website_compassion.fill_key_value">Photo delivery type</t>
-
-            <!-- Magazine -->
-            <t t-set="value" t-value="partner.translate('nbmag')"/>
-            <t t-call="website_compassion.fill_key_value">Magazine</t>
 
             <!-- Opens a form to modify the communication preferences -->
             <button type="button"

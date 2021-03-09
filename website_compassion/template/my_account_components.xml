@@ -11,11 +11,10 @@
                 <!-- Actual navigation bar containing menus proposed by MyAccount -->
                 <nav class="navbar navbar-expand-md navbar-light bg-light">
                     <div class="container">
-                    <a class="navbar-brand" href="#">My account</a>
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myAccountMenu" aria-controls="myAccountMenu" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                       </button>
-                        <div class="collapse navbar-collapse" id="myAccountMenu">
+                        <div class="collapse navbar-collapse mb-4 text-uppercase" id="myAccountMenu">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li t-attf-class="nav-item#{' active' if selected == 'child' else ''}">
                                     <a class="nav-link" href="/my/children">My children</a>

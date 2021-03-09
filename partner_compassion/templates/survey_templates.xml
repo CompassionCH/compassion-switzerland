@@ -19,6 +19,11 @@
                 </div>
             </xpath>
 
+            <!-- Add margins in survey -->
+            <xpath expr="div[@class='o_page_header']" position="attributes">
+                <attribute name="class">jumbotron mt-32 mb-32 o_page_header</attribute>
+            </xpath>
+
         </template>
 
         <template id="custom_multiple_choice" name="multiple choice custom" inherit_id="survey.multiple_choice">

@@ -23,7 +23,8 @@ class PaymentOptionsForm(models.AbstractModel):
         # ("LSV", "LSV"),
         # ("Postfinance Direct Debit", "Postfinance Direct Debit"),
         ("Permanent Order", "Permanent Order"),
-    ])
+    ], help="Please contact us if you want to setup a Direct Debit or LSV "
+            "automatic withdrawal.")
     payment_frequency = fields.Selection(selection=[
         ("1 month", "1 month"),
         ("2 month", "2 months"),

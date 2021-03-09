@@ -33,7 +33,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "mobile",
         "birthdate_date",
         "email",
-        "church_unlinked",
     ]
     _form_fields_order = [
         "title",
@@ -46,12 +45,27 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "country_id",
         "phone",
         "mobile",
-        "birthdate_date",
         "email",
-        "church_unlinked",
+        "birthdate_date",
+    ]
+    _form_required_fields = [
+        "title",
+        "firstname",
+        "lastname",
+        "preferred_name",
+        "street",
+        "zip",
+        "city",
+        "country_id",
+        "email",
     ]
 
-    church_unlinked = fields.Char(string="Church")
+    @property
+    def _form_fieldsets(self):
+        field_list = self._form_fields_order
+        if self.main_object.birthdate_date:
+            field_list.pop()
+        return [{"id": "coordinates", "fields": field_list}]
 
     @property
     def form_title(self):
@@ -64,12 +78,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
     @property
     def form_msg_success_updated(self):
         return _("Coordinates updated.")
-
-    def _form_load_church_unlinked(self, fname, field, value, **req_values):
-        return value or req_values.get(
-            fname,
-            self.main_object.church_id.name or self.main_object.church_unlinked
-        )
 
     def _form_validate_phone(self, value, **req_values):
         if value and not re.match(r"^[+\d][\d\s]{7,}$", value, re.UNICODE):
@@ -120,20 +128,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
             self, fname, field, **kw
         )
 
-    def form_before_create_or_update(self, values, extra_values):
-        super().form_before_create_or_update(values, extra_values)
-        church = values.get("church_unlinked")
-        if church:
-            church_record = self.env["res.partner"].search([
-                ("is_church", "=", True),
-                ("name", "%", church)
-            ], limit=1)
-            if church_record:
-                del values["church_unlinked"]
-                values["church_id"] = church_record.id
-            else:
-                values["church_id"] = False
-
 
 class PartnerDeliveryForm(models.AbstractModel):
     _name = "cms.form.partner.delivery"
@@ -143,74 +137,50 @@ class PartnerDeliveryForm(models.AbstractModel):
     form_id = "modal_delivery"
     _form_model = "res.partner"
 
-    global_preference = fields.Selection(
-        string="Global communication delivery preference", selection=[
-            ("Physical", "Physical"),
-            ("Email", "Email"),
-        ]
-    )
-
-    photo_preference = fields.Selection(
-        string="Photo delivery preference", selection=[
-            ("Physical", "Physical"),
-            ("Email", "Email"),
-            ("Email and physical", "Email and physical"),
-            ("No", "No"),
-        ]
-    )
-
-    magazine_preference = fields.Selection(
-        string="Magazine delivery preference", selection=[
-            ("Physical", "Physical"),
-            ("Email", "Email"),
-            ("No", "No"),
-        ]
+    no_physical_letter = fields.Boolean(
+        "No postal mail",
+        help="Use this option if you don't want to receive any mail by post. "
+             "By doing so, you won't receive anymore the photos of your children or "
+             "any other postal communication."
     )
 
     _form_model_fields = [
         "lang",
         "spoken_lang_ids",
-        "global_preference",
-        "photo_preference",
-        "magazine_preference",
-        "global_communication_delivery_preference",
-        "photo_delivery_preference",
-        "nbmag",
     ]
     _form_fields_order = [
         "lang",
         "spoken_lang_ids",
-        "global_preference",
-        "photo_preference",
-        "magazine_preference",
-        "global_communication_delivery_preference",
-        "photo_delivery_preference",
-        "nbmag",
+        "no_physical_letter",
+    ]
+    _form_required_fields = [
+        "lang"
     ]
 
-    def _form_load_global_preference(self, fname, field, value, **req_values):
-        if self.main_object.global_communication_delivery_preference == "physical":
-            return "Physical"
-        else:
-            return "Email"
+    lang = fields.Selection([
+        ("fr_CH", "French"),
+        ("de_DE", "German"),
+        ("it_IT", "Italian"),
+        ("en_US", "English"),
+    ], string="Primary language",
+        help="This will affect the language by which we communicate with you.")
+    spoken_lang_ids = fields.Many2many(
+        "res.lang.compassion", string="Spoken languages",
+        help="This is useful for checking translation needs on your correspondence "
+             "with your children.")
 
-    def _form_load_photo_preference(self, fname, field, value, **req_values):
-        if self.main_object.photo_delivery_preference == "none":
-            return "No"
-        elif self.main_object.photo_delivery_preference == "physical":
-            return "Physical"
-        elif self.main_object.photo_delivery_preference == "both":
-            return "Email and physical"
-        else:
-            return "Email"
-
-    def _form_load_magazine_preference(self, fname, field, value, **req_values):
-        if self.main_object.nbmag == "no_mag":
-            return "No"
-        elif self.main_object.nbmag == "email":
-            return "Email"
-        else:
-            return "Physical"
+    def _form_load_no_physical_letter(self, fname, field, value, **req_values):
+        partner = self.main_object
+        return ("only" in partner.global_communication_delivery_preference
+                or partner.global_communication_delivery_preference == "none") \
+            and ("only" in partner.letter_delivery_preference
+                 or partner.letter_delivery_preference == "none") \
+            and ("only" in partner.photo_delivery_preference
+                 or partner.photo_delivery_preference == "none") \
+            and ("only" in partner.thankyou_preference
+                 or partner.thankyou_preference == "none") \
+            and partner.tax_certificate != "paper" \
+            and partner.nbmag in ("email", "no_mag")
 
     @property
     def form_title(self):
@@ -224,49 +194,27 @@ class PartnerDeliveryForm(models.AbstractModel):
     def form_msg_success_updated(self):
         return _("Communication delivery preferences updated.")
 
-    @property
-    def form_widgets(self):
-        # Hide fields
-        res = super().form_widgets
-        res["global_communication_delivery_preference"] =\
-            "cms_form_compassion.form.widget.hidden"
-        res["photo_delivery_preference"] =\
-            "cms_form_compassion.form.widget.hidden"
-        res["nbmag"] = "cms_form_compassion.form.widget.hidden"
-        return res
-
-    def form_extract_values(self, **request_values):
-        # We need mappings to go from db to displayed field and vice-versa
-        preference_mapping = {
-            "Physical": "physical",
-            "Email": "digital_only",
-            "Email and physical": "both",
-            "No": "none",
-        }
-        magazine_mapping = {
-            "Physical": "one",
-            "Email": "email",
-            "No": "no_mag",
-        }
-        key_mapping = {
-            "global_preference": "global_communication_delivery_preference",
-            "photo_preference": "photo_delivery_preference",
-            "magazine_preference": "nbmag",
-        }
-
-        values = super(PartnerDeliveryForm, self).form_extract_values(
-            **request_values
-        )
-        for form_key in key_mapping.keys():
-            if form_key in values and values[form_key]:
-                key = key_mapping[form_key]
-                # The mapping is different only for the magazines for the value
-                if "magazine" in form_key:
-                    value = magazine_mapping[values[form_key]]
-                else:
-                    value = preference_mapping[values[form_key]]
-                values[key] = value
-            # We don't want those value to go farther as we already used them
-            if form_key in values:
-                del values[form_key]
-        return values
+    def form_before_create_or_update(self, values, extra_values):
+        """ Convert values. """
+        partner = self.main_object
+        if extra_values.get("no_physical_letter"):
+            values.update({
+                "global_communication_delivery_preference":
+                "auto_digital_only" if "auto" in
+                partner.global_communication_delivery_preference else "digital_only",
+                "letter_delivery_preference":
+                "auto_digital_only" if "auto" in
+                partner.letter_delivery_preference else "digital_only",
+                "photo_delivery_preference":
+                "auto_digital_only" if "auto" in
+                partner.photo_delivery_preference else "digital_only",
+                "thankyou_preference":
+                "auto_digital_only" if "auto" in
+                partner.thankyou_preference else "digital_only",
+                "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
+                "tax_certificate": "no"
+                if partner.tax_certificate == "no" else "only_email",
+                "calendar": False,
+                "christmas_card": False
+            })
+        super().form_before_create_or_update(values, extra_values)
