@@ -289,6 +289,7 @@ class StatementCompletionRule(models.Model):
                 ("partner_id", "=", partner.id),
                 ("correspondent_id", "=", partner.id),
                 ("state", "!=", "draft"),
+                ("state", "!=", "terminated"),
                 ("type", "like", "S"),
             ]
             contract = contract_obj.search(
