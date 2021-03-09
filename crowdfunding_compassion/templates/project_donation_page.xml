@@ -266,6 +266,9 @@
                 </script>
             </xpath>
         </template>
+        <record id="donation_form_gtc" model="ir.ui.view">
+            <field name="mode">primary</field>
+        </record>
 
         <!-- Displayed after successful payment by [EventsController] -->
         <template id="donation_successful" name="Crowdfunding donation success">

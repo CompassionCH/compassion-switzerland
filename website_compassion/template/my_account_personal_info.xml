@@ -18,8 +18,6 @@
                         <!-- Coordinates -->
                         <div class="col-md-6">
                             <t t-call="website_compassion.my_information_personal"/>
-
-                            <t t-call="website_compassion.my_information_credentials"/>
                         </div>
                         <!-- Communication preferences -->
                         <div class="col-md-6">
@@ -38,6 +36,10 @@
         <template id="my_information_personal">
             <h3 class="mt-4">Coordinates</h3>
 
+            <!-- Ref -->
+            <t t-set="value" t-value="partner.ref"/>
+            <t t-call="website_compassion.fill_key_value">My reference</t>
+
             <!-- Title -->
             <t t-set="value" t-value="partner.title.name"/>
             <t t-call="website_compassion.fill_key_value">Title</t>
@@ -49,10 +51,6 @@
             <!-- Communication name -->
             <t t-set="value" t-value="partner.preferred_name"/>
             <t t-call="website_compassion.fill_key_value">Communication name</t>
-
-            <!-- Birthdate -->
-            <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
-            <t t-call="website_compassion.fill_key_value">Birthdate</t>
 
             <!-- Street -->
             <t t-set="value" t-value="partner.street"/>
@@ -74,41 +72,32 @@
             <t t-set="value" t-value="partner.mobile"/>
             <t t-call="website_compassion.fill_key_value">Mobile</t>
 
-            <!-- Birthdate -->
-            <t t-set="value" t-value="partner.get_date('birthdate_date', 'date_full')"/>
-            <t t-call="website_compassion.fill_key_value">Birthdate</t>
-
             <!-- Email -->
             <t t-set="value" t-value="partner.email"/>
             <t t-call="website_compassion.fill_key_value">Email / login</t>
 
-            <!-- Church -->
-            <t t-set="value" t-value="partner.church_id.name"/>
-            <t t-call="website_compassion.fill_key_value">Church</t>
-
-            <!-- This button opens the form to modify the personal info -->
-            <button type="button"
-                    class="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#modal_my_coordinates">
-                Change
-            </button>
-        </template>
-
-        <!-- This template allows the partner to modify its password -->
-        <template id="my_information_credentials">
-            <h3 class="mt-4">Credentials</h3>
-            <form t-attf-action="/web/reset_password" method="POST">
-                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <input type="hidden" name="login" t-att-value="partner.user_ids[:1].login" id="login"/>
-                <input type="hidden" name="redirect" value="/my/information" id="redirect"/>
-                <input type="hidden" name="token"/>
-
-                <button class="btn btn-primary">
-                    Reset password
-                    <a href="#" onclick="this.parentNode.parentNode.submit()"/>
+            <div class="d-flex mt-4">
+                <!-- This button opens the form to modify the personal info -->
+                <button type="button"
+                        class="btn btn-primary mr-4"
+                        data-toggle="modal"
+                        data-target="#modal_my_coordinates">
+                    Change
                 </button>
-            </form>
+
+                <form t-attf-action="/web/reset_password" method="POST">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="login" t-att-value="partner.user_ids[:1].login" id="login"/>
+                    <input type="hidden" name="redirect" value="/my/information" id="redirect"/>
+                    <input type="hidden" name="token"/>
+
+                    <button class="btn btn-primary ml-4">
+                        Reset password
+                        <a href="#" onclick="this.parentNode.parentNode.submit()"/>
+                    </button>
+                </form>
+            </div>
+
         </template>
 
         <!-- Here the partner can modify its profile picture -->
@@ -154,7 +143,9 @@
                 </div>
                 <div class="col-6">
                     <t t-if="partner.date_agreed_child_protection_charter">
-                        Signing date: <t t-esc="partner.get_date('date_agreed_child_protection_charter', 'date_full')"/>
+                        <span>Signing date: </span>
+                        <t t-esc="partner.get_date('date_agreed_child_protection_charter', 'date_short')"/>
+                        <a t-attf-href="/partner/#{partner.uuid}/child-protection-charter">(view agreement)</a>
                     </t>
                     <t t-else="">
                         <form t-attf-action="/partner/{{partner.uuid}}/child-protection-charter">
@@ -172,10 +163,12 @@
                 </div>
                 <div class="col-6">
                     <t t-if="partner.privacy_statement_ids">
-                        Signing date: <t t-esc="partner.get_date('privacy_statement_ids.agreement_date', 'date_full')"/>
+                        <span>Signing date: </span>
+                        <t t-esc="partner.get_date('privacy_statement_ids.agreement_date', 'date_short')"/>
+                        <a href="https://compassion.ch/protection-des-donnees/" target="_blank">(view agreement)</a>
                     </t>
                     <t t-else="">
-                        <form t-attf-action="/partner/{{partner.uuid}}/privacy-statement-agreement">
+                        <form t-attf-action="/partner/#{partner.uuid}/privacy-statement-agreement">
                             <input type="hidden" name="redirect" t-att-value="request.httprequest.path" id="redirect"/>
                             <input id="privacy_charter" class="btn btn-primary w-100" type="submit" value="Accept Privacy Policy"/>
                         </form>
@@ -196,18 +189,9 @@
             <t t-set="value" t-value="partner.get_list('spoken_lang_ids.name').capitalize()"/>
             <t t-call="website_compassion.fill_key_value">Spoken languages</t>
 
-            <!-- TODO: Post or email, precise not ALL communications are impacted -->
             <!-- Communication type preference -->
             <t t-set="value" t-value="partner.translate('global_communication_delivery_preference')"/>
             <t t-call="website_compassion.fill_key_value">Communication preference</t>
-
-            <!-- Photo delivery type -->
-            <t t-set="value" t-value="partner.translate('photo_delivery_preference')"/>
-            <t t-call="website_compassion.fill_key_value">Photo delivery type</t>
-
-            <!-- Magazine -->
-            <t t-set="value" t-value="partner.translate('nbmag')"/>
-            <t t-call="website_compassion.fill_key_value">Magazine</t>
 
             <!-- Opens a form to modify the communication preferences -->
             <button type="button"

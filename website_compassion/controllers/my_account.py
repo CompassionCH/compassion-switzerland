@@ -206,7 +206,8 @@ class MyAccountController(PaymentFormController):
                 {"child_id": child,
                  "template_id": template,
                  "children": children,
-                 "templates": templates},
+                 "templates": templates,
+                 "partner": request.env.user.partner_id}
             )
         else:
             return request.redirect(f"/my/letter?child_id={children[0].id}")

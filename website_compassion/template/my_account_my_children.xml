@@ -35,7 +35,7 @@
                 <body data-spy="scroll" data-target="#section_menu">
                     <div class="container">
                         <nav class="navbar navbar-expand">
-                            <ul id="section_menu" class="nav navbar-nav">
+                            <ul id="section_menu" class="nav navbar-nav mx-auto">
                                 <li class="nav-item">
                                     <a class="nav-link" href="#info_section">
                                         <span>General information</span>
@@ -77,7 +77,7 @@
         <template id="my_children_horizontal_pictures">
             <nav class="navbar navbar-expand-md navbar-light bg-light">
                 <div id="my_children_div" class="container" style="overflow-x:auto">
-                    <ul class="nav nav-tabs d-flex flex-nowrap">
+                    <ul class="nav nav-tabs d-inline-flex mx-auto flex-nowrap">
                         <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
                             <t t-if="child.image_url">
@@ -93,17 +93,19 @@
                             </t>
 
                             <!-- Creating the actual card for each children -->
-                            <div t-attf-id="card_child_{{child.id}}" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
+                            <div t-attf-id="card_child_{{child.id}}" class="card card-clickable text-center bg-light m-1 mx-auto" style="width: 12rem;height: 13rem;">
                                 <li class="nav-item">
                                     <a class="nav-link border-0" t-attf-href="/my/children?state={{state}}&amp;child_id={{child.id}}">
                                         <!-- We add a border for the selected child -->
                                         <t t-if="child.id == child_id.id">
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-5 border-primary mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
                                         </t>
                                         <t t-else="">
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
                                         </t>
                                         <t t-esc="child.preferred_name"/>
+                                        <br/>
+                                        <t t-esc="child.local_id"/>
                                     </a>
                                 </li>
                             </div>
@@ -137,19 +139,9 @@
                             <t t-set="value" t-value="child_id.get_list('hobby_ids.value').capitalize()"/>
                             <t t-call="website_compassion.fill_key_value">Hobbies</t>
 
-                            <br/>
-                        </t>
-
-                        <!-- Education information -->
-                        <t t-if="child_id.education_level or child_id.academic_performance">
-                            <h3>Education</h3>
                             <!-- Education level -->
                             <t t-set="value" t-value="child_id.education_level"/>
                             <t t-call="website_compassion.fill_key_value">Education level</t>
-
-                            <!-- Academic performance -->
-                            <t t-set="value" t-value="child_id.academic_performance"/>
-                            <t t-call="website_compassion.fill_key_value">Academic performance</t>
 
                             <br/>
                         </t>
@@ -259,10 +251,11 @@
 
         <!-- Children pictures inside the view -->
         <template id="my_children_pictures">
-            <div id="pictures_section" t-if="child_id.pictures_ids">
+            <hr/>
+            <div id="pictures_section" t-if="child_id.pictures_ids" class="mt-4">
                 <h3><t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</h3>
                 <nav class="navbar navbar-expand-md">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" style="border-bottom: 0">
                         <t t-foreach="child_id.pictures_ids.sorted('date', reverse=True)" t-as="picture">
                             <li class="m-2">
                                 <div class="card d-flex text-center border-0" style="width: 12rem; height: auto;">
@@ -270,7 +263,7 @@
                                     <div class="card-body">
                                         <t t-esc="picture.date.strftime('%e %B %Y')"/>
                                         <br/>
-                                        <a t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
+                                        <a class="btn btn-primary" t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
                                     </div>
                                 </div>
                             </li>
@@ -281,11 +274,11 @@
                 <div id="my_children_images" class="alert alert-info alert-dismissable text-center" style="display: none;">
                     This may take a few minutes... Please wait
                 </div>
-                <a t-attf-href="/my/download/picture?child_id={{child_id.id}}">
+                <a class="btn btn-primary" t-attf-href="/my/download/picture?child_id={{child_id.id}}">
                     <span>Download all pictures of </span><t t-esc="child_id.preferred_name"/>
                 </a>
-                <a t-attf-href="/my/download/picture" onclick="displayAlert('my_children_images')" style="float: right;">
-                    <span>Download all children's pictures</span>
+                <a class="btn btn-primary" t-attf-href="/my/download/picture" onclick="displayAlert('my_children_images')" style="float: right;">
+                    <span>Download pictures of all my sponsored children</span>
                 </a>
             </div>
         </template>
@@ -293,6 +286,7 @@
         <!-- Display the gift history for the selected child -->
         <template id="my_children_gift_history">
             <div id="gift_history_section" class="mt-4" t-if="lines">
+                <hr/>
                 <h3>Gift history</h3>
                 <div class="row">
                     <div class="col-4">
@@ -318,12 +312,13 @@
                         </div>
                     </div>
                 </t>
-                <a t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
+                <a class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
             </div>
         </template>
 
         <!-- Display the correspondence with the selected child -->
         <template id="my_children_letters">
+            <hr/>
             <div id="letters_section" class="row mt-4">
                 <div class="col-md-6">
                     <t t-set="letters_to_display" t-value="letters.filtered(lambda l: l.direction == 'Supporter To Beneficiary')"/>
@@ -339,11 +334,11 @@
             <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
                 This may take a few minutes... Please wait
             </div>
-            <a t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
+            <a class="btn btn-primary" t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
                 <span>Download all correspondence of </span><t t-esc="child_id.preferred_name"/>
             </a>
-            <a t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
-                <span>Download all children's correspondence</span>
+            <a class="btn btn-primary" t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
+                <span>Download correspondence from all my sponsored children</span>
             </a>
         </template>
 
@@ -363,10 +358,10 @@
                             <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
                         </div>
                         <div class="col-3">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View</a></label>
+                            <label><a class="btn btn-primary" t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View</a></label>
                         </div>
                         <div class="col-3">
-                            <label><a t-attf-href="/b2s_image?id={{letter.uuid}}">Download</a></label>
+                            <label><a class="btn btn-primary" t-attf-href="/b2s_image?id={{letter.uuid}}">Download</a></label>
                         </div>
                     </t>
                 </div>

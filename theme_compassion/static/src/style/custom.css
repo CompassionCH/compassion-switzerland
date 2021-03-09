@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "MontSerrat";
+  src: url("/theme_compassion/static/src/style/Montserrat-Regular.ttf");
+}
+
 @media(min-width: 768px) {
     .thank_you_container {
         position: relative; color: white;
@@ -71,6 +76,19 @@
 #wrapwrap .navbar .container {
     margin-bottom: 0px;
 }
+
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+    color: #005EB8
+}
+
+.footer_section_title {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+header .navbar-brand.logo img { height: 4.5rem}
 
 /* add user icon to address */
 span[itemprop="name"]:before {
@@ -294,3 +312,18 @@ header .navbar-brand img {
         display: none;
     }
 }
+
+.field-boolean {
+  width: 100%;
+}
+.field-boolean div input[type='checkbox'] {
+    display: inline;
+    width: initial;
+    height: initial;
+    margin-top: 0;
+    vertical-align: middle;
+  }
+.field-boolean div .help-block {
+      display: inline;
+      margin-left: 1rem;
+    }
