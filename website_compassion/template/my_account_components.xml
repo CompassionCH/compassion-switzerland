@@ -20,10 +20,10 @@
                                     <a class="nav-link" href="/my/children">My children</a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'info' else ''}">
-                                    <a class="nav-link" href="/my/information">Personal information</a>
+                                    <a class="nav-link" href="/my/information">My personal data</a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'donation' else ''}">
-                                    <a class="nav-link" href="/my/donations">Donations / Invoicing</a>
+                                    <a class="nav-link" href="/my/donations">My financials</a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'letter' else ''}">
                                     <a class="nav-link" href="/my/letter">Write a letter</a>

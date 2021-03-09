@@ -18,8 +18,6 @@
                         <!-- Coordinates -->
                         <div class="col-md-6">
                             <t t-call="website_compassion.my_information_personal"/>
-
-                            <t t-call="website_compassion.my_information_credentials"/>
                         </div>
                         <!-- Communication preferences -->
                         <div class="col-md-6">
@@ -37,6 +35,10 @@
         <!-- The template that displays the personal information of the partner -->
         <template id="my_information_personal">
             <h3 class="mt-4">Coordinates</h3>
+
+            <!-- Ref -->
+            <t t-set="value" t-value="partner.ref"/>
+            <t t-call="website_compassion.fill_key_value">My reference</t>
 
             <!-- Title -->
             <t t-set="value" t-value="partner.title.name"/>
@@ -74,29 +76,28 @@
             <t t-set="value" t-value="partner.email"/>
             <t t-call="website_compassion.fill_key_value">Email / login</t>
 
-            <!-- This button opens the form to modify the personal info -->
-            <button type="button"
-                    class="btn btn-primary"
-                    data-toggle="modal"
-                    data-target="#modal_my_coordinates">
-                Change
-            </button>
-        </template>
-
-        <!-- This template allows the partner to modify its password -->
-        <template id="my_information_credentials">
-            <h3 class="mt-4">Credentials</h3>
-            <form t-attf-action="/web/reset_password" method="POST">
-                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                <input type="hidden" name="login" t-att-value="partner.user_ids[:1].login" id="login"/>
-                <input type="hidden" name="redirect" value="/my/information" id="redirect"/>
-                <input type="hidden" name="token"/>
-
-                <button class="btn btn-primary">
-                    Reset password
-                    <a href="#" onclick="this.parentNode.parentNode.submit()"/>
+            <div class="d-flex mt-4">
+                <!-- This button opens the form to modify the personal info -->
+                <button type="button"
+                        class="btn btn-primary mr-4"
+                        data-toggle="modal"
+                        data-target="#modal_my_coordinates">
+                    Change
                 </button>
-            </form>
+
+                <form t-attf-action="/web/reset_password" method="POST">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="login" t-att-value="partner.user_ids[:1].login" id="login"/>
+                    <input type="hidden" name="redirect" value="/my/information" id="redirect"/>
+                    <input type="hidden" name="token"/>
+
+                    <button class="btn btn-primary ml-4">
+                        Reset password
+                        <a href="#" onclick="this.parentNode.parentNode.submit()"/>
+                    </button>
+                </form>
+            </div>
+
         </template>
 
         <!-- Here the partner can modify its profile picture -->

@@ -34,6 +34,7 @@
         <!-- Children pictures at the top of the view -->
         <template id="letter_horizontal_pictures">
             <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <h5 class="pl-2 text-center">I want to write to:</h5>
                 <div id="my_children_div" class="container" style="overflow-x:auto">
                     <ul class="nav nav-tabs d-flex flex-nowrap">
                         <t t-foreach="children" t-as="child">
@@ -51,19 +52,21 @@
                             </t>
 
                             <!-- Creating the actual card for each children -->
-                            <div t-attf-id="card_child_{{child.id}}" t-attf-onclick="selectElement('{{child.id}}', 'child')" class="card card-clickable text-center bg-light m-1" style="width: 9rem;height: 10rem;">
+                            <div t-attf-id="card_child_{{child.id}}" t-attf-onclick="selectElement('{{child.id}}', 'child')" class="card card-clickable text-center bg-light m-1" style="width: 12rem;height: 13rem;">
                                 <li class="nav-item">
                                     <a class="nav-link border-0">
                                         <!-- We add a border for the selected child -->
                                         <t t-if="child.id == child_id.id">
-                                            <img t-attf-id="child_{{child.id}}" t-att-name="child.name" class="child-image rounded-circle border border-5 border-primary" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" t-att-name="child.name" class="child-image rounded-circle border border-5 border-primary mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
                                         </t>
                                         <t t-else="">
-                                            <img t-attf-id="child_{{child.id}}" t-att-name="child.name" class="child-image rounded-circle" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" t-att-name="child.name" class="child-image rounded-circle mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
                                         </t>
                                         <span t-attf-id="child_name_{{child.id}}" t-att-value="child.name" style="display: none;"/>
                                         <span t-attf-id="child_local_id_{{child.id}}" t-att-value="child.local_id" style="display: none;"/>
                                         <t t-esc="child.preferred_name"/>
+                                        <br/>
+                                        <t t-esc="child.local_id"/>
                                     </a>
                                 </li>
                             </div>
@@ -75,6 +78,7 @@
 
         <!-- Here are displayed all the available templates to write a letter -->
         <template id="letter_templates">
+            <h5>Choose a template</h5>
             <ul class="templates nav nav-tabs" style="height: 33rem; overflow-y: scroll">
                 <t t-foreach="templates" t-as="template">
                     <div class="w-50 p-2">

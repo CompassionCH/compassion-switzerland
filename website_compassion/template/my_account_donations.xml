@@ -111,8 +111,12 @@
                 <!-- Payments option -->
                 <h3>My payment options</h3>
                 <!-- Payment mode -->
-                <t t-set="value" t-value="group.display_name"/>
+                <t t-set="value" t-value="group.payment_mode_id.name"/>
                 <t t-call="website_compassion.fill_key_value">Payment mode</t>
+
+                <!-- Ref -->
+                <t t-set="value" t-value="group.bvr_reference"/>
+                <t t-call="website_compassion.fill_key_value" t-if="group.bvr_reference">ESR Reference</t>
 
                 <!-- Payment frequency -->
                 <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
@@ -159,6 +163,7 @@
 
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
+            <hr/>
             <div class="container mt-4">
                 <h3 id="tax_title">
                     <span>Download your tax receipt</span>
@@ -188,10 +193,12 @@
 
         <!-- view to display all the paid gift history -->
         <template id="my_donations_gift_history">
+            <hr/>
             <div class="container mt-4" t-if="due_invoices">
                 <h3>
                     <span>Open contributions</span>
-                    <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" data-toggle="tooltip" id="tax_toggle">Your latest payments may not already be taken into account.</i>
+                    <t t-set="title">Your latest payments may not already be taken into account.</t>
+                    <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" t-att-title="title" data-toggle="tooltip" id="tax_toggle"></i>
                 </h3>
                 <div class="row" style="backgroud: lightgray;">
                     <div class="col-6">
@@ -219,15 +226,16 @@
                     </div>
                 </t>
             </div>
+            <hr/>
             <div class="container mt-4" t-if="invoices">
                 <h3>
-                    <span>Gift history</span>
+                    <span>Donations history</span>
                     <t t-set="tooltip_title">Your latest payments may not already be taken into account.</t>
                     <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" data-toggle="tooltip" t-att-title="tooltip_title" id="tax_toggle"/>
                 </h3>
                 <div class="row" style="backgroud: lightgray;">
                     <div class="col-6">
-                        <label><b>Fund</b></label>
+                        <label><b>Details of donation</b></label>
                     </div>
                     <div class="col-3">
                         <label><b>Date</b></label>
@@ -251,11 +259,11 @@
                             <label><t t-esc="invoice.get_date('last_payment', 'date_full')"/></label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.amount_total"/></label>
+                            <label><t t-esc="invoice.amount_total"/> <t t-esc="invoice.currency_id.name"/> </label>
                         </div>
                     </div>
                 </t>
-                <a href="https://compassion.ch/donations/" target="_blank">Make a donation</a>
+                <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
             </div>
         </template>
     </data>
