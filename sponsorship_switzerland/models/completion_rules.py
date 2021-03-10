@@ -381,7 +381,7 @@ class StatementCompletionRule(models.Model):
         """ Finds a partner given its bvr reference. """
         partner = None
         contract_group_obj = self.env["recurring.contract.group"]
-        contract_groups = contract_group_obj.search([("bvr_reference", "=", bvr_ref)])
+        contract_groups = contract_group_obj.search([("bvr_reference", "=", bvr_ref)]).filtered('contains_sponsorship')
         if contract_groups:
             partner = contract_groups[0].partner_id
         else:
