@@ -44,3 +44,13 @@ $('#section_menu li a').click(function(event) {
         }, 500);
     }
 });
+
+/**
+ * Selects the element given the element type and the object id. This relies
+ * on a smart choice of ids in the XML file.
+ * @param obj_id the id of the object to select
+ * @param state state of sponsorship
+ */
+my_children_select_child = function(obj_id, state) {
+    window.open("/my/children?child_id=" + obj_id + "&state=" + state, "_self");
+}
