@@ -54,3 +54,16 @@ $('#section_menu li a').click(function(event) {
 my_children_select_child = function(obj_id, state) {
     window.open("/my/children?child_id=" + obj_id + "&state=" + state, "_self");
 }
+
+$(document).ready(function() {
+    $("#my_account_invoicing #year").change(function () {
+        const selected = $(this).val();
+        const last_complete_year = $("#last_complete_year").val()
+        if (selected > last_complete_year) {
+            $("#year_incomplete").show();
+        } else {
+            $("#year_incomplete").hide();
+        }
+    });
+    $("#my_account_invoicing #year").val($("#last_complete_year").val());
+});
