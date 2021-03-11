@@ -42,15 +42,13 @@
         "template/my_account_donations.xml",
         "template/my_account_my_children.xml",
         "template/my_account_write_a_letter.xml",
+        "template/survey_templates.xml",
         "views/correspondence_template_view.xml",
         "views/robots.xml"
     ],
     "depends": [
-        "theme_compassion",  # compassion-switzerland
-        "cms_form_compassion",  # compassion-modules
-        "report_compassion",  # compassion-switzerland
-        "partner_compassion",  # compassion-switzerland
-        "partner_contact_in_several_companies",  # OCA/partner_contact
+        "theme_compassion",
+        "partner_communication_switzerland",
     ],
     "demo": [],
     "installable": True,

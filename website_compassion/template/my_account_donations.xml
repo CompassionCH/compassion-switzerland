@@ -14,13 +14,14 @@
         <!--     9. current_year, the current year -->
         <template id="my_donations_page_template" name="Donations / Invoicing">
             <t t-set="selected">donation</t>
+            <t t-set="title">Financials</t>
             <t t-call="website_compassion.my_account_layout">
                 <!-- Load modals for forms -->
                 <t t-call="cms_form_compassion.modal_form">
                     <t t-set="form" t-value="payment_options_form"/>
                 </t>
 
-                <div class="container">
+                <div class="container" id="my_account_invoicing">
                     <t t-if="len(groups) > 1">
                         <t t-call="website_compassion.my_donations_payment_options_multiple"/>
                     </t>
@@ -32,6 +33,7 @@
 
                     <t t-call="website_compassion.my_donations_gift_history"/>
                 </div>
+                <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
             </t>
         </template>
 
@@ -97,13 +99,6 @@
                 <t t-set="tooltip_title">All groups will be merged in a single one that you will be able to personalize. This action cannot be undone.</t>
                 <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="merge_toggle"/>
             </div>
-            <!-- Script to display the hints on the little "i" icons -->
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $("#merge_toggle").tooltip();
-                    $("#amount_toggle").tooltip();
-                });
-            </script>
         </template>
 
         <!-- Template that displays the single group for partners that have only one -->
@@ -119,6 +114,10 @@
                 <!-- Ref -->
                 <t t-set="value" t-value="group.bvr_reference"/>
                 <t t-call="website_compassion.fill_key_value" t-if="group.bvr_reference">ESR Reference</t>
+
+                 <!-- Number of fully paid children -->
+                <t t-set="value" t-value="paid_sponsor_count_by_group[0]"/>
+                <t t-call="website_compassion.fill_key_value">Number of fully paid sponsorships</t>
 
                 <!-- Payment frequency -->
                 <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
@@ -138,16 +137,6 @@
                         <label><t t-esc="value"/></label>
                     </div>
                 </div>
-            <!-- Script to display the hints on the little "i" icons -->
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $("#amount_toggle").tooltip();
-                    });
-                </script>
-
-                <!-- Number of fully paid children -->
-                <t t-set="value" t-value="paid_sponsor_count_by_group[0]"/>
-                <t t-call="website_compassion.fill_key_value">Number of fully paid children</t>
 
                 <!-- Number of Write and Pray children -->
                 <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
@@ -157,9 +146,7 @@
                 <button type="button"
                         class="btn btn-primary"
                         data-toggle="modal"
-                        data-target="#modal_payment_options">
-                    Change
-                </button>
+                        data-target="#modal_payment_options">Change</button>
             </div>
         </template>
 
@@ -169,9 +156,8 @@
             <div class="mt-4">
                 <h3 id="tax_title">
                     <span>Download your tax receipt</span>
-                    <t t-set="tooltip_title">Available only when all donations of the year are processed.</t>
-                    <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" data-toggle="tooltip" title="title" id="tax_toggle"/>
                 </h3>
+                <input type="text" class="d-none" id="last_complete_year" t-att-value="partner.last_completed_tax_receipt"/>
                 <div class="row m-2">
                     <!-- Construct the menu to select the year -->
                     <div class="col-3">
@@ -186,9 +172,13 @@
                     <!-- The actual button to download the tax receipt for the chosen year -->
                     <div class="col-3">
                         <form id="tax_receipt_form" action="/my/download/tax_receipt">
-                            <input type="submit" class="btn btn-primary" value="Download"/>
+                            <t t-set="input_value">Download</t>
+                            <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
                         </form>
                     </div>
+                </div>
+                <div id="year_incomplete" class="alert alert-warning text-center my-3" style="display: none;">
+                    The accountings of the selected year are not yet closed. Your latest payments may not be included in the tax receipt.
                 </div>
             </div>
         </template>
@@ -199,8 +189,8 @@
             <div class="mt-4" t-if="due_invoices">
                 <h3>
                     <span>Open contributions</span>
-                    <t t-set="title">Your latest payments may not already be taken into account.</t>
-                    <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" t-att-title="title" data-toggle="tooltip" id="tax_toggle"></i>
+                    <t t-set="tooltip_title">Your latest payments may not already be taken into account.</t>
+                    <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" t-att-title="tooltip_title" data-toggle="tooltip" id="tax_toggle"></i>
                 </h3>
                 <div class="row" style="backgroud: lightgray;">
                     <div class="col-6">
@@ -223,7 +213,7 @@
                             <label><t t-esc="children.get_list('preferred_name', 3, children.get_number())"/></label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.amount_total"/></label>
+                            <label><t t-esc="int(invoice.amount_total)"/> <t t-esc="invoice.currency_id.name"/></label>
                         </div>
                     </div>
                 </t>
@@ -246,22 +236,25 @@
                         <label><b>Amount</b></label>
                     </div>
                 </div>
-                <t t-foreach="invoices" t-as="invoice">
+                <t t-foreach="invoices" t-as="invoice" t-if="invoice.amount_total >= 1">
                     <t t-set="children" t-value="invoice.invoice_line_ids.mapped('contract_id.child_id')"/>
                     <div class="row">
                         <div class="col-6">
                             <label>
-                                <t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/>
                                 <t t-if="invoice.invoice_type == 'sponsorship'">
+                                    <span>Sponsorship </span>
                                     <t t-esc="invoice.get_date('date_invoice', 'MMMM Y')"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/>
                                 </t>
                             </label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.get_date('last_payment', 'date_full')"/></label>
+                            <label><t t-esc="invoice.get_date('last_payment', 'd MMM Y')"/></label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.amount_total"/> <t t-esc="invoice.currency_id.name"/> </label>
+                            <label><t t-raw="int(invoice.amount_total)"/> <t t-esc="invoice.currency_id.name"/> </label>
                         </div>
                     </div>
                 </t>

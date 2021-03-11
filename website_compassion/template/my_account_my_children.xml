@@ -11,6 +11,7 @@
         <!--        children in both states) -->
         <template id="my_children_page_template" name="My Children">
             <t t-set="selected" t-value="'child'"/>
+            <t t-set="title">Children</t>
             <t t-call="website_compassion.my_account_layout">
                 <!-- We allow the user to choose between active or terminated sponsorships if there are some -->
                 <t t-if="display_state">
@@ -260,7 +261,7 @@
         <template id="my_children_pictures">
             <hr/>
             <div id="pictures_section" t-if="child_id.pictures_ids" class="mt-4">
-                <h3><t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</h3>
+                <h3>Pictures of <t t-esc="child_id.preferred_name"/></h3>
                 <nav class="navbar navbar-expand-md">
                     <ul class="nav nav-tabs" style="border-bottom: 0">
                         <t t-foreach="child_id.pictures_ids.sorted('date', reverse=True)" t-as="picture">
@@ -315,11 +316,11 @@
                             <label><t t-esc="line.get_date('create_date', 'date_full')"/></label>
                         </div>
                         <div class="col-4">
-                            <label><t t-esc="line.price_total"/></label>
+                            <label><t t-esc="int(line.price_total)"/> <t t-esc="line.invoice_id.currency_id.name"/></label>
                         </div>
                     </div>
                 </t>
-                <a class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
+                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank"><span>Make a donation</span></a>
             </div>
         </template>
 
