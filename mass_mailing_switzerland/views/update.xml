@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+   <data>
+    <function model="mail.mass_mailing.contact" name="move_m2o_to_m2m"/>
+  </data>
+</odoo>

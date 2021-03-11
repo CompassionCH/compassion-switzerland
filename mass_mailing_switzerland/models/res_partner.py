@@ -12,14 +12,15 @@ from urllib.parse import urlencode
 from odoo import models, api, fields
 from odoo.http import request
 
-
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
     date_opt_out = fields.Date()
     mailing_contact_ids = fields.One2many(
         "mail.mass_mailing.contact", "partner_id", "Mass Mailing Contacts")
-
+    mass_mailing_contact_ids = fields.Many2many(
+        "mail.mass_mailing.contact", "mass_mailing_contact_partner_rel", "mass_mailing_contact_ids", "partner_ids",
+        "Mailing Contacts")
     # Add some computed fields to be used in mailchimp merge fields
     partner_image_url = fields.Char(compute="_compute_partner_image_url")
     wordpress_form_data = fields.Char(compute="_compute_wp_formdata")
@@ -136,6 +137,7 @@ class ResPartner(models.Model):
         - Update opt_out date
         - Opt_out from all mailing lists if general opt_out is checked.
         """
+
         if vals.get("opt_out"):
             vals["date_opt_out"] = fields.Date.today()
         elif "opt_out" in vals:
@@ -143,20 +145,20 @@ class ResPartner(models.Model):
         base_mailchimp_fields = [
             "email", "lastname", "firstname", "number_sponsorships", "opt_out"]
         update_partner_ids = []
-        for contact in self.filtered(lambda c: c.mailing_contact_ids):
+        for contact in self.filtered(lambda c: c.mass_mailing_contact_ids):
             if "opt_out" in vals and vals["opt_out"] != contact.opt_out:
-                contact.mailing_contact_ids.mapped("subscription_list_ids")\
+                contact.mass_mailing_contact_ids.mapped("subscription_list_ids") \
                     .with_context(opt_out_from_partner=True).write({
-                        "opt_out": vals["opt_out"]})
+                    "opt_out": vals["opt_out"]})
             if "category_id" in vals:
-                contact.mailing_contact_ids.write({
+                contact.mass_mailing_contact_ids.write({
                     "tag_ids": vals["category_id"]
                 })
                 update_partner_ids.append(contact.id)
             if "email" in vals and not vals["email"]:
-                contact.mapped("mailing_contact_ids").filtered(
+                contact.mapped("mass_mailing_contact_ids").filtered(
                     lambda c: c.email == contact.email).unlink()
-            mailchimp_fields = contact.mailing_contact_ids.mapped(
+            mailchimp_fields = contact.mass_mailing_contact_ids.mapped(
                 "list_ids.mailchimp_list_id.merge_field_ids.field_id.name")
             mailchimp_fields += base_mailchimp_fields
             for f in mailchimp_fields:
@@ -164,25 +166,32 @@ class ResPartner(models.Model):
                     update_partner_ids.append(contact.id)
                     break
         super().write(vals)
+        for contact in self.filtered(lambda c: c.mass_mailing_contact_ids):
+            for mass_mailing_contact in contact.mass_mailing_contact_ids:
+                if "lastname" in vals or "firstname" in vals:
+                    mass_mailing_contact.write({"merged_salutation": self.env["mail.mass_mailing.contact"]
+                                               .compute_salutation(mass_mailing_contact.partner_ids)})
+                if "sponsored_child_ids" in vals:
+                    mass_mailing_contact.write({"merged_child": self.env["mail.mass_mailing.contact"]
+                                               .compute_sponsored_child_fields(mass_mailing_contact.partner_ids)})
         if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
-            self.env["mail.mass_mailing.contact"]\
-                .with_delay().update_all_merge_fields_job(update_partner_ids)
+            self.env["mail.mass_mailing.contact"].update_all_merge_fields_job(update_partner_ids)
         return True
 
     @api.multi
     def update_selected_child_for_mailchimp(self, child):
         # Allows to force selecting one child for displaying in email templates.
         self.ensure_one()
-        for contact in self.with_context(mailchimp_child=child).mailing_contact_ids:
+        for contact in self.with_context(mailchimp_child=child).mass_mailing_contact_ids:
             contact.action_update_to_mailchimp()
 
     def get_mailing_contact_to_update(self):
         # Only return directly linked contacts
         self.ensure_one()
-        return self.mailing_contact_ids
+        return self.mass_mailing_contact_ids
 
     @api.multi
     def forget_me(self):
-        self.mailing_contact_ids.unlink()
+        self.mass_mailing_contact_ids.unlink()
         super().forget_me()
         return True
