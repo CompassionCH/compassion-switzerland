@@ -34,54 +34,49 @@ selectElement = function(obj_id, elem_type) {
     const elem_id = `${elem_type}_${obj_id}`;
     // Elements are selected by finding the corresponding image and setting
     // the border around the selected one
-    const elements = document.querySelectorAll(`img[class~="${elem_type}-image"]`);
+    const elements = $(`img[class~="${elem_type}-image"]`);
+    elements.fadeTo(0, 0.7);
+    elements.removeClass("border border-5 border-primary");
+    const element = elements.filter(`#${elem_id}`);
+    element.fadeTo(0, 1.0);
 
-    for (var i = 0 ; i < elements.length ; i++) {
-        var element = elements[i];
+    // Here we are in the selected element
+    element.addClass("border border-5 border-primary");
 
-        // Remove the border when not selected
-        if (element.id !== elem_id) {
-            element.classList.remove("border");
-            element.classList.remove("border-5");
-            element.classList.remove("border-primary");
-            continue;
-        }
-
-        // Add border to selected child
-        element.classList.add("border");
-        element.classList.add("border-5");
-        element.classList.add("border-primary");
-
-        // Change url to display selected child and template id
-        const base_url = window.location.origin + window.location.pathname;
-        var params = window.location.search;
-        const from = params.indexOfEnd(`${elem_type}_id=`);
-        if (from === -1) {
-            params += `&${elem_type}_id=${obj_id}`;
-        } else {
-            const to = params.indexOf("&", from);
-            params = params.replaceRange(from, to, obj_id);
-        }
-        // We use replaceState for refreshes to work as intended
-        history.replaceState({}, document.title, base_url + params);
-
-        // Scroll smoothly to selected child
-        const card = document.getElementById(`card_${elem_type}_${obj_id}`);
-        card.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "start",
-        });
-
-        // We correctly set some values for letter writing to work properly
-        const name = document.getElementById(`${elem_type}_name_${obj_id}`).attributes.value.value;
-        const local_id = document.getElementById(`${elem_type}_local_id_${obj_id}`);
-        if (local_id) {
-            document.getElementById(`${elem_type}_local_id`).attributes.value.value = local_id.attributes.value.value;
-        }
-        document.getElementById(`${elem_type}_id`).attributes.value.value = obj_id;
-        document.getElementById(`${elem_type}_name`).attributes.value.value = name;
+    // Change url to display selected child and template id
+    const base_url = window.location.origin + window.location.pathname;
+    var params = window.location.search;
+    const from = params.indexOfEnd(`${elem_type}_id=`);
+    if (from === -1) {
+        params += `&${elem_type}_id=${obj_id}`;
+    } else {
+        const to = params.indexOf("&", from);
+        params = params.replaceRange(from, to, obj_id);
     }
+
+    // Scroll smoothly to selected child
+    const card = document.getElementById(`card_${elem_type}_${obj_id}`);
+    card.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start",
+    });
+
+    // We correctly set some values for letter writing to work properly
+    const name = $(`#${elem_type}_name_${obj_id}`);
+    const local_id = $(`#${elem_type}_local_id_${obj_id}`);
+    if (local_id) {
+        $(`span[id^=${elem_type}]`).removeClass("font-weight-bold");
+        name.addClass("font-weight-bold");
+        local_id.addClass("font-weight-bold");
+        $(`#${elem_type}_local_id`).text(local_id.text());
+        $("#guideline_child_ref").text(local_id.text());
+    }
+    $(`#${elem_type}_id`).text(obj_id);
+    $(`#${elem_type}_name`).text(name.text());
+
+     // We use replaceState for refreshes to work as intended
+    history.replaceState({}, document.title, base_url + params);
 }
 
 const max_size = 1000;
@@ -282,8 +277,8 @@ const createLetter = async function(preview=false, with_loading=true) {
         var form_data = new FormData();
 
         form_data.append("letter-copy", document.getElementById('letter_content').value);
-        form_data.append("selected-child", document.getElementById('child_local_id').attributes.value.value);
-        form_data.append("selected-letter-id", document.getElementById('template_id').attributes.value.value);
+        form_data.append("selected-child", $('#child_local_id').text());
+        form_data.append("selected-letter-id", $('#template_id').text());
         form_data.append("source", "website");
         // TODO CI-765: Handle properly multiple images
         if (images_list.length > 0) {
@@ -295,12 +290,16 @@ const createLetter = async function(preview=false, with_loading=true) {
         var url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
         xhr.open("POST", url, true);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.readyState === 4) {
                 if (preview) {
                     if (with_loading) {
                         startStopLoading("preview");
                     }
-                    window.open(xhr.responseText.slice(1, -1), "_blank");
+                    if (xhr.status === 200) {
+                        window.open(xhr.responseText.slice(1, -1), "_blank");
+                    } else {
+                        displayAlert("preview_error");
+                    }
                 }
                 resolve();
             }
@@ -318,8 +317,8 @@ const sendLetter = async function() {
     await createLetter(preview=false, with_loading=false);
 
     var json_data = JSON.parse(`{
-        "TemplateID": "${document.getElementById('template_id').attributes.value.value}",
-        "Need": "${document.getElementById('child_id').attributes.value.value}"
+        "TemplateID": "${$('#template_id').text()}",
+        "Need": "${$('#child_id').text()}"
     }`);
 
     var xhr = new XMLHttpRequest();
@@ -327,17 +326,21 @@ const sendLetter = async function() {
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            startStopLoading("sending");
-            // Empty images and text (to avoid duplicate)
-            document.getElementById("letter_content").value = ""
-            for (var i = 0 ; i < images_list.length ; i++) {
-                var image = images_list[i];
-                removeImage(image.name, image.size, image.type);
-            }
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Empty images and text (to avoid duplicate)
+                document.getElementById("letter_content").value = ""
+                for (var i = 0 ; i < images_list.length ; i++) {
+                    var image = images_list[i];
+                    removeImage(image.name, image.size, image.type);
+                }
 
-            displayAlert("letter_sent_correctly");
+                displayAlert("letter_sent_correctly");
+            } else {
+                displayAlert("letter_error");
+            }
         }
+        startStopLoading("sending");
     };
     xhr.send(JSON.stringify(json_data));
 }

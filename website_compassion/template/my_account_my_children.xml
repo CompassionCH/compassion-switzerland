@@ -29,7 +29,9 @@
                 </t>
 
                 <!-- The horizontal pictures to select the child -->
-                <t t-call="website_compassion.my_children_horizontal_pictures"/>
+                <t t-set="javascript_hook">my_children_select_child</t>
+                <t t-set="javascript_param" t-value="state"/>
+                <t t-call="website_compassion.children_horizontal_cards"/>
 
                 <!-- Small menu to jump directly to the right section inside the view -->
                 <body data-spy="scroll" data-target="#section_menu">
@@ -74,9 +76,14 @@
         </template>
 
         <!-- Children pictures at the top of the view -->
-        <template id="my_children_horizontal_pictures">
+        <template id="children_horizontal_cards">
+<!--            Template for horizontal children cards. Must provide following data :
+            - javascript_hook : name of function called when clicking on a child.
+            - javascript_param : parameter passed to the javascript function.
+            - children : recordset of children
+            - child_id : current selected child -->
             <nav class="navbar navbar-expand-md navbar-light bg-light">
-                <div id="my_children_div" class="container" style="overflow-x:auto">
+                <div id="my_children_div" class="container" style="overflow-x:auto; overflow-y: hidden;">
                     <ul class="nav nav-tabs d-inline-flex mx-auto flex-nowrap">
                         <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
@@ -93,19 +100,19 @@
                             </t>
 
                             <!-- Creating the actual card for each children -->
-                            <div t-attf-id="card_child_{{child.id}}" class="card card-clickable text-center bg-light m-1 mx-auto" style="width: 12rem;height: 13rem;">
+                            <div t-attf-id="card_child_{{child.id}}" t-attf-onclick="#{javascript_hook}('#{child.id}', '#{javascript_param}')" class="card card-clickable text-center text-primary bg-light m-1 mx-auto" style="width: 12rem;height: 13rem;">
                                 <li class="nav-item">
-                                    <a class="nav-link border-0" t-attf-href="/my/children?state={{state}}&amp;child_id={{child.id}}">
+                                    <a class="nav-link border-0">
                                         <!-- We add a border for the selected child -->
                                         <t t-if="child.id == child_id.id">
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-5 border-primary mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" class="child-image rounded-circle border border-primary border-5 mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; #{'opacity: 0.7;' if child.id != child_id.id else None}"/>
                                         </t>
                                         <t t-else="">
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                            <img t-attf-id="child_{{child.id}}" class="child-image rounded-circle border border-primary border-1 mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; #{'opacity: 0.7;' if child.id != child_id.id else None}"/>
                                         </t>
-                                        <t t-esc="child.preferred_name"/>
+                                        <span t-attf-id="child_name_#{child.id}" t-esc="child.preferred_name" t-att-class="'font-weight-bold' if child.id == child_id.id else None"/>
                                         <br/>
-                                        <t t-esc="child.local_id"/>
+                                        <span t-attf-id="child_local_id_#{child.id}" t-esc="child.local_id" t-att-class="'font-weight-bold' if child.id == child_id.id else None"/>
                                     </a>
                                 </li>
                             </div>

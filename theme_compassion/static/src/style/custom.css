@@ -110,7 +110,7 @@ span[itemprop="name"]:before {
 
 /* add class with border width of 5 pixels */
 .border-5 {
-    border-width: 5px !important;
+    border-width: 3px !important;
 }
 
 /* add class for the cross used to close an image */
@@ -216,7 +216,6 @@ header .navbar-brand img {
 #main_footer footer {
     background-color: inherit;
     color: white;
-    font-family: "Miller Light";
     line-height: 25.6px;
 }
 

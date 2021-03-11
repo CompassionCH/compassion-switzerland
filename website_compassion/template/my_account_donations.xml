@@ -20,22 +20,24 @@
                     <t t-set="form" t-value="payment_options_form"/>
                 </t>
 
-                <t t-if="len(groups) > 1">
-                    <t t-call="website_compassion.my_donations_payment_options_multiple"/>
-                </t>
-                <t t-else="">
-                    <t t-call="website_compassion.my_donations_payment_options"/>
-                </t>
+                <div class="container">
+                    <t t-if="len(groups) > 1">
+                        <t t-call="website_compassion.my_donations_payment_options_multiple"/>
+                    </t>
+                    <t t-else="">
+                        <t t-call="website_compassion.my_donations_payment_options"/>
+                    </t>
 
-                <t t-call="website_compassion.my_donations_tax_receipt"/>
+                    <t t-call="website_compassion.my_donations_tax_receipt"/>
 
-                <t t-call="website_compassion.my_donations_gift_history"/>
+                    <t t-call="website_compassion.my_donations_gift_history"/>
+                </div>
             </t>
         </template>
 
         <!-- Template that displays multiple groups for partners that have more than one -->
         <template id="my_donations_payment_options_multiple">
-            <div class="container mt-4" t-if="groups">
+            <div class="mt-4" t-if="groups">
                 <h3>Payment Groups</h3>
                 <div class="row">
                     <ul class="nav nav-tabs w-100 mb-4">
@@ -106,7 +108,7 @@
 
         <!-- Template that displays the single group for partners that have only one -->
         <template id="my_donations_payment_options">
-            <div class="container mt-4" t-if="groups">
+            <div class="mt-4" t-if="groups">
                 <t t-set="group" t-value="groups[0]"/>
                 <!-- Payments option -->
                 <h3>My payment options</h3>
@@ -164,7 +166,7 @@
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
             <hr/>
-            <div class="container mt-4">
+            <div class="mt-4">
                 <h3 id="tax_title">
                     <span>Download your tax receipt</span>
                     <t t-set="tooltip_title">Available only when all donations of the year are processed.</t>
@@ -193,8 +195,8 @@
 
         <!-- view to display all the paid gift history -->
         <template id="my_donations_gift_history">
-            <hr/>
-            <div class="container mt-4" t-if="due_invoices">
+            <hr t-if="due_invoices"/>
+            <div class="mt-4" t-if="due_invoices">
                 <h3>
                     <span>Open contributions</span>
                     <t t-set="title">Your latest payments may not already be taken into account.</t>
@@ -226,8 +228,8 @@
                     </div>
                 </t>
             </div>
-            <hr/>
-            <div class="container mt-4" t-if="invoices">
+            <hr t-if="invoices"/>
+            <div class="mt-4" t-if="invoices">
                 <h3>
                     <span>Donations history</span>
                     <t t-set="tooltip_title">Your latest payments may not already be taken into account.</t>
