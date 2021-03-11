@@ -190,8 +190,14 @@
             <t t-call="website_compassion.fill_key_value">Spoken languages</t>
 
             <!-- Communication type preference -->
-            <t t-set="value" t-value="partner.translate('global_communication_delivery_preference')"/>
-            <t t-call="website_compassion.fill_key_value">Communication preference</t>
+            <t t-if="not partner.no_physical_letter">
+                <t t-set="value">Allowed</t>
+            </t>
+            <t t-else="">
+                <t t-set="value">Disabled</t>
+            </t>
+
+            <t t-call="website_compassion.fill_key_value">Postal mail</t>
 
             <!-- Opens a form to modify the communication preferences -->
             <button type="button"

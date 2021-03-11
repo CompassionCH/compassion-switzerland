@@ -147,6 +147,7 @@ class PartnerDeliveryForm(models.AbstractModel):
     _form_model_fields = [
         "lang",
         "spoken_lang_ids",
+        "no_physical_letter"
     ]
     _form_fields_order = [
         "lang",
@@ -169,19 +170,6 @@ class PartnerDeliveryForm(models.AbstractModel):
         help="This is useful for checking translation needs on your correspondence "
              "with your children.")
 
-    def _form_load_no_physical_letter(self, fname, field, value, **req_values):
-        partner = self.main_object
-        return ("only" in partner.global_communication_delivery_preference
-                or partner.global_communication_delivery_preference == "none") \
-            and ("only" in partner.letter_delivery_preference
-                 or partner.letter_delivery_preference == "none") \
-            and ("only" in partner.photo_delivery_preference
-                 or partner.photo_delivery_preference == "none") \
-            and ("only" in partner.thankyou_preference
-                 or partner.thankyou_preference == "none") \
-            and partner.tax_certificate != "paper" \
-            and partner.nbmag in ("email", "no_mag")
-
     @property
     def form_title(self):
         return _("Communication delivery preferences")
@@ -197,24 +185,8 @@ class PartnerDeliveryForm(models.AbstractModel):
     def form_before_create_or_update(self, values, extra_values):
         """ Convert values. """
         partner = self.main_object
-        if extra_values.get("no_physical_letter"):
-            values.update({
-                "global_communication_delivery_preference":
-                "auto_digital_only" if "auto" in
-                partner.global_communication_delivery_preference else "digital_only",
-                "letter_delivery_preference":
-                "auto_digital_only" if "auto" in
-                partner.letter_delivery_preference else "digital_only",
-                "photo_delivery_preference":
-                "auto_digital_only" if "auto" in
-                partner.photo_delivery_preference else "digital_only",
-                "thankyou_preference":
-                "auto_digital_only" if "auto" in
-                partner.thankyou_preference else "digital_only",
-                "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
-                "tax_certificate": "no"
-                if partner.tax_certificate == "no" else "only_email",
-                "calendar": False,
-                "christmas_card": False
-            })
+        # Avoid changing communication preferences if nothing changed.
+        if "no_physical_letter" in values \
+                and values["no_physical_letter"] == partner.no_physical_letter:
+            del values["no_physical_letter"]
         super().form_before_create_or_update(values, extra_values)

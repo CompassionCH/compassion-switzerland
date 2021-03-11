@@ -23,12 +23,6 @@ class ResPartner(models.Model):
     _name = "res.partner"
     _inherit = ["res.partner", "translatable.model"]
 
-    letter_delivery_preference = fields.Selection(
-        selection="_get_delivery_preference",
-        default="auto_digital",
-        required=True,
-        help="Delivery preference for Child Letters",
-    )
     tax_receipt_preference = fields.Selection(
         selection="_get_delivery_preference",
         compute="_compute_tax_receipt_preference",

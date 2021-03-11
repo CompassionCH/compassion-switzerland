@@ -239,6 +239,16 @@ class ResPartner(models.Model):
         string="Survey number", compute="_compute_survey_input_count", store=True
     )
     city_id = fields.Many2one(related="zip_id.city_id", store=True)
+    letter_delivery_preference = fields.Selection(
+        selection="_get_delivery_preference",
+        default="auto_digital",
+        required=True,
+        help="Delivery preference for Child Letters",
+    )
+    no_physical_letter = fields.Boolean(
+        compute="_compute_no_physical_letter",
+        inverse="_inverse_no_physical_letter",
+        help="Tells if all communication preferences are set to email only.")
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -305,6 +315,61 @@ class ResPartner(models.Model):
         for partner in self:
             partner.primary_segment_id = partner.segments_affinity_ids[:1].segment_id
             partner.secondary_segment_id = partner.segments_affinity_ids[1:2].segment_id
+
+    def _compute_no_physical_letter(self):
+        for partner in self:
+            partner.no_physical_letter = (
+                "only" in partner.global_communication_delivery_preference
+                or partner.global_communication_delivery_preference == "none"
+            ) and (
+                "only" in partner.letter_delivery_preference
+                or partner.letter_delivery_preference == "none"
+            ) and (
+                "only" in partner.photo_delivery_preference
+                or partner.photo_delivery_preference == "none"
+            ) and (
+                "only" in partner.thankyou_preference
+                or partner.thankyou_preference == "none"
+            ) and partner.tax_certificate != "paper" and partner.nbmag in (
+                "email", "no_mag")
+
+    def _inverse_no_physical_letter(self):
+        for partner in self:
+            if partner.no_physical_letter:
+                vals = {
+                    "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
+                    "tax_certificate": "no"
+                    if partner.tax_certificate == "no"else "only_email",
+                    "calendar": False,
+                    "christmas_card": False
+                }
+                for _field in ["global_communication_delivery_preference",
+                               "letter_delivery_preference",
+                               "photo_delivery_preference",
+                               "thankyou_preference"]:
+                    value = getattr(partner, _field)
+                    if "auto" in value or value == "both":
+                        vals[_field] = "auto_digital_only"
+                    elif value in ["physical", "digital"]:
+                        vals[_field] = "digital_only"
+                partner.write(vals)
+            else:
+                vals = {
+                    "calendar": True,
+                    "christmas_card": True
+                }
+                for _field in ["global_communication_delivery_preference",
+                               "letter_delivery_preference",
+                               "photo_delivery_preference",
+                               "thankyou_preference"]:
+                    value = getattr(partner, _field)
+                    if "only" in value:
+                        vals[_field] = value.replace("_only", "")
+                if partner.nbmag == "no_mag":
+                    vals["nbmag"] = "one"
+                if partner.tax_certificate == "only_email":
+                    vals["tax_certificate"] = "default"
+                partner.write(vals)
 
     ##########################################################################
     #                              ORM METHODS                               #
