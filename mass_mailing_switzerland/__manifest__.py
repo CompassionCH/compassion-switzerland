@@ -46,6 +46,7 @@
         "views/account_invoice_line_view.xml",
         "views/mass_mailing_contact_view.xml",
         "views/mass_mailing_settings_view.xml",
+        "views/update.xml",
         "views/generate_link_wizard_view.xml",
     ],
     "depends": [
