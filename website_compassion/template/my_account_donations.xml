@@ -171,7 +171,8 @@
                     <!-- The actual button to download the tax receipt for the chosen year -->
                     <div class="col-3">
                         <form id="tax_receipt_form" action="/my/download/tax_receipt">
-                            <input type="submit" class="btn btn-primary">Download</input>
+                            <t t-set="input_value">Download</t>
+                            <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
                         </form>
                     </div>
                 </div>

@@ -159,7 +159,8 @@
                     <t t-else="">
                         <form t-attf-action="/partner/{{partner.uuid}}/child-protection-charter">
                             <input type="hidden" name="redirect" t-att-value="request.httprequest.path" id="redirect"/>
-                            <input id="child_charter" class="btn btn-primary w-100" type="submit">Sign Child Protection Charter</input>
+                            <t t-set="input_value">Sign Child Protection Charter</t>
+                            <input id="child_charter" class="btn btn-primary w-100" t-att-value="input_value" type="submit"/>
                         </form>
                     </t>
                 </div>
@@ -179,7 +180,8 @@
                     <t t-else="">
                         <form t-attf-action="/partner/#{partner.uuid}/privacy-statement-agreement">
                             <input type="hidden" name="redirect" t-att-value="request.httprequest.path" id="redirect"/>
-                            <input id="privacy_charter" class="btn btn-primary w-100" type="submit">Accept Privacy Policy</input>
+                            <t t-set="input_value">Accept Privacy Policy</t>
+                            <input id="privacy_charter" class="btn btn-primary w-100" type="submit" t-att-value="input_value"/>
                         </form>
                     </t>
                 </div>
