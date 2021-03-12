@@ -7,6 +7,7 @@
         <!--     3. delivery_form, a form to modify the partner delivery preferences -->
         <template id="my_information_page_template" name="Personal information">
             <t t-set="selected" t-value="'info'"/>
+            <t t-set="title">Personal data</t>
             <t t-call="website_compassion.my_account_layout">
                 <div class="container">
                     <!-- Load modals for forms -->

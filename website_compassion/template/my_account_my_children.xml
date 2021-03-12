@@ -11,6 +11,7 @@
         <!--        children in both states) -->
         <template id="my_children_page_template" name="My Children">
             <t t-set="selected" t-value="'child'"/>
+            <t t-set="title">Children</t>
             <t t-call="website_compassion.my_account_layout">
                 <!-- We allow the user to choose between active or terminated sponsorships if there are some -->
                 <t t-if="display_state">

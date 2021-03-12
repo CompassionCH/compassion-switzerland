@@ -14,6 +14,7 @@
         <!--     9. current_year, the current year -->
         <template id="my_donations_page_template" name="Donations / Invoicing">
             <t t-set="selected">donation</t>
+            <t t-set="title">Financials</t>
             <t t-call="website_compassion.my_account_layout">
                 <!-- Load modals for forms -->
                 <t t-call="cms_form_compassion.modal_form">
