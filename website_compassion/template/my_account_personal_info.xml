@@ -17,11 +17,11 @@
                     <div class="row">
                         <!-- Coordinates -->
                         <div class="col-md-6">
+                            <t t-call="website_compassion.my_information_profile_picture"/>
                             <t t-call="website_compassion.my_information_personal"/>
                         </div>
                         <!-- Communication preferences -->
                         <div class="col-md-6">
-                            <t t-call="website_compassion.my_information_profile_picture"/>
 
                             <t t-call="website_compassion.my_information_privacy_data"/>
 
@@ -103,6 +103,7 @@
         <!-- Here the partner can modify its profile picture -->
         <template id="my_information_profile_picture">
             <h3 class="mt-4">Profile picture</h3>
+            <p>This picture is used when you create or join a project on our crowdfunding platform TOGETHER, or when you join a Muskathlon.</p>
             <form id="form_picture" action="/my/picture" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <input type="file" name="picture" id="upload_picture"  onchange="startStopLoading(true); this.parentNode.submit()" accept="image/*" style="display: none;"/>
@@ -135,6 +136,14 @@
         <!-- Display the date at which the partner signed some charters, otherwise propose to sign them -->
         <template id="my_information_privacy_data">
             <h3 class="mt-4">Privacy data</h3>
+            <p>Compassion knows that children living in extreme poverty are vulnerable. We put their protection as one priority.
+                <t t-if="not partner.date_agreed_child_protection_charter">We ask our volunteering friends and people that travel to visit their sponsored child to sign a child protection charter. If you want to make a step further, you can sign this document as well and show us that you share our values.
+                </t>
+                <t t-else="">
+                    We thank you that you have signed our child protection charter. You can review the document at any time from here.
+                </t>
+            </p>
+            <p>Compassion is also serious about the protection of your data. All your information is kept private and only used internally. You can sign or review our data protection policy from here.</p>
 
             <!-- Child protection charter -->
             <div class="row mb-2">
@@ -150,7 +159,7 @@
                     <t t-else="">
                         <form t-attf-action="/partner/{{partner.uuid}}/child-protection-charter">
                             <input type="hidden" name="redirect" t-att-value="request.httprequest.path" id="redirect"/>
-                            <input id="child_charter" class="btn btn-primary w-100" type="submit" value="Sign Child Protection Charter"/>
+                            <input id="child_charter" class="btn btn-primary w-100" type="submit">Sign Child Protection Charter</input>
                         </form>
                     </t>
                 </div>
@@ -170,7 +179,7 @@
                     <t t-else="">
                         <form t-attf-action="/partner/#{partner.uuid}/privacy-statement-agreement">
                             <input type="hidden" name="redirect" t-att-value="request.httprequest.path" id="redirect"/>
-                            <input id="privacy_charter" class="btn btn-primary w-100" type="submit" value="Accept Privacy Policy"/>
+                            <input id="privacy_charter" class="btn btn-primary w-100" type="submit">Accept Privacy Policy</input>
                         </form>
                     </t>
                 </div>

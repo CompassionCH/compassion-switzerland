@@ -319,7 +319,7 @@
                         </div>
                     </div>
                 </t>
-                <a class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank">Make a donation</a>
+                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank"><span>Make a donation</span></a>
             </div>
         </template>
 

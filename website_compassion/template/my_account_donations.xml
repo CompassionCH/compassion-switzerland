@@ -145,9 +145,7 @@
                 <button type="button"
                         class="btn btn-primary"
                         data-toggle="modal"
-                        data-target="#modal_payment_options">
-                    Change
-                </button>
+                        data-target="#modal_payment_options">Change</button>
             </div>
         </template>
 
@@ -173,7 +171,7 @@
                     <!-- The actual button to download the tax receipt for the chosen year -->
                     <div class="col-3">
                         <form id="tax_receipt_form" action="/my/download/tax_receipt">
-                            <input type="submit" class="btn btn-primary" value="Download"/>
+                            <input type="submit" class="btn btn-primary">Download</input>
                         </form>
                     </div>
                 </div>
@@ -236,22 +234,25 @@
                         <label><b>Amount</b></label>
                     </div>
                 </div>
-                <t t-foreach="invoices" t-as="invoice">
+                <t t-foreach="invoices" t-as="invoice" t-if="invoice.amount_total >= 1">
                     <t t-set="children" t-value="invoice.invoice_line_ids.mapped('contract_id.child_id')"/>
                     <div class="row">
                         <div class="col-6">
                             <label>
-                                <t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/>
                                 <t t-if="invoice.invoice_type == 'sponsorship'">
+                                    <span>Sponsorship </span>
                                     <t t-esc="invoice.get_date('date_invoice', 'MMMM Y')"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/>
                                 </t>
                             </label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.get_date('last_payment', 'date_full')"/></label>
+                            <label><t t-esc="invoice.get_date('last_payment', 'd MMM Y')"/></label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.amount_total"/> <t t-esc="invoice.currency_id.name"/> </label>
+                            <label><t t-raw="int(invoice.amount_total)"/> <t t-esc="invoice.currency_id.name"/> </label>
                         </div>
                     </div>
                 </t>
