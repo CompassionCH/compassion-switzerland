@@ -11,7 +11,8 @@ from odoo import models, fields
 
 
 class FieldOffice(models.Model):
-    _inherit = "compassion.field.office"
+    _inherit = ["compassion.field.office", "translatable.model"]
+    _name = "compassion.field.office"
 
     alumni_representative = fields.Char()
     alumni_video_link = fields.Char(translate=True)
