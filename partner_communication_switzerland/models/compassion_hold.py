@@ -40,33 +40,16 @@ class CompassionHold(models.Model):
     @api.model
     def beneficiary_hold_removal(self, commkit_data):
         ids = super().beneficiary_hold_removal(commkit_data)
-        job_obj = self.env["partner.communication.job"]
         now = datetime.now()
+        # when unexpected exit of already assigned child
         for hold in self.browse(ids).filtered(
-                lambda h: h.channel in (
-                "ambassador", "event") and h.expiration_date > now
+                lambda h: h.expiration_date > now and h.child_id.sponsorship_ids
         ):
+            sponsorship = hold.child_id.sponsorship_ids[:1]
             communication_type = self.env.ref(
-                "partner_communication_switzerland.hold_removal"
+                "partner_communication_switzerland.lifecycle_child_unplanned_exit"
             )
-            job_obj.create(
-                {
-                    "config_id": communication_type.id,
-                    "partner_id": hold.primary_owner.partner_id.id,
-                    "object_ids": hold.id,
-                    "user_id": communication_type.user_id.id,
-                    "auto_send": True,
-                }
-            )
-            if hold.ambassador:
-                job_obj.create(
-                    {
-                        "config_id": communication_type.id,
-                        "partner_id": hold.ambassador.id,
-                        "object_ids": hold.id,
-                        "user_id": communication_type.user_id.id,
-                    }
-                )
+            sponsorship.send_communication(communication_type, both=True)
 
         return ids
 
