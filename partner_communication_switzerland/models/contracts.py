@@ -635,14 +635,19 @@ class RecurringContract(models.Model):
         )
         no_sub = self.env.ref("partner_communication_switzerland.planned_no_sub")
         depart = self.env.ref("sponsorship_compassion.end_reason_depart")
+
+        # prevent normal communication on unexpected hold end. in this particular case
+        # a special communication will be send.
+        s_to_notify = self.filtered(lambda s: not s._is_unexpected_end())
+
         # Send cancellation for regular sponsorships
-        self.filtered(
+        s_to_notify.filtered(
             lambda s: s.end_reason_id != depart and not s.parent_id
         ).with_context({}).send_communication(cancellation, both=True)
         # Send NO SUB letter if activation is less than two weeks ago
         # otherwise send Cancellation letter for SUB sponsorships
         activation_limit = date.today() - relativedelta(days=15)
-        self.filtered(
+        s_to_notify.filtered(
             lambda s: s.end_reason_id != depart
             and s.parent_id
             and (
@@ -650,7 +655,7 @@ class RecurringContract(models.Model):
                 and fields.Date.from_string(s.activation_date) < activation_limit
             )
         ).with_context({}).send_communication(cancellation, correspondent=False)
-        self.filtered(
+        s_to_notify.filtered(
             lambda s: s.end_reason_id != depart
             and s.parent_id
             and (
@@ -658,6 +663,11 @@ class RecurringContract(models.Model):
                 or fields.Date.from_string(s.activation_date) >= activation_limit
             )
         ).with_context({}).send_communication(no_sub, correspondent=False)
+
+    def _is_unexpected_end(self):
+        """Check if sponsorship hold had an unexpected end or not."""
+        self.ensure_one()
+        return self.hold_id and not datetime.now() > self.hold_id.expiration_date
 
     def _new_dossier(self):
         """
