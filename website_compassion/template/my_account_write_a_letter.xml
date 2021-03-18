@@ -77,11 +77,21 @@
                   <div class="modal-body">
                     <h5>What can I write?</h5>
                       <ul>
-                        <li>Modal body text goes here.</li>
+                        <li>Encourage your sponsored child</li>
+                        <li>Choose one topic per letter</li>
+                        <li>Ask questions about his or her dreams for the future</li>
+                        <li>Tell simple stories about your life, your village or town, your hobbies, your work and your family</li>
+                        <li>Share a bible story that you like</li>
                     </ul>
                       <h5>What should I avoid?</h5>
+                      <p>Please never mention:</p>
                       <ul>
-                        <li>Modal body text goes here.</li>
+                        <li>Your postal address</li>
+                        <li>Your e-mail address</li>
+                        <li>Your phone number</li>
+                        <li>The address of Compassion Switzerland</li>
+                        <li>Your social media contact (Facebook or other platforms)</li>
+                        <li>Don't make any promise about a gift or a visit</li>
                     </ul>
                       <h5>How to send a physical letter?</h5>
                       <ul>
@@ -98,10 +108,12 @@
                 <a class="btn btn-primary mb-2" data-toggle="modal" data-target="#guidelines-modal">
                     <span style="color: white">Quick guidelines</span>
                 </a>
-                <a class="btn btn-primary mb-2" href="https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/" target="_blank">
+                <t t-set="help_link">https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/</t>
+                <a class="btn btn-primary mb-2" t-att-href="help_link" target="_blank">
                     <span>What should I write?</span>
                 </a>
-                <a class="btn btn-primary mb-2" href="https://compassion.ch/le-voyage-de-vos-lettres/" target="_blank">
+                <t t-set="letter_travel_link">https://compassion.ch/le-voyage-de-vos-lettres</t>
+                <a class="btn btn-primary mb-2" t-att-href="letter_travel_link" target="_blank">
                     <span>What happens to my letter?</span>
                 </a>
             </div>

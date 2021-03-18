@@ -213,7 +213,7 @@
                             <label><t t-esc="children.get_list('preferred_name', 3, children.get_number())"/></label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.amount_total"/></label>
+                            <label><t t-esc="int(invoice.amount_total)"/> <t t-esc="invoice.currency_id.name"/></label>
                         </div>
                     </div>
                 </t>

@@ -261,7 +261,7 @@
         <template id="my_children_pictures">
             <hr/>
             <div id="pictures_section" t-if="child_id.pictures_ids" class="mt-4">
-                <h3><t t-esc="child_id.preferred_name"/>'<t t-esc="'' if child_id.preferred_name[-1] == 's' else 's'"/> pictures</h3>
+                <h3>Pictures of <t t-esc="child_id.preferred_name"/></h3>
                 <nav class="navbar navbar-expand-md">
                     <ul class="nav nav-tabs" style="border-bottom: 0">
                         <t t-foreach="child_id.pictures_ids.sorted('date', reverse=True)" t-as="picture">
@@ -316,7 +316,7 @@
                             <label><t t-esc="line.get_date('create_date', 'date_full')"/></label>
                         </div>
                         <div class="col-4">
-                            <label><t t-esc="line.price_total"/></label>
+                            <label><t t-esc="int(line.price_total)"/> <t t-esc="line.invoice_id.currency_id.name"/></label>
                         </div>
                     </div>
                 </t>
