@@ -40,21 +40,23 @@ class MassMailingContact(models.Model):
 
     @api.model
     def move_m2o_to_m2m(self):
-        i = 0
-        for rec in self.search(
-                [('partner_id', '!=', False)]):  # Search all the records that have value in m2o field
-            rec.write({"partner_ids": [(4, rec.partner_id.id)]})
-            i = i + 1
-            if rec.partner_ids:
-                partner_ids = rec.partner_ids
-                children_names = self._compute_sponsored_child_fields(partner_ids)
-                if len(children_names) > 1:
-                    rec.write({"merged_child": children_names})
-                rec.write({"merged_salutation": self.compute_salutation(partner_ids)})
-                if len(partner_ids) == 1:
-                    rec.write({"merged_salutation": partner_ids[0].full_salutation})
-                else:
-                    rec.write({"merged_salutation": self._compute_salutation(partner_ids)})
+        # i = 0
+        # print("Start Update")
+        # for rec in self.search(
+        #         [('partner_id', '!=', False)]):  # Search all the records that have value in m2o field
+        #     i = i + 1
+        #     if not rec.partner_ids:
+        #         rec.write({"partner_ids": [(4, rec.partner_id.id)]})
+        #         if i % 10 == 0:
+        #             print(i)
+        #         if rec.partner_ids:
+        #             partner_ids = rec.partner_ids
+        #             children_names = self.compute_sponsored_child_fields(partner_ids)
+        #             if len(children_names) > 1:
+        #                 rec.write({"merged_child": children_names})
+        #             rec.write({"merged_salutation": self.compute_salutation(partner_ids)})
+        #     else:
+        #         print("already" + str(i))
         return True
 
     @api.multi
@@ -106,6 +108,11 @@ class MassMailingContact(models.Model):
 
     @api.model
     def create(self, vals_list):
+        #suppose it is unique
+        if 'partner_id' in
+        partner = self.env['mail.mass_mailing.contact'].search(['email', '=', vals_list['email']])
+        if partners:
+                partner.write({"partner_ids": [(4, ]})
         records = super().create(vals_list)
         for contact in records:
             if not contact.partner_ids:
@@ -116,6 +123,10 @@ class MassMailingContact(models.Model):
                 if len(children_names) > 1:
                     contact.write({"merged_child": children_names})
                 contact.write({"merged_salutation": self.compute_salutation(partner_ids)})
+            if 'odoo_list_ids' in vals_list:
+                for odoo_list_id in vals_list['odoo_list_ids']:
+                    vals = {'list_id': odoo_list_id.odoo_list_id.id, 'contact_id': contact.id}
+                    contact.subscription_list_ids.create(vals)
         return records
 
     @api.multi

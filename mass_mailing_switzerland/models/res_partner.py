@@ -12,9 +12,15 @@ from urllib.parse import urlencode
 from odoo import models, api, fields
 from odoo.http import request
 
+
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    def _default_odoo_list_ids(self):
+        default_val = self.env['mailchimp.lists'].search([])
+        return default_val
+
+    odoo_list_ids = fields.Many2many('mailchimp.lists', string='MailChimp Lists', default=_default_odoo_list_ids)
     date_opt_out = fields.Date()
     mailing_contact_ids = fields.One2many(
         "mail.mass_mailing.contact", "partner_id", "Mass Mailing Contacts")
@@ -128,6 +134,14 @@ class ResPartner(models.Model):
     def create(self, vals):
         if vals.get("opt_out"):
             vals["date_opt_out"] = fields.Date.today()
+            return super().create(vals)
+        elif vals.get("email"):
+            partners = super().create(vals)
+            vals["partner_id"] = partners.id
+            vals["odoo_list_ids"] = partners.odoo_list_ids
+            vals['name'] = partners.firstname + " " + partners.lastname
+            self.env["mail.mass_mailing.contact"].create(vals)
+            return partners
         return super().create(vals)
 
     @api.multi
@@ -144,38 +158,45 @@ class ResPartner(models.Model):
             vals["date_opt_out"] = False
         base_mailchimp_fields = [
             "email", "lastname", "firstname", "number_sponsorships", "opt_out"]
-        update_partner_ids = []
+        update_partner_ids = set()
+
         for contact in self.filtered(lambda c: c.mass_mailing_contact_ids):
-            if "opt_out" in vals and vals["opt_out"] != contact.opt_out:
-                contact.mass_mailing_contact_ids.mapped("subscription_list_ids") \
-                    .with_context(opt_out_from_partner=True).write({
-                    "opt_out": vals["opt_out"]})
-            if "category_id" in vals:
-                contact.mass_mailing_contact_ids.write({
-                    "tag_ids": vals["category_id"]
-                })
-                update_partner_ids.append(contact.id)
             if "email" in vals and not vals["email"]:
                 contact.mapped("mass_mailing_contact_ids").filtered(
-                    lambda c: c.email == contact.email).unlink()
+                    lambda c: c.email == contact.email).remove_partner(contact.id)
+        super().write(vals)
+        for contact in self.filtered(lambda c: c.mass_mailing_contact_ids):
+            mass_contact = contact.mass_mailing_contact_ids
+            if "lastname" in vals or "firstname" in vals:
+                mass_contact.compute_salutation()
+                update_partner_ids.add(contact.id)
+            if "sponsored_child_ids" in vals:
+                mass_contact.compute_sponsored_child_fields()
+                update_partner_ids.add(contact.id)
+            if "opt_out" in vals and vals["opt_out"] != contact.opt_out:
+                contact.mass_mailing_contact_ids.mapped("subscription_list_ids") \
+                    .with_context(opt_out_from_partner=True).write({"opt_out": vals["opt_out"]})
+            if "category_id" in vals:
+                mass_contact.compute_tags()
+                update_partner_ids.add(contact.id)
+
             mailchimp_fields = contact.mass_mailing_contact_ids.mapped(
                 "list_ids.mailchimp_list_id.merge_field_ids.field_id.name")
             mailchimp_fields += base_mailchimp_fields
             for f in mailchimp_fields:
                 if f in vals and vals[f] != getattr(contact, f):
-                    update_partner_ids.append(contact.id)
+                    update_partner_ids.add(contact.id)
                     break
-        super().write(vals)
-        for contact in self.filtered(lambda c: c.mass_mailing_contact_ids):
-            for mass_mailing_contact in contact.mass_mailing_contact_ids:
-                if "lastname" in vals or "firstname" in vals:
-                    mass_mailing_contact.write({"merged_salutation": self.env["mail.mass_mailing.contact"]
-                                               .compute_salutation(mass_mailing_contact.partner_ids)})
-                if "sponsored_child_ids" in vals:
-                    mass_mailing_contact.write({"merged_child": self.env["mail.mass_mailing.contact"]
-                                               .compute_sponsored_child_fields(mass_mailing_contact.partner_ids)})
         if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
             self.env["mail.mass_mailing.contact"].update_all_merge_fields_job(update_partner_ids)
+
+        if vals.get("email"):
+            for contact in self.filtered(lambda c: not c.mass_mailing_contact_ids):
+                if not contact.opt_out:
+                    vals["partner_id"] = contact.id
+                    vals["odoo_list_ids"] = contact.odoo_list_ids
+                    vals["name"] = contact.firstname + " " + self.lastname
+                    self.env["mail.mass_mailing.contact"].create(vals)
         return True
 
     @api.multi
