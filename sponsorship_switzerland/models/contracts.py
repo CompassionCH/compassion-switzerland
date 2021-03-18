@@ -401,8 +401,7 @@ class RecurringContracts(models.Model):
         partners = new_sponsorship.partner_id
         for contact in partners.filtered(lambda c: c.mass_mailing_contact_ids):
             for mass_mailing_contact in contact.mass_mailing_contact_ids:
-                mass_mailing_contact.write({"merged_child": self.env["mail.mass_mailing.contact"]
-                                           .compute_sponsored_child_fields(mass_mailing_contact.partner_ids)})
+                mass_mailing_contact.compute_sponsored_child_fields()
                 mass_mailing_contact.action_update_to_mailchimp()
         return new_sponsorship
 
