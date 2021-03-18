@@ -65,7 +65,7 @@
         <template id="segmentation_result">
             <t t-call="website_compassion.my_account_layout">
                 <div class="container">
-                    <p>Here you will get your personalized results, <span t-esc="partner.firstname"/>!</p>
+                    <t t-raw="partner.primary_segment_id.survey_result"/>
                 </div>
             </t>
         </template>

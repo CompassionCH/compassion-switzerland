@@ -21,7 +21,7 @@
         </field>
         <field name="thank_you_message" type="html">
             <p>
-                Let's see your results and discover your profile!
+                Thank you so much for taking the time to answer these questions!
             </p>
              <div style="margin:20px auto; text-align: center; text-transform: uppercase;">
                <a href="/my/profile-survey-result" class="btn btn-primary" role="button">
