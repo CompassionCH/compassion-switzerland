@@ -59,68 +59,118 @@ class MassMailingContact(models.Model):
         return True
 
     @api.multi
-    def compute_sponsored_child_fields(self, partner_ids):
-        country_filter_id = self.env["res.config.settings"].get_param(
-            "mass_mailing_country_filter_id")
-        lang_partner = partner_ids.with_context(lang=partner_ids[0].lang)
-        # Allow option to take a child given in context, otherwise take
-        # the sponsored children.
-        child = self.env.context.get("mailchimp_child",
-                                     lang_partner.mapped("sponsored_child_ids"))
-        if country_filter_id:
-            child = child.filtered(
-                lambda c: c.field_office_id.id == country_filter_id)
-        return child.get_list(
-            "preferred_name", 3,
-            child.get_number(),
-            translate=False)
+    def compute_sponsored_child_fields(self):
+        for record in self.filtered(lambda c: c.partner_ids):
+            partner_ids = record.partner_ids
+            country_filter_id = self.env["res.config.settings"].get_param(
+                "mass_mailing_country_filter_id")
+            lang_partner = partner_ids.with_context(lang=partner_ids[0].lang)
+            # Allow option to take a child given in context, otherwise take
+            # the sponsored children.
+            child = self.env.context.get("mailchimp_child",
+                                         lang_partner.mapped("sponsored_child_ids"))
+            if country_filter_id:
+                child = child.filtered(
+                    lambda c: c.field_office_id.id == country_filter_id)
+            children_names = child.get_list(
+                "preferred_name", 3,
+                child.get_number(),
+                translate=False)
+            if len(children_names) != 0:
+                record.write({"merged_child": children_names})
 
-    @api.model
-    def compute_salutation(self, partner_ids):
-        if len(partner_ids) == 1:
-            return partner_ids[0].full_salutation
-        if partner_ids[0].lastname == partner_ids[1].lastname:
-            lang_partner = partner_ids[0].with_context(lang=partner_ids[0].lang)
-            title = lang_partner.title
-            title_salutation = (
-                lang_partner.env["ir.advanced.translation"]
-                    .get("salutation", female=title.gender == "F", plural=title.plural)
-                    .title()
-            )
-            family_title = self.env.ref("partner_compassion.res_partner_title_family")
-            return title_salutation + " " + family_title.name + " " + lang_partner.lastname
-        else:
-            partners = partner_ids.with_context(lang=partner_ids[0].lang)
-            if partners.search([("title.gender", "=", "M")]):
+    @api.multi
+    def compute_tags(self):
+        for record in self.filtered(lambda c: c.partner_ids):
+            tags = record.partner_ids.mapped("category_id")
+            if tags:
+                record.write({"tag_ids": [[6, False, [i.id for i in tags]]]})
+
+    @api.multi
+    def compute_salutation(self):
+        for record in self.filtered(lambda c: c.partner_ids):
+            partner_ids = record.partner_ids
+            if len(partner_ids) == 1:
+                salutation = partner_ids[0].full_salutation
+            elif partner_ids[0].lastname == partner_ids[1].lastname:
+                lang_partner = partner_ids[0].with_context(lang=partner_ids[0].lang)
+                title = lang_partner.title
                 title_salutation = (
-                    partners.env["ir.advanced.translation"]
-                        .get("salutation", female=False, plural=True)
+                    lang_partner.env["ir.advanced.translation"]
+                        .get("salutation", female=title.gender == "F", plural=title.plural)
                         .title()
                 )
+                family_title = self.env.ref("partner_compassion.res_partner_title_family")
+                salutation = title_salutation + " " + family_title.name + " " + lang_partner.lastname
             else:
-                title_salutation = (
-                    partners.env["ir.advanced.translation"]
-                        .get("salutation", female=True, plural=True)
-                        .title()
-                )
-            return title_salutation + " " + partners.get_list('name', translate=False)
+                partners = partner_ids.with_context(lang=partner_ids[0].lang)
+                if partners.search([("title.gender", "=", "M")]):
+                    title_salutation = (
+                        partners.env["ir.advanced.translation"]
+                            .get("salutation", female=False, plural=True)
+                            .title()
+                    )
+                else:
+                    title_salutation = (
+                        partners.env["ir.advanced.translation"]
+                            .get("salutation", female=True, plural=True)
+                            .title()
+                    )
+                salutation = title_salutation + " " + partners.get_list('name', translate=False)
+            record.write({'merged_salutation': salutation})
+
+    @api.multi
+    def add_partners(self, partner_ids):
+        for contact in self:
+            if type(partner_ids) != list:
+                partner_ids = [partner_ids]
+            contact.write({"partner_ids": [(4, partner_id) for partner_id in partner_ids]})
+            partner_ids = contact.partner_ids
+            contact.compute_tags()
+            contact.compute_sponsored_child_fields()
+            contact.compute_salutation()
+            if partner_ids[0].firstname and partner_ids[0].lastname:
+                contact.write({"name": partner_ids[0].firstname + " " + partner_ids[0].lastname})
+            else:
+                contact.write({"name": partner_ids[0].lastname})
+
+
+    @api.multi
+    def remove_partner(self, partner_ids):
+        for contact in self:
+            print("contact")
+            if type(partner_ids) != list:
+                partner_ids = [partner_ids]
+            contact.write({"partner_ids": [(3, partner_id) for partner_id in partner_ids]})
+            partner_ids = contact.partner_ids
+            if partner_ids:
+                contact.compute_tags()
+                contact.compute_sponsored_child_fields()
+                contact.compute_salutation()
+                contact.write({"name": partner_ids[0].firstname + " " + partner_ids[0].lastname})
+            else:
+                contact.unlink()
 
     @api.model
     def create(self, vals_list):
+        if 'partner_id' in vals_list:
+            contact = self.env['mail.mass_mailing.contact'].search([('email', '=', vals_list['email'])], limit=1)
+            if contact:
+                contact.add_partners(vals_list['partner_id'])
+                return None
         records = super().create(vals_list)
         for contact in records:
-            if not contact.partner_ids:
-                contact.write({"partner_ids": [(4, contact.get_partner(contact.email))]})
-            if contact.partner_ids:
-                partner_ids = contact.partner_ids
-                children_names = self.compute_sponsored_child_fields(partner_ids)
-                if len(children_names) > 1:
-                    contact.write({"merged_child": children_names})
-                contact.write({"merged_salutation": self.compute_salutation(partner_ids)})
+            if 'partner_id' in vals_list:
+                contact.add_partners(vals_list['partner_id'])
+            else:
+                partner = contact.get_partner(contact.email)
+                if partner:
+                    contact.write({"partner_ids": [(4, partner)]})
             if 'odoo_list_ids' in vals_list:
                 for odoo_list_id in vals_list['odoo_list_ids']:
                     vals = {'list_id': odoo_list_id.odoo_list_id.id, 'contact_id': contact.id}
                     contact.subscription_list_ids.create(vals)
+        records.action_export_to_mailchimp()
         return records
 
     @api.multi
@@ -128,11 +178,8 @@ class MassMailingContact(models.Model):
         super().write(values)
         if "partner_ids" in values:
             for contact in self.filtered(lambda c: c.partner_ids):
-                partner_ids = contact.partner_ids
-                contact.write({"merged_salutation": self.compute_salutation(partner_ids)})
-                children_names = self.compute_sponsored_child_fields(partner_ids)
-                if len(children_names) > 1:
-                    contact.write({"merged_child": children_names})
+                contact.compute_salutation()
+                contact.compute_sponsored_child_fields()
                 contact.action_update_to_mailchimp()
         return True
 
@@ -140,6 +187,7 @@ class MassMailingContact(models.Model):
     def _prepare_vals_for_merge_fields(self, mailchimp_list_id):
         merge_fields_vals = {}
         partner_id = self.partner_id
+        test = mailchimp_list_id.merge_field_ids
         for custom_field in mailchimp_list_id.merge_field_ids:
             if custom_field.field_id.model == "mail.mass_mailing.contact":
                 if custom_field.field_id and hasattr(
@@ -149,7 +197,7 @@ class MassMailingContact(models.Model):
                     value = ''
                 merge_fields_vals.update({custom_field.tag: value or ''})
 
-            elif custom_field.field_id.model == "res.partner":
+            else:
                 if custom_field.type == 'address' and partner_id:
                     address = {'addr1': partner_id.street or '',
                                'addr2': partner_id.street2 or '',
