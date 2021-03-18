@@ -23,10 +23,14 @@
                         </div>
                         <!-- Communication preferences -->
                         <div class="col-md-6">
-
                             <t t-call="website_compassion.my_information_privacy_data"/>
-
                             <t t-call="website_compassion.my_information_communication_pref"/>
+                        </div>
+                    </div>
+                    <hr class="my-4"/>
+                    <div class="row">
+                        <div class="col">
+                            <t t-raw="partner.primary_segment_id.survey_result"/>
                         </div>
                     </div>
                 </div>

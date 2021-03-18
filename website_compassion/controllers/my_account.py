@@ -171,6 +171,10 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/profile-survey-result", type="http", auth="user", website=True)
     def segmentation_result(self):
+        partner = request.env.user.partner_id
+        if partner.primary_segment_id == request.env.ref(
+                "partner_compassion.curious_novices"):
+            return request.redirect("/my/information")
         return request.render("website_compassion.segmentation_result", {
             "partner": request.env.user.partner_id
         })
