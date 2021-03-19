@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="login_register" inherit_id="auth_signup.login">
+        <!--  Replace signup button to redirect to our custom signup process -->
+            <xpath expr="//div[@class='justify-content-between mt-2 d-flex small']/a[1]" position="replace">
+                <a href="/registration?source=myaccount">Don't have an account?</a>
+            </xpath>
+        </template>
+</odoo>
