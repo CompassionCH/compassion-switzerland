@@ -9,12 +9,12 @@
                 <style>.o_portal.container { display: none !important; }</style>
 
                 <!-- Actual navigation bar containing menus proposed by MyAccount -->
-                <nav class="navbar navbar-expand-md navbar-light bg-light">
+                <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
                     <div class="container">
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myAccountMenu" aria-controls="myAccountMenu" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                       </button>
-                        <div class="collapse navbar-collapse mb-4 text-uppercase" id="myAccountMenu">
+                        <div class="collapse navbar-collapse text-uppercase" id="myAccountMenu">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li t-attf-class="nav-item#{' active' if selected == 'child' else ''}">
                                     <a class="nav-link" href="/my/children">Children</a>
@@ -65,7 +65,9 @@
         <template id="segmentation_result">
             <t t-call="website_compassion.my_account_layout">
                 <div class="container">
-                    <t t-raw="partner.primary_segment_id.survey_result"/>
+                    <h1 class="text-uppercase mb-4" style="color: #005eb8;">Compassion is committed to serve you</h1>
+                    <div t-field="partner.primary_segment_id.survey_result" class="oe_structure"/>
+                    <a href="/my/information" class="btn btn-primary btn-lg">Go to my profile</a>
                 </div>
             </t>
         </template>

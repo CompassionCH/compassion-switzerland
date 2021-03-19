@@ -30,7 +30,9 @@
                     <hr class="my-4"/>
                     <div class="row">
                         <div class="col">
-                            <t t-raw="partner.primary_segment_id.survey_result"/>
+                            <div t-field="partner.primary_segment_id.survey_result" class="oe_structure"/>
+                            <h3 class="text-uppercase font-weight-bold my-4" style="color: #005eb8;">Useful resources</h3>
+                            <div t-field="partner.primary_segment_id.personalized_links" class="oe_structure"/>
                         </div>
                     </div>
                 </div>
