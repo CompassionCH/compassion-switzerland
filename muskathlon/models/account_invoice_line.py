@@ -35,3 +35,21 @@ class AccountInvoiceLine(models.Model):
                 "muskathlon.ambassador_donation_confirmation_config"
             )
         return super()._get_ambassador_receipt_config()
+
+
+class AccountInvoice(models.Model):
+    _inherit = "account.invoice"
+
+    @api.model
+    def cron_send_ambassador_donation_receipt(self):
+        """
+        Cron for sending the donation receipts to ambassadors
+        :return: True
+        """
+        ambassador_config = self.env.ref(
+            "muskathlon.ambassador_donation_confirmation_config"
+        )
+        jobs = self.env["partner.communication.job"].search(
+            [("config_id", "=", ambassador_config.id), ("state", "=", "pending")]
+        )
+        return jobs.send()
