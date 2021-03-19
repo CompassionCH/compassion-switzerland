@@ -138,18 +138,3 @@ class AccountInvoice(models.Model):
             ]
         )
         jobs.refresh_text()
-
-    @api.model
-    def cron_send_ambassador_donation_receipt(self):
-        """
-        Cron for sending the donation receipts to ambassadors
-        :return: True
-        """
-        ambassador_config = self.env.ref(
-            "partner_communication_switzerland."
-            "ambassador_donation_confirmation_config"
-        )
-        jobs = self.env["partner.communication.job"].search(
-            [("config_id", "=", ambassador_config.id), ("state", "=", "pending")]
-        )
-        return jobs.send()
