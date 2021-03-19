@@ -4,10 +4,10 @@
     <record id="partner_segmentation_survey" model="survey.survey">
         <field name="auth_required" eval="True"/>
         <field name="users_can_go_back" eval="False"/>
-        <field name="title">Let's get to know each other</field>
+        <field name="title">Welcome!</field>
         <field name="description" type="html">
             <p>
-                Welcome! Thank you for participating in this 5-minute survey that will allow Compassion to better serve supporters like you.
+                Thank you for participating in this 5-minute survey that will allow Compassion to better serve supporters like you.
             </p>
             <p style="color: #005eb8;" class="font-weight-bold">
             When you complete this survey, you will be provided information and resources that will enrich your experience with Compassion.

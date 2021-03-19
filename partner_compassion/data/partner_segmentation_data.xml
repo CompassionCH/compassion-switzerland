@@ -8,12 +8,28 @@
             <p>It’s so great that you are interested in getting more facts, information and numbers from us! For about 70 years we at Compassion attach a great deal of importance to the efficiency of invested funds in the fight against extreme poverty and for the childrens’ development.</p>
             <p>Thank you for your trust. We commit to informing you about the impact of your support for children in the Global South.</p>
             <p>Did you know? We guarantee that at least 80% of sponsorship donations - for gifts to your sponsored child and fund donations up to 100% -  are invested in projects and programmes in the countries of the South. Thank you for the considerable impact you’ve already made.</p>
-            <p>Why not take a look at our latest updates?</p>
-            <a href="https://compassion.ch/de/neues/" target="_blank">https://compassion.ch/de/neues</a>
-            <p>Compassion’s finances:</p>
-            <a href="https://compassion.ch/de/finanzen/" target="_blank">https://compassion.ch/de/finanzen/</a>
             <p>We need your prayers!</p>
-            <p>Thank you for your precious support. See you soon!</p>
+            <p>Thank you for your precious support.</p>
+        </field>
+        <field name="personalized_links" type="html">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Why not take a look at our latest updates?</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/news/" target="_blank">https://compassion.ch/news/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/neues/" target="_blank">https://compassion.ch/de/neues</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/notizie/" target="_blank">https://compassion.ch/it/notizie/</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Take a look at Compassion’s finances</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/finances/" target="_blank">https://compassion.ch/finances/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/finanzen/" target="_blank">https://compassion.ch/de/finanzen/</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/finanze/" target="_blank">https://compassion.ch/it/finanze/</a></li>
+                    </ul>
+                </div>
+            </div>
         </field>
     </record>
     <record id="movement_mobilizers" model="res.partner.segment">
@@ -23,15 +39,59 @@
         <field name="survey_result" type="html">
             <p>It’s so great that you are passionate about large scale movements and that you’re motivated and ready to invest to bring about a significant change in the fight against extreme poverty.</p>
             <p>We are thrilled about your determination to fight injustices. We are so happy to count you as part of the growing number of people who are joining us in the fight against extreme poverty. We commit to providing platforms where you can advocate for children in need and the fight against extreme poverty and inspire others to join you.</p>
-            <p>Here are some links you might find useful:</p>
-            <ul>
-                <li><a href="https://together.compassion.ch/homepage" target="_blank">TOGETHER</a></li>
-                <li><a href="https://facebook.com/compassionschweiz" target="_blank">Social media</a></li>
-                <li><a href="https://compassion.ch/de/neues/" target="_blank">Take a look at our latest updates</a></li>
-                <li><a href="https://compassion.ch/de/sich-mehr-engagieren/" target="_blank">Volunteering with Compassion</a></li>
-            </ul>
             <p>We need your prayers!</p>
             <p>Thank you for your precious support. See you soon!</p>
+        </field>
+        <field name="personalized_links" type="html">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Join or create a project to raise help for the children in need</h4>
+                    <a href="https://together.compassion.ch/homepage" target="_blank">TOGETHER</a>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Take a look at our latest updates</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/news/" target="_blank">https://compassion.ch/news/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/neues/" target="_blank">https://compassion.ch/de/neues</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/notizie/" target="_blank">https://compassion.ch/it/notizie/</a></li>
+                    </ul>
+                </div>
+            </div>
+            <h4 class="text-uppercase mb-2" style="color: #005eb8;">Follow us on the social medias</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-uppercase font-weight-bold">Facebook</p>
+                    <ul>
+                        <li>French: <a href="https://facebook.com/compassionsuisse/" target="_blank">https://facebook.com/compassionsuisse/</a></li>
+                        <li>German: <a href="https://facebook.com/compassionschweiz/" target="_blank">https://facebook.com/compassionschweiz/</a></li>
+                        <li>Italian: <a href="https://www.facebook.com/compassionsvizzera" target="_blank">https://www.facebook.com/compassionsvizzera</a></li>
+                    </ul>
+                    <div class="my-2">
+                        <a href="https://www.instagram.com/compassionswiss/" class="text-uppercase font-weight-bold mb-2" target="_blank">Instagram</a>
+                    </div>
+                    <div class="my-2">
+                        <a href="https://vimeo.com/compassionswitzerland" class="text-uppercase font-weight-bold" target="_blank">Vimeo</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-uppercase font-weight-bold">Youtube</p>
+                    <ul>
+                        <li>French: <a href="https://www.youtube.com/user/CompassionSuisse" target="_blank">https://www.youtube.com/user/CompassionSuisse</a></li>
+                        <li>German: <a href="https://www.youtube.com/channel/UChVNRRvihHG0AYPsdEFfasQ" target="_blank">https://www.youtube.com/channel/UChVNRRvihHG0AYPsdEFfasQ</a></li>
+                        <li>Italian: <a href="https://www.youtube.com/channel/UC61IaMa5EtW_ZEz5r0pv8cA" target="_blank">https://www.youtube.com/channel/UC61IaMa5EtW_ZEz5r0pv8cA</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                     <h4 class="text-uppercase" style="color: #005eb8;">Volunteering with Compassion</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/participer/" target="_blank">https://compassion.ch/participer/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/sich-mehr-engagieren/" target="_blank">https://compassion.ch/de/sich-mehr-engagieren/</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/participare/" target="_blank">https://compassion.ch/it/participare/</a></li>
+                    </ul>
+                </div>
+            </div>
         </field>
     </record>
     <record id="compassionate_caregiver" model="res.partner.segment">
@@ -44,19 +104,39 @@ Thanks to our holistic approach to child development, we commit to a personal an
 </p>
             <p>You can join us by making a spiritual impact in the lives of children in need through prayer and even get children in your surroundings involved in this endeavour. </p>
             <p>We need your prayers!</p>
-            <h3 class="text-uppercase" style="color: #005eb8;">Here are some links you might find useful</h3>
-            <ul>
-                <li><a href="https://compassion.ch/de/spenden/" target="_blank">Compassion Funds</a></li>
-                <li><a href="https://vimeo.com/compassionswitzerland" target="_blank">Compassion Videos</a></li>
-                <li><a href="https://compassion.ch/de/neues/" target="_blank">Take a look at our latest updates</a></li>
-            </ul>
-            <p>Get future generations involved in the fight against extreme poverty:</p>
-            <ul>
-                <li><a href="https://compassion.ch/de/komm-mit/" target="_blank">Step In My Shoes</a></li>
-                <li><a href="https://compassion.ch/de/sonntagschulmaterial//" target="_blank">Cool</a></li>
-            </ul>
-
-            <p>Thank you for your precious support. See you soon!</p>
+            <p>Thank you for your precious support.</p>
+        </field>
+        <field name="personalized_links" type="html">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Support one of our funds</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/donations/" target="_blank">https://compassion.ch/donations/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/spenden/" target="_blank">https://compassion.ch/de/spenden/</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/donare/" target="_blank">https://compassion.ch/it/donare/</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Get future generations involved in the fight against extreme poverty</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/bienvenue-dans-mon-monde-philippines/" target="_blank">Step In My Shoes</a></li>
+                        <li>German: <a href="https://compassion.ch/de/komm-mit/" target="_blank">Step In My Shoes</a></li>
+                        <li>German: <a href="https://compassion.ch/de/sonntagschulmaterial//" target="_blank">Cool</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Take a look at our latest updates</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/news/" target="_blank">https://compassion.ch/news/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/neues/" target="_blank">https://compassion.ch/de/neues</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/notizie/" target="_blank">https://compassion.ch/it/notizie/</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Watch our latest videos</h4>
+                    <a href="https://vimeo.com/compassionswitzerland" target="_blank">Compassion Videos</a>
+                </div>
+            </div>
         </field>
     </record>
     <record id="hands_on_helpers" model="res.partner.segment">
@@ -75,10 +155,81 @@ Thanks to our holistic approach to child development, we commit to a personal an
             </ul>
             <p>Thank you for your precious support. See you soon!</p>
         </field>
+        <field name="personalized_links" type="html">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Volunteering with Compassion</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/participer/" target="_blank">https://compassion.ch/participer/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/sich-mehr-engagieren/" target="_blank">https://compassion.ch/de/sich-mehr-engagieren/</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/participare/" target="_blank">https://compassion.ch/it/participare/</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Take a look at our latest updates</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/news/" target="_blank">https://compassion.ch/news/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/neues/" target="_blank">https://compassion.ch/de/neues</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/notizie/" target="_blank">https://compassion.ch/it/notizie/</a></li>
+                    </ul>
+                </div>
+            </div>
+        </field>
     </record>
     <record id="curious_novices" model="res.partner.segment">
         <field name="name">Curious Novices</field>
         <field name="main_driver">I need guidance and motivation to confidently deepen my giving.</field>
         <field name="segment_index">4</field>
+        <field name="survey_result" type="html">
+            <p>It’s so great to count you as part of the growing number of people who are joining us in the fight against extreme poverty. For about 70 years we at Compassion attach a great deal of importance to the efficiency of invested funds in the fight against extreme poverty and for the childrens’ development. Thank you for your trust and the considerable impact you’ve already made.</p>
+            <p>We commit to informing you about the impact of your support for children in the Global South.</p>
+            <p>You can engage with us in flexible and manifold ways. So, here are some links you might find useful:</p>
+            <p>Thank you for your precious support.</p>
+        </field>
+        <field name="personalized_links" type="html">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Support one of our funds</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/donations/" target="_blank">https://compassion.ch/donations/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/spenden/" target="_blank">https://compassion.ch/de/spenden/</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/donare/" target="_blank">https://compassion.ch/it/donare/</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-uppercase" style="color: #005eb8;">Why not take a look at our latest updates?</h4>
+                    <ul>
+                        <li>French: <a href="https://compassion.ch/news/" target="_blank">https://compassion.ch/news/</a></li>
+                        <li>German: <a href="https://compassion.ch/de/neues/" target="_blank">https://compassion.ch/de/neues</a></li>
+                        <li>Italian: <a href="https://compassion.ch/it/notizie/" target="_blank">https://compassion.ch/it/notizie/</a></li>
+                    </ul>
+                </div>
+            </div>
+            <h4 class="text-uppercase mb-2" style="color: #005eb8;">Follow us on the social medias</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-uppercase font-weight-bold">Facebook</p>
+                    <ul>
+                        <li>French: <a href="https://facebook.com/compassionsuisse/" target="_blank">https://facebook.com/compassionsuisse/</a></li>
+                        <li>German: <a href="https://facebook.com/compassionschweiz/" target="_blank">https://facebook.com/compassionschweiz/</a></li>
+                        <li>Italian: <a href="https://www.facebook.com/compassionsvizzera" target="_blank">https://www.facebook.com/compassionsvizzera</a></li>
+                    </ul>
+                    <div class="my-2">
+                        <a href="https://www.instagram.com/compassionswiss/" class="text-uppercase font-weight-bold mb-2" target="_blank">Instagram</a>
+                    </div>
+                    <div class="my-2">
+                        <a href="https://vimeo.com/compassionswitzerland" class="text-uppercase font-weight-bold" target="_blank">Vimeo</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-uppercase font-weight-bold">Youtube</p>
+                    <ul>
+                        <li>French: <a href="https://www.youtube.com/user/CompassionSuisse" target="_blank">https://www.youtube.com/user/CompassionSuisse</a></li>
+                        <li>German: <a href="https://www.youtube.com/channel/UChVNRRvihHG0AYPsdEFfasQ" target="_blank">https://www.youtube.com/channel/UChVNRRvihHG0AYPsdEFfasQ</a></li>
+                        <li>Italian: <a href="https://www.youtube.com/channel/UC61IaMa5EtW_ZEz5r0pv8cA" target="_blank">https://www.youtube.com/channel/UC61IaMa5EtW_ZEz5r0pv8cA</a></li>
+                    </ul>
+                </div>
+            </div>
+        </field>
     </record>
 </odoo>
