@@ -305,6 +305,9 @@
             <field name="name" position="replace"> <!-- pylint: disable=dangerous-view-replace-wo-priority -->
                 <field name="name" filter_domain="['|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self)]"/>
             </field>
+            <field name="phone" position="replace">
+                <field name="phone" filter_domain="['|',('phone','ilike',self),('mobile','ilike',self)]"/>
+            </field>
             <field name="category_id" position="after">
                 <field name="lang"/>
                 <field name="city" filter_domain="['|',('city','ilike', self),('zip','ilike',self)]"/>
