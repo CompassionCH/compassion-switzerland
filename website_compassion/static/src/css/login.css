@@ -1,0 +1,5 @@
+/* Erase login margins */
+.oe_login_form {
+    position: unset;
+    margin: 0;
+}
