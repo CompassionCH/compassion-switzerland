@@ -268,10 +268,9 @@
                             <li class="m-2">
                                 <div class="card d-flex text-center border-0" style="width: 12rem; height: auto;">
                                     <img class="mx-auto" t-att-src="picture.image_url" style="max-width: 120px; width: 100%; height: auto;"/>
-                                    <div class="card-body">
-                                        <t t-esc="picture.date.strftime('%e %B %Y')"/>
-                                        <br/>
-                                        <a class="btn btn-primary" t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
+                                    <div class="card-body pt-2">
+                                        <div t-esc="picture.get_date('date', 'MMMM Y').title()"/>
+                                        <a class="btn btn-primary mt-2" t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
                                     </div>
                                 </div>
                             </li>
