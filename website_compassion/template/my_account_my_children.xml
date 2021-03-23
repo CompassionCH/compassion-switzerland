@@ -11,7 +11,7 @@
         <!--        children in both states) -->
         <template id="my_children_page_template" name="My Children">
             <t t-set="selected" t-value="'child'"/>
-            <t t-set="title">Children</t>
+            <t t-set="title">My children | <t t-esc="children.mapped('sponsor_id.company_id').address_name"/></t>
             <t t-call="website_compassion.my_account_layout">
                 <!-- We allow the user to choose between active or terminated sponsorships if there are some -->
                 <t t-if="display_state">
@@ -148,7 +148,7 @@
                             <t t-call="website_compassion.fill_key_value">Hobbies</t>
 
                             <!-- Education level -->
-                            <t t-set="value" t-value="child_id.education_level"/>
+                            <t t-set="value" t-value="child_id.translate('education_level')"/>
                             <t t-call="website_compassion.fill_key_value">Education level</t>
 
                             <br/>
@@ -167,7 +167,7 @@
                                 <div class="col-6">
                                     <t t-foreach="child_id.household_id.member_ids" t-as="member">
                                         <t t-if="member.is_primary_caregiver">
-                                            <label><t t-esc="member.role"/></label><br/>
+                                            <label><t t-esc="member.translate('role').title()"/></label><br/>
                                         </t>
                                     </t>
                                 </div>
@@ -181,18 +181,18 @@
                                 <div class="col-6">
                                     <t t-foreach="child_id.household_id.member_ids" t-as="member">
                                         <t t-if="'Beneficiary' not in member.role">
-                                            <label><t t-esc="member.name + ', ' + member.role"/></label><br/>
+                                            <label><t t-esc="member.name + ', ' + member.translate('role')"/></label><br/>
                                         </t>
                                     </t>
                                 </div>
                             </div>
 
                             <!-- Father/representative's job -->
-                            <t t-set="value" t-value="child_id.household_id.male_guardian_job"/>
+                            <t t-set="value" t-value="child_id.household_id.get(child_id.household_id.translate('male_guardian_job'))"/>
                             <t t-call="website_compassion.fill_key_value">Father/representative's job</t>
 
                             <!-- Mother/representative's job -->
-                            <t t-set="value" t-value="child_id.household_id.female_guardian_job"/>
+                            <t t-set="value" t-value="child_id.household_id.get(child_id.household_id.translate('female_guardian_job'))"/>
                             <t t-call="website_compassion.fill_key_value">Mother/representative's job</t>
 
                             <!-- Household duties -->

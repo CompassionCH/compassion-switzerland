@@ -86,6 +86,22 @@
                 <attribute name="t-att-class">'d-none' if survey.hide_answers else None</attribute>
                 <attribute name="class">d-none</attribute>
             </xpath>
+            <xpath expr="//div[@class='jumbotron mt32']/h1" position="replace">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <h1 class="text-uppercase my-4" style="color: #005eb8;">Compassion is committed to serve you</h1>
+                </t>
+                <t t-else="">
+                    <h1>Thank you!</h1>
+                </t>
+            </xpath>
+            <xpath expr="//div[@class='jumbotron mt32']/div[last()]" position="after">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <div>
+                        <div t-field="user_input.partner_id.primary_segment_id.survey_result" class="oe_structure"/>
+                        <a href="/my/information" class="btn btn-primary btn-lg">Go to my profile</a>
+                    </div>
+                </t>
+            </xpath>
         </template>
 
     </data>
