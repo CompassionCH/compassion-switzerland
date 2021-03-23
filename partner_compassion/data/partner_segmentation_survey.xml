@@ -341,7 +341,7 @@
     </record>
     <!-- Question 7-->
     <record id="pss_question_7" model="survey.question">
-        <field name="question">Select the best matching answers</field>
+        <field name="question">Select the answers that apply</field>
         <field name="description">Which of the following actions, if any, have you ever taken to support a charitable
             cause or non-profit organization? </field>
         <field name="type">multiple_choice</field>
