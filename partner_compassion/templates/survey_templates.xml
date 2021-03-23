@@ -7,15 +7,18 @@
             <xpath expr="//div[@class='text-muted oe_no_empty']" position="attributes">
                 <attribute name="class">oe_no_empty</attribute>
             </xpath>
+
+            <!-- Add margins between questions -->
+            <xpath expr="//div[@class='js_question-wrapper']" position="attributes">
+                <attribute name="class">js_question-wrapper my-4</attribute>
+            </xpath>
+
             <!-- Change next and previous page order (more logical in interface)-->
             <xpath expr="//div[@class='text-center mt16 mb16']" position="replace">
                 <div class="text-center mt16 mb16">
-                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit
-                        survey</button>
-                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next
-                        page</button>
-                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary"
-                            name="button_submit" value="previous">Previous page</button>
+                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit survey</button>
+                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>
+                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary" name="button_submit" value="previous">Previous page</button>
                 </div>
             </xpath>
 
@@ -85,6 +88,22 @@
             <xpath expr="//div[@class='jumbotron mt32']/div[last()]" position="attributes">
                 <attribute name="t-att-class">'d-none' if survey.hide_answers else None</attribute>
                 <attribute name="class">d-none</attribute>
+            </xpath>
+            <xpath expr="//div[@class='jumbotron mt32']/h1" position="replace">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <h1 class="text-uppercase my-4" style="color: #005eb8;">Thank you for your commitment</h1>
+                </t>
+                <t t-else="">
+                    <h1>Thank you!</h1>
+                </t>
+            </xpath>
+            <xpath expr="//div[@class='jumbotron mt32']/div[last()]" position="after">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <div>
+                        <div t-field="user_input.partner_id.primary_segment_id.survey_result" class="oe_structure"/>
+                        <a href="/my/information" class="btn btn-primary btn-lg">Go to my profile</a>
+                    </div>
+                </t>
             </xpath>
         </template>
 

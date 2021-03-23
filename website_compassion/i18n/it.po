@@ -1,73 +1,71 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* website_compassion
+#	* website_compassion
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-26 10:15+0000\n"
-"PO-Revision-Date: 2021-03-26 11:38+0100\n"
-"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
+"POT-Creation-Date: 2021-04-06 05:58+0000\n"
+"PO-Revision-Date: 2021-04-06 05:58+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
-"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.4.2\n"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "(view agreement)"
-msgstr "(voir le contrat)"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_frequency:0
 #: selection:cms.form.payment.options.multiple,payment_frequency:0
 msgid "1 month"
-msgstr "1 mois"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_frequency:0
 #: selection:cms.form.payment.options.multiple,payment_frequency:0
 msgid "1 year"
-msgstr "1 année"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_frequency:0
 #: selection:cms.form.payment.options.multiple,payment_frequency:0
 msgid "2 months"
-msgstr "2 mois"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_frequency:0
 #: selection:cms.form.payment.options.multiple,payment_frequency:0
 msgid "3 months"
-msgstr "3 mois"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_frequency:0
 #: selection:cms.form.payment.options.multiple,payment_frequency:0
 msgid "4 months"
-msgstr "4 mois"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_frequency:0
 #: selection:cms.form.payment.options.multiple,payment_frequency:0
 msgid "6 months"
-msgstr "6 mois"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_gift_history
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<b>Amount</b>"
-msgstr "<b>Montant</b>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<b>Child</b>"
-msgstr "<b>Enfant</b>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.display_letters
@@ -79,28 +77,23 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<b>Details of donation</b>"
-msgstr "<b>Don en faveur de :</b>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_gift_history
 msgid "<b>Fund</b>"
-msgstr "<b>Fonds</b>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<b>Month</b>"
-msgstr "<b>Mois</b>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.sponsor_a_child
-msgid ""
-"<br/><br/><br/>\n"
-"                    You do not support any child yet. You can start a "
-"sponsorship by following"
+msgid "<br/><br/><br/>\n"
+"                    You do not support any child yet. You can start a sponsorship by following"
 msgstr ""
-"<br/><br/><br/>\n"
-"                    Vous ne parrainez aucun enfant pour le moment. Vous "
-"pouvez démarrer un parrainage"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
@@ -109,140 +102,131 @@ msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_profile_picture
-msgid ""
-"<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
+msgid "<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
 "                Changing..."
 msgstr ""
-"<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
-"                En cours..."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
-msgid ""
-"<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
+msgid "<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
 "                Creation..."
 msgstr ""
-"<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
-"                Création de l'aperçu..."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
-msgid ""
-"<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
+msgid "<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
 "                Sending..."
 msgstr ""
-"<span class=\"spinner-border spinner-border-sm\" role=\"status\"/>\n"
-"                Envoi..."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "<span style=\"color: white\">Quick guidelines</span>"
-msgstr "<span style=\"color: white\">Nos conseils de rédaction</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "<span>Active sponsorships</span>"
-msgstr "<span>Parrainages actifs</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "<span>Add image</span>"
-msgstr "<span>Ajouter une photo</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<span>Donations history</span>"
-msgstr "<span>Versements comptabilisés</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_letters
 msgid "<span>Download all correspondence of </span>"
-msgstr "<span>Télécharger toutes les lettres de&amp;nbsp;</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_pictures
 msgid "<span>Download all pictures of </span>"
-msgstr "<span>Télécharger les photos de&amp;nbsp;</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_letters
 msgid "<span>Download correspondence from all my sponsored children</span>"
-msgstr "<span>Télécharger la correspondance de tous mes enfants</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_pictures
 msgid "<span>Download pictures of all my sponsored children</span>"
-msgstr "<span>Télécharger les photos de tous mes enfants</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_tax_receipt
 msgid "<span>Download your tax receipt</span>"
-msgstr "<span>Attestation pour les impôts</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "<span>General information</span>"
-msgstr "<span>Informations générales</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "<span>Gift history</span>"
-msgstr "<span>Historique des dons</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "<span>Letters</span>"
-msgstr "<span>Lettres</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_gift_history
 msgid "<span>Make a donation</span>"
-msgstr "<span>Faire un don</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<span>Open contributions</span>"
-msgstr "<span>Dons en attente</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "<span>Pictures of </span>"
-msgstr "<span>Photos de </span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "<span>Signing date: </span>"
-msgstr "<span>Date de signature : </span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<span>Sponsorship </span>"
-msgstr "<span>Parrainage </span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "<span>Terminated sponsorships</span>"
-msgstr "<span>Parrainages terminés</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 msgid "<span>Total additional amount</span>"
-msgstr "<span>Don additionnel au travers du Parrainage Plus</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "<span>What happens to my letter?</span>"
-msgstr "<span>Comment ma lettre est-elle traitée ?</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "<span>What should I write?</span>"
-msgstr "<span>Que puis-je écrire ?</span>"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Accept Privacy Policy"
-msgstr "Accepter la charte"
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_account_invoice__activity_ids
@@ -312,62 +296,58 @@ msgstr "Accepter la charte"
 #: model:ir.model.fields,field_description:website_compassion.field_stock_production_lot__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_survey_survey__activity_ids
 msgid "Activities"
-msgstr "Activités"
+msgstr "Attività"
 
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_mail_activity_mixin
 msgid "Activity Mixin"
-msgstr "Combinaison d'activités"
+msgstr "Combinazione di attività"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "Add a picture"
-msgstr "Ajouter une photo"
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options__additional_amount
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple__additional_amount
 msgid "Additional Amount"
-msgstr "Montant additionnel"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Additional amount"
-msgstr "Montant additionnel"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Age"
-msgstr "Âge"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
-msgid ""
-"All groups will be merged in a single one that you will be able to "
-"personalize. This action cannot be undone."
+msgid "All groups will be merged in a single one that you will be able to personalize. This action cannot be undone."
 msgstr ""
-"Toutes les options de paiement seront réunies en une seule, que vous pourrez "
-"ensuite modifier. Ceci n'est pas réversible."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
 msgid "Allowed"
-msgstr "Autorisé"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.custom_survey_layout
 msgid "Ask me again later"
-msgstr "Je désire participer une autre fois"
+msgstr "Chiedimelo di nuovo più tardi"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Ask questions about his or her dreams for the future"
-msgstr "Posez des questions sur les rêves d'avenir de votre filleul"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Birthdate"
-msgstr "Date de naissance"
+msgstr "Data di nascita"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
@@ -375,7 +355,7 @@ msgstr "Date de naissance"
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_profile_picture
 msgid "Change"
-msgstr "Modifier"
+msgstr "Modifica"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.children_horizontal_cards
@@ -390,98 +370,87 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Child protection charter"
-msgstr "Charte de protection de l'enfance"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_templates
 msgid "Choose a template"
-msgstr "Modèle :"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Choose one topic per letter"
-msgstr "Choisissez un sujet par lettre"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "City"
-msgstr "Ville"
+msgstr "Città"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Close"
-msgstr "Fermer"
+msgstr "Chiudi"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Common jobs"
-msgstr "Emplois habituels"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:175
 #, python-format
 msgid "Communication delivery preferences"
-msgstr "Préférences de communication"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:183
 #, python-format
 msgid "Communication delivery preferences updated."
-msgstr "Préférences de communication mises à jour."
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Communication name"
-msgstr "Nom de correspondance"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
 msgid "Communication preferences"
-msgstr "Préférences de communication"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Community"
-msgstr "Communauté"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Compassion center"
-msgstr "Centre Compassion"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
-msgid ""
-"Compassion is also serious about the protection of your data. All your "
-"information is kept private and only used internally. You can sign or review "
-"our data protection policy from here."
+msgid "Compassion is also serious about the protection of your data. All your information is kept private and only used internally. You can sign or review our data protection policy from here."
 msgstr ""
-"Compassion est aussi conscient de l'importance de la protection de vos "
-"données personnelles. Toutes vos données sont traitées avec le plus grand "
-"soin et utilisées à l'interne uniquement. Vous pouvez lire et signer notre "
-"politique de protection des données ci-dessous.&amp;nbsp;"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
-msgid ""
-"Compassion knows that children living in extreme poverty are vulnerable. We "
-"put their protection as our number one priority."
+msgid "Compassion knows that children living in extreme poverty are vulnerable. We put their protection as our number one priority."
 msgstr ""
-"Compassion sait que les enfants qui vivent dans l'extrême pauvreté sont "
-"vulnérables. Notre priorité est de les protéger."
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:72
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 #, python-format
 msgid "Coordinates"
-msgstr "Coordonnées"
+msgstr "Dati"
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:80
 #, python-format
 msgid "Coordinates updated."
-msgstr "Coordonnées mises à jour."
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_correspondence_template
@@ -491,22 +460,21 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Country"
-msgstr "Pays"
+msgstr "Nazione"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Data protection"
-msgstr "Protection des données"
+msgstr "Protezione dei dati"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
 msgid "Disabled"
-msgstr "Désactivé"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.robots_disallow
-msgid ""
-"Disallow: /my\n"
+msgid "Disallow: /my\n"
 "            Disallow: /my/home\n"
 "            Disallow: /my/home/*\n"
 "            Disallow: /website_payment/confirm\n"
@@ -523,70 +491,65 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options__display_name
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple__display_name
 msgid "Display Name"
-msgstr "Nom affiché"
+msgstr "Visualizza Nome"
 
 #. module: website_compassion
 #: model:ir.model.fields,help:website_compassion.field_cms_form_payment_options__payment_mode
 #: model:ir.model.fields,help:website_compassion.field_cms_form_payment_options_multiple__payment_mode
-msgid ""
-"Don't forget to change your standing order accordingly. Please contact us if "
-"you want to setup a Direct Debit or LSV automatic withdrawal."
+msgid "Don't forget to change your standing order accordingly. Please contact us if you want to setup a Direct Debit or LSV automatic withdrawal."
 msgstr ""
-"Merci de ne pas oublier de modifier votre ordre de paiement. Veuillez nous "
-"contacter afin de paramétrer un débit direct ou un retrait automatique LSV. "
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Don't make any promise about a gift or a visit"
 msgstr ""
-"Ne faites pas non plus de promesses, par exemple d'un cadeau ou d'une visite."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.display_letters
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_pictures
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_tax_receipt
 msgid "Download"
-msgstr "Télécharger"
+msgstr "Scarica"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 msgid "ESR Reference"
-msgstr "Référence BVR (à signaler à votre banque)"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Education level"
-msgstr "Niveau d'études"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Email / login"
-msgstr "Email / Nom d'utilisateur"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Encourage your sponsored child"
-msgstr "Encouragez votre filleul"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.partner.delivery,lang:0
 msgid "English"
-msgstr "Anglais"
+msgstr "Inglese"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Family"
-msgstr "Famille"
+msgstr "Famiglia"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Family information"
-msgstr "Informations sur la famille"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Father/representative's job"
-msgstr "Travail du père / représentant légal"
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_cms_form_match_partner
@@ -596,47 +559,47 @@ msgstr ""
 #. module: website_compassion
 #: selection:cms.form.partner.delivery,lang:0
 msgid "French"
-msgstr "Français"
+msgstr "Francese"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Gender"
-msgstr "Genre"
+msgstr "Sesso"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "General information"
-msgstr "Informations générales"
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.partner.delivery,lang:0
 msgid "German"
-msgstr "Allemand"
+msgstr "Tedesco"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_gift_history
 msgid "Gift history"
-msgstr "Historique des dons"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Hobbies"
-msgstr "Loisirs"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Household duties"
-msgstr "Tâches ménagères"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "How to send a physical letter?"
-msgstr "Comment envoyer un courrier physique (par La Poste) ?"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_horizontal_pictures
 msgid "I want to write to:"
-msgstr "J'aimerais écrire à :"
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_partner_delivery__id
@@ -644,32 +607,28 @@ msgstr "J'aimerais écrire à :"
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options__id
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple__id
 msgid "ID"
-msgstr "Identifiant"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.register_layout
-msgid ""
-"If you are not yet registered, you can create an account by clicking on the "
-"button below."
+msgid "If you are not yet registered, you can create an account by clicking on the button below."
 msgstr ""
-"Si vous n'êtes pas encore enregistré, vous pouvez créer un compte en "
-"cliquant sur le bouton ci-dessous."
 
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_account_invoice_line
 msgid "Invoice Line"
-msgstr "Ligne de facture"
+msgstr "Righe Fattura"
 
 #. module: website_compassion
 #: selection:cms.form.partner.delivery,lang:0
 msgid "Italian"
-msgstr "Italien"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
 msgid "Language"
-msgstr "Langue"
+msgstr "Lingua"
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_partner_delivery____last_update
@@ -677,265 +636,256 @@ msgstr "Langue"
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options____last_update
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple____last_update
 msgid "Last Modified on"
-msgstr "Dernière modification le"
+msgstr "Ultima modifica il"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Legal representatives"
-msgstr "Représentant légal"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_letters
 msgid "Letters from"
-msgstr "Lettres reçues de"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Location"
-msgstr "Lieu"
+msgstr "Luogo"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.login_layout
 msgid "Log in"
-msgstr "Connexion"
+msgstr "Accedi"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "Make a donation"
-msgstr "Faire un don"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Merge groups"
-msgstr "Fusionner les options de paiement"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/my_donations_form.py:175
 #, python-format
 msgid "Merge payment groups"
-msgstr "Fusionner les options de paiement"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Mobile"
-msgstr "Portable"
+msgstr "Cellulare"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Mother/representative's job"
-msgstr "Travail de la mère / représentante légale"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
 msgid "My children"
-msgstr "Mes enfants"
+msgstr "I MIEI BAMBINI"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "My children |"
-msgstr "Mes enfants | "
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
 msgid "My financials"
-msgstr "Mes dons"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_page_template
 msgid "My financials |"
-msgstr "Mes dons | "
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_letters
 msgid "My letters"
-msgstr "Lettres envoyées"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 msgid "My payment options"
-msgstr "Mes options de paiement pour le parrainage"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
 msgid "My personal data"
-msgstr "Mes Données personnelles"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_page_template
 msgid "My personal data |"
-msgstr "Mes données personnelles | "
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "My reference"
-msgstr "Ma référence"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Name"
-msgstr "Nom"
+msgstr "Nome"
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_partner_delivery__no_physical_letter
 msgid "No postal mail"
-msgstr "Pas de courrier postal"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/my_donations_form.py:186
 #, python-format
-msgid ""
-"Note that merging is an operation that cannot be undone. Your different "
-"groups will be fused together with one payment method, payment frequency and "
-"additional amount."
+msgid "Note that merging is an operation that cannot be undone. Your different groups will be fused together with one payment method, payment frequency and additional amount."
 msgstr ""
-"Veuillez noter que la fusion n'est pas réversible. Votre mode de paiement, "
-"fréquence et montants additionnels seront unique."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Number of Write and Pray children"
-msgstr "Nombre de parrainages Write&Pray"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Number of fully paid children"
-msgstr "Nombre de parrainages payés"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 msgid "Number of fully paid sponsorships"
-msgstr "Nombre de parrainages payés"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Number of sponsored children"
-msgstr "Nombre d'enfants parrainés"
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options__payment_frequency
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple__payment_frequency
 msgid "Payment Frequency"
-msgstr "Fréquence"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Payment Groups"
-msgstr "Options de paiement"
+msgstr ""
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options__payment_mode
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple__payment_mode
 msgid "Payment Mode"
-msgstr "Mode de paiement"
+msgstr "Modo di pagamento"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Payment frequency"
-msgstr "Fréquence"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/my_donations_form.py:179
 #, python-format
 msgid "Payment groups merged."
-msgstr "Options de paiement fusionnées."
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Payment mode"
-msgstr "Mode de paiement"
+msgstr "Metodo di pagamento"
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/my_donations_form.py:66
 #, python-format
 msgid "Payment options"
-msgstr "Options de paiement"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/my_donations_form.py:74
 #, python-format
 msgid "Payment options updated."
-msgstr "Options de paiement mises à jour."
+msgstr ""
 
 #. module: website_compassion
 #: selection:cms.form.payment.options,payment_mode:0
 #: selection:cms.form.payment.options.multiple,payment_mode:0
 msgid "Permanent Order"
-msgstr "Ordre permanent"
+msgstr "Pagamento permanente"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Phone"
-msgstr "Téléphone"
+msgstr "Telefono"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_pictures
 msgid "Pictures of"
-msgstr "Photos de "
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:111
 #, python-format
 msgid "Please avoid any special characters"
-msgstr "Merci d'éviter les caractères spéciaux"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:84
 #, python-format
 msgid "Please enter a valid phone number"
-msgstr "Merci d'entrer un téléphone valide"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:90
 #, python-format
 msgid "Please enter a valid zip code"
-msgstr "Merci d'entrer un code postal valide"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Please never mention:"
-msgstr "D'avance, merci de ne jamais mentionner:"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
-msgid ""
-"Please write your reference and your child reference on any piece of paper, "
-"card, attachment."
+msgid "Please write your reference and your child reference on any piece of paper, card, attachment."
 msgstr ""
-"Ecrivez votre numéro de référence et le numéro de référence de votre enfant "
-"sur toutes les feuilles, cartes ou autres éléments que vous envoyez. "
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Population"
-msgstr ""
+msgstr "Popolazione"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
 msgid "Postal mail"
-msgstr "Courrier postal"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "Preview"
-msgstr "Prévisualiser"
+msgstr "Anteprima"
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_partner_delivery__lang
 msgid "Primary language"
-msgstr "Langue principale"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Privacy data"
-msgstr "Données de confidentialité"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_profile_picture
 msgid "Profile picture"
-msgstr "Image de profil"
+msgstr "Foto profilo"
 
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_compassion_project
@@ -945,17 +895,17 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Project activities"
-msgstr "Activités au Centre"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Project name"
-msgstr "Nom du centre d'accueil"
+msgstr "Nome del Centro"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Reset password"
-msgstr "Réinitialiser le mot de passe"
+msgstr ""
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/my_donations_form.py:70
@@ -963,46 +913,42 @@ msgstr "Réinitialiser le mot de passe"
 #: code:addons/website_compassion/forms/partner_forms.py:179
 #, python-format
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "Send"
-msgstr "Envoyer"
+msgstr "Invia"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "Send your letter"
-msgstr "Envoyer votre lettre"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
-msgid ""
-"Send your letter to Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-"
-"Bains."
+msgid "Send your letter to Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-Bains."
 msgstr ""
-"Envoyez votre courrier à : Compassion Suisse, Rue Galilée 3, 1400 Yverdon-"
-"les-Bains."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Share a bible story that you like"
-msgstr "Partagez une histoire de la Bible que vous aimez particulièrement."
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Sign Child Protection Charter"
-msgstr "Signer la charte"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.register_layout
 msgid "Signup"
-msgstr "Créer un compte"
+msgstr "Iscrizione"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.register_layout
 msgid "Signup now"
-msgstr "Créer un compte"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.event_robots
@@ -1013,34 +959,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_partner_delivery__spoken_lang_ids
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
 msgid "Spoken languages"
-msgstr "Langues parlées"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
-msgid ""
-"Sponsorship PLUS allows for the financing of urgent needs or those not "
-"covered by sponsorship (natural disasters, surgical interventions, malaria "
-"prevention, etc.). This solidarity fund is common to all children supported "
-"by Compassion."
+msgid "Sponsorship PLUS allows for the financing of urgent needs or those not covered by sponsorship (natural disasters, surgical interventions, malaria prevention, etc.). This solidarity fund is common to all children supported by Compassion."
 msgstr ""
-"LE Parrainage PLUS permet de financer les besoins urgents ou non couverts "
-"par le parrainage (catastrophes naturelles, interventions chirurgicales, "
-"prévention de la malaria, etc). Ce fonds de solidarité est commun à tous les "
-"enfants soutenus par Compassion."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Street"
-msgstr "Rue"
+msgstr "Indirizzo"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
-msgid ""
-"Tell simple stories about your life, your village or town, your hobbies, "
-"your work and your family"
+msgid "Tell simple stories about your life, your village or town, your hobbies, your work and your family"
 msgstr ""
-"Racontez des choses simples de votre vie, de votre village, votre ville, vos "
-"loisirs, votre travail, votre famille."
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_correspondence_template__template_image_url
@@ -1054,17 +988,13 @@ msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_tax_receipt
-msgid ""
-"The accountings of the selected year are not yet closed. Your latest "
-"payments may not be included in the tax receipt."
+msgid "The accountings of the selected year are not yet closed. Your latest payments may not be included in the tax receipt."
 msgstr ""
-"La comptabilité de l'année en cours n'est pas encore bouclée. Vos derniers "
-"paiements ne sont peut-être pas inclus dans le relevé."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "The address of Compassion Switzerland"
-msgstr "L'adresse de Compassion Suisse"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
@@ -1073,68 +1003,44 @@ msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
-msgid ""
-"There was an error while rendering the preview. Make sure you entered some "
-"text and that your attachments are valid. Please contact us if you "
-"experience unexpected behaviours."
+msgid "There was an error while rendering the preview. Make sure you entered some text and that your attachments are valid. Please contact us if you experience unexpected behaviours."
 msgstr ""
-"Une erreur s'est produite au moment d'afficher l'aperçu. Veuillez vérifier "
-"d'avoir introduit du texte et que vos pièces jointes sont au bon format. "
-"Merci de nous contacter si le problème persiste."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
-msgid ""
-"There was an error while submitting your letter. Please copy your text to "
-"make sure you won't lose it and contact us for signaling the issue."
+msgid "There was an error while submitting your letter. Please copy your text to make sure you won't lose it and contact us for signaling the issue."
 msgstr ""
-"Une erreur s'est produite au moment de l'envoi de votre lettre. Veuillez "
-"copier votre texte et le sauvegarder ailleurs afin de ne pas le perdre. "
-"Merci de nous contacter ensuite pour nous signaler le problème."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
 msgid "This amount supports children that are not yet sponsored."
-msgstr ""
-"Le Parrainage PLUS permet de financer les besoins urgents ou non couverts "
-"par le parrainage (catastrophes naturelles, interventions chirurgicales, "
-"prévention de la malaria, etc). Ce fonds de solidarité est commun à tous les "
-"enfants soutenus par Compassion."
+msgstr "Il Sostegno PLUS consente il finanziamento di bisogni urgenti o non coperti dal sostegno a distanza (catastrofi naturali, interventi chirurgici, prevenzione della malaria, ecc.) Questo fondo di solidarietà è per tutti i bambini sostenuti da Compassion"
 
 #. module: website_compassion
 #: model:ir.model.fields,help:website_compassion.field_cms_form_partner_delivery__spoken_lang_ids
-msgid ""
-"This is useful for checking translation needs on your correspondence with "
-"your children."
+msgid "This is useful for checking translation needs on your correspondence with your children."
 msgstr ""
-"Ceci nous aide à déterminer les besoins de traduction pour votre "
-"correspondance avec votre filleul."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_letters
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_pictures
 msgid "This may take a few minutes... Please wait"
-msgstr "Ceci va prendre quelques minutes, merci de patienter."
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_profile_picture
-msgid ""
-"This picture is used when you create or join a project on our crowdfunding "
-"platform TOGETHER, or when you join a Muskathlon."
+msgid "This picture is used when you create or join a project on our crowdfunding platform TOGETHER, or when you join a Muskathlon."
 msgstr ""
-"&amp;nbsp;Cette photo sera utilisée si vous rejoignez un projet de "
-"financement participatif sur notre plateforme TOGETHER ou si vous vous "
-"impliquez dans un Muskathlon.<br/>"
 
 #. module: website_compassion
 #: model:ir.model.fields,help:website_compassion.field_cms_form_partner_delivery__lang
 msgid "This will affect the language by which we communicate with you."
-msgstr "Ceci va modifier la langue avec laquelle nous correspondons avec vous."
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_personal
 msgid "Title"
-msgstr "Titre"
+msgstr "Titolo"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
@@ -1144,27 +1050,22 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Total additional amount"
-msgstr "Ce que vous donnez en plus"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Typical food"
-msgstr "Nourriture principale"
+msgstr "Alimentazione principale"
 
 #. module: website_compassion
 #: model:ir.model.fields,help:website_compassion.field_cms_form_partner_delivery__no_physical_letter
-msgid ""
-"Use this option if you don't want to receive any mail by post. By doing so, "
-"you won't receive anymore the photos of your children or any other postal "
-"communication."
+msgid "Use this option if you don't want to receive any mail by post. By doing so, you won't receive anymore the photos of your children or any other postal communication."
 msgstr ""
-"En sélectionnant cette option, vous ne recevrez aucun courrier postal de "
-"notre part, aucune photo ni lettre physique de la part de votre filleul."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_page_template
 msgid "Useful resources"
-msgstr "Liens utiles"
+msgstr "Link utili"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.event_robots
@@ -1175,41 +1076,27 @@ msgstr ""
 #: code:addons/website_compassion/forms/partner_forms.py:96
 #, python-format
 msgid "Verify your e-mail address"
-msgstr "Vérifiez votre adresse e-mail"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.display_letters
 msgid "View"
-msgstr "Voir"
+msgstr "Vista"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
-msgid ""
-"We ask our volunteering friends and people that travel to visit their "
-"sponsored child to sign a child protection charter. If you want to make a "
-"step further, you can sign this document as well and show us that you share "
-"our values."
+msgid "We ask our volunteering friends and people that travel to visit their sponsored child to sign a child protection charter. If you want to make a step further, you can sign this document as well and show us that you share our values."
 msgstr ""
-"Nous demandons donc à nos employés, à nos bénévoles et aux personnes qui "
-"visitent leur filleul/e de signer notre charte de protection de l'enfance. "
-"Vous aussi, vous pouvez signer ce document et nous montrer que vous partagez "
-"nos valeurs."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_communication_pref
-msgid ""
-"We serve our sponsors and donors in German, French and Italian. Why not "
-"change to your preferred language and expand your journey with Compassion?"
+msgid "We serve our sponsors and donors in German, French and Italian. Why not change to your preferred language and expand your journey with Compassion?"
 msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
-msgid ""
-"We thank you that you have signed our child protection charter. You can "
-"review the document at any time from here."
+msgid "We thank you that you have signed our child protection charter. You can review the document at any time from here."
 msgstr ""
-"Merci d'avoir signé la charte de la protection de l'enfance. Vous pouvez "
-"consulter ce document à tout moment."
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_correspondence_template__website_published
@@ -1219,87 +1106,87 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.login_layout
 msgid "Welcome to"
-msgstr "Bienvenue dans"
+msgstr "Benvenuto a"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "What can I write?"
-msgstr "Que puis-je écrire ?"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "What should I avoid?"
-msgstr "Que devrais-je éviter ?"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
 msgid "Write a letter"
-msgstr "Ecrire une lettre"
+msgstr "Scrivere una lettera"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_page_template
 msgid "Write a letter |"
-msgstr "Ecrire une lettre"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Write your text"
-msgstr "Écrivez votre texte ici"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Write your text here..."
-msgstr "Ecrivez votre texte ici..."
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Writing guidelines"
-msgstr "Conseils de rédaction"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_tax_receipt
 msgid "Year:"
-msgstr "Année:"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Your child reference:"
-msgstr "La référence de votre enfant :"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Your e-mail address"
-msgstr "Votre adresse e-mail"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "Your latest payments may not already be taken into account."
-msgstr "Vos derniers versements n'ont peut-être pas encore été pris en compte"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "Your letter was correctly sent ! Thank you for writing"
-msgstr "Votre lettre a été envoyée correctement. Merci d'avoir écrit !"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Your phone number"
-msgstr "Votre numéro de téléphone"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Your postal address"
-msgstr "Votre adresse postale"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Your social media contact (Facebook or other platforms)"
-msgstr "Votre profil Facebook ou d'autres médias sociaux"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Your sponsor reference:"
-msgstr "Votre référence :"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_horizontal_pictures
@@ -1334,12 +1221,12 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "https://compassion.ch/de/was-soll-ich-meinem-patenkind-schreiben/"
-msgstr "https://compassion.ch/que-dois-je-ecrire-a-mon-filleul/"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "https://compassion.ch/le-voyage-de-vos-lettres"
-msgstr "https://compassion.ch/le-voyage-de-vos-lettres"
+msgstr ""
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
@@ -1359,4 +1246,5 @@ msgstr ""
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.sponsor_a_child
 msgid "this link"
-msgstr "en cliquant ici"
+msgstr ""
+

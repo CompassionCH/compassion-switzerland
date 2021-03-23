@@ -14,7 +14,7 @@
         <!--     9. current_year, the current year -->
         <template id="my_donations_page_template" name="Donations / Invoicing">
             <t t-set="selected">donation</t>
-            <t t-set="title">Financials</t>
+            <t t-set="title">My financials | <t t-esc="partner.company_id.address_name"/></t>
             <t t-call="website_compassion.my_account_layout">
                 <!-- Load modals for forms -->
                 <t t-call="cms_form_compassion.modal_form">
@@ -58,7 +58,7 @@
                                     <t t-call="website_compassion.fill_key_value">Additional amount</t>
 
                                     <!-- Payment frequency -->
-                                    <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
+                                    <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.translate('recurring_unit')"/>
                                     <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
                                     <!-- Number of fully paid children -->
@@ -80,7 +80,7 @@
                     <div class="col-6 border-right">
                         <label>
                             <t t-esc="key"/>
-                            <t t-set="tooltip_title">This amount supports children that are not yet sponsored.</t>
+                            <t t-set="tooltip_title">Sponsorship PLUS allows for the financing of urgent needs or those not covered by sponsorship (natural disasters, surgical interventions, malaria prevention, etc.). This solidarity fund is common to all children supported by Compassion.</t>
                             <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
                         </label>
                     </div>
@@ -120,7 +120,7 @@
                 <t t-call="website_compassion.fill_key_value">Number of fully paid sponsorships</t>
 
                 <!-- Payment frequency -->
-                <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.recurring_unit"/>
+                <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.translate('recurring_unit')"/>
                 <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
                 <!-- Total additional amount -->
@@ -207,7 +207,7 @@
                     <t t-set="children" t-value="invoice.invoice_line_ids.mapped('contract_id.child_id')"/>
                     <div class="row">
                         <div class="col-6">
-                            <label><t t-esc="invoice.get_date('date_invoice', 'MMMM Y')"/></label>
+                            <label><t t-esc="invoice.get_date('date_invoice', 'MMMM Y').title()"/></label>
                         </div>
                         <div class="col-3">
                             <label><t t-esc="children.get_list('preferred_name', 3, children.get_number())"/></label>
@@ -243,7 +243,7 @@
                             <label>
                                 <t t-if="invoice.invoice_type == 'sponsorship'">
                                     <span>Sponsorship </span>
-                                    <t t-esc="invoice.get_date('date_invoice', 'MMMM Y')"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
+                                    <t t-esc="invoice.get_date('date_invoice', 'MMMM Y').title()"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
                                 </t>
                                 <t t-else="">
                                     <t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/>

@@ -9,9 +9,6 @@
             <p>
                 Thank you for participating in this 5-minute survey that will allow Compassion to better serve supporters like you.
             </p>
-            <p style="color: #005eb8;" class="font-weight-bold">
-            When you complete this survey, you will be provided information and resources that will enrich your experience with Compassion.
-            </p>
             <p>
             Please be assured that this survey is completely confidential, and we will only use this information to improve our service to you. We will never publish or share your personal data with third parties without your permission.
             </p>
@@ -23,11 +20,6 @@
             <p>
                 Thank you so much for taking the time to answer these questions!
             </p>
-             <div style="margin:20px auto; text-align: center; text-transform: uppercase;">
-               <a href="/my/profile-survey-result" class="btn btn-primary" role="button">
-                Discover my profile
-               </a>
-            </div>
         </field>
     </record>
     <record id="pss_page1" model="survey.page">
@@ -346,7 +338,7 @@
     </record>
     <!-- Question 7-->
     <record id="pss_question_7" model="survey.question">
-        <field name="question">Select the best matching answers</field>
+        <field name="question">Select the answers that apply</field>
         <field name="description">Which of the following actions, if any, have you ever taken to support a charitable
             cause or non-profit organization? </field>
         <field name="type">multiple_choice</field>

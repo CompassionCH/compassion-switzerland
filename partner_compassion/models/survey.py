@@ -25,10 +25,14 @@ class SurveyQuestion(models.Model):
     max_checked_option = fields.Integer(
         "Maximum answers",
         help="if set, maximum number of options allowed for the user")
-    left_label = fields.Char(help="Add a label left (or above) the answers."
-                                  " This will use one column or row in the survey.")
-    right_label = fields.Char(help="Adds a label right (or below) the answers."
-                                   " This will use one column or row in the survey.")
+    left_label = fields.Char(
+        translate=True,
+        help="Add a label left (or above) the answers."
+             " This will use one column or row in the survey.")
+    right_label = fields.Char(
+        translate=True,
+        help="Adds a label right (or below) the answers."
+             " This will use one column or row in the survey.")
 
     @api.multi
     def validate_multiple_choice(self, post, answer_tag):

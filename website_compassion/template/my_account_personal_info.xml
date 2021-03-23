@@ -7,7 +7,7 @@
         <!--     3. delivery_form, a form to modify the partner delivery preferences -->
         <template id="my_information_page_template" name="Personal information">
             <t t-set="selected" t-value="'info'"/>
-            <t t-set="title">Personal data</t>
+            <t t-set="title">My personal data | <t t-esc="partner.company_id.address_name"/></t>
             <t t-call="website_compassion.my_account_layout">
                 <div class="container">
                     <!-- Load modals for forms -->
@@ -19,19 +19,26 @@
                         <!-- Coordinates -->
                         <div class="col-md-6">
                             <t t-call="website_compassion.my_information_profile_picture"/>
-                            <t t-call="website_compassion.my_information_personal"/>
                         </div>
                         <!-- Communication preferences -->
                         <div class="col-md-6">
-                            <t t-call="website_compassion.my_information_privacy_data"/>
                             <t t-call="website_compassion.my_information_communication_pref"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Coordinates info -->
+                        <div class="col-md-6">
+                            <t t-call="website_compassion.my_information_personal"/>
+                        </div>
+                        <!-- Privacy data and child protection -->
+                        <div class="col-md-6">
+                            <t t-call="website_compassion.my_information_privacy_data"/>
                         </div>
                     </div>
                     <hr class="my-4"/>
                     <div class="row">
                         <div class="col">
-                            <div t-field="partner.primary_segment_id.survey_result" class="oe_structure"/>
-                            <h3 class="text-uppercase font-weight-bold my-4" style="color: #005eb8;">Useful resources</h3>
+                            <h3 class="mb-4">Useful resources</h3>
                             <div t-field="partner.primary_segment_id.personalized_links" class="oe_structure"/>
                         </div>
                     </div>
@@ -143,7 +150,7 @@
         <!-- Display the date at which the partner signed some charters, otherwise propose to sign them -->
         <template id="my_information_privacy_data">
             <h3 class="mt-4">Privacy data</h3>
-            <p>Compassion knows that children living in extreme poverty are vulnerable. We put their protection as one priority.
+            <p>Compassion knows that children living in extreme poverty are vulnerable. We put their protection as our number one priority.
                 <t t-if="not partner.date_agreed_child_protection_charter">We ask our volunteering friends and people that travel to visit their sponsored child to sign a child protection charter. If you want to make a step further, you can sign this document as well and show us that you share our values.
                 </t>
                 <t t-else="">
@@ -198,7 +205,7 @@
         <!-- Displays the communication preferences of the partner -->
         <template id="my_information_communication_pref">
             <h3 class="mt-4">Communication preferences</h3>
-
+            <p t-if="request.env.lang == 'en_US' and partner.lang == 'en_US'">We serve our sponsors and donors in German, French and Italian. Why not change to your preferred language and expand your journey with Compassion?</p>
             <!-- Language -->
             <t t-set="value" t-value="request.env['res.lang'].search([('code', '=', partner.lang)]).name"/>
             <t t-call="website_compassion.fill_key_value">Language</t>

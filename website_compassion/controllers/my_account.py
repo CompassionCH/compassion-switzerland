@@ -169,12 +169,6 @@ class MyAccountController(PaymentFormController):
         else:
             return request.redirect("/my/information")
 
-    @route("/my/profile-survey-result", type="http", auth="user", website=True)
-    def segmentation_result(self, **kwargs):
-        return request.render("website_compassion.segmentation_result", {
-            "partner": request.env.user.partner_id
-        })
-
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
         """
