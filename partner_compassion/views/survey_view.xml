@@ -10,6 +10,12 @@
             <field name="users_can_go_back" position="after">
                 <field name="hide_answers"/>
             </field>
+            <xpath expr="//notebook" position="before">
+                <group>
+                    <field name="description"/>
+                    <field name="thank_you_message"/>
+                </group>
+            </xpath>
         </field>
     </record>
 
