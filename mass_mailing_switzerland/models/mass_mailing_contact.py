@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from ast import literal_eval
 from time import sleep
 
 from odoo import api, models, fields
@@ -106,8 +107,30 @@ class MassMailingContact(models.Model):
         """
         if self.env.context.get("skip_mailchimp"):
             return True
-        return super(MassMailingContact,
-                     self.with_context(lang="en_US")).action_update_to_mailchimp()
+
+        for contact_to_update in self:
+            # if previous write failed reference to mailchimp member will be lost. error 404
+            try:
+                return super(MassMailingContact,
+                             contact_to_update.with_context(lang="en_US")).action_update_to_mailchimp()
+            except Exception as e:
+
+                available_mailchimp_lists = self.env['mailchimp.lists'].search([])
+                lists = available_mailchimp_lists.mapped('odoo_list_id').ids
+
+                # if not contact were fond. means an error occur at last write().
+                # Email field in odoo and mailchimp are now different.
+                # solution : we remove previous link to mailchimp and export the contact with new mail
+                if e.args[0] and literal_eval(e.args[0])['status'] == 404:
+                    contact_to_update.subscription_list_ids.filtered(
+                        lambda x: x.list_id.id in lists).write({"mailchimp_id": False})
+                # raise exception if it's any other type
+                else:
+                    raise e
+
+                # once link is remove member can again be exported to mailchimp
+                return super(MassMailingContact,
+                             self.with_context(lang="en_US")).action_export_to_mailchimp()
 
     @api.multi
     def action_archive_from_mailchimp(self):

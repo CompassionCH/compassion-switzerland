@@ -7,7 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, _
+from odoo import api, models, _
+from datetime import date, timedelta
 
 
 class MailchimpLists(models.Model):
@@ -50,3 +51,42 @@ class MailchimpLists(models.Model):
                 # if reference on partner is not there but mailing contact still exist remove mailing contact
                 invalid_contact.unlink()
         return out
+
+    @api.multi
+    def members_cleaning_cron(self):
+        """
+        Cron used to clean mailchimp list of members. Mailchimp might store contact information
+        to members no longer used in odoo. This cron archive them.
+        :return:
+        """
+
+        # The cron should be launched on a weekly basis. So we can reduce the scope of the
+        # query by request members modified in the last 2 weeks (2 weeks for safety)
+        today = date.today()
+        two_weeks_ago = today - timedelta(weeks=2)
+
+        params = {
+            "count": 1000,
+            "since_last_changed": two_weeks_ago.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        }
+
+        for mailchimp_list in self.search([("account_id", "!=", "False")]):
+
+            response = mailchimp_list.account_id._send_request("lists/%s/members" % mailchimp_list.list_id, {},
+                                                               method="GET", params=params)
+
+            # get the list of members from odoo attached to this mailchimp list
+            list_member_in_odoo = self.env["mail.mass_mailing.list_contact_rel"] \
+                .search([("mailchimp_list_id.id", "=", mailchimp_list.id)])
+
+            # based on mailchimp response look for members with no odoo reference
+            to_rm_from_mailchimp = [member for member in response["members"]
+                                    if str(member["web_id"]) not in list_member_in_odoo.mapped("mailchimp_id")]
+
+            # archive all previously found members
+            for member in to_rm_from_mailchimp:
+                response = mailchimp_list.account_id._send_request(
+                    "lists/%s/members/%s" % (mailchimp_list.list_id, member["id"]), {},
+                    method="DELETE")
+
+        return True
