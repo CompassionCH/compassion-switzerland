@@ -262,7 +262,7 @@ class RecurringContracts(models.Model):
         Called at contract validation to ensure we can validate the
         sponsorship.
         """
-        check_duplicate_activity_id = self.env.ref("sponsorship_compassion.activity_check_duplicates").id
+        check_duplicate_activity_id = self.env.ref("cms_form_compassion.activity_check_duplicates").id
         if self.mapped("partner_id.activity_ids")\
                 .filtered(lambda l: l.activity_type_id.id == check_duplicate_activity_id)\
                 or self.mapped("correspondent_id.activity_ids")\
