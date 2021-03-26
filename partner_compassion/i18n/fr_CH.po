@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-26 10:16+0000\n"
-"PO-Revision-Date: 2021-03-26 11:30+0100\n"
+"POT-Creation-Date: 2021-03-26 10:50+0000\n"
+"PO-Revision-Date: 2021-03-26 11:53+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -642,8 +642,7 @@ msgid ""
 "already made.</p>\n"
 "            <p>We commit to informing you about the impact of your support "
 "for children in the Global South.</p>\n"
-"            <p>You can engage with us in flexible and manifold ways. So, "
-"here are some links you might find useful:</p>\n"
+"            <p>You can engage with us in flexible and manifold ways.</p>\n"
 "            <p>Thank you for your precious support.</p>\n"
 "        "
 msgstr ""
@@ -2507,8 +2506,12 @@ msgid "Segmentation"
 msgstr ""
 
 #. module: partner_compassion
-#: model:survey.question,question:partner_compassion.pss_question_6
 #: model:survey.question,question:partner_compassion.pss_question_7
+msgid "Select the answers that apply"
+msgstr "Sélectionnez les réponses qui s'appliquent"
+
+#. module: partner_compassion
+#: model:survey.question,question:partner_compassion.pss_question_6
 msgid "Select the best matching answers"
 msgstr "Sélectionnez les réponses qui vous correspondent le plus"
 
