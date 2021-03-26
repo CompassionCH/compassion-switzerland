@@ -341,10 +341,10 @@
             <div id="download_my_children_letters" class="alert alert-info alert-dismissable text-center" style="display: none;">
                 This may take a few minutes... Please wait
             </div>
-            <a class="btn btn-primary" t-attf-href="/b2s_image/child?child_id={{child_id.id}}">
+            <a class="btn btn-primary" t-attf-href="/b2s_image/child?child_id={{child_id.id}}" t-if="letters">
                 <span>Download all correspondence of </span><t t-esc="child_id.preferred_name"/>
             </a>
-            <a class="btn btn-primary" t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;">
+            <a class="btn btn-primary" t-attf-href="/b2s_image/child" onclick="displayAlert('download_my_children_letters')" style="float: right;" t-if="letters">
                 <span>Download correspondence from all my sponsored children</span>
             </a>
         </template>

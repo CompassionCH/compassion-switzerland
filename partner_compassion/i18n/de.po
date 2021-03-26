@@ -4,25 +4,651 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-22 12:54+0000\n"
-"PO-Revision-Date: 2020-06-22 16:08+0200\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2021-03-26 10:16+0000\n"
+"PO-Revision-Date: 2021-03-26 11:35+0100\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_14
+msgid " None of the above"
+msgstr "Nichts davon"
+
+#. module: partner_compassion
+#: selection:res.partner,nbmag:0
+msgid "10"
+msgstr ""
+
+#. module: partner_compassion
+#: selection:res.partner,nbmag:0
+msgid "15"
+msgstr ""
+
+#. module: partner_compassion
+#: selection:res.partner,nbmag:0
+msgid "20"
+msgstr ""
+
+#. module: partner_compassion
+#: selection:res.partner,nbmag:0
+msgid "25"
+msgstr ""
+
+#. module: partner_compassion
+#: selection:res.partner,nbmag:0
+msgid "50"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_3
+msgid "<b>1</b>: I give as the opportunity arises"
+msgstr "Ich spende, wenn sich die Gelegenheit dazu ergibt"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_4
+msgid "<b>1</b>: I prefer to make a spiritual impact before anything else"
+msgstr "Mir ist vor allem wichtig, eine geistliche Veränderung zu bewirken"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_2
+msgid ""
+"<b>1</b>: I want to travel to see firsthand what those in need are "
+"experiencing"
+msgstr ""
+"Ich möchte reisen, um aus erster Hand zu sehen, was Menschen in Not erleben"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_5
+msgid ""
+"<b>1</b>: It is critical that I personally play some role in sharing the "
+"gospel with others when I'm\n"
+"                helping a\n"
+"                cause"
+msgstr ""
+"Es ist mir sehr wichtig, dass ich persönlich eine Rolle dabei spiele, das "
+"Evangelium mit anderen zu teilen, wenn ich eine Sache unterstütze"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_5
+msgid ""
+"<b>2</b>: I do not personally need to share the gospel with others when "
+"helping a cause"
+msgstr ""
+"Es ist mir nicht wichtig, das ich persönlich das Evangelium mit anderen "
+"teile, wenn ich eine Sache unterstütze"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_3
+msgid "<b>2</b>: I give on a regular schedule"
+msgstr "Ich spende regelmässig"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_4
+msgid ""
+"<b>2</b>: I prefer to make a physical and cognitive impact before anything "
+"else"
+msgstr ""
+"Mir ist vor allem wichtig, Veränderung durch Gesundheit und Bildung zu "
+"bewirken"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_2
+msgid ""
+"<b>2</b>: I'd rather not travel to see firsthand what those in need are "
+"experiencing"
+msgstr ""
+"Ich möchte lieber nicht reisen, um aus erster Hand zu sehen, was Menschen in "
+"Not erleben"
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/models/partner_bank_compassion.py:30
 #: code:addons/partner_compassion/models/partner_bank_compassion.py:44
 #, python-format
 msgid "<b>Account number: </b>"
-msgstr "<b>Account number: </b>"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.partner.segment,personalized_links:partner_compassion.movement_mobilizers
+msgid ""
+"<div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Join or create a project to raise help for the children in need</h5>\n"
+"                    <a href=\"https://together.compassion.ch/homepage\" "
+"target=\"_blank\">TOGETHER</a>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Take a look at our latest updates</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/news/\" "
+"target=\"_blank\">https://compassion.ch/news/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/neues/"
+"\" target=\"_blank\">https://compassion.ch/de/neues</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"notizie/\" target=\"_blank\">https://compassion.ch/it/notizie/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"            <h5 class=\"text-uppercase mb-2\" style=\"color: #005eb8;"
+"\">Follow us on the social medias</h5>\n"
+"            <div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <p class=\"text-uppercase font-weight-bold\">Facebook</"
+"p>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://facebook.com/"
+"compassionsuisse/\" target=\"_blank\">https://facebook.com/compassionsuisse/"
+"</a></li>\n"
+"                        <li>German: <a href=\"https://facebook.com/"
+"compassionschweiz/\" target=\"_blank\">https://facebook.com/"
+"compassionschweiz/</a></li>\n"
+"                        <li>Italian: <a href=\"https://www.facebook.com/"
+"compassionsvizzera\" target=\"_blank\">https://www.facebook.com/"
+"compassionsvizzera</a></li>\n"
+"                    </ul>\n"
+"                    <div class=\"my-2\">\n"
+"                        <a href=\"https://www.instagram.com/compassionswiss/"
+"\" class=\"text-uppercase font-weight-bold mb-2\" target=\"_blank"
+"\">Instagram</a>\n"
+"                    </div>\n"
+"                    <div class=\"my-2\">\n"
+"                        <a href=\"https://vimeo.com/compassionswitzerland\" "
+"class=\"text-uppercase font-weight-bold\" target=\"_blank\">Vimeo</a>\n"
+"                    </div>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <p class=\"text-uppercase font-weight-bold\">Youtube</"
+"p>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://www.youtube.com/user/"
+"CompassionSuisse\" target=\"_blank\">https://www.youtube.com/user/"
+"CompassionSuisse</a></li>\n"
+"                        <li>German: <a href=\"https://www.youtube.com/"
+"channel/UChVNRRvihHG0AYPsdEFfasQ\" target=\"_blank\">https://www.youtube.com/"
+"channel/UChVNRRvihHG0AYPsdEFfasQ</a></li>\n"
+"                        <li>Italian: <a href=\"https://www.youtube.com/"
+"channel/UC61IaMa5EtW_ZEz5r0pv8cA\" target=\"_blank\">https://www.youtube.com/"
+"channel/UC61IaMa5EtW_ZEz5r0pv8cA</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"            <div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                     <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Volunteering with Compassion</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/"
+"participer/\" target=\"_blank\">https://compassion.ch/participer/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/sich-"
+"mehr-engagieren/\" target=\"_blank\">https://compassion.ch/de/sich-mehr-"
+"engagieren/</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"participare/\" target=\"_blank\">https://compassion.ch/it/participare/</a></"
+"li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div class=\"row\">\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" style=\"color: #005eb8;\">Unsere "
+"interaktive Fundraisingplattform</h5>\n"
+"        <a href=\"https://together.compassion.ch/de_DE/homepage\" target="
+"\"_blank\">TOGETHER</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" style=\"color: #005eb8;\">Neuigkeiten</"
+"h5>\n"
+"        <a href=\"https://compassion.ch/de/neues/\" target=\"_blank"
+"\">https://compassion.ch/de/neues/</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase mb-2\" style=\"color: #005eb8;\">Folge "
+"uns auf den sozialen Medien</h5>\n"
+"        <p class=\"text-uppercase font-weight-bold\"></p>\n"
+"        <ul>\n"
+"            <li>German: <a href=\"https://facebook.com/compassionschweiz/\" "
+"target=\"_blank\">Facebook</a></li>\n"
+"            <li><a href=\"https://www.instagram.com/compassionswiss/\" class="
+"\"text-uppercase font-weight-bold mb-2\" target=\"_blank\">Instagram</a></"
+"li>\n"
+"            <li><a href=\"https://vimeo.com/compassionswitzerland\" class="
+"\"text-uppercase font-weight-bold\" target=\"_blank\">Vimeo</a></li>\n"
+"            <li><a href=\"https://www.youtube.com/channel/"
+"UChVNRRvihHG0AYPsdEFfasQ\" target=\"_blank\">Youtube</a></li>\n"
+"        </ul>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Freiwilligenarbeit</h5>\n"
+"        <a href=\"https://compassion.ch/de/sich-mehr-engagieren/\" target="
+"\"_blank\">Mithelfen</a>\n"
+"    </div>\n"
+"</div>\n"
+
+#. module: partner_compassion
+#: model:res.partner.segment,personalized_links:partner_compassion.compassionate_caregiver
+msgid ""
+"<div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Support one of our funds</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/"
+"donations/\" target=\"_blank\">https://compassion.ch/donations/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/"
+"spenden/\" target=\"_blank\">https://compassion.ch/de/spenden/</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"donare/\" target=\"_blank\">https://compassion.ch/it/donare/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Get future generations involved in the fight against extreme poverty</"
+"h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/"
+"bienvenue-dans-mon-monde-philippines/\" target=\"_blank\">Step In My Shoes</"
+"a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/komm-"
+"mit/\" target=\"_blank\">Step In My Shoes</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/"
+"sonntagschulmaterial//\" target=\"_blank\">Cool</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Take a look at our latest updates</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/news/\" "
+"target=\"_blank\">https://compassion.ch/news/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/neues/"
+"\" target=\"_blank\">https://compassion.ch/de/neues</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"notizie/\" target=\"_blank\">https://compassion.ch/it/notizie/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Watch our latest videos</h5>\n"
+"                    <a href=\"https://vimeo.com/compassionswitzerland\" "
+"target=\"_blank\">Compassion Videos</a>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div class=\"row\">\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" >Spendenmöglichkeiten</h5>\n"
+"        <a href=\"https://compassion.ch/de/spenden/\" target=\"_blank"
+"\">https://compassion.ch/de/spenden/</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" >Get future generations involved in the "
+"fight against extreme poverty</h5>\n"
+"        <a href=\"https://compassion.ch/de/komm-mit/\" target=\"_blank"
+"\">Komm mit in meine Welt</a>\n"
+"    </div>\n"
+"</div>\n"
+"<div class=\"row mt-md-4\">\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" >Neuigkeiten</h5>\n"
+"        <a href=\"https://compassion.ch/de/neues/\" target=\"_blank"
+"\">https://compassion.ch/de/neues</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\" >Compassion Videos</h5>\n"
+"        <a href=\"https://vimeo.com/compassionswitzerland\" target=\"_blank"
+"\">https://vimeo.com/compassionswitzerland</a>\n"
+"    </div>\n"
+"</div>\n"
+
+#. module: partner_compassion
+#: model:res.partner.segment,personalized_links:partner_compassion.curious_novices
+msgid ""
+"<div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Support one of our funds</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/"
+"donations/\" target=\"_blank\">https://compassion.ch/donations/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/"
+"spenden/\" target=\"_blank\">https://compassion.ch/de/spenden/</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"donare/\" target=\"_blank\">https://compassion.ch/it/donare/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Why not take a look at our latest updates?</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/news/\" "
+"target=\"_blank\">https://compassion.ch/news/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/neues/"
+"\" target=\"_blank\">https://compassion.ch/de/neues</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"notizie/\" target=\"_blank\">https://compassion.ch/it/notizie/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"            <h5 class=\"text-uppercase mb-2\" style=\"color: #005eb8;"
+"\">Follow us on the social medias</h5>\n"
+"            <div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <p class=\"text-uppercase font-weight-bold\">Facebook</"
+"p>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://facebook.com/"
+"compassionsuisse/\" target=\"_blank\">https://facebook.com/compassionsuisse/"
+"</a></li>\n"
+"                        <li>German: <a href=\"https://facebook.com/"
+"compassionschweiz/\" target=\"_blank\">https://facebook.com/"
+"compassionschweiz/</a></li>\n"
+"                        <li>Italian: <a href=\"https://www.facebook.com/"
+"compassionsvizzera\" target=\"_blank\">https://www.facebook.com/"
+"compassionsvizzera</a></li>\n"
+"                    </ul>\n"
+"                    <div class=\"my-2\">\n"
+"                        <a href=\"https://www.instagram.com/compassionswiss/"
+"\" class=\"text-uppercase font-weight-bold mb-2\" target=\"_blank"
+"\">Instagram</a>\n"
+"                    </div>\n"
+"                    <div class=\"my-2\">\n"
+"                        <a href=\"https://vimeo.com/compassionswitzerland\" "
+"class=\"text-uppercase font-weight-bold\" target=\"_blank\">Vimeo</a>\n"
+"                    </div>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <p class=\"text-uppercase font-weight-bold\">Youtube</"
+"p>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://www.youtube.com/user/"
+"CompassionSuisse\" target=\"_blank\">https://www.youtube.com/user/"
+"CompassionSuisse</a></li>\n"
+"                        <li>German: <a href=\"https://www.youtube.com/"
+"channel/UChVNRRvihHG0AYPsdEFfasQ\" target=\"_blank\">https://www.youtube.com/"
+"channel/UChVNRRvihHG0AYPsdEFfasQ</a></li>\n"
+"                        <li>Italian: <a href=\"https://www.youtube.com/"
+"channel/UC61IaMa5EtW_ZEz5r0pv8cA\" target=\"_blank\">https://www.youtube.com/"
+"channel/UC61IaMa5EtW_ZEz5r0pv8cA</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div class=\"row\">\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\">Spendenmöglichkeiten</h5>\n"
+"        <a href=\"https://compassion.ch/de/spenden/\" target=\"_blank"
+"\">https://compassion.ch/de/spenden/</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h5 class=\"text-uppercase\">Neuigkeiten</h5>\n"
+"        <a href=\"https://compassion.ch/de/neues/\" target=\"_blank"
+"\">https://compassion.ch/de/neues</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6 mt-md-4\">\n"
+"        <h5 class=\"text-uppercase mb-2\">Soziale Medien</h5>\n"
+"        <p class=\"text-uppercase font-weight-bold\">Facebook</p>\n"
+"        <ul>\n"
+"            <li><a href=\"https://facebook.com/compassionschweiz/\" target="
+"\"_blank\">https://facebook.com/compassionschweiz/</a></li>\n"
+"            <li><a href=\"https://www.instagram.com/compassionswiss/\" "
+"target=\"_blank\">Instagram</a></li>\n"
+"            <li><a href=\"https://vimeo.com/compassionswitzerland\" target="
+"\"_blank\">Vimeo</a></li>\n"
+"            <li><a href=\"https://www.youtube.com/channel/"
+"UChVNRRvihHG0AYPsdEFfasQ\" target=\"_blank\">Youtube</a></li>\n"
+"        </ul>\n"
+"    </div>\n"
+"</div>\n"
+
+#. module: partner_compassion
+#: model:res.partner.segment,personalized_links:partner_compassion.hands_on_helpers
+msgid ""
+"<div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Volunteering with Compassion</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/"
+"participer/\" target=\"_blank\">https://compassion.ch/participer/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/sich-"
+"mehr-engagieren/\" target=\"_blank\">https://compassion.ch/de/sich-mehr-"
+"engagieren/</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"participare/\" target=\"_blank\">https://compassion.ch/it/participare/</a></"
+"li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Take a look at our latest updates</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/news/\" "
+"target=\"_blank\">https://compassion.ch/news/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/neues/"
+"\" target=\"_blank\">https://compassion.ch/de/neues</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"notizie/\" target=\"_blank\">https://compassion.ch/it/notizie/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div class=\"row\">\n"
+"    <div class=\"col-md-6\">\n"
+"        <h4 class=\"text-uppercase\">Freiwilligenarbeit</h4>\n"
+"        <a href=\"https://compassion.ch/de/sich-mehr-engagieren/\" target="
+"\"_blank\">https://compassion.ch/de/sich-mehr-engagieren/</a>\n"
+"    </div>\n"
+"    <div class=\"col-md-6\">\n"
+"        <h4 class=\"text-uppercase\">Neuigkeiten</h4>\n"
+"        <a href=\"https://compassion.ch/de/neues/\" target=\"_blank"
+"\">https://compassion.ch/de/neues</a>\n"
+"    </div>\n"
+"</div>\n"
+
+#. module: partner_compassion
+#: model:res.partner.segment,personalized_links:partner_compassion.savvy_stewards
+msgid ""
+"<div class=\"row\">\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Why not take a look at our latest updates?</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/news/\" "
+"target=\"_blank\">https://compassion.ch/news/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/neues/"
+"\" target=\"_blank\">https://compassion.ch/de/neues</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"notizie/\" target=\"_blank\">https://compassion.ch/it/notizie/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"                <div class=\"col-md-6\">\n"
+"                    <h5 class=\"text-uppercase\" style=\"color: #005eb8;"
+"\">Take a look at Compassion’s finances</h5>\n"
+"                    <ul>\n"
+"                        <li>French: <a href=\"https://compassion.ch/finances/"
+"\" target=\"_blank\">https://compassion.ch/finances/</a></li>\n"
+"                        <li>German: <a href=\"https://compassion.ch/de/"
+"finanzen/\" target=\"_blank\">https://compassion.ch/de/finanzen/</a></li>\n"
+"                        <li>Italian: <a href=\"https://compassion.ch/it/"
+"finanze/\" target=\"_blank\">https://compassion.ch/it/finanze/</a></li>\n"
+"                    </ul>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"\n"
+"                    <ul>\n"
+"                        <li><a href=\"https://compassion.ch/de/neues/\" "
+"target=\"_blank\">Neuigkeiten</a></li>\n"
+"                        <li><a href=\"https://compassion.ch/de/finanzen/\" "
+"target=\"_blank\">Die Finanzen von Compassion</a></li>\n"
+"                       <li><a href=\"https://compassion.ch/de/spenden/\" "
+"target=\"_blank\">Spendenmöglichkeiten</a></li>\n"
+"                    </ul>\n"
+"    \n"
+"        "
+
+#. module: partner_compassion
+#: model:res.partner.segment,survey_result:partner_compassion.savvy_stewards
+msgid ""
+"<p>It’s so great that you are interested in getting more facts, information "
+"and numbers from us! For about 70 years we at Compassion attach a great deal "
+"of importance to the efficiency of invested funds in the fight against "
+"extreme poverty and for the childrens’ development.</p>\n"
+"            <p>Thank you for your trust. We commit to informing you about "
+"the impact of your support for children in the Global South.</p>\n"
+"            <p>Did you know? We guarantee that at least 80% of sponsorship "
+"donations - for gifts to your sponsored child and fund donations up to 100% "
+"-  are invested in projects and programmes in the countries of the South. "
+"Thank you for the considerable impact you’ve already made.</p>\n"
+"            <p>Thank you for your precious support.</p>\n"
+"        "
+msgstr ""
+"<p>Es ermutigt uns, dass du dich für Fakten, Zahlen und Informationen "
+"interessierst! Seit rund 70 Jahren legen wir bei Compassion grossen Wert "
+"darauf, die vorhandenen Mittel im Kampf gegen extreme Armut und für die "
+"Entwicklung der Kinder effizient einzusetzen.</p>\n"
+"            <p>Danke für dein Vertrauen! Wir verpflichten uns, dich über den "
+"Impact deiner Unterstützung für Kinder im globalen Süden zu informieren.</"
+"p>\n"
+"            <p>Wir garantieren, dass mindestens 80% der Patenschaftsspenden "
+"– 100% bei Geschenken für dein Patenkind oder projektbezogenen Spenden – "
+"direkt in Projekte und Programme in den Ländern des globalen Südens "
+"fliessen. Herzlichen Dank für alles, was du mit deinen Spenden ermöglichen "
+"wirst und bereits ermöglicht hast!</p>\n"
+"            <p>Herzlichen Dank für deine wertvolle Unterstützung.</p>\n"
+"        "
+
+#. module: partner_compassion
+#: model:res.partner.segment,survey_result:partner_compassion.movement_mobilizers
+msgid ""
+"<p>It’s so great that you are passionate about large scale movements and "
+"that you’re motivated and ready to invest to bring about a significant "
+"change in the fight against extreme poverty.</p>\n"
+"            <p>We are thrilled about your determination to fight injustices. "
+"We are so happy to count you as part of the growing number of people who are "
+"joining us in the fight against extreme poverty. We commit to providing "
+"platforms where you can advocate for children in need and the fight against "
+"extreme poverty and inspire others to join you.</p>\n"
+"            <p>Thank you for your precious support.</p>\n"
+"        "
+msgstr ""
+"<p>Wunderbar -  du bist begeistert von weltweiten Bewegungen und motiviert, "
+"zu investieren, um signifikante Veränderungen im Kampf gegen extreme Armut "
+"zu bewirken. Danke für deine Entschlossenheit gegen Ungerechtigkeit "
+"vorzugehen.</p>\n"
+"            <p>Wir freuen uns, dass du zu der wachsenden Zahl von Menschen "
+"gehörst, die sich mit uns zusammen engagieren.</p>\n"
+"            <p>Wir stellen dir Plattformen bereit, auf denen du dich für "
+"Kinder in Not und im Kampf gegen Armut einsetzen kannst. Du kannst auch "
+"andere inspirieren, sich dir anzuschliessen.</p>\n"
+"<p>Herzlichen Dank für deine wertvolle Unterstützung.</p>\n"
+"        "
+
+#. module: partner_compassion
+#: model:res.partner.segment,survey_result:partner_compassion.hands_on_helpers
+msgid ""
+"<p>It’s so great that you love to get involved and volunteer your time for "
+"those who are less fortunate!</p>\n"
+"            <p>We are so glad to have you as part of the big Compassion "
+"community. Thanks to you and around 8000 partner churches in 25 countries we "
+"are currently releasing over 2.2 million children from poverty.</p>\n"
+"            <p>Join us by putting our faith into action through engaging and "
+"being connected with our volunteer team.</p>\n"
+"            <p>Here are some links you might find useful:</p>\n"
+"            <ul>\n"
+"                <li><a href=\"https://compassion.ch/de/sich-mehr-engagieren/"
+"\" target=\"_blank\">Volunteering with Compassion</a></li>\n"
+"                <li><a href=\"https://compassion.ch/de/neues/\" target="
+"\"_blank\">Take a look at our latest updates</a></li>\n"
+"            </ul>\n"
+"            <p>Thank you for your precious support.</p>\n"
+"        "
+msgstr ""
+"<p>Es ist grossartig, dass du deine Zeit gerne für Menschen in Not einsetzt."
+"</p>\n"
+"            <p>Wir sind glücklich, dass du Teil unserer weltweiten "
+"Compassion Bewegung bist. Mit dir zusammen befreien wir zurzeit mit rund "
+"8'000 Partnerkirchen in 25 Ländern mehr als 2,2 Millionen Kinder aus "
+"extremer Armut. </p>\n"
+"            <p>Gemeinsam erreichen wir viel mehr - vernetze dich mit unserem "
+"Freiwilligenteam.</p>\n"
+"            <p>Herzlichen Dank für deine wertvolle Unterstützung.</p>\n"
+"\n"
+"        "
+
+#. module: partner_compassion
+#: model:res.partner.segment,survey_result:partner_compassion.compassionate_caregiver
+msgid ""
+"<p>It’s so great that your faith inspires your generous giving. It’s also "
+"delightful that you seek to know your sponsored child and Compassion on a "
+"deeper, more personal level. Thank you from the bottom of our hearts.\n"
+"Thanks to our holistic approach to child development, we commit to a "
+"personal and all-round support to the child on a physical, cognitive, socio-"
+"emotional and spiritual level through one of the 8000 Compassion partner "
+"churches.\n"
+"</p>\n"
+"            <p>You can join us by making a spiritual impact in the lives of "
+"children in need through prayer and even get children in your surroundings "
+"involved in this endeavour. </p>\n"
+"            <p>Thank you for your precious support.</p>\n"
+"        "
+msgstr ""
+"<p>So schön, dass dein Glaube dich motiviert, grosszügig zu sein. Wir freuen "
+"uns, dass du dein Patenkind und Compassion persönlicher und besser "
+"kennenlernen möchtest.</p>\n"
+"<p>Wir unterstützen die Kinder persönlich und ganzheitlich, in allen "
+"Bereichen ihres Lebens. Dazu gehören die körperliche, die kognitive, die "
+"sozio-emotionale und die geistliche Ebene: All diese Bereiche werden bewusst "
+"gefördert durch die Mitarbeitenden unserer 8‘000 Partnergemeinden.</p>\n"
+"            <p>Bete mit uns  für die Kinder, die wir unterstützen. Du kannst "
+"auch Kinder in deiner Umgebung dafür gewinnen, sich für Kinder in Armut "
+"einzusetzen.</p>\n"
+"            <p>Herzlichen Dank für deine wertvolle Unterstützung.</p>\n"
+"        "
+
+#. module: partner_compassion
+#: model:res.partner.segment,survey_result:partner_compassion.curious_novices
+msgid ""
+"<p>It’s so great to count you as part of the growing number of people who "
+"are joining us in the fight against extreme poverty. For about 70 years we "
+"at Compassion attach a great deal of importance to the efficiency of "
+"invested funds in the fight against extreme poverty and for the childrens’ "
+"development. Thank you for your trust and the considerable impact you’ve "
+"already made.</p>\n"
+"            <p>We commit to informing you about the impact of your support "
+"for children in the Global South.</p>\n"
+"            <p>You can engage with us in flexible and manifold ways. So, "
+"here are some links you might find useful:</p>\n"
+"            <p>Thank you for your precious support.</p>\n"
+"        "
+msgstr ""
+"<p>Es ermutigt uns, dass du dich für Fakten, Zahlen und Informationen "
+"interessierst. Seit rund 70 Jahren legen wir bei Compassion grossen Wert "
+"darauf, die vorhandenen Mittel im Kampf gegen extreme Armut und für die "
+"Entwicklung der Kinder effizient einzusetzen.</p>\n"
+"            <p>Danke für dein Vertrauen!</p>\n"
+"            <p>Wir verpflichten uns, dich über den Impact deiner "
+"Unterstützung für Kinder im globalen Süden zu informieren.</p>\n"
+"            <p>Bei Compassion kannst du dich auf flexible und vielfältige "
+"Weise engagieren. </p>\n"
+"            <p>Herzlichen Dank für deine wertvolle Unterstützung.</p>\n"
+"        "
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_account_banking_mandate
@@ -30,171 +656,199 @@ msgid "A generic banking mandate"
 msgstr "Ein allgemeines Bank-Mandat"
 
 #. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__account_bank_statement_line
+msgid "Account Bank Statement Line"
+msgstr ""
+
+#. module: partner_compassion
 #: code:addons/partner_compassion/models/partner_bank_compassion.py:45
 #, python-format
 msgid "Account deleted"
-msgstr "Account deleted"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_needaction
-#| msgid "Active or New"
 msgid "Action Needed"
-msgstr "Action Needed"
+msgstr "Aktion notwendig"
 
 #. module: partner_compassion
-#: selection:advocate.details,state:0 selection:res.partner,state:0
+#: selection:advocate.details,state:0
 msgid "Active"
-msgstr "Active"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__active_since
-#| msgid "Active since"
 msgid "Active Since"
-msgstr "Active Since"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Active or New"
-msgstr "Active or New"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_mail_activity
+msgid "Activity"
+msgstr "Aktivität"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_survey_question__left_label
+msgid ""
+"Add a label left (or above) the answers. This will use one column or row in "
+"the survey."
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Address"
-msgstr "Address"
+msgstr "Anschrift"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__type
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__type
-#| msgid "Address"
 msgid "Address Type"
-msgstr "Address Type"
+msgstr "Adressart"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_survey_question__right_label
+msgid ""
+"Adds a label right (or below) the answers. This will use one column or row "
+"in the survey."
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Advocacy"
-msgstr "Advocacy"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__advocacy_source
-#| msgid "Advocacy source"
 msgid "Advocacy Source"
-msgstr "Advocacy Source"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "Advocate"
-msgstr "Advocate"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_advocate_details
 msgid "Advocate Details"
-msgstr "Advocate Details"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_advocate_engagement
 msgid "Advocate Engagement"
-msgstr "Advocate Engagement"
+msgstr ""
 
 #. module: partner_compassion
 #: model:geoengine.raster.layer,name:partner_compassion.geoengine_raster_layer_advocate_osm
 msgid "Advocate background"
-msgstr "Advocate background"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_de_id
 msgid "Advocate birthday (DE)"
-msgstr "Advocate birthday (DE)"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_en_id
 msgid "Advocate birthday (EN)"
-msgstr "Advocate birthday (EN)"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_fr_id
 msgid "Advocate birthday (FR)"
-msgstr "Advocate birthday (FR)"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__advocate_birthday_it_id
 msgid "Advocate birthday (IT)"
-msgstr "Advocate birthday (IT)"
-
-#. module: partner_compassion
-#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_muskathlon_form
-#| msgid "Advocate birthday (DE)"
-msgid "Advocate birthdays"
-msgstr "Advocate birthdays"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__advocate_details_id
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__advocate_details_id
 msgid "Advocate details"
-msgstr "Advocate details"
+msgstr ""
 
 #. module: partner_compassion
 #: model:geoengine.vector.layer,name:partner_compassion.geoengine_vector_layer_advocate
 msgid "Advocate location"
-msgstr "Advocate location"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_advocates
 #: model:ir.ui.menu,name:partner_compassion.menu_advocates
 #: model:ir.ui.menu,name:partner_compassion.menu_ambassadors
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_partner_compassion_form
 msgid "Advocates"
-msgstr "Advocates"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__affinity
+msgid "Affinity"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__segments_affinity_ids
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__segments_affinity_ids
+msgid "Affinity for each segment"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "All customers with LSV or DD payment terms"
-msgstr "All customers with LSV or DD payment terms"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "All customers without LSV or DD"
-msgstr "All customers without LSV or DD"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_advocate_details_lang
+#: model:ir.model.fields,help:partner_compassion.field_advocate_details__lang
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__lang
 #: model:ir.model.fields,help:partner_compassion.field_res_users__lang
 msgid ""
 "All the emails and documents sent to this contact will be translated in this "
 "language."
 msgstr ""
-"Wenn die ausgewählte Sprache im System geladen ist, werden alle Dokumente in "
-"Bezug auf diesen Kontakt in dieser Sprache erzeugt. Andernfalls erfolgt die "
-"Ausgabe in Englisch."
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Alternate address"
-msgstr "Alternate address"
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_ambassador
 msgid "Ambassador"
-msgstr "Ambassador"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_account_invoice_send__ancestor
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_compose_message_ancestor
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_mail_ancestor
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_message_ancestor
-#: model:ir.model.fields,field_description:partner_compassion.field_survey_mail_compose_message_ancestor
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_compose_message__ancestor
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_mail__ancestor
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_message__ancestor
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_mail_compose_message__ancestor
 msgid "Ancestor"
-msgstr "Ancestor"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_activity__user_id
+msgid "Assigned to"
+msgstr "Zugewiesen an"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_attachment_count
 msgid "Attachment Count"
-msgstr "Attachment Count"
+msgstr "# Anhänge"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "BVR"
-msgstr "BVR"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_partner_bank
@@ -204,59 +858,70 @@ msgstr "Bankkonten"
 #. module: partner_compassion
 #: model:ir.cron,cron_name:partner_compassion.advocate_birthday_cron
 msgid "Base: Auto-vacuum internal data"
-msgstr "Base: Auto-vacuum internal data"
+msgstr "Basis: Auto-Vacuum für interne Daten"
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_type:0
 msgid "Bikeshirt"
-msgstr "Bikeshirt"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_birthdate
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__birthdate
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__birthday_reminder
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__birthday_reminder
-#| msgid "Birthday reminder"
 msgid "Birthday Reminder"
-msgstr "Birthday Reminder"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__break_end
-#| msgid "Break end"
 msgid "Break End"
-msgstr "Break End"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__email_copy
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__email_copy
 msgid "CC e-mails sent to main partner"
-msgstr "CC e-mails sent to main partner"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_calendar
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__calendar
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__calendar
 msgid "Calendar"
-msgstr "Calendar"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_calendar_attendee
-#| msgid "Contact information"
 msgid "Calendar Attendee Information"
-msgstr "Calendar Attendee Information"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.tag_merge_wizard_form
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.search_bank_address_wizard_form
+msgid "Cancel change"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.search_bank_address_wizard_form
+msgid "Change address"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.cron,name:partner_compassion.advocate_birthday_cron
-#| msgid "[{}] Advocate birthday reminder"
 msgid "Check advocates (birthday + break end)"
-msgstr "Check advocates (birthday + break end)"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Check duplicates"
-msgstr "Check duplicates"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter__charter_agreement
@@ -271,37 +936,48 @@ msgstr "Kinderschutzerklärung"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__christmas_card
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__christmas_card
-#| msgid "Christmas card"
 msgid "Christmas Card"
-msgstr "Christmas Card"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Church"
-msgstr "Church"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__church_unlinked
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__church_unlinked
 msgid "Church (N/A)"
-msgstr "Church (N/A)"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users_church_member_count
-#| msgid "Church member count"
 msgid "Church Member Count"
-msgstr "Church Member Count"
+msgstr ""
 
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_church
 msgid "Church presentation"
-msgstr "Church presentation"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_city
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__city
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__city
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__city
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "City"
 msgstr "Stadt"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__city_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__city_id
+msgid "City of Address"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__overwriting_zip_id
+msgid "City/Location"
+msgstr "Stadt/Standort"
 
 #. module: partner_compassion
 #: model_terms:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
@@ -316,7 +992,7 @@ msgstr "Verhaltenskodex"
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_config_settings
 msgid "Config Settings"
-msgstr "Einstellungen"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_partner
@@ -327,44 +1003,52 @@ msgstr "Kontakt"
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Contact Name"
-msgstr "Kontaktname"
+msgstr "Ansprechpartner"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Contact correspondence"
-msgstr "Contact correspondence"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Contact information"
-msgstr "Contact information"
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_9
+msgid ""
+"Contacted a politician or government representative to advocate for the cause"
+msgstr ""
+"Kontakt mit Menschen aus der Politik oder der Regierung aufgenommen, um sich "
+"für eine gute Sache stark zu machen"
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:51
 #, python-format
 msgid "Coordinates"
-msgstr "Angaben"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:59
 #, python-format
 msgid "Coordinates updated."
-msgstr "Angaben aktualisiert."
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_prog_corresp
 msgid "Correspondance Program"
-msgstr "Correspondance Program"
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_corresp_compass
 msgid "Correspondance by Compassion"
-msgstr "Correspondance by Compassion"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Correspondence"
-msgstr "Correspondence"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
@@ -374,67 +1058,107 @@ msgstr "Land"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__create_uid
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__create_uid
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__create_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__create_uid
 msgid "Created by"
 msgstr "Angelegt von"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__create_date
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__create_date
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__create_date
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__create_date
 msgid "Created on"
 msgstr "Angelegt am"
 
 #. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_8
+msgid "Created posts and engaged in discussions on social media"
+msgstr ""
+"Beiträge veröffentlicht und mich an Diskussionen in sozialen Medien beteiligt"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__criminal_record
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__criminal_record
+msgid "Criminal Record"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__criminal_record_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__criminal_record_date
+msgid "Criminal Record Date"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__criminal_record_name
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__criminal_record_name
+msgid "Criminal Record Name"
+msgstr ""
+
+#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__date_agreed_child_protection_charter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__date_agreed_child_protection_charter
-#| msgid "Date agreed child protection charter"
 msgid "Date Agreed Child Protection Charter"
-msgstr "Date Agreed Child Protection Charter"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Date agreed"
-msgstr "Date agreed"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_deathdate
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__deathdate
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__deathdate
 msgid "Death date"
-msgstr "Death date"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:64
-#: code:addons/partner_compassion/models/partner_compassion.py:74
+#: code:addons/partner_compassion/models/partner_compassion.py:132
+#: code:addons/partner_compassion/models/partner_compassion.py:144
 #: selection:res.partner,tax_certificate:0
 #: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "Default"
-msgstr "Default"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__photo_delivery_preference
 #: model:ir.model.fields,help:partner_compassion.field_res_users__photo_delivery_preference
 msgid "Delivery preference for Child photo"
-msgstr "Delivery preference for Child photo"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__advocacy_source
 msgid "Describe how this advocate has partnered with us."
-msgstr "Describe how this advocate has partnered with us."
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_description
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__description
 msgid "Description"
 msgstr "Beschreibung"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__dest_tag_id
+msgid "Destination tag"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__display_name
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__display_name
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter__display_name
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_coordinates__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__display_name
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__display_name
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_match_display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__display_name
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__display_name
 msgid "Display Name"
 msgstr "Anzeigename"
 
@@ -444,29 +1168,62 @@ msgid "Document Followers"
 msgstr "Dokumentenbeobachter"
 
 #. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_survey_survey__hide_answers
+msgid "Don't allow user to review the answers."
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_4
+msgid "Donated goods, products, or resources"
+msgstr "Güter, Produkte oder Ressourcen gespendet"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_3
+msgid "Donated money on a monthly or regular basis"
+msgstr "Monatlich oder regelmässig Geld gespendet"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_2
+msgid "Donated money on a one-time basis"
+msgstr "Einmalig Geld gespendet"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_5
+msgid ""
+"Done a small act of kindness (e.g., cooking a meal for someone in need, "
+"offering someone in\n"
+"            need a place to rest)"
+msgstr ""
+"Einen kleinen Akt der Nächstenliebe getan (z.B. eine Mahlzeit für jemanden "
+"in der Not gekocht)"
+
+#. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_donor
 msgid "Donor"
-msgstr "Donor"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "EN living in DE"
-msgstr "EN living in DE"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "EN living in FR"
-msgstr "EN living in FR"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "EN living in IT"
-msgstr "EN living in IT"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_email
+#: code:addons/partner_compassion/models/partner_compassion.py:112
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__email
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__email
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__email
+#: selection:res.partner,nbmag:0
+#, python-format
 msgid "Email"
 msgstr "E-Mail"
 
@@ -482,9 +1239,8 @@ msgstr "E-Mail Thread"
 
 #. module: partner_compassion
 #: selection:res.partner,type:0
-#| msgid "Email Templates"
 msgid "Email alias"
-msgstr "Email alias"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__end_date
@@ -496,33 +1252,32 @@ msgstr "Enddatum"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__engagement_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__engagement_ids
 msgid "Engagement type"
-msgstr "Engagement type"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_engagement_type
 #: model:ir.ui.menu,name:partner_compassion.menu_engagement_type
 msgid "Engagement types"
-msgstr "Engagement types"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Event"
-msgstr "Event"
+msgstr "Anlass"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__event_type_formation
-#| msgid "Event type formation"
 msgid "Event Type Formation"
-msgstr "Event Type Formation"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:192
+#: code:addons/partner_compassion/models/advocate_details.py:194
 #: model:advocate.engagement,name:partner_compassion.engagement_event
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__event_ids
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 #, python-format
 msgid "Events"
-msgstr "Reisen"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -531,9 +1286,8 @@ msgstr "Erwartete/angebrachte Verhaltensweisen"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__failed_message_ids
-#| msgid "Message"
 msgid "Failed Messages"
-msgstr "Failed Messages"
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_family
@@ -554,28 +1308,33 @@ msgstr "Vorname"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_follower_ids
 msgid "Followers"
-msgstr "Dokumentenbeobachter"
+msgstr "Beobachter"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_channel_ids
 msgid "Followers (Channels)"
-msgstr "Followers (Channels)"
+msgstr "Beobachter (Kanäle)"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Followers (Partners)"
+msgstr "Beobachter (Partner)"
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/models/account_banking_mandate_compassion.py:39
 #, python-format
 msgid "For account: "
-msgstr "For account: "
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_cms_form_match_partner
+msgid "Form with partner matching"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__formation_ids
 msgid "Formation taken"
-msgstr "Formation taken"
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.title,name:partner_compassion.res_partner_title_friends
@@ -585,20 +1344,23 @@ msgstr "Freunde von Compassion"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_product_product__fund_id
 #: model:ir.model.fields,field_description:partner_compassion.field_product_template__fund_id
-#| msgid "Fund id"
 msgid "Fund"
-msgstr "Fund"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__geo_point
-#| msgid "Geo point"
 msgid "Geo Point"
-msgstr "Geo Point"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.survey_finished
+msgid "Go to my profile"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_portal_wizard
 msgid "Grant Portal Access"
-msgstr "Portal-Zugriffsverwaltung"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
@@ -608,32 +1370,36 @@ msgstr "Gruppieren nach ..."
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__has_agreed_child_protection_charter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__has_agreed_child_protection_charter
-#| msgid "Has agreed child protection charter"
 msgid "Has Agreed Child Protection Charter"
-msgstr "Has Agreed Child Protection Charter"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__has_car
 msgid "Has a car"
-msgstr "Has a car"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
 msgid "Has agreed"
-msgstr "Has agreed"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.actions.server,name:partner_compassion.agree_to_child_protection_charter_action
 msgid "Has agreed to the child protection charter"
-msgstr "Has agreed to the child protection charter"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "Has e-mail"
-msgstr "Has e-mail"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:40
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_survey__hide_answers
+msgid "Hide Answers"
+msgstr ""
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:41
 #, python-format
 msgid ""
 "I acknowledge that I have read and fully understood the content of the Child "
@@ -645,6 +1411,42 @@ msgstr ""
 "gelesen und akzeptiert zu haben. Wenn ich mich nicht an diese Bedingungen "
 "halte, behält sich Compassion das Recht vor, mein Übersetzerkonto "
 "deaktivieren und meine Patenschaften aufzulösen."
+
+#. module: partner_compassion
+#: model:survey.question,right_label:partner_compassion.pss_question_5
+msgid ""
+"I do not personally need to share the gospel with others when helping a cause"
+msgstr ""
+"Es ist mir nicht wichtig, das ich persönlich das Evangelium mit anderen "
+"teile, wenn ich eine Sache unterstütze"
+
+#. module: partner_compassion
+#: model:survey.question,left_label:partner_compassion.pss_question_3
+msgid "I give as the opportunity arises"
+msgstr "Ich spende, wenn sich die Gelegenheit dazu ergibt"
+
+#. module: partner_compassion
+#: model:survey.question,right_label:partner_compassion.pss_question_3
+msgid "I give on a regular schedule"
+msgstr "Ich spende regelmässig"
+
+#. module: partner_compassion
+#: model:survey.question,right_label:partner_compassion.pss_question_4
+msgid "I prefer to make a physical and cognitive impact before anything else"
+msgstr ""
+"Mir ist vor allem wichtig, Veränderung durch Gesundheit und Bildung zu "
+"bewirken"
+
+#. module: partner_compassion
+#: model:survey.question,left_label:partner_compassion.pss_question_4
+msgid "I prefer to make a spiritual impact before anything else"
+msgstr "Mir ist vor allem wichtig, eine geistliche Veränderung zu bewirken"
+
+#. module: partner_compassion
+#: model:survey.question,left_label:partner_compassion.pss_question_2
+msgid "I want to travel to see firsthand what those in need are experiencing"
+msgstr ""
+"Ich möchte reisen, um aus erster Hand zu sehen, was Menschen in Not erleben"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -860,14 +1662,26 @@ msgstr ""
 "unpassende Art und Weise."
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_id
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_id
-#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter_id
+#: model:survey.question,right_label:partner_compassion.pss_question_2
+msgid ""
+"I'd rather not travel to see firsthand what those in need are experiencing"
+msgstr ""
+"Ich möchte lieber nicht reisen, um aus erster Hand zu sehen, was Menschen in "
+"Not erleben"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__id
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__id
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter__id
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_coordinates__id
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__id
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_match_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__id
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -889,17 +1703,30 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_unread
 msgid "If checked new messages require your attention."
-msgstr "If checked new messages require your attention."
+msgstr "Falls markiert, benötigen neue Nachrichten Ihre Kenntnisnahme."
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "If checked, new messages require your attention."
+msgstr "Falls markiert, benötigen neue Nachrichten Ihre Kenntnisnahme."
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "If checked, some messages have a delivery error."
+msgstr ""
+"Das Senden mancher Nachrichten ist fehlgeschlagen wenn dieses Fenster "
+"angekreuzt ist."
+
+#. module: partner_compassion
+#: model:survey.question,comments_message:partner_compassion.pss_question_1
+#: model:survey.question,comments_message:partner_compassion.pss_question_2
+#: model:survey.question,comments_message:partner_compassion.pss_question_3
+#: model:survey.question,comments_message:partner_compassion.pss_question_4
+#: model:survey.question,comments_message:partner_compassion.pss_question_5
+#: model:survey.question,comments_message:partner_compassion.pss_question_6
+#: model:survey.question,comments_message:partner_compassion.pss_question_7
+msgid "If other, please specify:"
+msgstr "Sonstiges, bitte angeben:"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -913,15 +1740,33 @@ msgstr ""
 "Nachforschung benötigte Nachweise oder andere Informationen herausgebe."
 
 #. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_6
+msgid ""
+"If you were to find a charitable cause you loved or was really important to "
+"you,<br> which\n"
+"                of the following would describe you and your role in that "
+"cause? <b>Choose up to 3 options</b>."
+msgstr ""
+"Wenn du eine gemeinnützige Sache unterstützen würdest, die du toll findest "
+"oder dir wirklich wichtig ist: Welche der folgenden Optionen würden dich und "
+"deine Rolle darin am besten beschreiben? <b>Du kannst bis zu 3 Rollen "
+"wählen</b>."
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__image
+msgid "Image"
+msgstr "Bild"
+
+#. module: partner_compassion
 #: selection:advocate.details,state:0
 msgid "Inactive"
-msgstr "Inactive"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__has_agreed_child_protection_charter
 #: model:ir.model.fields,help:partner_compassion.field_res_users__has_agreed_child_protection_charter
 msgid "Indicates if the partner has agreed to the child protectioncharter."
-msgstr "Indicates if the partner has agreed to the child protectioncharter."
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__birthday_reminder
@@ -929,31 +1774,35 @@ msgstr "Indicates if the partner has agreed to the child protectioncharter."
 msgid ""
 "Indicates if the partner wants to receive a birthday reminder of his child."
 msgstr ""
-"Indicates if the partner wants to receive a birthday reminder of his child."
 
 #. module: partner_compassion
-#: model:ir.model.fields,help:partner_compassion.field_res_partner_calendar
+#: model:ir.model.fields,help:partner_compassion.field_res_partner__calendar
 #: model:ir.model.fields,help:partner_compassion.field_res_users__calendar
 msgid "Indicates if the partner wants to receive the Compassion calendar."
-msgstr "Indicates if the partner wants to receive the Compassion calendar."
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__christmas_card
 #: model:ir.model.fields,help:partner_compassion.field_res_users__christmas_card
 msgid "Indicates if the partner wants to receive the christmas card."
-msgstr "Indicates if the partner wants to receive the christmas card."
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__interested_for_volunteering
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__interested_for_volunteering
+msgid "Interested For Volunteering"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__invalid_mail
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__invalid_mail
 msgid "Invalid mail"
-msgstr "Invalid mail"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:res.partner,type:0
-#| msgid "Invoices"
 msgid "Invoice address"
-msgstr "Invoice address"
+msgstr "Rechnungsadresse:"
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_invoice_compassion_partner
@@ -962,19 +1811,35 @@ msgstr "Rechnungen"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_is_follower
-#| msgid "Document Followers"
 msgid "Is Follower"
-msgstr "Is Follower"
+msgstr "Ist Beobachter"
+
+#. module: partner_compassion
+#: model:survey.question,left_label:partner_compassion.pss_question_5
+msgid ""
+"It is critical that I personally play some role in sharing the gospel with "
+"others when I'm helping a cause"
+msgstr ""
+"Es ist mir sehr wichtig, dass ich persönlich eine Rolle dabei spiele, das "
+"Evangelium mit anderen zu teilen, wenn ich eine Sache unterstütze"
+
+#. module: partner_compassion
+#: model:survey.question,left_label:partner_compassion.pss_question_1
+msgid ""
+"It's nice to receive acknowledgement, however small, when I support a cause"
+msgstr ""
+"Es ist schön, Anerkennung zu bekommen, wenn ich eine Sache unterstütze, auch "
+"wenn sie noch so klein ist"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.partner_check_double_wizards
 msgid "Keep partners"
-msgstr "Keep partners"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_bvr_search
 msgid "LSV/DD"
-msgstr "LSV/DD"
+msgstr ""
 
 #. module: partner_compassion
 #: model:res.partner.title,name:partner_compassion.res_partner_title_ladies
@@ -983,7 +1848,7 @@ msgid "Ladies"
 msgstr "Frauen"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_lang
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__lang
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__lang
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__lang
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
@@ -998,91 +1863,129 @@ msgstr "Dein Bild"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__last_event
-#| msgid "Last event"
 msgid "Last Event"
-msgstr "Last Event"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details____last_update
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement____last_update
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_child_protection_charter____last_update
 #: model:ir.model.fields,field_description:partner_compassion.field_cms_form_partner_coordinates____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge____last_update
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double____last_update
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_match___last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity____last_update
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard____last_update
 msgid "Last Modified on"
-msgstr "Zuletzt geändert am"
+msgstr "Zuletzt verändert am"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__write_uid
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__write_uid
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__write_uid
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Zuletzt aktualisiert durch"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__write_date
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__write_date
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__write_date
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__write_date
 msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__lastname
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__lastname
-#| msgid "Last event"
 msgid "Last name"
-msgstr "Last name"
+msgstr "Nachname"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__date
+msgid "Last time used"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_question__left_label
+msgid "Left Label"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 msgid "Letters"
-msgstr "Letters"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__other_contact_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__other_contact_ids
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Linked Partners"
-msgstr "Linked Partners"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__mail_copy_when_donation
-#| msgid "Mail copy when donation"
 msgid "Mail Copy When Donation"
-msgstr "Mail Copy When Donation"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_main_attachment_id
 msgid "Main Attachment"
-msgstr "Main Attachment"
+msgstr "Hauptanhänge"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__main_driver
+msgid "Main Driver"
+msgstr ""
+
+#. module: partner_compassion
+#: model:res.groups,name:partner_compassion.group_criminal_record
+msgid "Manage Criminal Records"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/models/account_banking_mandate_compassion.py:40
 #, python-format
 msgid "Mandate "
-msgstr "Mandate "
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_partner_match
-#| msgid "Keep partners"
 msgid "Match partner"
-msgstr "Match partner"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_question__max_checked_option
+msgid "Maximum answers"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.partner_check_double_wizards
+#: model_terms:ir.ui.view,arch_db:partner_compassion.tag_merge_wizard_form
 msgid "Merge"
 msgstr "Zusammenfassen"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_base_partner_merge_automatic_wizard
-#| msgid "Partner id"
 msgid "Merge Partner Wizard"
-msgstr "Merge Partner Wizard"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.actions.act_window,name:partner_compassion.tag_merge_wizard_action
+msgid "Merge Tags"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__selected_merge_partner_id
 msgid "Merge with"
-msgstr "Merge with"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_message
@@ -1092,18 +1995,17 @@ msgstr "Nachricht"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_has_error
 msgid "Message Delivery error"
-msgstr "Message Delivery error"
+msgstr "Error beim senden der Nachricht"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_notification
 msgid "Message Notifications"
-msgstr "Message Notifications"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_ids
-#| msgid "Message"
 msgid "Messages"
-msgstr "Messages"
+msgstr "Mitteilungen"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_men
@@ -1126,27 +2028,32 @@ msgid "Mr. and Mrs."
 msgstr "Herr und Frau"
 
 #. module: partner_compassion
-#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_muskathlon_form
-#| msgid "Settings"
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_partner_compassion_form
 msgid "NAS Settings"
-msgstr "NAS Settings"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement_name
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_engagement__name
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__name
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_geo
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/models/partner_bank_compassion.py:31
 #, python-format
 msgid "New account created"
-msgstr "New account created"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:advocate.details,state:0
 msgid "New advocate"
-msgstr "New advocate"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.page_custom
+msgid "Next page"
+msgstr "Nächste Seite"
 
 #. module: partner_compassion
 #: selection:advocate.details,has_car:0
@@ -1154,53 +2061,61 @@ msgid "No"
 msgstr "Nein"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:63
-#: code:addons/partner_compassion/models/partner_compassion.py:73
+#: code:addons/partner_compassion/models/partner_compassion.py:113
+#: selection:res.partner,nbmag:0
+#, python-format
+msgid "No magazine"
+msgstr ""
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/partner_compassion.py:131
+#: code:addons/partner_compassion/models/partner_compassion.py:143
 #: selection:res.partner,tax_certificate:0
 #: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "No receipt"
-msgstr "No receipt"
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_9
+msgid "None of the above"
+msgstr "Nichts davon"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__number_events
-#| msgid "Number events"
 msgid "Number Events"
-msgstr "Number Events"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_needaction_counter
-#| msgid "Number of Magazines"
 msgid "Number of Actions"
-msgstr "Number of Actions"
+msgstr "Anzahl der Aktionen"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_nbmag
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__nbmag
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__nbmag
 msgid "Number of Magazines"
-msgstr "Number of Magazines"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_has_error_counter
-#| msgid "Number of Magazines"
 msgid "Number of error"
-msgstr "Number of error"
+msgstr "Fehlernummer"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr "Number of messages which requires an action"
+msgstr "Anzahl der Nachrichten, die eine Aktion erfordern"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Number of messages with delivery error"
+msgstr "Anzahl der Nachrichten mit einem Fehler beim Senden."
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__message_unread_counter
-#| msgid "Number of Magazines"
 msgid "Number of unread messages"
-msgstr "Number of unread messages"
+msgstr "Anzahl ungelesene Nachrichten"
 
 #. module: partner_compassion
 #: model_terms:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
@@ -1217,52 +2132,63 @@ msgstr ""
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_old
 msgid "Old Sponsor"
-msgstr "Old Sponsor"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:advocate.details,state:0
 msgid "On break"
-msgstr "On break"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:66
-#: code:addons/partner_compassion/models/partner_compassion.py:76
+#: code:addons/partner_compassion/models/partner_compassion.py:134
+#: code:addons/partner_compassion/models/partner_compassion.py:146
 #: selection:res.partner,tax_certificate:0
 #: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "On paper"
-msgstr "On paper"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:65
-#: code:addons/partner_compassion/models/partner_compassion.py:75
+#: code:addons/partner_compassion/models/partner_compassion.py:133
+#: code:addons/partner_compassion/models/partner_compassion.py:145
 #: selection:res.partner,tax_certificate:0
 #: selection:res.partner,thankyou_letter:0
 #, python-format
 msgid "Only email"
-msgstr "Only email"
+msgstr ""
 
 #. module: partner_compassion
 #: sql_constraint:advocate.details:0
 msgid "Only one details per ambassador is allowed!"
-msgstr "Only one details per ambassador is allowed!"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__opt_out
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__opt_out
 msgid "Opt Out"
-msgstr "Opt Out"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__picture_large
 msgid "Optional large picture for your profile page"
-msgstr "Optional large picture for your profile page"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_label__order_in_question
+msgid ""
+"Order of the question. Used in multiple options question when order is "
+"important. should starts at 0"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_res_partner_child_protection_charter_form
+msgid "Other"
+msgstr "Andere"
 
 #. module: partner_compassion
 #: selection:res.partner,type:0
-#| msgid "Change address"
 msgid "Other address"
-msgstr "Other address"
+msgstr "Andere Adresse"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_mail_mail
@@ -1270,63 +2196,135 @@ msgid "Outgoing Mails"
 msgstr "Postausgang"
 
 #. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_12
+msgid "Participated in a charity event (e.g., Walk-a-thon)"
+msgstr "An einer Wohltätigkeitsveranstaltung (z.B. Spendenlauf) teilgenommen"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_7
+msgid "Participated in protests/marches"
+msgstr "An Demonstrationen teilgenommen"
+
+#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__partner_id
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__partner_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__partner_id
 #: model:ir.model.fields,field_description:partner_compassion.field_survey_user_input_line__partner_id
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Partner"
-msgstr "Partner"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_partner_check_double
-#| msgid "Partner duplicate ids"
 msgid "Partner Check Duplicates"
-msgstr "Partner Check Duplicates"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__partner_duplicate_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_check_double__mergeable_partner_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__partner_duplicate_ids
-#| msgid "Partner duplicate ids"
 msgid "Partner Duplicate"
-msgstr "Partner Duplicate"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_res_partner_segment
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_segmentation_affinity_form
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_segmentation_form
+msgid "Partner Segmentation"
+msgstr "Partner Segmentierung"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__partner_address
+msgid "Partner address (Maybe)"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_res_partner_segment_affinity
+msgid "Partner segment affinity"
+msgstr ""
+
+#. module: partner_compassion
+#: model:base.automation,name:partner_compassion.partner_notify_criminal_record_expiration
+#: model:ir.actions.server,name:partner_compassion.partner_notify_criminal_record_expiration_ir_actions_server
+msgid "Partner: Notify criminal record expiration"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.ui.menu,name:partner_compassion.menu_partner_segment
+msgid "Partners Segmentation"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.ui.menu,name:partner_compassion.menu_partner_segment_affinity
+msgid "Partners Segmentation Affinity"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.actions.act_window,name:partner_compassion.open_view_partner_segmentation
+msgid "Partners segmentation"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.actions.act_window,name:partner_compassion.open_view_partner_segmentation_affinity
+msgid "Partners segmentation affinity"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__personalized_links
+msgid "Personalized Links"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__photo_delivery_preference
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__photo_delivery_preference
-#| msgid "Photo delivery preference"
 msgid "Photo Delivery Preference"
-msgstr "Photo Delivery Preference"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__picture_filename
-#| msgid "Picture filename"
 msgid "Picture Filename"
-msgstr "Picture Filename"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:90
 #, python-format
 msgid "Please avoid any special characters"
-msgstr "Bitte keine Sonderzeichen verwenden"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:215
+#: model_terms:survey.survey,description:partner_compassion.partner_segmentation_survey
+msgid ""
+"Please be assured that this survey is completely confidential, and we will "
+"only use this information to improve our service to you. We will never "
+"publish or share your personal data with third parties without your "
+"permission."
+msgstr ""
+"Die Umfrage ist absolut vertraulich. Wir werden deine persönlichen Daten "
+"niemals veröffentlichen oder ohne deine Zustimmung an Dritte weitergeben."
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/advocate_details.py:217
 #, python-format
 msgid "Please don't forget to put a break end date"
-msgstr "Please don't forget to put a break end date"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:63
 #, python-format
 msgid "Please enter a valid phone number"
-msgstr "Bitte füge eine korrekte Telefonnummer ein"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:69
 #, python-format
 msgid "Please enter a valid zip code"
-msgstr "Bitte füge eine gültige Postleitzahl zu"
+msgstr ""
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/wizards/tag_merge_wizard.py:40
+#, python-format
+msgid "Please select at least 2 tags."
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_portal_wizard_user
@@ -1334,16 +2332,57 @@ msgid "Portal User Config"
 msgstr "Portalbenutzer Konfiguration"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:335
+#: code:addons/partner_compassion/models/partner_compassion.py:480
 #, python-format
 msgid "Possible existing partners found"
-msgstr "Possible existing partners found"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__potential_advocate_de
+msgid "Potential advocate DE"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__potential_advocate_fr
+msgid "Potential advocate FR"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__potential_advocate_it
+msgid "Potential advocate IT"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_notification_settings_partner_compassion_form
+msgid "Potential advocates"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.page_custom
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__primary_partners_ids
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_segmentation_form
+msgid "Primary Partners"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Primary Segment"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__primary_segment_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__primary_segment_id
+msgid "Primary segmentation category"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:res.partner,type:0
-#| msgid "Alternate address"
 msgid "Private Address"
-msgstr "Private Address"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_product_product
@@ -1358,32 +2397,31 @@ msgstr "Produktvorlage"
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Profile page"
-msgstr "Profile page"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Put on break"
-msgstr "Put on break"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_quote
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__quote
 msgid "Quote"
-msgstr "Quote"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:141
+#: code:addons/partner_compassion/models/advocate_details.py:142
 #, python-format
 msgid "Quote from %s %s"
 msgstr "Zitat von %s %s"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_account_invoice_send__tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_compose_message__tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_mail__tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_mail_message__tracking_ids
-#: model:ir.model.fields,field_description:partner_compassion.field_survey_mail_compose_message__tracking_ids
-msgid "Related tracked messages"
-msgstr "Related tracked messages"
+#: model:survey.question,right_label:partner_compassion.pss_question_1
+msgid ""
+"Receiving acknowledgement when I support a cause doesn't really matter to me"
+msgstr ""
+"Es ist für mich nicht wirklich wichtig Anerkennung zu erhalten, wenn ich "
+"eine Sache unterstütze"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_confirmation_page
@@ -1391,20 +2429,85 @@ msgid "Return"
 msgstr "Zurück"
 
 #. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_survey_question__right_label
+msgid "Right Label"
+msgstr ""
+
+#. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:55
 #, python-format
 msgid "Save"
-msgstr "Speichern"
+msgstr ""
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/partner_compassion.py:612
+#, python-format
+msgid "Search address in banks data"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__secondary_partners_ids
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_segmentation_form
+msgid "Secondary Partners"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Secondary Segment"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__secondary_segment_id
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__secondary_segment_id
+msgid "Secondary segmentation category"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment_affinity__segment_id
+msgid "Segment"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__segment_index
+msgid "Segment Index"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__segment_size
+msgid "Segment Size"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__segment_total
+msgid "Segment Total"
+msgstr ""
+
+#. module: partner_compassion
+#: sql_constraint:res.partner.segment:0
+msgid "Segment index must be unique"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.ui.menu,name:partner_compassion.menu_segmentation
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+msgid "Segmentation"
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.question,question:partner_compassion.pss_question_6
+#: model:survey.question,question:partner_compassion.pss_question_7
+msgid "Select the best matching answers"
+msgstr "Welche der folgenden Optionen würden dich darin am besten beschreiben?"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Set active"
-msgstr "Set active"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
 msgid "Set inactive"
-msgstr "Set inactive"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_advocate_details_default
@@ -1414,13 +2517,22 @@ msgstr "Einstellungen"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__share_on_nas
 msgid "Share On Nas"
-msgstr "Share On Nas"
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_11
+msgid ""
+"Shared my opinion about the cause with those around me (e.g., students, "
+"coworkers, friends,\n"
+"            etc.)"
+msgstr ""
+"Meine Meinung zu einer guten Sache mit meinen Mitmenschen (z.B. Studenten, "
+"Kollegen, Freunde usw.) geteilt"
 
 #. module: partner_compassion
 #: selection:res.partner,type:0
-#| msgid "Change address"
 msgid "Shipping address"
-msgstr "Shipping address"
+msgstr "Zustellungsadresse"
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_type:0
@@ -1428,24 +2540,106 @@ msgid "Shirt"
 msgstr "T-Shirt"
 
 #. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_13
+msgid "Signed a petition online"
+msgstr "Eine Online-Petition unterzeichnet"
+
+#. module: partner_compassion
+#: model_terms:survey.survey,description:partner_compassion.partner_segmentation_survey
+msgid "So let's get started!"
+msgstr "Also lass uns loslegen!"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_4
+msgid ""
+"Someone who currently puts their professional skills and expertise to use "
+"for the cause, or\n"
+"            plans to use their skills and expertise in the future"
+msgstr ""
+"Ich setzte meine beruflichen Fähigkeiten und mein Fachwissen ein oder ich "
+"plane, meine Fähigkeiten in Zukunft dafür einzusetzen"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_5
+msgid ""
+"Someone who does everything they can to have a positive impact because "
+"they've personally\n"
+"            experienced hardships "
+msgstr ""
+"Ich tue alles, was ich kann, um etwas zum Positiven zu verändern, weil ich "
+"selbst mit Problemen zu kämpfen hatte"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_3
+msgid ""
+"Someone who enjoys the communal aspects of helping a cause and uses the "
+"community around\n"
+"            them to connect people to work together to have a positive "
+"impact "
+msgstr ""
+"Ich mag die gemeinschaftlichen Aspekte bei der Unterstützung einer Sache und "
+"ich nutze die Gemeinschaft um mich herum, um Menschen dazu "
+"zusammenzubringen, gemeinsam einen positiven Einfluss zu erzielen"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_6
+msgid ""
+"Someone who faithfully gives financially but needs no further engagement"
+msgstr "Ich spende zuverlässig Geld, möchte mich aber nicht weiter engagieren"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_7
+msgid ""
+"Someone who gives their resources to others they know will use it most "
+"effectively and\n"
+"            efficiently to help those in need"
+msgstr ""
+"Ich stelle meine Ressourcen anderen zur Verfügung, von denen ich weiss, dass "
+"sie sie am wirkungsvollsten und nutzbringendsten einsetzen, um Menschen in "
+"Not zu helfen"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_1
+msgid ""
+"Someone who is gentle, kind, hospitable, generous, and focused on social "
+"good as a way to\n"
+"            have a positive impact"
+msgstr ""
+"Ich bin sanftmütig, freundlich, gastfreundlich, grosszügig und habe das "
+"gemeinschaftliche Wohl im Blick"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_8
+msgid "Someone who prays for others who tackle this problem"
+msgstr "Ich bete für andere Menschen, die diese wichtige Anliegen umzusetzen"
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q6_2
+msgid ""
+"Someone who wants to take part in advocacy and political events to seek "
+"change"
+msgstr ""
+"Ich möchte mich an Lobbyarbeit und politischen Veranstaltungen beteiligen, "
+"um Veränderungen zu erreichen"
+
+#. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 #: model:res.partner.category,name:partner_compassion.res_partner_category_sponsor
 msgid "Sponsor"
-msgstr "Sponsor"
+msgstr ""
 
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_sport
 msgid "Sport"
-msgstr "Sport"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 msgid "Sport person"
-msgstr "Sport person"
+msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_state
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_state
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__state
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "State"
@@ -1459,12 +2653,19 @@ msgstr "Kinderschutzerklärung"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__store_path
 msgid "Store Path"
-msgstr "Store Path"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__street
+#: model:ir.model.fields,field_description:partner_compassion.field_res_users__street
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__overwriting_street
+msgid "Street"
+msgstr "Strasse"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Street 2..."
-msgstr "Strasse 2..."
+msgstr "Straße 2..."
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
@@ -1472,30 +2673,60 @@ msgid "Street..."
 msgstr "Straße..."
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_street3
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__street3
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__street3
 msgid "Street3"
-msgstr "Street3"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.page_custom
+msgid "Submit survey"
+msgstr "Befragung abschliessen"
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_partner_supporter_form
 msgid "Supporters"
-msgstr "Supporters"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_survey_survey
+msgid "Survey"
+msgstr "Umfrage"
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_survey_label
+msgid "Survey Label"
+msgstr "Umfrageüberschrift"
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_survey_question
+msgid "Survey Question"
+msgstr "Umfrage Frage"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_segment__survey_result
+msgid "Survey Result"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Benutzereingaben"
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_survey_user_input_line
 msgid "Survey User Input Line"
-msgstr "Survey User Input Line"
+msgstr "Benuzereingabe"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__number_surveys
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__survey_input_count
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__survey_input_count
 msgid "Survey number"
-msgstr "Survey number"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:204
+#: code:addons/partner_compassion/models/advocate_details.py:206
 #: model:ir.actions.act_window,name:partner_compassion.act_partner_survey_input
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__survey_inputs
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__survey_inputs
@@ -1503,56 +2734,113 @@ msgstr "Survey number"
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
 #, python-format
 msgid "Surveys"
-msgstr "Surveys"
+msgstr "Umfragen"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__survey_input_lines
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__survey_input_lines
-#| msgid "Survey number"
 msgid "Surveys answers"
-msgstr "Surveys answers"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__t_shirt_size
 msgid "T Shirt Size"
-msgstr "T shirt Grösse"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__t_shirt_type
 msgid "T Shirt Type"
-msgstr "T shirt type"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_res_partner_category_merge
+msgid "Tag Merge Wizard"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_category_merge__tag_ids
+msgid "Tags"
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_10
+msgid "Talked to my friends about the cause"
+msgstr ""
+"Mit meinen Freundinnen und Freunden über ein wichtiges Anliegen gesprochen"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__tax_certificate
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__tax_certificate
-#| msgid "Tax certificate"
 msgid "Tax Certificate"
-msgstr "Tax Certificate"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__thank_you_quote
-#| msgid "Thank you quote"
 msgid "Thank You Quote"
-msgstr "Thank You Quote"
+msgstr ""
+
+#. module: partner_compassion
+#: model_terms:survey.survey,description:partner_compassion.partner_segmentation_survey
+msgid ""
+"Thank you for participating in this 5-minute survey that will allow "
+"Compassion to better serve supporters like you."
+msgstr ""
+"Vielen Dank, dass du an dieser 5-minütigen Umfrage teilnimmst. Damit hilfst "
+"du Compassion, besser auf deine Interessen und Wünsche einzugehen."
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/agreement_child_protection_charter_form.py:33
 #, python-format
 msgid "Thank you for reading the child protection charter carefully."
 msgstr ""
-"Danke, dass du die Kinderschutzerklärung gelesen und unterzeichnet hast."
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.survey_finished
+msgid "Thank you for your commitment"
+msgstr "Danke für deine Unterstützung"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__thankyou_letter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__thankyou_letter
 msgid "Thank you letter"
-msgstr "Thank you letter"
+msgstr ""
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:78
+#: model_terms:survey.survey,thank_you_message:partner_compassion.partner_segmentation_survey
+msgid "Thank you so much for taking the time to answer these questions!"
+msgstr ""
+"Vielen Dank, dass du dir die Zeit genommen hast die Fragen zu beantworten!"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:79
+#: model_terms:ir.ui.view,arch_db:partner_compassion.survey_finished
 #, python-format
 msgid "Thank you!"
-msgstr "Danke!"
+msgstr "Vielen Dank!"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/product.py:21
+#: sql_constraint:product.template:0
+#, python-format
+msgid "The Fund already exists in database."
+msgstr ""
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/models/product.py:23
+#, python-format
+msgid "The Fund cannot have a negative value"
+msgstr ""
+
+#. module: partner_compassion
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_1
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_2
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_3
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_4
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_5
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_6
+#: model:survey.question,validation_error_msg:partner_compassion.pss_question_7
+msgid "The answer you entered has an invalid format."
+msgstr "Ihre Antwort hat ein ungültiges Format."
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__date_agreed_child_protection_charter
@@ -1560,17 +2848,14 @@ msgstr "Danke!"
 msgid ""
 "The date and time when the partner has agreed to the childprotection charter."
 msgstr ""
-"The date and time when the partner has agreed to the childprotection charter."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/partner_compassion.py:336
+#: code:addons/partner_compassion/models/partner_compassion.py:481
 #, python-format
 msgid ""
 "The partner you want to add may already exist. Please use the \"Check "
 "duplicates\" button to review it."
 msgstr ""
-"The partner you want to add may already exist. Please use the \"Check "
-"duplicates\" button to review it."
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/wizards/partner_merge_wizard.py:38
@@ -1579,39 +2864,62 @@ msgid ""
 "The selected partners are sponsors! Please first modify the sponsorship and "
 "don't forget to send new labels to them."
 msgstr ""
-"The selected partners are sponsors! Please first modify the sponsorship and "
-"don't forget to send new labels to them."
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:249
+#: code:addons/partner_compassion/models/advocate_details.py:251
 #, python-format
-#| msgid "This is a reminder that {} will have birthday on {}."
 msgid "This is a reminder that %s will have birthday on %s."
-msgstr "This is a reminder that %s will have birthday on %s."
+msgstr ""
 
 #. module: partner_compassion
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_6
+msgid ""
+"This question require an answer. A maximum of 3 options can be selected."
+msgstr "Diese Frage muss beantwortet werden. Du kannst bis zu 3 Rollen wählen."
+
+#. module: partner_compassion
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_1
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_2
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_3
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_4
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_5
+#: model:survey.question,constr_error_msg:partner_compassion.pss_question_7
+msgid "This question requires an answer."
+msgstr "Diese Frage muss beantwortet werden"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_cms_form_match_partner__partner_title
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__title
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__title
 msgid "Title"
-msgstr "Titel"
+msgstr "Anrede"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__total_invoiced
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__total_invoiced
-#| msgid "Invoices"
 msgid "Total Invoiced"
-msgstr "Total Invoiced"
+msgstr "Abgerechneter Betrag"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.email_form_view
+msgid "Tracking"
+msgstr "Nachverfolgung"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_mail_mail__tracking_event_ids
+msgid "Tracking events"
+msgstr "Verfolge Vorkommnisse"
 
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_translation
 msgid "Translation"
-msgstr "Translation"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
 #: model:res.partner.category,name:partner_compassion.res_partner_category_translator
 msgid "Translator"
-msgstr "Translator"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.child_protection_charter_text
@@ -1620,14 +2928,13 @@ msgstr "Inakzeptable Verhaltensweisen"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_unread
-#| msgid "Message"
 msgid "Unread Messages"
-msgstr "Unread Messages"
+msgstr "Ungelesene Mitteilungen"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr "Unread Messages Counter"
+msgstr "Zähler der ungelelesen Nachrichten"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__church_unlinked
@@ -1636,8 +2943,13 @@ msgid ""
 "Use this field if the church of the partner can not correctly be determined "
 "and linked."
 msgstr ""
-"Use this field if the church of the partner can not correctly be determined "
-"and linked."
+
+#. module: partner_compassion
+#: model:survey.label,value:partner_compassion.pss_q7_6
+msgid "Used a talent or skill to raise money and awareness for a cause"
+msgstr ""
+"Ein Talent oder eine Fähigkeit genutzt, um für eine gute Sache Geld zu "
+"sammeln und andere dafür zu sensibilisieren"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__type
@@ -1646,8 +2958,11 @@ msgid ""
 "Used by Sales and Purchase Apps to select the relevant address depending on "
 "the context."
 msgstr ""
-"Used by Sales and Purchase Apps to select the relevant address depending on "
-"the context."
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_res_partner_segment__segment_index
+msgid "Used for segment computation by segmentation engine"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__thank_you_quote
@@ -1655,8 +2970,6 @@ msgid ""
 "Used in thank you letters for donations linked to an event and to this "
 "partner."
 msgstr ""
-"Used in thank you letters for donations linked to an event and to this "
-"partner."
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_res_users
@@ -1664,29 +2977,24 @@ msgid "Users"
 msgstr "Benutzer"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_res_partner_uuid
+#: model:ir.model.fields,field_description:partner_compassion.field_res_partner__uuid
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__uuid
 msgid "Uuid"
-msgstr "Uuid"
-
-#. module: partner_compassion
-#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
-msgid "Validate"
-msgstr "Bestätigen"
+msgstr ""
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/forms/partner_coordinates_form.py:75
 #, python-format
 msgid "Verify your e-mail address"
-msgstr "Bestätige deine E-Mailadresse"
+msgstr ""
 
 #. module: partner_compassion
-#: selection:res.partner,state:0
-msgid "Waiting for validation"
-msgstr "Waiting for validation"
+#: model:survey.label,value:partner_compassion.pss_q7_1
+msgid "Volunteered my time"
+msgstr "Meine Zeit zur Verfügung gestellt"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:65
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:66
 #, python-format
 msgid ""
 "We successfully received your agreement to the Child Protection Charter."
@@ -1695,24 +3003,52 @@ msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__website_message_ids
-#| msgid "Message"
 msgid "Website Messages"
-msgstr "Website Messages"
+msgstr "Website Nachrichten"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_advocate_details__website_message_ids
 msgid "Website communication history"
-msgstr "Website communication history"
+msgstr "Website-Kommunikationshistorie"
+
+#. module: partner_compassion
+#: model:survey.survey,title:partner_compassion.partner_segmentation_survey
+msgid "Welcome!"
+msgstr "Willkommen!"
+
+#. module: partner_compassion
+#: model_terms:survey.question,description:partner_compassion.pss_question_7
+msgid ""
+"Which of the following actions, if any, have you ever taken to support a "
+"charitable\n"
+"            cause or non-profit organization?"
+msgstr ""
+"Welche der folgenden Schritte hast du schon unternommen, um einen "
+"wohltätigen Zweck oder eine gemeinnützige Organisation zu unterstützen?"
+
+#. module: partner_compassion
+#: model:survey.question,question:partner_compassion.pss_question_1
+#: model:survey.question,question:partner_compassion.pss_question_2
+#: model:survey.question,question:partner_compassion.pss_question_3
+#: model:survey.question,question:partner_compassion.pss_question_4
+#: model:survey.question,question:partner_compassion.pss_question_5
+msgid "Which of the following sentences do you agree more with ?"
+msgstr "Welchen der folgenden Aussagen zum Thema Spenden stimmst du eher zu?"
+
+#. module: partner_compassion
+#: model:ir.model,name:partner_compassion.model_search_bank_address_wizard
+msgid "Wizard search bank address"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_size:0
 msgid "XL"
-msgstr "XL"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:advocate.details,t_shirt_size:0
 msgid "XXL"
-msgstr "XXL"
+msgstr ""
 
 #. module: partner_compassion
 #: selection:advocate.details,has_car:0
@@ -1720,7 +3056,7 @@ msgid "Yes"
 msgstr "Ja"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/controllers/child_protection_charter.py:71
+#: code:addons/partner_compassion/controllers/child_protection_charter.py:72
 #, python-format
 msgid ""
 "You will receive an invitation to connect to the translation platform in the "
@@ -1735,84 +3071,92 @@ msgid "ZIP"
 msgstr "PLZ"
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details_zip
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__zip
 msgid "Zip"
 msgstr "PLZ"
 
 #. module: partner_compassion
-#: code:addons/partner_compassion/models/advocate_details.py:252
+#: code:addons/partner_compassion/models/advocate_details.py:254
 #, python-format
-#| msgid "[{}] Advocate birthday reminder"
 msgid "[%s] Advocate birthday reminder"
-msgstr "[%s] Advocate birthday reminder"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_res_partner_segment_affinity__affinity
+msgid "affinity of the partner for this segment (in percentage)."
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_cms_form_partner_child_protection_charter
 msgid "cms.form.partner.child.protection.charter"
-msgstr "cms.form.partner.child.protection.charter"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model,name:partner_compassion.model_cms_form_partner_coordinates
-#| msgid "cms.form.partner.child.protection.charter"
 msgid "cms.form.partner.coordinates"
-msgstr "cms.form.partner.coordinates"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "e.g. Mr."
-msgstr "z. B. Hr."
+msgstr "z.B. Herr"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "e.g. Sales Director"
-msgstr "z. B. Verkaufsleiter"
+msgstr "z.B. Verkaufsleiter"
+
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_survey_question__max_checked_option
+msgid "if set, maximum number of options allowed for the user"
+msgstr ""
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "internal note..."
-msgstr "interner Hinweis..."
+msgstr "Interne Notiz..."
 
-#~ msgid "Account bank statement line"
-#~ msgstr "Account bank statement line"
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_res_partner_segment__segment_size
+msgid "number of partners for whom this is the primary segment"
+msgstr ""
 
-#~ msgid "Cancel change"
-#~ msgstr "Cancel change"
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_res_partner_segment__segment_total
+msgid "percentage of categorized partners for whom this is the primary segment"
+msgstr ""
 
-#~ msgid "City/Location"
-#~ msgstr "Stadt/Standort"
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
+msgid "search address from banks data"
+msgstr ""
 
-#~ msgid "Last time used"
-#~ msgstr "Last time used"
+#. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_res_partner_segment__image
+msgid "segment illustration"
+msgstr ""
 
-#~ msgid "Partner address (Maybe)"
-#~ msgstr "Partner address (Maybe)"
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.partner_segmentation_tree
+msgid "segment_total"
+msgstr ""
 
-#~ msgid "Quote from {firstname} {lastname}"
-#~ msgstr "Zitat von {firstname} {lastname}"
+#. module: partner_compassion
+#: model:res.groups,comment:partner_compassion.group_criminal_record
+msgid "the user will have access to all criminal records."
+msgstr ""
 
-#~ msgid "Search address in banks data"
-#~ msgstr "Search address in banks data"
+#~ msgid ""
+#~ "Next\n"
+#~ "                        page"
+#~ msgstr "Nächste Seite"
 
-#~ msgid "Street"
-#~ msgstr "Strasse"
+#~ msgid ""
+#~ "Submit\n"
+#~ "                        survey"
+#~ msgstr "Befragung abschliessen"
 
-#~ msgid "base.geocoder"
-#~ msgstr "base.geocoder"
-
-#~ msgid "base.partner.merge.automatic.wizard"
-#~ msgstr "base.partner.merge.automatic.wizard"
-
-#~ msgid "res.partner.check.double"
-#~ msgstr "res.partner.check.double"
-
-#~ msgid "res.partner.match"
-#~ msgstr "res.partner.match"
-
-#~ msgid "search address from banks data"
-#~ msgstr "search address from banks data"
-
-#~ msgid "search.bank.address.wizard"
-#~ msgstr "search.bank.address.wizard"
-
-#~ msgid "staff.notification.settings"
-#~ msgstr "staff.notification.settings"
+#~ msgid ""
+#~ "When you complete this survey, you will be provided information and "
+#~ "resources that will enrich your experience with Compassion."
+#~ msgstr " "

@@ -10,12 +10,9 @@
             <!-- Change next and previous page order (more logical in interface)-->
             <xpath expr="//div[@class='text-center mt16 mb16']" position="replace">
                 <div class="text-center mt16 mb16">
-                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit
-                        survey</button>
-                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next
-                        page</button>
-                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary"
-                            name="button_submit" value="previous">Previous page</button>
+                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit survey</button>
+                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>
+                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary" name="button_submit" value="previous">Previous page</button>
                 </div>
             </xpath>
 
@@ -88,7 +85,7 @@
             </xpath>
             <xpath expr="//div[@class='jumbotron mt32']/h1" position="replace">
                 <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
-                    <h1 class="text-uppercase my-4" style="color: #005eb8;">Compassion is committed to serve you</h1>
+                    <h1 class="text-uppercase my-4" style="color: #005eb8;">Thank you for your commitment</h1>
                 </t>
                 <t t-else="">
                     <h1>Thank you!</h1>
