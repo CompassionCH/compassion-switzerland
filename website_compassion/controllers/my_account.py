@@ -13,6 +13,7 @@ from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 
+import werkzeug
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 
@@ -298,13 +299,13 @@ class MyAccountController(PaymentFormController):
 
         groups = _map_contracts(
             partner, "group_id", filter_fun=lambda s: s.state not in
-            ["cancelled", "terminated"] and partner == s.mapped("partner_id")
+                                                      ["cancelled", "terminated"] and partner == s.mapped("partner_id")
         )
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
                 lambda c: c.state not in ["cancelled", "terminated"] and
-                c.partner_id == partner
+                          c.partner_id == partner
             ) for g in groups
         ]
         # List of integers representing the total amount by group
@@ -312,7 +313,7 @@ class MyAccountController(PaymentFormController):
             sum(list(filter(
                 lambda a: a != 42.0,
                 sponsor.filtered(lambda s: s.type == "S")
-                .mapped("contract_line_ids").mapped("amount")
+                    .mapped("contract_line_ids").mapped("amount")
             ))) for sponsor in sponsorships_by_group
         ]
         # List of recordset of paid sponsorships (one recordset for each group)
@@ -385,6 +386,90 @@ class MyAccountController(PaymentFormController):
             )
         return self._form_redirect(result, full_page=True)
 
+    @route("/my/new/donation", type="http", auth="user", website=True)
+    def make_new_donation(self, **kwargs):
+        """
+        The route to display a form with the possibility to make a new
+        donation to a compassion fund
+        :return: a redirection to a webpage
+        """
+        available_funds = request.env["product.product"].search([("website_published", "=", True)])
+
+        values = self._prepare_portal_layout_values()
+
+        values.update({
+            "funds": available_funds
+        })
+
+        result = request.render(
+            "website_compassion.my_new_donation_template", values
+        )
+
+        return self._form_redirect(result, full_page=True)
+
+    @route("/my/new/donation/fund/<int:selected_fund_id>", type="http", auth="user", website=True)
+    def make_new_donation_to_fund(self, selected_fund_id=None, **kwargs):
+        partner = request.env.user.partner_id
+        available_funds = request.env["product.product"].search([("website_published", "=", True)])
+
+        if not selected_fund_id or int(selected_fund_id) not in available_funds.mapped("id"):
+            return request.redirect("/my/new/donation")
+
+        selected_fund_id = available_funds.browse(int(selected_fund_id))
+
+        values = kwargs.copy()
+        # This allows the translation to still work on the page
+        values.pop("edit_translations", False)
+        values.update({
+            "form_model_key": "cms.form.fund.donation",
+            "selected_fund": selected_fund_id,
+        })
+
+        donation_form = self.get_form("res.partner", partner.id, **values)
+        donation_form.form_process()
+
+        values.update({
+            "form": donation_form,
+        })
+
+        # If the form is valid, redirect to payment
+        if donation_form.form_success:
+            return werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
+
+        values.update(self._prepare_portal_layout_values())
+
+        result = request.render(
+            "website_compassion.new_donation_to_fund_template", values
+        )
+
+        return self._form_redirect(result, full_page=True)
+
+    @route("/my/new/donation/validate/<int:invoice_id>", type="http", auth="user", website=True)
+    def new_donation_validation(self, invoice_id=None, **kwargs):
+
+        payment = kwargs.get("payment")
+        values = kwargs.copy()
+
+        values.update(self._prepare_portal_layout_values())
+
+        try:
+            invoice = request.env["account.invoice"].sudo().browse(int(invoice_id))
+            invoice.exists().ensure_one()
+            transaction = invoice.get_portal_last_transaction()
+        except ValueError:
+            transaction = request.env["payment.transaction"]
+
+        if transaction.state != "done" or payment == "error":
+            result = request.render(
+                "website_compassion.donation_failure", values
+            )
+            return self._form_redirect(result, full_page=True)
+
+        result = request.render(
+            "website_compassion.donation_success", values
+        )
+        return self._form_redirect(result, full_page=True)
+
     @route("/my/information", type="http", auth="user", website=True)
     def my_information(self, form_id=None, **kw):
         """
@@ -451,6 +536,7 @@ class MyAccountController(PaymentFormController):
         :param kw: the additional optional arguments
         :return: a response to download the file
         """
+
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
@@ -470,12 +556,12 @@ class MyAccountController(PaymentFormController):
             partner = request.env.user.partner_id
             year = _get_required_param("year", kw)
 
-            wizard = request.env["print.tax_receipt"]\
+            wizard = request.env["print.tax_receipt"] \
                 .with_context(active_ids=partner.ids).create({
-                    "pdf": True,
-                    "year": year,
-                    "pdf_name": f"tax_receipt_{year}.pdf",
-                })
+                "pdf": True,
+                "year": year,
+                "pdf_name": f"tax_receipt_{year}.pdf",
+            })
             wizard.get_report()
             headers = Headers()
             headers.add(

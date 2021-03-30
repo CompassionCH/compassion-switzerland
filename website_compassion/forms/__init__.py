@@ -8,5 +8,6 @@
 ##############################################################################
 
 from . import match_partner_form
-from . import partner_forms
 from . import my_donations_form
+from . import partner_forms
+from . import fund_donation_form

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <template id="donation_failure" name="Fund donation failure">
+            <t t-call="theme_compassion.layout">
+                <div id="wrap">
+                    <div class="container text-center">
+                        <h1>Payment Aborted</h1>
+                        <p class="quote mt32">
+                            <t t-raw="(error_intro and error_intro + '&lt;br/&gt;&lt;br/&gt;') or ''"/>
+                            Something went wrong during the payment process. Please try again.
+                            <br/>
+                            <br/>
+                            <div class="alert alert-info" role="alert">
+                                In case your payment was successful and you are seeing this message, you may experience
+                                some delay in the process of the transaction. Don't hesitate to <a
+                                    href="mailto:info@compassion.ch">contact us</a> if you need any further assistance.
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="donation_success" name="Fund donation Success">
+            <t t-call="theme_compassion.layout">
+                <div id="wrap">
+                    <div class="container text-center d-flex justify-content-center">
+                        <div class="col-6 mt32">
+                            <h1>Thank you for your donation</h1>
+                            <a href="/my/donations">
+                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
+                                    Back to my financials
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="new_donation_to_fund_template" name="New Donation to Fund">
+            <t t-set="selected">donation</t>
+            <t t-set="title">New Donation | <t t-esc="partner.company_id.address_name"/></t>
+            <t t-call="website_compassion.my_account_layout">
+
+
+                <div class="container" id="new_donation">
+
+
+                    <div id="donation_form" class="col-sm-12 col-8 cms_form_wrapper">
+                        <t t-if="form.form_title">
+                            <h2>
+                                <span class="form_title" t-esc="form.form_title"/>
+                            </h2>
+                        </t>
+                        <t t-if="form.form_description">
+                            <p class="form_description" t-esc="form.form_description"/>
+                        </t>
+                        <t t-raw="form.form_render()"/>
+                    </div>
+
+                </div>
+
+                <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+            </t>
+        </template>
+
+
+        <template id="my_new_donation_template" name="New Donation">
+            <t t-set="selected">donation</t>
+            <t t-set="title">New Donation | <t t-esc="partner.company_id.address_name"/></t>
+            <t t-call="website_compassion.my_account_layout">
+
+
+                <div class="container" id="new_donation">
+
+                    <t t-call="website_compassion.select_fund"/>
+
+                </div>
+
+                <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+            </t>
+        </template>
+
+        <template id="select_fund" name="New Donation form">
+            <div class="row mt-4">
+                <!-- Amount selector -->
+                <div class="p-2">
+
+                    <div class="row mt-3 align-items-stretch">
+
+                        <t t-foreach="funds" t-as="fund">
+
+                            <div class="col-md-6 p-2">
+                                <div class="card d-flex justify-content-around align-items-center text-center">
+                                    <div class="card-body">
+                                        <h3 class="card-title"><t t-esc="fund.name"/></h3>
+                                        <p class="card-text"><t t-esc="fund.description"/></p>
+                                        <a t-attf-href="/my/new/donation/fund/#{fund.id}">
+                                            <button type="button" class="btn btn-primary btn-lg mb-2">
+                                                Donate now
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </t>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+
+    </data>
+</odoo>
