@@ -193,12 +193,6 @@ class RecurringContracts(models.Model):
         Update partner to add the 'Sponsor' category
         """
         super().contract_active()
-        if self.mapped("partner_id.activity_ids") or self.mapped(
-                "correspondent_id.activity_ids"):
-            raise UserError(
-                _("Please verify the partner before validating the sponsorship")
-            )
-
         sponsor_cat_id = self.env.ref(
             "partner_compassion.res_partner_category_sponsor"
         ).id
@@ -268,12 +262,14 @@ class RecurringContracts(models.Model):
         Called at contract validation to ensure we can validate the
         sponsorship.
         """
-        if self.mapped("partner_id.activity_ids") or self.mapped(
-                "correspondent_id.activity_ids"):
+        check_duplicate_activity_id = self.env.ref("cms_form_compassion.activity_check_duplicates").id
+        if self.mapped("partner_id.activity_ids")\
+                .filtered(lambda l: l.activity_type_id.id == check_duplicate_activity_id)\
+                or self.mapped("correspondent_id.activity_ids")\
+                .filtered(lambda l: l.activity_type_id.id == check_duplicate_activity_id):
             raise UserError(
                 _("Please verify the partner before validating the sponsorship")
             )
-        # Partner shouldn't be restricted
         partners = self.mapped("partner_id") | self.mapped("correspondent_id")
         if partners.filtered("is_restricted"):
             raise UserError(
