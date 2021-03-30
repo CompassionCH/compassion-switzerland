@@ -67,7 +67,7 @@
 
         <!-- Communication Config -->
         <record id="config_onboarding_sponsorship_confirmation" model="partner.communication.config">
-            <field name="name">Sponsorship Onboarding - Sponsorship confirmation</field>
+            <field name="name">Sponsorship Onboarding - Welcome and payment information</field>
             <field name="send_mode">digital_only</field>
             <field name="email_template_id" ref="mail_onboarding_sponsorship_confirmation"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
