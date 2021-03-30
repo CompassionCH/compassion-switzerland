@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+     <data>
+        <template id="my_account_my_children_donate" name="Donate to sponsored children">
+            <t t-call="website_compassion.my_account_layout">
+                <t t-set="javascript_hook"> my_children_donate_select_child</t>
+                <t t-set="javascript_param" t-value="''"/>
+                <t t-call="website_compassion.children_horizontal_cards"/>
+                <center>
+                    <h3>Make a gift to <t t-esc="child_id.preferred_name"/></h3>
+                    <div id="donation_form" class="col-md-4 cms_form_wrapper">
+                        <h2/>
+                        <t t-raw="donation_form.form_render()" />
+                    </div>
+                </center>
+            </t>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+        </template>
+                 <!-- Displayed after successful payment by [EventsController] -->
+        <template id="donation_successful" name="Donation success">
+            <t t-call="website_compassion.my_account_layout">
+                <section>
+                    <div class="jumbotron center-page mt-5">
+                        <h1>Donation Successful</h1>
+                        <p>Thank you! Your donation helps release children from poverty!</p>
+                        <a href="/my/home">
+                            <button class="btn btn-primary">Back to Homepage</button>
+                        </a>
+                    </div>
+                </section>
+            </t>
+        </template>
+
+        <!-- Displayed after failure payment by [EventsController] -->
+        <template id="donation_failure" name="Donation failure">
+            <t t-call="website_compassion.my_account_layout">
+                <section>
+                    <div class="jumbotron center-page mt-5">
+                        <h1>Payment Aborted</h1>
+                        <t t-raw="(error_intro and error_intro + '&lt;br/&gt;&lt;br/&gt;') or ''"/>
+                        Something went wrong during the payment process. Please try again.
+                        <br/>
+                        <br/>
+                        <div class="alert alert-info" role="alert">
+                            In case your payment was successful and you are seeing this message, you may experience some delay in the process of the transaction. Don't hesitate to
+                            <a href="mailto:info@compassion.ch">contact us</a>
+                            if you need any further assistance.
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </template>
+     </data>
+</odoo>

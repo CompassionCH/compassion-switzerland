@@ -1,0 +1,108 @@
+##############################################################################
+#
+#    Copyright (C) 2018-2020 Compassion CH (http://www.compassion.ch)
+#    @author: Emanuel Cino <ecino@compassion.ch>
+#
+#    The licence is in the file __manifest__.py
+#
+##############################################################################
+import re
+
+from datetime import datetime
+
+from odoo import models, fields, _
+
+
+def _get_contract(partner, child):
+    """
+    Map the contracts accordingly to the given values
+    :param partner: the partner to map contracts from
+    :param mapping_val: optional value to use for the mapping
+    :param sorting_val: optional sorting value to use
+    :param filter_fun: optional filter function
+    :return:
+    """
+    valu = partner.contracts_fully_managed + partner.contracts_correspondant + partner.contracts_paid
+    return valu.filtered(lambda a: int(a.child_id) == int(child.id))
+
+
+class ChildDonationForm(models.AbstractModel):
+    _name = "cms.form.partner.child.donation"
+    _inherit = ["cms.form.payment"]
+
+    _form_model = "res.partner"
+
+    _display_type = "full"
+    gift_type = fields.Many2one("product.product", "Gift type", required=True,
+                                domain=[("categ_id.name", "=", "Sponsor gifts")])
+    child_sponsor = fields.Many2one("compassion.child", "Child")
+    amount = fields.Float(required=True)
+
+    _form_model_fields = [
+        "amount",
+        "gift_type"
+    ]
+    _form_fields_hidden = ("invoice_id", "child_sponsor")
+
+    def form_init(self, request, main_object=None, **kw):
+        form = super().form_init(
+            request, main_object, **kw
+        )
+        # Set default value
+        form.child_sponsor = kw["child_id"]
+        return form
+
+    def _form_create(self, values):
+        # Create as superuser
+        self.main_object = self.form_model.sudo().create(values.copy())
+
+    @property
+    def _payment_success_redirect(self):
+        return f"/my/children/donate/payments/validate/{self.invoice_id.id}?payment=success"
+
+    @property
+    def _payment_error_redirect(self):
+        return f"/my/children/donate/payments/validate/{self.invoice_id.id}?payment=error"
+
+    def generate_invoice(self):
+        partner = self.main_object.sudo()
+        product = self.gift_type
+        name = product.product_tmpl_id.name
+        contract_id = _get_contract(partner, self.child_sponsor)
+        invoicing =(
+            self.env["account.invoice"]
+                .sudo()
+                .create(
+                {
+                    "invoice_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "quantity": 1,
+                                "price_unit": self.amount,
+                                "account_id": product.property_account_income_id.id,
+                                "name": name,
+                                "product_id": product.id,
+                                "contract_id": contract_id.id,
+                            },
+                        )
+                    ],
+                    "type": "out_invoice",
+                    "date_invoice": fields.Date.today(),
+                    "payment_term_id": self.env.ref(
+                        "account.account_payment_term_immediate"
+                    ).id,
+                    "partner_id": partner.id,
+                }
+            )
+        )
+        return invoicing
+
+    def form_after_create_or_update(self, values, extra_values):
+        # Get the extra values of the form
+        self.amount = extra_values.get("amount")
+        self.gift_type = extra_values.get("gift_type")
+
+        # Skip invoice validation in super to avoid having the analytic of product
+        super().form_after_create_or_update(values, extra_values)
