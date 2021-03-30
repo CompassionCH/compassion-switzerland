@@ -112,7 +112,7 @@ class PaymentOrder(models.Model):
         context = {"lang": partner.lang}
         invoices = paylines.mapped("move_line_id.invoice_id").with_context(context)
         products = invoices.mapped("invoice_line_ids.product_id")
-        invoice_type = list(set(invoices.mapped("invoice_type")))
+        invoice_type = list(set(invoices.mapped("invoice_category")))
         invoice_type = invoice_type and invoice_type[0] or "other"
         communication = False
         if invoice_type in ("sponsorship", "gift"):

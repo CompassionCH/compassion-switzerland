@@ -29,5 +29,5 @@ class BankPaymentLine(models.Model):
         :return: list of grouping fields
         """
         res = super().same_fields_payment_line_and_bank_payment_line()
-        res.append("invoice_type")
+        res.append("invoice_category")
         return res
