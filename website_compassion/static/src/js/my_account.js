@@ -54,6 +54,9 @@ $('#section_menu li a').click(function(event) {
 my_children_select_child = function(obj_id, state) {
     window.open("/my/children?child_id=" + obj_id + "&state=" + state, "_self");
 }
+my_children_donate_select_child = function(obj_id, state) {
+    window.location.replace("/my/children/donate/?child_id=" + obj_id);
+}
 
 $(document).ready(function() {
     $("#my_account_invoicing #year").change(function () {

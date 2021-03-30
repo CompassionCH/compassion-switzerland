@@ -292,9 +292,10 @@
 
         <!-- Display the gift history for the selected child -->
         <template id="my_children_gift_history">
-            <div id="gift_history_section" class="mt-4" t-if="lines">
-                <hr/>
-                <h3>Gift history</h3>
+            <div id="gift_history_section" class="mt-4">
+            <hr/>
+            <h3>Gift history</h3>
+              <div id="gift_table_section" class="mt-4" t-if="lines">
                 <div class="row">
                     <div class="col-4">
                         <label><b>Fund</b></label>
@@ -319,8 +320,9 @@
                         </div>
                     </div>
                 </t>
-                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank"><span>Make a donation</span></a>
+              </div>
             </div>
+            <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="/my/children/donate?child_id={{child_id.id}}" target="_blank"><span>Make a donation</span></a>
         </template>
 
         <!-- Display the correspondence with the selected child -->

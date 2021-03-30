@@ -13,6 +13,7 @@ from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 
+import werkzeug
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 
@@ -384,6 +385,46 @@ class MyAccountController(PaymentFormController):
                 "website_compassion.my_donations_page_template", values
             )
         return self._form_redirect(result, full_page=True)
+
+    @route("/my/children/donate", type="http", auth="user", website=True)
+    def chidren_donate(self, **kw):
+        """
+        The route to donate a gift to a child about the partner
+        :param child_id: the selected child
+        :param kw: the additional optional arguments
+        :return: a redirection to a webpage
+        """
+        partner = request.env.user.partner_id
+        children = _get_user_children("active")
+        child = children.filtered(lambda c: c.id == int(kw["child_id"]))
+        if not child:  # The user does not sponsor this child_id
+            return request.redirect(
+                f"/my/children/donate?child_id={children[0].id}"
+            )
+        kw["form_model_key"] = "cms.form.partner.child.donation"
+        donation_form = self.get_form("res.partner", partner.id, **kw)
+        donation_form.form_process()
+        values = {"donation_form": donation_form, "children": children, "child_id": child}
+        if donation_form.form_success:
+            return werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
+        else:
+            result = request.render("website_compassion.my_account_my_children_donate", values)
+
+        return self._form_redirect(result, full_page=True)
+
+
+    @route(
+        "/my/children/donate/payments/validate/<int:invoice_id>", auth="public", website=True,
+        sitemap=False
+    )
+    def child_donation_validate(self, invoice_id=None, **kwargs):
+        """ Method called after a payment attempt """
+
+        payment = kwargs.get("payment")
+        if payment == "error":
+            return request.render("website_compassion.donation_failure")
+
+        return request.render("website_compassion.donation_successful")
 
     @route("/my/information", type="http", auth="user", website=True)
     def my_information(self, form_id=None, **kw):

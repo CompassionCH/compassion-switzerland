@@ -41,6 +41,7 @@
         "template/my_account_personal_info.xml",
         "template/my_account_donations.xml",
         "template/my_account_my_children.xml",
+        "template/my_account_my_children_donate.xml",
         "template/my_account_write_a_letter.xml",
         "template/survey_templates.xml",
         "template/login_template.xml",
