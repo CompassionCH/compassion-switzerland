@@ -258,7 +258,7 @@
                         </div>
                     </div>
                 </t>
-                <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
+                <a href="/my/new/donation" class="btn btn-primary">Make a donation</a>
             </div>
         </template>
     </data>
