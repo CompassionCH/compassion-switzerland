@@ -12,6 +12,7 @@ from os import path, remove
 from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
+from math import ceil
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -36,9 +37,9 @@ def _map_contracts(partner, mapping_val=None, sorting_val=None,
     :return:
     """
     return (
-        partner.contracts_fully_managed.filtered(filter_fun) +
-        partner.contracts_correspondant.filtered(filter_fun) +
-        partner.contracts_paid.filtered(filter_fun)
+            partner.contracts_fully_managed.filtered(filter_fun) +
+            partner.contracts_correspondant.filtered(filter_fun) +
+            partner.contracts_paid.filtered(filter_fun)
     ).mapped(mapping_val).sorted(sorting_val)
 
 
@@ -50,6 +51,7 @@ def _get_user_children(state=None):
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
+
     def filter_sponsorships(sponsorship):
         if state == "active":
             return sponsorship.state not in ["cancelled", "terminated"]
@@ -270,24 +272,43 @@ class MyAccountController(PaymentFormController):
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
     @route("/my/donations", type="http", auth="user", website=True)
-    def my_donations(self, form_id=None, **kw):
+    def my_donations(self, invoice_page='1', form_id=None, **kw):
         """
         The route to the donations and invoicing page
+        :param invoice_page: index of the invoice pagination
         :param form_id: the id of the filled form or None
         :param kw: additional optional arguments
         :return: a redirection to a webpage
         """
         partner = request.env.user.partner_id
 
-        invoices = request.env["account.invoice"].sudo().search([
+        invoice_page = int(invoice_page) if invoice_page.isnumeric() else 1
+
+        invoice_search_criteria = [
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
             ("invoice_type", "in", ["sponsorship", "fund", "other"]),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
-        ])
+        ]
+
+        sudo_invoice_env = request.env["account.invoice"].sudo()
+
+        all_invoice_count = sudo_invoice_env.search_count(invoice_search_criteria)
+
+        invoice_per_page = 30
+        invoice_page = invoice_page if invoice_page >= 1 and (
+                invoice_page - 1) * invoice_per_page < all_invoice_count else 1
+
+        count_invoice_pages = int(ceil(all_invoice_count / invoice_per_page))
+
+        # invoice to show for the given pagination index
+        invoices = sudo_invoice_env.search(invoice_search_criteria,
+                                           offset=(invoice_page - 1) * invoice_per_page,
+                                           limit=invoice_per_page)
+
         in_one_month = datetime.today() + timedelta(days=30)
-        due_invoices = request.env["account.invoice"].sudo().search([
+        due_invoices = sudo_invoice_env.search([
             ("partner_id", "=", partner.id),
             ("state", "=", "open"),
             ("invoice_type", "=", "sponsorship"),
@@ -296,15 +317,17 @@ class MyAccountController(PaymentFormController):
             ("date_invoice", "<", fields.Date.to_string(in_one_month))
         ])
 
+        last_completed_tax_receipt = partner.last_completed_tax_receipt
+
         groups = _map_contracts(
             partner, "group_id", filter_fun=lambda s: s.state not in
-            ["cancelled", "terminated"] and partner == s.mapped("partner_id")
+                                                      ["cancelled", "terminated"] and partner == s.mapped("partner_id")
         )
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
                 lambda c: c.state not in ["cancelled", "terminated"] and
-                c.partner_id == partner
+                          c.partner_id == partner
             ) for g in groups
         ]
         # List of integers representing the total amount by group
@@ -312,7 +335,7 @@ class MyAccountController(PaymentFormController):
             sum(list(filter(
                 lambda a: a != 42.0,
                 sponsor.filtered(lambda s: s.type == "S")
-                .mapped("contract_line_ids").mapped("amount")
+                    .mapped("contract_line_ids").mapped("amount")
             ))) for sponsor in sponsorships_by_group
         ]
         # List of recordset of paid sponsorships (one recordset for each group)
@@ -325,6 +348,7 @@ class MyAccountController(PaymentFormController):
             len(sponsorship.filtered(lambda s: s.type == "SC"))
             for sponsorship in sponsorships_by_group
         ]
+
         # List of strings (one bvr reference for each group)
         bvr_references = groups.mapped("bvr_reference")
         # Find the first non empty bvr reference in the groups
@@ -354,12 +378,15 @@ class MyAccountController(PaymentFormController):
             payment_options_form.form_process()
             form_success = payment_options_form.form_success
 
-        first_year = request.env["account.invoice"].sudo().search([
+        create_date = sudo_invoice_env.search([
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
-        ], limit=1, order="create_date asc").create_date.year
+        ], limit=1, order="create_date asc").create_date
+
+        first_year = create_date.year if create_date else False
+
         current_year = datetime.today().year
 
         values = self._prepare_portal_layout_values()
@@ -367,6 +394,8 @@ class MyAccountController(PaymentFormController):
             "partner": partner,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
+            "invoice_page": invoice_page,
+            "count_invoice_pages": count_invoice_pages,
             "due_invoices": due_invoices,
             "groups": groups,
             "amount_by_group": amount_by_group,
@@ -374,6 +403,7 @@ class MyAccountController(PaymentFormController):
             "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
             "first_year": first_year,
             "current_year": current_year,
+            "last_completed_tax_receipt": last_completed_tax_receipt
         })
 
         # This fixes an issue that forms fail after first submission
@@ -451,6 +481,7 @@ class MyAccountController(PaymentFormController):
         :param kw: the additional optional arguments
         :return: a response to download the file
         """
+
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
@@ -470,12 +501,12 @@ class MyAccountController(PaymentFormController):
             partner = request.env.user.partner_id
             year = _get_required_param("year", kw)
 
-            wizard = request.env["print.tax_receipt"]\
+            wizard = request.env["print.tax_receipt"] \
                 .with_context(active_ids=partner.ids).create({
-                    "pdf": True,
-                    "year": year,
-                    "pdf_name": f"tax_receipt_{year}.pdf",
-                })
+                "pdf": True,
+                "year": year,
+                "pdf_name": f"tax_receipt_{year}.pdf",
+            })
             wizard.get_report()
             headers = Headers()
             headers.add(
