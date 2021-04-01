@@ -36,9 +36,9 @@ def _map_contracts(partner, mapping_val=None, sorting_val=None,
     :return:
     """
     return (
-        partner.contracts_fully_managed.filtered(filter_fun) +
-        partner.contracts_correspondant.filtered(filter_fun) +
-        partner.contracts_paid.filtered(filter_fun)
+            partner.contracts_fully_managed.filtered(filter_fun) +
+            partner.contracts_correspondant.filtered(filter_fun) +
+            partner.contracts_paid.filtered(filter_fun)
     ).mapped(mapping_val).sorted(sorting_val)
 
 
@@ -50,6 +50,7 @@ def _get_user_children(state=None):
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
+
     def filter_sponsorships(sponsorship):
         if state == "active":
             return sponsorship.state not in ["cancelled", "terminated"]
@@ -168,6 +169,29 @@ class MyAccountController(PaymentFormController):
             return request.redirect("/my/children")
         else:
             return request.redirect("/my/information")
+
+    @route("/my/contact", type="http", auth="user", website=True)
+    def contact_us(self, **kwargs):
+
+        partner = request.env.user.partner_id
+
+        kwargs["form_model_key"] = "cms.form.claim.contact.us"
+        kwargs["partner_id"] = partner
+
+        claim_form = self.get_form("crm.claim", **kwargs)
+
+        claim_form.form_process()
+
+        if claim_form.form_success:
+            return request.render(
+                "website_compassion.successful_request", {"partner": partner}
+            )
+
+        return request.render(
+            "website_compassion.contact_us_page_template",
+            {"partner": partner,
+             "form": claim_form}
+        )
 
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
@@ -298,13 +322,13 @@ class MyAccountController(PaymentFormController):
 
         groups = _map_contracts(
             partner, "group_id", filter_fun=lambda s: s.state not in
-            ["cancelled", "terminated"] and partner == s.mapped("partner_id")
+                                                      ["cancelled", "terminated"] and partner == s.mapped("partner_id")
         )
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
                 lambda c: c.state not in ["cancelled", "terminated"] and
-                c.partner_id == partner
+                          c.partner_id == partner
             ) for g in groups
         ]
         # List of integers representing the total amount by group
@@ -312,7 +336,7 @@ class MyAccountController(PaymentFormController):
             sum(list(filter(
                 lambda a: a != 42.0,
                 sponsor.filtered(lambda s: s.type == "S")
-                .mapped("contract_line_ids").mapped("amount")
+                    .mapped("contract_line_ids").mapped("amount")
             ))) for sponsor in sponsorships_by_group
         ]
         # List of recordset of paid sponsorships (one recordset for each group)
@@ -451,6 +475,7 @@ class MyAccountController(PaymentFormController):
         :param kw: the additional optional arguments
         :return: a response to download the file
         """
+
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
@@ -470,12 +495,12 @@ class MyAccountController(PaymentFormController):
             partner = request.env.user.partner_id
             year = _get_required_param("year", kw)
 
-            wizard = request.env["print.tax_receipt"]\
+            wizard = request.env["print.tax_receipt"] \
                 .with_context(active_ids=partner.ids).create({
-                    "pdf": True,
-                    "year": year,
-                    "pdf_name": f"tax_receipt_{year}.pdf",
-                })
+                "pdf": True,
+                "year": year,
+                "pdf_name": f"tax_receipt_{year}.pdf",
+            })
             wizard.get_report()
             headers = Headers()
             headers.add(
