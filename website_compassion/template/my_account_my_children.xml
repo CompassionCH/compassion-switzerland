@@ -241,7 +241,7 @@
                             <t t-call="website_compassion.fill_key_value">Project name</t>
 
                             <!-- Number of sponsor children -->
-                            <t t-set="value" t-value="child_id.project_id.sponsorships_count"/>
+                            <t t-set="value" t-value="child_id.project_id.nb_cdsp_kids"/>
                             <t t-call="website_compassion.fill_key_value">Number of sponsored children</t>
 
                             <!-- Project activities -->
