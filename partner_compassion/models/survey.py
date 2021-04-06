@@ -11,12 +11,28 @@
 from odoo import models, fields, api
 
 
+class Survey(models.Model):
+    _inherit = "survey.survey"
+
+    hide_answers = fields.Boolean(help="Don't allow user to review the answers.")
+
+
 class SurveyQuestion(models.Model):
     _inherit = "survey.question"
 
-    # when used this field tells the validation process that the maximum number of option answer should be validated
+    # when used this field tells the validation process that the maximum number of
+    # option answer should be validated
     max_checked_option = fields.Integer(
+        "Maximum answers",
         help="if set, maximum number of options allowed for the user")
+    left_label = fields.Char(
+        translate=True,
+        help="Add a label left (or above) the answers."
+             " This will use one column or row in the survey.")
+    right_label = fields.Char(
+        translate=True,
+        help="Adds a label right (or below) the answers."
+             " This will use one column or row in the survey.")
 
     @api.multi
     def validate_multiple_choice(self, post, answer_tag):

@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2019 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2019-2021 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
@@ -44,11 +44,13 @@ class UserRegistrationForm(models.AbstractModel):
 
     def _get_portal_user_vals(self, wizard_id, form_values):
         """ Set the communication to send to user. """
+        source = form_values.pop("source", False)
         vals = super()._get_portal_user_vals(wizard_id, form_values)
-        config_id = (
-            self.sudo()
-                .env.ref("mobile_app_switzerland.mobile_app_welcome_config")
-                .id
-        )
+        if source == "myaccount":
+            config_id = self.sudo().env.ref(
+                "mobile_app_switzerland.myaccount_welcome_config").id
+        else:
+            config_id = self.sudo().env.ref(
+                "mobile_app_switzerland.mobile_app_welcome_config").id
         vals["invitation_config_id"] = config_id
         return vals

@@ -1,0 +1,44 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+read_access_product_portal,Read access product portal,partner_compassion.model_product_product,base.group_portal,1,0,0,0
+read_access_product_pricelist_portal,Read access product pricelist portal,product.model_product_pricelist,base.group_portal,1,0,0,0
+read_access_contract_origin_portal,Read access contract origin portal,sponsorship_compassion.model_recurring_contract_origin,base.group_portal,1,0,0,0
+read_access_category_portal,Read access category portal,product.model_product_category,base.group_portal,1,0,0,0
+read_access_banking_mandate_portal,Read access banking mandate account portal,account_banking_mandate.model_account_banking_mandate,base.group_portal,1,0,0,0
+read_access_analytic_account_portal,Read access analytic account portal,analytic.model_account_analytic_account,base.group_portal,1,0,0,0
+read_access_analytic_tag_portal,Read access analytic tag portal,analytic.model_account_analytic_tag,base.group_portal,1,0,0,0
+read_access_analytic_distribution_portal,Read access analytic distribution portal,analytic.model_account_analytic_distribution,base.group_portal,1,0,0,0
+read_access_account_portal,Read access account portal,account.model_account_account,base.group_portal,1,0,0,0
+read_access_journal_portal,Read access journal portal,account.model_account_journal,base.group_portal,1,0,0,0
+read_access_tax_portal,Read access tax portal,account.model_account_invoice_tax,base.group_portal,1,0,0,0
+read_access_payment_term_portal,Read access payment term portal,account.model_account_payment_term,base.group_portal,1,0,0,0
+read_access_payment_term_line_portal,Read access payment term line portal,account.model_account_payment_term_line,base.group_portal,1,0,0,0
+read_access_account_type_portal,Read access account type portal,account.model_account_account_type,base.group_portal,1,0,0,0
+read_access_payment_portal,Read access payment portal,account.model_account_payment,base.group_portal,1,0,0,0
+read_access_fiscal_position_portal,Read access fiscal position portal,account.model_account_fiscal_position,base.group_portal,1,0,0,0
+read_access_analytic_default_portal,Read access analytic default portal,account_analytic_default.model_account_analytic_default,base.group_portal,1,0,0,0
+read_access_payment_line_portal,Read access payment line portal,account_payment_order.model_account_payment_line,base.group_portal,1,0,0,0
+read_access_payment_order_portal,Read access payment order portal,account_payment_order.model_account_payment_order,base.group_portal,1,0,0,0
+read_access_asset_line_portal,Read access asset line portal,account_asset_management.model_account_asset_line,base.group_portal,1,0,0,0
+read_access_communication_config_portal,Read access communication config portal,partner_communication.model_partner_communication_config,base.group_portal,1,0,0,0
+read_access_compassion_mapping_portal,Read access compassion mapping portal,message_center_compassion.model_compassion_mapping,base.group_portal,1,0,0,0
+read_access_mail_activity_portal,Read access mail activity portal,mail.model_mail_activity,base.group_portal,1,0,0,0
+read_access_sponsorship_gift_portal,Read access sponsorship gift portal,gift_compassion.model_sponsorship_gift,base.group_portal,1,0,0,0
+read_access_compassion_event_portal,Read access compassion event portal,crm_compassion.model_crm_event_compassion,base.group_portal,1,0,0,0
+read_access_bank_portal,Read access bank portal,base.model_res_partner_bank,base.group_portal,1,0,0,0
+read_access_sequence_portal,Read access sequence portal,base.model_ir_sequence,base.group_portal,1,0,0,0
+read_access_partner_bank,Read access partner bank portal,account.model_res_partner_bank,base.group_portal,1,0,0,0
+read_create_access_payment_slip_portal,Read create access payment slip portal,l10n_ch_payment_slip.model_l10n_ch_payment_slip,base.group_portal,1,0,1,0
+read_create_access_invoicer_portal,Read create access invoicer portal,recurring_contract.model_recurring_invoicer,base.group_portal,1,0,1,0
+write_access_invoice_portal,Write access invoice portal,account.model_account_invoice,base.group_portal,1,1,0,0,0
+base.access_res_partner_portal,res_partner group_portal,base.model_res_partner,base.group_portal,1,1,0,0
+read_unlink_access_partial_reconcile_portal,Read unlink access partial reconcile portal,account.model_account_partial_reconcile,base.group_portal,1,0,0,1
+read_unlink_access_full_reconcile_portal,Read unlink access full reconcile portal,account.model_account_full_reconcile,base.group_portal,1,0,0,1
+write_unlink_access_contract_group_portal,Write unlink access contract group portal,recurring_contract.model_recurring_contract_group,base.group_portal,1,1,0,1
+full_access_account_analytic_line_portal,Full access account analytic line portal,account.model_account_analytic_line,base.group_portal,1,1,1,1
+full_access_line_portal,Full access line portal,account.model_account_invoice_line,base.group_portal,1,1,1,1
+full_access_move_line_portal,Full access move line portal,account.model_account_move_line,base.group_portal,1,1,1,1
+full_access_move_portal,Full access move portal,account.model_account_move,base.group_portal,1,1,1,1
+read_access_mapping_portal,Read access mapping portal,message_center_compassion.model_compassion_mapping,base.group_portal,1,0,0,0
+read_access_field_to_json_portal,Read access field to json portal,message_center_compassion.model_compassion_field_to_json,base.group_portal,1,0,0,0
+read_access_ir_model_portal,Read access ir model portal,base.model_ir_model,base.group_portal,1,0,0,0
+write_access_partner_portal,Write access partner portal,base.model_res_partner,base.group_portal,1,1,0,0

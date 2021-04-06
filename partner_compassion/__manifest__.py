@@ -71,7 +71,7 @@
         "data/partner_segmentation_survey.xml",
         "views/advocate_details.xml",
         'views/search_bank_address_wizard.xml',
-        "views/survey_user_input_action.xml",
+        "views/survey_view.xml",
         "views/partner_compassion_view.xml",
         "views/product_view.xml",
         "views/partner_check_double.xml",

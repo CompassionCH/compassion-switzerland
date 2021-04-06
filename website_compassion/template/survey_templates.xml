@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="custom_survey_layout" inherit_id="survey.survey_init">
+            <xpath expr="//div[@class='jumbotron mt32']/a" position="after">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <a role="button" class="btn btn-muted btn-lg" href="/my/children">Ask me again later</a>
+                </t>
+            </xpath>
+        </template>
+</odoo>
