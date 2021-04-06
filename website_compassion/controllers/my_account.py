@@ -6,6 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import base64
 from datetime import datetime, timedelta
 from base64 import b64decode, b64encode
 from os import path, remove
@@ -483,3 +484,52 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "labels":
+            child_id = _get_required_param("child_id", kw)
+            actives = _get_user_children("active")
+            child = actives.filtered(lambda c: c.id == int(child_id))
+            sponsorships = child.sponsorship_ids[0]
+            attachments = dict()
+            label_print = request.env["label.print"].search(
+                [("name", "=", "Sponsorship Label")], limit=1
+            )
+            label_brand = request.env["label.brand"].search(
+                [("brand_name", "=", "Herma A4")], limit=1
+            )
+            label_format = request.env["label.config"].search(
+                [("name", "=", "4455 SuperPrint WeiB")], limit=1
+            )
+            report_context = {
+                "active_ids": sponsorships.ids,
+                "active_model": "recurring.contract",
+                "label_print": label_print.id,
+                "must_skip_send_to_printer": True,
+            }
+            label_wizard = (
+                request.env["label.print.wizard"]
+                    .with_context(report_context)
+                    .create(
+                    {
+                        "brand_id": label_brand.id,
+                        "config_id": label_format.id,
+                        "number_of_labels": 33,
+                    }
+                )
+            )
+
+            label_data = label_wizard.get_report_data()
+            report_name = "label.report_label"
+            report = (
+                request.env["ir.actions.report"]
+                    ._get_report_from_name(report_name)
+                    .with_context(report_context)
+            )
+            pdf_data = report.with_context(
+                must_skip_send_to_printer=True
+            ).sudo().render_qweb_pdf(label_data['doc_ids'], data=label_data)[0]
+            pdf_download = base64.encodebytes(pdf_data)
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}"
+            )
+            return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)

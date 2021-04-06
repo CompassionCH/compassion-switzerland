@@ -95,9 +95,8 @@
                     </ul>
                       <h5>How to send a physical letter?</h5>
                       <ul>
-                        <li>Please write your reference and your child reference on any piece of paper, card, attachment.</li>
-                        <li>Your sponsor reference: <t t-esc="partner.ref"/> </li>
-                        <li>Your child reference: <span id="guideline_child_ref" t-esc="child_id.local_id"/> </li>
+
+                        <li><a id="link_to_print" t-attf-onclick="downloadLetter()" style="color:blue;cursor: pointer; cursor: hand;">Print the labels paper</a> and stick them on any piece of paper, card, attachment.</li>
                           <li>Send your letter to Compassion Switzerland, Rue Galilée 3, 1400 Yverdon-les-Bains.</li>
                     </ul>
                   </div>
