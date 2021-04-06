@@ -241,7 +241,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label>
-                                <t t-if="invoice.invoice_type == 'sponsorship'">
+                                <t t-if="invoice.invoice_category == 'sponsorship'">
                                     <span>Sponsorship </span>
                                     <t t-esc="invoice.get_date('date_invoice', 'MMMM Y').title()"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
                                 </t>

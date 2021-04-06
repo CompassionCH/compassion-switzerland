@@ -282,7 +282,7 @@ class MyAccountController(PaymentFormController):
         invoices = request.env["account.invoice"].sudo().search([
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
-            ("invoice_type", "in", ["sponsorship", "fund", "other"]),
+            ("invoice_category", "in", ["sponsorship", "fund", "other"]),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
         ])
@@ -290,7 +290,7 @@ class MyAccountController(PaymentFormController):
         due_invoices = request.env["account.invoice"].sudo().search([
             ("partner_id", "=", partner.id),
             ("state", "=", "open"),
-            ("invoice_type", "=", "sponsorship"),
+            ("invoice_category", "=", "sponsorship"),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
             ("date_invoice", "<", fields.Date.to_string(in_one_month))
