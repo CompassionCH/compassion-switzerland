@@ -23,6 +23,9 @@ String.prototype.indexOfEnd = function(substring) {
     return index === -1 ? index : index + substring.length;
 }
 
+downloadLetter = function() {
+    window.open("/my/download/labels/?child_id="+$('#child_id').text());
+}
 /**
  * Selects the element given the element type and the object id. This relies
  * on a smart choice of ids in the XML file.
