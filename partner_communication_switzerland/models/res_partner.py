@@ -23,18 +23,26 @@ class ResPartner(models.Model):
     _name = "res.partner"
     _inherit = ["res.partner", "translatable.model"]
 
+    tax_receipt_preference = fields.Selection(
+        selection="_get_delivery_preference",
+        compute="_compute_tax_receipt_preference",
+        store=True,
+    )
     letter_delivery_preference = fields.Selection(
         selection="_get_delivery_preference",
         default="auto_digital",
         required=True,
         help="Delivery preference for Child Letters",
     )
-    tax_receipt_preference = fields.Selection(
-        selection="_get_delivery_preference",
-        compute="_compute_tax_receipt_preference",
-        store=True,
-    )
+    no_physical_letter = fields.Boolean(
+        compute="_compute_no_physical_letter",
+        inverse="_inverse_no_physical_letter",
+        help="Tells if all communication preferences are set to email only.")
     is_new_donor = fields.Boolean(compute="_compute_new_donor")
+    last_completed_tax_receipt = fields.Integer(
+        compute="_compute_last_completed_tax_receipt",
+        help="Gives the year of the last tax receipt sent to the partner"
+    )
 
     @api.multi
     def _compute_salutation(self):
@@ -132,6 +140,74 @@ class ResPartner(models.Model):
             payments = donation_invl.mapped("last_payment")
             new_donor = len(payments) < 2 and not partner.has_sponsorships
             partner.is_new_donor = new_donor
+
+    def _compute_no_physical_letter(self):
+        for partner in self:
+            partner.no_physical_letter = (
+                "only" in partner.global_communication_delivery_preference
+                or partner.global_communication_delivery_preference == "none"
+            ) and (
+                "only" in partner.letter_delivery_preference
+                or partner.letter_delivery_preference == "none"
+            ) and (
+                "only" in partner.photo_delivery_preference
+                or partner.photo_delivery_preference == "none"
+            ) and (
+                "only" in partner.thankyou_preference
+                or partner.thankyou_preference == "none"
+            ) and partner.tax_certificate != "paper" and partner.nbmag in (
+                "email", "no_mag")
+
+    def _inverse_no_physical_letter(self):
+        for partner in self:
+            if partner.no_physical_letter:
+                vals = {
+                    "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
+                    "tax_certificate": "no"
+                    if partner.tax_certificate == "no"else "only_email",
+                    "calendar": False,
+                    "christmas_card": False
+                }
+                for _field in ["global_communication_delivery_preference",
+                               "letter_delivery_preference",
+                               "photo_delivery_preference",
+                               "thankyou_preference"]:
+                    value = getattr(partner, _field)
+                    if "auto" in value or value == "both":
+                        vals[_field] = "auto_digital_only"
+                    elif value in ["physical", "digital"]:
+                        vals[_field] = "digital_only"
+                partner.write(vals)
+            else:
+                vals = {
+                    "calendar": True,
+                    "christmas_card": True
+                }
+                for _field in ["global_communication_delivery_preference",
+                               "letter_delivery_preference",
+                               "photo_delivery_preference",
+                               "thankyou_preference"]:
+                    value = getattr(partner, _field)
+                    if "only" in value:
+                        vals[_field] = value.replace("_only", "")
+                if partner.nbmag == "no_mag":
+                    vals["nbmag"] = "one"
+                if partner.tax_certificate == "only_email":
+                    vals["tax_certificate"] = "default"
+                partner.write(vals)
+
+    def _compute_last_completed_tax_receipt(self):
+        for partner in self:
+            last_tax_receipt = self.env["partner.communication.job"].search([
+                ("config_id", "=", self.env.ref(
+                    "partner_communication_switzerland.tax_receipt_config").id),
+                ("partner_id", "=", partner.id),
+                ("state", "=", "done")
+            ], limit=1)
+            if last_tax_receipt.date:
+                partner.last_completed_tax_receipt = last_tax_receipt.date.year-1
+            else:
+                partner.last_completed_tax_receipt = 1979
 
     @api.model
     def generate_tax_receipts(self):

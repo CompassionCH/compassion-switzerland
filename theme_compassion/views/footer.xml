@@ -4,7 +4,7 @@
         <!-- Customize footer  -->
         <template id="custom_footer" inherit_id="website.layout" name="Custom Footer" priority="1000">
             <xpath expr="//div[@id='wrapwrap']/footer" position="replace">
-                <div id="main_footer">
+                <div id="main_footer" class="mt-5">
                     <footer class="footer_with_margin">
                         <div class="main_footer_container">
                             <t t-if="env.lang == 'de_DE'">

@@ -370,11 +370,11 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <t t-if="request.session.get('uid')">
-                                        <li><a class="dropdown-item" href="/my_account">My Account</a></li>
+                                        <li><a class="dropdown-item" href="/my/together">My Account</a></li>
                                         <li><a class="dropdown-item" href="/web/session/logout?redirect=/homepage">Logout</a></li>
                                     </t>
                                     <t t-else="">
-                                        <li><a class="dropdown-item" href="/web/login?redirect=/my_account">Login</a></li>
+                                        <li><a class="dropdown-item" href="/web/login?redirect=/my/together">Login</a></li>
                                     </t>
                                 </ul>
                             </li>

@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Mobile App Customization for Switerland",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.1.0",
     "category": "Reports",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -44,7 +44,7 @@
     ],
     "depends": [
         "mobile_app_connector",  # compassion-modules
-        "partner_communication_switzerland",  # compassion-switzerland
+        "website_compassion",  # compassion-switzerland
     ],
     "external_dependencies": {},
     "demo": [],

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="page_custom" name="Page Custom" inherit_id="survey.page">
+
+            <!-- Remove text-muted attribute in question description -->
+            <xpath expr="//div[@class='text-muted oe_no_empty']" position="attributes">
+                <attribute name="class">oe_no_empty</attribute>
+            </xpath>
+
+            <!-- Add margins between questions -->
+            <xpath expr="//div[@class='js_question-wrapper']" position="attributes">
+                <attribute name="class">js_question-wrapper my-4</attribute>
+            </xpath>
+
+            <!-- Change next and previous page order (more logical in interface)-->
+            <xpath expr="//div[@class='text-center mt16 mb16']" position="replace">
+                <div class="text-center mt16 mb16">
+                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit survey</button>
+                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>
+                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary" name="button_submit" value="previous">Previous page</button>
+                </div>
+            </xpath>
+
+            <!-- Add margins in survey -->
+            <xpath expr="div[@class='o_page_header']" position="attributes">
+                <attribute name="class">jumbotron mt-32 mb-32 o_page_header</attribute>
+            </xpath>
+
+        </template>
+
+        <template id="custom_multiple_choice" name="multiple choice custom" inherit_id="survey.multiple_choice">
+
+            <xpath expr="//label/span" position="attributes">
+                <attribute name="class">font-weight-normal</attribute>
+            </xpath>
+
+            <xpath expr="//div[@class='row']/div" position="attributes">
+                <attribute name="t-attf-class">col-#{'md' if question.left_label else 'lg-' + question.column_nb}</attribute>
+            </xpath>
+            <xpath expr="//div[@class='row']/div[1]" position="before">
+                <t t-if="question.left_label">
+                    <div t-attf-class="col-md">
+                        <span t-field="question.left_label"/>
+                    </div>
+                </t>
+            </xpath>
+            <xpath expr="//div[@class='row']/div[last()]" position="after">
+                <t t-if="question.right_label">
+                    <div t-attf-class="col-md">
+                        <span t-field="question.right_label"/>
+                    </div>
+                </t>
+            </xpath>
+
+        </template>
+
+        <template id="custom_simple_choice" name="simple choice custom" inherit_id="survey.simple_choice">
+
+            <xpath expr="//div[@t-as='label']" position="replace">
+                    <div t-foreach='question.labels_ids' t-as='label' t-attf-class="col-#{'md' if question.left_label else 'lg-' + question.column_nb}">
+                    <label t-att-class="' bg-success d-flex flex-column' if quizz_correction and label.quizz_mark > 0.0 else 'd-flex flex-column align-items-center'" style="height: 100%">
+                        <span t-field='label.value' class="text-center"/>
+                        <input type="radio" t-att-name="prefix" t-att-value='label.id' class="w-100 mx-auto mt-auto"/>
+                    </label>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='row js_radio']/div[1]" position="before">
+                <t t-if="question.left_label">
+                    <div t-attf-class="col-md align-self-end">
+                        <span t-field="question.left_label"/>
+                    </div>
+                </t>
+            </xpath>
+
+            <xpath expr="//div[@class='row js_radio']/div[last()]" position="after">
+                <t t-if="question.right_label">
+                    <div t-attf-class="col-md align-self-end">
+                        <span t-field="question.right_label"/>
+                    </div>
+                </t>
+            </xpath>
+
+        </template>
+
+        <template id="survey_finished" name="survey finished hide answers" inherit_id="survey.sfinished">
+            <xpath expr="//div[@class='jumbotron mt32']/div[last()]" position="attributes">
+                <attribute name="t-att-class">'d-none' if survey.hide_answers else None</attribute>
+                <attribute name="class">d-none</attribute>
+            </xpath>
+            <xpath expr="//div[@class='jumbotron mt32']/h1" position="replace">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <h1 class="text-uppercase my-4" style="color: #005eb8;">Thank you for your commitment</h1>
+                </t>
+                <t t-else="">
+                    <h1>Thank you!</h1>
+                </t>
+            </xpath>
+            <xpath expr="//div[@class='jumbotron mt32']/div[last()]" position="after">
+                <t t-if="survey == survey.env.ref('partner_compassion.partner_segmentation_survey')">
+                    <div>
+                        <div t-field="user_input.partner_id.primary_segment_id.survey_result" class="oe_structure"/>
+                        <a href="/my/information" class="btn btn-primary btn-lg">Go to my profile</a>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

@@ -29,7 +29,7 @@ class AccountInvoiceLine(models.Model):
 
         event_names = self.mapped("event_id.name")
         product_names = self.mapped("product_id.thanks_name")
-        gift = "gift" in self.mapped("invoice_id.invoice_type")
+        gift = "gift" in self.mapped("invoice_id.invoice_category")
         if len(event_names) == 1 and not gift:
             res_name = event_names[0]
         elif not event_names and len(product_names) == 1 and not gift:
@@ -63,7 +63,7 @@ class AccountInvoiceLine(models.Model):
         event = self.mapped("event_id")[:1]
         default_communication_config = False
         # Special case for gifts : never put in event donation
-        gift = "gift" in self.mapped("invoice_id.invoice_type")
+        gift = "gift" in self.mapped("invoice_id.invoice_category")
         if event and not gift:
             default_communication_config = self.env.ref(
                 "partner_communication_switzerland.config_event_standard"
