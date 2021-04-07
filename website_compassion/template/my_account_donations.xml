@@ -7,11 +7,12 @@
         <!--        one or more groups for the partner -->
         <!--     3. invoices, the list of paid invoices of the partner -->
         <!--     4. groups, the groups of payment of the partner -->
-        <!--     5. amount_by_group, The additional amount that is payed, by group -->
-        <!--     6. paid_sponsor_count_by_group, the number of paid sponsorships, by group -->
-        <!--     7. wp_sponsor_count_by_group, the number of write and pray sponsorships, by group -->
-        <!--     8. first_year, the first year that the partner paid some invoices -->
-        <!--     9. current_year, the current year -->
+        <!--     5. paid_sponsor, the list of active paid sponsorships-->
+        <!--     6. amount_by_group, The additional amount that is payed, by group -->
+        <!--     7. paid_sponsor_count_by_group, the number of paid sponsorships, by group -->
+        <!--     8. wp_sponsor_count_by_group, the number of write and pray sponsorships, by group -->
+        <!--     9. first_year, the first year that the partner paid some invoices -->
+        <!--     10. current_year, the current year -->
         <template id="my_donations_page_template" name="Donations / Invoicing">
             <t t-set="selected">donation</t>
             <t t-set="title">My financials | <t t-esc="partner.company_id.address_name"/></t>
@@ -39,6 +40,8 @@
                         </form>
                     </t>
 
+                    <t t-call="website_compassion.my_sponsorship_donation"/>
+                    
                     <t t-call="website_compassion.my_donations_tax_receipt"/>
 
                     <t t-call="website_compassion.my_donations_gift_history"/>
@@ -133,21 +136,6 @@
                 <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.translate('recurring_unit')"/>
                 <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
-                <!-- Total additional amount -->
-                <t t-set="value" t-value="str(amount_by_group[0]).replace('.0', '.-') + ' CHF'"/>
-                <div class="row" t-if="value">
-                    <div class="col-6 border-right">
-                        <label>
-                            <span>Total additional amount</span>
-                            <t t-set="tooltip_title">This amount supports children that are not yet sponsored.</t>
-                            <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
-                        </label>
-                    </div>
-                    <div class="col-6">
-                        <label><t t-esc="value"/></label>
-                    </div>
-                </div>
-
                 <!-- Number of Write and Pray children -->
                 <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
                 <t t-call="website_compassion.fill_key_value">Number of Write and Pray children</t>
@@ -159,7 +147,66 @@
                         data-target="#modal_payment_options">Change</button>
             </div>
         </template>
-
+        <template id="my_sponsorship_donation">
+            <div class="mt-4">
+                <!-- Payments option -->
+                <h3>My sponsorships</h3>
+                <div class="row" style="backgroud: lightgray;">
+                    <div class="col-4">
+                        <label><b>Child</b></label>
+                    </div>
+                    <div class="col-2">
+                        <label><b>Amount</b></label>
+                    </div>
+                    <div class="col-6">
+                        <label>
+                            <b>Upgrade</b>
+                            <t t-set="tooltip_title">Upgrade your sponsorship to supports children that are not yet sponsored.</t>
+                            <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
+                        </label>
+                    </div>
+                </div>
+                <t t-foreach="paid_sponsor" t-as="sponsor">
+                    <div class="row pt-3">
+                        <div class="col-4">
+                            <label><t t-esc="sponsor.child_id.preferred_name"/></label>
+                        </div>
+                        <div class="col-2">
+                            <label><t t-raw="sponsor.total_amount"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
+                        </div>
+                        <t t-if="sponsor.total_amount &lt; 50">
+                            <div class="col-3">
+                                <t t-if="sponsor.type in ['SWP']">
+                                    <input t-attf-id="donation_range_#{sponsor.id}"
+                                           t-attf-data-id="#{sponsor.id}"
+                                           class="donation_range form-range"
+                                           type="range"
+                                           t-attf-value="#{upgrade_default_new_amount[sponsor.id]}"
+                                           step="0.00001"/>
+                                </t>
+                            </div>
+                            <div class="col-3" style="text-align:right;">
+                                <a t-attf-id="donation_button_#{sponsor.id}"
+                                   class="donation_button btn btn-primary w-100"
+                                   t-attf-href="/my/donations/upgrade?recurring_contract=#{sponsor.id}">
+                                    <t t-esc="upgrade_button_format.replace('%', '50.00')"/>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="col-6">
+                                Already maximal upgrade
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+            <script>
+                let button_format = '<t t-esc="upgrade_button_format"/>';
+            </script>
+            <link rel="stylesheet" href="/website_compassion/static/src/css/my_donations.css"/>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_donations.js"/>
+        </template>
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
             <hr t-if="first_year"/>
@@ -281,6 +328,18 @@
             </div>
 
             <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
+        </template>
+
+        <template id="my_donations_update_confirmation">
+            <t t-set="selected">donation</t>
+            <t t-set="title">My financials</t>
+            <t t-call="website_compassion.my_account_layout">
+               <center>You are about to upgrade to a <t t-esc="new_amount"/> CHF sponsorship</center>
+                 <center>
+                    <a t-attf-href="#{upgrade_url}" class="btn btn-primary">Yes</a>
+                    <a t-attf-href="/my/donations" class="btn btn-primary">No</a>
+                </center>
+            </t>
         </template>
     </data>
 </odoo>

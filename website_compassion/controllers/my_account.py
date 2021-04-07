@@ -418,6 +418,62 @@ class MyAccountController(PaymentFormController):
         }
         return request.render("website_compassion.my_children_page_template", context)
 
+    @route("/my/donations/upgrade", type="http", auth="user", website=True)
+    def my_donations_update(self, recurring_contract=None, new_amount=None, **kw):
+        # check if the arguments are valid
+        # if not redirect to the donation page
+        try:
+            assert recurring_contract is not None
+            recurring_contract = int(recurring_contract)
+            partner = request.env.user.partner_id
+            partner_contracts = partner.contracts_fully_managed + partner.contracts_paid
+            contract = partner_contracts.filtered(
+                lambda c: c.id == recurring_contract
+                          and c.state not in ["cancelled", "terminated"]
+            )
+            assert len(contract) == 1
+
+            if new_amount and contract.type in ["SWP"]:
+                new_amount = float(new_amount)
+            else:
+                new_amount = 50.0
+
+            assert 1 <= new_amount <= 50
+            assert new_amount > contract.total_amount
+        except (ValueError, AssertionError):
+            return request.redirect("/my/donations")
+
+        if "confirmed" not in kw:
+            upgrade_url = f"/my/donations/upgrade?confirmed&recurring_contract={contract.id}"
+            if new_amount:
+                upgrade_url += f"&new_amount={new_amount}"
+            context = {
+                "new_amount": new_amount,
+                "upgrade_url": upgrade_url,
+            }
+            return request.render("website_compassion.my_donations_update_confirmation", context)
+
+        def create_line(fund_name, amount):
+            product_template = request.env["product.template"].sudo()
+            product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
+            return {
+                "contract_id": contract.id,
+                "product_id": product_template.id,
+                "quantity": 1,
+                "amount": amount,
+            }
+
+        contract.sudo().write({"contract_line_ids": [(5, 0, 0)]})
+
+        sponsorship_amount = min(42.0, new_amount)
+        contract_lines = [create_line("sponsorship", sponsorship_amount)]
+        remain = new_amount - sponsorship_amount
+        if remain > 0:
+            contract_lines.append(create_line("fund_gen", remain))
+
+        request.env["recurring.contract.line"].sudo().create(contract_lines)
+        return request.redirect("/my/donations")
+
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
         """
@@ -490,6 +546,9 @@ class MyAccountController(PaymentFormController):
             len(sponsorship.filtered(lambda s: s.type == "S"))
             for sponsorship in sponsorships_by_group
         ]
+        paid_sponsor = (partner.contracts_fully_managed
+                        + partner.contracts_paid) \
+            .filtered(lambda a: a.state not in ["cancelled", "terminated"])
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type in ["SC", "SWP"]))
@@ -535,9 +594,20 @@ class MyAccountController(PaymentFormController):
         current_year = datetime.today().year
         first_year = create_date.year if create_date else current_year
 
+        currency = (paid_sponsor.mapped("invoice_line_ids.currency_id.name") or [False])[0] or "CHF"
+        upgrade_button_format = f"{_('Upgrade to %')} {currency}"
+
+        upgrade_default_new_amount = {}
+        for sponsor in paid_sponsor:
+            value = sponsor.total_amount + 10
+            # constrain between 1 and 50
+            value = max(1, min(50, value))
+            upgrade_default_new_amount[sponsor.id] = value
+
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
+            "paid_sponsor": paid_sponsor,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
             "invoice_page": invoice_page,
@@ -549,7 +619,9 @@ class MyAccountController(PaymentFormController):
             "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
             "first_year": first_year,
             "current_year": current_year,
-            "last_completed_tax_receipt": last_completed_tax_receipt
+            "last_completed_tax_receipt": last_completed_tax_receipt,
+            "upgrade_default_new_amount": upgrade_default_new_amount,
+            "upgrade_button_format": upgrade_button_format,
         })
 
         # This fixes an issue that forms fail after first submission
