@@ -267,7 +267,7 @@
                         <t t-foreach="child_id.pictures_ids.sorted('date', reverse=True)" t-as="picture">
                             <li class="m-2">
                                 <div class="card d-flex text-center border-0" style="width: 12rem; height: auto;">
-                                    <img class="mx-auto" t-att-src="picture.image_url" style="max-width: 120px; width: 100%; height: auto;"/>
+                                    <img class="mx-auto" t-attf-src='https://erp.compassion.ch/web/image/compassion.child.pictures/{{picture.id}}/fullshot/' style="max-width: 120px; width: 100%; height: auto;"/>
                                     <div class="card-body pt-2">
                                         <div t-esc="picture.get_date('date', 'MMMM Y').title()"/>
                                         <a class="btn btn-primary mt-2" t-attf-href="/my/download/picture?obj_id={{picture.id}}&amp;child_id={{child_id.id}}">Download</a>
@@ -365,7 +365,7 @@
                             <label><t t-esc="letter.get_date('scanned_date', 'date_full')"/></label>
                         </div>
                         <div class="col-3">
-                            <label><a class="btn btn-primary" t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disp=inline&amp;type=pdf" target="_blank">View</a></label>
+                            <label><a class="btn btn-primary" t-attf-href="/b2s_image?id={{letter.uuid}}&amp;disposition=inline&amp;file_type=pdf" target="_blank">View</a></label>
                         </div>
                         <div class="col-3">
                             <label><a class="btn btn-primary" t-attf-href="/b2s_image?id={{letter.uuid}}">Download</a></label>

@@ -98,7 +98,8 @@ def _create_archive(images, archive_name):
             filename = path.basename(full_path)
 
             # Create file, write to archive and delete it from os
-            urlretrieve(img.image_url, filename)
+            img_url = f'https://erp.compassion.ch/web/image/compassion.child.pictures/{img.id}/fullshot/'
+            urlretrieve(img_url, filename)
             archive.write(filename, full_path)
             remove(filename)
 
@@ -457,8 +458,8 @@ class MyAccountController(PaymentFormController):
             return params[key]
 
         if source == "picture":
-            child_id = _get_required_param("child_id", kw)
-            obj_id = _get_required_param("obj_id", kw)
+            child_id = kw.get("child_id", False)
+            obj_id = kw.get("obj_id", False)
 
             if child_id and obj_id:
                 return _download_image("single", child_id, obj_id)
