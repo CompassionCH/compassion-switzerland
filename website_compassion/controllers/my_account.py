@@ -424,6 +424,32 @@ class MyAccountController(PaymentFormController):
             }
         )
 
+    @route("/my/donations/update", type="http", auth="user", website=True)
+    def my_donations_update(self, recurring_contract=None, res=None, **kw):
+        partner = request.env.user.partner_id
+        contract = (partner.contracts_fully_managed
+                    + partner.contracts_correspondant) \
+            .filtered(lambda a: a.state not in ["cancelled", "terminated"]).filtered(
+            lambda a: int(a.id) == int(recurring_contract))
+        if int(contract.total_amount) > 42:
+            return request.redirect("/my/donations")
+        if res:
+            if res == 'accepted':
+                gen_product = request.env["product.template"].search([
+                    ("default_code", "=", "fund_gen"),
+                    ("company_id", "=", request.env.user.company_id.id)],
+                    limit=1).product_variant_id
+                gen_vals = {
+                    "product_id": gen_product.id,
+                    "quantity": 1,
+                    "amount": gen_product.list_price,
+                    "subtotal": gen_product.list_price,
+                }
+                contract.write({'contract_line_ids': [(0, 0, gen_vals)]})
+            return request.redirect("/my/donations")
+        return request.render(
+            "website_compassion.my_donations_upgrade", {'sponsor':contract.id}
+
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
         """
@@ -497,6 +523,9 @@ class MyAccountController(PaymentFormController):
             len(sponsorship.filtered(lambda s: s.type == "S"))
             for sponsorship in sponsorships_by_group
         ]
+        paid_sponsor = (partner.contracts_fully_managed
+                        + partner.contracts_correspondant) \
+            .filtered(lambda a: a.state not in ["cancelled", "terminated"])
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type in ["SC", "SWP"]))
@@ -545,6 +574,7 @@ class MyAccountController(PaymentFormController):
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
+            "paid_sponsor": paid_sponsor,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
             "invoice_page": invoice_page,

@@ -7,11 +7,12 @@
         <!--        one or more groups for the partner -->
         <!--     3. invoices, the list of paid invoices of the partner -->
         <!--     4. groups, the groups of payment of the partner -->
-        <!--     5. amount_by_group, The additional amount that is payed, by group -->
-        <!--     6. paid_sponsor_count_by_group, the number of paid sponsorships, by group -->
-        <!--     7. wp_sponsor_count_by_group, the number of write and pray sponsorships, by group -->
-        <!--     8. first_year, the first year that the partner paid some invoices -->
-        <!--     9. current_year, the current year -->
+        <!--     5. paid_sponsor, the list of active paid sponsorships-->
+        <!--     6. amount_by_group, The additional amount that is payed, by group -->
+        <!--     7. paid_sponsor_count_by_group, the number of paid sponsorships, by group -->
+        <!--     8. wp_sponsor_count_by_group, the number of write and pray sponsorships, by group -->
+        <!--     9. first_year, the first year that the partner paid some invoices -->
+        <!--     10. current_year, the current year -->
         <template id="my_donations_page_template" name="Donations / Invoicing">
             <t t-set="selected">donation</t>
             <t t-set="title">My financials | <t t-esc="partner.company_id.address_name"/></t>
@@ -39,6 +40,8 @@
                         </form>
                     </t>
 
+                    <t t-call="website_compassion.my_sponsorship_donation"/>
+                    
                     <t t-call="website_compassion.my_donations_tax_receipt"/>
 
                     <t t-call="website_compassion.my_donations_gift_history"/>
@@ -159,7 +162,34 @@
                         data-target="#modal_payment_options">Change</button>
             </div>
         </template>
-
+        <template id="my_sponsorship_donation">
+            <div class="mt-4">
+                <!-- Payments option -->
+                <h3>My sponsorships</h3>
+                <div class="row" style="backgroud: lightgray;">
+                    <div class="col-6">
+                        <label><b>Child</b></label>
+                    </div>
+                    <div class="col-3">
+                        <label><b>Amount</b></label>
+                    </div>
+                </div>
+                <t t-foreach="paid_sponsor" t-as="sponsor">
+                    <div class="row">
+                        <div class="col-6">
+                            <label><t t-esc="sponsor.child_id.preferred_name"/></label>
+                        </div>
+                        <div class="col-3">
+                            <label><t t-raw="int(sponsor.total_amount)"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
+                        </div>
+                        <div class="col-3" t-if="int(sponsor.total_amount) &lt;= 42">
+                          <a t-attf-href="/my/donations/update?recurring_contract=#{sponsor.id}" class="btn btn-primary">Upgrade to 50 <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></a>
+                        </div>
+                    </div>
+                </t>
+                <!-- Payment mode -->
+            </div>
+        </template>
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
             <hr t-if="first_year"/>
@@ -281,6 +311,20 @@
             </div>
 
             <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
+        </template>
+        <template id="my_donations_upgrade" name="upgrade">
+            <t t-set="selected">donation</t>
+            <t t-set="title">My financials</t>
+            <t t-call="website_compassion.my_account_layout">
+               <center> Comfirm upgrade to 50 CHF ? </center>
+<!--                      <div class="row">-->
+                 <center>
+            <a t-attf-href="/my/donations/update?res=accepted&amp;recurring_contract=#{sponsor}" class="btn btn-primary">Yes</a>
+            <a t-attf-href="/my/donations/update?res=refused&amp;recurring_contract=#{sponsor}" class="btn btn-primary">No</a>
+<!--               </div>-->
+                </center>
+            </t>
+
         </template>
     </data>
 </odoo>
