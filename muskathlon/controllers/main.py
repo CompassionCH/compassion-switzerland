@@ -138,21 +138,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             result = request.render("muskathlon.custom_portal_my_home", values)
         return self._form_redirect(result, full_page=True)
 
-    @route(["/my/api"], type="http", auth="user", website=True,
-           sitemap=False)
-    def save_ambassador_picture(self, **post):
-        user = request.env.user
-        partner = user.partner_id
-        return_view = "muskathlon.custom_portal_my_home"
-        picture_post = post.get("picture_1")
-        if picture_post:
-            return_view = "website_compassion.picture_1_formatted"
-            image_value = b64encode(picture_post.stream.read())
-            if not image_value:
-                return "no image uploaded"
-            partner.write({"image": image_value})
-        return request.render(return_view, self._prepare_portal_layout_values())
-
     @route(
         "/muskathlon_registration/payment/validate",
         type="http", auth="public", website=True, sitemap=False
