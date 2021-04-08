@@ -61,7 +61,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
     def _form_fieldsets(self):
         field_list = self._form_fields_order
         if self.main_object.birthdate_date:
-            field_list.pop()
+            field_list = self._form_fields_order[:-1]
         return [{"id": "coordinates", "fields": field_list}]
 
     @property
