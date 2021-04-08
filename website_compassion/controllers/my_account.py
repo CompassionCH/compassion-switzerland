@@ -483,3 +483,41 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "sponsorship_bvr":
+            partner = request.env.user.partner_id
+            # list active sponsorship where current user is partner (and not only correspondent)
+            active_sponsorship = partner.sponsorship_ids.filtered(
+                lambda s: s.state not in ["cancelled", "terminated"] and s.partner_id == partner)
+
+            wizard = request.env["print.sponsorship.bvr"] \
+                .with_context(active_ids=active_sponsorship.mapped("id")).sudo().create({
+                    "pdf": True,
+                    "paper_format": "report_compassion.bvr_sponsorship",
+            })
+            wizard.get_report()
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=wizard.pdf_name
+            )
+            data = b64decode(wizard.pdf_download)
+            return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "gift_bvr":
+            partner = request.env.user.partner_id
+            child_id = int(_get_required_param("child_id", kw))
+
+            sponsorship = partner.sponsorship_ids.filtered(
+                lambda s: s.state not in ["cancelled", "terminated"] and s.child_id.id == child_id)
+
+            wizard = request.env["print.sponsorship.gift.bvr"] \
+                .with_context(active_ids=sponsorship.id, active_model="recurring.contract").sudo().create({
+                    "pdf": True,
+                    "paper_format": "report_compassion.bvr_gift_sponsorship",
+                    "draw_background": True
+            })
+            wizard.get_report()
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=wizard.pdf_name
+            )
+            data = b64decode(wizard.pdf_download)
+            return Response(data, content_type="application/pdf", headers=headers)

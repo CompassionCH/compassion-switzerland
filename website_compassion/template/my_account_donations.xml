@@ -29,6 +29,16 @@
                         <t t-call="website_compassion.my_donations_payment_options"/>
                     </t>
 
+                    <t t-if="groups">
+
+                        <br/>
+
+                        <form id="bvr_download" action="/my/download/sponsorship_bvr">
+                            <t t-set="input_value">Download a BVR</t>
+                            <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
+                        </form>
+                    </t>
+
                     <t t-call="website_compassion.my_donations_tax_receipt"/>
 
                     <t t-call="website_compassion.my_donations_gift_history"/>
