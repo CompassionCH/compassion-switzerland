@@ -16,15 +16,9 @@
             <!-- Change next and previous page order (more logical in interface)-->
             <xpath expr="//div[@class='text-center mt16 mb16']" position="replace">
                 <div class="text-center mt16 mb16">
-                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit
-                        survey
-                    </button>
-                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next
-                        page
-                    </button>
-                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary"
-                            name="button_submit" value="previous">Previous page
-                    </button>
+                    <button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit survey</button>
+                    <button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>
+                    <button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-secondary" name="button_submit" value="previous">Previous page</button>
                 </div>
             </xpath>
 
