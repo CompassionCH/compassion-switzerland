@@ -234,11 +234,11 @@
                     <div class="col-md-6">
                         <!-- Compassion center information -->
                         <t t-set="child_activities" t-as="child_id.project_id.get_activity_for_age(child_id.age)"/>
-                        <t t-if="child_id.project_id.local_church_name or child_id.project_id.sponsorships_count or child_activities">
+                        <t t-if="child_id.project_id.sponsorships_count or child_activities">
                             <h3>Compassion center</h3>
                             <!-- Project name -->
-                            <t t-set="value" t-value="child_id.project_id.local_church_name"/>
-                            <t t-call="website_compassion.fill_key_value">Project name</t>
+                            <t t-set="value" t-value="child_id.project_id.closest_city"/>
+                            <t t-call="website_compassion.fill_key_value">Closest city</t>
 
                             <!-- Number of sponsor children -->
                             <t t-set="value" t-value="child_id.project_id.nb_cdsp_kids"/>

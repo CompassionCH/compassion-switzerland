@@ -426,8 +426,8 @@ class MyAccountController(PaymentFormController):
             )
         return self._form_redirect(result, full_page=True)
 
-    @route(["/my/picture"], type="http", auth="user", website=True,
-           noindex=['robots', 'meta', 'header'])
+    @route("/my/picture", type="http", auth="user", website=True, method="POST",
+           sitemap=False)
     def save_ambassador_picture(self, **post):
         """
         The route to change the profile picture of a partner

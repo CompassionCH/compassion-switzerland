@@ -62,10 +62,6 @@
             <t t-set="value" t-value="partner.name"/>
             <t t-call="website_compassion.fill_key_value">Name</t>
 
-            <!-- Communication name -->
-            <t t-set="value" t-value="partner.preferred_name"/>
-            <t t-call="website_compassion.fill_key_value">Communication name</t>
-
             <!-- Street -->
             <t t-set="value" t-value="partner.street"/>
             <t t-call="website_compassion.fill_key_value">Street</t>
