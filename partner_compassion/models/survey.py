@@ -54,6 +54,8 @@ class SurveyLabel(models.Model):
     order_in_question = fields.Integer(
         "Order of the question. Used in multiple options question when order is important. should starts at 0",
     )
+    value = fields.Html('Suggested value', translate=True, required=True,
+                        sanitize=False)
 
 
 class SurveyUserInput(models.Model):
