@@ -20,8 +20,10 @@ class CorrespondenceTemplate(models.Model):
                         .get_param("web.external.url"))
 
         def resize_dimension(template):
-            return "x".join(list(map(lambda dim: str(round(dim / resize_factor)),
-                                     template.get_template_size(1))))
+            """
+            :return: a string width+"x"+height corresponding to the desired outputted image dimensions
+            """
+            return "x".join([str(round(d)) for d in template.get_template_size(1) / 10])
 
         for template in self:
             template.template_image_url = \
