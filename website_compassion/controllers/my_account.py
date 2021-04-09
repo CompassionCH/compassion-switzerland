@@ -355,13 +355,14 @@ class MyAccountController(PaymentFormController):
             payment_options_form.form_process()
             form_success = payment_options_form.form_success
 
-        first_year = request.env["account.invoice"].sudo().search([
+        first_invoice = request.env["account.invoice"].sudo().search([
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
-        ], limit=1, order="create_date asc").create_date.year
+        ], limit=1, order="create_date asc")
         current_year = datetime.today().year
+        first_year = first_invoice.create_date and first_invoice.create_date.year or current_year
 
         values = self._prepare_portal_layout_values()
         values.update({
