@@ -22,6 +22,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
     _form_model = "res.partner"
     _form_model_fields = [
         "title",
+        "name",
         "firstname",
         "lastname",
         "street",
@@ -35,6 +36,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
     ]
     _form_fields_order = [
         "title",
+        "name",
         "firstname",
         "lastname",
         "street",
@@ -50,6 +52,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "title",
         "firstname",
         "lastname",
+        "name",
         "street",
         "zip",
         "city",
@@ -57,11 +60,26 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "email",
     ]
 
+    def _form_write(self, values):
+        """ Nothing to do on write, we handle everything in other methods.
+        """
+        return self.main_object.sudo().write(values.copy())
+
     @property
     def _form_fieldsets(self):
         field_list = self._form_fields_order
         if self.main_object.birthdate_date:
             field_list = self._form_fields_order[:-1]
+
+        partner = self.main_object.sudo()
+        if partner.is_company:
+            if 'lastname' in field_list:
+                field_list.remove('lastname')
+            if 'firstname' in field_list:
+                field_list.remove('firstname')
+        else:
+            if 'name' in field_list:
+                field_list.remove('name')
         return [{"id": "coordinates", "fields": field_list}]
 
     @property
