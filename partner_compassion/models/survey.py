@@ -70,8 +70,8 @@ class SurveyUserInput(models.Model):
 
         for user_input in self:
             if user_input.survey_id == segment_survey and is_done:
-                ans = self._get_answer_as_array()
-                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, self.partner_id.id)
+                ans = user_input._get_answer_as_array()
+                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, user_input.partner_id.id)
 
         return out
 
