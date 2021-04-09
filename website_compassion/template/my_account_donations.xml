@@ -29,7 +29,7 @@
                         <t t-call="website_compassion.my_donations_payment_options"/>
                     </t>
 
-                    <t t-if="groups">
+                    <t t-if="groups and any(groups.mapped('bvr_reference'))">
 
                         <br/>
 
