@@ -427,8 +427,10 @@ class MyAccountController(PaymentFormController):
     @route("/my/donations/update", type="http", auth="user", website=True)
     def my_donations_update(self, recurring_contract=None, res=None, **kw):
         partner = request.env.user.partner_id
+        if not recurring_contract:
+            return request.redirect("/my/donations")
         contract = (partner.contracts_fully_managed
-                    + partner.contracts_correspondant) \
+                    + partner.contracts_paid) \
             .filtered(lambda a: a.state not in ["cancelled", "terminated"]).filtered(
             lambda a: int(a.id) == int(recurring_contract))
         if int(contract.total_amount) > 42:
@@ -524,7 +526,7 @@ class MyAccountController(PaymentFormController):
             for sponsorship in sponsorships_by_group
         ]
         paid_sponsor = (partner.contracts_fully_managed
-                        + partner.contracts_correspondant) \
+                        + partner.contracts_paid) \
             .filtered(lambda a: a.state not in ["cancelled", "terminated"])
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [

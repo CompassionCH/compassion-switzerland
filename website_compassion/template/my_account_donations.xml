@@ -182,7 +182,7 @@
                         <div class="col-3">
                             <label><t t-raw="int(sponsor.total_amount)"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
                         </div>
-                        <div class="col-3" t-if="int(sponsor.total_amount) &lt;= 42">
+                        <div class="col-3" t-if="int(sponsor.total_amount) == 42">
                           <a t-attf-href="/my/donations/update?recurring_contract=#{sponsor.id}" class="btn btn-primary">Upgrade to 50 <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></a>
                         </div>
                     </div>
@@ -316,12 +316,10 @@
             <t t-set="selected">donation</t>
             <t t-set="title">My financials</t>
             <t t-call="website_compassion.my_account_layout">
-               <center> Comfirm upgrade to 50 CHF ? </center>
-<!--                      <div class="row">-->
+               <center> Confirm upgrade to 50 CHF ? </center>
                  <center>
-            <a t-attf-href="/my/donations/update?res=accepted&amp;recurring_contract=#{sponsor}" class="btn btn-primary">Yes</a>
-            <a t-attf-href="/my/donations/update?res=refused&amp;recurring_contract=#{sponsor}" class="btn btn-primary">No</a>
-<!--               </div>-->
+                    <a t-attf-href="/my/donations/update?res=accepted&amp;recurring_contract=#{sponsor}" class="btn btn-primary">Yes</a>
+                    <a t-attf-href="/my/donations/update?res=refused&amp;recurring_contract=#{sponsor}" class="btn btn-primary">No</a>
                 </center>
             </t>
 
