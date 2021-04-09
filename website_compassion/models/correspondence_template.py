@@ -15,10 +15,15 @@ class CorrespondenceTemplate(models.Model):
     website_published = fields.Boolean()
     template_image_url = fields.Char(compute="_compute_template_image_url")
 
-    def _compute_template_image_url(self):
+    def _compute_template_image_url(self, resize_factor=10):
         web_base_url = (self.env["ir.config_parameter"].sudo()
                         .get_param("web.external.url"))
+
+        def resize_dimension(template):
+            return "x".join(list(map(lambda dim: str(round(dim / resize_factor)),
+                                     template.get_template_size(1))))
+
         for template in self:
-            template.template_image_url =\
+            template.template_image_url = \
                 f"{web_base_url}/web/image/{template._name}/" \
-                f"{template.id}/template_image"
+                f"{template.id}/template_image/{resize_dimension(template)}"
