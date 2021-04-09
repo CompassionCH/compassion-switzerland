@@ -3,7 +3,7 @@
     <!-- Group visit medical survey -->
     <record id="onboarding_survey" model="survey.survey">
         <field name="title">Onboarding feedback</field>
-        <field name="auth_required" eval="True"/>
+        <field name="auth_required" eval="False"/>
         <field name="stage_id" ref="survey.stage_permanent"/>
     </record>
     <record id="onbs_page1" model="survey.page">
@@ -145,5 +145,10 @@
         <field name="value">Sponsor and donor service</field>
         <field name="quizz_mark">-1</field>
         <field name="question_id" ref="onbs_question_dontlike"/>
+    </record>
+    <record id="onbs_question_remarks" model="survey.question">
+        <field name="question">Do you have any additional comment that you would like us to know?</field>
+        <field name="type">free_text</field>
+        <field name="page_id" ref="onbs_page1"/>
     </record>
 </odoo>

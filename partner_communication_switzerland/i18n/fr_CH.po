@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-22 11:20+0000\n"
-"PO-Revision-Date: 2021-02-22 12:52+0100\n"
+"POT-Creation-Date: 2021-04-09 06:13+0000\n"
+"PO-Revision-Date: 2021-04-09 08:19+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -131,113 +131,6 @@ msgstr ""
 "Petite question sur ${'ton' if object.partner_id..birthdate and object."
 "partner_id.birthdate >= '1995-12-01' and not object.partner_id.title.plural "
 "else 'votre'} parrainage"
-
-#. module: partner_communication_switzerland
-#: model:mail.template,body_html:partner_communication_switzerland.tax_receipt_letter_template
-msgid ""
-"<div style=\"display: none\">\n"
-"   % set partner = object.partner_id\n"
-"    \n"
-"% set year = ctx.get('year', datetime.date.today().year-1)\n"
-"    \n"
-"% set donation_amount = partner.get_receipt_text(year)\n"
-"    \n"
-"% set partner = object.partner_id\n"
-"  </div>\n"
-"  <div style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
-"''}\">\n"
-"   ${partner.salutation}\n"
-"   <br>\n"
-"   <br>\n"
-"   We would like to thank you for your support of Compassion Switzerland and "
-"for children living in extreme poverty.\n"
-"   <br>\n"
-"   <br>\n"
-"   <b>\n"
-"    We are pleased to send you your donation receipt for the year ${year} so "
-"that you can enclose it with your tax declaration\n"
-"   </b>\n"
-"   % if object.send_mode == 'digital':\n"
-"\t(attached document).\n"
-"   <br>\n"
-"   <br>\n"
-"   On the second page, you will find an overview of the progress in the "
-"fight against extreme poverty made thanks to you last year!\n"
-"\t% else:\n"
-"\t.\n"
-"   <br>\n"
-"   <br>\n"
-"   Overleaf, you'll find a glimpse of the progress in the fight against "
-"extreme poverty made thanks to you last year!\n"
-"% endif\n"
-"   <br>\n"
-"   <br>\n"
-"   This year, we are having the special privilege of receiving two former "
-"Compassion sponsored children as guest speakers in Switzerland. Erlan from "
-"Indonesia is going to visit us beginning of March, and Remy from Rwanda End "
-"of August. When we asked Erlan which was the biggest impact of sponsorship "
-"in his life, he said: \"I discovered faith, I could go to school and "
-"university, and I could forgive my father who had abandoned the family.\"\n"
-"   <br>\n"
-"   <br>\n"
-"   <b>\n"
-"    Compassion ${year} worldwide\n"
-"   </b>\n"
-"  </div>\n"
-"  <ul style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
-"''}\">\n"
-"   <li>\n"
-"    2,1 million children supported; 10,600 of them from sponsors in "
-"Switzerland\n"
-"   </li>\n"
-"   <li>\n"
-"    nearly 8,000 Child Development Centers in active service for children in "
-"25 countries\n"
-"   </li>\n"
-"   <li>\n"
-"    9,1 million letters exchanged between sponsors and sponsored children\n"
-"    <br>\n"
-"   </li>\n"
-"  </ul>\n"
-"  The battle continues. We strive on a daily basis to work together with "
-"you  to offer a greater number of children a purposeful life. There are "
-"still nearly 385 million children living in extreme poverty\n"
-"  <br>\n"
-"  % if object.send_mode == 'physical':\n"
-"  <h2>\n"
-"   Your donation in ${year} amounts to CHF ${donation_amount}\n"
-"  </h2>\n"
-"  <div style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
-"''}\">\n"
-"   As a Christian relief organization for the benefit of disadvantaged "
-"children, Compassion Switzerland is recognized as an exclusive, non-profit "
-"and tax exempt charity in accordance with the Vaud Tax Administration of May "
-"24th, 2004.\n"
-"  </div>\n"
-"  % endif\n"
-"  <br>\n"
-"  <br>\n"
-"  Once again, thank you for your generosity. Together, we want to change the "
-"world; one child after another.\n"
-"  <br>\n"
-"  <br>\n"
-"  Best regards,\n"
-"  <br>\n"
-"  % if object.send_mode == 'digital':\n"
-"  <br>\n"
-"  <br>\n"
-"  Christian Willi\n"
-"  <br>\n"
-"  CEO\n"
-"  <br>\n"
-"  Compassion Switzerland\n"
-"  <br>\n"
-"  <br>\n"
-"  PS: If the donation receipt is not shown correctly, please open the "
-"document using the Adobe Reader software (http://get.adobe.com/en/reader).\n"
-"% endif\n"
-" "
-msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_caregiver_change
@@ -3808,10 +3701,6 @@ msgid ""
 "'date_full')} - your extreme commitment against extreme poverty!\n"
 "   <br>\n"
 "   <br>\n"
-"   Did you ever think that one day you would run, bike or hike a sporting "
-"event on islands in the Pacific Ocean?\n"
-"   <br>\n"
-"   <br>\n"
 "   The Muskathlon is organized by 4M Switzerland and 4M Germany in "
 "cooperation with the Christian charity for children, Compassion, and offers "
 "you the extraordinary opportunity to take part in the fight against child "
@@ -3835,21 +3724,21 @@ msgid ""
 "various flyers and your training shirt.\n"
 "   <br>\n"
 "   <br>\n"
-"Please activate your account and setup your password by clicking on this "
+"   Please activate your account and setup your password by clicking on this "
 "button:\n"
 "  </p>\n"
-"<div style=\"margin:0 auto; text-align: center;\">\n"
-"   <a href=\"${user.signup_url + '&redirect=/my/home'}\" style=\"padding: "
-"12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:"
-"#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; "
-"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
-"pointer; white-space: nowrap; background-image: none; background-color: "
-"#0054A6; border: 1px solid #0054A6; border-radius:3px\">\n"
+"  <div style=\"margin:0 auto; text-align: center;\">\n"
+"   <a href=\"${user.signup_url + '&amp;redirect=/my/home'}\" style="
+"\"padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; "
+"border-color:#0054A6; text-decoration: none; display: inline-block; margin-"
+"bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; "
+"cursor: pointer; white-space: nowrap; background-image: none; background-"
+"color: #0054A6; border: 1px solid #0054A6; border-radius:3px\">\n"
 "    Activate my account\n"
 "   </a>\n"
 "  </div>\n"
-"<p>\n"
-"    Here are your access data:\n"
+"  <p>\n"
+"   Here are your access data:\n"
 "   <br>\n"
 "   <br>\n"
 "  </p>\n"
@@ -3885,6 +3774,169 @@ msgid ""
 "  </p>\n"
 " "
 msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.tax_receipt_letter_template
+msgid ""
+"<div>\n"
+"   % set partner = object.partner_id\n"
+"                    \n"
+"% set year = ctx.get('year', datetime.date.today().year-1)\n"
+"                    \n"
+"% set donation_amount = partner.get_receipt_text(year)\n"
+"                    \n"
+"% set partner = object.partner_id\n"
+"  </div>\n"
+"  <div style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
+"''}\">\n"
+"   ${partner.salutation},\n"
+"   <br>\n"
+"   <br>\n"
+"\n"
+"\tSince last spring, we have persisted through unusual times. Thank you for "
+"being by our side, so that the support for children living in extreme "
+"poverty could continue.\n"
+"   <br>\n"
+"   <br>\n"
+"   <b>\n"
+"We are pleased to send you your donation receipt for the year 2020 so that "
+"you can enclose it with your tax\n"
+"% if object.send_mode == 'digital':\n"
+"declaration (attached document).\n"
+"% else:\n"
+"declaration.\n"
+"% endif\n"
+"   </b>\n"
+"   <br>\n"
+"   <br>\n"
+"% if object.send_mode == 'digital':\n"
+"<h2>Your donation in ${year} amounts to CHF ${donation_amount}</h2>\n"
+"% else:\n"
+"<h2 align=center>Your donation in ${year} amounts <br> to CHF "
+"${donation_amount}</h2>\n"
+"% endif\n"
+"   <p>\n"
+"    As a Christian relief organization for the benefit of disadvantaged "
+"children, Compassion Switzerland is recognized as an exclusive, non-profit "
+"and tax exempt charity in accordance with the Vaud Tax Administration of May "
+"24th, 2004.\n"
+"   </p>\n"
+"<p>\n"
+"The impact of your generosity is amazing. Find out in just a few minutes "
+"what you along with other sponsors and supporters from Switzerland have "
+"changed in the less fortunate regions of 25 countries in the South.\n"
+"\n"
+"% if object.send_mode == 'digital':\n"
+"   <br> <br>   \n"
+"  </p>\n"
+"  <div style=\"margin:0 auto; text-align: center;\">\n"
+"   <a href=\"https://impact.compassion.ch/en\" style=\"padding: 12px 18px; "
+"font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; "
+"text-decoration: none; display: inline-block; margin-bottom: 0px; font-"
+"weight: 400; text-align: center; vertical-align: middle; cursor: pointer; "
+"white-space: nowrap; background-image: none; background-color: #0054A6; "
+"border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"    Discover your impact\n"
+"   </a>\n"
+"</div>\n"
+"   <br><br>\n"
+"   % else:\n"
+"<a href=\"https://impact.compassion.ch/en\">https://impact.compassion.ch/en</"
+"a>\n"
+"</p>\n"
+"   % endif\n"
+"<p>\n"
+"Thank you again for your generosity.</p>\n"
+"Yours faithfully,\n"
+"% if object.send_mode == 'digital':\n"
+"   <br>\n"
+"   <br>\n"
+"   Christian Willi and the Compassion team \n"
+"% endif\n"
+"  </div>"
+msgstr ""
+"<div>\n"
+"   % set partner = object.partner_id\n"
+"                    \n"
+"% set year = ctx.get('year', datetime.date.today().year-1)\n"
+"                    \n"
+"% set donation_amount = partner.get_receipt_text(year)\n"
+"                    \n"
+"% set partner = object.partner_id\n"
+"  </div>\n"
+"  <div style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
+"''}\">\n"
+"   ${partner.salutation},\n"
+"   <br>\n"
+"   <br>\n"
+"\n"
+"\tDepuis le printemps dernier, nous traversons une période hors normes. "
+"Merci d'avoir été à nos côtés pour que le soutien de Compassion aux enfants "
+"vivant dans l'extrême pauvreté puisse continuer.\n"
+"   <br>\n"
+"   <br>\n"
+"   <b>\n"
+"    Nous vous faisons parvenir votre récapitulatif de dons pour l'année "
+"${year}, que vous pouvez joindre à votre déclaration\n"
+"% if object.send_mode == 'digital':\n"
+"d'impôts (fichier annexé).\n"
+"% else:\n"
+"d'impôts.\n"
+"% endif\n"
+"   </b>\n"
+"   <br>\n"
+"   <br>\n"
+"% if object.send_mode == 'digital':\n"
+"   <h2>Vos dons en ${year} s'élèvent à CHF ${donation_amount}</h2>\n"
+"% else:\n"
+"   <h2 align=center>Vos dons en ${year} s'élèvent <br> à CHF "
+"${donation_amount}</h2>\n"
+"% endif\n"
+"   <p>\n"
+"    L'association Compassion Suisse d'aide humanitaire chrétienne en faveur "
+"de l'enfance défavorisée est exonérée d'impôts et reconnue de pure utilité "
+"publique par décision de l'administration cantonale des impôts du canton de "
+"Vaud du 24 mai 2004.\n"
+"   </p>\n"
+"<p>\n"
+"L'impact de votre générosité est formidable. Découvrez en quelques minutes "
+"ce qu'avec les autres marraines, parrains et donateurs de Suisse, vous avez "
+"changé dans les régions les moins favorisées de 25 pays du Sud.\n"
+"\n"
+"\n"
+"% if object.send_mode == 'digital':\n"
+"   <br> <br>   \n"
+"  </p>\n"
+"  <div style=\"margin:0 auto; text-align: center;\">\n"
+"   <a href=\"https://impact.compassion.ch\" style=\"padding: 12px 18px; font-"
+"size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #0054A6; border: "
+"1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"    découvrir votre impact\n"
+"   </a>\n"
+"</div>\n"
+"   <br><br>\n"
+"   % else:\n"
+"<a href=\"https://impact.compassion.ch\">https://impact.compassion.ch</a>\n"
+"</p>\n"
+"   % endif\n"
+"<p>\n"
+"  Encore une fois, merci de votre générosité. Nous vous prions de recevoir, "
+"${partner.salutation[0].lower() + partner.salutation[1:]}, nos chaleureuses "
+"salutations.</p>\n"
+"% if object.send_mode == 'digital':\n"
+"   <br>\n"
+"   <br>\n"
+"   Christian Willi\n"
+"   <br>\n"
+"   Directeur\n"
+"   <br>\n"
+"   Compassion Suisse\n"
+"% endif\n"
+"  </div>\n"
+" "
 
 #. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.sms_confirmation_email_2
@@ -5249,7 +5301,9 @@ msgid ""
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_first_letter
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_photo_by_post
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step1
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step2
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step3
@@ -5549,7 +5603,9 @@ msgid ""
 "\n"
 "\n"
 "\n"
+"\n"
 "    \n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -5562,7 +5618,7 @@ msgid ""
 "% endif \n"
 "\n"
 "% endfor \n"
-"                         \n"
+"                          \n"
 "% set payers = partner.mapped('contracts_paid').intersect(sponsorships)\n"
 "                    \n"
 "% set payment_modes = sponsorships.mapped('payment_mode_id')\n"
@@ -5580,67 +5636,65 @@ msgid ""
 "mapped('child_id')\n"
 "\n"
 "% endif \n"
-"                          \n"
+"                           \n"
 "% set firstname = children.get_list('preferred_name', 3, 'your sponsored "
 "children', False)\n"
 "  </div>\n"
 "  <p>\n"
 "   ${partner.salutation}\n"
-"   <br>\n"
-"   <br>\n"
+"   </p>\n"
+"  <p>\n"
 "   We are so pleased that you are personally investing in the life "
 "of ${firstname} and we thank you so very much. Your commitment will "
 "change ${children.get('his')} life and that of ${children."
-"get('his')} family in the future as was the case with Jane.\n"
-"   <br>\n"
-"   <br>\n"
-"   This young man was born in a slum area of Calcutta, India where 10,000 "
-"people had to share two toilets and a sink. When he was accepted into the "
-"sponsorship program of his local church, he was the first child of the "
-"entire slum to attend school. It was a very special moment he says, when he "
-"was able to teach his parents to write their names. Jane was an exceptional "
-"student and went on to complete a doctorate. He founded his own relief "
-"organization, “Pursuit International” which helps traumatized children in "
-"India.\n"
-"   <br>\n"
-"   <br>\n"
-"   Your targeted support makes it possible for a child to be liberated from "
-"extreme poverty.\n"
-"   <br>\n"
-"   <br>\n"
-"   <b>\n"
-"    In the attachments, you will find:\n"
+"get('his')} family in the future as was the case with Rémy.\n"
+"  </p>\n"
+"  <p>\n"
+"   The young Rwandan was rejected at birth by his family after being born "
+"with albinism. His adoptive family put him in the stables with the animals, "
+"where he spent the first four years of his life. Thanks to a sponsorship, he "
+"was cared for, fed and loved. His sponsors never stopped encouraging him and "
+"showing him affection. When he went to school, he was always among the best "
+"in his class. After finishing his university studies, he became a "
+"psychologist. He also forgave his biological and adoptive family.\n"
+"  </p>\n"
+"  <p>\n"
+"<b>\n"
+"    Attached, you will find:\n"
 "   </b>\n"
 "  </p>\n"
 "  <ul>\n"
 "   % if bvr and sponsorships.must_pay_next_year() and (fully_managed or "
 "payers):\n"
 "   <li>\n"
-"    the payment slips for your sponsorship contribution for the year 2020\n"
+"    The payment slips for your sponsorship contribution for the year 2021\n"
 "   </li>\n"
 "   % endif \n"
-"      \n"
+"       \n"
 "% if fully_managed or ns.correspondents:\n"
 "   <li>\n"
-"    the payment slips for the gifts (birthday, general and family)\n"
+"    Four payment slips per child for optional birthday and general gifts for "
+"the child and ${children.get('his')} family.\n"
 "   </li>\n"
 "   % endif\n"
 "  </ul>\n"
 "  <p>\n"
 "   % if fully_managed or ns.correspondents:\n"
-"\tThe presents are absolutely voluntary. Your sponsorship is already a "
-"wonderful gift and we are very grateful to you!\n"
+"\tThe donations for presents are completely voluntary. Your sponsorship is "
+"already a wonderful gift and we are very grateful to you!!\n"
 "% endif \n"
-"    If you lose a payment slip(s) and require more, please do not hesitate "
+"     If you lose a payment slip(s) and require more, please do not hesitate "
 "to contact us. We will be happy to send you new ones. Of course, we are also "
 "available to answer any further questions.\n"
-"   <br>\n"
-"   <br>\n"
-"   We wish you a Merry and Blessed Christmas and much joy with ${children."
-"get('your sponsored child')}.\n"
-"   <br>\n"
-"   <br>\n"
-"   Best Wishes,\n"
+"  </p>\n"
+"  <p>\n"
+"   We wish you a peaceful Christmas filled with hope and rest in a year "
+"marked by a pandemic that has not only challenged all of us here, but also "
+"many countries in the Global South. Thanks again for your support towards a "
+"child living in extreme poverty.\n"
+"  </p>\n"
+"  <p>\n"
+"   Warm Wishes.\n"
 "  </p>\n"
 " "
 msgstr ""
@@ -5680,13 +5734,6 @@ msgid "Access Link"
 msgstr "Lien d'accès"
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_base_automation__state
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_ir_actions_server__state
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_ir_cron__state
-msgid "Action To Do"
-msgstr "Action à effectuer"
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_ids
 msgid "Activities"
 msgstr "Activités"
@@ -5697,13 +5744,7 @@ msgid "Activity State"
 msgstr "Status de l'Activité"
 
 #. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Add Followers"
-msgstr "Ajouter des abonnés"
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__alumni_gender
-#| msgid "Gender"
 msgid "Alumni Gender"
 msgstr ""
 
@@ -5852,13 +5893,6 @@ msgid "Communication templates"
 msgstr "Modèles de communication"
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_base_automation__config_id
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_ir_actions_server__config_id
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_ir_cron__config_id
-msgid "Communication type"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/wizards/res_partner_create_portal_wizard.py:63
 #: model:ir.ui.menu,name:partner_communication_switzerland.menu_donation
 #, python-format
@@ -5901,22 +5935,12 @@ msgid "Correspondent"
 msgstr "Correspondant"
 
 #. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Create Next Activity"
-msgstr "Créer une activité "
-
-#. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Create a new Record"
-msgstr "Créer un nouvel enregistrement"
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_end_contract_wizard__generate_communication
 msgid "Create depart communication"
 msgstr "Créer la lettre de départ"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/res_partner.py:221
+#: code:addons/partner_communication_switzerland/models/res_partner.py:297
 #, python-format
 msgid "Create odoo user"
 msgstr ""
@@ -5952,13 +5976,13 @@ msgid "Date Stop"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/res_partner.py:54
+#: code:addons/partner_communication_switzerland/models/res_partner.py:62
 #, python-format
 msgid "Dear friend of Compassion"
 msgstr "Cher ami de Compassion"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/res_partner.py:52
+#: code:addons/partner_communication_switzerland/models/res_partner.py:60
 #, python-format
 msgid "Dear friends of Compassion"
 msgstr "Chers amis de Compassion"
@@ -5989,6 +6013,13 @@ msgstr ""
 "% else:\n"
 "Auriez-vous 5 minutes pour écrire à ${object.child_id.preferred_name} ?\n"
 "% endif"
+
+#. module: partner_communication_switzerland
+#: model:survey.question,question:partner_communication_switzerland.onbs_question_remarks
+msgid "Do you have any additional comment that you would like us to know?"
+msgstr ""
+"Souhaitez-vous encore nous faire part d'un commentaire, d'une proposition ou "
+"d'une remarques?"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.event_letter_template
@@ -6089,16 +6120,6 @@ msgid "Excellent"
 msgstr "Très bien"
 
 #. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Execute Python Code"
-msgstr "Exécuter le code Python"
-
-#. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Execute several actions"
-msgstr "Exécuter plusieurs actions"
-
-#. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.email_project_suspension_e1
 #: model:mail.template,subject:partner_communication_switzerland.email_project_suspension_e2
 msgid "Extension of the project suspension"
@@ -6191,6 +6212,12 @@ msgid "Gift payer"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner__last_completed_tax_receipt
+#: model:ir.model.fields,help:partner_communication_switzerland.field_res_users__last_completed_tax_receipt
+msgid "Gives the year of the last tax receipt sent to the partner"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_portal_wizard
 msgid "Grant Portal Access"
 msgstr ""
@@ -6236,6 +6263,7 @@ msgstr "Identifiant"
 #. module: partner_communication_switzerland
 #: model:survey.question,comments_message:partner_communication_switzerland.onbs_question_ilike
 #: model:survey.question,comments_message:partner_communication_switzerland.onbs_question_rating
+#: model:survey.question,comments_message:partner_communication_switzerland.onbs_question_remarks
 msgid "If other, please specify:"
 msgstr "Si autre, merci de préciser :"
 
@@ -6298,7 +6326,6 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:survey.label,value:partner_communication_switzerland.onbs_dontlike_1
 #: model:survey.label,value:partner_communication_switzerland.onbs_ilike_1
-#| msgid "5 Minutes for a letter to your sponsored child"
 msgid "Introduction of my sponsored child"
 msgstr "La présentation de mon/ma filleul/e"
 
@@ -6362,6 +6389,12 @@ msgstr "Langue"
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_zoom_session_search
 msgid "Language"
 msgstr "Langue"
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner__last_completed_tax_receipt
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_users__last_completed_tax_receipt
+msgid "Last Completed Tax Receipt"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard____last_update
@@ -6504,6 +6537,12 @@ msgid "No Money Extension Duration"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner__no_physical_letter
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_users__no_physical_letter
+msgid "No Physical Letter"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_child__old_firstname
 msgid "Old Firstname"
 msgstr ""
@@ -6591,13 +6630,6 @@ msgid "Partner Unsubscribed from marketing e-mails"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_base_automation__partner_field
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_ir_actions_server__partner_field
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_ir_cron__partner_field
-msgid "Partner field name"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: selection:partner.communication.generate.wizard,res_model:0
 msgid "Partners"
 msgstr "Partenaires"
@@ -6620,7 +6652,6 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:survey.label,value:partner_communication_switzerland.onbs_dontlike_6
 #: model:survey.label,value:partner_communication_switzerland.onbs_ilike_6
-#| msgid "Payment reminder"
 msgid "Payment information"
 msgstr "Les informations relatives au paiement de mon parrainage"
 
@@ -6655,26 +6686,6 @@ msgstr "Planifié"
 #: model:ir.model,name:partner_communication_switzerland.model_portal_wizard_user
 msgid "Portal User Config"
 msgstr "Paramétrage du portail utilisateur"
-
-#. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__potential_advocate_de
-msgid "Potential advocate DE"
-msgstr ""
-
-#. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__potential_advocate_fr
-msgid "Potential advocate FR"
-msgstr ""
-
-#. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__potential_advocate_it
-msgid "Potential advocate IT"
-msgstr ""
-
-#. module: partner_communication_switzerland
-#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_notification_settings_invalid_mail_form
-msgid "Potential advocates"
-msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_account_invoice_line_price_cents
@@ -6793,15 +6804,9 @@ msgid "Send B2S intro letter to sponsor"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_correspondence_form_communication
 msgid "Send Communication"
 msgstr "Envoyer la communication"
-
-#. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Send Email"
-msgstr "Envoyer par courriel"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_create_portal_wizard__create_communication
@@ -6915,7 +6920,6 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.actions.act_window,name:partner_communication_switzerland.action_zoom_session
 #: model:ir.ui.menu,name:partner_communication_switzerland.menu_zoom_session
-#| msgid "Sponsorships"
 msgid "Sponsor Zoom Sessions"
 msgstr ""
 
@@ -6934,6 +6938,12 @@ msgstr "Enfant parrainé"
 #: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_completion
 msgid "Sponsorship Completion"
 msgstr "Fin de parrainage"
+
+#. module: partner_communication_switzerland
+#: model:base.automation,name:partner_communication_switzerland.onboarding_step1_automation
+#: model:ir.actions.server,name:partner_communication_switzerland.onboarding_step1_automation_ir_actions_server
+msgid "Sponsorship Onboarding: step1"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.onboarding_step2_automation
@@ -7023,6 +7033,12 @@ msgid "Tax Receipt Preference"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner__no_physical_letter
+#: model:ir.model.fields,help:partner_communication_switzerland.field_res_users__no_physical_letter
+msgid "Tells if all communication preferences are set to email only."
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_recurring_contract__period_paid
 msgid "Tells if the advance billing period is already paid"
 msgstr ""
@@ -7098,6 +7114,7 @@ msgstr ""
 #: model:survey.question,validation_error_msg:partner_communication_switzerland.onbs_question_dontlike
 #: model:survey.question,validation_error_msg:partner_communication_switzerland.onbs_question_ilike
 #: model:survey.question,validation_error_msg:partner_communication_switzerland.onbs_question_rating
+#: model:survey.question,validation_error_msg:partner_communication_switzerland.onbs_question_remarks
 msgid "The answer you entered has an invalid format."
 msgstr ""
 
@@ -7134,6 +7151,7 @@ msgstr "L'équipe de Compassion"
 #: model:survey.question,constr_error_msg:partner_communication_switzerland.onbs_question_dontlike
 #: model:survey.question,constr_error_msg:partner_communication_switzerland.onbs_question_ilike
 #: model:survey.question,constr_error_msg:partner_communication_switzerland.onbs_question_rating
+#: model:survey.question,constr_error_msg:partner_communication_switzerland.onbs_question_remarks
 msgid "This question requires an answer."
 msgstr "Cette question requiert une réponse."
 
@@ -7165,22 +7183,6 @@ msgid "Type"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,help:partner_communication_switzerland.field_base_automation__state
-#: model:ir.model.fields,help:partner_communication_switzerland.field_ir_actions_server__state
-#: model:ir.model.fields,help:partner_communication_switzerland.field_ir_cron__state
-msgid ""
-"Type of server action. The following values are available:\n"
-"- 'Execute Python Code': a block of python code that will be executed\n"
-"- 'Create': create a new record with new values\n"
-"- 'Update a Record': update the values of a record\n"
-"- 'Execute several actions': define an action that triggers several other "
-"server actions\n"
-"- 'Send Email': automatically send an email (Discuss)\n"
-"- 'Add Followers': add followers to a record (Discuss)\n"
-"- 'Create Next Activity': create an activity (Discuss)"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_config_source_id
 msgid "UTM Source"
 msgstr ""
@@ -7199,11 +7201,6 @@ msgstr "Pas convaincant"
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.correspondence_view_search_email
 msgid "Unread"
 msgstr "Non lu"
-
-#. module: partner_communication_switzerland
-#: selection:ir.actions.server,state:0
-msgid "Update the Record"
-msgstr "Mettre à jour l'enregistrement"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_users
@@ -7237,9 +7234,8 @@ msgid ""
 "Was there something you didn't like (nothing everything was fine for me/I "
 "think certain things could be improved)?"
 msgstr ""
-"Y a-t-il quelque chose que vous n'avez pas apprécié (rien, tout s'est s'est "
-"bien passé pour moi / je pense que certaines choses peuvent être "
-"améliorées) ?"
+"Quels éléments proposés par Compassion durant le démarrage du votre "
+"parrainage pourraient être améliorés?"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/contracts.py:90
@@ -7414,7 +7410,7 @@ msgid "and the team of Compassion"
 msgstr "et l'équipe de Compassion"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:613
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:609
 #, python-format
 msgid "bank authorization form.pdf"
 msgstr ""
@@ -7441,7 +7437,7 @@ msgid "choose a communication"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:655
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:651
 #, python-format
 msgid "csv payment slips.pdf"
 msgstr ""
@@ -7478,7 +7474,7 @@ msgstr "etiquettes parrainage.pdf"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:304
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:603
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:599
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "bulletins de versements parrainage.pdf"
@@ -7495,7 +7491,9 @@ msgid "tax receipt.pdf"
 msgstr "attestation fiscale.pdf"
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_first_letter
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_photo_by_post
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step1
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step2
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step3
@@ -7505,169 +7503,29 @@ msgstr "attestation fiscale.pdf"
 msgid "todo"
 msgstr ""
 
-#~ msgid ""
-#~ "<div>\n"
-#~ "   % set partner = object.partner_id\n"
-#~ "                    \n"
-#~ "% set year = ctx.get('year', datetime.date.today().year-1)\n"
-#~ "                    \n"
-#~ "% set donation_amount = partner.get_receipt_text(year)\n"
-#~ "                    \n"
-#~ "% set partner = object.partner_id\n"
-#~ "  </div>\n"
-#~ "  <div style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
-#~ "''}\">\n"
-#~ "   ${partner.salutation},\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "\n"
-#~ "\tSince last spring, we have persisted through unusual times. Thank you "
-#~ "for being by our side, so that the support for children living in extreme "
-#~ "poverty could continue.\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "   <b>\n"
-#~ "We are pleased to send you your donation receipt for the year 2020 so "
-#~ "that you can enclose it with your tax\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "declaration (attached document).\n"
-#~ "% else:\n"
-#~ "declaration.\n"
-#~ "% endif\n"
-#~ "   </b>\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "<h2>Your donation in ${year} amounts to CHF ${donation_amount}</h2>\n"
-#~ "% else:\n"
-#~ "<h2 align=center>Your donation in ${year} amounts <br> to CHF "
-#~ "${donation_amount}</h2>\n"
-#~ "% endif\n"
-#~ "   <p>\n"
-#~ "    As a Christian relief organization for the benefit of disadvantaged "
-#~ "children, Compassion Switzerland is recognized as an exclusive, non-"
-#~ "profit and tax exempt charity in accordance with the Vaud Tax "
-#~ "Administration of May 24th, 2004.\n"
-#~ "   </p>\n"
-#~ "<p>\n"
-#~ "The impact of your generosity is amazing. Find out in just a few minutes "
-#~ "what you along with other sponsors and supporters from Switzerland have "
-#~ "changed in the less fortunate regions of 25 countries in the South.\n"
-#~ "\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "   <br> <br>   \n"
-#~ "  </p>\n"
-#~ "  <div style=\"margin:0 auto; text-align: center;\">\n"
-#~ "   <a href=\"https://impact.compassion.ch/en\" style=\"padding: 12px "
-#~ "18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:"
-#~ "#0054A6; text-decoration: none; display: inline-block; margin-bottom: "
-#~ "0px; font-weight: 400; text-align: center; vertical-align: middle; "
-#~ "cursor: pointer; white-space: nowrap; background-image: none; background-"
-#~ "color: #0054A6; border: 1px solid #0054A6; border-radius:3px\" title="
-#~ "\"\">\n"
-#~ "    Discover your impact\n"
-#~ "   </a>\n"
-#~ "</div>\n"
-#~ "   <br><br>\n"
-#~ "   % else:\n"
-#~ "<a href=\"https://impact.compassion.ch/en\">https://impact.compassion.ch/"
-#~ "en</a>\n"
-#~ "</p>\n"
-#~ "   % endif\n"
-#~ "<p>\n"
-#~ "Thank you again for your generosity.</p>\n"
-#~ "Yours faithfully,\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "   Christian Willi and the Compassion team \n"
-#~ "% endif\n"
-#~ "  </div>"
-#~ msgstr ""
-#~ "<div>\n"
-#~ "   % set partner = object.partner_id\n"
-#~ "                    \n"
-#~ "% set year = ctx.get('year', datetime.date.today().year-1)\n"
-#~ "                    \n"
-#~ "% set donation_amount = partner.get_receipt_text(year)\n"
-#~ "                    \n"
-#~ "% set partner = object.partner_id\n"
-#~ "  </div>\n"
-#~ "  <div style=\"${'font-size: 9pt;' if object.send_mode == 'physical' else "
-#~ "''}\">\n"
-#~ "   ${partner.salutation},\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "\n"
-#~ "\tDepuis le printemps dernier, nous traversons une période hors normes. "
-#~ "Merci d'avoir été à nos côtés pour que le soutien de Compassion aux "
-#~ "enfants vivant dans l'extrême pauvreté puisse continuer.\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "   <b>\n"
-#~ "    Nous vous faisons parvenir votre récapitulatif de dons pour l'année "
-#~ "${year}, que vous pouvez joindre à votre déclaration\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "d'impôts (fichier annexé).\n"
-#~ "% else:\n"
-#~ "d'impôts.\n"
-#~ "% endif\n"
-#~ "   </b>\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "   <h2>Vos dons en ${year} s'élèvent à CHF ${donation_amount}</h2>\n"
-#~ "% else:\n"
-#~ "   <h2 align=center>Vos dons en ${year} s'élèvent <br> à CHF "
-#~ "${donation_amount}</h2>\n"
-#~ "% endif\n"
-#~ "   <p>\n"
-#~ "    L'association Compassion Suisse d'aide humanitaire chrétienne en "
-#~ "faveur de l'enfance défavorisée est exonérée d'impôts et reconnue de pure "
-#~ "utilité publique par décision de l'administration cantonale des impôts du "
-#~ "canton de Vaud du 24 mai 2004.\n"
-#~ "   </p>\n"
-#~ "<p>\n"
-#~ "L'impact de votre générosité est formidable. Découvrez en quelques "
-#~ "minutes ce qu'avec les autres marraines, parrains et donateurs de Suisse, "
-#~ "vous avez changé dans les régions les moins favorisées de 25 pays du "
-#~ "Sud.\n"
-#~ "\n"
-#~ "\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "   <br> <br>   \n"
-#~ "  </p>\n"
-#~ "  <div style=\"margin:0 auto; text-align: center;\">\n"
-#~ "   <a href=\"https://impact.compassion.ch\" style=\"padding: 12px 18px; "
-#~ "font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; "
-#~ "text-decoration: none; display: inline-block; margin-bottom: 0px; font-"
-#~ "weight: 400; text-align: center; vertical-align: middle; cursor: pointer; "
-#~ "white-space: nowrap; background-image: none; background-color: #0054A6; "
-#~ "border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
-#~ "    découvrir votre impact\n"
-#~ "   </a>\n"
-#~ "</div>\n"
-#~ "   <br><br>\n"
-#~ "   % else:\n"
-#~ "<a href=\"https://impact.compassion.ch\">https://impact.compassion.ch</"
-#~ "a>\n"
-#~ "</p>\n"
-#~ "   % endif\n"
-#~ "<p>\n"
-#~ "  Encore une fois, merci de votre générosité. Nous vous prions de "
-#~ "recevoir, ${partner.salutation[0].lower() + partner.salutation[1:]}, nos "
-#~ "chaleureuses salutations.</p>\n"
-#~ "% if object.send_mode == 'digital':\n"
-#~ "   <br>\n"
-#~ "   <br>\n"
-#~ "   Christian Willi\n"
-#~ "   <br>\n"
-#~ "   Directeur\n"
-#~ "   <br>\n"
-#~ "   Compassion Suisse\n"
-#~ "% endif\n"
-#~ "  </div>\n"
-#~ " "
+#~ msgid "Action To Do"
+#~ msgstr "Action à effectuer"
+
+#~ msgid "Add Followers"
+#~ msgstr "Ajouter des abonnés"
+
+#~ msgid "Create Next Activity"
+#~ msgstr "Créer une activité "
+
+#~ msgid "Create a new Record"
+#~ msgstr "Créer un nouvel enregistrement"
+
+#~ msgid "Execute Python Code"
+#~ msgstr "Exécuter le code Python"
+
+#~ msgid "Execute several actions"
+#~ msgstr "Exécuter plusieurs actions"
+
+#~ msgid "Send Email"
+#~ msgstr "Envoyer par courriel"
+
+#~ msgid "Update the Record"
+#~ msgstr "Mettre à jour l'enregistrement"
 
 #~ msgid ""
 #~ "<div>\n"
