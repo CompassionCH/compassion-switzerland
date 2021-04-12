@@ -272,10 +272,11 @@ class MyAccountController(PaymentFormController):
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
     @route("/my/donations", type="http", auth="user", website=True)
-    def my_donations(self, invoice_page='1', form_id=None, **kw):
+    def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
         """
         The route to the donations and invoicing page
         :param invoice_page: index of the invoice pagination
+        :param invoice_per_page: the number of invoices to display per page
         :param form_id: the id of the filled form or None
         :param kw: additional optional arguments
         :return: a redirection to a webpage
@@ -296,7 +297,7 @@ class MyAccountController(PaymentFormController):
 
         all_invoice_count = sudo_invoice_env.search_count(invoice_search_criteria)
 
-        invoice_per_page = 30
+        invoice_per_page = int(invoice_per_page) if isinstance(invoice_per_page, str) else invoice_per_page
         invoice_page = invoice_page if invoice_page >= 1 and (
                 invoice_page - 1) * invoice_per_page < all_invoice_count else 1
 
