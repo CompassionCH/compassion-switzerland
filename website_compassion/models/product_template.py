@@ -12,8 +12,6 @@ import logging
 
 from odoo import models, api, fields
 
-logger = logging.getLogger(__name__)
-
 
 class ProductProduct(models.Model):
     _name = "product.template"

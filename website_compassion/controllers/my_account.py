@@ -417,18 +417,17 @@ class MyAccountController(PaymentFormController):
 
         selected_fund_id = available_funds.browse(int(selected_fund_id))
 
-        values = kwargs.copy()
         # This allows the translation to still work on the page
-        values.pop("edit_translations", False)
-        values.update({
+        kwargs.pop("edit_translations", False)
+        kwargs.update({
             "form_model_key": "cms.form.fund.donation",
             "selected_fund": selected_fund_id,
         })
 
-        donation_form = self.get_form("res.partner", partner.id, **values)
+        donation_form = self.get_form("res.partner", partner.id, **kwargs)
         donation_form.form_process()
 
-        values.update({
+        kwargs.update({
             "form": donation_form,
         })
 
@@ -436,10 +435,10 @@ class MyAccountController(PaymentFormController):
         if donation_form.form_success:
             return werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
 
-        values.update(self._prepare_portal_layout_values())
+        kwargs.update(self._prepare_portal_layout_values())
 
         result = request.render(
-            "website_compassion.new_donation_to_fund_template", values
+            "website_compassion.new_donation_to_fund_template", kwargs
         )
 
         return self._form_redirect(result, full_page=True)
@@ -448,9 +447,8 @@ class MyAccountController(PaymentFormController):
     def new_donation_validation(self, invoice_id=None, **kwargs):
 
         payment = kwargs.get("payment")
-        values = kwargs.copy()
 
-        values.update(self._prepare_portal_layout_values())
+        kwargs.update(self._prepare_portal_layout_values())
 
         try:
             invoice = request.env["account.invoice"].sudo().browse(int(invoice_id))
@@ -461,12 +459,12 @@ class MyAccountController(PaymentFormController):
 
         if transaction.state != "done" or payment == "error":
             result = request.render(
-                "website_compassion.donation_failure", values
+                "website_compassion.donation_failure", kwargs
             )
             return self._form_redirect(result, full_page=True)
 
         result = request.render(
-            "website_compassion.donation_success", values
+            "website_compassion.donation_success", kwargs
         )
         return self._form_redirect(result, full_page=True)
 

@@ -36,6 +36,7 @@ class FundDonationForm(models.AbstractModel):
 
     @property
     def _payment_error_redirect(self):
+        # TODO this property is called when redirecting user for payment but never used later on
         return f"/my/new/donation/validate/{self.invoice_id.id}?payment=error"
 
     @property
