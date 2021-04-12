@@ -1,4 +1,11 @@
-from datetime import datetime
+##############################################################################
+#
+#    Copyright (C) 2021 Compassion CH (http://www.compassion.ch)
+#    @author: Jonathan Guerne <guernej@compassion.ch>
+#
+#    The licence is in the file __manifest__.py
+#
+##############################################################################
 
 from odoo import models, fields, _
 from odoo.tools import html_escape as escape
@@ -24,7 +31,7 @@ class ContactUsForm(models.AbstractModel):
 
     partner_id = fields.Many2one("res.partner", readonly=False)
     categ_id = fields.Selection(
-        lambda x: list(map(lambda y: (y.id, y.name), x.env["crm.claim.category"].sudo().search([]))),
+        lambda x: [(y.id, y.name) for y in x.env["crm.claim.category"].sudo().search([])],
         string="Request Category"
     )
 
@@ -68,7 +75,7 @@ class ContactUsForm(models.AbstractModel):
         values.update({
             "partner_id": self.partner_id.id,
             "user_id": False,
-            # "language": self.main_object.detect_lang(values.get("name")).lang_id.code,
+            "language": self.main_object.detect_lang(values.get("name")).lang_id.code,
             "email_from": self.partner_id.email,
 
         })
