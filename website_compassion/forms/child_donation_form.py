@@ -1,8 +1,8 @@
 ##############################################################################
 #
-#    Copyright (C) 2018-2020 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2021 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
-#
+#    @author: Robin Berguerand <robin.berguerand@gmail.ch>
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
@@ -17,13 +17,12 @@ def _get_contract(partner, child):
     """
     Map the contracts accordingly to the given values
     :param partner: the partner to map contracts from
-    :param mapping_val: optional value to use for the mapping
-    :param sorting_val: optional sorting value to use
-    :param filter_fun: optional filter function
+    :param child: the child related to the contract
     :return:
     """
-    valu = partner.contracts_fully_managed + partner.contracts_correspondant + partner.contracts_paid
-    return valu.filtered(lambda a: int(a.child_id) == int(child.id))
+    return (partner.contracts_fully_managed +
+            partner.contracts_correspondant +
+            partner.contracts_paid).filtered(lambda a: int(a.child_id) == int(child.id))
 
 
 class ChildDonationForm(models.AbstractModel):
@@ -49,8 +48,14 @@ class ChildDonationForm(models.AbstractModel):
             request, main_object, **kw
         )
         # Set default value
-        form.child_sponsor = kw["child_id"]
+        form.child_sponsor = kw["child"]
         return form
+
+    def form_title(self):
+        if self.child_sponsor.preferred_name:
+            return _('Make a gift to %s') % self.child_sponsor.preferred_name
+        else:
+            return _('Make a gift to %s')
 
     def _form_create(self, values):
         # Create as superuser
@@ -69,7 +74,7 @@ class ChildDonationForm(models.AbstractModel):
         product = self.gift_type
         name = product.product_tmpl_id.name
         contract_id = _get_contract(partner, self.child_sponsor)
-        invoicing =(
+        invoicing = (
             self.env["account.invoice"]
                 .sudo()
                 .create(

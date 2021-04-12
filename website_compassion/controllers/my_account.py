@@ -402,6 +402,7 @@ class MyAccountController(PaymentFormController):
                 f"/my/children/donate?child_id={children[0].id}"
             )
         kw["form_model_key"] = "cms.form.partner.child.donation"
+        kw["child"] = child
         donation_form = self.get_form("res.partner", partner.id, **kw)
         donation_form.form_process()
         values = {"donation_form": donation_form, "children": children, "child_id": child}

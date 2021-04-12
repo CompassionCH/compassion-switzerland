@@ -8,7 +8,7 @@
                 <t t-set="javascript_param" t-value="''"/>
                 <t t-call="website_compassion.children_horizontal_cards"/>
                 <center>
-                    <h3>Make a gift to <t t-esc="child_id.preferred_name"/></h3>
+                    <h3><span class="form_title" t-esc="donation_form.form_title()"/></h3>
                     <div id="donation_form" class="col-md-4 cms_form_wrapper">
                         <h2/>
                         <t t-raw="donation_form.form_render()" />
