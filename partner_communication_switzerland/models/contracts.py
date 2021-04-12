@@ -515,13 +515,13 @@ class RecurringContract(models.Model):
                 ("partner_id", "in", self.mapped("partner_id").ids),
             ]
         ).unlink()
-        # Send new dossier for write&pray sponsorships
+        # Send sponsorship confirmation for write&pray sponsorships
         # that didn't get through waiting state (would already have the communication)
         self.filtered(
             lambda s: s.type == "SC" and s.state == "draft"
         ).with_context({}).send_communication(
             self.env.ref(
-                "partner_communication_switzerland.sponsorship_dossier_wrpr"
+                "partner_communication_switzerland.config_onboarding_sponsorship_confirmation"
             )
         )
         return super().contract_active()
