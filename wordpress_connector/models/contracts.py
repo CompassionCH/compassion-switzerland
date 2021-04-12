@@ -284,25 +284,6 @@ class Contracts(models.Model):
                     "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
             )
         sponsorship.web_info = web_info
-        # Send confirmation to partner
-        try:
-            config = self.env.ref(
-                "partner_communication_switzerland"
-                ".config_onboarding_sponsorship_confirmation"
-            )
-            if not sponsorship.correspondent_id:
-                sponsorship.correspondent_id = self.env["res.partner"].create({
-                    "email": form_data.get("email"),
-                    "name": form_data.get("first_name", "") + " " + form_data.get(
-                        "last_name", ""),
-
-                })
-            sponsorship.send_communication(config)
-            self.env.cr.commit()
-        except:
-            self.env.clear()
-            _logger.error("No confirmation mail was sent to sponsor", exc_info=True)
-
         ambassador_match = re.match(
             r"^msk_(\d{1,8})", form_data.get("consumer_source_text", "")
         )
