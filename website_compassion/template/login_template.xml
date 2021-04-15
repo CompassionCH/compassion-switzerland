@@ -11,13 +11,13 @@
         <xpath expr="t" position="replace">
             <t t-call="website.layout">
                 <div class="container mt-5 mx-auto">
-                    <h1 class="text-uppercase text-center mb-5" style="color: #005eb8;">Welcome to <span class="font-weight-bold" t-esc="request.httprequest.host"/></h1>
+                    <h1 class="text-uppercase text-center mb-5" style="color: #005eb8; font-size: calc(100% + 1vw + 1vh);">Welcome to <span class="font-weight-bold" t-esc="request.httprequest.host"/></h1>
                     <div class="row justify-content-center">
-                        <div class="col-md-4 mx-4 order-sm-2 order-md-1 mt-4 mt-md-0"><t t-call="website_compassion.register_layout"/></div>
-                        <div class="col-md-4 mx-4 order-sm-1 order-md-2">
+                        <div class="col-md-4 mx-4 order-md-2 order-lg-2">
                             <h4 class="font-weight-bold text-uppercase flex-fill mb-4">Log in</h4>
                             <div class="flex-fill" t-raw="0"/>
                         </div>
+                        <div class="col-md-4 mx-4 order-md-1 mt-4 mt-md-0"><t t-call="website_compassion.register_layout"/></div>
                     </div>
                 </div>
                 <p class="text-center mt-5">Need help? <a href="mailto:mycompassion@compassion.ch">mycompassion@compassion.ch</a></p>
