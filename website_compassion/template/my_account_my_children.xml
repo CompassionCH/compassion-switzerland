@@ -144,7 +144,10 @@
                             <t t-call="website_compassion.fill_key_value">Gender</t>
 
                             <!-- Hobbies -->
-                            <t t-set="value" t-value="child_id.get_list('hobby_ids.value').capitalize()"/>
+                            <t t-set="value" t-value="child_id.get_list('hobby_ids.value')"/>
+                            <t t-if="request.env.lang != 'de_DE'">
+                                <t t-set="value" t-value="value.capitalize()"/>
+                            </t>
                             <t t-call="website_compassion.fill_key_value">Hobbies</t>
 
                             <!-- Education level -->
@@ -196,7 +199,10 @@
                             <t t-call="website_compassion.fill_key_value">Mother/representative's job</t>
 
                             <!-- Household duties -->
-                            <t t-set="value" t-value="child_id.get_list('duty_ids.value').capitalize()"/>
+                            <t t-set="value" t-value="child_id.get_list('duty_ids.value')"/>
+                            <t t-if="request.env.lang != 'de_DE'">
+                                <t t-set="value" t-value="value.capitalize()"/>
+                            </t>
                             <t t-call="website_compassion.fill_key_value">Household duties</t>
 
                             <br/>
@@ -221,11 +227,17 @@
                             <t t-call="website_compassion.fill_key_value">Language</t>
 
                             <!-- Common job -->
-                            <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value').capitalize()"/>
+                            <t t-set="value" t-value="child_id.get_list('project_id.primary_adults_occupation_ids.value')"/>
+                            <t t-if="request.env.lang != 'de_DE'">
+                                <t t-set="value" t-value="value.capitalize()"/>
+                            </t>
                             <t t-call="website_compassion.fill_key_value">Common jobs</t>
 
                             <!-- Typical food -->
-                            <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value').capitalize()"/>
+                            <t t-set="value" t-value="child_id.get_list('project_id.primary_diet_ids.value')"/>
+                            <t t-if="request.env.lang != 'de_DE'">
+                                <t t-set="value" t-value="value.capitalize()"/>
+                            </t>
                             <t t-call="website_compassion.fill_key_value">Typical food</t>
 
                             <br/>
@@ -246,7 +258,11 @@
 
                             <!-- Project activities -->
                             <t t-if="child_activities">
-                                <t t-set="value" t-value="', '.join(child_activities.mapped('value')).capitalize()"/>
+                                <t t-set="value" t-value="child_activities.mapped('value')"/>
+                                <t t-if="request.env.lang != 'de_DE'">
+                                    <t t-set="value" t-value="value.capitalize()"/>
+                                </t>
+                                <t t-set="value" t-value="', '.join(value)"/>
                                 <t t-call="website_compassion.fill_key_value">Project activities</t>
                             </t>
 
