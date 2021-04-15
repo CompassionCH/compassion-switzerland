@@ -3,6 +3,7 @@
     <template id="register_layout" name="Register link">
         <h4 class="font-weight-bold text-uppercase mb-4">Signup</h4>
         <p style="color: #005eb8;">If you are not yet registered, you can create an account by clicking on the button below.</p>
+        <p style="color: #005eb8;">If you already have an account for the Compassion App, you can simply connect using your same email and password.</p>
         <a href="/registration?source=myaccount" class="btn btn-primary">Signup now</a>
     </template>
 
@@ -19,6 +20,7 @@
                         </div>
                     </div>
                 </div>
+                <p class="text-center mt-5">Need help? <a href="mailto:mycompassion@compassion.ch">mycompassion@compassion.ch</a></p>
             </t>
         </xpath>
     </template>
