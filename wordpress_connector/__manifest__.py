@@ -40,6 +40,7 @@
         "child_sync_wp",
         "cms_form_compassion",
         "sbc_switzerland",
+        "website_compassion",
         "crm_compassion",
         "crm_request",
     ],
