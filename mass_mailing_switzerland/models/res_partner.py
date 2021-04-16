@@ -167,15 +167,7 @@ class ResPartner(models.Model):
                     break
         super().write(vals)
         if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
-            for partner_id in update_partner_ids:
-                queue_job = self.env["queue.job"].search([
-                    ("channel", "=", "root.mass_mailing_switzerland.update_partner_mailchimp"),
-                    ("state", "!=", "done")
-                ])
-                if len(queue_job) and partner_id in queue_job.mapped("args"):
-                    continue
-                self.env["mail.mass_mailing.contact"] \
-                    .with_delay().update_partner_merge_fields_job(partner_id)
+            self.env["mail.mass_mailing.contact"].update_all_merge_fields_job(update_partner_ids)
         return True
 
     @api.multi
