@@ -173,6 +173,29 @@ class MyAccountController(PaymentFormController):
         else:
             return request.redirect("/my/information")
 
+    @route("/my/contact", type="http", auth="user", website=True)
+    def contact_us(self, **kwargs):
+
+        partner = request.env.user.partner_id
+
+        kwargs["form_model_key"] = "cms.form.claim.contact.us"
+        kwargs["partner_id"] = partner
+
+        claim_form = self.get_form("crm.claim", **kwargs)
+
+        claim_form.form_process()
+
+        if claim_form.form_success:
+            return request.render(
+                "website_compassion.successful_request", {"partner": partner}
+            )
+
+        return request.render(
+            "website_compassion.contact_us_page_template",
+            {"partner": partner,
+             "form": claim_form}
+        )
+
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
         """
