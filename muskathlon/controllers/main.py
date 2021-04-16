@@ -79,14 +79,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             about_me_form.form_process()
             form_success = about_me_form.form_success
 
-        kw["form_model_key"] = "cms.form.muskathlon.large.picture"
-        large_picture_form = self.get_form(
-            "advocate.details", advocate_details_id, **kw
-        )
-        if form_id is None or form_id == large_picture_form.form_id:
-            large_picture_form.form_process()
-            form_success = large_picture_form.form_success
-
         kw["form_model_key"] = "cms.form.muskathlon.passport"
         passport_form = self.get_form("event.registration", registration.id, **kw)
         if form_id is None or form_id == passport_form.form_id:
@@ -119,7 +111,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             {
                 "trip_info_form": trip_info_form,
                 "about_me_form": about_me_form,
-                "large_picture_form": large_picture_form,
                 "passport_form": passport_form,
                 "outbound_flight_form": outbound_flight_form,
                 "return_flight_form": return_flight_form,
