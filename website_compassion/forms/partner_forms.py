@@ -60,11 +60,6 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "email",
     ]
 
-    def _form_write(self, values):
-        """ Nothing to do on write, we handle everything in other methods.
-        """
-        return self.main_object.sudo().write(values.copy())
-
     @property
     def _form_fieldsets(self):
         field_list = self._form_fields_order
