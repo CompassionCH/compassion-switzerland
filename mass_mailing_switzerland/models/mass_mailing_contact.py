@@ -85,11 +85,13 @@ class MassMailingContact(models.Model):
         :return: True or False
         """
         mailing_contact = self.search([("partner_id", "=", partner_id)], limit=1)
-        if mailing_contact:
-            try:
-                mailing_contact.action_update_to_mailchimp()
-            except:
-                return False
+        queue_job = self.env["queue.job"].search([
+            ("channel", "=", "root.mass_mailing_switzerland.update_partner_mailchimp"),
+            ("state", "!=", "done")
+        ])
+        job_in_progress = len(queue_job) and partner_id in queue_job.mapped("args")
+        if mailing_contact and not job_in_progress:
+            mailing_contact.action_update_to_mailchimp()
         return True
 
     @job(default_channel="root.mass_mailing_switzerland.update_mailchimp")
@@ -135,6 +137,7 @@ class MassMailingContact(models.Model):
                 # Email field in odoo and mailchimp are now different.
                 # solution : we remove previous link to mailchimp and export the contact with new mail
                 if e.args[0] and literal_eval(e.args[0])['status'] == 404:
+                    self.env.clear()
                     available_mailchimp_lists = self.env['mailchimp.lists'].search([])
                     lists = available_mailchimp_lists.mapped('odoo_list_id').ids
 
@@ -142,7 +145,6 @@ class MassMailingContact(models.Model):
                         lambda x: x.list_id.id in lists).write({"mailchimp_id": False})
                 # raise exception if it's any other type
                 else:
-                    self.env.clear()
                     raise e
 
                 # once link is remove member can again be exported to mailchimp

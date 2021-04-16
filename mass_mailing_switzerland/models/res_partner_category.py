@@ -26,13 +26,8 @@ class ResPartnerCategory(models.Model):
             tag.mapped("partner_ids.mailing_contact_ids").write({
                 "tag_ids": [(4, tag.id)]
             })
-            for partner_id in old_partners ^ new_partners:
-                queue_job = self.env["queue.job"].search([
-                    ("channel", "=", "root.mass_mailing_switzerland.update_partner_mailchimp"),
-                    ("state", "!=", "done"),
-                ])
-                if len(queue_job) and partner_id in queue_job.mapped("args"):
-                    continue
-                self.env["mail.mass_mailing.contact"] \
-                    .with_delay().update_partner_merge_fields_job(partner_id)
+
+            self.env["mail.mass_mailing.contact"] \
+                .update_all_merge_fields_job(old_partners ^ new_partners)
+
         return True
