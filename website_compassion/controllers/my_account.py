@@ -403,7 +403,8 @@ class MyAccountController(PaymentFormController):
             )
         kw["form_model_key"] = "cms.form.partner.child.donation"
         kw["child"] = child
-        donation_form = self.get_form("res.partner", partner.id, **kw)
+        kw['partner'] = partner
+        donation_form = self.get_form("account.invoice", **kw)
         donation_form.form_process()
         values = {"donation_form": donation_form, "children": children, "child_id": child}
         if donation_form.form_success:

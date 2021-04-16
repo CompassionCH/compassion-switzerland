@@ -28,20 +28,17 @@ def _get_contract(partner, child):
 class ChildDonationForm(models.AbstractModel):
     _name = "cms.form.partner.child.donation"
     _inherit = ["cms.form.payment"]
-
-    _form_model = "res.partner"
-
     _display_type = "full"
+    _form_model = "account.invoice"
     gift_type = fields.Many2one("product.product", "Gift type", required=True,
                                 domain=[("categ_id.name", "=", "Sponsor gifts")])
+    partner = fields.Many2one("res.partner","Partner")
     child_sponsor = fields.Many2one("compassion.child", "Child")
     amount = fields.Float(required=True)
 
-    _form_model_fields = [
-        "amount",
-        "gift_type"
-    ]
-    _form_fields_hidden = ("invoice_id", "child_sponsor")
+    @property
+    def _form_fieldsets(self):
+        return [{"id": "Gift", "fields": ["amount", "gift_type"]}]
 
     def form_init(self, request, main_object=None, **kw):
         form = super().form_init(
@@ -49,6 +46,7 @@ class ChildDonationForm(models.AbstractModel):
         )
         # Set default value
         form.child_sponsor = kw["child"]
+        form.partner = kw["partner"]
         return form
 
     def form_title(self):
@@ -70,7 +68,7 @@ class ChildDonationForm(models.AbstractModel):
         return f"/my/children/donate/payments/validate/{self.invoice_id.id}?payment=error"
 
     def generate_invoice(self):
-        partner = self.main_object.sudo()
+        partner = self.partner
         product = self.gift_type
         name = product.product_tmpl_id.name
         contract_id = _get_contract(partner, self.child_sponsor)
