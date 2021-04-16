@@ -47,10 +47,7 @@
                             </field>
                         </group>
                         <group string="Profile page">
-                            <field name="description"/>
                             <field name="quote"/>
-                            <field name="picture_filename" invisible="1"/>
-                            <field name="picture_large" widget="image" options="{'size': [100,100]}"/>
                         </group>
                         <group string="Settings">
                             <field name="mail_copy_when_donation"/>

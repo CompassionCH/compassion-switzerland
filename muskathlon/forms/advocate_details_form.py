@@ -23,12 +23,6 @@ class AdvocateDetailsForm(models.AbstractModel):
     ]
     _form_required_fields = ["quote"]
 
-    description = fields.Text(
-        string="About me",
-        default="",
-        help="Write a small presentation text that will appear "
-             "on your profile page.",
-    )
     quote = fields.Text(
         string="My motto",
         default="",

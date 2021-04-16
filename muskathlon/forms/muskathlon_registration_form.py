@@ -215,6 +215,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                     "engagement_ids": [(4, sporty.id)],
                     "t_shirt_size": values.get("t_shirt_size"),
                     "mail_copy_when_donation": True,
+                    "quote": values.get("ambassador_quote")
                 }
             )
         else:
@@ -225,6 +226,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                     "engagement_ids": [(4, sporty.id)],
                     "t_shirt_size": values.get("t_shirt_size"),
                     "mail_copy_when_donation": True,
+                    "quote": values.get("ambassador_quote")
                 }
             )
         # Convert the name for event registration

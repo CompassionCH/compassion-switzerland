@@ -48,7 +48,6 @@
 
             <!-- Ambassador details -->
             <t t-if="details_obj.quote">
-                <!--<h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>-->
                 <h4>My motto: <span t-esc="details_obj.quote" style="font-style: italic; font-size: smaller;"/></h4>
             </t>
             <t t-else="">

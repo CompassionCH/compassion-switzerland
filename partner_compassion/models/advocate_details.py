@@ -31,14 +31,7 @@ class AdvocateDetails(models.Model):
     partner_id = fields.Many2one(
         "res.partner", "Partner", required=True, ondelete="cascade", readonly=False
     )
-    description = fields.Text(translate=False)
     quote = fields.Text(translate=False)
-    picture_large = fields.Binary(
-        string="Large picture",
-        attachment=True,
-        help="Optional large picture for your profile page",
-    )
-    picture_filename = fields.Char(compute="_compute_filename")
     thank_you_quote = fields.Html(
         compute="_compute_thank_you_quote",
         help="Used in thank you letters for donations linked to an event "
@@ -117,12 +110,6 @@ class AdvocateDetails(models.Model):
             "Only one details per ambassador is allowed!",
         )
     ]
-
-    @api.multi
-    def _compute_filename(self):
-        for details in self:
-            partner_name = details.display_name
-            details.picture_filename = partner_name + "-large.jpg"
 
     @api.multi
     def _compute_thank_you_quote(self):

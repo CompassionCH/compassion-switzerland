@@ -123,12 +123,6 @@ class Event(models.Model):
     )
     partner_name = fields.Char(related="partner_id.name", readonly=True)
     ambassador_picture_1 = fields.Binary(related="partner_id.image")
-    ambassador_picture_2 = fields.Binary(
-        related="partner_id.advocate_details_id.picture_large"
-    )
-    ambassador_description = fields.Text(
-        related="partner_id.advocate_details_id.description"
-    )
     ambassador_quote = fields.Text(related="partner_id.advocate_details_id.quote")
     partner_firstname = fields.Char(related="partner_id.firstname", readonly=True)
     partner_lastname = fields.Char(related="partner_id.lastname", readonly=True)
