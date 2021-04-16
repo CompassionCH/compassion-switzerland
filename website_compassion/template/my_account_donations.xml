@@ -34,7 +34,7 @@
                         <br/>
 
                         <form id="bvr_download" action="/my/download/sponsorship_bvr">
-                            <t t-set="input_value">Download a BVR</t>
+                            <t t-set="input_value">Download a sponsorship payment slips</t>
                             <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
                         </form>
                     </t>

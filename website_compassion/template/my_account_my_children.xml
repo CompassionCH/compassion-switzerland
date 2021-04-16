@@ -320,7 +320,7 @@
                     </div>
                 </t>
                 <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank"><span>Make a donation</span></a>
-                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="/my/download/gift_bvr?child_id={{child_id.id}}"><span>Download a BVR</span></a>
+                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="/my/download/gift_bvr?child_id={{child_id.id}}"><span>Download payment slips for gifts</span></a>
             </div>
         </template>
 
