@@ -389,7 +389,7 @@ class MyAccountController(PaymentFormController):
         ], limit=1, order="create_date asc").create_date
 
         current_year = datetime.today().year
-        first_year = create_date.year if create_date or current_year
+        first_year = create_date.year if create_date else current_year
 
         values = self._prepare_portal_layout_values()
         values.update({
