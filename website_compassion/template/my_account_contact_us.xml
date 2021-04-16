@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="contact_us_page_template" name="Contact us">
+            <t t-set="selected">contact_us</t>
+            <t t-set="title">Contact us | <t t-esc="partner.company_id.address_name"/></t>
+            <t t-call="website_compassion.my_account_layout">
+
+                <div class="container" id="my_account_contact_us">
+
+
+                    <div id="donation_form" class="col-sm-12 col-8 cms_form_wrapper">
+                        <t t-if="form.form_title()">
+                            <h2>
+                                <span class="form_title" t-esc="form.form_title()"/>
+                            </h2>
+                        </t>
+                        <t t-if="form.form_description()">
+                            <p class="form_description" t-esc="form.form_description()"/>
+                        </t>
+                        <t t-raw="form.form_render()"/>
+                    </div>
+
+                </div>
+
+                <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+            </t>
+        </template>
+
+        <template id="successful_request" name="successful request">
+
+            <t t-set="selected">contact_us</t>
+            <t t-set="title">Contact us | <t t-esc="partner.company_id.address_name"/></t>
+            <t t-call="website_compassion.my_account_layout">
+
+                <div class="container" id="my_account_contact_us">
+                    <p>Your request has been successfully registered. We will get in touch with you as soon as
+                        possible.</p>
+
+                    <a href="/my/home">
+                        <button class="btn btn-primary">Bring me back to my profile</button>
+                    </a>
+                </div>
+                <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+
+            </t>
+
+        </template>
+    </data>
+</odoo>

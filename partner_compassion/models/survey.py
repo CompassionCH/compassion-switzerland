@@ -54,6 +54,8 @@ class SurveyLabel(models.Model):
     order_in_question = fields.Integer(
         "Order of the question. Used in multiple options question when order is important. should starts at 0",
     )
+    value = fields.Html('Suggested value', translate=True, required=True,
+                        sanitize=False)
 
 
 class SurveyUserInput(models.Model):
@@ -68,8 +70,8 @@ class SurveyUserInput(models.Model):
 
         for user_input in self:
             if user_input.survey_id == segment_survey and is_done:
-                ans = self._get_answer_as_array()
-                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, self.partner_id.id)
+                ans = user_input._get_answer_as_array()
+                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, user_input.partner_id.id)
 
         return out
 

@@ -3,7 +3,7 @@
     <record id="savvy_stewards" model="res.partner.segment">
         <field name="name">Savvy Stewards</field>
         <field name="main_driver">I need to direct my giving where I trust it will achieve maximum impact.</field>
-        <field name="segment_index">0</field>
+        <field name="segment_index">1</field>
         <field name="survey_result" type="html">
             <p>It’s so great that you are interested in getting more facts, information and numbers from us! For about 70 years we at Compassion attach a great deal of importance to the efficiency of invested funds in the fight against extreme poverty and for the childrens’ development.</p>
             <p>Thank you for your trust. We commit to informing you about the impact of your support for children in the Global South.</p>
@@ -34,7 +34,7 @@
     <record id="movement_mobilizers" model="res.partner.segment">
         <field name="name">Movement Mobilizers</field>
         <field name="main_driver">I need a platform for my voice to move others to action.</field>
-        <field name="segment_index">1</field>
+        <field name="segment_index">4</field>
         <field name="survey_result" type="html">
             <p>It’s so great that you are passionate about large scale movements and that you’re motivated and ready to invest to bring about a significant change in the fight against extreme poverty.</p>
             <p>We are thrilled about your determination to fight injustices. We are so happy to count you as part of the growing number of people who are joining us in the fight against extreme poverty. We commit to providing platforms where you can advocate for children in need and the fight against extreme poverty and inspire others to join you.</p>
@@ -95,7 +95,7 @@
     <record id="compassionate_caregiver" model="res.partner.segment">
         <field name="name">Compassionate Caregivers</field>
         <field name="main_driver">I need to responsively give to others when my deep empathy moves me.</field>
-        <field name="segment_index">2</field>
+        <field name="segment_index">0</field>
         <field name="survey_result" type="html">
             <p>It’s so great that your faith inspires your generous giving. It’s also delightful that you seek to know your sponsored child and Compassion on a deeper, more personal level. Thank you from the bottom of our hearts.
 Thanks to our holistic approach to child development, we commit to a personal and all-round support to the child on a physical, cognitive, socio-emotional and spiritual level through one of the 8000 Compassion partner churches.
@@ -176,7 +176,7 @@ Thanks to our holistic approach to child development, we commit to a personal an
     <record id="curious_novices" model="res.partner.segment">
         <field name="name">Curious Novices</field>
         <field name="main_driver">I need guidance and motivation to confidently deepen my giving.</field>
-        <field name="segment_index">4</field>
+        <field name="segment_index">2</field>
         <field name="survey_result" type="html">
             <p>It’s so great to count you as part of the growing number of people who are joining us in the fight against extreme poverty. For about 70 years we at Compassion attach a great deal of importance to the efficiency of invested funds in the fight against extreme poverty and for the childrens’ development. Thank you for your trust and the considerable impact you’ve already made.</p>
             <p>We commit to informing you about the impact of your support for children in the Global South.</p>
