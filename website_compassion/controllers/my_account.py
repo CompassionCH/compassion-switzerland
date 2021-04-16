@@ -6,6 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import base64
 from datetime import datetime, timedelta
 from base64 import b64decode, b64encode
 from os import path, remove
@@ -100,7 +101,8 @@ def _create_archive(images, archive_name):
             filename = path.basename(full_path)
 
             # Create file, write to archive and delete it from os
-            urlretrieve(img.image_url, filename)
+            img_url = f'https://erp.compassion.ch/web/image/compassion.child.pictures/{img.id}/fullshot/'
+            urlretrieve(img_url, filename)
             archive.write(filename, full_path)
             remove(filename)
 
@@ -386,9 +388,8 @@ class MyAccountController(PaymentFormController):
             ("amount_total", "!=", 0),
         ], limit=1, order="create_date asc").create_date
 
-        first_year = create_date.year if create_date else False
-
         current_year = datetime.today().year
+        first_year = create_date.year if create_date or current_year
 
         values = self._prepare_portal_layout_values()
         values.update({
@@ -456,8 +457,8 @@ class MyAccountController(PaymentFormController):
             )
         return self._form_redirect(result, full_page=True)
 
-    @route(["/my/picture"], type="http", auth="user", website=True,
-           noindex=['robots', 'meta', 'header'])
+    @route("/my/picture", type="http", auth="user", website=True, method="POST",
+           sitemap=False)
     def save_ambassador_picture(self, **post):
         """
         The route to change the profile picture of a partner
@@ -489,8 +490,8 @@ class MyAccountController(PaymentFormController):
             return params[key]
 
         if source == "picture":
-            child_id = _get_required_param("child_id", kw)
-            obj_id = _get_required_param("obj_id", kw)
+            child_id = kw.get("child_id", False)
+            obj_id = kw.get("obj_id", False)
 
             if child_id and obj_id:
                 return _download_image("single", child_id, obj_id)
@@ -515,3 +516,52 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "labels":
+            child_id = _get_required_param("child_id", kw)
+            actives = _get_user_children("active")
+            child = actives.filtered(lambda c: c.id == int(child_id))
+            sponsorships = child.sponsorship_ids[0]
+            attachments = dict()
+            label_print = request.env["label.print"].search(
+                [("name", "=", "Sponsorship Label")], limit=1
+            )
+            label_brand = request.env["label.brand"].search(
+                [("brand_name", "=", "Herma A4")], limit=1
+            )
+            label_format = request.env["label.config"].search(
+                [("name", "=", "4455 SuperPrint WeiB")], limit=1
+            )
+            report_context = {
+                "active_ids": sponsorships.ids,
+                "active_model": "recurring.contract",
+                "label_print": label_print.id,
+                "must_skip_send_to_printer": True,
+            }
+            label_wizard = (
+                request.env["label.print.wizard"]
+                    .with_context(report_context)
+                    .create(
+                    {
+                        "brand_id": label_brand.id,
+                        "config_id": label_format.id,
+                        "number_of_labels": 33,
+                    }
+                )
+            )
+
+            label_data = label_wizard.get_report_data()
+            report_name = "label.report_label"
+            report = (
+                request.env["ir.actions.report"]
+                    ._get_report_from_name(report_name)
+                    .with_context(report_context)
+            )
+            pdf_data = report.with_context(
+                must_skip_send_to_printer=True
+            ).sudo().render_qweb_pdf(label_data['doc_ids'], data=label_data)[0]
+            pdf_download = base64.encodebytes(pdf_data)
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}"
+            )
+            return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)

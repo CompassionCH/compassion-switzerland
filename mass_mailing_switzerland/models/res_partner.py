@@ -46,6 +46,8 @@ class ResPartner(models.Model):
     sponsored_child_le_la = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_your_child = fields.Char(compute="_compute_sponsored_child_fields")
 
+    church_name = fields.Char(related="church_id.name")
+
     @api.multi
     def _compute_partner_image_url(self):
         try:

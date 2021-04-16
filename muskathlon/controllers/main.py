@@ -79,14 +79,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             about_me_form.form_process()
             form_success = about_me_form.form_success
 
-        kw["form_model_key"] = "cms.form.muskathlon.large.picture"
-        large_picture_form = self.get_form(
-            "advocate.details", advocate_details_id, **kw
-        )
-        if form_id is None or form_id == large_picture_form.form_id:
-            large_picture_form.form_process()
-            form_success = large_picture_form.form_success
-
         kw["form_model_key"] = "cms.form.muskathlon.passport"
         passport_form = self.get_form("event.registration", registration.id, **kw)
         if form_id is None or form_id == passport_form.form_id:
@@ -119,7 +111,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             {
                 "trip_info_form": trip_info_form,
                 "about_me_form": about_me_form,
-                "large_picture_form": large_picture_form,
                 "passport_form": passport_form,
                 "outbound_flight_form": outbound_flight_form,
                 "return_flight_form": return_flight_form,
@@ -137,21 +128,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         else:
             result = request.render("muskathlon.custom_portal_my_home", values)
         return self._form_redirect(result, full_page=True)
-
-    @route(["/my/api"], type="http", auth="user", website=True,
-           sitemap=False)
-    def save_ambassador_picture(self, **post):
-        user = request.env.user
-        partner = user.partner_id
-        return_view = "muskathlon.custom_portal_my_home"
-        picture_post = post.get("picture_1")
-        if picture_post:
-            return_view = "website_compassion.picture_1_formatted"
-            image_value = b64encode(picture_post.stream.read())
-            if not image_value:
-                return "no image uploaded"
-            partner.write({"image": image_value})
-        return request.render(return_view, self._prepare_portal_layout_values())
 
     @route(
         "/muskathlon_registration/payment/validate",

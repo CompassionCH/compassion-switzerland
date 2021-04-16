@@ -62,10 +62,6 @@
             <t t-set="value" t-value="partner.name"/>
             <t t-call="website_compassion.fill_key_value">Name</t>
 
-            <!-- Communication name -->
-            <t t-set="value" t-value="partner.preferred_name"/>
-            <t t-call="website_compassion.fill_key_value">Communication name</t>
-
             <!-- Street -->
             <t t-set="value" t-value="partner.street"/>
             <t t-call="website_compassion.fill_key_value">Street</t>
@@ -207,7 +203,7 @@
             <h3 class="mt-4">Communication preferences</h3>
             <p t-if="request.env.lang == 'en_US' and partner.lang == 'en_US'">We serve our sponsors and donors in German, French and Italian. Why not change to your preferred language and expand your journey with Compassion?</p>
             <!-- Language -->
-            <t t-set="value" t-value="request.env['res.lang'].search([('code', '=', partner.lang)]).name"/>
+            <t t-set="value" t-value="request.env['res.lang'].search([('code', '=', partner.lang)]).name.split(' / ')[-1]"/>
             <t t-call="website_compassion.fill_key_value">Language</t>
 
             <!-- Spoken languages -->

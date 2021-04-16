@@ -1,0 +1,17 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="payment_method_form">
+            <field name="name">payment.method.form</field>
+            <field name="model">account.payment.method</field>
+            <field name="inherit_id" ref="account_payment_mode.account_payment_method_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="fr_lsv_form_pdf" widget="binary" filename="country_info_filename"/>
+                    <field name="de_lsv_form_pdf" widget="binary" filename="country_info_filename"/>
+                    <field name="it_lsv_form_pdf" widget="binary" filename="country_info_filename"/>
+                    <field name="en_lsv_form_pdf" widget="binary" filename="country_info_filename"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

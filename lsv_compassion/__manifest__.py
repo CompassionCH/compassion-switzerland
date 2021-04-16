@@ -38,7 +38,10 @@
         "l10n_ch_pain_direct_debit",  # OCA/l10n-switzerland
         "report_compassion",  # compassion-switzerland
     ],
-    "data": ["views/account_payment_order_view.xml", ],
+    "data": [
+        "views/account_payment_order_view.xml",
+        "views/payment_method_view.xml",
+    ],
     "auto_install": False,
     "installable": True,
 }

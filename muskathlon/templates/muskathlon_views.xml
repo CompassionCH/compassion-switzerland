@@ -66,11 +66,6 @@
             <h3>Tasks <span class="badge compassion_background_blue" t-esc="count_tasks"/></h3>
             <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
             <div class="list-group">
-                <!-- Large picture -->
-                <a href="#" data-toggle="modal" data-target="#modal_large_picture"
-                   t-attf-class="list-group-item #{'list-group-item-success' if partner.advocate_details_id.picture_large else ''}">
-                    Upload a large picture
-                </a>
                 <!-- Trip information -->
                 <a t-attf-class="list-group-item #{'list-group-item-success' if partner.advocate_details_id.trip_information_complete else ''}"
                    href="#" data-toggle="modal" data-target="#modal_tripinfo">
@@ -125,11 +120,11 @@
 
         <template id="picture_2_formatted" name="Ambassador large picture">
             <t t-set="details_obj" t-value="partner.advocate_details_id"/>
-            <t t-set="picture" t-value="details_obj.picture_large"/>
+            <t t-set="picture" t-value="partner.image"/>
             <div t-att-class="'col-md-6' if picture else 'col-md-12'">
                 <div class="pictures-container">
                     <div id="content_picture_2" class="col-sm-6">
-                        <div t-field="details_obj.picture_large"
+                        <div t-field="partner.image"
                              t-options='{"widget": "image", "style": "max-width: 100px;"}' t-if="picture"/>
                     </div>
                 </div>
