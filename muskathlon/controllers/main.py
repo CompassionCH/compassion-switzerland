@@ -53,10 +53,14 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         )
         return request.render("muskathlon.my_details", {"reports": reports})
 
-    @route(["/my", "/my/home"], type="http", auth="user", website=True, sitemap=False)
-    def account(self, form_id=None, **kw):
+    @route("/my/muskathlon", type="http", auth="user", website=True)
+    def muskathlon_my_account(self, form_id=None, **kw):
+        if not request.env.user.partner_id.is_muskathlon:
+            return request.redirect("/my/home")
+
         """ Inject data for forms. """
         values = self._prepare_portal_layout_values()
+
         partner = values["partner"]
         advocate_details_id = partner.advocate_details_id.id
         registration = partner.registration_ids[:1]
@@ -68,12 +72,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         if form_id is None or form_id == trip_info_form.form_id:
             trip_info_form.form_process()
             form_success = trip_info_form.form_success
-
-        kw["form_model_key"] = "cms.form.partner.coordinates"
-        coordinates_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == coordinates_form.form_id:
-            coordinates_form.form_process()
-            form_success = coordinates_form.form_success
 
         kw["form_model_key"] = "cms.form.advocate.details"
         about_me_form = self.get_form("advocate.details", advocate_details_id, **kw)
@@ -112,7 +110,6 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         values.update(
             {
                 "trip_info_form": trip_info_form,
-                "coordinates_form": coordinates_form,
                 "about_me_form": about_me_form,
                 "passport_form": passport_form,
                 "outbound_flight_form": outbound_flight_form,
@@ -127,25 +124,10 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             values['registrations'] = registrations_array
         # This fixes an issue that forms fail after first submission
         if form_success:
-            result = request.redirect("/my/home")
+            result = request.redirect("/my/muskathlon")
         else:
             result = request.render("muskathlon.custom_portal_my_home", values)
         return self._form_redirect(result, full_page=True)
-
-    @route(["/my/api"], type="http", auth="user", website=True,
-           sitemap=False)
-    def save_ambassador_picture(self, **post):
-        user = request.env.user
-        partner = user.partner_id
-        return_view = "muskathlon.custom_portal_my_home"
-        picture_post = post.get("picture_1")
-        if picture_post:
-            return_view = "muskathlon.picture_1_formatted"
-            image_value = b64encode(picture_post.stream.read())
-            if not image_value:
-                return "no image uploaded"
-            partner.write({"image": image_value})
-        return request.render(return_view, self._prepare_portal_layout_values())
 
     @route(
         "/muskathlon_registration/payment/validate",

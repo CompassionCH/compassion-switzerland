@@ -11,7 +11,6 @@
 from odoo import api, models
 from odoo.addons.queue_job.job import job
 
-
 class MatchPartner(models.AbstractModel):
     """
     Extend the matching so that all create partner must be checked by a human.

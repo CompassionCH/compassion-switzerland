@@ -11,12 +11,28 @@
 from odoo import models, fields, api
 
 
+class Survey(models.Model):
+    _inherit = "survey.survey"
+
+    hide_answers = fields.Boolean(help="Don't allow user to review the answers.")
+
+
 class SurveyQuestion(models.Model):
     _inherit = "survey.question"
 
-    # when used this field tells the validation process that the maximum number of option answer should be validated
+    # when used this field tells the validation process that the maximum number of
+    # option answer should be validated
     max_checked_option = fields.Integer(
+        "Maximum answers",
         help="if set, maximum number of options allowed for the user")
+    left_label = fields.Char(
+        translate=True,
+        help="Add a label left (or above) the answers."
+             " This will use one column or row in the survey.")
+    right_label = fields.Char(
+        translate=True,
+        help="Adds a label right (or below) the answers."
+             " This will use one column or row in the survey.")
 
     @api.multi
     def validate_multiple_choice(self, post, answer_tag):
@@ -38,6 +54,8 @@ class SurveyLabel(models.Model):
     order_in_question = fields.Integer(
         "Order of the question. Used in multiple options question when order is important. should starts at 0",
     )
+    value = fields.Html('Suggested value', translate=True, required=True,
+                        sanitize=False)
 
 
 class SurveyUserInput(models.Model):
@@ -52,8 +70,8 @@ class SurveyUserInput(models.Model):
 
         for user_input in self:
             if user_input.survey_id == segment_survey and is_done:
-                ans = self._get_answer_as_array()
-                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, self.partner_id.id)
+                ans = user_input._get_answer_as_array()
+                self.env["res.partner.segment.affinity"].segment_affinity_engine(ans, user_input.partner_id.id)
 
         return out
 

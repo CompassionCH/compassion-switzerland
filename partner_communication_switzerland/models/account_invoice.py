@@ -47,7 +47,7 @@ class AccountInvoice(models.Model):
         invoices = self.search(
             [
                 ("type", "=", "out_invoice"),
-                ("invoice_type", "!=", "sponsorship"),
+                ("invoice_category", "!=", "sponsorship"),
                 ("state", "=", "paid"),
                 ("last_payment", ">=", last_month),
                 ("last_payment", "<", first),
@@ -114,11 +114,11 @@ class AccountInvoice(models.Model):
                 not i.communication_id
                 or i.communication_id.state in ("call", "pending")
             )
-            and i.invoice_type != "sponsorship"
+            and i.invoice_category != "sponsorship"
             and (
                 not i.mapped("invoice_line_ids.contract_id")
                 or (
-                    i.invoice_type == "gift" and i.origin != "Automatic birthday gift")
+                    i.invoice_category == "gift" and i.origin != "Automatic birthday gift")
             )
         )
 
@@ -138,18 +138,3 @@ class AccountInvoice(models.Model):
             ]
         )
         jobs.refresh_text()
-
-    @api.model
-    def cron_send_ambassador_donation_receipt(self):
-        """
-        Cron for sending the donation receipts to ambassadors
-        :return: True
-        """
-        ambassador_config = self.env.ref(
-            "partner_communication_switzerland."
-            "ambassador_donation_confirmation_config"
-        )
-        jobs = self.env["partner.communication.job"].search(
-            [("config_id", "=", ambassador_config.id), ("state", "=", "pending")]
-        )
-        return jobs.send()

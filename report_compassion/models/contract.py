@@ -43,8 +43,8 @@ class Contract(models.Model):
                     lang="en_US"
                 ).filtered(
                     lambda i: i.state == "open"
-                    and i.due_date < this_month
-                    and i.invoice_id.invoice_type == "sponsorship"
+                              and i.due_date < this_month
+                              and i.invoice_id.invoice_category == "sponsorship"
                 )
                 contract.amount_due = int(sum(invoice_lines.mapped("price_subtotal")))
 

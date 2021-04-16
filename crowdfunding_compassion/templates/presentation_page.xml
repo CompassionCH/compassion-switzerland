@@ -26,42 +26,43 @@
                                 <div class="card project-hero__card">
                                     <t t-if="model == 'participant'">
                                         <h3 class="blue my-3 text-center">
-                                                <t t-esc="'Support ' + participant.name"/>
-                                            </h3>
-                                            <div class="project-hero__card-content">
-                                                <!-- Setup data and display the sponsorship progress -->
-                                                <t t-if="participant.number_sponsorships_reached > 1">
-                                                    <t t-set="goal_name">sponsored children</t>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-set="goal_name">sponsored child</t>
-                                                </t>
-                                                <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
-                                                <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
-                                                <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
-                                                <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+                                            <span>Support </span>
+                                            <t t-esc="participant.partner_id.firstname"/>
+                                        </h3>
+                                        <div class="project-hero__card-content">
+                                            <!-- Setup data and display the sponsorship progress -->
+                                            <t t-if="participant.number_sponsorships_reached > 1">
+                                                <t t-set="goal_name">sponsored children</t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="goal_name">sponsored child</t>
+                                            </t>
+                                            <t t-set="goal_reached" t-value="participant.number_sponsorships_reached"/>
+                                            <t t-set="goal_objective" t-value="participant.number_sponsorships_goal"/>
+                                            <t t-set="goal_image" t-value="'/crowdfunding_compassion/static/src/img/icn_children.png'"/>
+                                            <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
 
-                                                <!-- Setup data and display the fund progress -->
-                                                <t t-if="project.product_number_reached > 1">
-                                                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
-                                                </t>
-                                                <t t-set="goal_reached" t-value="participant.product_number_reached"/>
-                                                <t t-set="goal_objective" t-value="participant.product_number_goal"/>
-                                                <t t-set="goal_image"
-                                                   t-value="participant.project_id.product_id.image_medium or '/crowdfunding_compassion/static/src/img/icn_children.png'"/>
-                                                <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
-                                                <t t-call="crowdfunding_compassion.project_deadline_widget"/>
-                                            </div>
-                                            <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
-                                                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=#{ page }">
-                                                    <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
-                                                        Donate now
-                                                    </button>
-                                                </a>
-                                            </div>
+                                            <!-- Setup data and display the fund progress -->
+                                            <t t-if="project.product_number_reached > 1">
+                                                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_plural"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="goal_name" t-value="project.product_id.crowdfunding_impact_text_passive_singular"/>
+                                            </t>
+                                            <t t-set="goal_reached" t-value="participant.product_number_reached"/>
+                                            <t t-set="goal_objective" t-value="participant.product_number_goal"/>
+                                            <t t-set="goal_image"
+                                               t-value="participant.project_id.product_id.image_medium or '/crowdfunding_compassion/static/src/img/icn_children.png'"/>
+                                            <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
+                                            <t t-call="crowdfunding_compassion.project_deadline_widget"/>
+                                        </div>
+                                        <div class="project-hero__card-cta" t-if="project.deadline >= datetime.date.today()">
+                                            <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=#{ page }">
+                                                <button type="button" class="btn btn-primary btn-lg btn-block mb-2">
+                                                    Donate now
+                                                </button>
+                                            </a>
+                                        </div>
                                     </t>
                                     <t t-else="">
                                         <h3 class="blue my-3 text-center">Support the project</h3>
@@ -123,10 +124,10 @@
                                     <h3 class="blue my-4">About the project</h3>
                                     <p>
                                         <t t-set="description_lines" t-value="project.description.split('\n')" />
-                                            <t t-foreach="description_lines" t-as="description_line">
-                                                <span t-raw="description_line"/>
-                                                <br />
-                                            </t>
+                                        <t t-foreach="description_lines" t-as="description_line">
+                                            <span t-raw="description_line"/>
+                                            <br />
+                                        </t>
                                     </p>
                                     <t t-if="project.presentation_video_embed">
                                         <iframe class="my-3" width="100%" height="400px" t-att-src="project.presentation_video_embed" frameborder="0"/>

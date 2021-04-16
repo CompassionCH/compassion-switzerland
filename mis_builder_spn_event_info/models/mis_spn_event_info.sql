@@ -97,6 +97,6 @@ union all
         left outer join account_invoice ai on ai.id=aml.invoice_id
         left join crm_event_compassion cec on aaa.event_id=cec.id
         left join res_users ru on ai.user_id=ru.id
-        where aa.code='4850' or aa.user_type_id=8 and ai.invoice_type not in ('sponsorship', 'gift')
+        where aa.code='4850' or aa.user_type_id=8 and ai.invoice_category not in ('sponsorship', 'gift')
 ) a
     )

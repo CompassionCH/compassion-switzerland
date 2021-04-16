@@ -23,7 +23,8 @@ COMPASSION_BVR = "01-44443-7"
 
 
 class ContractGroup(models.Model):
-    _inherit = "recurring.contract.group"
+    _inherit = ["recurring.contract.group", "translatable.model"]
+    _name = "recurring.contract.group"
 
     scan_line = fields.Char(compute="_compute_scan_line")
     format_ref = fields.Char(compute="_compute_format_ref")

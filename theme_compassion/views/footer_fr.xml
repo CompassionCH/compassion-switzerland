@@ -55,6 +55,9 @@
                                             S’engager bénévolement
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="https://together.compassion.ch/fr_CH/homepage">Créer un projet</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -91,6 +94,11 @@
                                             Téléchargements
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="https://compassion.ch/category/press/">
+                                            Les médias en parlent
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li>
@@ -115,6 +123,11 @@
                             <li>
                                 <a href="https://compassion.ch/agenda/"
                                    class="footer_section_title">Agenda
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://compassion.ch/lapp-compassion/">
+                                    L'app Compassion
                                 </a>
                             </li>
                         </ul>
@@ -155,22 +168,16 @@
                             <a href="mailto:info@compassion.ch">
                                 info@compassion.ch
                             </a>
-                        </p>
-
-                        <h5 class="footer_section_big_title">Coordonnées
-                            bancaires
-                        </h5>
-                        <p>
-                            CCP: 17-312562-0
                             <br/>
                             IBAN: CH07 0900 0000 1731 2562 0
                         </p>
+                        <img src="https://compassion.ch/wp-content/themes/compassion/assets/img/unis-fr.png"/>
                     </div>
                 </div>
                 <div class="end_footer">
                     <div class="row">
                         <div class="col-sm-4">
-                            © 2018 Compassion Suisse
+                            © 2021 Compassion Suisse
                         </div>
                         <div class="col-sm-8 end_footer_links">
                             <ul>

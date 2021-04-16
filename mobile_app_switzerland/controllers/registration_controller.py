@@ -19,9 +19,12 @@ class RegistrationControllerCH(RegistrationController):
                 sitemap=False)
     def registration_confirm(self, **kw):
         hostname = request.env["wordpress.configuration"].sudo().get_host()
+        source = request.session.get(
+            "cms.form.res.users", {}).get("steps", {}).get(1, {}).get("source")
         return request.render(
             "mobile_app_connector.mobile_registration_success",
-            {"app_url": "https://" + hostname + "/app/Login"},
+            {"app_url": "https://" + hostname + "/app/Login",
+             "source": source},
         )
 
     @http.route("/registration/success", type="http", auth="public", website=True,

@@ -21,16 +21,18 @@ class B2sControllerSwitzerland(RestController):
     @http.route("/b2s_image", type="http", auth="public", methods=["GET"])
     # We don't want to rename parameter id because it's used by our sponsors
     # pylint: disable=redefined-builtin
-    def handler_b2s_image(self, id=None):
+    def handler_b2s_image(self, id=None, disposition=None, file_type=None):
         """
         URL for downloading a correspondence PDF
         (or ZIP when multiple letters are attached).
         Find the associated communication and mark all related letters
         as opened and read.
-        :param image_id: uuid of the correspondence holding the data.
+        :param id: uuid of the correspondence holding the data.
+        :param disposition: "inline" to show in browser or None to download.
+        :param file_type: can force to use the PDF even though stored as ZIP.
         :return: file data for user
         """
-        res = super().handler_b2s_image(id)
+        res = super().handler_b2s_image(id, disposition, file_type)
         correspondence_obj = request.env["correspondence"].sudo()
         correspondence = correspondence_obj.search([("uuid", "=", id)])
         if correspondence.communication_id:

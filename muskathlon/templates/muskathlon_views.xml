@@ -37,38 +37,34 @@
 
         <template id="aboutme_formatted" name="Ambassador Details">
             <t t-set="details_obj" t-value="partner.advocate_details_id"/>
-            <h3 class="section-header"
-                style="margin-top: 25px; margin-bottom: 10px;">
-                Sport profile page
-                <button type="button"
-                        class="btn btn-default btn-xs"
+            <h3>Sport profile page</h3>
+            <button type="button"
+                        class="btn btn-primary"
                         data-toggle="modal"
                         data-target="#modal_advocate_details">
                     Change
                 </button>
-            </h3>
+            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
+
             <!-- Ambassador details -->
-            <div class="row">
-                <div t-att-class="'col-md-6' if details_obj.picture_large else 'col-md-12'">
-                    <t t-if="details_obj.quote">
-                        <!--<h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>-->
-                        <h4>My motto: <span t-esc="details_obj.quote" style="font-style: italic; font-size: smaller;"/></h4>
-                    </t>
-                    <t t-else="">
-                        <p style="margin-top: 13px;">
-                            Your profile is incomplete. Please fill in your data.
-                        </p>
-                    </t>
-                </div>
-                <!-- Large picture -->
-                <t t-call="muskathlon.picture_2_formatted"/>
-            </div>
+            <t t-if="details_obj.quote">
+                <!--<h4>About me: <span t-esc="details_obj.description" style="font-size: smaller;"/></h4>-->
+                <h4>My motto: <span t-esc="details_obj.quote" style="font-style: italic; font-size: smaller;"/></h4>
+            </t>
+            <t t-else="">
+                <p style="margin-top: 13px;">
+                    Your profile is incomplete. Please fill in your data.
+                </p>
+            </t>
+            <!-- Large picture -->
+            <t t-call="muskathlon.picture_2_formatted"/>
         </template>
 
         <template id="tripinfos_formatted" name="Muskathlon Trip Information">
             <t t-set="registration" t-value="partner.registration_ids[:1]"/>
             <t t-set="count_tasks" t-value="len(registration.incomplete_task_ids) - int(not registration.is_in_two_months)"/>
             <h3>Tasks <span class="badge compassion_background_blue" t-esc="count_tasks"/></h3>
+            <section class="section-header" style="margin-top: 25px; margin-bottom: 10px;"/>
             <div class="list-group">
                 <!-- Trip information -->
                 <a t-attf-class="list-group-item #{'list-group-item-success' if partner.advocate_details_id.trip_information_complete else ''}"
@@ -119,12 +115,6 @@
                         child protection charter
                     </a>
                 </t>
-            </div>
-        </template>
-
-        <template id="picture_1_formatted" name="My profile picture">
-            <div id="content_picture_1">
-                <div t-field="partner.image_medium" t-options='{"widget": "image"}'/>
             </div>
         </template>
 

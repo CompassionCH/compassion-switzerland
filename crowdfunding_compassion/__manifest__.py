@@ -37,6 +37,7 @@
         "cms_form_compassion",  # compassion-modules
         "theme_crowdfunding",  # compassion-switzerland
         "partner_communication_switzerland",  # compassion-switzerland
+        "website_compassion",  # compassion-switzerland
         "crm_compassion",  # compassion-modules
         "event",  # odoo base modules
         "wordpress_configuration",  # compassion-modules
@@ -60,8 +61,9 @@
         "templates/crowdfunding_components.xml",
         "templates/crowdfunding_form_template.xml",
         "templates/homepage.xml",
-        "templates/myaccount_components.xml",
-        "templates/myaccount_crowdfunding_page.xml",
+        "templates/my_account_crowdfunding.xml",
+        "templates/my_account_components.xml",
+        "templates/my_account_crowdfunding_page.xml",
         "templates/project_creation_page.xml",
         "templates/project_donation_page.xml",
         "templates/presentation_page.xml",

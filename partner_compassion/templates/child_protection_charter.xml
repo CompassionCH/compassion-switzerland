@@ -34,9 +34,6 @@
 
     <template id="child_protection_charter_page" name="Child Protection Charter Agreement">
         <t t-call="website.layout">
-            <t t-set="head">
-                <meta name="robots" content="noindex"/>
-            </t>
             <div id="wrap">
                 <!-- Full width banner -->
                 <t t-set="background_color_class" t-value="'compassion_background_blue'"/>
@@ -85,20 +82,12 @@
                     <div class="row mb32">
                         <div class="col-md-9">
                             <!-- Child Protection Text Accordion -->
-                            <div class="panel-group" id="accordion-child-protection" role="tablist" aria-multiselectable="true">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="heading-child-protection">
-                                        <h4 class="panel-title">
-                                            <b>
-                                                <a role="button" data-toggle="collapse" data-parent="accordion-child-protection" href="#collapse-child-protection" aria-expanded="true" aria-controls="collapse-contract">Statement of Commitment to Child Protection</a>
-                                            </b>
-                                        </h4>
-                                    </div>
-                                    <div id="collapse-child-protection" t-attf-class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-child-protection">
-                                        <div class="panel-body">
-                                            <t t-call="partner_compassion.child_protection_charter_text" />
-                                        </div>
-                                    </div>
+                            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapse-child-protection" aria-expanded="false" aria-controls="collapse-child-protection">
+Statement of Commitment to Child Protection
+</a>
+                            <div class="collapse" id="collapse-child-protection">
+                                <div class="well">
+                                    <t t-call="partner_compassion.child_protection_charter_text" />
                                 </div>
                             </div>
                         </div>

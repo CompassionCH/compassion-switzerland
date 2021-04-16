@@ -14,13 +14,13 @@ from odoo import models, api, fields
 class PaymentLine(models.Model):
     _inherit = "account.payment.line"
 
-    invoice_type = fields.Selection(related="move_line_id.invoice_id.invoice_type")
+    invoice_category = fields.Selection(related="move_line_id.invoice_id.invoice_category")
 
 
 class BankPaymentLine(models.Model):
     _inherit = "bank.payment.line"
 
-    invoice_type = fields.Selection(related="payment_line_ids.invoice_type")
+    invoice_category = fields.Selection(related="payment_line_ids.invoice_category")
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
@@ -29,5 +29,5 @@ class BankPaymentLine(models.Model):
         :return: list of grouping fields
         """
         res = super().same_fields_payment_line_and_bank_payment_line()
-        res.append("invoice_type")
+        res.append("invoice_category")
         return res
