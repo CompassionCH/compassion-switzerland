@@ -13,7 +13,7 @@ class PaymentTransaction(models.Model):
     _inherit = "payment.transaction"
 
     def _set_transaction_cancel(self):
-        for invoice in self.invoice_ids.filtered(lambda a: a.cancel_invoice):
+        for invoice in self.invoice_ids.filtered('auto_cancel_no_transaction'):
             invoice.action_invoice_cancel()
         return super()._set_transaction_cancel()
 

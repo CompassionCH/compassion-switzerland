@@ -166,7 +166,7 @@ class AccountInvoice(models.Model):
                 "reference": str(pf_payid),
                 "transaction_id": str(pf_payid),
                 "date_invoice": fields.Date.from_string(time),
-                "cancel_invoice": True,
+                "auto_cancel_no_transaction": True,
                 "currency_id": 6,  # Always in CHF
                 "account_id": account.id,
                 "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,

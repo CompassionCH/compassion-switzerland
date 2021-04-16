@@ -16,5 +16,5 @@ class AccountInvoiceLine(models.Model):
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
-    # If true, cancel the invoice if the linked payment transaction is cancelled
-    cancel_invoice = fields.Boolean(default=False)
+    auto_cancel_no_transaction = fields.Boolean(default=False, help='If true, cancel the invoice if the linked payment '
+                                                        'transaction is cancelled',oldname='cancel_invoice')
