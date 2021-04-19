@@ -283,6 +283,7 @@ class MyAccountController(PaymentFormController):
                 ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
+            request.session['child_id'] = child.id
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
