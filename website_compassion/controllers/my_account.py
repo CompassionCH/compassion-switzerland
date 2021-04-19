@@ -246,6 +246,10 @@ class MyAccountController(PaymentFormController):
             letters = request.env["correspondence"].search([
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
+                "|",
+                "&", ("direction", "=", "Supporter To Beneficiary"),
+                ("state", "!=", "Quality check unsuccessful"),
+                "|", ("letter_delivered", "=", True), ("sent_date", "!=", False)
             ])
             gift_categ = request.env.ref(
                 "sponsorship_compassion.product_category_gift"
