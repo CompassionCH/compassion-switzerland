@@ -50,15 +50,19 @@ def _get_user_children(state=None):
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
-    def filter_sponsorships(sponsorship):
-        if state == "active":
-            return sponsorship.state not in ["cancelled", "terminated"]
-        elif state == "terminated":
-            return sponsorship.state in ["cancelled", "terminated"]
-        else:
-            return True
-
     partner = request.env.user.partner_id
+    only_correspondent = partner.app_displayed_sponsorships == "correspondent"
+
+    def filter_sponsorships(sponsorship):
+        can_show = True
+        if only_correspondent:
+            can_show = sponsorship.correspondent_id == partner
+        if state == "active":
+            can_show &= sponsorship.state not in ["cancelled", "terminated"]
+        elif state == "terminated":
+            can_show &= sponsorship.state in ["cancelled", "terminated"]
+        return can_show
+
     return _map_contracts(
         partner, mapping_val="child_id", sorting_val="preferred_name",
         filter_fun=filter_sponsorships
