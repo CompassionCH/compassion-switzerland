@@ -32,7 +32,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
         "emergency_relation_type",
         "emergency_phone",
         "birth_name",
-        "partner_birthdate",
+        "partner_birthdate_date",
         "partner_street",
         "partner_zip",
         "partner_city",
@@ -94,7 +94,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                     "partner_firstname",
                     "partner_lastname",
                     "partner_email",
-                    "partner_birthdate",
+                    "partner_birthdate_date",
                     "partner_phone",
                     "partner_street",
                     "partner_zip",
@@ -128,7 +128,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                 "partner_image":
                     "cms_form_compassion.form.widget.simple.image",
                 "gtc_accept": "cms_form_compassion.form.widget.terms",
-                "partner_birthdate": "cms.form.widget.date.ch",
+                "partner_birthdate_date": "cms.form.widget.date.ch",
                 "passport_expiration_date": "cms.form.widget.date.ch",
             }
         )
