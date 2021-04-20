@@ -33,8 +33,6 @@ class RecurringContract(models.Model):
         help="Indicates that the child has a new picture to be ordered with "
              "Smartphoto."
     )
-    payment_type_attachment = fields.Char(
-        compute="_compute_payment_type_attachment")
     birthday_paid = fields.Many2many(
         "sponsorship.gift", compute="_compute_birthday_paid", readonly=False
     )
@@ -70,35 +68,40 @@ class RecurringContract(models.Model):
         cancelled_sponsorships.write({"send_introduction_letter": False})
         return cancelled_sponsorships
 
-    def _compute_payment_type_attachment(self):
-        for contract in self:
-            payment_mode = (
-                contract.with_context(lang="en_US").payment_mode_id.name or ""
-            )
-            if payment_mode == "Permanent Order":
+    def get_payment_type_attachment_string(self):
+        payment_mode = self.with_context(lang="en_US").mapped("payment_mode_id")[:1].name
+        if payment_mode == "Permanent Order":
+            total_paid = self.mapped("group_id.contract_ids").filtered(
+                lambda s: s.state not in ("cancelled", "terminated"))
+            if len(self) == len(total_paid):
                 phrase = _(
                     "1 payment slip to set up a standing order ("
                     "monthly payment of the sponsorship)"
                 )
-            elif "LSV" in payment_mode or "Postfinance" in payment_mode:
-                if contract.state == "mandate":
-                    phrase = _(
-                        "1 LSV or Direct Debit authorization form to "
-                        "fill in if you don't already have done it!"
-                    )
-                else:
-                    phrase = _(
-                        "We will continue to withdraw the amount for "
-                        "the sponsorship from your account."
-                    )
             else:
-                freq = contract.group_id.recurring_value
-                if freq == 12:
-                    phrase = _("1 payment slip for the annual sponsorship "
-                               "payment")
-                else:
-                    phrase = _("payment slips for the sponsorship payment")
-            contract.payment_type_attachment = phrase
+                phrase = _(
+                    "Attached you will find the payment slip that will allow you to increase your current "
+                    "standing order to CHF %s.-"
+                ) % int(sum(total_paid.mapped("total_amount")))
+        elif "LSV" in payment_mode or "Postfinance" in payment_mode:
+            if "mandate" in self.mapped("state"):
+                phrase = _(
+                    "1 LSV or Direct Debit authorization form to "
+                    "fill in if you don't already have done it!"
+                )
+            else:
+                phrase = _(
+                    "We will continue to withdraw the amount for "
+                    "the sponsorship from your account."
+                )
+        else:
+            freq = self.mapped("group_id.recurring_value")[:1]
+            if freq == 12:
+                phrase = _("1 payment slip for the annual sponsorship "
+                           "payment")
+            else:
+                phrase = _("payment slips for the sponsorship payment")
+        return phrase
 
     def _compute_birthday_paid(self):
         today = datetime.today()
