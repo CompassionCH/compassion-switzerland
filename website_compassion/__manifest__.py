@@ -46,7 +46,6 @@
         "template/login_template.xml",
         "views/correspondence_template_view.xml",
         "views/robots.xml",
-        "data/base_automation_data.xml",
     ],
     "depends": [
         "theme_compassion",
