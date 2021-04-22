@@ -623,6 +623,6 @@ class MyAccountController(PaymentFormController):
             pdf_download = base64.encodebytes(pdf_data)
             headers = Headers()
             headers.add(
-                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}"
+                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}.pdf"
             )
             return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)
