@@ -155,7 +155,7 @@ class ResPartner(models.Model):
                     "tag_ids": vals["category_id"]
                 })
                 update_partner_ids.append(contact.id)
-            if "email" in vals and not vals["email"]:
+            if "email" in vals and not vals["email"] and not self.env.context.get("import_from_mailchimp"):
                 contact.mapped("mailing_contact_ids").filtered(
                     lambda c: c.email == contact.email).unlink()
             mailchimp_fields = contact.mailing_contact_ids.mapped(
