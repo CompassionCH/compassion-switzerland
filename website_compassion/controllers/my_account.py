@@ -6,12 +6,14 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import base64
 from datetime import datetime, timedelta
 from base64 import b64decode, b64encode
 from os import path, remove
 from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
+from math import ceil
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -36,9 +38,9 @@ def _map_contracts(partner, mapping_val=None, sorting_val=None,
     :return:
     """
     return (
-        partner.contracts_fully_managed.filtered(filter_fun) +
-        partner.contracts_correspondant.filtered(filter_fun) +
-        partner.contracts_paid.filtered(filter_fun)
+            partner.contracts_fully_managed.filtered(filter_fun) +
+            partner.contracts_correspondant.filtered(filter_fun) +
+            partner.contracts_paid.filtered(filter_fun)
     ).mapped(mapping_val).sorted(sorting_val)
 
 
@@ -174,6 +176,24 @@ class MyAccountController(PaymentFormController):
         else:
             return request.redirect("/my/information")
 
+    @route("/my/contact", type="http", auth="user", website=True)
+    def contact_us(self, **kwargs):
+
+        partner = request.env.user.partner_id
+
+        kwargs["form_model_key"] = "cms.form.claim.contact.us"
+        kwargs["partner_id"] = partner
+
+        claim_form = self.get_form("crm.claim", **kwargs)
+
+        claim_form.form_process()
+
+        return request.render(
+            "website_compassion.contact_us_page_template",
+            {"partner": partner,
+             "form": claim_form}
+        )
+
     @route("/my/letter", type="http", auth="user", website=True)
     def my_letter(self, child_id=None, template_id=None, **kwargs):
         """
@@ -265,6 +285,7 @@ class MyAccountController(PaymentFormController):
                 ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
+            request.session['child_id'] = child.id
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
@@ -279,24 +300,44 @@ class MyAccountController(PaymentFormController):
             return request.redirect(f"/my/children?child_id={children[0].id}")
 
     @route("/my/donations", type="http", auth="user", website=True)
-    def my_donations(self, form_id=None, **kw):
+    def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
         """
         The route to the donations and invoicing page
+        :param invoice_page: index of the invoice pagination
+        :param invoice_per_page: the number of invoices to display per page
         :param form_id: the id of the filled form or None
         :param kw: additional optional arguments
         :return: a redirection to a webpage
         """
         partner = request.env.user.partner_id
 
-        invoices = request.env["account.invoice"].sudo().search([
+        invoice_page = int(invoice_page) if invoice_page.isnumeric() else 1
+
+        invoice_search_criteria = [
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
             ("invoice_category", "in", ["sponsorship", "fund", "other"]),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
-        ])
+        ]
+
+        sudo_invoice_env = request.env["account.invoice"].sudo()
+
+        all_invoice_count = sudo_invoice_env.search_count(invoice_search_criteria)
+
+        invoice_per_page = int(invoice_per_page) if isinstance(invoice_per_page, str) else invoice_per_page
+        invoice_page = invoice_page if invoice_page >= 1 and (
+                invoice_page - 1) * invoice_per_page < all_invoice_count else 1
+
+        count_invoice_pages = int(ceil(all_invoice_count / invoice_per_page))
+
+        # invoice to show for the given pagination index
+        invoices = sudo_invoice_env.search(invoice_search_criteria,
+                                           offset=(invoice_page - 1) * invoice_per_page,
+                                           limit=invoice_per_page)
+
         in_one_month = datetime.today() + timedelta(days=30)
-        due_invoices = request.env["account.invoice"].sudo().search([
+        due_invoices = sudo_invoice_env.search([
             ("partner_id", "=", partner.id),
             ("state", "=", "open"),
             ("invoice_category", "=", "sponsorship"),
@@ -305,15 +346,17 @@ class MyAccountController(PaymentFormController):
             ("date_invoice", "<", fields.Date.to_string(in_one_month))
         ])
 
+        last_completed_tax_receipt = partner.last_completed_tax_receipt
+
         groups = _map_contracts(
             partner, "group_id", filter_fun=lambda s: s.state not in
-            ["cancelled", "terminated"] and partner == s.mapped("partner_id")
+                                                      ["cancelled", "terminated"] and partner == s.mapped("partner_id")
         )
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
                 lambda c: c.state not in ["cancelled", "terminated"] and
-                c.partner_id == partner
+                          c.partner_id == partner
             ) for g in groups
         ]
         # List of integers representing the total amount by group
@@ -321,7 +364,7 @@ class MyAccountController(PaymentFormController):
             sum(list(filter(
                 lambda a: a != 42.0,
                 sponsor.filtered(lambda s: s.type == "S")
-                .mapped("contract_line_ids").mapped("amount")
+                    .mapped("contract_line_ids").mapped("amount")
             ))) for sponsor in sponsorships_by_group
         ]
         # List of recordset of paid sponsorships (one recordset for each group)
@@ -334,6 +377,7 @@ class MyAccountController(PaymentFormController):
             len(sponsorship.filtered(lambda s: s.type == "SC"))
             for sponsorship in sponsorships_by_group
         ]
+
         # List of strings (one bvr reference for each group)
         bvr_references = groups.mapped("bvr_reference")
         # Find the first non empty bvr reference in the groups
@@ -363,19 +407,23 @@ class MyAccountController(PaymentFormController):
             payment_options_form.form_process()
             form_success = payment_options_form.form_success
 
-        first_year = request.env["account.invoice"].sudo().search([
+        create_date = sudo_invoice_env.search([
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
-        ], limit=1, order="create_date asc").create_date.year
+        ], limit=1, order="create_date asc").create_date
+
         current_year = datetime.today().year
+        first_year = create_date.year if create_date else current_year
 
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
+            "invoice_page": invoice_page,
+            "count_invoice_pages": count_invoice_pages,
             "due_invoices": due_invoices,
             "groups": groups,
             "amount_by_group": amount_by_group,
@@ -383,6 +431,7 @@ class MyAccountController(PaymentFormController):
             "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
             "first_year": first_year,
             "current_year": current_year,
+            "last_completed_tax_receipt": last_completed_tax_receipt
         })
 
         # This fixes an issue that forms fail after first submission
@@ -460,6 +509,7 @@ class MyAccountController(PaymentFormController):
         :param kw: the additional optional arguments
         :return: a response to download the file
         """
+
         def _get_required_param(key, params):
             if key not in params:
                 raise ValueError("Required parameter {}".format(key))
@@ -479,12 +529,12 @@ class MyAccountController(PaymentFormController):
             partner = request.env.user.partner_id
             year = _get_required_param("year", kw)
 
-            wizard = request.env["print.tax_receipt"]\
+            wizard = request.env["print.tax_receipt"] \
                 .with_context(active_ids=partner.ids).create({
-                    "pdf": True,
-                    "year": year,
-                    "pdf_name": f"tax_receipt_{year}.pdf",
-                })
+                "pdf": True,
+                "year": year,
+                "pdf_name": f"tax_receipt_{year}.pdf",
+            })
             wizard.get_report()
             headers = Headers()
             headers.add(
@@ -492,3 +542,90 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "sponsorship_bvr":
+            partner = request.env.user.partner_id
+            # list active sponsorship where current user is partner (and not only correspondent)
+            active_sponsorship = partner.sponsorship_ids.filtered(
+                lambda s: s.state not in ["cancelled", "terminated"] and s.partner_id == partner)
+
+            wizard = request.env["print.sponsorship.bvr"] \
+                .with_context(active_ids=active_sponsorship.mapped("id")).sudo().create({
+                    "pdf": True,
+                    "paper_format": "report_compassion.bvr_sponsorship",
+            })
+            wizard.get_report()
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=wizard.pdf_name
+            )
+            data = b64decode(wizard.pdf_download)
+            return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "gift_bvr":
+            partner = request.env.user.partner_id
+            child_id = int(_get_required_param("child_id", kw))
+
+            sponsorship = partner.sponsorship_ids.filtered(
+                lambda s: s.state not in ["cancelled", "terminated"] and s.child_id.id == child_id)
+
+            wizard = request.env["print.sponsorship.gift.bvr"] \
+                .with_context(active_ids=sponsorship.id, active_model="recurring.contract").sudo().create({
+                    "pdf": True,
+                    "paper_format": "report_compassion.bvr_gift_sponsorship",
+                    "draw_background": True
+            })
+            wizard.get_report()
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=wizard.pdf_name
+            )
+            data = b64decode(wizard.pdf_download)
+            return Response(data, content_type="application/pdf", headers=headers)
+        elif source == "labels":
+            child_id = _get_required_param("child_id", kw)
+            actives = _get_user_children("active")
+            child = actives.filtered(lambda c: c.id == int(child_id))
+            sponsorships = child.sponsorship_ids[0]
+            attachments = dict()
+            label_print = request.env["label.print"].search(
+                [("name", "=", "Sponsorship Label")], limit=1
+            )
+            label_brand = request.env["label.brand"].search(
+                [("brand_name", "=", "Herma A4")], limit=1
+            )
+            label_format = request.env["label.config"].search(
+                [("name", "=", "4455 SuperPrint WeiB")], limit=1
+            )
+            report_context = {
+                "active_ids": sponsorships.ids,
+                "active_model": "recurring.contract",
+                "label_print": label_print.id,
+                "must_skip_send_to_printer": True,
+            }
+            label_wizard = (
+                request.env["label.print.wizard"]
+                    .with_context(report_context)
+                    .create(
+                    {
+                        "brand_id": label_brand.id,
+                        "config_id": label_format.id,
+                        "number_of_labels": 33,
+                    }
+                )
+            )
+
+            label_data = label_wizard.get_report_data()
+            report_name = "label.report_label"
+            report = (
+                request.env["ir.actions.report"]
+                    ._get_report_from_name(report_name)
+                    .with_context(report_context)
+            )
+            pdf_data = report.with_context(
+                must_skip_send_to_printer=True
+            ).sudo().render_qweb_pdf(label_data['doc_ids'], data=label_data)[0]
+            pdf_download = base64.encodebytes(pdf_data)
+            headers = Headers()
+            headers.add(
+                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}.pdf"
+            )
+            return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)

@@ -288,7 +288,7 @@ class StatementCompletionRule(models.Model):
                 "|",
                 ("partner_id", "=", partner.id),
                 ("correspondent_id", "=", partner.id),
-                ("state", "!=", "draft"),
+                ("state", "not in", ["terminated", "draft"]),
                 ("type", "like", "S"),
             ]
             contract = contract_obj.search(
@@ -380,7 +380,7 @@ class StatementCompletionRule(models.Model):
         """ Finds a partner given its bvr reference. """
         partner = None
         contract_group_obj = self.env["recurring.contract.group"]
-        contract_groups = contract_group_obj.search([("bvr_reference", "=", bvr_ref)])
+        contract_groups = contract_group_obj.search([("bvr_reference", "=", bvr_ref)]).filtered('contains_sponsorship')
         if contract_groups:
             partner = contract_groups[0].partner_id
         else:
@@ -411,7 +411,7 @@ class StatementCompletionRule(models.Model):
             based on the reference of the statement line. """
         product_obj = self.env["product.product"].with_context(lang="en_US")
         # Search for payment type in a flexible manner given its neighbours
-        payment_type_match = re.search(partner_ref + r"0{1,4}[1-9]{1,3}([1-9])0", ref)
+        payment_type_match = re.search(partner_ref + r"0{1,4}[0-9]{1,4}([1-9])0", ref)
         if payment_type_match:
             payment_type = int(payment_type_match.group(1))
             payment_type_index = payment_type_match.start(1)

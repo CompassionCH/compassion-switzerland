@@ -215,7 +215,7 @@
             <t t-set="o" t-value="contract_groups[0]"/>
             <t t-set="reference" t-value="o.format_ref"/>
             <t t-set="due"
-               t-value="int(sum(sponsorships.mapped('amount_due'))) or int(sum(sponsorships.mapped('total_amount')))"/>
+               t-value="int(sum(sponsorships.mapped('due_invoice_ids').mapped('amount_total')) if 'active' in sponsorships.mapped('state') else sum(sponsorships.mapped('total_amount')) * min(sponsorships.mapped('group_id.advance_billing_months')))"/>
             <t t-set="communication">
                 Sponsorship due
                 <t t-if="due">

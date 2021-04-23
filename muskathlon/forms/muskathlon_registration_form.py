@@ -19,7 +19,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
     form_id = "modal_muskathlon_registration"
     _form_model = "event.registration"
     _form_required_fields = [
-        "ambassador_picture_1",
+        "partner_image",
         "ambassador_quote",
         "sport_level",
         "sport_level_description",
@@ -40,7 +40,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
     _payment_success_redirect = "/muskathlon_registration/payment/validate"
 
     invoice_id = fields.Many2one("account.invoice", readonly=False)
-    ambassador_picture_1 = fields.Binary("Profile picture")
+    partner_image = fields.Binary("Profile picture")
     ambassador_quote = fields.Text(
         "My motto",
         default="",
@@ -75,7 +75,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                 "title": _("Your sport profile"),
                 "description": "",
                 "fields": [
-                    "ambassador_picture_1",
+                    "partner_image",
                     "sport_discipline_id",
                     "sport_level",
                     "sport_level_description",
@@ -125,7 +125,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
         res.update(
             {
                 "event_id": "cms_form_compassion.form.widget.hidden",
-                "ambassador_picture_1":
+                "partner_image":
                     "cms_form_compassion.form.widget.simple.image",
                 "gtc_accept": "cms_form_compassion.form.widget.terms",
                 "partner_birthdate": "cms.form.widget.date.ch",
@@ -171,7 +171,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
         """ Save uploaded picture in storage to reload it in case of
         validation error (to avoid the user to have to re-upload it). """
         values = super(MuskathlonRegistrationForm, self).form_get_request_values()
-        fname = "ambassador_picture_1"
+        fname = "partner_image"
         image = values.get(fname)
         form_fields = self.form_fields()
         image_widget = form_fields[fname]["widget"]
@@ -215,6 +215,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                     "engagement_ids": [(4, sporty.id)],
                     "t_shirt_size": values.get("t_shirt_size"),
                     "mail_copy_when_donation": True,
+                    "quote": values.get("ambassador_quote")
                 }
             )
         else:
@@ -225,6 +226,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
                     "engagement_ids": [(4, sporty.id)],
                     "t_shirt_size": values.get("t_shirt_size"),
                     "mail_copy_when_donation": True,
+                    "quote": values.get("ambassador_quote")
                 }
             )
         # Convert the name for event registration
@@ -262,7 +264,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
 
     def form_next_url(self, main_object=None):
         # Clean storage of picture
-        self.request.session.pop("ambassador_picture_1", False)
+        self.request.session.pop("partner_image", False)
         return "/muskathlon_registration/{}/success".format(self.main_object.id)
 
     def _edit_transaction_values(self, tx_values, form_vals):

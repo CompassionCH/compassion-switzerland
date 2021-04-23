@@ -7,7 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models
+from odoo import api, models, _
+from datetime import date, timedelta
 
 
 class MailchimpLists(models.Model):

@@ -29,6 +29,16 @@
                         <t t-call="website_compassion.my_donations_payment_options"/>
                     </t>
 
+                    <t t-if="groups and any(groups.mapped('bvr_reference'))">
+
+                        <br/>
+
+                        <form id="bvr_download" action="/my/download/sponsorship_bvr">
+                            <t t-set="input_value">Download payment slips</t>
+                            <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
+                        </form>
+                    </t>
+
                     <t t-call="website_compassion.my_donations_tax_receipt"/>
 
                     <t t-call="website_compassion.my_donations_gift_history"/>
@@ -152,12 +162,13 @@
 
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
-            <hr/>
-            <div class="mt-4">
+            <hr t-if="first_year"/>
+            <div class="mt-4" t-if="first_year">
                 <h3 id="tax_title">
                     <span>Download your tax receipt</span>
                 </h3>
-                <input type="text" class="d-none" id="last_complete_year" t-att-value="partner.last_completed_tax_receipt"/>
+                <input type="text" class="d-none" id="last_complete_year"
+                       t-att-value="last_completed_tax_receipt"/>
                 <div class="row m-2">
                     <!-- Construct the menu to select the year -->
                     <div class="col-3">
@@ -258,8 +269,18 @@
                         </div>
                     </div>
                 </t>
-                <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
+                <ul class="pagination justify-content-center" t-if="count_invoice_pages > 1">
+                    <t t-foreach="range(1, count_invoice_pages + 1)" t-as="index">
+                        <li t-att-class="'page-item disabled' if index == invoice_page else 'page-item'">
+                            <a class="page-link" t-att-href="'/my/donations?invoice_page={}'.format(index)">
+                                <t t-esc="index"/>
+                            </a>
+                        </li>
+                    </t>
+                </ul>
             </div>
+
+            <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
         </template>
     </data>
 </odoo>

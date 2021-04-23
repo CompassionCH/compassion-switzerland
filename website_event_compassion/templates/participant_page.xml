@@ -13,19 +13,13 @@
         <!-- Add social share information for Facebook and Twitter -->
         <t t-set="share_url"><t t-esc="registration.host_url"/><t t-esc="registration.website_url"/></t>
         <t t-set="share_content">Support me during the <t t-esc="event.name"/> - <t t-esc="registration.partner_display_name"/></t>
-        <t t-if="registration.ambassador_picture_2">
-            <t t-set="ambassador_picture" t-value="'/web/image/event.registration/' + str(registration.id) + '/ambassador_picture_2'"/>
-            <t t-set="share_img_url" t-value="'/web/image/event.registration/' + str(registration.id) + '/ambassador_picture_1/300x300'"/>
+        <t t-if="registration.ambassador_picture_1">
+            <t t-set="ambassador_picture" t-value="'/web/image/event.registration/' + str(registration.id) + '/ambassador_picture_1'"/>
+            <t t-set="image_url" t-value="ambassador_picture + '/300x300'"/>
         </t>
         <t t-else="">
-            <t t-if="registration.ambassador_picture_1">
-                <t t-set="ambassador_picture" t-value="'/web/image/event.registration/' + str(registration.id) + '/ambassador_picture_1'"/>
-                <t t-set="image_url" t-value="ambassador_picture + '/300x300'"/>
-            </t>
-            <t t-else="">
-                <t t-set="ambassador_picture" t-value="'/website_event_compassion/static/src/img/default-user-image.png'"/>
-                <t t-set="image_url" t-value="ambassador_picture"/>
-            </t>
+            <t t-set="ambassador_picture" t-value="'/website_event_compassion/static/src/img/default-user-image.png'"/>
+            <t t-set="image_url" t-value="ambassador_picture"/>
         </t>
         <t t-set="head">
             <meta property="og:title" t-att-content="share_content"/>
@@ -89,7 +83,6 @@
                             <blockquote class="ambassador_quote" t-if="registration.ambassador_quote">
                                 <p t-field="registration.ambassador_quote"/>
                             </blockquote>
-                            <p t-field="registration.ambassador_description" class="ambassador_description" t-if="registration.ambassador_description"/>
                             <div class="mt32 mb32">
                                 <t t-call="website_event_compassion.event_barometer">
                                     <t t-set="barometer" t-value="registration"/>

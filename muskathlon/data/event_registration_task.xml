@@ -21,11 +21,6 @@
             <field name="sequence">8</field>
             <field name="stage_id" ref="stage_fill_profile"/>
         </record>
-        <record id="task_picture" model="event.registration.task">
-            <field name="name">Upload large picture</field>
-            <field name="sequence">4</field>
-            <field name="stage_id" ref="stage_fill_profile"/>
-        </record>
         <record id="task_medical" model="event.registration.task">
             <field name="name">Fill medical survey</field>
             <field name="sequence">5</field>

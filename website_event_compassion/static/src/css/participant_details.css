@@ -1,10 +1,5 @@
 /* Rules for participant details page */
 
-#participants_details .ambassador_description {
-    font-size: 15px;
-    padding: 10px;
-}
-
 #participants_details .participant_header {
     min-height: 150px;
     display: flex;

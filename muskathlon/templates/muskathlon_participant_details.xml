@@ -40,22 +40,12 @@
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="card_container">
-                                    <t t-if="not registration.ambassador_picture_2">
-                                        <div class="position-relative">
-                                            <img class="participant_image"
-                                                 t-attf-src="/web/image/event.registration/#{ registration.id }/ambassador_picture_1">
-                                                <t t-call="muskathlon.sport_icon"/>
-                                            </img>
-                                        </div>
-                                    </t>
-                                    <t t-else="">
-                                        <div class="position-relative">
-                                            <img class="participant_image"
-                                                 t-attf-src="/web/image/event.registration/#{registration.id}/ambassador_picture_2">
-                                                <t t-call="muskathlon.sport_icon"/>
-                                            </img>
-                                        </div>
-                                    </t>
+                                    <div class="position-relative">
+                                        <img class="participant_image"
+                                             t-attf-src="/web/image/event.registration/#{ registration.id }/ambassador_picture_1">
+                                            <t t-call="muskathlon.sport_icon"/>
+                                        </img>
+                                    </div>
                                 </div>
                                 <div class="participant_details_buttons_container">
                                     <p class="center-text">
@@ -87,7 +77,6 @@
                                 <blockquote>
                                     <p t-field="registration.ambassador_quote"/>
                                 </blockquote>
-                                <p t-field="registration.ambassador_description" class="ambassador_description"/>
                                 <!-- Barometer -->
                                 <div class="mt32 mb32">
                                     <t t-call="website_event_compassion.event_barometer">

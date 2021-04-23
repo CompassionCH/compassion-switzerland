@@ -43,10 +43,8 @@
                 </group>
                 <field name="advocate_details_id" invisible="1"/>
                 <group name="advocacy" string="Advocate information" attrs="{'invisible': [('advocate_details_id', '=', False)]}">
-                    <field name="ambassador_description"/>
                     <field name="ambassador_quote"/>
                     <field name="ambassador_picture_1" widget="image" class="oe_avatar" options="{'size': [90, 90]}"/>
-                    <field name="ambassador_picture_2" class="oe_avatar" options="{'size': [90, 90]}"/>
                 </group>
                 <group name="trip" string="Trip information">
                     <field name="double_room_person"/>

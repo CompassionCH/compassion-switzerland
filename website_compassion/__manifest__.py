@@ -42,8 +42,10 @@
         "template/my_account_donations.xml",
         "template/my_account_my_children.xml",
         "template/my_account_write_a_letter.xml",
+        "template/my_account_contact_us.xml",
         "template/survey_templates.xml",
         "template/login_template.xml",
+        "template/form_widgets.xml",
         "views/correspondence_template_view.xml",
         "views/robots.xml"
     ],
