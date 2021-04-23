@@ -28,6 +28,7 @@ class ContactUsForm(models.AbstractModel):
     _form_model = "crm.claim"
     _form_model_fields = ["partner_id", "name", "subject"]
     _form_required_fields = ["name", "subject"]
+    form_buttons_template = "cms_form_compassion.modal_form_buttons"
 
     partner_id = fields.Many2one("res.partner", readonly=False)
 
@@ -38,13 +39,18 @@ class ContactUsForm(models.AbstractModel):
         return _("Contact Us")
 
     def form_description(self):
-        return _("Get in touch by filling the form below")
+        return _("If you have any questions, do not hesitate to contact us using the form below, "
+                 "we will answer you as soon as possible.")
+
+    @property
+    def submit_text(self):
+        return _("Send message")
 
     @property
     def form_msg_success_created(self):
         return _(
-            "Thank you for your request. You will hear back from us "
-            "within the next days."
+            "Thank you for your message and for your interest in the development of children in need. "
+            "We will contact you as soon as possible."
         )
 
     @property
