@@ -140,9 +140,7 @@ class ResPartner(models.Model):
             partners = super().create(vals)
             vals["partner_id"] = partners.id
             vals["odoo_list_ids"] = partners.odoo_list_ids
-            mass_mailing_contact = self.env["mail.mass_mailing.contact"].create(vals)
-            mass_mailing_contact.name = partners.firstname + " " + partners.lastname
-            mass_mailing_contact.action_export_to_mailchimp()
+            self.env["mail.mass_mailing.contact"].create(vals)
             return partners
         return super().create(vals)
     @api.multi
@@ -184,20 +182,23 @@ class ResPartner(models.Model):
         for contact in self.filtered(lambda c: c.mass_mailing_contact_ids):
             for mass_mailing_contact in contact.mass_mailing_contact_ids:
                 if "lastname" in vals or "firstname" in vals:
-                    mass_mailing_contact.write({"merged_salutation": self.env["mail.mass_mailing.contact"]
-                                               .compute_salutation(mass_mailing_contact.partner_ids)})
+                    mass_mailing_contact.write({"merged_salutation": mass_mailing_contact
+                                               .compute_salutation()})
                 if "sponsored_child_ids" in vals:
-                    mass_mailing_contact.write({"merged_child": self.env["mail.mass_mailing.contact"]
-                                               .compute_sponsored_child_fields(mass_mailing_contact.partner_ids)})
-
+                    mass_mailing_contact.write({"merged_child": mass_mailing_contact
+                                               .compute_sponsored_child_fields()})
+        for partner in self.filtered(lambda c: not c.odoo_list_ids):
+            partner.write({"odoo_list_ids": [(4, self._default_odoo_list_ids().id)]})
         if vals.get("email") and len(self.mailing_contact_ids) == 0:
-            partner = self.filtered(lambda c: c.odoo_list_ids)
-            if not partner.opt_out:
-                vals["partner_id"] = partner.id
-                vals["odoo_list_ids"] = partner.odoo_list_ids
-                mass_mailing_contact = self.env["mail.mass_mailing.contact"].create(vals)
-                mass_mailing_contact.name = self.firstname + " " + self.lastname
-                mass_mailing_contact.action_export_to_mailchimp()
+            for partner in self:
+                if not partner.odoo_list_ids:
+                    partner.write({"odoo_list_ids": [(3, self._default_odoo_list_ids())]})
+                if not partner.opt_out:
+                    vals["partner_id"] = partner.id
+                    vals["odoo_list_ids"] = partner.odoo_list_ids
+                    mass_mailing_contact = self.env["mail.mass_mailing.contact"].create(vals)
+                    mass_mailing_contact.name = self.firstname + " " + self.lastname
+                    mass_mailing_contact.action_export_to_mailchimp()
         if update_partner_ids and not self.env.context.get("import_from_mailchimp"):
             self.env["mail.mass_mailing.contact"] \
                 .with_delay().update_all_merge_fields_job(update_partner_ids)
