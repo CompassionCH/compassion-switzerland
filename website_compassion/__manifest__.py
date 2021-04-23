@@ -52,6 +52,7 @@
     "depends": [
         "theme_compassion",
         "partner_communication_switzerland",
+        "mobile_app_connector",
     ],
     "demo": [],
     "installable": True,

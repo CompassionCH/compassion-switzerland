@@ -52,16 +52,19 @@ def _get_user_children(state=None):
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
+    partner = request.env.user.partner_id
+    only_correspondent = partner.app_displayed_sponsorships == "correspondent"
 
     def filter_sponsorships(sponsorship):
+        can_show = True
+        if only_correspondent:
+            can_show = sponsorship.correspondent_id == partner
         if state == "active":
-            return sponsorship.state not in ["cancelled", "terminated"]
+            can_show &= sponsorship.state not in ["cancelled", "terminated"]
         elif state == "terminated":
-            return sponsorship.state in ["cancelled", "terminated"]
-        else:
-            return True
+            can_show &= sponsorship.state in ["cancelled", "terminated"]
+        return can_show
 
-    partner = request.env.user.partner_id
     return _map_contracts(
         partner, mapping_val="child_id", sorting_val="preferred_name",
         filter_fun=filter_sponsorships
@@ -267,6 +270,10 @@ class MyAccountController(PaymentFormController):
             letters = request.env["correspondence"].search([
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
+                "|",
+                "&", ("direction", "=", "Supporter To Beneficiary"),
+                ("state", "!=", "Quality check unsuccessful"),
+                "|", ("letter_delivered", "=", True), ("sent_date", "!=", False)
             ])
             gift_categ = request.env.ref(
                 "sponsorship_compassion.product_category_gift"
