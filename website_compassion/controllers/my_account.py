@@ -185,11 +185,6 @@ class MyAccountController(PaymentFormController):
 
         claim_form.form_process()
 
-        if claim_form.form_success:
-            return request.render(
-                "website_compassion.successful_request", {"partner": partner}
-            )
-
         return request.render(
             "website_compassion.contact_us_page_template",
             {"partner": partner,

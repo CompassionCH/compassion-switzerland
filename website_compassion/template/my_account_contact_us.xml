@@ -24,27 +24,11 @@
                 </div>
 
                 <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+                <script>
+                    $("a:contains('Cancel')").hide();
+                </script>
             </t>
         </template>
 
-        <template id="successful_request" name="successful request">
-
-            <t t-set="selected">contact_us</t>
-            <t t-set="title">Contact us | <t t-esc="partner.company_id.address_name"/></t>
-            <t t-call="website_compassion.my_account_layout">
-
-                <div class="container" id="my_account_contact_us">
-                    <p>Your request has been successfully registered. We will get in touch with you as soon as
-                        possible.</p>
-
-                    <a href="/my/home">
-                        <button class="btn btn-primary">Bring me back to my profile</button>
-                    </a>
-                </div>
-                <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
-
-            </t>
-
-        </template>
     </data>
 </odoo>
