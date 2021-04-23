@@ -15,6 +15,4 @@ from odoo import models, api, fields
 
 class ProductProduct(models.Model):
     _name = "product.template"
-    _inherit = "product.template"
-
-    website_published = fields.Boolean(index=True)
+    _inherit = ["product.template", "website.published.mixin"]

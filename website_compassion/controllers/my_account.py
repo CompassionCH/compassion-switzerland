@@ -401,18 +401,16 @@ class MyAccountController(PaymentFormController):
             "funds": available_funds
         })
 
-        result = request.render(
+        return request.render(
             "website_compassion.my_new_donation_template", values
         )
-
-        return self._form_redirect(result, full_page=True)
 
     @route("/my/new/donation/fund/<int:selected_fund_id>", type="http", auth="user", website=True)
     def make_new_donation_to_fund(self, selected_fund_id=None, **kwargs):
         partner = request.env.user.partner_id
         available_funds = request.env["product.product"].search([("website_published", "=", True)])
 
-        if not selected_fund_id or int(selected_fund_id) not in available_funds.mapped("id"):
+        if not selected_fund_id or int(selected_fund_id) not in available_funds.ids:
             return request.redirect("/my/new/donation")
 
         selected_fund_id = available_funds.browse(int(selected_fund_id))
@@ -424,7 +422,8 @@ class MyAccountController(PaymentFormController):
             "selected_fund": selected_fund_id,
         })
 
-        donation_form = self.get_form("res.partner", partner.id, **kwargs)
+        kwargs.update({"partner": partner.sudo()})
+        donation_form = self.get_form("account.invoice", **kwargs)
         donation_form.form_process()
 
         kwargs.update({

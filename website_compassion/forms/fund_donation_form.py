@@ -15,15 +15,16 @@ class FundDonationForm(models.AbstractModel):
     _inherit = ["cms.form.payment"]
 
     _display_type = "full"
-    _form_model = "res.partner"
+    _form_model = "account.invoice"
 
     amount = fields.Float(required=True)
+    partner = fields.Many2one("res.partner")
     fund = fields.Many2one("product.product")
 
     _form_model_fields = [
         "amount",
     ]
-    _form_fields_hidden = ("invoice_id", "fund")
+    _form_fields_hidden = ("partner", "fund", "invoice_id")
 
     def _form_validate_amount(self, value, **kwargs):
         if not value or not value.isnumeric() or float(value) < 1:
@@ -64,16 +65,21 @@ class FundDonationForm(models.AbstractModel):
         fund = kw.get("selected_fund")
         if fund:
             form.fund = fund
+
+        partner = kw.get("partner")
+        if partner:
+            form.partner = partner
+
         return form
 
     def generate_invoice(self):
         fund = self.fund.sudo()
         name = f"Donation for {fund.name}"
-        partner = self.main_object.sudo()
+        partner = self.partner
         return self.env["account.invoice"].sudo().create(
             {
                 "name": name,
-                "origin": name,
+                "origin": "MyCompassion",
                 "invoice_line_ids": [
                     (
                         0,
