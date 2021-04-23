@@ -41,21 +41,18 @@ class MassMailingContact(models.Model):
 
     @api.model
     def move_m2o_to_m2m(self):
+        # This update takes a lot of time !
         i = 0
+        print("Start Update")
         for rec in self.search(
                 [('partner_id', '!=', False)]):  # Search all the records that have value in m2o field
-            rec.write({"partner_ids": [(4, rec.partner_id.id)]})
             i = i + 1
-            if rec.partner_ids:
-                partner_ids = rec.partner_ids
-                children_names = self._compute_sponsored_child_fields(partner_ids)
-                if len(children_names) > 1:
-                    rec.write({"merged_child": children_names})
-                rec.write({"merged_salutation": self.compute_salutation(partner_ids)})
-                if len(partner_ids) == 1:
-                    rec.write({"merged_salutation": partner_ids[0].full_salutation})
-                else:
-                    rec.write({"merged_salutation": self._compute_salutation(partner_ids)})
+            if i % 10 == 0:
+                print(i)
+            if not rec.partner_ids:
+                rec.add_partners(rec.partner_id.id)
+            else:
+                print("already" + str(i))
         return True
 
     @api.multi
@@ -157,6 +154,7 @@ class MassMailingContact(models.Model):
             contact = self.env['mail.mass_mailing.contact'].search([('email', '=', vals_list['email'])], limit=1)
             if contact:
                 contact.add_partners(vals_list['partner_id'])
+                contact.action_update_to_mailchimp()
                 return None
         records = super().create(vals_list)
         for contact in records:
@@ -244,6 +242,11 @@ class MassMailingContact(models.Model):
     @api.multi
     def write(self, values):
         out = super().write(values)
+        if "partner_ids" in values:
+            for contact in self.filtered(lambda c: c.partner_ids):
+                contact.compute_salutation()
+                contact.compute_sponsored_child_fields()
+        self.action_update_to_mailchimp()
         # can't be simplified because we are looking for is_email_valid == False
         # AND is_email_valid is in values (return None otherwise)
         if values.get("is_email_valid") is False:
