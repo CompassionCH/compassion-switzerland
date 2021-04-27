@@ -8,6 +8,29 @@
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
         </record>
+        <record id="mail_onboarding_sponsorship_confirmation_not_read" model="mail.template">
+            <field name="name">Sponsorship Onboarding - Welcome and payment information by paper (email not read)</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set child = object.get_objects().mapped('child_id')
+                    ${partner.salutation}
+                </p>
+                <p>
+                    We recently sent you an email to ${partner.email}, which doesn't seem to have reached you. Could you please let us know if you have a different email address. If our email went to the spam folder, could you please add info@compassion.ch to your address book? This way you will receive all the important information about ${child.get('your sponsored child')} in the future.
+                </p>
+                <p>
+                    Below is the communication we sent you:
+                </p>
+                <span>
+                    ${object.env.ref('partner_communication_switzerland.mail_onboarding_sponsorship_confirmation').generate_email(object.id, ['body_html'])['body_html'].replace(partner.salutation, '').strip().replace('&lt;p&gt;&lt;/p&gt;', '') | safe}
+                </span>
+            </field>
+        </record>
         <record id="mail_onboarding_step1" model="mail.template">
             <field name="name">Sponsorship Onboarding Step 1 - Child Information and Zoom invitation</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
@@ -70,6 +93,14 @@
             <field name="name">Sponsorship Onboarding - Welcome and payment information</field>
             <field name="send_mode">digital_only</field>
             <field name="email_template_id" ref="mail_onboarding_sponsorship_confirmation"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+        </record>
+        <record id="config_onboarding_sponsorship_confirmation_not_read" model="partner.communication.config">
+            <field name="name">Sponsorship Onboarding - Welcome and payment information by paper (email not read)</field>
+            <field name="send_mode">physical</field>
+            <field name="email_template_id" ref="mail_onboarding_sponsorship_confirmation_not_read"/>
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
@@ -199,6 +230,21 @@
             <field name="state">communication</field>
             <field name="config_id" ref="config_onboarding_step5"/>
             <field name="partner_field">correspondent_id</field>
+        </record>
+        <record id="onboarding_confirmation_not_read_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: sponsorship confirmation not read</field>
+            <field name="model_id" ref="model_partner_communication_job"/>
+            <field name="trigger">on_time</field>
+            <field name="trg_date_id" ref="partner_communication.field_partner_communication_job__sent_date"/>
+            <field name="filter_domain" eval="[('config_id', '=', ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation')),('state', '=', 'done'), ('send_mode', '=', 'digital')]"/>
+            <field name="trg_date_range">2</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">code</field>
+            <field name="code">
+not_read = records.filter_not_read()
+new_comms = not_read.copy({'config_id': env.ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read').id, 'send_mode': 'physical'})
+new_comms.refresh_text()
+            </field>
         </record>
     </data>
 </odoo>
