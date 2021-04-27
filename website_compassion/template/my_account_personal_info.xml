@@ -185,7 +185,8 @@
                     <t t-if="partner.privacy_statement_ids">
                         <span>Signing date: </span>
                         <t t-esc="partner.get_date('privacy_statement_ids.agreement_date', 'date_short')"/>
-                        <a href="https://compassion.ch/protection-des-donnees/" target="_blank">(view agreement)</a>
+                        <t t-set="data_protection_url">https://compassion.ch/protection-des-donnees/</t>
+                        <a t-att-href="data_protection_url" target="_blank">(view agreement)</a>
                     </t>
                     <t t-else="">
                         <form t-attf-action="/partner/#{partner.uuid}/privacy-statement-agreement">
