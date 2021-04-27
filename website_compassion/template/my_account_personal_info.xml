@@ -207,7 +207,10 @@
             <t t-call="website_compassion.fill_key_value">Language</t>
 
             <!-- Spoken languages -->
-            <t t-set="value" t-value="partner.get_list('spoken_lang_ids.name').capitalize()"/>
+            <t t-set="value" t-value="partner.get_list('spoken_lang_ids.name')"/>
+            <t t-if="request.env.lang != 'de_DE'">
+                <t t-set="value" t-value="value.capitalize()"/>
+            </t>
             <t t-call="website_compassion.fill_key_value">Spoken languages</t>
 
             <!-- Communication type preference -->
