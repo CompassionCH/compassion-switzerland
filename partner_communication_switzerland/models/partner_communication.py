@@ -64,6 +64,34 @@ class PartnerCommunication(models.Model):
         for wizard in self:
             wizard.currency_id = chf.id
 
+    def filter_not_read(self):
+        """
+        Useful for checking if the communication was read by the sponsor. Printed letters are always treated as read.
+        Returns only the communications that are not read.
+        """
+        not_read = self.env[self._name]
+        # Use a query to improve performance
+        query_sql = """
+            SELECT DISTINCT m.id
+            FROM mail_mail m 
+            FULL JOIN mail_tracking_email tmail ON tmail.mail_id = m.id
+            FULL JOIN mail_tracking_event tevent ON tevent.tracking_email_id = tmail.id
+            WHERE m.id = %s
+            AND (
+                m.state = 'received'
+                OR tevent.event_type IN ('delivered', 'open', 'click')
+                OR tmail.state IN ('delivered', 'opened')
+            )
+        """
+        for communication in self:
+            if communication.email_id:
+                self.env.cr.execute(query_sql, [communication.email_id.id])
+                if not self.env.cr.rowcount:
+                    not_read += communication
+            elif communication.state == 'done' and communication.send_mode == 'digital':
+                not_read += communication
+        return not_read
+
     def get_correspondence_attachments(self):
         """
         Include PDF of letters if the send_mode is to print the letters.
