@@ -34,4 +34,14 @@
             </xpath>
         </field>
     </record>
+
+    <record id="partner_ambassador_action" model="ir.actions.server">
+        <field name="name">Reset password</field>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_reset_password()</field>
+        <field name="binding_model_id" ref="model_res_partner"/>
+        <field name="binding_type">action</field>
+    </record>
+
 </odoo>

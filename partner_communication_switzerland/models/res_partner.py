@@ -11,6 +11,7 @@ import logging
 from datetime import date
 
 from odoo import api, models, fields, _
+from odoo.addons.auth_signup.models.res_partner import now
 
 _logger = logging.getLogger(__name__)
 
@@ -308,4 +309,45 @@ class ResPartner(models.Model):
             ).id,
             "target": "new",
             "context": ctx,
+        }
+
+    def action_reset_password(self):
+        """
+        Action to change partner's password from backend.
+        generate a token and start a communication. The
+        communication is not sent automatically but rather
+        shown to the backend user once created.
+        :return: a redirection to communication job form
+        """
+
+        # handle on reset at a time to allow redirection to work properly
+        self.ensure_one()
+
+        # use signup prepare to generate a token valid 1 day for password reset
+        expiration = now(days=+1)
+        self.signup_prepare(
+            signup_type="reset", expiration=expiration
+        )
+
+        # create but does not send the communication for password reset
+        config = self.env.ref(
+            "partner_communication_switzerland.reset_password_email"
+        )
+        comm = self.env["partner.communication.job"].create(
+            {
+                "partner_id": self.id,
+                "config_id": config.id,
+                "auto_send": False,
+            }
+        )
+
+        # redirect the backend user to the newly created communication.
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Reset Password",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "partner.communication.job",
+            "res_id": comm.id,
+            "target": "current",
         }
