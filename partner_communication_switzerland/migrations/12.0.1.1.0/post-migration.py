@@ -19,3 +19,10 @@ def migrate(cr, installed_version):
     # Update data
     openupgrade.load_xml(
         cr, "partner_communication_switzerland", "data/onboarding_process.xml")
+
+    # Update New Dossier communication
+    cr.execute("""
+    UPDATE partner_communication_config
+    SET attachments_function = 'get_print_dossier_attachments'
+    WHERE id IN (19,99,192);
+    """)

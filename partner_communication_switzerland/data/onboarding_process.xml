@@ -21,7 +21,7 @@
                     ${partner.salutation}
                 </p>
                 <p>
-                    We recently sent you an email to ${partner.email}, which doesn't seem to have reached you. Could you please let us know if you have a different email address. If our email went to the spam folder, could you please add info@compassion.ch to your address book? This way you will receive all the important information about ${child.get('your sponsored child')} in the future.
+                    We recently sent you an email to ${partner.email}, which doesn't seem to have reached you. Could you please let us know if you have a different email address. If our email went to the spam folder, could you please add compassion@compassion.ch to your address book? This way you will receive all the important information about ${child.get('your sponsored child')} in the future.
                 </p>
                 <p>
                     Below is the communication we sent you:
@@ -176,8 +176,8 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today())]"/>
-            <field name="trg_date_range">2</field>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today()),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_range">5</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
             <field name="config_id" ref="config_onboarding_step1"/>
@@ -188,8 +188,8 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today())]"/>
-            <field name="trg_date_range">5</field>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today()),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_range">8</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
             <field name="config_id" ref="config_onboarding_step2"/>
@@ -200,8 +200,8 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today())]"/>
-            <field name="trg_date_range">10</field>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_range">12</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
             <field name="config_id" ref="config_onboarding_step3"/>
@@ -212,7 +212,7 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today())]"/>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
             <field name="trg_date_range">15</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
@@ -224,8 +224,8 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today())]"/>
-            <field name="trg_date_range">20</field>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_range">18</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
             <field name="config_id" ref="config_onboarding_step5"/>

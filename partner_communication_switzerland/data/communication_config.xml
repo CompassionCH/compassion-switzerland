@@ -208,6 +208,15 @@
             <field name="user_id" search="[('name', 'like', 'Reber Rose-Marie')]"/>
         </record>
 
+        <!-- Sponsorship Planned Communications -->
+        <record id="planned_dossier" model="partner.communication.config">
+            <field name="name">Sponsorship - New Dossier</field>
+            <field name="email_template_id" ref="email_sponsorship_dossier"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">physical</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="attachments_function">get_print_dossier_attachments</field>
+        </record>
         <record id="planned_birthday_reminder" model="partner.communication.config">
             <field name="name">Sponsorship - Birthday Reminder</field>
             <field name="email_template_id" ref="email_sponsorship_birthday_reminder"/>
@@ -357,6 +366,22 @@
             <field name="send_mode">physical</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="attachments_function">get_yearly_payment_slips</field>
+        </record>
+        <record id="sponsorship_dossier_wrpr" model="partner.communication.config">
+            <field name="name">Sponsorship - New Dossier Write&amp;Pray</field>
+            <field name="email_template_id" ref="email_wrpr_dossier"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">physical</field>
+            <field name="attachments_function">get_print_dossier_attachments</field>
+            <field name="model_id" ref="model_recurring_contract"/>
+        </record>
+        <record id="sponsorship_sub_accept" model="partner.communication.config">
+            <field name="name">Sponsorship - SUB Accept</field>
+            <field name="email_template_id" ref="email_sub_accept"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="send_mode">digital</field>
+            <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+            <field name="model_id" ref="model_recurring_contract"/>
         </record>
         <record id="sponsorship_wrpr_reminder" model="partner.communication.config">
             <field name="name">Sponsorship - Write&amp;Pray reminder</field>
