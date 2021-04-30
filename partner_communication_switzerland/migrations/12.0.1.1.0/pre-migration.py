@@ -29,6 +29,7 @@ def migrate(env, installed_version):
             "config_onboarding_first_letter", "mail_onboarding_first_letter"),
         "Sponsorship Transfer - New Dossier": (
             "new_dossier_transfer", "email_sponsorship_transfer_dossier"),
+        "Sponsorship - SUB Accept": ("sponsorship_sub_accept", "email_sub_accept"),
     }
     module = "partner_communication_switzerland"
     for rule_name, rule_ids in rules_mapping.items():
@@ -58,4 +59,5 @@ def migrate(env, installed_version):
     env.cr.execute("""
     DELETE FROM ir_ui_view
     WHERE arch_db LIKE '%welcome_active_letter_sent%'
+    OR arch_db LIKE '%country_info_pdf%'
     """)

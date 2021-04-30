@@ -522,11 +522,7 @@ class RecurringContract(models.Model):
         # that didn't get through waiting state (would already have the communication)
         self.filtered(
             lambda s: s.type == "SC" and s.state == "draft"
-        ).with_context({}).send_communication(
-            self.env.ref(
-                "partner_communication_switzerland.config_onboarding_sponsorship_confirmation"
-            )
-        )
+        )._new_dossier()
         return super().contract_active()
 
     @api.multi
@@ -616,42 +612,51 @@ class RecurringContract(models.Model):
         Sends the dossier of the new sponsorship to both payer and
         correspondent.
         """
-        module = "partner_communication_switzerland."
-        new_dossier = self.env.ref(
-            module + "config_onboarding_sponsorship_confirmation")
-        transfer = self.env.ref(module + "new_dossier_transfer")
-        child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
-
-        for spo in self.filtered(lambda s: s.origin_id.type != "transfer"):
-            spo.send_communication(child_picture)
+        for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
                 corresp = spo.correspondent_id
                 payer = spo.partner_id
                 if corresp.contact_address != payer.contact_address:
-                    spo._send_new_dossier(new_dossier)
-                    spo._send_new_dossier(new_dossier, correspondent=False)
+                    spo._send_new_dossier()
+                    spo._send_new_dossier(correspondent=False)
                     continue
-            spo._send_new_dossier(new_dossier)
+            spo._send_new_dossier()
 
-        for spo in self.filtered(lambda s: s.origin_id.type == "transfer"):
-            spo._send_new_dossier(transfer)
-
-    def _send_new_dossier(self, communication_config, correspondent=True):
+    def _send_new_dossier(self, correspondent=True):
         """
-        Sends the New Dossier if it wasn't already sent for this sponsorship.
-        :param communication_config: Communication Config record to search.
+        Sends the New Dossier communications if it wasn't already sent for
+        this sponsorship.
         :param correspondent: True if communication is sent to correspondent
         :return: None
         """
+        self.ensure_one()
+        module = "partner_communication_switzerland."
+        new_dossier = self.env.ref(
+            module + "config_onboarding_sponsorship_confirmation")
+        print_dossier = self.env.ref(module + "planned_dossier")
+        print_wrpr = self.env.ref(module + "sponsorship_dossier_wrpr")
+        transfer = self.env.ref(module + "new_dossier_transfer")
+        sub_accept = self.env.ref(module + "sponsorship_sub_accept")
+        child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
-        already_sent = self.env["partner.communication.job"].search(
-            [
-                ("partner_id", "=", partner.id),
-                ("config_id", "=", communication_config.id),
-                ("object_ids", "like", str(self.id)),
-                ("state", "=", "done"),
-            ]
-        )
-        if not already_sent:
-            self.with_context({}).send_communication(
-                communication_config, correspondent)
+        if self.origin_id.type == "transfer":
+            configs = transfer
+        elif self.parent_id.sds_state == "sub":
+            configs = sub_accept
+        elif not partner.email or \
+                partner.global_communication_delivery_preference == "physical":
+            configs = print_wrpr if self.type == "SC" and partner != self.partner_id \
+                else print_dossier
+        else:
+            configs = new_dossier + child_picture
+        for config in configs:
+            already_sent = self.env["partner.communication.job"].search(
+                [
+                    ("partner_id", "=", partner.id),
+                    ("config_id", "=", config.id),
+                    ("object_ids", "like", str(self.id)),
+                    ("state", "=", "done"),
+                ]
+            )
+            if not already_sent:
+                self.with_context({}).send_communication(config, correspondent)

@@ -281,20 +281,21 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         res = dict()
-        photo_by_post = self.env.ref(
+        biennial = self.env.ref(
             "partner_communication_switzerland.config_onboarding_photo_by_post")
-        if self.send_mode and "physical" not in self.send_mode \
-                or self.config_id == photo_by_post:
-            # Prepare attachments in case the communication is sent by e-mail
+        if self.config_id == biennial:
+            if self.send_mode == "physical":
+                # In this case the photo is printed from Smartphoto and manually added
+                return res
             children = self.get_objects()
-            if self.config_id == photo_by_post:
-                children = children.mapped("child_id")
-            attachments = self.env["ir.attachment"]
-            for child in children:
-                name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
-                res[name] = ("partner_communication_switzerland.child_picture",
-                             child.fullshot)
-            self.with_context(no_print=True).ir_attachment_ids = attachments
+        else:
+            children = self.get_objects().mapped("child_id")
+        attachments = self.env["ir.attachment"]
+        for child in children:
+            name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
+            res[name] = ("partner_communication_switzerland.child_picture",
+                         child.fullshot)
+        self.with_context(no_print=True).ir_attachment_ids = attachments
         return res
 
     def get_yearly_payment_slips_2bvr(self):
@@ -575,6 +576,28 @@ class PartnerCommunication(models.Model):
         planned_exit = lifecycle and lifecycle[0].type == "Planned Exit"
         if not planned_exit:
             attachments.update(self.get_childpack_attachment())
+
+        return attachments
+
+    def get_print_dossier_attachments(self):
+        """
+        Returns pdfs for the Printed New Dossier Communication, including:
+        - Sponsorship payment slips (if payment is True)
+        - Small Childpack
+        - Sponsorship labels
+        - Child picture
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = self.get_sponsorship_payment_slip_attachments()
+        attachments.update(self.get_childpack_attachment())
+        write_sponsorships = self.get_objects().filtered(
+            lambda s: s.correspondent_id == self.partner_id)
+        if write_sponsorships:
+            attachments.update(self.get_label_attachment(write_sponsorships))
+
+        # Child picture
+        attachments.update(self.get_child_picture_attachment())
 
         return attachments
 

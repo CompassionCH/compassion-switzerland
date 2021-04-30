@@ -45,12 +45,15 @@
                 .blue {
                     color: #0054A6;
                 }
+                .grey {
+                    color: #505050;
+                }
             </t>
                 <t t-foreach="docs" t-as="o">
                     <t t-set="country" t-value="o.get_objects().mapped('child_id.field_office_id.country_code')"/>
                     <div class="page">
                         <t t-call="report_compassion.style"/>
-                        <div id="body" class="blue">
+                        <div id="body" class="grey">
                             <span t-raw="o.body_html"/>
                         </div>
                         <div id="map" t-if="len(country) == 1 and o.partner_id.lang != 'en_US'">
