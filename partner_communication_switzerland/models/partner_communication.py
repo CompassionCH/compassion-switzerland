@@ -281,8 +281,7 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         res = dict()
-        biennial = self.env.ref(
-            "partner_communication_switzerland.config_onboarding_photo_by_post")
+        biennial = self.env.ref("partner_communication_switzerland.biennial")
         if self.config_id == biennial:
             if self.send_mode == "physical":
                 # In this case the photo is printed from Smartphoto and manually added
@@ -293,8 +292,7 @@ class PartnerCommunication(models.Model):
         attachments = self.env["ir.attachment"]
         for child in children:
             name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
-            res[name] = ("partner_communication_switzerland.child_picture",
-                         child.fullshot)
+            res[name] = ("partner_communication_switzerland.child_picture", child.fullshot)
         self.with_context(no_print=True).ir_attachment_ids = attachments
         return res
 
@@ -354,6 +352,16 @@ class PartnerCommunication(models.Model):
                     f"report_compassion.report_{bv_number}bvr_gift_sponsorship"),
             )
             attachments.update({_("sponsorship gifts.pdf"): [report_name, pdf]})
+        return attachments
+
+    def get_photo_by_post_attachment(self):
+        self.ensure_one()
+        attachments = self.get_child_picture_attachment()
+        # Add a blank page for printing the address
+        blank_communication = self._get_pdf_from_data({
+            "doc_ids": self.ids
+        }, self.env.ref("report_compassion.report_blank_communication"))
+        attachments.update({"cover.pdf": ["report_compassion.blank_communication", blank_communication]})
         return attachments
 
     def get_childpack_attachment(self):
