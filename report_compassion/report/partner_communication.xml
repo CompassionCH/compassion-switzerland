@@ -237,8 +237,7 @@
                         <span> 17-312562-0</span>
                     </div>
                 </t>
-                <div id="address" class="right"
-                     t-attf-style="margin-bottom: #{'0' if display_pp or print_header else '10'}mm;">
+                <div id="address" class="right" t-attf-style="margin-bottom: #{'0' if display_pp or print_header else '10'}mm;">
                     <div id="pp" t-if="display_pp">
                         <div id="pp-box">
                             <div>P.P.</div>
@@ -303,6 +302,44 @@
                 <t t-call="report_compassion.communication_style"/>
                 <t t-call="report_compassion.partner_communication_document_page"/>
             </div>
+        </template>
+
+        <report id="report_blank_communication"
+            model="partner.communication.job"
+            string="Blank communication"
+            report_type="qweb-pdf"
+            name="report_compassion.blank_communication"
+        />
+        <record id="report_blank_communication" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_a4_letter"/>
+        </record>
+        <template id="blank_communication">
+            <t t-call="web.html_container">
+                <div class="article">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+                            <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                            <t t-call="report_compassion.communication_style"/>
+                            <div id="header"/>
+                            <div id="letter">
+                                <div id="address" class="right" style="margin-bottom: 10mm;">
+                                    <div id="pp" t-if="o.display_pp">
+                                        <div id="pp-box">
+                                            <div>P.P.</div>
+                                            <div>CH-1400 Yverdon-les-Bains</div>
+                                        </div>
+                                        <div id="pp-post">
+                                            <p>Poste CH SA</p>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                    <span t-raw="o.partner_id.short_address"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
         </template>
     </data>
 </odoo>

@@ -9,12 +9,11 @@
 ##############################################################################
 import base64
 import logging
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
-from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +33,6 @@ class RecurringContract(models.Model):
         help="Indicates that the child has a new picture to be ordered with "
              "Smartphoto."
     )
-    payment_type_attachment = fields.Char(
-        compute="_compute_payment_type_attachment")
     birthday_paid = fields.Many2many(
         "sponsorship.gift", compute="_compute_birthday_paid", readonly=False
     )
@@ -48,21 +45,12 @@ class RecurringContract(models.Model):
         help="Tells if the advance billing period is already paid",
     )
     months_due = fields.Integer(compute="_compute_due_invoices", store=True)
-    welcome_active_letter_sent = fields.Boolean(
-        "Welcome letters sent",
-        default=False,
-        help="Tells if welcome active letter has been sent",
-    )
     send_introduction_letter = fields.Boolean(
         string="Send B2S intro letter to sponsor", default=True
     )
     origin_type = fields.Selection(related="origin_id.type")
     origin_name = fields.Char(related="origin_id.name")
-    sds_state = fields.Selection(
-        selection_add=[("waiting_welcome", _("Waiting welcome"))]
-    )
-
-    # this field is used to help the xml views to get the type of origin_id
+    is_first_sponsorship = fields.Boolean(readonly=True)
 
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
@@ -80,35 +68,40 @@ class RecurringContract(models.Model):
         cancelled_sponsorships.write({"send_introduction_letter": False})
         return cancelled_sponsorships
 
-    def _compute_payment_type_attachment(self):
-        for contract in self:
-            payment_mode = (
-                contract.with_context(lang="en_US").payment_mode_id.name or ""
-            )
-            if payment_mode == "Permanent Order":
+    def get_payment_type_attachment_string(self):
+        payment_mode = self.with_context(lang="en_US").mapped("payment_mode_id")[:1].name
+        if payment_mode == "Permanent Order":
+            total_paid = self.mapped("group_id.contract_ids").filtered(
+                lambda s: s.state not in ("cancelled", "terminated"))
+            if len(self) == len(total_paid):
                 phrase = _(
                     "1 payment slip to set up a standing order ("
                     "monthly payment of the sponsorship)"
                 )
-            elif "LSV" in payment_mode or "Postfinance" in payment_mode:
-                if contract.state == "mandate":
-                    phrase = _(
-                        "1 LSV or Direct Debit authorization form to "
-                        "fill in if you don't already have done it!"
-                    )
-                else:
-                    phrase = _(
-                        "We will continue to withdraw the amount for "
-                        "the sponsorship from your account."
-                    )
             else:
-                freq = contract.group_id.recurring_value
-                if freq == 12:
-                    phrase = _("1 payment slip for the annual sponsorship "
-                               "payment")
-                else:
-                    phrase = _("payment slips for the sponsorship payment")
-            contract.payment_type_attachment = phrase
+                phrase = _(
+                    "Attached you will find the payment slip that will allow you to increase your current "
+                    "standing order to CHF %s.-"
+                ) % int(sum(total_paid.mapped("total_amount")))
+        elif "LSV" in payment_mode or "Postfinance" in payment_mode:
+            if "mandate" in self.mapped("state"):
+                phrase = _(
+                    "1 LSV or Direct Debit authorization form to "
+                    "fill in if you don't already have done it!"
+                )
+            else:
+                phrase = _(
+                    "We will continue to withdraw the amount for "
+                    "the sponsorship from your account."
+                )
+        else:
+            freq = self.mapped("group_id.recurring_value")[:1]
+            if freq == 12:
+                phrase = _("1 payment slip for the annual sponsorship "
+                           "payment")
+            else:
+                phrase = _("payment slips for the sponsorship payment")
+        return phrase
 
     def _compute_birthday_paid(self):
         today = datetime.today()
@@ -169,12 +162,6 @@ class RecurringContract(models.Model):
     def compute_due_invoices(self):
         self._compute_due_invoices()
         return True
-
-    def _get_sds_states(self):
-        """ Add waiting_welcome state """
-        res = super()._get_sds_states()
-        res.insert(1, ("waiting_welcome", _("Waiting welcome")))
-        return res
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -239,16 +226,12 @@ class RecurringContract(models.Model):
     def send_daily_communication(self):
         """
         Prepare daily communications to send.
-        - Welcome letters for started sponsorships since 1 day (only e-mail)
         - Birthday reminders
         """
         logger.info("Sponsorship Planned Communications started!")
 
         logger.info("....Creating Birthday Reminder Communications")
         self._send_reminders_for_birthday_in_1day_or_2months()
-
-        # logger.info("....Send Welcome Activations Letters")
-        # self._send_welcome_active_letters_for_activated_sponsorships()
 
         logger.info("Sponsorship Planned Communications finished!")
 
@@ -358,42 +341,6 @@ class RecurringContract(models.Model):
                 and c.child_id.project_id.hold_s2b_letters
             )
         )
-
-    @api.model
-    def _send_welcome_active_letters_for_activated_sponsorships(self):
-        welcome = self.env.ref(
-            "partner_communication_switzerland.welcome_activation")
-        yesterday = fields.Datetime.to_string(
-            datetime.today() - timedelta(days=1))
-        five_days_diff = fields.Datetime.to_string(
-            datetime.today() - timedelta(days=5))
-        # problem -> all records don't have field welcome_active_letter_sent
-        to_send = self.env["recurring.contract"].search(
-            [
-                ("activation_date", "<=", yesterday),
-                ("start_date", "<=", five_days_diff),
-                ("child_id", "!=", False),
-                ("type", "=", "S"),
-                ("origin_id.type", "!=", "transfer"),
-                ("welcome_active_letter_sent", "=", False),
-            ]
-        )
-        if to_send:
-            for ts in to_send:
-                try:
-                    ts.send_communication(welcome, both=True).send()
-                except:
-                    to_send.env.clear()
-                    ts.env.clear()
-                    logger.error(
-                        "Error during sending welcome active communication",
-                        exc_info=True)
-                finally:
-                    # Mark as send in any case to avoid sending multiple times
-                    ts.write({
-                        "sds_state": "active",
-                        "welcome_active_letter_sent": True
-                    })
 
     @api.model
     def send_sponsorship_reminders(self):
@@ -520,15 +467,6 @@ class RecurringContract(models.Model):
         res = super().contract_waiting_mandate()
         new_spons = self.filtered(lambda c: "S" in c.type and not c.is_active)
         new_spons._new_dossier()
-        new_spons.filtered(
-            lambda s: s.correspondent_id.email
-            and s.sds_state == "draft"
-            and s.partner_id.ref != "1502623"
-            and not s.welcome_active_letter_sent
-        ).write({
-            "sds_state": "waiting_welcome",
-            "sds_state_date": fields.Date.today()
-        })
         csp = self.filtered(
             lambda s: "6014" in s.mapped(
                 "contract_line_ids.product_id.property_account_income_id.code")
@@ -543,16 +481,6 @@ class RecurringContract(models.Model):
 
     @api.multi
     def contract_waiting(self):
-        # Waiting welcome for partners with e-mail (except Demaurex)
-        welcome = self.filtered(
-            lambda s: "S" in s.type
-                      and s.sds_state == "draft"
-                      and s.correspondent_id.email
-                      and s.partner_id.ref != "1502623"
-                      and not s.welcome_active_letter_sent
-        )
-        welcome.write({"sds_state": "waiting_welcome"})
-
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
         self.filtered(
@@ -572,11 +500,17 @@ class RecurringContract(models.Model):
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
 
+        for contract in self:
+            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
+                lambda c: c.state != "cancelled" and c.start_date
+                and c.start_date < contract.start_date)
+            contract.is_first_sponsorship = not old_sponsorships
+
         return res
 
     @api.multi
     def contract_active(self):
-        """ Remove waiting reminders if any, and send welcome """
+        """ Remove waiting reminders if any """
         self.env["partner.communication.job"].search(
             [
                 ("config_id.name", "ilike", "Waiting reminder"),
@@ -584,44 +518,48 @@ class RecurringContract(models.Model):
                 ("partner_id", "in", self.mapped("partner_id").ids),
             ]
         ).unlink()
-        # This prevents sending welcome e-mail if it's already active
-        self.write({"sds_state": "active"})
-        # Send new dossier for write&pray sponsorships
+        # Send sponsorship confirmation for write&pray sponsorships
         # that didn't get through waiting state (would already have the communication)
         self.filtered(
             lambda s: s.type == "SC" and s.state == "draft"
-        ).with_context({}).send_communication(
-            self.env.ref(
-                "partner_communication_switzerland.sponsorship_dossier_wrpr"
-            )
-        )
+        )._new_dossier()
         return super().contract_active()
-
-    @api.multi
-    def send_welcome_letter(self):
-        logger.info("Creating Welcome Letters Communications")
-        config = self.env.ref("partner_communication_switzerland.planned_welcome")
-
-        if not self.origin_id or self.origin_id.type != "transfer":
-            communication = self.with_context({}).send_communication(config, both=True)
-            self.with_delay(
-                eta=datetime.now() + relativedelta(minutes=30)
-            ).send_welcome_communication(communication)
-
-        self.write({"sds_state": "active"})
-        return True
-
-    @job
-    def send_welcome_communication(self, communication):
-        self.ensure_one()
-        communication.send()
-        return True
 
     @api.multi
     def contract_terminated(self):
         super().contract_terminated()
         if self.child_id:
             self.child_id.sponsorship_ids[0].order_photo = False
+        return True
+
+    @api.multi
+    def contract_cancelled(self):
+        # Remove pending communications
+        for contract in self:
+            self.env["partner.communication.job"].search([
+                ("config_id.model_id.model", "=", self._name),
+                "|", ("partner_id", "=", contract.partner_id.id),
+                ("partner_id", "=", contract.correspondent_id.id),
+                ("object_ids", "like", contract.id),
+                ("state", "=", "pending")
+            ]).unlink()
+        super().contract_cancelled()
+        return True
+
+    @api.multi
+    def action_cancel_draft(self):
+        """ Cancel communication"""
+        super().action_cancel_draft()
+        cancel_config = self.env.ref(
+            "partner_communication_switzerland.sponsorship_cancellation")
+        for contract in self:
+            self.env["partner.communication.job"].search([
+                ("config_id", "=", cancel_config.id),
+                "|", ("partner_id", "=", contract.partner_id.id),
+                ("partner_id", "=", contract.correspondent_id.id),
+                ("object_ids", "like", contract.id),
+                ("state", "=", "pending")
+            ]).unlink()
         return True
 
     ##########################################################################
@@ -672,48 +610,53 @@ class RecurringContract(models.Model):
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent. Separates the case where the new sponsorship is a
-        SUB proposal or if the sponsorship is selected by the sponsor.
+        correspondent.
         """
-        module = "partner_communication_switzerland."
-        new_dossier = self.env.ref(module + "planned_dossier")
-
-        sub_sponsorships = self.filtered(lambda c: c.parent_id)
-        sub_proposal = self.env.ref(module + "planned_sub_dossier")
-        selected = self - sub_sponsorships
-
-        for spo in selected:
+        for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
                 corresp = spo.correspondent_id
                 payer = spo.partner_id
                 if corresp.contact_address != payer.contact_address:
-                    spo._send_new_dossier(new_dossier)
-                    spo._send_new_dossier(new_dossier, correspondent=False)
+                    spo._send_new_dossier()
+                    spo._send_new_dossier(correspondent=False)
                     continue
+            spo._send_new_dossier()
 
-            spo._send_new_dossier(new_dossier)
-
-        for sub in sub_sponsorships:
-            sub._send_new_dossier(sub_proposal)
-            if sub.correspondent_id.id != sub.partner_id.id:
-                sub._send_new_dossier(sub_proposal, correspondent=False)
-
-    def _send_new_dossier(self, communication_config, correspondent=True):
+    def _send_new_dossier(self, correspondent=True):
         """
-        Sends the New Dossier if it wasn't already sent for this sponsorship.
-        :param communication_config: Communication Config record to search.
+        Sends the New Dossier communications if it wasn't already sent for
+        this sponsorship.
         :param correspondent: True if communication is sent to correspondent
         :return: None
         """
+        self.ensure_one()
+        module = "partner_communication_switzerland."
+        new_dossier = self.env.ref(
+            module + "config_onboarding_sponsorship_confirmation")
+        print_dossier = self.env.ref(module + "planned_dossier")
+        print_wrpr = self.env.ref(module + "sponsorship_dossier_wrpr")
+        transfer = self.env.ref(module + "new_dossier_transfer")
+        sub_accept = self.env.ref(module + "sponsorship_sub_accept")
+        child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
-        already_sent = self.env["partner.communication.job"].search(
-            [
-                ("partner_id", "=", partner.id),
-                ("config_id", "=", communication_config.id),
-                ("object_ids", "like", str(self.id)),
-                ("state", "=", "done"),
-            ]
-        )
-        if not already_sent:
-            self.with_context({}).send_communication(
-                communication_config, correspondent)
+        if self.origin_id.type == "transfer":
+            configs = transfer
+        elif self.parent_id.sds_state == "sub":
+            configs = sub_accept
+        elif not partner.email or \
+                partner.global_communication_delivery_preference == "physical":
+            configs = print_wrpr if self.type == "SC" and partner != self.partner_id \
+                else print_dossier
+        else:
+            configs = new_dossier + child_picture
+        for config in configs:
+            already_sent = self.env["partner.communication.job"].search(
+                [
+                    ("partner_id", "=", partner.id),
+                    ("config_id", "=", config.id),
+                    ("object_ids", "like", str(self.id)),
+                    ("state", "=", "done"),
+                ]
+            )
+            if not already_sent:
+                self.with_context({}).send_communication(config, correspondent)

@@ -12,6 +12,8 @@ import time
 import logging
 import re
 
+import requests
+
 from ..wizards.generate_communication_wizard import SMS_CHAR_LIMIT, SMS_COST
 from math import ceil
 from collections import OrderedDict
@@ -61,6 +63,34 @@ class PartnerCommunication(models.Model):
         chf = self.env.ref("base.CHF")
         for wizard in self:
             wizard.currency_id = chf.id
+
+    def filter_not_read(self):
+        """
+        Useful for checking if the communication was read by the sponsor. Printed letters are always treated as read.
+        Returns only the communications that are not read.
+        """
+        not_read = self.env[self._name]
+        # Use a query to improve performance
+        query_sql = """
+            SELECT DISTINCT m.id
+            FROM mail_mail m 
+            FULL JOIN mail_tracking_email tmail ON tmail.mail_id = m.id
+            FULL JOIN mail_tracking_event tevent ON tevent.tracking_email_id = tmail.id
+            WHERE m.id = %s
+            AND (
+                m.state = 'received'
+                OR tevent.event_type IN ('delivered', 'open', 'click')
+                OR tmail.state IN ('delivered', 'opened')
+            )
+        """
+        for communication in self:
+            if communication.email_id:
+                self.env.cr.execute(query_sql, [communication.email_id.id])
+                if not self.env.cr.rowcount:
+                    not_read += communication
+            elif communication.state == 'done' and communication.send_mode == 'digital':
+                not_read += communication
+        return not_read
 
     def get_correspondence_attachments(self):
         """
@@ -251,24 +281,19 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         res = dict()
-        if self.send_mode and "physical" not in self.send_mode:
-            # Prepare attachments in case the communication is sent by e-mail
+        biennial = self.env.ref("partner_communication_switzerland.biennial")
+        if self.config_id == biennial:
+            if self.send_mode == "physical":
+                # In this case the photo is printed from Smartphoto and manually added
+                return res
             children = self.get_objects()
-            attachments = self.env["ir.attachment"]
-            for child in children:
-                name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
-                attachments += attachments.create(
-                    {
-                        "name": name,
-                        "datas_fname": name,
-                        "res_model": self._name,
-                        "res_id": self.id,
-                        "datas": child.fullshot,
-                    }
-                )
-            self.with_context(no_print=True).ir_attachment_ids = attachments
         else:
-            self.ir_attachment_ids = False
+            children = self.get_objects().mapped("child_id")
+        attachments = self.env["ir.attachment"]
+        for child in children:
+            name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
+            res[name] = ("partner_communication_switzerland.child_picture", child.fullshot)
+        self.with_context(no_print=True).ir_attachment_ids = attachments
         return res
 
     def get_yearly_payment_slips_2bvr(self):
@@ -327,6 +352,16 @@ class PartnerCommunication(models.Model):
                     f"report_compassion.report_{bv_number}bvr_gift_sponsorship"),
             )
             attachments.update({_("sponsorship gifts.pdf"): [report_name, pdf]})
+        return attachments
+
+    def get_photo_by_post_attachment(self):
+        self.ensure_one()
+        attachments = self.get_child_picture_attachment()
+        # Add a blank page for printing the address
+        blank_communication = self._get_pdf_from_data({
+            "doc_ids": self.ids
+        }, self.env.ref("report_compassion.report_blank_communication"))
+        attachments.update({"cover.pdf": ["report_compassion.blank_communication", blank_communication]})
         return attachments
 
     def get_childpack_attachment(self):
@@ -537,6 +572,24 @@ class PartnerCommunication(models.Model):
     def get_new_dossier_attachments(self):
         """
         Returns pdfs for the New Dossier Communication, including:
+        - Small Childpack in PDF
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = OrderedDict()
+        sponsorships = self.get_objects()
+
+        # Childpack if not a SUB of planned exit.
+        lifecycle = sponsorships.mapped("parent_id.child_id.lifecycle_ids")
+        planned_exit = lifecycle and lifecycle[0].type == "Planned Exit"
+        if not planned_exit:
+            attachments.update(self.get_childpack_attachment())
+
+        return attachments
+
+    def get_print_dossier_attachments(self):
+        """
+        Returns pdfs for the Printed New Dossier Communication, including:
         - Sponsorship payment slips (if payment is True)
         - Small Childpack
         - Sponsorship labels
@@ -544,7 +597,20 @@ class PartnerCommunication(models.Model):
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
-        attachments = OrderedDict()
+        attachments = self.get_sponsorship_payment_slip_attachments()
+        attachments.update(self.get_childpack_attachment())
+        write_sponsorships = self.get_objects().filtered(
+            lambda s: s.correspondent_id == self.partner_id)
+        if write_sponsorships:
+            attachments.update(self.get_label_attachment(write_sponsorships))
+
+        # Child picture
+        attachments.update(self.get_child_picture_attachment())
+
+        return attachments
+
+    def get_sponsorship_payment_slip_attachments(self):
+        self.ensure_one()
         account_payment_mode_obj = self.env["account.payment.mode"].with_context(
             lang="en_US"
         )
@@ -570,9 +636,6 @@ class PartnerCommunication(models.Model):
             # 4. If already paid they are not included
             and not s.period_paid
         )
-        write_sponsorships = sponsorships.filtered(
-            lambda s: s.correspondent_id == self.partner_id
-        )
 
         # Include all active sponsorships for Permanent Order
         bv_sponsorships |= (
@@ -581,6 +644,7 @@ class PartnerCommunication(models.Model):
             .filtered(lambda s: s.state in ("active", "waiting"))
         )
 
+        attachments = {}
         # Payment slips
         if bv_sponsorships:
             report_name = "report_compassion.3bvr_sponsorship"
@@ -596,45 +660,17 @@ class PartnerCommunication(models.Model):
             pdf = self._get_pdf_from_data(data, report_ref)
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
 
-        # Childpack if not a SUB of planned exit.
-        lifecycle = sponsorships.mapped("parent_id.child_id.lifecycle_ids")
-        planned_exit = lifecycle and lifecycle[0].type == "Planned Exit"
-        if not planned_exit:
-            attachments.update(self.get_childpack_attachment())
-
-        # Labels
-        if write_sponsorships:
-            attachments.update(self.get_label_attachment(write_sponsorships))
-
-        # Child picture
-        report_name = "partner_communication_switzerland.child_picture"
-        child_ids = sponsorships.mapped("child_id").ids
-        report = self.env["ir.actions.report"]._get_report_from_name(
-            "partner_communication_switzerland.child_picture"
-        )
-        data = {
-            "doc_ids": child_ids,
-            "doc_model": report.model,
-            "docs": self.env[report.model].browse(child_ids),
-        }
-        pdf = self._get_pdf_from_data(
-            data, self.env.ref("partner_communication_switzerland.report_child_picture")
-        )
-        attachments.update({_("child picture.pdf"): [report_name, pdf]})
-
-        # Country information
-        for field_office in self.get_objects().mapped("child_id.field_office_id"):
-            country_pdf = field_office.country_info_pdf
-            if country_pdf:
-                attachments.update(
-                    {
-                        field_office.name
-                        + ".pdf": [
-                            "partner_communication_switzerland.field_office_info",
-                            country_pdf,
-                        ]
-                    }
-                )
+        lsv_dd_sponsorships = sponsorships.filtered(
+            lambda s: s.payment_mode_id in lsv_dd_modes)
+        if lsv_dd_sponsorships and not self.partner_id.valid_mandate_id:
+            lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
+            pdf_form = base64.b64encode(requests.get(
+                f"https://compassion.ch/wp-content/uploads/documents_compassion/"
+                f"Formulaire_LSV_DD_{lang}.pdf"
+            ).content)
+            attachments.update({_("bank authorization form.pdf"): [
+                "partner_communication.a4_no_margin", pdf_form]
+            })
         return attachments
 
     def get_csp_attachment(self):
