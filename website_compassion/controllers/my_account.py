@@ -415,7 +415,7 @@ class MyAccountController(PaymentFormController):
         # If no bvr reference is found, we compute a new one
         if not bvr_reference and groups:
             bvr_reference = groups[0].compute_partner_bvr_ref()
-        else:
+        elif not bvr_reference:
             bvr_reference = ""
 
         # Load forms
