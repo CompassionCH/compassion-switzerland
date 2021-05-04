@@ -101,7 +101,7 @@ class ResPartner(models.Model):
         else:
             cari = self.env["ir.advanced.translation"].get(
                 "salutation", female=title.gender == "F", plural=title.plural).title()
-            return f"{cari} self.firstname"
+            return f"{cari} {self.firstname}"
 
     def _compute_informal_salutation(self):
         for partner in self:
