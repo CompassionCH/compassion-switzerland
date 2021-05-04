@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 from math import ceil
+from dateutil.relativedelta import relativedelta
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -55,14 +56,38 @@ def _get_user_children(state=None):
     partner = request.env.user.partner_id
     only_correspondent = partner.app_displayed_sponsorships == "correspondent"
 
+    limit_date = datetime.now() - relativedelta(months=2)
+
+    exit_comm_config = list(
+        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, ["lifecycle_child_planned_exit",
+                                                                                     "lifecycle_child_unplanned_exit"]))
+    exit_comm_to_send = partner.env["partner.communication.job"].search([
+        ("partner_id", "=", partner.id),
+        ("config_id", "in", exit_comm_config),
+        ("state", "=", "pending"),
+    ])
+
     def filter_sponsorships(sponsorship):
         can_show = True
+        is_recent_terminated = (sponsorship.state == "terminated"
+                                and sponsorship.end_date
+                                and sponsorship.end_date >= limit_date)
+
+        is_communication_not_sent = (sponsorship.state == "terminated"
+                                     and exit_comm_to_send.filtered(lambda com: com.get_object() == sponsorship))
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
-            can_show &= sponsorship.state not in ["cancelled", "terminated"]
+
+            can_show &= sponsorship.state not in ["cancelled", "terminated"] \
+                        or is_communication_not_sent \
+                        or is_recent_terminated
+
         elif state == "terminated":
-            can_show &= sponsorship.state in ["cancelled", "terminated"]
+
+            can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
+                (is_recent_terminated or is_communication_not_sent)
+
         return can_show
 
     return _map_contracts(
