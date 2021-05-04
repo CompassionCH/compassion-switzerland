@@ -289,11 +289,11 @@ class PartnerCommunication(models.Model):
             children = self.get_objects()
         else:
             children = self.get_objects().mapped("child_id")
-        attachments = self.env["ir.attachment"]
-        for child in children:
-            name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
-            res[name] = ("partner_communication_switzerland.child_picture", child.fullshot)
-        self.with_context(no_print=True).ir_attachment_ids = attachments
+        pdf = self._get_pdf_from_data(
+            {"doc_ids": children.ids}, self.env.ref("partner_communication_switzerland.report_child_picture")
+        )
+        name = children.get_list("local_id", 1, _("pictures")) + ".pdf"
+        res[name] = ("partner_communication_switzerland.child_picture", pdf)
         return res
 
     def get_yearly_payment_slips_2bvr(self):
