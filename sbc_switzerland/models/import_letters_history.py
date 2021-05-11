@@ -32,6 +32,7 @@ try:
     from PyPDF2 import PdfFileWriter, PdfFileReader
     from PyPDF2.pdf import PageObject
     import pysftp
+    from pysftp import RSAKey
 except ImportError:
     logger.warning("Please install python dependencies.")
 
@@ -41,7 +42,7 @@ class SftpConnection:
     Class helper used to handle connection between server and SFTP server.
     """
 
-    def __init__(self):
+    def __init__(self, key_data=None):
         self.sftp_config = {
             "username": config.get("sftp_user"),
             "password": config.get("sftp_pwd"),
@@ -64,15 +65,15 @@ class SftpConnection:
             )
 
         cnopts = pysftp.CnOpts()
-        # TODO import hostkey for compassion nas
-        cnopts.hostkeys = None
 
-        if cnopts.hostkeys is None:
+        try:
+            key = RSAKey(data=base64.decodebytes(key_data.encode('utf-8')))
+            cnopts.hostkeys.add(config.get("sftp_ip"), "ssh-rsa", key)
+        except:
+            cnopts.hostkeys = None
             logger.warning(
-                """
-                No hostkeys defined in StfpConnection. Connection will be unsecured.
-                """
-            )
+                "No hostkeys defined in StfpConnection. Connection will be unsecured. "
+                "Please configure parameter sbc_switzerland.nas_ssh_key with ssh_key data.")
 
         self.sftp_config.update({"cnopts": cnopts})
 
@@ -128,7 +129,7 @@ class ImportLettersHistory(models.Model):
         if not len(count_from_nas_letters):
             return
 
-        sftp_con_handler = SftpConnection()
+        sftp_con_handler = SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value)
         sftp = None
         try:
             sftp = sftp_con_handler.get_connection()
@@ -208,21 +209,13 @@ class ImportLettersHistory(models.Model):
             # when letters are in a folder on NAS redefine method
             for letters_import in self:
                 letters_import.state = "pending"
-                # TODO change for get(...,True)
-                if self.env.context.get("async_mode", False):
+                if self.env.context.get("async_mode", True):
                     letters_import.with_delay()._run_analyze()
                 else:
                     letters_import._run_analyze()
             return True
-        else:
-            # when letters selected by user, save them on NAS and call
-            # super method
-            for letters_import in self:
-                if letters_import.data and self.env.context.get("async_mode", True):
-                    for attachment in letters_import.data:
-                        self._save_manual_imported_letter(attachment)
 
-            return super().button_import()
+        return super().button_import()
 
     @api.multi
     def button_save(self):
@@ -240,7 +233,8 @@ class ImportLettersHistory(models.Model):
                         == self.env.ref("sbc_switzerland.web_letter").name
                 ):
 
-                    with SftpConnection().get_connection(self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
+                    with SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).get_connection(
+                            self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
 
                         imported_letter_path = self.env.ref("sbc_switzerland.scan_letter_imported").value
 
@@ -297,7 +291,8 @@ class ImportLettersHistory(models.Model):
 
         imported_letter_path = self.check_path(self.import_folder_path)
         try:
-            with SftpConnection().get_connection(self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
+            with SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).get_connection(
+                    self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
                 list_paths = sftp.listdir(imported_letter_path)
                 for shared_file in list_paths:
 
@@ -345,28 +340,6 @@ class ImportLettersHistory(models.Model):
         self.import_completed = True
         logger.info("Imported letters analysis completed.")
 
-    def _save_manual_imported_letter(self, attachment):
-        """
-        Save attachment letter to a shared folder on the NAS ('Imports')
-            - attachment : the attachment to save
-        Done by Michael Sandoz 02.2016
-        """
-        # Store letter on a shared folder on the NAS:
-        # Copy file in the imported letter folder
-        with SftpConnection().get_connection(self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
-            file_ = BytesIO(
-                base64.b64decode(attachment.with_context(bin_size=False).datas)
-            )
-
-            imported_letter_path = (
-                    self.check_path(self.env.ref("sbc_switzerland.scan_letter_imported").value)
-                    + attachment.name
-            )
-
-            sftp.putfo(file_, imported_letter_path)
-
-        return True
-
     def _manage_all_imported_files(self):
         """
         File management at the end of correct import:
@@ -385,7 +358,8 @@ class ImportLettersHistory(models.Model):
 
         imported_letter_path = self.check_path(imported_letter_path)
 
-        with SftpConnection().get_connection(self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
+        with SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).get_connection(
+                self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
 
             for shared_file in sftp.listdir(imported_letter_path):
 

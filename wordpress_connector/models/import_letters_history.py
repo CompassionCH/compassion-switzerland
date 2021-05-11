@@ -180,7 +180,8 @@ class ImportLettersHistory(models.Model):
 
             file_pdf = BytesIO(pdf_letter)
 
-            sftp_conn = SftpConnection().get_connection(self.env.ref("sbc_switzerland.share_on_nas").value)
+            sftp_conn = SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).\
+                get_connection(self.env.ref("sbc_switzerland.share_on_nas").value)
 
             with sftp_conn as sftp:
                 sftp.putfo(file_pdf, import_letter_path)
