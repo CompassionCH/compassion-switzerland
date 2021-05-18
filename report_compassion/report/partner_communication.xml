@@ -322,7 +322,7 @@
                             <t t-call="report_compassion.communication_style"/>
                             <div id="header"/>
                             <div id="letter">
-                                <div id="address" class="right" style="margin-bottom: 10mm;">
+                                <div id="address" class="right" style="margin-top: 10mm;">
                                     <div id="pp" t-if="o.display_pp">
                                         <div id="pp-box">
                                             <div>P.P.</div>
