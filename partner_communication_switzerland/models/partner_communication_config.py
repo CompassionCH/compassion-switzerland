@@ -49,7 +49,7 @@ class PartnerCommunication(models.Model):
             elif self.model == "account.invoice.line":
                 object_ids = self.env["account.invoice.line"].search([
                     ("partner_id", "=", partner.id),
-                    ("invoice_category", "=", "fund")
+                    ("invoice_id.invoice_category", "=", "fund")
                 ], limit=4).ids
             temp_comm = comm_obj.create({
                 "partner_id": partner.id,
