@@ -61,32 +61,37 @@ def _get_user_children(state=None):
     exit_comm_config = list(
         map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, ["lifecycle_child_planned_exit",
                                                                                      "lifecycle_child_unplanned_exit"]))
-    exit_comm_to_send = partner.env["partner.communication.job"].search([
-        ("partner_id", "=", partner.id),
-        ("config_id", "in", exit_comm_config),
-        ("state", "=", "pending"),
-    ])
+
+    end_reason_child_depart = partner.env.ref("sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
+
+        exit_comm_to_send = not partner.env["partner.communication.job"].search_count([
+            ("partner_id", "=", partner.id),
+            ("config_id", "in", exit_comm_config),
+            ("state", "=", "done"),
+            ("object_ids", "like", sponsorship.id)
+        ])
+
         can_show = True
         is_recent_terminated = (sponsorship.state == "terminated"
                                 and sponsorship.end_date
-                                and sponsorship.end_date >= limit_date)
+                                and sponsorship.end_date >= limit_date
+                                and sponsorship.end_reason_id == end_reason_child_depart)
 
         is_communication_not_sent = (sponsorship.state == "terminated"
-                                     and exit_comm_to_send.filtered(lambda com: com.get_object() == sponsorship))
+                                     and exit_comm_to_send)
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
 
             can_show &= sponsorship.state not in ["cancelled", "terminated"] \
-                        or is_communication_not_sent \
-                        or is_recent_terminated
+                        or (is_communication_not_sent and is_recent_terminated)
 
         elif state == "terminated":
 
             can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
-                (is_recent_terminated or is_communication_not_sent)
+                (is_recent_terminated and is_communication_not_sent)
 
         return can_show
 
