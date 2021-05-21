@@ -85,7 +85,7 @@ def _get_user_children(state=None):
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
 
-            can_show &= sponsorship.state not in ["cancelled", "terminated"] \
+            can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
                         or (is_communication_not_sent and is_recent_terminated)
 
         elif state == "terminated":
