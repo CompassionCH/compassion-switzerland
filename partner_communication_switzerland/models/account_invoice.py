@@ -109,17 +109,20 @@ class AccountInvoice(models.Model):
         """
         return self.filtered(
             lambda i: i.type == "out_invoice"
-            and not i.avoid_thankyou_letter
-            and (
-                not i.communication_id
-                or i.communication_id.state in ("call", "pending")
-            )
-            and i.invoice_category != "sponsorship"
-            and (
-                not i.mapped("invoice_line_ids.contract_id")
-                or (
-                    i.invoice_category == "gift" and i.origin != "Automatic birthday gift")
-            )
+                      and not i.avoid_thankyou_letter
+                      and (
+                              not i.communication_id
+                              or i.communication_id.state in ("call", "pending")
+                      )
+                      and i.invoice_category != "sponsorship"
+                      and (
+                              not i.mapped("invoice_line_ids.contract_id")
+                              or (
+                                      i.invoice_category == "gift"
+                                      and i.origin != "Automatic birthday gift"
+                                      and "G" not in i.mapped("invoice_line_ids.contract_id.type")
+                              )
+                      )
         )
 
     @job(default_channel="root.group_reconcile")
