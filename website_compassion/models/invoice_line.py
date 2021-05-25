@@ -6,11 +6,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import models
 
 
 class AccountInvoiceLine(models.Model):
     _name = "account.invoice.line"
     _inherit = ["account.invoice.line", "translatable.model"]
-
 
