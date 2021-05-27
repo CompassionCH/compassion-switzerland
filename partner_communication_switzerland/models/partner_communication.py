@@ -658,6 +658,7 @@ class PartnerCommunication(models.Model):
         permanent_order = self.env.ref(
             "sponsorship_switzerland.payment_mode_permanent_order"
         )
+        bvr = self.env.ref("sponsorship_switzerland.payment_mode_bvr")
 
         sponsorships = self.get_objects()
         # Sponsorships included for payment slips
@@ -665,8 +666,8 @@ class PartnerCommunication(models.Model):
             # 1. Needs to be payer
             lambda s: s.partner_id == self.partner_id
                       and
-                      # 2. Permanent Order are always included
-                      s.payment_mode_id == permanent_order
+                      # 2. Permanent Order/BVR are always included
+                      s.payment_mode_id in (permanent_order, bvr)
                       # The sponsorship amount must be set
                       and s.total_amount
                       # 3. LSV/DD are never included
