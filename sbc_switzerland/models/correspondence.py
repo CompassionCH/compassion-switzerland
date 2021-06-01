@@ -255,6 +255,7 @@ class Correspondence(models.Model):
             self.create_commkit()
         else:
             self.state = "Published to Global Partner"
+            self.process_letter()
 
     @api.multi
     def update_translation(self, translate_lang, translate_text, translator, src_lang):

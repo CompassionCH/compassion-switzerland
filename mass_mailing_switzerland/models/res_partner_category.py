@@ -26,8 +26,8 @@ class ResPartnerCategory(models.Model):
             tag.mapped("partner_ids.mailing_contact_ids").write({
                 "tag_ids": [(4, tag.id)]
             })
-
-            self.env["mail.mass_mailing.contact"] \
-                .update_all_merge_fields_job(old_partners ^ new_partners)
+            to_update = old_partners ^ new_partners
+            if to_update:
+                self.env["mail.mass_mailing.contact"].with_delay().update_all_merge_fields_job(list(to_update))
 
         return True

@@ -43,6 +43,15 @@ class StaffNotificationSettings(models.TransientModel):
     )
     share_on_nas = fields.Text()
     store_path = fields.Text()
+    potential_advocate_fr = fields.Many2one(
+        "res.users", "Potential advocate FR", domain=[("share", "=", False)]
+    )
+    potential_advocate_de = fields.Many2one(
+        "res.users", "Potential advocate DE", domain=[("share", "=", False)]
+    )
+    potential_advocate_it = fields.Many2one(
+        "res.users", "Potential advocate IT", domain=[("share", "=", False)]
+    )
 
     @api.multi
     def set_values(self):
@@ -85,6 +94,15 @@ class StaffNotificationSettings(models.TransientModel):
         self.env["ir.config_parameter"].sudo().set_param(
             "partner_compassion.store_path", self.store_path
         )
+        self.env["ir.config_parameter"].set_param(
+            "partner_communication_switzerland.potential_advocate_fr",
+            str(self.potential_advocate_fr.id or 0))
+        self.env["ir.config_parameter"].set_param(
+            "partner_communication_switzerland.potential_advocate_de",
+            str(self.potential_advocate_de.id or 0))
+        self.env["ir.config_parameter"].set_param(
+            "partner_communication_switzerland.potential_advocate_it",
+            str(self.potential_advocate_it.id or 0))
 
     @api.model
     def get_values(self):
@@ -128,4 +146,13 @@ class StaffNotificationSettings(models.TransientModel):
                 ),
             }
         )
+        user_fr = self.env["ir.config_parameter"].get_param(
+            "partner_communication_switzerland.potential_advocate_fr", 0)
+        res["potential_advocate_fr"] = int(user_fr)
+        user_de = self.env["ir.config_parameter"].get_param(
+            "partner_communication_switzerland.potential_advocate_de", 0)
+        res["potential_advocate_de"] = int(user_de)
+        user_it = self.env["ir.config_parameter"].get_param(
+            "partner_communication_switzerland.potential_advocate_it", 0)
+        res["potential_advocate_it"] = int(user_it)
         return res

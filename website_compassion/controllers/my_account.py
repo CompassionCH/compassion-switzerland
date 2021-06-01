@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 from math import ceil
+from dateutil.relativedelta import relativedelta
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -52,16 +53,48 @@ def _get_user_children(state=None):
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
+    partner = request.env.user.partner_id
+    only_correspondent = partner.app_displayed_sponsorships == "correspondent"
+
+    limit_date = datetime.now() - relativedelta(months=2)
+
+    exit_comm_config = list(
+        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, ["lifecycle_child_planned_exit",
+                                                                                     "lifecycle_child_unplanned_exit"]))
+
+    end_reason_child_depart = partner.env.ref("sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
-        if state == "active":
-            return sponsorship.state not in ["cancelled", "terminated"]
-        elif state == "terminated":
-            return sponsorship.state in ["cancelled", "terminated"]
-        else:
-            return True
 
-    partner = request.env.user.partner_id
+        exit_comm_to_send = not partner.env["partner.communication.job"].search_count([
+            ("partner_id", "=", partner.id),
+            ("config_id", "in", exit_comm_config),
+            ("state", "=", "done"),
+            ("object_ids", "like", sponsorship.id)
+        ])
+
+        can_show = True
+        is_recent_terminated = (sponsorship.state == "terminated"
+                                and sponsorship.end_date
+                                and sponsorship.end_date >= limit_date
+                                and sponsorship.end_reason_id == end_reason_child_depart)
+
+        is_communication_not_sent = (sponsorship.state == "terminated"
+                                     and exit_comm_to_send)
+        if only_correspondent:
+            can_show = sponsorship.correspondent_id == partner
+        if state == "active":
+
+            can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
+                        or (is_communication_not_sent and is_recent_terminated)
+
+        elif state == "terminated":
+
+            can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
+                (is_recent_terminated and is_communication_not_sent)
+
+        return can_show
+
     return _map_contracts(
         partner, mapping_val="child_id", sorting_val="preferred_name",
         filter_fun=filter_sponsorships
@@ -185,11 +218,6 @@ class MyAccountController(PaymentFormController):
 
         claim_form.form_process()
 
-        if claim_form.form_success:
-            return request.render(
-                "website_compassion.successful_request", {"partner": partner}
-            )
-
         return request.render(
             "website_compassion.contact_us_page_template",
             {"partner": partner,
@@ -272,6 +300,10 @@ class MyAccountController(PaymentFormController):
             letters = request.env["correspondence"].search([
                 ("partner_id", "=", partner.id),
                 ("child_id", "=", int(child_id)),
+                "|",
+                "&", ("direction", "=", "Supporter To Beneficiary"),
+                ("state", "!=", "Quality check unsuccessful"),
+                "|", ("letter_delivered", "=", True), ("sent_date", "!=", False)
             ])
             gift_categ = request.env.ref(
                 "sponsorship_compassion.product_category_gift"
@@ -283,6 +315,7 @@ class MyAccountController(PaymentFormController):
                 ("product_id.categ_id", "=", gift_categ.id),
                 ("price_total", "!=", 0),
             ])
+            request.session['child_id'] = child.id
             return request.render(
                 "website_compassion.my_children_page_template",
                 {"child_id": child,
@@ -382,7 +415,7 @@ class MyAccountController(PaymentFormController):
         # If no bvr reference is found, we compute a new one
         if not bvr_reference and groups:
             bvr_reference = groups[0].compute_partner_bvr_ref()
-        else:
+        elif not bvr_reference:
             bvr_reference = ""
 
         # Load forms
@@ -623,6 +656,6 @@ class MyAccountController(PaymentFormController):
             pdf_download = base64.encodebytes(pdf_data)
             headers = Headers()
             headers.add(
-                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}"
+                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}.pdf"
             )
             return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)

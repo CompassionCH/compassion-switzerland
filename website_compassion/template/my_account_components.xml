@@ -17,7 +17,7 @@
                         <div class="collapse navbar-collapse text-uppercase" id="myAccountMenu">
                             <ul class="nav navbar-nav mr-auto text-left">
                                 <li t-attf-class="nav-item#{' active' if selected == 'child' else ''}">
-                                    <a class="nav-link" href="/my/children">My children</a>
+                                    <a class="nav-link" t-attf-href="/my/children?child_id=#{request.session['child_id'] if 'child_id' in request.session else ''}">My children</a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'info' else ''}">
                                     <a class="nav-link" href="/my/information">My personal data</a>
@@ -26,7 +26,7 @@
                                     <a class="nav-link" href="/my/donations">My financials</a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'letter' else ''}">
-                                    <a class="nav-link" href="/my/letter">Write a letter</a>
+                                    <a class="nav-link" t-attf-href="/my/letter?child_id=#{request.session['child_id'] if 'child_id' in request.session else ''}">Write a letter</a>
                                 </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'contact_us' else ''}">
                                     <a class="nav-link" href="/my/contact">Contact us</a>

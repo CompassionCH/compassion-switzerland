@@ -166,19 +166,20 @@ class Correspondence(models.Model):
         """
         partners = self.mapped("partner_id")
         final_letter = self.env.ref("sbc_compassion.correspondence_type_final")
-        final_template = self.env.ref(
-            "partner_communication_switzerland.child_letter_final_config"
-        )
-        new_template = self.env.ref(
-            "partner_communication_switzerland.child_letter_config"
-        )
+        module = "partner_communication_switzerland."
+        first_letter_template = self.env.ref(module + "config_onboarding_first_letter")
+        final_template = self.env.ref(module + "child_letter_final_config")
+        new_template = self.env.ref(module + "child_letter_config")
         old_template = self.env.ref(
-            "partner_communication_switzerland.child_letter_old_config"
+            module + "child_letter_old_config"
         )
         old_limit = datetime.today() - relativedelta(months=2)
 
         for partner in partners:
             letters = self.filtered(lambda l: l.partner_id == partner)
+            is_first = self.filtered(
+                lambda l: l.communication_type_ids == self.env.ref(
+                    "sbc_compassion.correspondence_type_new_sponsor"))
             no_comm = letters.filtered(lambda l: not l.communication_id)
             to_generate = letters if self.env.context.get("overwrite") else no_comm
 
@@ -190,8 +191,10 @@ class Correspondence(models.Model):
             new_letters -= old_letters
 
             final_letters._generate_communication(final_template)
-            new_letters._generate_communication(new_template)
-            old_letters._generate_communication(old_template)
+            new_letters._generate_communication(
+                first_letter_template if is_first else new_template)
+            old_letters._generate_communication(
+                first_letter_template if is_first else old_template)
 
         if self.env.context.get("force_send"):
             self.mapped("communication_id").filtered(lambda c: c.state != "done").send()
@@ -201,21 +204,22 @@ class Correspondence(models.Model):
     @api.multi
     def send_unread_b2s(self):
         """
-        IR Action Rule called 3 days after correspondence is not opened
-        by e-mail. It will create a new communication to send it by post.
+        IR Action Rule called 3 days after correspondence is sent
+        by e-mail. It will create a new communication to send it by post if the email is not read.
         :return: True
         """
         unread_config = self.env.ref(
             "partner_communication_switzerland.child_letter_unread"
         )
         for letter in self:
-            self.env["partner.communication.job"].create(
-                {
-                    "partner_id": letter.partner_id.id,
-                    "config_id": unread_config.id,
-                    "object_ids": letter.id,
-                }
-            )
+            if letter.communication_id.filter_not_read():
+                self.env["partner.communication.job"].create(
+                    {
+                        "partner_id": letter.partner_id.id,
+                        "config_id": unread_config.id,
+                        "object_ids": letter.id,
+                    }
+                )
         return True
 
     ##########################################################################

@@ -288,7 +288,7 @@ class StatementCompletionRule(models.Model):
                 "|",
                 ("partner_id", "=", partner.id),
                 ("correspondent_id", "=", partner.id),
-                ("state", "not in", ("terminated","draft"))
+                ("state", "not in", ["terminated", "draft"]),
                 ("type", "like", "S"),
             ]
             contract = contract_obj.search(
@@ -411,7 +411,8 @@ class StatementCompletionRule(models.Model):
             based on the reference of the statement line. """
         product_obj = self.env["product.product"].with_context(lang="en_US")
         # Search for payment type in a flexible manner given its neighbours
-        payment_type_match = re.search(partner_ref + r"0{1,4}[0-9]{1,4}([1-9])0", ref)
+        # after partner ref: 5 digits for num pole, 1 digit for type, 4 digit for code spe and 1 digit for cc
+        payment_type_match = re.search(partner_ref + r"[0-9]{5}([0-9]){1}[0-9]{5}", ref)
         if payment_type_match:
             payment_type = int(payment_type_match.group(1))
             payment_type_index = payment_type_match.start(1)

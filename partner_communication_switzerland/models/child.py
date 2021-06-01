@@ -8,8 +8,7 @@
 #
 ##############################################################################
 import logging
-
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 from functools import reduce
 from babel.dates import format_date
@@ -171,6 +170,49 @@ class CompassionChild(models.Model):
         :return: True if all children's gift are held.
         """
         return reduce(lambda x, y: x and y, self.mapped("project_id.hold_gifts"))
+
+    def get_child_preposition_country(
+            self, preposition_field="in_preposition", with_child_name=True,
+            child_limit=float("inf"), country_limit=float("inf"),
+            child_substitution="", country_substitution="", repeat_preposition=False):
+        """
+        Returns a string with children names and associated countries with the correct preposition
+        :param preposition_field: name of the preposition field to use ('in_preposition', 'from_preposition')
+        :param with_child_name: include or not the name of the children in the string
+        :param child_limit: max number of children names to display in string
+        :param country_limit: max number of country names to display in string
+        :param child_substitution: alternative string to display if there are more than chil_limit children
+        :param country_substitution: alternative string to display if there are more than country_limit countries
+        :param repeat_proposition: set to true if you want to repeat each time the country preposition
+        :return: a nice string to use in communications (ex: "John and Jack in Ghana and July in Ecuador")
+        """
+        res_list = []
+        if len(self.mapped("field_office_id")) > country_limit:
+            return country_substitution
+        res = ""
+        if len(self) > child_limit:
+            res = child_substitution + " "
+        if (with_child_name and not res) or repeat_preposition:
+            for country in self.mapped("field_office_id.country_id"):
+                children = self.filtered(lambda c: c.field_office_id.country_id == country)
+                res_list.append(
+                    (children.get_list("preferred_name", translate=False) + " " if not res else "")
+                    + getattr(country, preposition_field) + country.name
+                )
+        else:
+            for prep in list(set(self.mapped("field_office_id.country_id." + preposition_field))):
+                children = self.filtered(lambda c: getattr(c.field_office_id.country_id, preposition_field) == prep)
+                countries = list(set(children.mapped("field_office_id.country_id.name")))
+                if len(countries) > 1:
+                    res_list.append(prep + ", ".join(countries[:-1]) + " " + _("and") + " " + countries[-1])
+                else:
+                    res_list.append(prep + " " + countries[0])
+
+        if len(res_list) > 1:
+            res += ", ".join(res_list[:-1]) + " " + _("and") + " " + res_list[-1]
+        else:
+            res += res_list[0]
+        return res
 
 
 class Household(models.Model):

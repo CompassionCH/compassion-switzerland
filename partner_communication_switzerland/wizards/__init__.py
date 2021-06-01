@@ -16,3 +16,4 @@ from . import sub_sponsorship_wizard
 from . import child_hold_wizard
 from . import portal_wizard
 from . import res_partner_create_portal_wizard
+from . import communication_test_cases_wizard

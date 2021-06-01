@@ -1,0 +1,66 @@
+<odoo>
+    <record id="communication_test_case_form" model="ir.ui.view">
+        <field name="name">partner.communication.test.cases.wizard.form</field>
+        <field name="model">partner.communication.test.cases.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="generate_test_cases" string="Generate test cases" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="config_id"/>
+                            <field name="language"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Single person">
+                            <group>
+                                <group string="1 Child">
+                                    <field name="single_1_child_subject" string="Subject"/>
+                                    <field name="single_1_child_body" string="Body"/>
+                                </group>
+                                <group string="3 Children">
+                                    <field name="single_3_children_subject" string="Subject"/>
+                                    <field name="single_3_children_body" string="Body"/>
+                                </group>
+                                <group string="4 Children">
+                                    <field name="single_4_children_subject" string="Subject"/>
+                                    <field name="single_4_children_body" string="Body"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Family">
+                            <group>
+                                <group string="1 Child">
+                                    <field name="family_1_child_subject" string="Subject"/>
+                                    <field name="family_1_child_body" string="Body"/>
+                                </group>
+                                <group string="3 Children">
+                                    <field name="family_3_children_subject" string="Subject"/>
+                                    <field name="family_3_children_body" string="Body"/>
+                                </group>
+                                <group string="4 Children">
+                                    <field name="family_4_children_subject" string="Subject"/>
+                                    <field name="family_4_children_body" string="Body"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="communication_config_test_case_view" model="ir.ui.view">
+        <field name="name">partner.communication.config.test.cases.form</field>
+        <field name="model">partner.communication.config</field>
+        <field name="inherit_id" ref="partner_communication.communication_config_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']/button[1]" position="before">
+                <button name="open_test_case_wizard" type="object" icon="fa-edit" string="Test cases"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

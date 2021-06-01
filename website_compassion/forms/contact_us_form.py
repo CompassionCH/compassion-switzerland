@@ -26,14 +26,11 @@ class ContactUsForm(models.AbstractModel):
     _inherit = "cms.form"
 
     _form_model = "crm.claim"
-    _form_model_fields = ["partner_id", "name", "subject", "categ_id"]
+    _form_model_fields = ["partner_id", "name", "subject"]
     _form_required_fields = ["name", "subject"]
+    form_buttons_template = "cms_form_compassion.modal_form_buttons"
 
     partner_id = fields.Many2one("res.partner", readonly=False)
-    categ_id = fields.Selection(
-        lambda x: [(y.id, y.name) for y in x.env["crm.claim.category"].sudo().search([])],
-        string="Request Category"
-    )
 
     name = fields.Char("Question / Comment")
     subject = fields.Char("Request subject")
@@ -42,14 +39,23 @@ class ContactUsForm(models.AbstractModel):
         return _("Contact Us")
 
     def form_description(self):
-        return _("Get in touch by filling the form below")
+        return _("If you have any questions, do not hesitate to contact us using the form below, "
+                 "we will answer you as soon as possible.")
+
+    @property
+    def submit_text(self):
+        return _("Send message")
+
+    @property
+    def form_msg_success_created(self):
+        return _(
+            "Thank you for your message and for your interest in the development of children in need. "
+            "We will contact you as soon as possible."
+        )
 
     @property
     def _form_fieldsets(self):
         fields = [
-            {"id": "category",
-             "description": _("Select a category from the list that match your request."),
-             "fields": ["categ_id"]},
             {"id": "subject",
              "fields": ["subject", "partner_id"]},
             {"id": "question",
@@ -71,9 +77,22 @@ class ContactUsForm(models.AbstractModel):
         return res
 
     def form_before_create_or_update(self, values, extra_values):
+
+        # Find the corresponding claim category
+        subject = values.get("subject")
+        category_ids = self.env["crm.claim.category"].sudo().search(
+            [("keywords", "!=", False)]
+        )
+        category_id = False
+        for record in category_ids:
+            if any(word in subject for word in record.get_keys()):
+                category_id = record.id
+                break
+
         super().form_before_create_or_update(values, extra_values)
         values.update({
             "partner_id": self.partner_id.id,
+            "categ_id": category_id,
             "user_id": False,
             "language": self.main_object.detect_lang(values.get("name")).lang_id.code,
             "email_from": self.partner_id.email,

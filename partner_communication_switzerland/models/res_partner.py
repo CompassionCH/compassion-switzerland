@@ -43,62 +43,74 @@ class ResPartner(models.Model):
         compute="_compute_last_completed_tax_receipt",
         help="Gives the year of the last tax receipt sent to the partner"
     )
+    informal_salutation = fields.Char(compute="_compute_informal_salutation",
+                                      help="Informal salutation used in French")
 
-    @api.multi
-    def _compute_salutation(self):
-        """ Redefine salutations for Switzerland. """
-        # Family shouldn't be used with informal salutation
+    def _get_salutation_fr_CH(self, informal=False):
+        self.ensure_one()
         family_title = self.env.ref("partner_compassion.res_partner_title_family")
-        family = self.filtered(lambda p: p.title == family_title)
-        # Special salutation for companies
-        company = (self - family).filtered(lambda p: p.is_company or not p.firstname
-                                           or not p.title)
+        friends_title = self.env.ref("partner_compassion.res_partner_title_friends")
+        title = self.title
+        is_company = self.is_company or not self.firstname or not title or title == friends_title
+        if title == family_title:
+            return f"Chère famille {self.lastname}"
+        elif is_company:
+            return "Chers amis de Compassion"
+        else:
+            cher = self.env["ir.advanced.translation"].get(
+                "salutation", female=title.gender == "F", plural=title.plural).title()
+            if title.plural:
+                if informal:
+                    return f"{cher} {self.lastname}"
+                else:
+                    return f"{cher} {title.name} {self.lastname}"
+            else:
+                if informal:
+                    return f"{cher} {self.firstname}"
+                else:
+                    return f"{cher} {self.firstname} {self.lastname}"
 
-        for p in company:
-            with api.Environment.manage():
-                lang_partner = p.with_context(lang=p.lang)
-                p.salutation = lang_partner.get(_("Dear friends of Compassion"))
-                p.short_salutation = lang_partner.salutation
-                p.informal_salutation = lang_partner.get(_("Dear friend of Compassion"))
-                p.full_salutation = lang_partner.salutation
+    def _get_salutation_de_DE(self):
+        self.ensure_one()
+        family_title = self.env.ref("partner_compassion.res_partner_title_family")
+        mister_madam_title = self.env.ref("partner_compassion.res_partner_title_mister_miss")
+        friends_title = self.env.ref("partner_compassion.res_partner_title_friends")
+        title = self.title
+        is_company = self.is_company or not self.firstname or not title or title == friends_title
+        if title == family_title:
+            return f"Liebe Familie {self.lastname}"
+        elif title == mister_madam_title:
+            return  f"Hallo {self.firstname}"
+        elif is_company:
+            return "Liebe Freundinnen und Freunde von Compassion"
+        else:
+            liebe = self.env["ir.advanced.translation"].get(
+                "salutation", female=title.gender == "F").title()
+            return f"{liebe} {self.firstname}"
 
-        for partner in family:
-            lang_partner = partner.with_context(lang=partner.lang)
-            title = lang_partner.title
-            title_salutation = (
-                lang_partner.env["ir.advanced.translation"]
-                .get("salutation", female=title.gender == "F", plural=title.plural)
-                .title()
-            )
-            partner.salutation = (
-                title_salutation + " " + title.name + " " + lang_partner.lastname
-            )
-            partner.short_salutation = lang_partner.salutation
-            partner.informal_salutation = lang_partner.salutation
-            partner.full_salutation = lang_partner.salutation
+    def _get_salutation_it_IT(self):
+        self.ensure_one()
+        family_title = self.env.ref("partner_compassion.res_partner_title_family")
+        title = self.title
+        friends_title = self.env.ref("partner_compassion.res_partner_title_friends")
+        is_company = self.is_company or not self.firstname or not title or title == friends_title
+        if title == family_title:
+            return f"Cara Famiglia {self.lastname}"
+        elif is_company:
+            return "Cari Amici di Compassion"
+        else:
+            cari = self.env["ir.advanced.translation"].get(
+                "salutation", female=title.gender == "F", plural=title.plural).title()
+            return f"{cari} {self.firstname}"
 
-        for partner in (self - family - company):
-            lang_partner = partner.with_context(lang=partner.lang)
-            title = lang_partner.title
-            title_salutation = (
-                lang_partner.env["ir.advanced.translation"]
-                .get("salutation", female=title.gender == "F",
-                     plural=title.plural)
-                .title()
-            )
-            title_name = title.name
-            partner.salutation = (
-                title_salutation + " " + title_name + " " +
-                lang_partner.lastname
-            )
-            pref_name = lang_partner.preferred_name or lang_partner.firstname or \
-                lang_partner.name
-            partner.short_salutation = title_salutation + " " + pref_name
-            partner.informal_salutation = title_salutation + " " + pref_name
-            partner.full_salutation = (
-                title_salutation + " " + (lang_partner.preferred_name or "") + " " +
-                lang_partner.lastname
-            )
+    def _compute_informal_salutation(self):
+        for partner in self:
+            if partner.lang != "fr_CH":
+                partner.informal_salutation = partner.salutation
+            else:
+                lang_partner = partner.with_context(lang=partner.lang)
+                partner.informal_salutation = lang_partner._get_salutation_fr_CH(
+                    informal=True)
 
     @api.multi
     @api.depends("tax_certificate", "birthdate_date")
@@ -278,18 +290,14 @@ class ResPartner(models.Model):
     def sms_send_step1_confirmation(self, child_request):
         # Override to use a communication instead of message_post
         config = self.env.ref(
-            "partner_communication_switzerland." "sms_registration_confirmation_1"
+            "partner_communication_switzerland.sms_registration_confirmation_1"
         )
         child_request.sponsorship_id.send_communication(config)
         return True
 
     @api.multi
     def sms_send_step2_confirmation(self, child_request):
-        # Override to use a communication instead of message_post
-        config = self.env.ref(
-            "partner_communication_switzerland." "sms_registration_confirmation_2"
-        )
-        child_request.sponsorship_id.send_communication(config)
+        # Override to avoid sending confirmation (handled by regular onboarding process)
         return True
 
     @api.multi

@@ -12,6 +12,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
                t-att-required="widget.w_field['required'] and '1' or None"
                t-att-data-params='widget.w_data_json()'
                t-att-placeholder="widget.w_field['string'] + '...'"
+               rows="10"
         />
 
     </template>

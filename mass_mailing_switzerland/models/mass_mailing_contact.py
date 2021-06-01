@@ -56,7 +56,8 @@ class MassMailingContact(models.Model):
                         "invalid_mail": invalid_contact.email,
                         "email": False
                     }
-                    ref_partner.with_context(recompute=False).write(vals)
+                    # Here we don't want to remove contact from Mailchimp: the info already comes from Mailchimp.
+                    ref_partner.with_context(recompute=False, import_from_mailchimp=True, no_need=True).write(vals)
 
                     # inform partner email is not valid trough a prepared communication
                     invalid_comm = self.env.ref("partner_communication_switzerland.wrong_email")
