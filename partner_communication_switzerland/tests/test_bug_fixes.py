@@ -29,35 +29,12 @@ mock_get_pdf = (
     "models.ir_actions_report.IrActionsReport.render_qweb_pdf"
 )
 
-
 class TestSponsorship(BaseSponsorshipTest):
     def setUp(self):
         super().setUp()
         # Deactivate mandates of Michel Fletcher to avoid directly validate
         # sponsorship to waiting state.
         self.michel.ref = self.ref(7)
-        bank = self.env["res.bank"].create(
-            {
-                "name": "BCV",
-                "bic": "BICBIC22123",
-                "clearing": "234234",
-                "acc_number": "01-044443-7",
-            }
-        )
-        bank_account = self.env["res.partner.bank"].create(
-            {
-                "partner_id": self.michel.commercial_partner_id.id,
-                "bank_id": bank.id,
-                "acc_number": "01-044443-7",
-                "l10n_ch_isr_subscription_chf": "010444437",
-            }
-        )
-        self.mandates = self.env["account.banking.mandate"].search(
-            [("partner_id", "=", self.michel.commercial_partner_id.id)]
-        )
-        self.mandates.write({"state": "draft"})
-        bank_account.mandate_ids = self.mandates
-        self.michel.commercial_partner_id.bank_ids = bank_account
 
         payment_mode_lsv = self.env.ref("sponsorship_switzerland.payment_mode_lsv")
         self.sp_group = self.create_group(
@@ -72,6 +49,30 @@ class TestSponsorship(BaseSponsorshipTest):
             dossier communication for the sponsor.
         """
         update_hold.return_value = True
+
+        bank = self.env["res.bank"].create(
+            {
+                "name": "BCV",
+                "bic": "BICBIC22123",
+                "clearing": "234234",
+                "acc_number": "01-044443-7",
+            }
+        )
+
+        bank_account = self.env["res.partner.bank"].create(
+            {
+                "partner_id": self.michel.commercial_partner_id.id,
+                "bank_id": bank.id,
+                "acc_number": "01-044443-7",
+                "l10n_ch_isr_subscription_chf": "010444437",
+            }
+        )
+        self.mandates = self.env["account.banking.mandate"].search(
+            [("partner_id", "=", self.michel.commercial_partner_id.id)]
+        )
+        self.mandates.write({"state": "draft"})
+        bank_account.mandate_ids = self.mandates
+        self.michel.commercial_partner_id.bank_ids = bank_account
 
         f_path = "addons/partner_communication_switzerland/static/src/test.pdf"
         with file_open(f_path, "rb") as pdf_file:
@@ -232,3 +233,53 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertEqual(len(new_job), 1)
         self.assertTrue(new_job.send())
         self.assertIn("A password reset was requested", new_job.body_html)
+
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_pdf)
+    def test_co_3598(self, get_pdf, update_hold):
+        update_hold.return_value = True
+        f_path = "addons/partner_communication_switzerland/static/src/test.pdf"
+        with file_open(f_path, "rb") as pdf_file:
+            get_pdf.return_value = (pdf_file.read(), "pdf")
+
+        child = self.create_child(self.ref(11))
+        partner = self.michel
+        correspondent = self.david
+
+        correspondent.letter_delivery_preference = "both"
+        sponsorship = self.create_contract(
+            {
+                "partner_id": partner.id,
+                "group_id": self.sp_group.id,
+                "child_id": child.id,
+                "correspondent_id": correspondent.id
+            },
+            [{"amount": 50.0}],
+        )
+
+        self.validate_sponsorship(sponsorship)
+
+        default_template = self.env.ref("sbc_compassion.default_template")
+        correspondence = self.env["correspondence"].create({
+            "sponsorship_id": sponsorship.id,
+            "direction": "Beneficiary To Supporter",
+            "template_id": default_template.id,
+            "letter_image": base64.b64encode(get_pdf.return_value[0]),
+        })
+
+        correspondence.send_communication()
+        communication = correspondence.communication_id
+
+        self.assertEqual(self.david, communication.partner_id)
+        self.assertEqual(communication.send_mode, "both")
+
+        self.assertTrue(communication.send())
+
+        self.assertEqual(communication.state, "pending")
+        self.assertEqual(communication.send_mode, "physical")
+
+        self.assertTrue(communication.send())
+
+        self.assertEqual(communication.state, "done")
+
+
