@@ -47,14 +47,18 @@ class MassMailingContact(models.Model):
         out = super().write(values)
         # can't be simplified because we are looking for is_email_valid == False
         # AND is_email_valid is in values (return None otherwise)
-        if values.get('is_email_valid') is False:
+        if values.get("is_email_valid") is False:
+
+            bounced = values.get("message_bounce", 0) > 0
+
             for invalid_contact in self:
 
                 ref_partner = invalid_contact.partner_id
                 if ref_partner:
                     vals = {
                         "invalid_mail": invalid_contact.email,
-                        "email": False
+                        "email": False,
+                        "bounced": bounced
                     }
                     # Here we don't want to remove contact from Mailchimp: the info already comes from Mailchimp.
                     ref_partner.with_context(recompute=False, import_from_mailchimp=True, no_need=True).write(vals)
@@ -73,10 +77,16 @@ class MassMailingContact(models.Model):
                         body=_("Mailchimp detected an invalid email address"),
                         subject=ref_partner.invalid_mail
                     )
-                else:
-                    invalid_contact.unlink()
 
+                if not ref_partner or bounced:
+                    invalid_contact.with_delay().delay_contact_unlink()
         return out
+
+    @job(default_channel="root.mass_mailing_switzerland.delay_contact_unlink")
+    def delay_contact_unlink(self):
+        """Delay contact unlink to prevent potential issue if we removed it directly on write."""
+        self.unlink()
+
 
     @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
     @api.model
