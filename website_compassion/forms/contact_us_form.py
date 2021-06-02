@@ -96,7 +96,7 @@ class ContactUsForm(models.AbstractModel):
             "user_id": False,
             "language": self.main_object.detect_lang(values.get("name")).lang_id.code,
             "email_from": self.partner_id.email,
-
+            "stage_id": self.sudo().env.ref("crm_claim.stage_claim1").id,
         })
 
     def form_after_create_or_update(self, values, extra_values):
