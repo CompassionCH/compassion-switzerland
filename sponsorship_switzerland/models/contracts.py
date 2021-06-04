@@ -192,14 +192,7 @@ class RecurringContracts(models.Model):
         """ Hook for doing something when contract is activated.
         Update partner to add the 'Sponsor' category
         """
-        if self.mapped("partner_id.activity_ids") or self.mapped(
-                "correspondent_id.activity_ids"):
-            raise UserError(
-                _("Please verify the partner before validating the sponsorship")
-            )
-
         super().contract_active()
-
         sponsor_cat_id = self.env.ref(
             "partner_compassion.res_partner_category_sponsor"
         ).id
@@ -393,15 +386,6 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondent_id.write(
                     {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
                 )
-
-    def create(self, vals):
-        new_sponsorship = super().create(vals)
-        partners = new_sponsorship.partner_id
-        for contact in partners.filtered(lambda c: c.mass_mailing_contact_ids):
-            for mass_mailing_contact in contact.mass_mailing_contact_ids:
-                mass_mailing_contact.compute_sponsored_child_fields()
-                mass_mailing_contact.action_update_to_mailchimp()
-        return new_sponsorship
 
     def check_mandate_needed(self, old_payment_modes):
         """ Change state of contract if payment is changed to/from LSV or DD.
