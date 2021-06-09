@@ -84,6 +84,9 @@ class SmsRequest(models.Model):
         if not self.event_id:
             self.child_id.write({"state": "N"})
             self.child_id.add_to_wordpress()
+            self.hold_id.write({
+                "expiration_date": self.hold_id.expiration_date + relativedelta(weeks=1)
+            })
         return super().cancel_request()
 
     @job(default_channel="root.sms_request")
