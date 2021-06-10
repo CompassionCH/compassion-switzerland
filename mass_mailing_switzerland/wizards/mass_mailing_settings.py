@@ -28,8 +28,9 @@ class MassMailingSettings(models.TransientModel):
         country_filter_id = self.mass_mailing_country_filter_id.id or 0
         if country_filter_id != self.get_param("mass_mailing_country_filter_id"):
             # Recompute mailchimp merge fields
-            self.env["mail.mass_mailing.contact"].with_delay()\
-                .update_all_merge_fields_job()
+            self.env["mail.mass_mailing.contact"].search([
+                ("list_ids.mailchimp_list_id", "!=", False)
+            ]).process_mailchimp_update()
             self.env["ir.config_parameter"].sudo().set_param(
                 "mass_mailing_switzerland.country_filter_id",
                 str(country_filter_id),

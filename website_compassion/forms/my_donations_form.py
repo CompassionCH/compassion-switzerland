@@ -38,9 +38,10 @@ class PaymentOptionsForm(models.AbstractModel):
     bvr_reference = None
 
     _form_model_fields = [
-        "payment_mode",
-        "payment_frequency",
-        "additional_amount",
+        "advance_billing_months",
+        "recurring_unit",
+        "bvr_reference",
+        "payment_mode_id"
     ]
     _form_fields_order = [
         "payment_mode",
@@ -75,12 +76,29 @@ class PaymentOptionsForm(models.AbstractModel):
 
     def form_init(self, request, main_object=None, **kw):
         form = super(PaymentOptionsForm, self).form_init(
-            request, main_object, **kw
+            request, main_object.sudo(), **kw
         )
         # Set default value
         form.additional_amount = kw["total_amount"]
         form.bvr_reference = kw["bvr_reference"]
         return form
+
+    def _if_needed(self, dic):
+        """
+        Update the dictionary only if needed. If values changes from stored
+        :param dic: the dic to check
+        :return: dic with non needed key removed
+        """
+        res = {}
+        for key, val in dic.items():
+            if not self.main_object[key] == val:
+                res.update({key: val})
+
+        # manual check for payment_mode_id
+        if "payment_mode_id" in dic and dic["payment_mode_id"] == self.main_object["payment_mode_id"].id:
+            del res["payment_mode_id"]
+
+        return res
 
     def form_extract_values(self, **request_values):
         values = super(PaymentOptionsForm, self).form_extract_values(
@@ -154,8 +172,7 @@ class PaymentOptionsForm(models.AbstractModel):
                     amount -= amount_for_child
             del values[key]
 
-        self.main_object.write(group_vals)
-        return values
+        return self._if_needed(group_vals)
 
 
 class PaymentOptionsMultipleForm(models.AbstractModel):

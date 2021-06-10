@@ -276,6 +276,9 @@ class ResPartner(models.Model):
         """
         Update the sponsorship number for the related church as well.
         """
+        church_to_update = self.filtered(lambda x: x.church_id and x.church_id != x).mapped("church_id")
+        if church_to_update:
+            church_to_update.update_number_sponsorships()
         return super().update_number_sponsorships()
 
     @api.depends("survey_inputs")
@@ -621,6 +624,14 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
+
+    @api.constrains("church_id")
+    def _check_church_id(self):
+        for record in self:
+            if record.is_church and record.church_id:
+                raise models.ValidationError(
+                    'Can not both be and have a church')
+
     @api.model
     def _address_fields(self):
         """ Returns the list of address fields that are synced from the parent

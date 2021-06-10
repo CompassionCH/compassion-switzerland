@@ -44,7 +44,7 @@ class MailTrackingEvent(models.Model):
             )
             del to_write["email"]
             subject = _(
-                "Email invalid! An error occurred: " + metadata.get("error_type")
+                "Email invalid! An error occurred: " + metadata.get("error_type", "")
             )
             body = _(staff_email_body)
             partner.message_post(
@@ -61,7 +61,7 @@ class MailTrackingEvent(models.Model):
     def process_hard_bounce(self, tracking_email, metadata):
         body = (
             "Warning : Sponsor's Email is invalid!\nError description: "
-            + metadata.get("error_description")
+            + metadata.get("error_description", "")
         )
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
         return super().process_hard_bounce(tracking_email, metadata)
@@ -70,7 +70,7 @@ class MailTrackingEvent(models.Model):
     def process_soft_bounce(self, tracking_email, metadata):
         body = _(
             "Warning : Sponsor's Email is invalid!\n Error description: "
-            + metadata.get("error_description")
+            + metadata.get("error_description", "")
         )
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
         return super().process_soft_bounce(tracking_email, metadata)
@@ -91,7 +91,7 @@ class MailTrackingEvent(models.Model):
     def process_reject(self, tracking_email, metadata):
         body = _(
             "Warning : There is a problem with this Sponsor's Email. \n"
-            "reason: " + metadata.get("error_type")
+            "reason: " + metadata.get("error_type", "")
         )
         self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
 

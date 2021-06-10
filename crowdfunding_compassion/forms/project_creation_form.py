@@ -338,7 +338,7 @@ class ProjectCreationStep3(models.AbstractModel):
                 "partner_title",
                 "partner_firstname",
                 "partner_lastname",
-                "partner_birthdate",
+                "partner_birthdate_date",
                 "partner_street",
                 "partner_zip",
                 "partner_city",
@@ -370,7 +370,7 @@ class ProjectCreationStep3(models.AbstractModel):
 
     def form_get_widget(self, fname, field, **kw):
         """Retrieve and initialize widget."""
-        if fname == "partner_birthdate":
+        if fname == "partner_birthdate_date":
             if kw is None:
                 kw = {}
             kw["max_date"] = datetime.now().isoformat()
@@ -383,7 +383,7 @@ class ProjectCreationStep3(models.AbstractModel):
         res = super().form_widgets
         res.update({
             "partner_image": "cms_form_compassion.form.widget.simple.image",
-            "partner_birthdate": "cms.form.widget.date.ch",
+            "partner_birthdate_date": "cms.form.widget.date.ch",
         })
         return res
 
@@ -401,8 +401,8 @@ class ProjectCreationStep3(models.AbstractModel):
     #################
     def form_before_create_or_update(self, values, extra_values):
         # Put a default spoken language
-        if "partner_birthdate" in extra_values and \
-                extra_values["partner_birthdate"] > datetime.now().date():
+        if "partner_birthdate_date" in extra_values and \
+                extra_values["partner_birthdate_date"] > datetime.now().date():
             raise InvalidDateException
         for key in ["participant_facebook_url",
                     "participant_twitter_url",

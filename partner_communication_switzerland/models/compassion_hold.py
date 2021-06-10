@@ -156,8 +156,10 @@ class CompassionHold(models.Model):
                     sponsorship.state == "mandate" and sponsor.bank_ids
             ):
                 try:
+                    previous_extension = hold.no_money_extension
                     super(CompassionHold, hold).postpone_no_money_hold()
-                    hold.no_money_extension -= 1
+                    if previous_extension < hold.no_money_extension:
+                        hold.no_money_extension = previous_extension
                     continue
                 except:
                     failed += hold

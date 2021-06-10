@@ -11,3 +11,4 @@
 from . import test_bug_fixes
 from . import test_sms_communication
 from . import test_sms_provider
+from . import test_hold_expiration

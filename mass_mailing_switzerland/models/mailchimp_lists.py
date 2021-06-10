@@ -19,3 +19,10 @@ class MailchimpLists(models.Model):
         return super(MailchimpLists,
                      self.with_context(import_from_mailchimp=True)
                      ).process_member_from_stored_response(pending_record)
+
+    @api.multi
+    def get_mapped_merge_field(self):
+        res = super().get_mapped_merge_field()
+        res.extend([
+            "lastname", "firstname", "number_sponsorships", "opt_out", "category_id"])
+        return res

@@ -53,7 +53,7 @@ class EventRegistrationForm(models.AbstractModel):
                     "partner_zip",
                     "partner_city",
                     "partner_country_id",
-                    "partner_birthdate",
+                    "partner_birthdate_date",
                 ],
             }
         ]
@@ -62,7 +62,7 @@ class EventRegistrationForm(models.AbstractModel):
     def form_widgets(self):
         res = super().form_widgets
         res.update(
-            {"partner_birthdate": "cms.form.widget.date.ch", }
+            {"partner_birthdate_date": "cms.form.widget.date.ch", }
         )
         return res
 
