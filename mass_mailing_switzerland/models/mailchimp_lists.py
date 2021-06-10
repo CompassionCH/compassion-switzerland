@@ -23,5 +23,6 @@ class MailchimpLists(models.Model):
     @api.multi
     def get_mapped_merge_field(self):
         res = super().get_mapped_merge_field()
-        res.extend(["lastname", "firstname", "number_sponsorships", "opt_out"])
+        res.extend([
+            "lastname", "firstname", "number_sponsorships", "opt_out", "category_id"])
         return res

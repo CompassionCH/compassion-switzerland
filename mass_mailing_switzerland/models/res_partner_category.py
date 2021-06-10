@@ -27,5 +27,6 @@ class ResPartnerCategory(models.Model):
                 "tag_ids": [(4, tag.id)]
             })
             to_update = old_partners ^ new_partners
-            to_update.mapped("mass_mailing_contact_ids").process_mailchimp_update()
+            self.env["res.partner"].browse(to_update).mapped(
+                "mass_mailing_contact_ids").process_mailchimp_update()
         return True

@@ -172,6 +172,17 @@ class MassMailingContact(models.Model):
 
     @api.multi
     def write(self, values):
+        if values.get("email"):
+            # Check for duplicates when changing the email.
+            changed = self.filtered(lambda c: c.email != values["email"])
+            other_contacts = self.search([
+                ("email", "=", values["email"]),
+                ("id", "not in", changed.ids)
+            ])
+            if other_contacts:
+                values["partner_ids"] = [(4, c.id) for c in self.mapped("partner_ids")]
+                changed.delay_contact_unlink()
+                return super(MassMailingContact, other_contacts).write(values)
         out = super().write(values)
         # can't be simplified because we are looking for is_email_valid == False
         # AND is_email_valid is in values (return None otherwise)
@@ -213,7 +224,8 @@ class MassMailingContact(models.Model):
         ])
         to_update = self
         if queue_job:
-            args = ",".join(queue_job.mapped("args"))
+            args = [
+                item for sublist in queue_job.mapped("args") for item in sublist]
             for contact in self:
                 if contact.id in args:
                     to_update -= contact
@@ -232,7 +244,7 @@ class MassMailingContact(models.Model):
     @api.multi
     @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
     def action_update_to_mailchimp(self):
-        """
+        """Synchronize Contacts to Mailchimp.
         Always export in english so that all tags are set in English
         """
         out = True
