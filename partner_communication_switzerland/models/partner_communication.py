@@ -66,7 +66,8 @@ class PartnerCommunication(models.Model):
 
     def filter_not_read(self):
         """
-        Useful for checking if the communication was read by the sponsor. Printed letters are always treated as read.
+        Useful for checking if the communication was read by the sponsor.
+        Printed letters are always treated as read.
         Returns only the communications that are not read.
         """
         not_read = self.env[self._name]
@@ -78,15 +79,17 @@ class PartnerCommunication(models.Model):
             FULL JOIN mail_tracking_event tevent ON tevent.tracking_email_id = tmail.id
             WHERE m.id = %s
             AND (
-                m.state = 'received'
-                OR tevent.event_type IN ('delivered', 'open', 'click')
-                OR tmail.state IN ('delivered', 'opened')
+                m.state IN ('exception', 'cancel')
+                OR tevent.event_type IN (
+                    'hard_bounce', 'soft_bounce', 'spam', 'reject')
+                OR tmail.state IN (
+                    'error', 'rejected', 'spam', 'bounced', 'soft-bounced')
             )
         """
         for communication in self:
             if communication.email_id:
                 self.env.cr.execute(query_sql, [communication.email_id.id])
-                if not self.env.cr.rowcount:
+                if self.env.cr.rowcount:
                     not_read += communication
             elif communication.state == 'done' and communication.send_mode == 'digital':
                 not_read += communication
