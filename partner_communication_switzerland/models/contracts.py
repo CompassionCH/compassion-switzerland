@@ -639,10 +639,10 @@ class RecurringContract(models.Model):
         sub_accept = self.env.ref(module + "sponsorship_sub_accept")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
-        if self.origin_id.type == "transfer":
-            configs = transfer
-        elif self.parent_id.sds_state == "sub":
+        if self.parent_id.sds_state == "sub":
             configs = sub_accept
+        elif self.origin_id.type == "transfer":
+            configs = transfer
         elif not partner.email or \
                 partner.global_communication_delivery_preference == "physical":
             configs = print_wrpr if self.type == "SC" and partner != self.partner_id \
