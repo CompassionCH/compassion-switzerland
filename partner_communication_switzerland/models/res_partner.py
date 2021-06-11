@@ -333,7 +333,7 @@ class ResPartner(models.Model):
 
         # use signup prepare to generate a token valid 1 day for password reset
         expiration = now(days=+1)
-        self.signup_prepare(
+        self.sudo().signup_prepare(
             signup_type="reset", expiration=expiration
         )
 
