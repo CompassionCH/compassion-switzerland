@@ -35,8 +35,9 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "report_compassion",  # compassion-switzerland
-        "child_switzerland",  # compassion-switzerland
+        "report_compassion",
+        "child_switzerland",
+        "theme_compassion",
         "sms_939",  # compassion-switzerland
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
@@ -54,6 +55,7 @@
     },
     "data": [
         "security/ir.model.access.csv",
+        "security/access_rules.xml",
         "data/major_revision_emails.xml",
         "data/child_letter_emails.xml",
         "data/lifecycle_emails.xml",
@@ -88,7 +90,9 @@
         "views/res_partner_zoom_session.xml",
         "views/field_office_view.xml",
         "views/communication_test_case_view.xml",
+        "views/notification_settings_view.xml",
         "wizards/res_partner_create_portal_wizard.xml",
+        "templates/zoom_registration_form.xml",
     ],
     "demo": [],
     "installable": True,
