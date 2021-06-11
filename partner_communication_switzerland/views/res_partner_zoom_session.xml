@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- Zoom Session -->
     <record id="view_zoom_session_form" model="ir.ui.view">
         <field name="name">res.partner.zoom.session.form</field>
         <field name="model">res.partner.zoom.session</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar"/>
+                    <button type="object" name="cancel" string="Cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planned,done"/>
                 </header>
                 <sheet>
                     <div class="oe_right oe_button_box" name="buttons">
@@ -15,11 +17,10 @@
                         <group>
                             <field name="date_start"/>
                             <field name="lang"/>
-                            <field name="invited_participant_ids" widget="many2many_tags"/>
+                            <field name="participant_ids" widget="many2many_tags" context="{'default_zoom_session_id': active_id}" options="{'color_field': 'color'}"/>
                         </group>
                         <group>
                             <field name="date_stop"/>
-                            <field name="attended_participant_ids" widget="many2many_tags" states="done" domain="[('id', 'in', invited_participant_ids.ids)]"/>
                         </group>
                     </group>
                     <group>
@@ -89,4 +90,27 @@
               parent="child_compassion.menu_sponsorship_section"
               name="Sponsor Zoom Sessions"
               action="action_zoom_session"/>
+
+    <!-- Zoom attendee -->
+    <record id="view_zoom_attendee_form" model="ir.ui.view">
+        <field name="name">res.partner.zoom.attendee.form</field>
+        <field name="model">res.partner.zoom.attendee</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="zoom_session_id"/>
+                        <field name="partner_id"/>
+                        <field name="state"/>
+                        <field name="optional_message"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
 </odoo>
