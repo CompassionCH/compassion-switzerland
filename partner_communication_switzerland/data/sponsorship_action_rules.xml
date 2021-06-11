@@ -35,6 +35,20 @@
         <field name="code">records.send_unread_b2s()</field>
     </record>
 
+    <!-- Rule for sending SUB proposal -->
+    <record id="sub_proposal_rule" model="base.automation">
+        <field name="name">Sponsorship SUB Proposal</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="sponsorship_tracking.field_recurring_contract__sds_state_date"/>
+        <field name="filter_domain">[('sds_state','=','sub'),('sub_sponsorship_id.state','=','draft'),('correspondent_id.lang','in',('de_DE','fr_CH'))]</field>
+        <field name="trg_date_range">6</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="partner_communication_switzerland.planned_sub_dossier"/>
+        <field name="partner_field">correspondent_id</field>
+    </record>
+
     <!-- Rules for zoom sessions -->
     <record id="zoom_session_reminder" model="base.automation">
         <field name="name">Zoom Sessions: send reminder</field>

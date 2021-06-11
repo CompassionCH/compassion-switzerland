@@ -640,7 +640,7 @@ class RecurringContract(models.Model):
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
-            configs = sub_accept
+            configs = sub_accept + child_picture
         elif self.origin_id.type == "transfer":
             configs = transfer
         elif not partner.email or \
