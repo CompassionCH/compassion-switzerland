@@ -16,7 +16,7 @@
 ${partner.salutation}
                 </p>
                 <p>
-We have good news for you: after ${(datetime.datetime.now() - sponsorship[:1].start_date).days // 364} of sponsorship with faithful support from you and the staff at the Compassion center, ${firstname} will be ending the sponsorship program.
+We have good news for you: after ${(datetime.datetime.now() - sponsorship[:1].start_date).days // 364} years of sponsorship with faithful support from you and the staff at the Compassion center, ${firstname} will be ending the sponsorship program.
                 </p>
                 <p>
 What a joy and gratitude!
