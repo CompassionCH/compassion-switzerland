@@ -29,6 +29,25 @@ mock_get_pdf = (
     "models.ir_actions_report.IrActionsReport.render_qweb_pdf"
 )
 
+mock_release_hold = (
+    "odoo.addons.child_compassion.models.compassion_hold" ".CompassionHold.release_hold"
+)
+mock_get_infos = (
+    "odoo.addons.child_compassion.models.child_compassion" ".CompassionChild.get_infos"
+)
+mock_invoicer = (
+    "odoo.addons.recurring_contract.models.contract_group"
+    ".ContractGroup.generate_invoices"
+)
+mock_cleaner = (
+    "odoo.addons.recurring_contract.models.recurring_contract"
+    ".RecurringContract.clean_invoices"
+)
+mock_lifecycle = (
+    "odoo.addons.child_compassion.models.child_compassion"
+    ".CompassionChild.get_lifecycle_event"
+)
+
 class TestSponsorship(BaseSponsorshipTest):
     def setUp(self):
         super().setUp()
@@ -282,4 +301,68 @@ class TestSponsorship(BaseSponsorshipTest):
 
         self.assertEqual(communication.state, "done")
 
+    @mock.patch(mock_lifecycle)
+    @mock.patch(mock_update_hold)
+    @mock.patch(mock_get_infos)
+    @mock.patch(mock_invoicer)
+    @mock.patch(mock_cleaner)
+    @mock.patch(mock_release_hold)
+    def test_draft_sub_cancel_communication(
+            self, release_mock, cleaner, invoicer, get_infos, hold_mock, lifecyle_mock
+    ):
+        hold_mock.return_value = True
+        get_infos.return_value = True
+        invoicer.return_value = True
+        cleaner.return_value = True
+        release_mock.return_value = True
+        lifecyle_mock.return_value = True
 
+        child = self.create_child(self.ref(11))
+        partner = self.michel
+
+        sponsorship = self.create_contract(
+            {
+                "partner_id": partner.id,
+                "group_id": self.sp_group.id,
+                "child_id": child.id,
+            },
+            [{"amount": 50.0}],
+        )
+
+        sponsorship.force_activation()
+
+        self.assertTrue(sponsorship.is_active)
+
+        child.child_departed()
+        self.assertEqual(sponsorship.sds_state, "sub_waiting")
+
+        sub_child = self.create_child(self.ref(11))
+
+        self.env["sds.subsponsorship.wizard"].with_context(active_id=sponsorship.id).create(
+            {"state": "sub", "channel": "direct", "child_id": sub_child.id}).create_subsponsorship()
+
+        subsponsorship = sub_child.sponsorship_ids
+
+        self.assertEqual(subsponsorship.state, "draft")
+
+        no_sub = self.env.ref("partner_communication_switzerland.planned_no_sub")
+
+        # Setup a sponsorship end wizard and put and end to the subsponsorship
+        # that we just created.
+        subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
+        self.env["end.contract.wizard"].with_context(default_type="S").create(
+            {
+                "contract_ids": [(6, 0, subsponsorship.ids)],
+                "end_reason_id": subreject.id,
+            }
+        ).end_contract()
+
+        self.assertEqual(subsponsorship.state, "cancelled")
+
+        no_sub_comm = self.env["partner.communication.job"].search([
+            ("partner_id", "=", partner.id),
+            ("config_id", "=", no_sub.id),
+            ("object_ids", "=", subsponsorship.ids)
+        ])
+
+        self.assertNotEqual(no_sub_comm, False)
