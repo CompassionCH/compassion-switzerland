@@ -605,6 +605,13 @@ class RecurringContract(models.Model):
     def _is_unexpected_end(self):
         """Check if sponsorship hold had an unexpected end or not."""
         self.ensure_one()
+
+        # subreject could happened before hold expiration and should not be considered as unexpected
+        subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
+
+        if self.end_reason_id == subreject:
+            return False
+
         return self.hold_id and not datetime.now() > self.hold_id.expiration_date
 
     def _new_dossier(self):
