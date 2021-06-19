@@ -92,7 +92,11 @@ class UtmObjects(models.AbstractModel):
         # Put a nice formatting
         for utm in self:
             total_donation = 0
-            for invoice in utm.invoice_line_ids.filtered(lambda line: line.state == "paid"):
+            for invoice in utm.invoice_line_ids.filtered(
+                lambda line: line.state == "paid"
+                and not line.contract_id
+                and line.invoice_id.type == "out_invoice"
+                ):
                 total_donation += invoice.price_subtotal
             utm.donation_amount = total_donation
             utm.total_donation = (
