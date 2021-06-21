@@ -642,7 +642,7 @@ class PartnerCommunication(models.Model):
         attachments.update(self.get_childpack_attachment())
         write_sponsorships = self.get_objects().filtered(
             lambda s: s.correspondent_id == self.partner_id)
-        if write_sponsorships:
+        if write_sponsorships and self.send_mode == "physical":
             attachments.update(self.get_label_attachment(write_sponsorships))
 
         # Child picture
