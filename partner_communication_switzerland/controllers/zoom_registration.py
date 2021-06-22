@@ -20,10 +20,16 @@ _logger = logging.getLogger(__name__)
 
 
 class ZoomRegistration(Controller, FormControllerMixin):
-    @http.route("/zoom/<model('res.partner.zoom.session'):session>/register",
-                type="http", auth="public", methods=["GET", "POST"], website=True,
-                sitemap=False)
-    def zoom_registration(self, session, **kwargs):
+    @http.route(
+        [
+            "/zoom/<model('res.partner.zoom.session'):session>/register",
+            "/zoom/register"
+        ],
+        type="http", auth="public", methods=["GET", "POST"], website=True,
+        sitemap=False)
+    def zoom_registration(self, session=None, **kwargs):
+        if session is None:
+            session = request.env["res.partner.zoom.session"].get_next_session()
         if not session.website_published:
             raise Unauthorized()
         participant = request.env["res.partner.zoom.attendee"]

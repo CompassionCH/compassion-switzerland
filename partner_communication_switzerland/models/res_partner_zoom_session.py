@@ -72,13 +72,16 @@ class ZoomSession(models.Model):
     def get_next_session(self, date_start=None):
         """ Returns the next session (depending on context language) """
         if date_start is None:
-            date_start = fields.Date.today()
-        if self and len(self) == 1:
-            date_start = fields.Date.to_string(self.date_start)
+            if self and len(self) == 1:
+                date_start = fields.Datetime.to_string(self.date_start)
+            else:
+                date_start = fields.Datetime.now()
+        elif not isinstance(date_start, str):
+            date_start = fields.Datetime.to_string(date_start)
         return self.search([
             ("state", "=", "planned"),
             ("lang", "=", self.env.lang),
-            ("date_start", ">=", date_start)
+            ("date_start", ">", date_start)
         ], order="date_start asc", limit=1)
 
     @api.multi
@@ -111,7 +114,7 @@ class ZoomSession(models.Model):
             self.participant_ids.create([{
                 "partner_id": p.id,
                 "zoom_session_id": self.id
-            } for p in partners])
+            } for p in partners if p not in self.participant_ids.mapped("partner_id")])
         return True
 
     @api.multi

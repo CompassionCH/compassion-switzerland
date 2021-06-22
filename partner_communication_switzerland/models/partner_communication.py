@@ -455,6 +455,7 @@ class PartnerCommunication(models.Model):
         - Postpone no money holds when reminders sent.
         - Update donor tag
         - Sends SMS for sms send_mode
+        - Add to zoom session when zoom invitation is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -498,8 +499,8 @@ class PartnerCommunication(models.Model):
         super(PartnerCommunication, other_jobs).send()
         b2s_printed = other_jobs.filtered(
             lambda c: c.config_id.model == "correspondence"
-                      and c.send_mode == "physical"
-                      and c.state == "done"
+            and c.send_mode == "physical"
+            and c.state == "done"
         )
         if b2s_printed:
             letters = b2s_printed.get_objects()
@@ -541,6 +542,17 @@ class PartnerCommunication(models.Model):
                       and donor not in j.partner_id.category_id
         ).mapped("partner_id")
         partners.write({"category_id": [(4, donor.id)]})
+
+        zoom_invitation = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_step1"
+        )
+        for invitation in other_jobs.filtered(
+                lambda j: j.config_id == zoom_invitation and
+                j.get_objects().filtered("is_first_sponsorship")):
+            next_zoom = self.env["res.partner.zoom.session"].with_context(
+                lang=invitation.partner_id.lang).get_next_session()
+            if next_zoom:
+                next_zoom.add_participant(invitation.partner_id)
 
         return True
 
