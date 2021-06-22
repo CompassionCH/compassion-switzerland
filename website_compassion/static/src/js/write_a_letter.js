@@ -229,7 +229,10 @@ document.getElementById("file_selector").onchange = function(event) {
 
     for (var i = 0 ; i < input_images.length ; i++) {
         const file = input_images[i];
-        if (!images_list.containsFile(file.name, file.size, file.type)) {
+
+        const is_image = file.type.startsWith("image/");
+
+        if (is_image && !images_list.containsFile(file.name, file.size, file.type)) {
 
             new_images = new_images.concat(file);
             images_list = images_list.concat(file);
