@@ -59,7 +59,7 @@ class ZoomAttendee(models.Model):
                 # Notify the staff
                 lang = attendee.partner_id.lang[:2]
                 user_id = self.env["res.config.settings"].get_param(
-                    f"partner_communication_switzerland.zoom_attendee_{lang}_id")
+                    f"zoom_attendee_{lang}_id")
                 if user_id:
                     attendee.activity_schedule(
                         "mail.mail_activity_data_todo",
@@ -74,7 +74,7 @@ class ZoomAttendee(models.Model):
         self.ensure_one()
         lang = self.partner_id.lang[:2]
         user_id = self.env["res.config.settings"].get_param(
-            f"partner_communication_switzerland.zoom_attendee_{lang}_id")
+            f"zoom_attendee_{lang}_id")
         if user_id:
             self.activity_schedule(
                 "mail.mail_activity_data_todo",
