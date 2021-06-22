@@ -483,6 +483,13 @@ class RecurringContract(models.Model):
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
+
+        for contract in self:
+            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
+                lambda c: c.state != "cancelled" and c.start_date
+                and c.start_date < contract.start_date)
+            contract.is_first_sponsorship = not old_sponsorships
+
         self.filtered(
             lambda c: "S" in c.type
                       and not c.is_active
@@ -500,11 +507,6 @@ class RecurringContract(models.Model):
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
 
-        for contract in self:
-            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
-                lambda c: c.state != "cancelled" and c.start_date
-                and c.start_date < contract.start_date)
-            contract.is_first_sponsorship = not old_sponsorships
 
         return res
 

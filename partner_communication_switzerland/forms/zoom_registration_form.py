@@ -63,7 +63,7 @@ class ZoomRegistrationForm(models.AbstractModel):
     def _form_create(self, values):
         # Create as sudo user
         try:
-            return super(ZoomRegistrationForm, self.sudo())._form_create(values)
+            self.main_object = self.form_model.sudo().create(values.copy())
         except IntegrityError:
             # Make error message more friendly
             raise IntegrityError(_("You are already registered for this session."))
@@ -76,6 +76,6 @@ class ZoomRegistrationForm(models.AbstractModel):
         self.main_object.sudo().send_confirmation()
 
     @property
-    def form_success(self):
+    def form_msg_success_created(self):
         return _("Thank you for your registration,"
                  "you will get a confirmation by email.")
