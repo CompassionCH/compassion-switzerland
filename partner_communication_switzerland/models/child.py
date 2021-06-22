@@ -96,12 +96,11 @@ class CompassionChild(models.Model):
                 continue
             if child.lifecycle_ids[0].type == "Planned Exit":
                 communication_type = self.env.ref(
-                    "partner_communication_switzerland." "lifecycle_child_planned_exit"
+                    "partner_communication_switzerland.lifecycle_child_planned_exit"
                 )
             else:
                 communication_type = self.env.ref(
-                    "partner_communication_switzerland."
-                    "lifecycle_child_unplanned_exit"
+                    "partner_communication_switzerland.lifecycle_child_unplanned_exit"
                 )
             sponsorship.send_communication(communication_type, both=True)
         super().depart()

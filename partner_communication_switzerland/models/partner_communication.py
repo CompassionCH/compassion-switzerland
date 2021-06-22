@@ -402,7 +402,9 @@ class PartnerCommunication(models.Model):
         blank_communication = self._get_pdf_from_data({
             "doc_ids": self.ids
         }, self.env.ref("report_compassion.report_blank_communication"))
-        attachments.update({"cover.pdf": ["report_compassion.blank_communication", blank_communication]})
+        attachments.update({
+            "cover.pdf": ["report_compassion.blank_communication", blank_communication]
+        })
         return attachments
 
     def get_childpack_attachment(self):
