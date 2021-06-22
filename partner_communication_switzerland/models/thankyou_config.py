@@ -22,5 +22,5 @@ class ThankYouConfig(models.Model):
             # Will return the largest donation configuration
             return self.filtered(lambda x:
                                  x.lang is False or
-                                 invoice_lines.partner_id.lang == x.lang).sorted()[-1]
+                                 invoice_lines.mapped("partner_id").lang == x.lang).sorted()[-1]
         return super().for_donation(invoice_lines)
