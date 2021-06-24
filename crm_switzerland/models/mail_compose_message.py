@@ -43,7 +43,7 @@ class MailComposer(models.TransientModel):
             result["value"]["attachment_ids"] = payment_slips.ids
 
         if template_name == "Christmas Gift Fund":
-            refs = ["gen_christmas"]
+            refs = ["noel"]
             report = self.env.ref("report_compassion.report_bvr_fund")
             payment_slips = self.get_payment_slips(refs, report, partner.id)
             result["value"]["attachment_ids"] = payment_slips.ids
