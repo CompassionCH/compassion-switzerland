@@ -11,7 +11,7 @@
                 <p>
                     % set partner = object.partner_id
                     % set sponsorship = object.get_objects()
-                    % set child = child.mapped('child_id')
+                    % set child = sponsorship.mapped('child_id')
                     % set firstname = child.get_list('preferred_name',translate=False)
 ${partner.salutation}
                 </p>
