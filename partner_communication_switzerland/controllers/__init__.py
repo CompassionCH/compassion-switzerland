@@ -8,3 +8,4 @@
 #
 ##############################################################################
 from . import b2s_image
+from . import zoom_registration

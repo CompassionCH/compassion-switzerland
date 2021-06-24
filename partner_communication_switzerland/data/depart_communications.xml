@@ -1,5 +1,40 @@
 <odoo>
     <data noupdate="1">
+        <record id="email_planned_exit_notification" model="mail.template">
+            <field name="name">Notification Planned Exit</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">We have good news about ${object.get_objects().mapped('child_id').get_list('preferred_name',translate=False)}!</field>
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set sponsorship = object.get_objects()
+                    % set child = sponsorship.mapped('child_id')
+                    % set firstname = child.get_list('preferred_name',translate=False)
+${partner.salutation}
+                </p>
+                <p>
+We have good news for you: after ${(datetime.datetime.now() - sponsorship[:1].start_date).days // 364} years of sponsorship with faithful support from you and the staff at the Compassion center, ${firstname} will be ending the sponsorship program.
+                </p>
+                <p>
+What a joy and gratitude!
+                </p>
+                <p>
+You will receive more detailed information about the end of this sponsorship in the coming days.
+                </p>
+                <p>
+Thank you for your investment in the life of ${firstname}.
+                </p>
+                <p>
+With our best regards and see you soon!
+                </p>
+                <div>
+${object.user_id.signature | safe}
+                </div>
+            </field>
+        </record>
         <!-- Child Planned Exit -->
         <!-- For now, planned and unplanned exit share the same template, but they might differ. -->
         <record id="email_child_planned_exit" model="mail.template">
@@ -141,6 +176,14 @@
         </record>
 
         <!-- Communication Rules -->
+        <record id="planned_exit_notification" model="partner.communication.config">
+            <field name="name">Notification Planned Exit</field>
+            <field name="send_mode">digital</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="email_template_id" ref="email_planned_exit_notification"/>
+            <field name="model_id" ref="model_recurring_contract"/>
+        </record>
         <record id="lifecycle_child_planned_exit" model="partner.communication.config">
             <field name="name">Beneficiary Planned Exit</field>
             <field name="send_mode">physical</field>

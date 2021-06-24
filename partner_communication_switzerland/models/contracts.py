@@ -483,6 +483,13 @@ class RecurringContract(models.Model):
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
+
+        for contract in self:
+            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
+                lambda c: c.state != "cancelled" and c.start_date
+                and c.start_date < contract.start_date)
+            contract.is_first_sponsorship = not old_sponsorships
+
         self.filtered(
             lambda c: "S" in c.type
                       and not c.is_active
@@ -500,11 +507,6 @@ class RecurringContract(models.Model):
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
 
-        for contract in self:
-            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
-                lambda c: c.state != "cancelled" and c.start_date
-                and c.start_date < contract.start_date)
-            contract.is_first_sponsorship = not old_sponsorships
 
         return res
 
@@ -605,12 +607,19 @@ class RecurringContract(models.Model):
     def _is_unexpected_end(self):
         """Check if sponsorship hold had an unexpected end or not."""
         self.ensure_one()
+
+        # subreject could happened before hold expiration and should not be considered as unexpected
+        subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
+
+        if self.end_reason_id == subreject:
+            return False
+
         return self.hold_id and not datetime.now() > self.hold_id.expiration_date
 
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent.
+        correspondent. Adds new sponsors to next zoom conference.
         """
         for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
@@ -640,7 +649,7 @@ class RecurringContract(models.Model):
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
-            configs = sub_accept
+            configs = sub_accept + child_picture
         elif self.origin_id.type == "transfer":
             configs = transfer
         elif not partner.email or \

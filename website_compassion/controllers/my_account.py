@@ -297,8 +297,16 @@ class MyAccountController(PaymentFormController):
                     f"/my/children?state={state}&child_id={children[0].id}"
                 )
             partner = request.env.user.partner_id
-            letters = request.env["correspondence"].search([
-                ("partner_id", "=", partner.id),
+
+            correspondence_obj = request.env["correspondence"]
+            correspondent = partner
+
+            if partner.app_displayed_sponsorships == "all_info":
+                correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
+                correspondence_obj = correspondence_obj.sudo()
+
+            letters = correspondence_obj.search([
+                ("partner_id", "in", correspondent.ids),
                 ("child_id", "=", int(child_id)),
                 "|",
                 "&", ("direction", "=", "Supporter To Beneficiary"),

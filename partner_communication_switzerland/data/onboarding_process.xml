@@ -66,12 +66,76 @@
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
         </record>
+        <record id="mail_onboarding_zoom_link" model="mail.template">
+            <field name="name">Sponsorship Onboarding - Zoom Link</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="body_html" type="html">
+                <p>
+                    % set session = object.get_objects()
+                    ${object.partner_id.salutation}
+                </p>
+                <p>
+                    Thank you for registering for the video conference for new sponsors. We look forward to meeting you online on ${session.get_date('date_start', 'dd. MMMM')}, showing you what your sponsorship is doing, and answering your questions.
+                </p>
+                <p>
+                    Here is the link to attend the Zoom meeting at ${session.get_date('date_start', 'HH:mm')}: ${session.link}
+                </p>
+                <p>
+                    Meeting ID: ${session.meeting_id}
+                    <br/>
+                    Passcode: ${session.passcode}
+                </p>
+                <p>
+                    We'll be happy if you turn on the camera at the beginning of the meeting so we can see your face. You can also turn it off afterwards if you prefer. The sound quality is best if all participants mute their microphone when they are not speaking.
+                </p>
+                <p>
+                    You can log in ten minutes before the meeting starts. If you have any technical questions, please feel free to contact me in advance.
+                </p>
+                <p>
+                    Best regards and see you soon!
+                </p>
+                <div>
+                    ${object.user_id.signature | safe}
+                </div>
+            </field>
+        </record>
         <record id="mail_onboarding_zoom_reminder" model="mail.template">
             <field name="name">Sponsorship Onboarding - Zoom Reminder</field>
             <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
             <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True"/>
+        </record>
+        <record id="mail_onboarding_zoom_registration_confirmation" model="mail.template">
+            <field name="name">Sponsorship Onboarding - Zoom registration confirmation</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="body_html" type="html">
+                <p>
+                    % set session = object.get_objects().zoom_session_id
+                    ${object.partner_id.salutation}
+                </p>
+                <p>
+                    Thank you for your interest in the informational and sharing video conference for new sponsors.
+                </p>
+                <p>
+                    The meeting will take place on ${session.get_date('date_start', 'dd. MMMM')} at ${session.get_date('date_start', 'HH:mm')} with Zoom.
+                </p>
+                <p>
+                    We will send you all the information regarding the connection to this meeting a few days before by email or will contact you in case you have chosen a later date.
+                </p>
+                <p>
+                    Sincerely.
+                </p>
+                <div>
+                    ${object.user_id.signature | safe}
+                </div>
+            </field>
         </record>
         <record id="mail_onboarding_photo_by_post" model="mail.template">
             <field name="name">	Sponsorship Onboarding - Photo by post</field>
@@ -160,6 +224,20 @@
             <field name="report_id" ref="report_compassion.report_partner_communication"/>
             <field name="model_id" ref="model_res_partner_zoom_session"/>
         </record>
+        <record id="config_onboarding_zoom_registration_confirmation" model="partner.communication.config">
+            <field name="name">Sponsorship Onboarding - Zoom registration confirmation</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_zoom_registration_confirmation"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_res_partner_zoom_attendee"/>
+        </record>
+        <record id="config_onboarding_zoom_link" model="partner.communication.config">
+            <field name="name">Sponsorship Onboarding - Zoom link</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_zoom_link"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_res_partner_zoom_session"/>
+        </record>
         <record id="config_onboarding_first_letter" model="partner.communication.config">
             <field name="name">Sponsorship Onboarding - First B2S Letter</field>
             <field name="send_mode">digital</field>
@@ -244,6 +322,19 @@
 not_read = records.filter_not_read()
 new_comms = not_read.copy({'config_id': env.ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read').id, 'send_mode': 'physical'})
 new_comms.refresh_text()
+            </field>
+        </record>
+        <record id="onboarding_zoom_reminder_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: send zoom meeting reminder</field>
+            <field name="model_id" ref="model_res_partner_zoom_session"/>
+            <field name="trigger">on_time</field>
+            <field name="trg_date_id" ref="field_res_partner_zoom_session__date_start"/>
+            <field name="filter_domain" eval="[('state', '=', 'planned')]"/>
+            <field name="trg_date_range">-2</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">code</field>
+            <field name="code">
+records.send_reminder()
             </field>
         </record>
     </data>
