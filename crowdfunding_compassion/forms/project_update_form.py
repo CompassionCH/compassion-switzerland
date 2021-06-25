@@ -9,6 +9,8 @@
 from odoo import models, fields, _
 from odoo.http import request
 
+from ..tools.image_compression import compress_big_images
+
 
 class PartnerCoordinatesForm(models.AbstractModel):
     _name = "cms.form.crowdfunding.project.update"
@@ -99,16 +101,18 @@ class PartnerCoordinatesForm(models.AbstractModel):
         if values.get("name") or values.get("description"):
             # Notify responsible of the changes, for validation.
             settings = self.env["res.config.settings"].sudo()
+            if values.get("cover_photo"):
+                values["cover_photo"] = compress_big_images(values["cover_photo"])
             notify_ids = settings.get_param("new_participant_notify_ids")
             if notify_ids:
                 user = self.env["res.partner"].sudo().browse(notify_ids[0][2]) \
-                    .mapped("user_ids")[:1]
+                           .mapped("user_ids")[:1]
                 self.main_object.sudo().activity_schedule(
                     'mail.mail_activity_data_todo',
                     summary="Verify project information.",
                     note=f"{self.main_object.project_owner_id.name} updated the "
-                    f"name and description of the project. "
-                    f"Please check if the information is good enough.",
+                         f"name and description of the project. "
+                         f"Please check if the information is good enough.",
                     user_id=user.id
                 )
 
