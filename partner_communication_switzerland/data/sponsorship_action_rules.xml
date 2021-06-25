@@ -44,9 +44,11 @@
         <field name="filter_domain">[('parent_id.sds_state','=','sub'),('state','=','draft'),('correspondent_id.lang','in',('de_DE','fr_CH'))]</field>
         <field name="trg_date_range">6</field>
         <field name="trg_date_range_type">day</field>
-        <field name="state">communication</field>
+        <field name="state">code</field>
         <field name="config_id" ref="partner_communication_switzerland.planned_sub_dossier"/>
-        <field name="partner_field">correspondent_id</field>
+        <field name="code">
+            records.send_communication(env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True)
+        </field>
     </record>
 
     <!-- Rules for zoom sessions -->
