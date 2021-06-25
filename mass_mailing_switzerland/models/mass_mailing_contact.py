@@ -114,7 +114,8 @@ class MassMailingContact(models.Model):
             contact.sponsored_child_le_la = child.get("le_la")
             contact.sponsored_child_your_child = child.get("your sponsored child")
             # Pending B2S letters for more than 1 year
-            pending_b2s_child = self.env["compassion.child"]
+            pending_b2s_child = self.env["compassion.child"].with_context(
+                lang=contact.partner_id.lang)
             one_year_ago = date.today() - relativedelta(years=1)
             for one_child in child:
                 recent_letters = self.env["correspondence"].search_count([
