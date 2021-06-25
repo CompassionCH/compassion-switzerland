@@ -16,6 +16,9 @@ class ExportMailchimpWizard(models.TransientModel):
 
     @api.multi
     def get_mailing_contact_id(self, partner_id, force_create=False):
+        # Avoid exporting opt_out partner
+        if force_create and partner_id.opt_out:
+            return False
         # Push the partner_id in mailing_contact creation
         return super(
             ExportMailchimpWizard, self.with_context(default_partner_id=partner_id)
