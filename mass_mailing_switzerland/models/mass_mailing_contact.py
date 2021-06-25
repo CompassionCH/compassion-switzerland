@@ -171,7 +171,8 @@ class MassMailingContact(models.Model):
             # Search and avoid duplicates
             contact = self.search([("email", "=", vals["email"])], limit=1)
             if contact:
-                partner_id = vals.pop("partner_id", False)
+                partner_id = vals.pop("partner_id", False) or self.env.context.get(
+                    "default_partner_id")
                 if partner_id:
                     contact.write({"partner_ids": [(4, partner_id)]})
                 duplicates.append(vals.pop("email"))
@@ -180,7 +181,9 @@ class MassMailingContact(models.Model):
                 records += contact
             else:
                 # Push the primary partner to the Many2many field as well
-                if vals.get("partner_id") and "partner_ids" not in vals:
+                partner_id = vals.get("partner_id") or self.env.context.get(
+                    "default_partner_id")
+                if partner_id and "partner_ids" not in vals:
                     vals["partner_ids"] = [(4, vals["partner_id"])]
         new_records = super().create([vals for vals in vals_list if "email" in vals])
         records.process_mailchimp_update()
