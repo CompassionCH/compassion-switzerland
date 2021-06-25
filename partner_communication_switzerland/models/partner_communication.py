@@ -624,24 +624,6 @@ class PartnerCommunication(models.Model):
             ).env.context
         return res
 
-    def get_new_dossier_attachments(self):
-        """
-        Returns pdfs for the New Dossier Communication, including:
-        - Small Childpack in PDF
-        :return: dict {attachment_name: [report_name, pdf_data]}
-        """
-        self.ensure_one()
-        attachments = OrderedDict()
-        sponsorships = self.get_objects()
-
-        # Childpack if not a SUB of planned exit.
-        lifecycle = sponsorships.mapped("parent_id.child_id.lifecycle_ids")
-        planned_exit = lifecycle and lifecycle[0].type == "Planned Exit"
-        if not planned_exit:
-            attachments.update(self.get_childpack_attachment())
-
-        return attachments
-
     def get_print_dossier_attachments(self):
         """
         Returns pdfs for the Printed New Dossier Communication, including:
