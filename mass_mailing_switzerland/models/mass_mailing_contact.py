@@ -8,6 +8,9 @@
 #
 ##############################################################################
 from ast import literal_eval
+from datetime import date
+
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
 from odoo.addons.queue_job.job import job
@@ -64,6 +67,7 @@ class MassMailingContact(models.Model):
     sponsored_child_lui_elle = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_le_la = fields.Char(compute="_compute_sponsored_child_fields")
     sponsored_child_your_child = fields.Char(compute="_compute_sponsored_child_fields")
+    pending_letter_child_names = fields.Char(compute="_compute_sponsored_child_fields")
 
     _sql_constraints = [(
         "unique_email", "unique(email)", "This mailing contact already exists"
@@ -109,6 +113,19 @@ class MassMailingContact(models.Model):
             contact.sponsored_child_lui_elle = child.get("lui_elle")
             contact.sponsored_child_le_la = child.get("le_la")
             contact.sponsored_child_your_child = child.get("your sponsored child")
+            # Pending B2S letters for more than 1 year
+            pending_b2s_child = self.env["compassion.child"]
+            one_year_ago = date.today() - relativedelta(years=1)
+            for one_child in child:
+                recent_letters = self.env["correspondence"].search_count([
+                    ("child_id", "=", one_child.id),
+                    ("direction", "=", "Beneficiary To Supporter"),
+                    ("scanned_date", ">=", one_year_ago)
+                ])
+                if not recent_letters:
+                    pending_b2s_child += one_child
+            contact.pending_letter_child_names = pending_b2s_child.get_list(
+                "preferred_name", translate=False)
 
     @api.multi
     def _compute_salutation(self):
