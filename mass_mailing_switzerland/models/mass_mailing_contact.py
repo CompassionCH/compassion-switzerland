@@ -256,22 +256,20 @@ class MassMailingContact(models.Model):
     @api.multi
     def action_export_to_mailchimp(self):
         """
-        Always export in english so that all tags are set in English
+        Filter opt_out partners
         """
         if self.env.context.get("skip_mailchimp"):
             return True
-        return super(MassMailingContact,
-                     self.with_context(lang="en_US")).action_export_to_mailchimp()
+        return super(
+            MassMailingContact, self.filtered(lambda c: not c.partner_id.opt_out)
+        ).action_export_to_mailchimp()
 
     @api.multi
     @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
     def action_update_to_mailchimp(self):
-        """Synchronize Contacts to Mailchimp.
-        Always export in english so that all tags are set in English
-        """
         out = True
 
-        for contact_to_update in self.with_context(lang="en_US"):
+        for contact_to_update in self:
             # If previous write failed reference to mailchimp member will be lost.
             # Error 404
             try:
