@@ -185,7 +185,7 @@ class MassMailingContact(models.Model):
                 partner_id = vals.get("partner_id") or self.env.context.get(
                     "default_partner_id")
                 if partner_id and "partner_ids" not in vals:
-                    vals["partner_ids"] = [(4, vals["partner_id"])]
+                    vals["partner_ids"] = [(4, partner_id)]
         new_records = super().create([vals for vals in vals_list if "email" in vals])
         records.process_mailchimp_update()
         new_records.action_export_to_mailchimp()
