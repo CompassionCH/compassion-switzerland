@@ -229,7 +229,9 @@ class MassMailingContact(models.Model):
             for contact in self:
                 if contact.id in args:
                     to_update -= contact
-        return to_update.with_delay().action_update_to_mailchimp()
+        for contact in to_update:
+            contact.with_delay().action_update_to_mailchimp()
+        return True
 
     @api.multi
     def action_export_to_mailchimp(self):
