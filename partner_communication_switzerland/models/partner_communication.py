@@ -52,6 +52,19 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
+    def print_letter(self, print_name, **print_options):
+        """
+        Adds duplex printing option for Konica Minolta depending on page count.
+        """
+        if len(self) > 1:
+            page_counts = list(set(self.mapped("pdf_page_count")))
+            # Duplex if all documents have a pair page count
+            if len(page_counts) == 1 and page_counts[0] % 2 == 0:
+                print_options["KMDuplex"] = "2Sided"
+            else:
+                print_options["KMDuplex"] = "1Sided"
+        return super().print_letter(print_name, **print_options)
+
     @api.model
     def send_mode_select(self):
         modes = super().send_mode_select()
