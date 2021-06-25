@@ -7,11 +7,13 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, api
+from odoo import models, fields, api
 
 
 class ResPartnerCategory(models.Model):
     _inherit = "res.partner.category"
+
+    name = fields.Char(translate=False)
 
     @api.multi
     def update_partner_tags(self):

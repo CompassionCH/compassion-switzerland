@@ -26,8 +26,8 @@ class MailchimpMergeFields(models.Model):
         res = super(MailchimpMergeFields, partner_fields).get_value(mailing_contact)
         for custom_field in contact_fields:
             if custom_field.field_id and hasattr(
-                    self, custom_field.field_id.name):
-                value = getattr(self, custom_field.field_id.name)
+                    mailing_contact, custom_field.field_id.name):
+                value = getattr(mailing_contact, custom_field.field_id.name)
             else:
                 value = ''
             res.update({custom_field.tag: value or ''})
