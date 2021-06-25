@@ -1,16 +1,22 @@
 import base64
+import time
 from datetime import datetime
+import logging
 
 from odoo import _
 from odoo.http import request, route, Controller
 from odoo.tools.misc import file_open
 
-SPONSOR_HEADER = base64.b64encode(file_open(
+from ..tools.image_compression import compress_big_images
+
+SPONSOR_HEADER = compress_big_images(base64.b64encode(file_open(
     "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg", "rb"
-).read())
+).read()), max_bytes_size=2e4, max_width=400)
+
 SPONSOR_ICON = base64.b64encode(file_open(
     "crowdfunding_compassion/static/src/img/icn_children.png", "rb").read())
 
+_logger = logging.getLogger(__name__)
 
 def sponsorship_card_content():
     return {"type": "sponsorship",
@@ -38,6 +44,7 @@ class HomepageController(Controller):
         )
 
     def _compute_homepage_context(self, year, **kwargs):
+
         project_obj = request.env["crowdfunding.project"]
         fund_obj = request.env["product.product"]
 
@@ -59,7 +66,14 @@ class HomepageController(Controller):
                 "text": fund.crowdfunding_impact_text_passive_singular,
                 "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or SPONSOR_ICON,
-                "header_image": fund.image_large or SPONSOR_HEADER,
+                # the header is a small image so we can compress it to save space
+                "header_image":
+                    compress_big_images(
+                        fund.image_large,
+                        max_bytes_size=2e4,
+                        max_width=400
+                    ) if fund.image_large else SPONSOR_HEADER,
+
             }
 
         for project in current_year_projects:
