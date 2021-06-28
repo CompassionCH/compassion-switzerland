@@ -26,6 +26,7 @@
                     <group>
                         <group>
                             <field name="link"/>
+                            <field name="meeting_id"/>
                             <field name="passcode"/>
                         </group>
                     </group>
