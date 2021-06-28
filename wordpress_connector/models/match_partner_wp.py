@@ -80,6 +80,4 @@ class MatchPartnerWP(models.AbstractModel):
     def _match_rule_child_id(self, partner_obj, infos, options=None):
         # if a keyerror is raise it is handled as "no child found go to next rule"
         child_id = infos["child_id"]
-        partner_id = self.env["compassion.child"].search([("local_id", "like", child_id)]).sponsor_id
-        return partner_obj.browse(partner_id.id)
-
+        return self.env["compassion.child"].search([("local_id", "like", child_id)]).sponsor_id
