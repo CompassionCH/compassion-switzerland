@@ -411,11 +411,6 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
-        exit_conf = self.env.ref(
-            "partner_communication_switzerland.lifecycle_child_planned_exit"
-        )
-        if self.config_id == exit_conf and sponsorships.mapped("sub_sponsorship_id"):
-            sponsorships = sponsorships.mapped("sub_sponsorship_id")
         children = sponsorships.mapped("child_id")
         # Always retrieve latest information before printing dossier
         # children.get_infos()
