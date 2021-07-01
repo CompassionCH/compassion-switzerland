@@ -451,6 +451,7 @@ class PartnerCommunication(models.Model):
         - Update donor tag
         - Sends SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
+        - Set onboarding_start_date when first communication is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -548,6 +549,18 @@ class PartnerCommunication(models.Model):
                 lang=invitation.partner_id.lang).get_next_session()
             if next_zoom:
                 next_zoom.add_participant(invitation.partner_id)
+
+        welcome_onboarding = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_sponsorship_confirmation"
+        )
+
+        contracts_ids = other_jobs.filtered(
+            lambda j: j.config_id == welcome_onboarding and
+            j.get_objects().filtered("is_first_sponsorship")).mapped(lambda x: x.get_objects())
+
+        contracts_ids.write({
+            "onboarding_start_date": datetime.now()
+        })
 
         return True
 
