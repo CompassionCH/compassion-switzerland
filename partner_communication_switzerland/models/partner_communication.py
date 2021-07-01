@@ -567,16 +567,16 @@ class PartnerCommunication(models.Model):
                 next_zoom.add_participant(invitation.partner_id)
 
         welcome_onboarding = self.env.ref(
-            "partner_communication_switzerland.config_onboarding_sponsorship_confirmation"
+            "partner_communication_switzerland"
+            ".config_onboarding_sponsorship_confirmation"
         )
-
-        contracts_ids = other_jobs.filtered(
+        welcome_comms = other_jobs.filtered(
             lambda j: j.config_id == welcome_onboarding and
-            j.get_objects().filtered("is_first_sponsorship")).mapped(lambda x: x.get_objects())
-
-        contracts_ids.write({
-            "onboarding_start_date": datetime.today()
-        })
+            j.get_objects().filtered("is_first_sponsorship"))
+        if welcome_comms:
+            welcome_comms.get_objects().write({
+                "onboarding_start_date": datetime.today()
+            })
 
         return True
 
