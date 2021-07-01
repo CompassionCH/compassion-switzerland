@@ -7,7 +7,7 @@ from odoo import _
 from odoo.http import request, route, Controller
 from odoo.tools.misc import file_open
 
-from ..tools.image_compression import compress_big_images
+from odoo.addons.website_compassion.tools.image_compression import compress_big_images
 
 SPONSOR_HEADER = compress_big_images(base64.b64encode(file_open(
     "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg", "rb"

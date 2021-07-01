@@ -27,6 +27,8 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
 )
 
+from ..tools.image_compression import compress_big_images
+
 
 def _map_contracts(partner, mapping_val=None, sorting_val=None,
                    filter_fun=lambda _: True):
@@ -532,7 +534,7 @@ class MyAccountController(PaymentFormController):
         partner = request.env.user.partner_id
         picture_post = post.get("picture")
         if picture_post:
-            image_value = b64encode(picture_post.stream.read())
+            image_value = compress_big_images(b64encode(picture_post.stream.read()))
             if not image_value:
                 return "no image uploaded"
             partner.write({"image": image_value})
