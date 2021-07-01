@@ -114,7 +114,8 @@ class MassMailingContact(models.Model):
             contact.sponsored_child_le_la = child.get("le_la")
             contact.sponsored_child_your_child = child.get("your sponsored child")
             # Pending B2S letters for more than 1 year
-            pending_b2s_child = self.env["compassion.child"]
+            pending_b2s_child = self.env["compassion.child"].with_context(
+                lang=contact.partner_id.lang)
             one_year_ago = date.today() - relativedelta(years=1)
             for one_child in child:
                 recent_letters = self.env["correspondence"].search_count([
@@ -171,7 +172,8 @@ class MassMailingContact(models.Model):
             # Search and avoid duplicates
             contact = self.search([("email", "=", vals["email"])], limit=1)
             if contact:
-                partner_id = vals.pop("partner_id", False)
+                partner_id = vals.pop("partner_id", False) or self.env.context.get(
+                    "default_partner_id")
                 if partner_id:
                     contact.write({"partner_ids": [(4, partner_id)]})
                 duplicates.append(vals.pop("email"))
@@ -180,8 +182,10 @@ class MassMailingContact(models.Model):
                 records += contact
             else:
                 # Push the primary partner to the Many2many field as well
-                if vals.get("partner_id") and "partner_ids" not in vals:
-                    vals["partner_ids"] = [(4, vals["partner_id"])]
+                partner_id = vals.get("partner_id") or self.env.context.get(
+                    "default_partner_id")
+                if partner_id and "partner_ids" not in vals:
+                    vals["partner_ids"] = [(4, partner_id)]
         new_records = super().create([vals for vals in vals_list if "email" in vals])
         records.process_mailchimp_update()
         new_records.action_export_to_mailchimp()
@@ -253,22 +257,20 @@ class MassMailingContact(models.Model):
     @api.multi
     def action_export_to_mailchimp(self):
         """
-        Always export in english so that all tags are set in English
+        Filter opt_out partners
         """
         if self.env.context.get("skip_mailchimp"):
             return True
-        return super(MassMailingContact,
-                     self.with_context(lang="en_US")).action_export_to_mailchimp()
+        return super(
+            MassMailingContact, self.filtered(lambda c: not c.partner_id.opt_out)
+        ).action_export_to_mailchimp()
 
     @api.multi
     @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
     def action_update_to_mailchimp(self):
-        """Synchronize Contacts to Mailchimp.
-        Always export in english so that all tags are set in English
-        """
         out = True
 
-        for contact_to_update in self.with_context(lang="en_US"):
+        for contact_to_update in self:
             # If previous write failed reference to mailchimp member will be lost.
             # Error 404
             try:

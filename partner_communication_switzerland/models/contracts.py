@@ -52,6 +52,10 @@ class RecurringContract(models.Model):
     origin_name = fields.Char(related="origin_id.name")
     is_first_sponsorship = fields.Boolean(readonly=True)
 
+    onboarding_start_date = fields.Date(help="Indicates when the first email of "
+                                             "the onboarding process was sent.",
+                                        copy=False)
+
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
@@ -668,4 +672,4 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                self.with_context({}).send_communication(config, correspondent)
+                self.with_context({}).send_communication(config, partner)

@@ -253,8 +253,8 @@
             <field name="name">Sponsorship Onboarding: step1</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today()),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today()),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_start_date', '!=', False)]"/>
             <field name="trg_date_range">5</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
@@ -265,8 +265,8 @@
             <field name="name">Sponsorship Onboarding: step2</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today()),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('start_date', '&gt;=', datetime.today()),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False)]"/>
             <field name="trg_date_range">8</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
@@ -277,8 +277,8 @@
             <field name="name">Sponsorship Onboarding: step3</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False)]"/>
             <field name="trg_date_range">12</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
@@ -289,8 +289,8 @@
             <field name="name">Sponsorship Onboarding: step4</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False)]"/>
             <field name="trg_date_range">15</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
@@ -301,8 +301,8 @@
             <field name="name">Sponsorship Onboarding: step5</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="trigger">on_time</field>
-            <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none'])]"/>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+            <field name="filter_domain" eval="[('type', 'like', 'S'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('start_date', '&gt;=', datetime.today()),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False)]"/>
             <field name="trg_date_range">18</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>

@@ -52,6 +52,22 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
+    def print_letter(self, print_name, **print_options):
+        """
+        Adds duplex printing option for Konica Minolta depending on page count.
+        """
+        if len(self) > 1:
+            page_counts = list(set(self.mapped("pdf_page_count")))
+            # Duplex if all documents have a pair page count
+            sided_option = "2sided"
+            for p_count in page_counts: 
+                if (p_count % 2 != 0):
+                    sided_option = "1Sided"
+                    break
+            print_options["KMDuplex"] = sided_option
+
+        return super().print_letter(print_name, **print_options)
+
     @api.model
     def send_mode_select(self):
         modes = super().send_mode_select()
@@ -411,14 +427,9 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
-        exit_conf = self.env.ref(
-            "partner_communication_switzerland.lifecycle_child_planned_exit"
-        )
-        if self.config_id == exit_conf and sponsorships.mapped("sub_sponsorship_id"):
-            sponsorships = sponsorships.mapped("sub_sponsorship_id")
         children = sponsorships.mapped("child_id")
         # Always retrieve latest information before printing dossier
-        # children.get_infos()
+        children.get_infos()
         report_name = "report_compassion.childpack_small"
         data = {
             "lang": lang,
@@ -456,6 +467,7 @@ class PartnerCommunication(models.Model):
         - Update donor tag
         - Sends SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
+        - Set onboarding_start_date when first communication is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -553,6 +565,18 @@ class PartnerCommunication(models.Model):
                 lang=invitation.partner_id.lang).get_next_session()
             if next_zoom:
                 next_zoom.add_participant(invitation.partner_id)
+
+        welcome_onboarding = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_sponsorship_confirmation"
+        )
+
+        contracts_ids = other_jobs.filtered(
+            lambda j: j.config_id == welcome_onboarding and
+            j.get_objects().filtered("is_first_sponsorship")).mapped(lambda x: x.get_objects())
+
+        contracts_ids.write({
+            "onboarding_start_date": datetime.today()
+        })
 
         return True
 
