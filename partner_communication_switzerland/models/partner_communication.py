@@ -559,7 +559,7 @@ class PartnerCommunication(models.Model):
             j.get_objects().filtered("is_first_sponsorship")).mapped(lambda x: x.get_objects())
 
         contracts_ids.write({
-            "onboarding_start_date": datetime.now()
+            "onboarding_start_date": datetime.today()
         })
 
         return True
