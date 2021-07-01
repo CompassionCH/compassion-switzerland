@@ -59,10 +59,13 @@ class PartnerCommunication(models.Model):
         if len(self) > 1:
             page_counts = list(set(self.mapped("pdf_page_count")))
             # Duplex if all documents have a pair page count
-            if len(page_counts) == 1 and page_counts[0] % 2 == 0:
-                print_options["KMDuplex"] = "2Sided"
-            else:
-                print_options["KMDuplex"] = "1Sided"
+            sided_option = "2sided"
+            for p_count in page_counts: 
+                if (p_count % 2 != 0):
+                    sided_option = "1Sided"
+                    break
+            print_options["KMDuplex"] = sided_option
+
         return super().print_letter(print_name, **print_options)
 
     @api.model
