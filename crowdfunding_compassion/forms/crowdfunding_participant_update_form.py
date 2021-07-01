@@ -9,7 +9,7 @@
 from odoo import models, fields, _
 from odoo.http import request
 
-from ..tools.image_compression import compress_big_images
+from odoo.addons.website_compassion.tools.image_compression import compress_big_images
 
 class CrowdfundingParticipatUpdateForm(models.AbstractModel):
     _name = "cms.form.crowdfunding.participant.update"

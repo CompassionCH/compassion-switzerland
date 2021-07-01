@@ -15,7 +15,7 @@ import re
 from odoo import models, fields, _
 from odoo.tools import file_open
 
-from ..tools.image_compression import compress_big_images
+from odoo.addons.website_compassion.tools.image_compression import compress_big_images
 
 _logger = logging.getLogger(__name__)
 
