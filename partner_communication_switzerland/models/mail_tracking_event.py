@@ -100,15 +100,55 @@ class MailTrackingEvent(models.Model):
     def _invalid_email(self, tracking_email):
         """
         Sends invalid e-mail communication.
+        - if the invalid event came from an email linked to a correspondence send child letter unread
+        - if the invalid event came from an email link to the onboarding confirmation send unread confirmation
         """
+        
+        # invalid config to send to the partner
         invalid_comm = self.env.ref("partner_communication_switzerland.wrong_email")
+        b2s_email_not_read = self.env.ref("partner_communication_switzerland.child_letter_unread")
+        onboarding_welcome_email_not_read = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read")
+
+        _config_id = invalid_comm
+        _object_ids = None
+
+        # correspondence mail should return b2s email not read
+        correspondence_email = tracking_email.filtered(
+            lambda x: x.mail_id.model == "partner.communication.job" and
+                      self.env["partner.communication.job"].browse(
+                          x.mail_id.res_id).model == "correspondence"
+        )
+
+        # other special case for onboarding welcome not read
+        onboarding_welcome_config = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_sponsorship_confirmation")
+
+        onboarding_welcome_email = tracking_email.filtered(
+            lambda x: x.mail_id.model == "partner.communication.job" and
+                      self.env["partner.communication.job"].browse(
+                          x.mail_id.res_id).config_id == onboarding_welcome_config
+        )
+
+        if correspondence_email:
+            _config_id = b2s_email_not_read
+            comm = self.env["partner.communication.job"].browse(
+                correspondence_email.mail_id.res_id)
+            _object_ids = comm.object_ids
+
+        elif onboarding_welcome_email:
+            _config_id = onboarding_welcome_email_not_read
+            comm = self.env["partner.communication.job"].browse(
+                onboarding_welcome_email.mail_id.res_id)
+            _object_ids = comm.object_ids
+
         partner_id = tracking_email.partner_id.id
         if partner_id:
             self.env["partner.communication.job"].create(
                 {
-                    "config_id": invalid_comm.id,
+                    "config_id": _config_id.id,
                     "partner_id": partner_id,
-                    "object_ids": partner_id,
+                    "object_ids": _object_ids or partner_id,
                 }
             )
         tracking_email.partner_id.message_post(
