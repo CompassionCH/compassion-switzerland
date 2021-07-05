@@ -179,7 +179,7 @@ const displayImages = function() {
             var image = new Image();
             image.src = event.target.result;
             image.onload = function(event) {
-                if (original_image.size > 2e5) {
+                if (original_image.size > 2e5 || original_image.type.valueOf() != "image/jpeg") {
                     compressImage(image).then((blob) => {
                         blob.name = original_image.name;
                         blob.lastModified = Date.now();

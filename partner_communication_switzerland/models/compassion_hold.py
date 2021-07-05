@@ -42,8 +42,12 @@ class CompassionHold(models.Model):
         ids = super().beneficiary_hold_removal(commkit_data)
         now = datetime.now()
         # when unexpected exit of already assigned child
+        # CO-3692 : if the hold was already expired and we wrongly receive
+        #           another message from GMC child state won't be R (released)
         for hold in self.browse(ids).filtered(
-                lambda h: h.expiration_date > now and h.child_id.sponsorship_ids
+                lambda h: h.expiration_date > now
+                          and h.child_id.sponsorship_ids
+                          and h.child_id.state == "R"
         ):
             sponsorship = hold.child_id.sponsorship_ids[:1]
             communication_type = self.env.ref(

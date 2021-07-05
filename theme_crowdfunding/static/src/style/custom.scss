@@ -345,6 +345,16 @@ $enable-rounded: false;
   }
 }
 
+@media (max-width: 767.98px){
+  .funds__header-image {
+     display:none;
+  }
+  .funds {
+     margin-top: 15rem;
+  }
+}
+
+
 // Header
 
 .masthead {
