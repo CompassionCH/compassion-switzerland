@@ -142,7 +142,7 @@ class MailTrackingEvent(models.Model):
         if partner_id:
             self.env["partner.communication.job"].create(
                 {
-                    "config_id": invalid_comm,
+                    "config_id": invalid_comm.id,
                     "partner_id": partner_id,
                     "object_ids": partner_id,
                 }
