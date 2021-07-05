@@ -350,5 +350,3 @@ class PassportForm(models.AbstractModel):
             # Mark the task criminal record as completed
             passport_task = self.env.ref("muskathlon.task_scan_passport")
             values["completed_task_ids"] = [(4, passport_task.id)]
-        else:
-            del values["completed_task_ids"]
