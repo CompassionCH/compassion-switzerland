@@ -8,7 +8,7 @@
 ##############################################################################
 import logging
 
-from odoo import models,_
+from odoo import models, _
 
 _logger = logging.getLogger(__name__)
 
@@ -22,9 +22,10 @@ class ResUsers(models.Model):
 
             case insensitive for email matching
         """
-        users = self.search([('login', '=', login)])
-        if not users:
+        try:
+            return super().reset_password(login)
+        except Exception:
             users = self.search([('email', '=ilike', login)])
-        if len(users) != 1:
-            raise Exception(_('Reset password: invalid username or email'))
-        return users.action_reset_password()
+            if len(users) != 1:
+                raise
+            return users.action_reset_password()
