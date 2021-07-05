@@ -100,18 +100,14 @@ class MailTrackingEvent(models.Model):
     def _invalid_email(self, tracking_email):
         """
         Sends invalid e-mail communication.
-        - if the invalid event came from an email linked to a correspondence send child letter unread
-        - if the invalid event came from an email link to the onboarding confirmation send unread confirmation
+        In particular cases avoid sending the communciation because it will append later on
+        in an other process :
+        - if the invalid event came from an email linked to a correspondence (b2s)
+        - if the invalid event came from an email link to the onboarding confirmation
         """
         
         # invalid config to send to the partner
         invalid_comm = self.env.ref("partner_communication_switzerland.wrong_email")
-        b2s_email_not_read = self.env.ref("partner_communication_switzerland.child_letter_unread")
-        onboarding_welcome_email_not_read = self.env.ref(
-            "partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read")
-
-        _config_id = invalid_comm
-        _object_ids = None
 
         # correspondence mail should return b2s email not read
         correspondence_email = tracking_email.filtered(
@@ -130,31 +126,27 @@ class MailTrackingEvent(models.Model):
                           x.mail_id.res_id).config_id == onboarding_welcome_config
         )
 
-        if correspondence_email:
-            _config_id = b2s_email_not_read
-            comm = self.env["partner.communication.job"].browse(
-                correspondence_email.mail_id.res_id)
-            _object_ids = comm.object_ids
+        # even if the specific communication is not yet going out to the partner with
+        # create a not on his/her odoo profile page
+        tracking_email.partner_id.message_post(
+            body=_("The email couldn't be sent due to invalid address"),
+            subject=tracking_email.name
+        )
 
-        elif onboarding_welcome_email:
-            _config_id = onboarding_welcome_email_not_read
-            comm = self.env["partner.communication.job"].browse(
-                onboarding_welcome_email.mail_id.res_id)
-            _object_ids = comm.object_ids
+        # in those case specific communication will be sent in another process
+        # return to avoid duplication
+        if correspondence_email or onboarding_welcome_email:
+            return
 
         partner_id = tracking_email.partner_id.id
         if partner_id:
             self.env["partner.communication.job"].create(
                 {
-                    "config_id": _config_id.id,
+                    "config_id": invalid_comm,
                     "partner_id": partner_id,
-                    "object_ids": _object_ids or partner_id,
+                    "object_ids": partner_id,
                 }
             )
-        tracking_email.partner_id.message_post(
-            body=_("The email couldn't be sent due to invalid address"),
-            subject=tracking_email.name
-        )
 
     @api.model
     def process_spam(self, tracking_email, metadata):
