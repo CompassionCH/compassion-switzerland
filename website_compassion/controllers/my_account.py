@@ -88,7 +88,7 @@ def _get_user_children(state=None):
         if state == "active":
 
             can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
-                        or (is_communication_not_sent and is_recent_terminated)
+                        or is_communication_not_sent or is_recent_terminated
 
         elif state == "terminated":
 
@@ -273,8 +273,8 @@ class MyAccountController(PaymentFormController):
         :param kwargs: optional additional arguments
         :return: a redirection to a webpage
         """
-        actives = _get_user_children("active")
         terminated = _get_user_children("terminated")
+        actives = terminated - _get_user_children("active")
 
         display_state = True
         # User can choose among groups if none of the two is empty
@@ -286,6 +286,7 @@ class MyAccountController(PaymentFormController):
             children = actives
         else:
             children = terminated
+            state = "terminated"
 
         # No sponsor children
         if len(children) == 0:
