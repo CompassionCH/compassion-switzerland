@@ -16,7 +16,7 @@
                 <!-- this field is there because the type of origin_id couldn't be reached with the xml file -->
                 <field name="send_introduction_letter" attrs="{'invisible': [('origin_type','!=','transfer'),('origin_name','!=','Reinstatement')]}"/>
             </xpath>
-            <xpath expr="//field[@name='activation_date']" position="after">
+            <xpath expr="//field[@name='activation_date']" position="before">
                 <field name="onboarding_start_date" />
             </xpath>
         </field>
