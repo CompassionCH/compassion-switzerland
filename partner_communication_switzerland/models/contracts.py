@@ -52,6 +52,10 @@ class RecurringContract(models.Model):
     origin_name = fields.Char(related="origin_id.name")
     is_first_sponsorship = fields.Boolean(readonly=True)
 
+    onboarding_start_date = fields.Date(help="Indicates when the first email of "
+                                             "the onboarding process was sent.",
+                                        copy=False)
+
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
@@ -483,6 +487,13 @@ class RecurringContract(models.Model):
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
+
+        for contract in self:
+            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
+                lambda c: c.state != "cancelled" and c.start_date
+                and c.start_date < contract.start_date)
+            contract.is_first_sponsorship = not old_sponsorships
+
         self.filtered(
             lambda c: "S" in c.type
                       and not c.is_active
@@ -500,11 +511,6 @@ class RecurringContract(models.Model):
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
 
-        for contract in self:
-            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
-                lambda c: c.state != "cancelled" and c.start_date
-                and c.start_date < contract.start_date)
-            contract.is_first_sponsorship = not old_sponsorships
 
         return res
 
@@ -605,12 +611,19 @@ class RecurringContract(models.Model):
     def _is_unexpected_end(self):
         """Check if sponsorship hold had an unexpected end or not."""
         self.ensure_one()
+
+        # subreject could happened before hold expiration and should not be considered as unexpected
+        subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
+
+        if self.end_reason_id == subreject:
+            return False
+
         return self.hold_id and not datetime.now() > self.hold_id.expiration_date
 
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent.
+        correspondent. Adds new sponsors to next zoom conference.
         """
         for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
@@ -639,10 +652,10 @@ class RecurringContract(models.Model):
         sub_accept = self.env.ref(module + "sponsorship_sub_accept")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
-        if self.origin_id.type == "transfer":
+        if self.parent_id.sds_state == "sub":
+            configs = sub_accept + child_picture
+        elif self.origin_id.type == "transfer":
             configs = transfer
-        elif self.parent_id.sds_state == "sub":
-            configs = sub_accept
         elif not partner.email or \
                 partner.global_communication_delivery_preference == "physical":
             configs = print_wrpr if self.type == "SC" and partner != self.partner_id \
@@ -659,4 +672,4 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                self.with_context({}).send_communication(config, correspondent)
+                self.with_context({}).send_communication(config, partner)

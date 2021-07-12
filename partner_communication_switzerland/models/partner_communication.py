@@ -52,6 +52,22 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
+    def print_letter(self, print_name, **print_options):
+        """
+        Adds duplex printing option for Konica Minolta depending on page count.
+        """
+        if len(self) > 1:
+            page_counts = list(set(self.mapped("pdf_page_count")))
+            # Duplex if all documents have a pair page count
+            sided_option = "2sided"
+            for p_count in page_counts: 
+                if (p_count % 2 != 0):
+                    sided_option = "1Sided"
+                    break
+            print_options["KMDuplex"] = sided_option
+
+        return super().print_letter(print_name, **print_options)
+
     @api.model
     def send_mode_select(self):
         modes = super().send_mode_select()
@@ -66,7 +82,8 @@ class PartnerCommunication(models.Model):
 
     def filter_not_read(self):
         """
-        Useful for checking if the communication was read by the sponsor. Printed letters are always treated as read.
+        Useful for checking if the communication was read by the sponsor.
+        Printed letters are always treated as read.
         Returns only the communications that are not read.
         """
         not_read = self.env[self._name]
@@ -78,15 +95,17 @@ class PartnerCommunication(models.Model):
             FULL JOIN mail_tracking_event tevent ON tevent.tracking_email_id = tmail.id
             WHERE m.id = %s
             AND (
-                m.state = 'received'
-                OR tevent.event_type IN ('delivered', 'open', 'click')
-                OR tmail.state IN ('delivered', 'opened')
+                m.state IN ('exception', 'cancel')
+                OR tevent.event_type IN (
+                    'hard_bounce', 'soft_bounce', 'spam', 'reject')
+                OR tmail.state IN (
+                    'error', 'rejected', 'spam', 'bounced', 'soft-bounced')
             )
         """
         for communication in self:
             if communication.email_id:
                 self.env.cr.execute(query_sql, [communication.email_id.id])
-                if not self.env.cr.rowcount:
+                if self.env.cr.rowcount:
                     not_read += communication
             elif communication.state == 'done' and communication.send_mode == 'digital':
                 not_read += communication
@@ -176,6 +195,45 @@ class PartnerCommunication(models.Model):
             attachments = sponsorships.get_bvr_gift_attachment(family, background)
         return attachments
 
+    def get_all_gift_bvr(self):
+        """
+        attach all 3 gifts slip with background for sending by e-mail
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        attachments = dict()
+        background = self.send_mode and "physical" not in self.send_mode
+        sponsorships = self.get_objects()
+        refs = [GIFT_REF[0], GIFT_REF[1], GIFT_REF[2]]
+        all_gifts = self.env["product.product"].search(
+            [("default_code", "in", refs)]
+        )
+        gifts_to = sponsorships[0].gift_partner_id
+        if sponsorships and gifts_to == self.partner_id:
+            attachments = sponsorships.filtered(
+                lambda x: x.state not in ("terminated", "cancelled")).get_bvr_gift_attachment(all_gifts, background)
+        return attachments
+
+    def get_christmas_fund_bvr(self):
+        """
+        attach christmas fund slip with background for sending by e-mail
+        :return: dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        background = self.send_mode and "physical" not in self.send_mode
+        product_id = self.env["product.product"].search([("default_code", "=", "gen_christmas")])
+        data = {
+            "product_id": product_id.id,
+            "product_ids": product_id.ids,
+            "background": background,
+            "doc_ids": self.partner_id.ids
+        }
+        report_name = "report_compassion.bvr_fund"
+        pdf = self._get_pdf_from_data(
+            data, self.env.ref("report_compassion.report_bvr_fund")
+        )
+        return {_("christmas fund.pdf"): [report_name, pdf]}
+
     def get_reminder_bvr(self):
         """
         Attach sponsorship due payment slip with background for sending by
@@ -197,7 +255,6 @@ class PartnerCommunication(models.Model):
                 pm = self.env['account.payment.mode'].search([('name', '=', payment_mode)])
                 return {"lsv_form.pdf": ["partner_communication_switzerland.field_office_info",
                                          pm.payment_method_id.lsv_form_pdf]}
-
 
         # Put product sponsorship to print the payment slip for physical print.
         if self.send_mode and "physical" in self.send_mode:
@@ -289,11 +346,11 @@ class PartnerCommunication(models.Model):
             children = self.get_objects()
         else:
             children = self.get_objects().mapped("child_id")
-        attachments = self.env["ir.attachment"]
-        for child in children:
-            name = child.local_id + " " + str(child.last_photo_date) + ".jpg"
-            res[name] = ("partner_communication_switzerland.child_picture", child.fullshot)
-        self.with_context(no_print=True).ir_attachment_ids = attachments
+        pdf = self._get_pdf_from_data(
+            {"doc_ids": children.ids}, self.env.ref("partner_communication_switzerland.report_child_picture")
+        )
+        name = children.get_list("local_id", 1, _("pictures")) + ".pdf"
+        res[name] = ("partner_communication_switzerland.child_picture", pdf)
         return res
 
     def get_yearly_payment_slips_2bvr(self):
@@ -314,7 +371,7 @@ class PartnerCommunication(models.Model):
         # attach sponsorship payment slips
         pay_bvr = sponsorships.filtered(
             lambda s: s.payment_mode_id == payment_mode_bvr
-            and s.partner_id == self.partner_id
+                      and s.partner_id == self.partner_id
         )
         if pay_bvr and pay_bvr.must_pay_next_year():
             today = date.today()
@@ -361,21 +418,18 @@ class PartnerCommunication(models.Model):
         blank_communication = self._get_pdf_from_data({
             "doc_ids": self.ids
         }, self.env.ref("report_compassion.report_blank_communication"))
-        attachments.update({"cover.pdf": ["report_compassion.blank_communication", blank_communication]})
+        attachments.update({
+            "cover.pdf": ["report_compassion.blank_communication", blank_communication]
+        })
         return attachments
 
     def get_childpack_attachment(self):
         self.ensure_one()
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
-        exit_conf = self.env.ref(
-            "partner_communication_switzerland.lifecycle_child_planned_exit"
-        )
-        if self.config_id == exit_conf and sponsorships.mapped("sub_sponsorship_id"):
-            sponsorships = sponsorships.mapped("sub_sponsorship_id")
         children = sponsorships.mapped("child_id")
         # Always retrieve latest information before printing dossier
-        # children.get_infos()
+        children.get_infos()
         report_name = "report_compassion.childpack_small"
         data = {
             "lang": lang,
@@ -412,6 +466,8 @@ class PartnerCommunication(models.Model):
         - Postpone no money holds when reminders sent.
         - Update donor tag
         - Sends SMS for sms send_mode
+        - Add to zoom session when zoom invitation is sent
+        - Set onboarding_start_date when first communication is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -495,9 +551,32 @@ class PartnerCommunication(models.Model):
         donor = self.env.ref("partner_compassion.res_partner_category_donor")
         partners = other_jobs.filtered(
             lambda j: j.config_id.model == "account.invoice.line"
-            and donor not in j.partner_id.category_id
+                      and donor not in j.partner_id.category_id
         ).mapped("partner_id")
         partners.write({"category_id": [(4, donor.id)]})
+
+        zoom_invitation = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_step1"
+        )
+        for invitation in other_jobs.filtered(
+                lambda j: j.config_id == zoom_invitation and
+                j.get_objects().filtered("is_first_sponsorship")):
+            next_zoom = self.env["res.partner.zoom.session"].with_context(
+                lang=invitation.partner_id.lang).get_next_session()
+            if next_zoom:
+                next_zoom.add_participant(invitation.partner_id)
+
+        welcome_onboarding = self.env.ref(
+            "partner_communication_switzerland"
+            ".config_onboarding_sponsorship_confirmation"
+        )
+        welcome_comms = other_jobs.filtered(
+            lambda j: j.config_id == welcome_onboarding and
+            j.get_objects().filtered("is_first_sponsorship"))
+        if welcome_comms:
+            welcome_comms.get_objects().write({
+                "onboarding_start_date": datetime.today()
+            })
 
         return True
 
@@ -543,7 +622,7 @@ class PartnerCommunication(models.Model):
                 {
                     "url": full_link,
                     "campaign_id": self.utm_campaign_id.id
-                    or self.env.ref(
+                                   or self.env.ref(
                         "partner_communication_switzerland."
                         "utm_campaign_communication"
                     ).id,
@@ -569,24 +648,6 @@ class PartnerCommunication(models.Model):
             ).env.context
         return res
 
-    def get_new_dossier_attachments(self):
-        """
-        Returns pdfs for the New Dossier Communication, including:
-        - Small Childpack in PDF
-        :return: dict {attachment_name: [report_name, pdf_data]}
-        """
-        self.ensure_one()
-        attachments = OrderedDict()
-        sponsorships = self.get_objects()
-
-        # Childpack if not a SUB of planned exit.
-        lifecycle = sponsorships.mapped("parent_id.child_id.lifecycle_ids")
-        planned_exit = lifecycle and lifecycle[0].type == "Planned Exit"
-        if not planned_exit:
-            attachments.update(self.get_childpack_attachment())
-
-        return attachments
-
     def get_print_dossier_attachments(self):
         """
         Returns pdfs for the Printed New Dossier Communication, including:
@@ -601,7 +662,7 @@ class PartnerCommunication(models.Model):
         attachments.update(self.get_childpack_attachment())
         write_sponsorships = self.get_objects().filtered(
             lambda s: s.correspondent_id == self.partner_id)
-        if write_sponsorships:
+        if write_sponsorships and self.send_mode == "physical":
             attachments.update(self.get_label_attachment(write_sponsorships))
 
         # Child picture
@@ -620,28 +681,29 @@ class PartnerCommunication(models.Model):
         permanent_order = self.env.ref(
             "sponsorship_switzerland.payment_mode_permanent_order"
         )
+        bvr = self.env.ref("sponsorship_switzerland.payment_mode_bvr")
 
         sponsorships = self.get_objects()
         # Sponsorships included for payment slips
         bv_sponsorships = sponsorships.filtered(
             # 1. Needs to be payer
             lambda s: s.partner_id == self.partner_id
-            and
-            # 2. Permanent Order are always included
-            s.payment_mode_id == permanent_order
-            # The sponsorship amount must be set
-            and s.total_amount
-            # 3. LSV/DD are never included
-            and s.payment_mode_id not in lsv_dd_modes
-            # 4. If already paid they are not included
-            and not s.period_paid
+                      and
+                      # 2. Permanent Order/BVR are always included
+                      s.payment_mode_id in (permanent_order, bvr)
+                      # The sponsorship amount must be set
+                      and s.total_amount
+                      # 3. LSV/DD are never included
+                      and s.payment_mode_id not in lsv_dd_modes
+                      # 4. If already paid they are not included
+                      and not s.period_paid
         )
 
         # Include all active sponsorships for Permanent Order
         bv_sponsorships |= (
             bv_sponsorships.filtered(lambda s: s.payment_mode_id == permanent_order)
-            .mapped("group_id.contract_ids")
-            .filtered(lambda s: s.state in ("active", "waiting"))
+                .mapped("group_id.contract_ids")
+                .filtered(lambda s: s.state in ("active", "waiting"))
         )
 
         attachments = {}

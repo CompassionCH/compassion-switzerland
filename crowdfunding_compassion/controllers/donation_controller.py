@@ -16,10 +16,10 @@ class DonationController(PaymentFormController, FormControllerMixin):
         sitemap=False
     )
     def project_donation_page(self, page=1, project=None, **kwargs):
-        """ To preselect a participant, pass its id as particpant query parameter """
+        """ To preselect a participant, pass its id as participant query parameter """
         if not project.website_published:
             return request.redirect("/projects")
-        participant = kwargs.pop("participant", False)
+        participant = int(kwargs.pop("participant", 0))
         if int(page) == 1 and len(project.participant_ids) == 1:
             page = 2
             participant = project.participant_ids.id

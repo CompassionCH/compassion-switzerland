@@ -41,6 +41,7 @@
         "crm_compassion",  # compassion-modules
         "event",  # odoo base modules
         "wordpress_configuration",  # compassion-modules
+        "mass_mailing_switzerland",
     ],
     "data": [
         "security/ir.model.access.csv",

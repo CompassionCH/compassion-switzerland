@@ -30,7 +30,7 @@ class EventRegistrationForm(models.AbstractModel):
         "partner_street",
         "partner_email",
         "email_copy",
-        "partner_birthdate",
+        "partner_birthdate_date",
     ]
     _display_type = "full"
 
@@ -148,7 +148,7 @@ class EventRegistrationForm(models.AbstractModel):
                     "partner_firstname",
                     "partner_email",
                     "email_copy",
-                    "partner_birthdate",
+                    "partner_birthdate_date",
                     "partner_phone",
                     "partner_street",
                     "partner_zip",
@@ -179,7 +179,7 @@ class EventRegistrationForm(models.AbstractModel):
             {
                 "single_double_room": "cms.form.widget.radio",
                 "gtc_accept": "cms_form_compassion.form.widget.terms",
-                "partner_birthdate": "cms.form.widget.date.ch",
+                "partner_birthdate_date": "cms.form.widget.date.ch",
             }
         )
         return res

@@ -10,13 +10,22 @@
 import logging
 
 from mock import patch
-from odoo.tests.common import TransactionCase
+
+mock_update_hold = (
+    "odoo.addons.child_compassion.models.compassion_hold" ".CompassionHold.update_hold"
+)
 
 logger = logging.getLogger(__name__)
 geo_patch = "odoo.addons.base_geolocalize.models.res_partner.geo_find"
 
+from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
+    BaseSponsorshipTest,
+)
+from odoo.tests import tagged
 
-class TestMessages(TransactionCase):
+
+@tagged("wip_test")
+class TestMessages(BaseSponsorshipTest):
     def setUp(self):
         super().setUp()
 
@@ -33,6 +42,10 @@ class TestMessages(TransactionCase):
         patcher = patch(geo_patch, wraps=geo_find)
         patcher.start()
 
+        self.origin_id = (
+            self.env["recurring.contract.origin"].create({"type": "event"}).id
+        )
+
         res_partner = self.env["res.partner"]
         church_vals = {
             "preferred_name": "ChurchTest",
@@ -48,7 +61,6 @@ class TestMessages(TransactionCase):
             "phone": "+41 78 000 00 00",
         }
         self.church = res_partner.create(church_vals)
-        # self.church.is_church = True
 
         custom_vals = {
             "preferred_name": "TestPerson",
@@ -63,7 +75,6 @@ class TestMessages(TransactionCase):
             "lang": "en_US",
             "phone": "+41 78 813 12 36",
         }
-        # self.partner = res_partner.browse(18)
         self.partner = res_partner.create(custom_vals)
         self.addCleanup(patcher.stop)
 
@@ -86,6 +97,30 @@ class TestMessages(TransactionCase):
 
         self.partner.update_number_sponsorships()
         self.assertEqual(self.partner.number_sponsorships, 0)
+
+        sp_group = self.create_group(
+            {
+                "change_method": "do_nothing",
+                "partner_id": self.michel.id,
+                "advance_billing_months": 1,
+                "payment_mode_id": self.payment_mode.id,
+            }
+        )
+
+        for i, child_ref in enumerate(["UG72320010", "S008320011", "SA12311013"]):
+            child = self.create_child(child_ref)
+            sp = self.create_contract({
+                "partner_id": self.partner.id,
+                "child_id": child.id,
+                "group_id": sp_group.id
+            },
+                [{"amount": 42}]
+            )
+            self.validate_sponsorship(sp)
+            sp.contract_active()
+
+            self.assertEqual(self.partner.number_sponsorships, i + 1)
+            self.assertEqual(self.church.number_sponsorships, i + 1)
 
     # things with duplicated partners and onchange method don't work
     # def test_duplicate(self):
