@@ -61,10 +61,11 @@ def _get_user_children(state=None):
     limit_date = datetime.now() - relativedelta(months=2)
 
     exit_comm_config = list(
-        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, ["lifecycle_child_planned_exit",
-                                                                                     "lifecycle_child_unplanned_exit"]))
+        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, [
+            "lifecycle_child_planned_exit", "lifecycle_child_unplanned_exit"]))
 
-    end_reason_child_depart = partner.env.ref("sponsorship_compassion.end_reason_depart")
+    end_reason_child_depart = partner.env.ref(
+        "sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
 
@@ -76,22 +77,19 @@ def _get_user_children(state=None):
         ])
 
         can_show = True
-        is_recent_terminated = (sponsorship.state == "terminated"
-                                and sponsorship.end_date
-                                and sponsorship.end_date >= limit_date
-                                and sponsorship.end_reason_id == end_reason_child_depart)
-
+        is_recent_terminated = (
+                sponsorship.state == "terminated"
+                and sponsorship.end_date and sponsorship.end_date >= limit_date
+                and sponsorship.end_reason_id == end_reason_child_depart)
         is_communication_not_sent = (sponsorship.state == "terminated"
                                      and exit_comm_to_send)
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
-
             can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
                         or is_communication_not_sent or is_recent_terminated
 
         elif state == "terminated":
-
             can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
                 (is_recent_terminated and is_communication_not_sent)
 
@@ -274,7 +272,7 @@ class MyAccountController(PaymentFormController):
         :return: a redirection to a webpage
         """
         terminated = _get_user_children("terminated")
-        actives = terminated - _get_user_children("active")
+        actives = _get_user_children("active") - terminated
 
         display_state = True
         # User can choose among groups if none of the two is empty
