@@ -69,3 +69,15 @@ class MatchPartnerWP(models.AbstractModel):
             spoken_langs += self.env.ref(SPOKEN_LANG_MAPPING[wp_spoken])
         lang_write = [(4, lang.id) for lang in spoken_langs]
         return lang_write
+
+    @api.model
+    def _match_get_rules_order(self):
+        res = super()._match_get_rules_order()
+        res.append("child_id")
+        return res
+
+    @api.model
+    def _match_rule_child_id(self, partner_obj, infos, options=None):
+        # if a keyerror is raise it is handled as "no child found go to next rule"
+        child_id = infos.pop("child_id")
+        return self.env["compassion.child"].search([("local_id", "like", child_id)]).sponsor_id

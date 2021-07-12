@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="mailchimp.view_mail_mass_mailing_contact_mail_form"/>
             <field name="arch" type="xml">
                 <field name="is_blacklisted" position="after">
-                    <field name="partner_id" domain="[('email', '=', email)]"/>
+                    <field name="partner_ids" domain="[('email', '=', email)]" />
                 </field>
                 <!-- Hide contact button as we have the direct link field -->
                 <button name="open_contact_view" position="attributes">

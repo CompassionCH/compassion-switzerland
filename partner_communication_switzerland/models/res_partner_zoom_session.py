@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class ZoomSession(models.Model):
     _name = "res.partner.zoom.session"
-    _inherit = "translatable.model"
+    _inherit = ["translatable.model", "website.published.mixin"]
     _description = "Zoom Session with partners"
     _rec_name = "date_start"
     _order = "date_start desc"
@@ -26,25 +26,33 @@ class ZoomSession(models.Model):
     lang = fields.Selection("_get_lang", required=True)
     date_start = fields.Datetime("Zoom session time", required=True)
     date_stop = fields.Datetime()
-    link = fields.Char("Zoom invitation link")
-    passcode = fields.Char("Zoom password")
-    invited_participant_ids = fields.Many2many(
-        "res.partner", "zoom_invited_partner_ids", "zoom_session_id", "partner_id",
-        "Invited people"
-    )
-    attended_participant_ids = fields.Many2many(
-        "res.partner", "zoom_attended_partner_ids", "zoom_session_id", "partner_id",
-        "Attended people"
+    link = fields.Char("Invitation link")
+    meeting_id = fields.Char("Meeting ID")
+    passcode = fields.Char("Passcode")
+    participant_ids = fields.One2many(
+        "res.partner.zoom.attendee", "zoom_session_id", "Participants"
     )
     state = fields.Selection([
         ("planned", "Planned"),
-        ("done", "Done")
+        ("done", "Done"),
+        ("cancel", "Cancelled")
     ], required=True, default="planned")
+    is_published = fields.Boolean(compute="_compute_website_published")
 
     @api.model
     def _get_lang(self):
         langs = self.env["res.lang"].search([])
         return [(l.code, l.name) for l in langs]
+
+    @api.multi
+    def _compute_website_url(self):
+        for record in self:
+            record.website_url = f'/zoom/{record.id}/register'
+
+    @api.multi
+    def _compute_website_published(self):
+        for record in self:
+            record.is_published = record.state == "planned"
 
     @api.onchange("date_start")
     def onchange_date_start(self):
@@ -53,32 +61,47 @@ class ZoomSession(models.Model):
 
     @api.multi
     def post_attended(self):
-        for zoom in self:
-            zoom.write({
-                "state": "done",
-                "attended_participant_ids": [(6, 0, zoom.invited_participant_ids.ids)]
-            })
+        participants = self.mapped("participant_ids")
+        confirmed = participants.filtered(lambda p: p.state == "confirmed")
+        confirmed.write({"state": "attended"})
+        (participants - confirmed).write({"state": "declined"})
+        self.write({"state": "done"})
         return True
 
     @api.model
-    def get_next_session(self):
+    def get_next_session(self, date_start=None):
         """ Returns the next session (depending on context language) """
+        if date_start is None:
+            if self and len(self) == 1:
+                date_start = fields.Datetime.to_string(self.date_start)
+            else:
+                date_start = fields.Datetime.now()
+        elif not isinstance(date_start, str):
+            date_start = fields.Datetime.to_string(date_start)
         return self.search([
             ("state", "=", "planned"),
-            ("lang", "=", self.env.lang)
+            ("lang", "=", self.env.lang),
+            ("date_start", ">", date_start)
         ], order="date_start asc", limit=1)
 
     @api.multi
     def send_reminder(self):
-        config = self.env.ref("partner_communication_switzerland"
-                              ".config_onboarding_zoom_reminder")
-        for zoom in self:
-            for participant in self.invited_participant_ids:
-                self.env["partner.communication.job"].create({
-                    "config_id": config.id,
-                    "partner_id": participant.id,
+        pending_config = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_zoom_reminder")
+        attending_config = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_zoom_link")
+        communications = self.env["partner.communication.job"]
+        for zoom in self.filtered(lambda z: z.state == "planned"):
+            for participant in zoom.mapped("participant_ids").filtered(
+                    lambda p: p.state in ("invited", "confirmed")):
+                communications += self.env["partner.communication.job"].create({
+                    "config_id": (
+                        attending_config if participant.state == "confirmed"
+                        else pending_config).id,
+                    "partner_id": participant.partner_id.id,
                     "object_ids": zoom.id
                 })
+        return communications
 
     @api.multi
     def add_participant(self, partners):
@@ -87,7 +110,13 @@ class ZoomSession(models.Model):
         :param partners: <res.partner> recordset
         :return: True
         """
-        self.ensure_one()
         if self.state == "planned":
-            self.invited_participant_ids += partners
+            self.participant_ids.create([{
+                "partner_id": p.id,
+                "zoom_session_id": self.id
+            } for p in partners if p not in self.participant_ids.mapped("partner_id")])
         return True
+
+    @api.multi
+    def cancel(self):
+        return self.write({"state": "cancel"})

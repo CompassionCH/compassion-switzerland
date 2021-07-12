@@ -25,3 +25,4 @@ from . import mail_thread
 from . import mass_mailing_subscription
 from . import mailchimp_lists
 from . import res_partner_category
+from . import mailchimp_merge_fields

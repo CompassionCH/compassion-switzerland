@@ -1,124 +1,126 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="details" name="Muskathlon page">
-        <t t-call="website.publish_management">
-            <t t-set="object" t-value="event"/>
-            <t t-set="publish_edit" t-value="True"/>
-        </t>
-        <t t-call="theme_compassion.layout">
-            <div id="muskathlon_details">
-                <t t-set="background_color_class" t-value="'muskathlon_background_red'"/>
-                <t t-call="website_event_compassion.event_header"/>
+    <data noupdate="1">
+        <template id="details" name="Muskathlon page">
+            <t t-call="website.publish_management">
+                <t t-set="object" t-value="event"/>
+                <t t-set="publish_edit" t-value="True"/>
+            </t>
+            <t t-call="theme_compassion.layout">
+                <div id="muskathlon_details">
+                    <t t-set="background_color_class" t-value="'muskathlon_background_red'"/>
+                    <t t-call="website_event_compassion.event_header"/>
 
-                <!-- Include modal for registration -->
-                <t t-call="cms_form_compassion.modal_form"/>
-                <t t-set="title" t-value="event.name"/>
-                <div id="wrap">
-                    <!-- Just hold available disciplines for registration form -->
-                    <div>
-                        <ul id="available_disciplines" class="hidden">
-                            <t t-foreach="disciplines" t-as="discipline">
-                                <li t-att-value="discipline" t-esc="discipline"/>
-                            </t>
-                        </ul>
-                    </div>
-
-                    <!-- Event description -->
-                    <div class="main_container event_compassion">
-                        <div class="row">
-                            <div class="col-sm-1 col-md-2"/>
-                            <div class="col-sm-3 col-md-2 col-sm-push-7 col-md-push-6">
-                                <div class="event_compassion dates_container">
-                                    <span class="text-uppercase dates_text">Dates</span>
-                                    <span class="same-line">
-                                        <t t-esc="start_date"/> - <t t-esc="end_date"/>
-                                    </span>
-                                    <p class="text-uppercase sports_title">Sports</p>
-                                    <table class="sports_icons">
-                                        <tr>
-                                            <t t-foreach="event.sport_discipline_ids.with_context(lang='en_US')" t-as="discipline">
-                                                <span class="muskathlon_sport_icon">
-                                                    <t t-if="'Biking' == discipline.sport">
-                                                        <td align="center">
-                                                            <img class="sport_icon"
-                                                                 src="/muskathlon/static/src/data/biking.png"/>
-                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                        </td>
-                                                    </t>
-                                                    <t t-if="'Climbing' == discipline.sport">
-                                                        <td align="center">
-                                                            <img class="sport_icon"
-                                                                 src="/muskathlon/static/src/data/climbing.png"/>
-                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                        </td>
-                                                    </t>
-                                                    <t t-if="'Running' == discipline.sport">
-                                                        <td align="center">
-                                                            <img class="sport_icon"
-                                                                 src="/muskathlon/static/src/data/running.png"/>
-                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                        </td>
-                                                    </t>
-                                                    <t t-if="'Walking' == discipline.sport">
-                                                        <td align="center">
-                                                            <img class="sport_icon walk"
-                                                                 src="/muskathlon/static/src/data/walking.png"/>
-                                                            <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
-                                                        </td>
-                                                    </t>
-                                                </span>
-                                            </t>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <p class="mt16">
-                                    <t t-if="event.odoo_event_id.seats_availability == 'unlimited' or event.odoo_event_id.seats_available > 0">
-                                        <a href="#" data-toggle="modal" data-target="#modal_muskathlon_registration" class="btn btn-danger btn-muskathlon">
-                                            <span class="center-text">Register</span>
-                                        </a>
-                                    </t>
-                                    <t t-else="">
-                                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf45XTmTeP-fHG0gC5lpIvX95FBW1XwOFkp7VI55xNE-tEyyw/viewform" target="new" class="btn btn-danger btn-muskathlon">
-                                            <span class="center-text">Request registration</span>
-                                        </a>
-                                    </t>
-                                    <a href="#compassion_event_participants" class="btn btn-danger btn-muskathlon">
-                                        <span class="center-text">See participants</span>
-                                    </a>
-                                </p>
-                                <div class="mb4">
-                                    <t t-call="website_event_compassion.event_barometer">
-                                        <t t-set="barometer" t-value="event"/>
-                                        <t t-set="amount_inside" t-value="False"/>
-                                        <t t-set="barometer_title_class">project_donations_total</t>
-                                        <t t-set="barometer_amount_class"/>
-                                    </t>
-                                </div>
-                                <div t-field="event.website_side_info" style="margin-top: 20px"/>
-                                <div class="oe_structure hidden-xs" style="margin-top: 20px"/>
-                            </div>
-                            <div class="col-sm-7 col-md-6 col-sm-pull-3 col-md-pull-2">
-                                <t t-if="event.odoo_event_id.seats_availability == 'limited' and event.odoo_event_id.seats_available == 0">
-                                    <div class="alert alert-danger" role="alert">
-                                      The maximum number of participants is reached!
-                                    </div>
+                    <!-- Include modal for registration -->
+                    <t t-call="cms_form_compassion.modal_form"/>
+                    <t t-set="title" t-value="event.name"/>
+                    <div id="wrap">
+                        <!-- Just hold available disciplines for registration form -->
+                        <div>
+                            <ul id="available_disciplines" class="hidden">
+                                <t t-foreach="disciplines" t-as="discipline">
+                                    <li t-att-value="discipline" t-esc="discipline"/>
                                 </t>
-                                <div class="mb16" t-field="event.website_description"/>
-                            </div>
-                            <div class="col-sm-1 col-md-2"/>
+                            </ul>
                         </div>
 
-                        <!-- Participants list -->
-                        <t t-call="website_event_compassion.event_participants_list">
-                            <t t-set="background_color_class">muskathlon_background_transparent_90</t>
-                        </t>
-                    </div>
-                    <div class="oe_structure"/>
-                    <div>
-                        <t t-call="muskathlon.footer_muskathlon"/>
+                        <!-- Event description -->
+                        <div class="main_container event_compassion">
+                            <div class="row">
+                                <div class="col-sm-1 col-md-2"/>
+                                <div class="col-sm-3 col-md-2 col-sm-push-7 col-md-push-6">
+                                    <div class="event_compassion dates_container">
+                                        <span class="text-uppercase dates_text">Dates</span>
+                                        <span class="same-line">
+                                            <t t-esc="start_date"/> - <t t-esc="end_date"/>
+                                        </span>
+                                        <p class="text-uppercase sports_title">Sports</p>
+                                        <table class="sports_icons">
+                                            <tr>
+                                                <t t-foreach="event.sport_discipline_ids.with_context(lang='en_US')" t-as="discipline">
+                                                    <span class="muskathlon_sport_icon">
+                                                        <t t-if="'Biking' == discipline.sport">
+                                                            <td align="center">
+                                                                <img class="sport_icon"
+                                                                     src="/muskathlon/static/src/data/biking.png"/>
+                                                                <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                            </td>
+                                                        </t>
+                                                        <t t-if="'Climbing' == discipline.sport">
+                                                            <td align="center">
+                                                                <img class="sport_icon"
+                                                                     src="/muskathlon/static/src/data/climbing.png"/>
+                                                                <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                            </td>
+                                                        </t>
+                                                        <t t-if="'Running' == discipline.sport">
+                                                            <td align="center">
+                                                                <img class="sport_icon"
+                                                                     src="/muskathlon/static/src/data/running.png"/>
+                                                                <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                            </td>
+                                                        </t>
+                                                        <t t-if="'Walking' == discipline.sport">
+                                                            <td align="center">
+                                                                <img class="sport_icon walk"
+                                                                     src="/muskathlon/static/src/data/walking.png"/>
+                                                                <br/><span class="distance_km"><t t-esc="discipline.distance_km"/>km</span>
+                                                            </td>
+                                                        </t>
+                                                    </span>
+                                                </t>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <p class="mt16">
+                                        <t t-if="event.odoo_event_id.seats_availability == 'unlimited' or event.odoo_event_id.seats_available > 0">
+                                            <a href="#" data-toggle="modal" data-target="#modal_muskathlon_registration" class="btn btn-danger btn-muskathlon">
+                                                <span class="center-text">Register</span>
+                                            </a>
+                                        </t>
+                                        <t t-else="">
+                                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf45XTmTeP-fHG0gC5lpIvX95FBW1XwOFkp7VI55xNE-tEyyw/viewform" target="new" class="btn btn-danger btn-muskathlon">
+                                                <span class="center-text">Request registration</span>
+                                            </a>
+                                        </t>
+                                        <a href="#compassion_event_participants" class="btn btn-danger btn-muskathlon">
+                                            <span class="center-text">See participants</span>
+                                        </a>
+                                    </p>
+                                    <div class="mb4">
+                                        <t t-call="website_event_compassion.event_barometer">
+                                            <t t-set="barometer" t-value="event"/>
+                                            <t t-set="amount_inside" t-value="False"/>
+                                            <t t-set="barometer_title_class">project_donations_total</t>
+                                            <t t-set="barometer_amount_class"/>
+                                        </t>
+                                    </div>
+                                    <div t-field="event.website_side_info" style="margin-top: 20px"/>
+                                    <div class="oe_structure hidden-xs" style="margin-top: 20px"/>
+                                </div>
+                                <div class="col-sm-7 col-md-6 col-sm-pull-3 col-md-pull-2">
+                                    <t t-if="event.odoo_event_id.seats_availability == 'limited' and event.odoo_event_id.seats_available == 0">
+                                        <div class="alert alert-danger" role="alert">
+                                            The maximum number of participants is reached!
+                                        </div>
+                                    </t>
+                                    <div class="mb16" t-field="event.website_description"/>
+                                </div>
+                                <div class="col-sm-1 col-md-2"/>
+                            </div>
+
+                            <!-- Participants list -->
+                            <t t-call="website_event_compassion.event_participants_list">
+                                <t t-set="background_color_class">muskathlon_background_transparent_90</t>
+                            </t>
+                        </div>
+                        <div class="oe_structure"/>
+                        <div>
+                            <t t-call="muskathlon.footer_muskathlon"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </t>
-    </template>
+            </t>
+        </template>
+    </data>
 </odoo>

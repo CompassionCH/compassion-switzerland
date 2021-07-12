@@ -39,6 +39,7 @@ class AccountInvoice(models.Model):
             "city": "city",
             "language": "lang",
             "partner_ref": "ref",
+            "child_id": "child_id"
         }
         partner_infos = {"company_id": self.env.user.company_id.id}
         for wp_field, odoo_field in list(partner_fields.items()):

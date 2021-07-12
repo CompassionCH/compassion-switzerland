@@ -27,6 +27,8 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
 )
 
+from ..tools.image_compression import compress_big_images
+
 
 def _map_contracts(partner, mapping_val=None, sorting_val=None,
                    filter_fun=lambda _: True):
@@ -86,7 +88,7 @@ def _get_user_children(state=None):
         if state == "active":
 
             can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
-                        or (is_communication_not_sent and is_recent_terminated)
+                        or is_communication_not_sent or is_recent_terminated
 
         elif state == "terminated":
 
@@ -271,8 +273,8 @@ class MyAccountController(PaymentFormController):
         :param kwargs: optional additional arguments
         :return: a redirection to a webpage
         """
-        actives = _get_user_children("active")
         terminated = _get_user_children("terminated")
+        actives = terminated - _get_user_children("active")
 
         display_state = True
         # User can choose among groups if none of the two is empty
@@ -284,6 +286,7 @@ class MyAccountController(PaymentFormController):
             children = actives
         else:
             children = terminated
+            state = "terminated"
 
         # No sponsor children
         if len(children) == 0:
@@ -297,8 +300,16 @@ class MyAccountController(PaymentFormController):
                     f"/my/children?state={state}&child_id={children[0].id}"
                 )
             partner = request.env.user.partner_id
-            letters = request.env["correspondence"].search([
-                ("partner_id", "=", partner.id),
+
+            correspondence_obj = request.env["correspondence"]
+            correspondent = partner
+
+            if partner.app_displayed_sponsorships == "all_info":
+                correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
+                correspondence_obj = correspondence_obj.sudo()
+
+            letters = correspondence_obj.search([
+                ("partner_id", "in", correspondent.ids),
                 ("child_id", "=", int(child_id)),
                 "|",
                 "&", ("direction", "=", "Supporter To Beneficiary"),
@@ -524,7 +535,7 @@ class MyAccountController(PaymentFormController):
         partner = request.env.user.partner_id
         picture_post = post.get("picture")
         if picture_post:
-            image_value = b64encode(picture_post.stream.read())
+            image_value = compress_big_images(b64encode(picture_post.stream.read()))
             if not image_value:
                 return "no image uploaded"
             partner.write({"image": image_value})

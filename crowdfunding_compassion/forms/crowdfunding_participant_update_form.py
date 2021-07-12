@@ -9,6 +9,7 @@
 from odoo import models, fields, _
 from odoo.http import request
 
+from odoo.addons.website_compassion.tools.image_compression import compress_big_images
 
 class CrowdfundingParticipatUpdateForm(models.AbstractModel):
     _name = "cms.form.crowdfunding.participant.update"
@@ -92,5 +93,5 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
         messages when multiple forms are present on same page.
         """
         if extra_values.get("profile_photo"):
-            self.main_object.partner_id.image = extra_values["profile_photo"]
+            self.main_object.partner_id.image = compress_big_images(extra_values["profile_photo"])
         self.o_request.website.get_status_message()

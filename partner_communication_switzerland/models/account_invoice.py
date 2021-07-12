@@ -111,14 +111,24 @@ class AccountInvoice(models.Model):
             lambda i: i.type == "out_invoice"
             and not i.avoid_thankyou_letter
             and (
-                not i.communication_id
-                or i.communication_id.state in ("call", "pending")
+                  not i.communication_id
+                  or i.communication_id.state in ("call", "pending")
             )
             and i.invoice_category != "sponsorship"
             and (
-                not i.mapped("invoice_line_ids.contract_id")
-                or (
-                    i.invoice_category == "gift" and i.origin != "Automatic birthday gift")
+                  # Should not be thanked if it's linked to a contract
+                  not i.mapped("invoice_line_ids.contract_id")
+                  # But, can be thanked if it's a spontaneous gift
+                  or (
+                      i.invoice_category == "gift"
+                      and i.origin != "Automatic birthday gift"
+                      and not self.env["recurring.contract.line"].search_count([
+                          ("contract_id.type", "=", "G"),
+                          ("contract_id.state", "=", "active"),
+                          ("sponsorship_id", "in",
+                           i.invoice_line_ids.mapped("contract_id").ids)
+                      ])
+                  )
             )
         )
 
