@@ -125,7 +125,7 @@
                         <t t-set="sign_user" t-value="o.env['res.users'].search([('name', 'ilike', sign_user_name)], limit=1)"/>
                         <div id="signature">
                               <span t-raw="sign_user.short_signature" />
-                              <img t-if="sign_user.digital_signature" t-att-src="sign_user.digital_signature" style="max-height: 6rem; max-width: 100%;"/>
+                              <img t-if="sign_user.digital_signature" t-attf-src="data:image/jpg;base64,{{ sign_user.digital_signature }}"/>
                         </div>
                         <div id="footer">
                             <span class="blue">COMPASSION</span>
