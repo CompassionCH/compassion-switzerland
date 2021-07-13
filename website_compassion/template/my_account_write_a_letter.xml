@@ -153,10 +153,10 @@
                 Your letter was correctly sent ! Thank you for writing
             </div>
             <div id="letter_error" class="alert alert-danger alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
-                There was an error while submitting your letter. Please copy your text to make sure you won't lose it and contact us for signaling the issue.
+                There was an error while submitting your letter. Please copy your text to make sure you won't lose it and contact us at info@compassion.ch for signaling the issue.
             </div>
             <div id="preview_error" class="alert alert-danger alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
-                There was an error while rendering the preview. Make sure you entered some text and that your attachments are valid. Please contact us if you experience unexpected behaviours.
+                There was an error while rendering the preview. Make sure you entered some text and that your attachments are valid. Please contact us at info@compassion.ch if you experience unexpected behaviours.
             </div>
             <button id="sending_normal" class="btn btn-primary w-100" t-attf-onclick="sendLetter('{{request.env.user.partner_id.firstname}}')">
                 Send
