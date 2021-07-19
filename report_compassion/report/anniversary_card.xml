@@ -121,8 +121,6 @@
                         <div id="body">
                             <span t-raw="o.body_html"/>
                         </div>
-                        <t t-set="sign_user_name">sarah maria</t>
-                        <t t-set="sign_user" t-value="o.env['res.users'].search([('name', 'ilike', sign_user_name)], limit=1)"/>
                         <div id="signature">
                             <div style="position: relative; top: -15mm">
                                 <t t-set="sign_user_name">sarah maria</t>
