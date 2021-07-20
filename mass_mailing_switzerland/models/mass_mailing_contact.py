@@ -239,7 +239,7 @@ class MassMailingContact(models.Model):
         if not self or self.env.context.get("skip_mailchimp"):
             return True
 
-        queue_job = self.env["queue.job"].search([
+        queue_job = self.env["queue.job"].sudo().search([
             ("channel", "=", "root.mass_mailing_switzerland.update_partner_mailchimp"),
             ("state", "!=", "done")
         ])

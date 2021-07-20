@@ -58,17 +58,19 @@ def _get_user_children(state=None):
     partner = request.env.user.partner_id
     only_correspondent = partner.app_displayed_sponsorships == "correspondent"
 
-    limit_date = datetime.now() - relativedelta(months=2)
+    limit_date_active = datetime.now() - relativedelta(months=2)
+    limit_date_for_writing = datetime.now() - relativedelta(months=6)
 
     exit_comm_config = list(
-        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, ["lifecycle_child_planned_exit",
-                                                                                     "lifecycle_child_unplanned_exit"]))
+        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, [
+            "lifecycle_child_planned_exit", "lifecycle_child_unplanned_exit"]))
 
-    end_reason_child_depart = partner.env.ref("sponsorship_compassion.end_reason_depart")
+    end_reason_child_depart = partner.env.ref(
+        "sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
 
-        exit_comm_to_send = not partner.env["partner.communication.job"].search_count([
+        exit_comm_sent = partner.env["partner.communication.job"].search_count([
             ("partner_id", "=", partner.id),
             ("config_id", "in", exit_comm_config),
             ("state", "=", "done"),
@@ -76,24 +78,23 @@ def _get_user_children(state=None):
         ])
 
         can_show = True
-        is_recent_terminated = (sponsorship.state == "terminated"
-                                and sponsorship.end_date
-                                and sponsorship.end_date >= limit_date
-                                and sponsorship.end_reason_id == end_reason_child_depart)
-
-        is_communication_not_sent = (sponsorship.state == "terminated"
-                                     and exit_comm_to_send)
+        is_active = sponsorship.state not in ["draft", "cancelled", "terminated"]
+        is_recent_terminated = (
+                sponsorship.state == "terminated"
+                and sponsorship.end_date and sponsorship.end_date >= limit_date_active
+                and sponsorship.end_reason_id == end_reason_child_depart)
+        can_still_write = is_active or sponsorship.state == "terminated"\
+            and sponsorship.end_date and sponsorship.end_date >= limit_date_for_writing
+        is_communication_sent = sponsorship.state == "terminated" and exit_comm_sent
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
-
-            can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
-                        or (is_communication_not_sent and is_recent_terminated)
+            can_show &= is_active or is_recent_terminated or (
+                    not is_communication_sent and can_still_write)
 
         elif state == "terminated":
-
             can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
-                (is_recent_terminated and is_communication_not_sent)
+                (is_recent_terminated or (is_communication_sent and can_still_write))
 
         return can_show
 
@@ -274,7 +275,7 @@ class MyAccountController(PaymentFormController):
         :return: a redirection to a webpage
         """
         actives = _get_user_children("active")
-        terminated = _get_user_children("terminated")
+        terminated = _get_user_children("terminated") - actives
 
         display_state = True
         # User can choose among groups if none of the two is empty
@@ -286,6 +287,7 @@ class MyAccountController(PaymentFormController):
             children = actives
         else:
             children = terminated
+            state = "terminated"
 
         # No sponsor children
         if len(children) == 0:
