@@ -246,7 +246,7 @@
                         </div>
                     </div>
                     <div class="photo">
-                        <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
+                        <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
                         <p t-field="o.local_id" id="child-ref"/>
                     </div>
                     <div class="summary">

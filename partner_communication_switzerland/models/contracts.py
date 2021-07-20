@@ -672,4 +672,4 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                self.with_context({}).send_communication(config, partner)
+                self.with_context({}).send_communication(config, correspondent)

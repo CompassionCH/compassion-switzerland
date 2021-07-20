@@ -428,8 +428,6 @@ class PartnerCommunication(models.Model):
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
         children = sponsorships.mapped("child_id")
-        # Always retrieve latest information before printing dossier
-        children.get_infos()
         report_name = "report_compassion.childpack_small"
         data = {
             "lang": lang,
@@ -438,7 +436,7 @@ class PartnerCommunication(models.Model):
             "doc_ids": children.ids,
         }
         pdf = self._get_pdf_from_data(
-            data, self.env.ref("report_compassion.report_childpack_small")
+            data, self.sudo().env.ref("report_compassion.report_childpack_small")
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
 

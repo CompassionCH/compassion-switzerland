@@ -17,6 +17,7 @@ class ResPartnerCategory(models.Model):
 
     @api.multi
     def update_partner_tags(self):
+        all_partners_to_update = self.env["res.partner"]
         # Update mailing contacts and mailchimp when tags are recomputed.
         for tag in self.with_context(skip_mailchimp_sync=True):
             old_partners = set(tag.mapped("partner_ids").ids)
@@ -28,7 +29,8 @@ class ResPartnerCategory(models.Model):
             tag.mapped("partner_ids.mass_mailing_contact_ids").write({
                 "tag_ids": [(4, tag.id)]
             })
-            to_update = old_partners ^ new_partners
-            self.env["res.partner"].browse(to_update).mapped(
-                "mass_mailing_contact_ids").process_mailchimp_update()
+            to_update_for_tag = old_partners ^ new_partners
+            all_partners_to_update |= self.env["res.partner"].browse(to_update_for_tag)
+
+        all_partners_to_update.mapped("mass_mailing_contact_ids").process_mailchimp_update()
         return True
