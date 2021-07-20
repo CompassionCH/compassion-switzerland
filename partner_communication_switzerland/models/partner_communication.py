@@ -438,7 +438,7 @@ class PartnerCommunication(models.Model):
             "doc_ids": children.ids,
         }
         pdf = self._get_pdf_from_data(
-            data, self.env.ref("report_compassion.report_childpack_small")
+            data, self.sudo().env.ref("report_compassion.report_childpack_small")
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
 
