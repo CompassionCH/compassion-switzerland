@@ -79,8 +79,8 @@ class RecurringContract(models.Model):
                 lambda s: s.state not in ("cancelled", "terminated"))
             if len(self) == len(total_paid):
                 phrase = _(
-                    "1 payment slip to set up a standing order ("
-                    "monthly payment of the sponsorship)"
+                    "Attached you will find a payment slip to set up a standing order "
+                    "for monthly payment of the sponsorship"
                 )
             else:
                 phrase = _(
@@ -90,8 +90,8 @@ class RecurringContract(models.Model):
         elif "LSV" in payment_mode or "Postfinance" in payment_mode:
             if "mandate" in self.mapped("state"):
                 phrase = _(
-                    "1 LSV or Direct Debit authorization form to "
-                    "fill in if you don't already have done it!"
+                    "Attached you will find the LSV or Direct Debit authorization form to fill in "
+                    "if you haven't already done it!"
                 )
             else:
                 phrase = _(
@@ -101,10 +101,9 @@ class RecurringContract(models.Model):
         else:
             freq = self.mapped("group_id.recurring_value")[:1]
             if freq == 12:
-                phrase = _("1 payment slip for the annual sponsorship "
-                           "payment")
+                phrase = _("Attached you will find a payment slip for the annual sponsorship payment")
             else:
-                phrase = _("payment slips for the sponsorship payment")
+                phrase = _("Attached you will find the payment slips for the sponsorship payment")
         return phrase
 
     def _compute_birthday_paid(self):
