@@ -507,27 +507,16 @@ class PartnerCommunication(models.Model):
                             )
                         )
         super(PartnerCommunication, other_jobs).send()
-        b2s_printed = other_jobs.filtered(
-            lambda c: c.config_id.model == "correspondence"
-            and c.send_mode == "physical"
-            and c.state == "done"
-        )
-        if b2s_printed:
-            letters = b2s_printed.get_objects()
-            if letters:
-                letters.write(
-                    {"letter_delivered": True, }
-                )
 
         # No money extension
         no_money_1 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_1"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_1"
         )
         no_money_2 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_2"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
         )
         no_money_3 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_3"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_3"
         )
         settings = self.env["res.config.settings"].sudo()
         first_extension = settings.get_param("no_money_hold_duration")
