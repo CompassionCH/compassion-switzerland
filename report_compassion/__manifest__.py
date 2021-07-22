@@ -51,6 +51,7 @@
         "report/a4_bvr.xml",
         "report/bvr_fund.xml",
         "report/tax_receipt.xml",
+        "report/ending_sponsorship_certificate.xml",
         "report/communication_mailing_bvr.xml",
         "views/print_sponsorship_bvr_view.xml",
         "views/print_sponsorship_gift_bvr_view.xml",
