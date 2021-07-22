@@ -14,6 +14,13 @@
             <field name="dpi">96</field>
         </record>
 
+        <record id="paperformat_ending_sponsorship_certificate_disable_smart_shrinking"
+                model="report.paperformat.parameter">
+            <field name="paperformat_id"
+                   ref="paperformat_ending_sponsorship_certificate"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
+
         <report id="report_ending_sponsorship_certificate"
                 model="recurring.contract"
                 string="Ending Sponsorship Certificate"

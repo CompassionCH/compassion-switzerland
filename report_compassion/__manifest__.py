@@ -37,6 +37,7 @@
     "depends": [
         "label",  # compassion-modules
         "sponsorship_switzerland",  # compassion-switzerland
+        "report_wkhtmltopdf_param"  # addons_oca
     ],
     "external_dependencies": {"python": ["pyquery", "babel"]},
     "data": [
