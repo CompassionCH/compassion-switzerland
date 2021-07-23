@@ -205,6 +205,13 @@
                     max-height: 100%;
                     margin: auto;
                 }
+                .qrcode {
+                  position: absolute;
+                  margin-left: <t t-esc="marginLeft+105"/>mm;
+                  margin-top: 140mm;
+                  width: 30mm;
+                  height: 30mm;
+                }
             </t>
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -245,6 +252,7 @@
                             <t t-raw="o.project_id.description_right"/>
                         </div>
                     </div>
+                    <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form" /> <!-- keep space -->
                     <div class="photo">
                         <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
                         <p t-field="o.local_id" id="child-ref"/>
@@ -303,6 +311,13 @@
                     color: black;
                     font-size: 8pt;
                 }
+                .qrcode {
+                    position: absolute;
+                    margin-top: 181mm;
+                    margin-left: 185mm;
+                    width: 18mm;
+                    height: 18mm;
+                }
             </t>
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -330,6 +345,7 @@
                                 <br/>
                                 <span t-field="o.local_id" class="ref"/>
                             </div>
+                            <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form" /> <!-- keep space -->
                             <p style="page-break-after:always;"/>
                         </div>
                     </div>
