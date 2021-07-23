@@ -23,6 +23,23 @@
                 <p class="text-center mt-5">Need help? <a href="mailto:mycompassion@compassion.ch">mycompassion@compassion.ch</a></p>
             </t>
         </xpath>
+
+    </template>
+
+    <template id="providers" inherit_id="auth_oauth.providers" name="OAuth Providers">
+        <xpath expr="t" position="replace">
+            <t t-set="_host" t-value="request.httprequest.host" />
+            <t t-set="_base" t-value="request.env['ir.config_parameter'].sudo().get_param('web.base.url')" />
+            <t t-if="len(providers) &gt; 0 and _host == _base">
+                <em t-attf-class="d-block text-center text-muted small my-#{len(providers) if len(providers) &lt; 3 else 3}">- or -</em>
+                <div class="o_auth_oauth_providers list-group mt-1 mb-1 text-left">
+                    <a t-foreach="providers" t-as="p" class="list-group-item list-group-item-action py-2" t-att-href="p['auth_link']">
+                        <i t-att-class="p['css_class']"/>
+                        <t t-esc="p['body']"/>
+                    </a>
+                </div>
+            </t>
+        </xpath>
     </template>
 
     <template id="custom_assets" inherit_id="website.assets_frontend">
