@@ -225,7 +225,7 @@
                     <t t-call="report_compassion.style"/>
                     <t t-if="formMargin">
                         <div class="local_id">
-                            <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/>
+                            <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/> <!-- keep space -->
                             <span t-field="o.local_id"/>
                         </div>
                     </t>
@@ -275,8 +275,8 @@
                 }
                 .photo {
                     position: absolute;
-                    margin-left: 115mm;
-                    margin-top: 54mm;
+                    margin-left: 118mm;
+                    margin-top: 49mm;
                     width: 88mm;
                     height: 125mm;
                 }
@@ -287,11 +287,12 @@
                 }
                 .summary {
                     position: absolute;
-                    margin-left: 115mm;
-                    margin-top: 185mm;
+                    margin-left: 118mm;
+                    margin-top: 177mm;
                     text-transform: uppercase;
                     font-family: "Miller";
                     font-size: 15pt;
+                    line-height: 1.4;
                     color: #0054a6;
                 }
                 .summary .name {
@@ -315,7 +316,7 @@
                                 <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
                             </div>
                             <div class="summary">
-                                <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
+                                <span t-field="o.preferred_name" class="name"/>,
                                 <t t-if="o.gender == 'M'">
                                     boy
                                 </t>
@@ -323,11 +324,13 @@
                                     girl
                                 </t>
                                 <br/>
+                                <span t-field="o.birthdate" class="birthdate"/> (<span t-field="o.age" class="age"/> years) <!-- keep space -->
+                                <br/>
                                 <span t-field="o.project_id.country_id.name"/>
                                 <br/>
                                 <span t-field="o.local_id" class="ref"/>
                             </div>
-                            <p style="page-break-after:always;"/>0
+                            <p style="page-break-after:always;"/>
                         </div>
                     </div>
                 </t>
