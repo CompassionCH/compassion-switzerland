@@ -440,6 +440,22 @@ class PartnerCommunication(models.Model):
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
 
+    def get_end_sponsorship_certificate(self):
+        self.ensure_one()
+        lang = self.partner_id.lang
+        sponsorships = self.get_objects()
+        report_name = "report_compassion.ending_sponsorship_certificate"
+        data = {
+            "lang": lang,
+            "is_pdf": self.send_mode != "physical",
+            "type": report_name,
+            "doc_ids": sponsorships.ids,
+        }
+        pdf = self._get_pdf_from_data(
+            data, self.sudo().env.ref("report_compassion.report_ending_sponsorship_certificate")
+        )
+        return {_("ending sponsorship certificate.pdf"): [report_name, pdf]}
+
     def get_tax_receipt(self):
         self.ensure_one()
         res = {}

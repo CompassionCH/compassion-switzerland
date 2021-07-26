@@ -1,0 +1,130 @@
+<odoo>
+    <data noupdate="1">
+        <record id="paperformat_ending_sponsorship_certificate" model="report.paperformat">
+            <field name="name">Ending Sponsorship Certificate Format</field>
+            <field name="format">A5</field>
+            <field name="default" eval="True"/>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">96</field>
+        </record>
+
+        <record id="paperformat_ending_sponsorship_certificate_disable_smart_shrinking"
+                model="report.paperformat.parameter">
+            <field name="paperformat_id"
+                   ref="paperformat_ending_sponsorship_certificate"/>
+            <field name="name">--disable-smart-shrinking</field>
+        </record>
+
+        <report id="report_ending_sponsorship_certificate"
+                model="recurring.contract"
+                string="Ending Sponsorship Certificate"
+                report_type="qweb-pdf"
+                name="report_compassion.ending_sponsorship_certificate"
+        />
+
+        <record id="report_ending_sponsorship_certificate" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_ending_sponsorship_certificate"/>
+        </record>
+
+        <template id="ending_sponsorship_certificate">
+            <t t-set="custom_css">
+
+                body{
+                padding: 0;
+                margin: 0;
+                }
+
+                .legend_date{
+                color: #005eb8;
+                text-transform: uppercase;
+                text-align: center;
+                font-size:13px;
+                margin-top:0;
+                }
+                .child_name{
+                color: #4a4a49;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-align: center;
+                font-size:24px;
+                margin-bottom:0;
+                padding-bottom: -10pt;
+                }
+                .yellow_line{
+                width:25mm;
+                color: #dcaa02;
+                background-color: #dcaa02;
+                height: 1pt;
+                border: none;
+                margin-top: 3mm;
+                margin-bottom: 3mm;
+                padding:0;
+
+                }
+
+                .child_picture{
+                width: 66mm;
+                height: 99mm;
+                margin-left: 25mm;
+                }
+
+                .multi{
+                margin-left: 25mm;
+                }
+
+                .single{
+                margin-left: 72mm;
+                }
+
+                .pictures_layout {
+                margin: 0;
+                position: absolute;
+                top: 24.5mm;
+                }
+
+                .info_layout {
+                margin: 0;
+                padding:0;
+                position: absolute;
+                bottom: 0mm;
+                width:100%;
+                }
+
+
+            </t>
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report_compassion.style"/>
+                    <t t-set="pictures" t-value="o.child_id.pictures_ids"/>
+                    <t t-set="first_pic_available" t-value="pictures[-1].date.year == o.start_date.year"/>
+                    <div t-if="first_pic_available" class="pictures_layout">
+                        <img t-if="pictures" class="child_picture multi"
+                             t-attf-src="data:image/jpg;base64,{{ pictures[0].fullshot }}"/>
+                        <img t-if="pictures" class="child_picture multi"
+                             t-attf-src="data:image/jpg;base64,{{ pictures[-1].fullshot }}"/>
+                    </div>
+                    <div t-if="not first_pic_available" class="pictures_layout">
+                        <img t-if="pictures" class="child_picture single"
+                             t-attf-src="data:image/jpg;base64,{{ pictures[0].fullshot }}"/>
+                    </div>
+                    <div class="info_layout">
+                        <p t-field="o.child_id.preferred_name" class="child_name"/>
+                        <t t-set="start_date"
+                           t-value="o.env['connect.month'].get_months_selection()[o.start_date.month][1]+' '+str(o.start_date.year)"/>
+                        <t t-set="end_date"
+                           t-value="o.env['connect.month'].get_months_selection()[o.end_date.month][1]+' '+str(o.end_date.year)"/>
+                        <hr class="yellow_line"/>
+                        <p class="legend_date">Sponsored since <t t-raw="start_date"/> - <t t-raw="end_date"/></p>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
