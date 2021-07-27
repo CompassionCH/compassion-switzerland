@@ -72,7 +72,6 @@
         "data/label_print.xml",
         "data/sponsorship_action_rules.xml",
         "data/utm_data.xml",
-        "data/field_office_info_report.xml",
         "report/onboarding_photo_by_post.xml",
         "data/onboarding_process.xml",
         "data/onboarding_survey.xml",

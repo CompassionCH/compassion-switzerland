@@ -252,8 +252,9 @@ class PartnerCommunication(models.Model):
         ):
             if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
-                pm = self.env['account.payment.mode'].search([('name', '=', payment_mode)])
-                return {"lsv_form.pdf": ["partner_communication_switzerland.field_office_info",
+                pm = self.env['account.payment.mode'].search([
+                    ('name', '=', payment_mode)])
+                return {"lsv_form.pdf": ["report_compassion.b2s_letter",
                                          pm.payment_method_id.lsv_form_pdf]}
 
         # Put product sponsorship to print the payment slip for physical print.
