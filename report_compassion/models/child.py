@@ -69,7 +69,7 @@ class CompassionChild(models.Model):
     def get_qrcode_sponsorship_url(self):
         self.ensure_one()
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
-        url = quote(f"{base_url}/sponsor_a_child?source=QR&child_id={self.id}")
+        url = quote(f"{base_url}/sponsor_this_child?source=QR&child_id={self.id}")
         w = h = 600
         # Replace QR by QR_quiet below to remove the border around the black dots
         # /!\ will impact mini, small & full child pack types
