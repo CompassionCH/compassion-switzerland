@@ -349,6 +349,7 @@ class RecurringContract(models.Model):
     def send_sponsorship_reminders(self):
         logger.info("Creating Sponsorship Reminders")
         today = datetime.now()
+        first_day_of_month = date(today.year, today.month, 1)
         first_reminder_config = self.env.ref(
             "partner_communication_switzerland.sponsorship_reminder_1"
         )
@@ -365,7 +366,6 @@ class RecurringContract(models.Model):
             default_auto_send=False,
             default_print_header=True,
         )
-        ninety_ago = today - relativedelta(days=90)
         twenty_ago = today - relativedelta(days=20)
         comm_obj = self.env["partner.communication.job"]
         search_domain = [
@@ -376,13 +376,7 @@ class RecurringContract(models.Model):
             ("child_id.project_id.suspension", "!=", "fund-suspended"),
             ("child_id.project_id.suspension", "=", False),
         ]
-        # Recompute due invoices of multi-months payers, because
-        # due months are only recomputed when new invoices are generated
-        # which could take up to one year for yearly payers.
-        multi_month = self.search(
-            search_domain + [("group_id.advance_billing_months", ">=", 3)]
-        )
-        multi_month.compute_due_invoices()
+
         for sponsorship in self.search(
                 search_domain + [("months_due", ">", 1)]):
             reminder_search = [
@@ -396,9 +390,14 @@ class RecurringContract(models.Model):
             ]
             # Look if first reminder was sent previous month (send second
             # reminder in that case)
+            # avoid taking into account reminder that the partner already took care of
+            # we substract month due to the first of the month to get the older threshold
+            # this also prevent reminder_1 to be sent after an already sent reminder_2
+            older_threshold = first_day_of_month - relativedelta(months=sponsorship.months_due)
+
             has_first_reminder = comm_obj.search_count(
                 reminder_search
-                + [("sent_date", ">=", ninety_ago),
+                + [("sent_date", ">=", older_threshold),
                    ("sent_date", "<", twenty_ago)]
             )
             if has_first_reminder:
@@ -509,7 +508,6 @@ class RecurringContract(models.Model):
             selected_config = self.env.ref(module + "csp_mail")
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
-
 
         return res
 
