@@ -49,10 +49,10 @@
                         <div t-attf-id="card_template_{{template.id}}" t-attf-onclick="selectElement('{{template.id}}', 'template')" class="card card-clickable text-center">
                             <li>
                                 <t t-if="template.id == template_id.id">
-                                    <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image border border-5 border-primary" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                    <img t-attf-id="template_{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image border border-5 border-primary" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
                                 </t>
                                 <t t-else="">
-                                    <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                    <img t-attf-id="template_{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
                                 </t>
                                 <span t-attf-id="template_name_{{template.id}}"  style="display: none;"><t t-esc="template.name"/></span>
                             </li>
