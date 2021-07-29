@@ -51,8 +51,8 @@ class Correspondence(models.Model):
         store=True,
         track_visibility="onchange",
     )
-    email_read = fields.Datetime(compute="_compute_email_read", store=True)
-    letter_delivered = fields.Boolean(oldname="letter_read")
+    email_read = fields.Datetime(
+        compute="_compute_email_read", inverse="_inverse_email_read", store=True)
     zip_file = fields.Binary(oldname="zip_id", attachment=True)
     has_valid_language = fields.Boolean(compute="_compute_valid_language", store=True)
 
@@ -99,10 +99,13 @@ class Correspondence(models.Model):
             dates = [
                 x.time
                 for x in mail.communication_id.email_id.tracking_event_ids
-                if x.event_type == "open"
+                if x.event_type in ("open", "delivered")
             ]
             if dates:
                 mail.email_read = max(dates)
+
+    def _inverse_email_read(self):
+        return True
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -250,17 +253,6 @@ class Correspondence(models.Model):
 
         comm_obj = self.env["partner.communication.job"]
         return self.write({"communication_id": comm_obj.create(comm_vals).id})
-
-    @api.model
-    def _needaction_domain_get(self):
-        ten_days_ago = datetime.today() - relativedelta(days=10)
-        domain = [
-            ("direction", "=", "Beneficiary To Supporter"),
-            ("state", "=", "Published to Global Partner"),
-            ("letter_delivered", "=", False),
-            ("sent_date", "<", ten_days_ago),
-        ]
-        return domain
 
     def _can_auto_send(self):
         """ Tells if we can automatically send the letter by e-mail or should

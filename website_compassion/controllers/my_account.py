@@ -315,7 +315,7 @@ class MyAccountController(PaymentFormController):
                 "|",
                 "&", ("direction", "=", "Supporter To Beneficiary"),
                 ("state", "!=", "Quality check unsuccessful"),
-                "|", ("letter_delivered", "=", True), ("sent_date", "!=", False)
+                "|", ("email_read", "!=", False), ("sent_date", "!=", False)
             ])
             gift_categ = request.env.ref(
                 "sponsorship_compassion.product_category_gift"

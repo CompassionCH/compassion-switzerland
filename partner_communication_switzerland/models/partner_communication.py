@@ -252,8 +252,9 @@ class PartnerCommunication(models.Model):
         ):
             if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
-                pm = self.env['account.payment.mode'].search([('name', '=', payment_mode)])
-                return {"lsv_form.pdf": ["partner_communication_switzerland.field_office_info",
+                pm = self.env['account.payment.mode'].search([
+                    ('name', '=', payment_mode)])
+                return {"lsv_form.pdf": ["report_compassion.b2s_letter",
                                          pm.payment_method_id.lsv_form_pdf]}
 
         # Put product sponsorship to print the payment slip for physical print.
@@ -440,6 +441,22 @@ class PartnerCommunication(models.Model):
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
 
+    def get_end_sponsorship_certificate(self):
+        self.ensure_one()
+        lang = self.partner_id.lang
+        sponsorships = self.get_objects()
+        report_name = "report_compassion.ending_sponsorship_certificate"
+        data = {
+            "lang": lang,
+            "is_pdf": self.send_mode != "physical",
+            "type": report_name,
+            "doc_ids": sponsorships.ids,
+        }
+        pdf = self._get_pdf_from_data(
+            data, self.sudo().env.ref("report_compassion.report_ending_sponsorship_certificate")
+        )
+        return {_("ending sponsorship certificate.pdf"): [report_name, pdf]}
+
     def get_tax_receipt(self):
         self.ensure_one()
         res = {}
@@ -507,27 +524,16 @@ class PartnerCommunication(models.Model):
                             )
                         )
         super(PartnerCommunication, other_jobs).send()
-        b2s_printed = other_jobs.filtered(
-            lambda c: c.config_id.model == "correspondence"
-            and c.send_mode == "physical"
-            and c.state == "done"
-        )
-        if b2s_printed:
-            letters = b2s_printed.get_objects()
-            if letters:
-                letters.write(
-                    {"letter_delivered": True, }
-                )
 
         # No money extension
         no_money_1 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_1"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_1"
         )
         no_money_2 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_2"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
         )
         no_money_3 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_3"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_3"
         )
         settings = self.env["res.config.settings"].sudo()
         first_extension = settings.get_param("no_money_hold_duration")

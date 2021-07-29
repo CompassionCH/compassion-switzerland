@@ -70,21 +70,21 @@ msgstr "% set types = ','.join(object.communication_type_ids.mapped('name')).low
 "% endif"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:95
+#: code:addons/partner_communication_switzerland/models/contracts.py:92
 #, python-format
-msgid "1 LSV or Direct Debit authorization form to fill in if you don't already have done it!"
+msgid "Attached you will find the LSV or Direct Debit authorization form to fill in if you haven't already done it!"
 msgstr "compilare il formulario LSV in allegato e di rinviarcelo per attivare il prelievo automatico mensile."
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:107
+#: code:addons/partner_communication_switzerland/models/contracts.py:104
 #, python-format
-msgid "1 payment slip for the annual sponsorship payment"
+msgid "Attached you will find a payment slip for the annual sponsorship payment"
 msgstr "pagare il suo sostegno utilizzando il bollettino annuale qui in allegato."
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:89
+#: code:addons/partner_communication_switzerland/models/contracts.py:81
 #, python-format
-msgid "1 payment slip to set up a standing order (monthly payment of the sponsorship)"
+msgid "Attached you will find a payment slip to set up a standing order for monthly payment of the sponsorship"
 msgstr "attivare l'ordine permanente qui in allegato."
 
 #. module: partner_communication_switzerland
@@ -5957,9 +5957,9 @@ msgid "mo-fri: 8am-4pm"
 msgstr "lun-ven: 8.00-16.00"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:110
+#: code:addons/partner_communication_switzerland/models/contracts.py:106
 #, python-format
-msgid "payment slips for the sponsorship payment"
+msgid "Attached you will find the payment slips for the sponsorship payment"
 msgstr "pagare il suo sostegno utilizzando i bollettini qui in allegato."
 
 #. module: partner_communication_switzerland

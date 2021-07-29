@@ -118,7 +118,7 @@ class MonitorCorrectErrors(models.Model):
 
     def _fix_sbc(self):
         """
-        This method send a warning for letters that are not been delivred to
+        This method send a warning for letters that are not been delivered to
         the sponsor, or letters that has been in the queue for too long.
         :return: -
         """
@@ -128,7 +128,7 @@ class MonitorCorrectErrors(models.Model):
             [
                 ("state", "=", "Published to Global Partner"),
                 ("sent_date", "=", False),
-                ("letter_delivered", "=", False),
+                ("email_read", "=", False),
                 ("status_date", "<", limit_date),
             ]
         )

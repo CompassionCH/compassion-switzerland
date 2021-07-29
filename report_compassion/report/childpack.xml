@@ -205,6 +205,13 @@
                     max-height: 100%;
                     margin: auto;
                 }
+                .qrcode {
+                  position: absolute;
+                  margin-left: <t t-esc="marginLeft+105"/>mm;
+                  margin-top: 140mm;
+                  width: 30mm;
+                  height: 30mm;
+                }
             </t>
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -225,7 +232,7 @@
                     <t t-call="report_compassion.style"/>
                     <t t-if="formMargin">
                         <div class="local_id">
-                            <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/>
+                            <span>Childpack available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/> <!-- keep space -->
                             <span t-field="o.local_id"/>
                         </div>
                     </t>
@@ -245,6 +252,7 @@
                             <t t-raw="o.project_id.description_right"/>
                         </div>
                     </div>
+                    <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form" /> <!-- keep space -->
                     <div class="photo">
                         <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
                         <p t-field="o.local_id" id="child-ref"/>
@@ -275,8 +283,8 @@
                 }
                 .photo {
                     position: absolute;
-                    margin-left: 115mm;
-                    margin-top: 54mm;
+                    margin-left: 118mm;
+                    margin-top: 49mm;
                     width: 88mm;
                     height: 125mm;
                 }
@@ -287,11 +295,12 @@
                 }
                 .summary {
                     position: absolute;
-                    margin-left: 115mm;
-                    margin-top: 185mm;
+                    margin-left: 118mm;
+                    margin-top: 177mm;
                     text-transform: uppercase;
                     font-family: "Miller";
                     font-size: 15pt;
+                    line-height: 1.4;
                     color: #0054a6;
                 }
                 .summary .name {
@@ -301,6 +310,13 @@
                 .summary .ref {
                     color: black;
                     font-size: 8pt;
+                }
+                .qrcode {
+                    position: absolute;
+                    margin-top: 181mm;
+                    margin-left: 185mm;
+                    width: 18mm;
+                    height: 18mm;
                 }
             </t>
             <t t-call="web.html_container">
@@ -315,7 +331,7 @@
                                 <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
                             </div>
                             <div class="summary">
-                                <span t-field="o.preferred_name" class="name"/>, <span t-field="o.age" class="age"/> years, <!-- keep space -->
+                                <span t-field="o.preferred_name" class="name"/>,
                                 <t t-if="o.gender == 'M'">
                                     boy
                                 </t>
@@ -323,11 +339,14 @@
                                     girl
                                 </t>
                                 <br/>
+                                <span t-field="o.birthdate" class="birthdate"/> (<span t-field="o.age" class="age"/> years) <!-- keep space -->
+                                <br/>
                                 <span t-field="o.project_id.country_id.name"/>
                                 <br/>
                                 <span t-field="o.local_id" class="ref"/>
                             </div>
-                            <p style="page-break-after:always;"/>0
+                            <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form" /> <!-- keep space -->
+                            <p style="page-break-after:always;"/>
                         </div>
                     </div>
                 </t>

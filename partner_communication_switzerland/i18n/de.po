@@ -123,27 +123,23 @@ msgid "1 Child"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:88
+#: code:addons/partner_communication_switzerland/models/contracts.py:92
 #, python-format
-msgid ""
-"1 LSV or Direct Debit authorization form to fill in if you don't already "
-"have done it!"
+msgid "Attached you will find the LSV or Direct Debit authorization form to fill in if you haven't already done it!"
 msgstr ""
 "Im Anhang {findet} die Einzugsermächtigung für die Bank. Wir bitten {dich}, "
 "diese auszufüllen und uns per Post zurückzusenden"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:100
+#: code:addons/partner_communication_switzerland/models/contracts.py:104
 #, python-format
-msgid "1 payment slip for the annual sponsorship payment"
+msgid "Attached you will find a payment slip for the annual sponsorship payment"
 msgstr "Im Anhang {findet} den Einzahlungsschein"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:77
+#: code:addons/partner_communication_switzerland/models/contracts.py:81
 #, python-format
-msgid ""
-"1 payment slip to set up a standing order (monthly payment of the "
-"sponsorship)"
+msgid "Attached you will find a payment slip to set up a standing order for monthly payment of the sponsorship"
 msgstr "Im Anhang {findet} den Einzahlungsschein"
 
 #. module: partner_communication_switzerland
@@ -7536,9 +7532,9 @@ msgid "partner.communication.test.cases.wizard"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:103
+#: code:addons/partner_communication_switzerland/models/contracts.py:106
 #, python-format
-msgid "payment slips for the sponsorship payment"
+msgid "Attached you will find the payment slips for the sponsorship payment"
 msgstr "Im Anhang {findet} die Einzahlungsscheine"
 
 #. module: partner_communication_switzerland
