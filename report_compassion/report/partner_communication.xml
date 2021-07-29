@@ -208,7 +208,18 @@
             <div id="header">
                 <t t-if="print_header">
                     <div id="logo">
-                        <img src="/report_compassion/static/img/compassion_logo.png"/>
+                        <t t-set="lang" t-value="'multilingual.jpg'"/>
+                        <t t-if="o and o.partner_id">
+                            <!-- If generating communication header, partner is in o -->
+                            <t t-set="partner" t-value="o.partner_id"/>
+                            <t t-set="adaptWidth" t-value="'100%'" />
+                        </t>
+                        <!-- When generating tax_receipt, partner is defined but width is to be adapted -->
+                        <t t-else="" t-set="adaptWidth" t-value="'80%'"/>
+                        <t t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']">
+                            <t t-set="lang" t-value="partner.lang.split('_')[0] + '.png'"/>
+                        </t>
+                        <img t-attf-style="width: #{adaptWidth}" t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}" />
                     </div>
                     <div id="square">
                         <img src="/report_compassion/static/img/bluesquare.png"/>
