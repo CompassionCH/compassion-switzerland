@@ -1,6 +1,5 @@
 <odoo>
     <!-- Report for printing a letter on Compassion Paper -->
-    <data noupdate="1">
         <report id="report_partner_communication"
             model="partner.communication.job"
             string="A4 Letterhead"
@@ -28,19 +27,6 @@
                     height: 40mm;
                 }
                 #logo img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: auto;
-                }
-                #square {
-                    display: inline-block;
-                    float: right;
-                    margin-top: 6mm;
-                    margin-right: 6mm;
-                    width: 19mm;
-                    height: 19mm;
-                }
-                #square img {
                     max-width: 100%;
                     max-height: 100%;
                     margin: auto;
@@ -208,10 +194,16 @@
             <div id="header">
                 <t t-if="print_header">
                     <div id="logo">
-                        <img src="/report_compassion/static/img/compassion_logo.png"/>
-                    </div>
-                    <div id="square">
-                        <img src="/report_compassion/static/img/bluesquare.png"/>
+                        <t t-set="lang" t-value="'multilingual.jpg'"/>
+                        <t t-if="o and o.partner_id">
+                            <!-- If generating communication header, partner is in o -->
+                            <t t-set="partner" t-value="o.partner_id"/>
+                        </t>
+                        <!-- When generating tax_receipt, partner is defined but width is to be adapted -->
+                        <t t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']">
+                            <t t-set="lang" t-value="partner.lang.split('_')[0] + '.png'"/>
+                        </t>
+                        <img t-attf-style="width: 80%" t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}" />
                     </div>
                 </t>
             </div>
@@ -341,5 +333,4 @@
                 </div>
             </t>
         </template>
-    </data>
 </odoo>
