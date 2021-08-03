@@ -161,19 +161,19 @@ class ResPartner(models.Model):
     def _compute_no_physical_letter(self):
         for partner in self:
             partner.no_physical_letter = (
-                                                 "only" in partner.global_communication_delivery_preference
-                                                 or partner.global_communication_delivery_preference == "none"
-                                         ) and (
-                                                 "only" in partner.letter_delivery_preference
-                                                 or partner.letter_delivery_preference == "none"
-                                         ) and (
-                                                 "only" in partner.photo_delivery_preference
-                                                 or partner.photo_delivery_preference == "none"
-                                         ) and (
-                                                 "only" in partner.thankyou_preference
-                                                 or partner.thankyou_preference == "none"
-                                         ) and partner.tax_certificate != "paper" and partner.nbmag in (
-                                             "email", "no_mag")
+                 "only" in partner.global_communication_delivery_preference
+                 or partner.global_communication_delivery_preference == "none"
+            ) and (
+                 "only" in partner.letter_delivery_preference
+                 or partner.letter_delivery_preference == "none"
+            ) and (
+                 "only" in partner.photo_delivery_preference
+                 or partner.photo_delivery_preference == "none"
+            ) and (
+                 "only" in partner.thankyou_preference
+                 or partner.thankyou_preference == "none"
+            ) and partner.tax_certificate != "paper" and partner.nbmag in (
+             "email", "no_mag")
 
     def _inverse_no_physical_letter(self):
         for partner in self:
@@ -225,29 +225,6 @@ class ResPartner(models.Model):
                 partner.last_completed_tax_receipt = last_tax_receipt.date.year - 1
             else:
                 partner.last_completed_tax_receipt = 1979
-
-    @api.multi
-    def write(self, vals):
-
-        is_optout = 'onboarding_new_donor_start_date' in vals and not vals['onboarding_new_donor_start_date']
-        new_donors_user = self.env['res.config.settings'].get_values()['new_donors_user']
-        optout_partners = self.filtered(
-            lambda p: p.onboarding_new_donor_start_date != False) if is_optout and new_donors_user else self.env[
-            self._name]
-
-        res = super(ResPartner, self).write(vals)
-
-        for partner in optout_partners:
-            partner.activity_schedule(
-                "mail.mail_activity_data_email",
-                summary=_("Someone opt out of the new donor onboarding process"),
-                note=_("{} just opt out of the onboarding process for new donors.".
-                       format(partner.name)
-                       ),
-                user_id=new_donors_user
-            )
-
-        return res
 
     @api.model
     def generate_tax_receipts(self):
@@ -389,7 +366,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def filter_onboarding_new_donors(self):
-        return self.filtered(lambda p: p.is_new_donor and not p.is_church)
+        return self.filtered(lambda p: p.is_new_donor and not p.is_church and not p.sponsorship_ids)
 
     def start_new_donors_onboarding(self):
 
