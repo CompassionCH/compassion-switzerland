@@ -94,6 +94,7 @@
         "views/onboarding_settings_view.xml",
         "wizards/res_partner_create_portal_wizard.xml",
         "templates/zoom_registration_form.xml",
+        "templates/onboarding_unsubscribe.xml"
     ],
     "demo": [],
     "installable": True,

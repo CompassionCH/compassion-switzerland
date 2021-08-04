@@ -9,6 +9,7 @@
 ##############################################################################
 import logging
 from datetime import date
+import hashlib
 
 from odoo import api, models, fields, _
 from odoo.addons.auth_signup.models.res_partner import now
@@ -50,6 +51,7 @@ class ResPartner(models.Model):
     onboarding_new_donor_start_date = fields.Date(help="Indicates when the first email of "
                                                        "the new donor onboarding process was sent.",
                                                   copy=False)
+    onboarding_new_donor_hash = fields.Char()
 
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
@@ -383,3 +385,4 @@ class ResPartner(models.Model):
                 })
 
             partner.onboarding_new_donor_start_date = fields.Date.today()
+            partner.onboarding_new_donor_hash = hashlib.md5(f"{partner.id}".encode()).hexdigest()

@@ -55,6 +55,7 @@
                     % set deine = 'eure' if is_plural else 'deine'
                     % set hast = 'habt' if is_plural else 'hast'
                     % set fragst = 'fragt' if is_plural else 'fragst'
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                     ${partner.salutation}
                 </p>
                 <p>
@@ -72,6 +73,9 @@
                 </p>
                 <p>
                     Debora Alder-Gasser und das Team von Compassion
+                </p>
+                <p>
+                    <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Unsubscribe from further mailing</a>
                 </p>
             </field>
         </record>
@@ -94,6 +98,7 @@
                     % set deine = 'eure' if is_plural else 'deine'
                     % set findest = 'findet' if is_plural else 'findest'
                     % set fragst = 'fragt' if is_plural else 'fragst'
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
                     ${partner.salutation}
                 </p>
                 <p>
@@ -120,6 +125,9 @@
                 </p>
                 <p>
                     Debora Alder-Gasser und das Team von Compassion
+                </p>
+                <p>
+                    <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Unsubscribe from further mailing</a>
                 </p>
             </field>
         </record>
@@ -155,7 +163,7 @@
             <field name="model_id" ref="model_res_partner"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date"/>
-            <field name="filter_domain" eval="[('email', '!=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
+            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
             <field name="trg_date_range">1</field>
             <field name="trg_date_range_type">month</field>
             <field name="state">communication</field>
@@ -168,7 +176,7 @@
             <field name="model_id" ref="model_res_partner"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date"/>
-            <field name="filter_domain" eval="[('email', '!=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
+            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
             <field name="trg_date_range">2</field>
             <field name="trg_date_range_type">month</field>
             <field name="state">communication</field>
