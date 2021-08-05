@@ -9,6 +9,7 @@
 ##############################################################################
 import logging
 from datetime import date
+import uuid
 
 from odoo import api, models, fields, _
 from odoo.addons.auth_signup.models.res_partner import now
@@ -47,6 +48,11 @@ class ResPartner(models.Model):
     informal_salutation = fields.Char(compute="_compute_informal_salutation",
                                       help="Informal salutation used in French")
 
+    onboarding_new_donor_start_date = fields.Date(help="Indicates when the first email of "
+                                                       "the new donor onboarding process was sent.",
+                                                  copy=False)
+    onboarding_new_donor_hash = fields.Char()
+
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
         family_title = self.env.ref("partner_compassion.res_partner_title_family")
@@ -81,7 +87,7 @@ class ResPartner(models.Model):
         if title == family_title:
             return f"Liebe Familie {self.lastname}"
         elif title == mister_madam_title:
-            return  f"Hallo {self.firstname}"
+            return f"Hallo {self.firstname}"
         elif is_company:
             return "Liebe Freundinnen und Freunde von Compassion"
         else:
@@ -157,19 +163,19 @@ class ResPartner(models.Model):
     def _compute_no_physical_letter(self):
         for partner in self:
             partner.no_physical_letter = (
-                "only" in partner.global_communication_delivery_preference
-                or partner.global_communication_delivery_preference == "none"
+                 "only" in partner.global_communication_delivery_preference
+                 or partner.global_communication_delivery_preference == "none"
             ) and (
-                "only" in partner.letter_delivery_preference
-                or partner.letter_delivery_preference == "none"
+                 "only" in partner.letter_delivery_preference
+                 or partner.letter_delivery_preference == "none"
             ) and (
-                "only" in partner.photo_delivery_preference
-                or partner.photo_delivery_preference == "none"
+                 "only" in partner.photo_delivery_preference
+                 or partner.photo_delivery_preference == "none"
             ) and (
-                "only" in partner.thankyou_preference
-                or partner.thankyou_preference == "none"
+                 "only" in partner.thankyou_preference
+                 or partner.thankyou_preference == "none"
             ) and partner.tax_certificate != "paper" and partner.nbmag in (
-                "email", "no_mag")
+             "email", "no_mag")
 
     def _inverse_no_physical_letter(self):
         for partner in self:
@@ -177,7 +183,7 @@ class ResPartner(models.Model):
                 vals = {
                     "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
                     "tax_certificate": "no"
-                    if partner.tax_certificate == "no"else "only_email",
+                    if partner.tax_certificate == "no" else "only_email",
                     "calendar": False,
                     "christmas_card": False
                 }
@@ -218,7 +224,7 @@ class ResPartner(models.Model):
                 ("state", "=", "done")
             ], limit=1)
             if last_tax_receipt.date:
-                partner.last_completed_tax_receipt = last_tax_receipt.date.year-1
+                partner.last_completed_tax_receipt = last_tax_receipt.date.year - 1
             else:
                 partner.last_completed_tax_receipt = 1979
 
@@ -359,3 +365,24 @@ class ResPartner(models.Model):
             "res_id": comm.id,
             "target": "current",
         }
+
+    @api.multi
+    def filter_onboarding_new_donors(self):
+        return self.filtered(lambda p: p.is_new_donor and not p.is_church and not p.sponsorship_ids)
+
+    def start_new_donors_onboarding(self):
+
+        config = self.env.ref(
+            "partner_communication_switzerland.config_new_donors_onboarding_postcard_and_magazine"
+        )
+
+        for partner in self:
+            self.env["partner.communication.job"].create(
+                {
+                    "partner_id": partner.id,
+                    "config_id": config.id,
+                    "auto_send": False,
+                })
+
+            partner.onboarding_new_donor_start_date = fields.Date.today()
+            partner.onboarding_new_donor_hash = uuid.uuid4()

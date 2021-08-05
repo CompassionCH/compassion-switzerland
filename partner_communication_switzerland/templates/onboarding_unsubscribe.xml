@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="new_donors_onboarding_unsubscribe_template" name="New Donors Onboarding - Unsubscribe">
+        <t t-call="theme_compassion.layout">
+            <t t-set="title">Unsubscribe from further mailing ?</t>
+            <div class="container">
+                <div class="pt-4 mb-4">
+                    <h1 class="pt-4">Unsubscribe from further mailing ?</h1>
+                    <p>
+                        If you chose to unsubscribe from the mailing process you won't receive any of the remaining communication
+                        nor any of the upcoming mass mailing.
+                    </p>
+                    <p>
+                        Are you sure you want to proceed ?
+                    </p>
+                    <form action="#">
+                        <input type="hidden" name="confirm_opt_out" value="true"/>
+                        <input type="submit" class="btn btn-primary" value="Yes, I am sure."/>
+                    </form>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="confirmation_onboarding_unsubscribe_template" name="Onboarding - Unsubscribe Confirmation">
+        <t t-call="theme_compassion.layout">
+            <t t-set="title">Unsubscribe Confirmation</t>
+            <div class="container">
+                <div class="pt-4 mb-4">
+                    <h1 class="pt-4">You have successfully been unsubscribe</h1>
+                    <p>
+                        You have successfully been unsubscribe from further Compassion's mailing.
+                    </p>
+                    <p>
+                        Don't hesitate to get in touch with us if you decide to change your mind down the road.
+                    </p>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

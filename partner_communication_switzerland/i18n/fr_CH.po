@@ -8565,6 +8565,3 @@ msgstr "Bienvenue dans la famille de Compassion"
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "um"
 msgstr ""
-
-#~ msgid "Letter Delivered"
-#~ msgstr "Lettre transmise"
