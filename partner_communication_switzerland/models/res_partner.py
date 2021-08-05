@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 from datetime import date
-import hashlib
+import uuid
 
 from odoo import api, models, fields, _
 from odoo.addons.auth_signup.models.res_partner import now
@@ -385,4 +385,4 @@ class ResPartner(models.Model):
                 })
 
             partner.onboarding_new_donor_start_date = fields.Date.today()
-            partner.onboarding_new_donor_hash = hashlib.md5(f"{partner.id}".encode()).hexdigest()
+            partner.onboarding_new_donor_hash = uuid.uuid4()
