@@ -290,7 +290,7 @@
         </template>
 
         <template id="partner_communication_document">
-            <div class="page">
+            <div class="page" style="page-break-after: always">
                 <t t-call="report_compassion.communication_style"/>
                 <t t-call="report_compassion.partner_communication_document_page"/>
             </div>
