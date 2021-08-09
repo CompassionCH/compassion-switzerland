@@ -11,7 +11,12 @@ from odoo import models, fields
 
 
 class AnalyticAccount(models.Model):
-
     _inherit = "account.analytic.account"
 
     campaign_id = fields.Many2one("utm.campaign", readonly=False)
+
+
+class AnalyticLine(models.Model):
+    _inherit = "account.analytic.line"
+
+    state = fields.Selection(related='move_id.invoice_id.state', readonly=False)

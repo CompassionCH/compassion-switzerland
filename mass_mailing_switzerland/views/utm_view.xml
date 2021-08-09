@@ -107,7 +107,7 @@
                         <field name="letters_count" string="Letters" widget="statinfo"/>
                     </button>
                     <button name="open_invoices" type="object" icon="fa-money" class="oe_stat_button">
-                        <field name="total_donation" string="Donations" widget="statinfo"/>
+                        <field name="total_donation" string="Financials" widget="statinfo"/>
                     </button>
                     <button name="open_clicks" type="object" icon="fa-click" class="oe_stat_button">
                         <field name="click_count" string="Clicks" widget="statinfo"/>
