@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <odoo>
 
-    <!-- Invoice Line Tree View -->
+    <!-- Analytic Line Tree View -->
     <record model="ir.ui.view" id="view_analytic_line_tree_utm">
         <field name="name">account.analytic.line.utm.tree</field>
         <field name="model">account.analytic.line</field>

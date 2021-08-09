@@ -19,4 +19,4 @@ class AnalyticAccount(models.Model):
 class AnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
-    state = fields.Selection(related='move_id.invoice_id.state', readonly=False)
+    state = fields.Selection(related='move_id.invoice_id.state', readonly=True)

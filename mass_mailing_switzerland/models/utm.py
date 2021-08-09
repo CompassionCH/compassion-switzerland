@@ -204,9 +204,9 @@ class UtmCampaign(models.Model):
         compute="_compute_click_count", store=True, readonly=True
     )
 
-    def open_invoices(self):
+    def open_analytic_lines(self):
         return {
-            "name": _("Account Lines"),
+            "name": _("Analytic Lines"),
             "type": "ir.actions.act_window",
             "view_type": "form",
             "view_mode": "tree",
