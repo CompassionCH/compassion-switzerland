@@ -48,6 +48,7 @@
         "views/mass_mailing_contact_view.xml",
         "views/mass_mailing_settings_view.xml",
         "views/generate_link_wizard_view.xml",
+        "views/account_analytic_line_view.xml",
     ],
     "depends": [
         "mail_tracking",                      # oca_addons/social

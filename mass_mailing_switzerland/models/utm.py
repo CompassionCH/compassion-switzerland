@@ -204,6 +204,31 @@ class UtmCampaign(models.Model):
         compute="_compute_click_count", store=True, readonly=True
     )
 
+    def open_analytic_lines(self):
+        return {
+            "name": _("Analytic Lines"),
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "tree",
+            "res_model": "account.analytic.line",
+            "views": [(self.env.ref("mass_mailing_switzerland.view_analytic_line_tree_utm").id, "tree")],
+            "domain": [("account_id.campaign_id", "=", self.id)],
+            "target": "current",
+        }
+
+    def _compute_total_donation(self):
+        # Put a nice formatting
+        for utm in self:
+            lines = self.env["account.analytic.line"].search(
+                [("account_id.campaign_id", "=", utm.id)]
+            )
+            utm.donation_amount = sum(lines.mapped("amount"))
+            utm.total_donation = (
+                "CHF {:,.2f}".format(utm.donation_amount)
+                    .replace(".00", ".-")
+                    .replace(",", "'")
+            )
+
     def _compute_mass_mailing_id(self):
         for campaign in self:
             campaign.mailing_campaign_id = self.env[
