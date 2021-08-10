@@ -291,6 +291,7 @@ class ProjectCreationStep3(models.AbstractModel):
     partner_street = fields.Char(required=True)
     partner_zip = fields.Char(required=True)
     partner_city = fields.Char(required=True)
+    partner_phone = fields.Char(required=True)
 
     @property
     def _form_fieldsets(self):
