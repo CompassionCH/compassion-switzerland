@@ -9,6 +9,16 @@ def migrate(env, installed_version):
     if not installed_version:
         return
 
+    # remove the unwanted ir.sequence
+    query_sql = """
+    update  ir_model_data set res_id = %s
+    where model = 'ir.sequence' and name = 'sequence_partner_ref' and module = 'sponsorship_switzerland';
+    """
+    env.cr.execute(query_sql, [279])
+
+    unwanted_seq = env["ir.sequence"].browse(303)
+    unwanted_seq.unlink()
+
     def get_partners_to_change():
         all_companies_refs = env["res.partner"].search([("is_company", "=", True)]).mapped("ref")
         return env["res.partner"].search([("is_company", "=", False), ("ref", "in", all_companies_refs)])
@@ -27,8 +37,7 @@ def migrate(env, installed_version):
 
     manuel_update_required = get_partners_to_change()
     if manuel_update_required:
-
-        output = "Reference update could not automatically be done for the following instances :"
+        output = "Reference update could not automatically be done for the following instances :\n"
         output += "\n".join(manuel_update_required.mapped("ref"))
 
         logging.warning(output)
