@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-13 08:55+0000\n"
-"PO-Revision-Date: 2021-07-13 11:02+0200\n"
+"POT-Creation-Date: 2021-08-12 12:27+0000\n"
+"PO-Revision-Date: 2021-08-12 14:51+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: it\n"
@@ -790,6 +790,11 @@ msgid "Make a donation"
 msgstr "Fare una donazione"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
+msgid "Make sure that any image you upload does not exceed 10Mb."
+msgstr "Assicurati che qualsiasi immagine caricata non superi i 10 Mb."
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
 msgid "Merge groups"
 msgstr "Unisci i pagamenti"
@@ -906,7 +911,7 @@ msgstr "Numero di bambini registrati"
 #: code:addons/website_compassion/forms/contact_us_form.py:111
 #, python-format
 msgid "Original request from %s %s "
-msgstr "Original request from %s %s "
+msgstr "Richiesta originale da parte %s %s "
 
 #. module: website_compassion
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_claim_contact_us__partner_id
@@ -1158,6 +1163,11 @@ msgid "Street"
 msgstr "Indirizzo"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
+msgid "Technical Recommendation"
+msgstr "Raccomandazione tecnica"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.contact_us_page_template
 msgid ""
 "Tel. 024 434 21 24\n"
@@ -1213,8 +1223,26 @@ msgstr "Indirizzo di Compassion Svizzera."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
+msgid ""
+"The image file is too large to be uploaded. You can still send this picture "
+"if you first resize it with"
+msgstr ""
+"Il file di immagine è troppo grande per essere caricato. È comunque "
+"possibile inviare questa immagine se la si ridimensiona per la prima volta "
+"con"
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid "The images that are selected multiple times are ignored"
-msgstr "The images that are selected multiple times are ignored"
+msgstr "Le immagini selezionate più volte vengono ignorate"
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
+msgid ""
+"There are many easy-to-use solution to resize an image.<br/> for example"
+msgstr ""
+"Esistono molte soluzioni facili da usare per ridimensionare un'immagine.<br/"
+"> Per esempio"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
@@ -1225,18 +1253,23 @@ msgid ""
 msgstr ""
 "Si è verificato un errore durante la visualizzazione dell'anteprima. "
 "Controlla di aver inserito il testo e che i tuoi allegati siano nel formato "
-"corretto. Contattaci (info@compassion.ch) se il problema persiste. "
+"corretto. Contattaci se il problema persiste. "
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
 msgid ""
-"There was an error while submitting your letter. Please copy your text to "
-"make sure you won't lose it and contact us at info@compassion.ch for "
-"signaling the issue."
+"There was an error while submitting your letter.<br/>\n"
+"                Please try again later and/or try to reboot your computer."
+"<br/>\n"
+"                If the error still persist, copy your text to make sure you "
+"won't lose it and contact us at info@compassion.ch for signaling the issue."
 msgstr ""
-"Si è verificato un errore durante l'invio della tua lettera. Per favore, "
-"copia il tuo testo e salvalo altrove, in modo che non vada perso. Contattaci "
-"(info@compassion.ch) in seguito per segnalare il problema."
+"Si è verificato un errore durante l'invio della tua lettera. <br/>\n"
+"Per favore, copia il tuo testo e salvalo altrove, in modo che non vada "
+"perso. <br/>\n"
+"Riprovare più tardi e/o provare a riavviare il computer. <br/>\n"
+"Se l'errore persiste, contattaci a info@compassion.ch per segnalare il "
+"problema."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options
@@ -1320,7 +1353,7 @@ msgstr "User-agent: *"
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_res_users
 msgid "Users"
-msgstr "Users"
+msgstr "Utenti"
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/partner_forms.py:106
@@ -1540,6 +1573,12 @@ msgid "open map"
 msgstr "Indicazioni stradali"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
+msgid "punchi.me"
+msgstr "punchi.me"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_horizontal_pictures
 msgid "selectElement"
 msgstr "selectElement"
@@ -1558,9 +1597,3 @@ msgstr "cliccando qui"
 #: model:ir.model,name:website_compassion.model_website_compassion_form_widget_textarea
 msgid "website_compassion.form.widget.textarea"
 msgstr "website_compassion.form.widget.textarea"
-
-#~ msgid "Your child reference:"
-#~ msgstr "Il numero di riferimento del bambino:"
-
-#~ msgid "Your sponsor reference:"
-#~ msgstr "Il tuo numero di riferimento:"
