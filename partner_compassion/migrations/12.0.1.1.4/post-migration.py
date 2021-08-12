@@ -24,7 +24,7 @@ def migrate(env, installed_version):
         return env["res.partner"].search([("is_company", "=", False), ("ref", "in", all_companies_refs)])
 
     partner_to_change = get_partners_to_change()
-    sponsor_to_change = partner_to_change.filtered(lambda p: any(p.mapped("sponsorship_ids.is_active")))
+    sponsor_to_change = partner_to_change.filtered("sponsorship_ids.is_active")
 
     for partner in partner_to_change - sponsor_to_change:
         partner.ref = env["ir.sequence"].next_by_code("partner.ref")
