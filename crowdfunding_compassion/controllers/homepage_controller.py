@@ -18,6 +18,7 @@ SPONSOR_ICON = base64.b64encode(file_open(
 
 _logger = logging.getLogger(__name__)
 
+
 def sponsorship_card_content():
     return {"type": "sponsorship",
             "value": 0,
@@ -50,6 +51,7 @@ class HomepageController(Controller):
 
         current_year_projects = project_obj.sudo().get_active_projects(
             year=year, limit=8)
+
         active_funds = fund_obj.sudo().search(
             [("activate_for_crowdfunding", "=", True)]
         )
@@ -92,6 +94,6 @@ class HomepageController(Controller):
 
         return {
             "projects": current_year_projects,
-            "impact": impact,
+            "impact": {k: v for k, v in impact.items() if v['value']},
             "base_url": request.website.domain
         }
