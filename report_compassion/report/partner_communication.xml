@@ -14,8 +14,8 @@
             <t t-set="custom_css">
                 #header {
                     margin-left: 15mm;
-                    <t t-if="not bvr and not print_header">
-                        margin-top: -20mm;
+                    <t t-if="bvr or print_header">
+                        margin-top: 20mm;
                     </t>
                     height: 45mm;
                     font-size: 8pt;
