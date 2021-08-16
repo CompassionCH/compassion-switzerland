@@ -70,6 +70,12 @@ class ResPartner(models.Model):
     def create(self, vals):
         if vals.get("opt_out"):
             vals["date_opt_out"] = fields.Date.today()
+            contact_rel_to_opt_out = self.env["mail.mass_mailing.list_contact_rel"].search(
+                [("contact_id.email", "in", self.mapped("email"))]
+            )
+            contact_rel_to_opt_out.with_context({"opt_out_from_partner": True}).write({
+                "opt_out": True
+            })
         return super().create(vals)
 
     @api.multi
@@ -82,6 +88,12 @@ class ResPartner(models.Model):
         """
         if vals.get("opt_out"):
             vals["date_opt_out"] = fields.Date.today()
+            contact_rel_to_opt_out = self.env["mail.mass_mailing.list_contact_rel"].search(
+                [("contact_id.email", "in", self.mapped("email"))]
+            )
+            contact_rel_to_opt_out.with_context({"opt_out_from_partner": True}).write({
+                "opt_out": True
+            })
         elif "opt_out" in vals:
             vals["date_opt_out"] = False
         for partner in self.filtered(lambda c: c.mass_mailing_contact_ids):
