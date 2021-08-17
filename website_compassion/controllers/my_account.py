@@ -19,10 +19,9 @@ from dateutil.relativedelta import relativedelta
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 
-from odoo import fields
+from odoo import fields, _
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
-from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
 )
@@ -577,7 +576,7 @@ class MyAccountController(PaymentFormController):
                 .with_context(active_ids=partner.ids).create({
                 "pdf": True,
                 "year": year,
-                "pdf_name": f"tax_receipt_{year}.pdf",
+                "pdf_name": _("tax_receipt") + f"_{year}.pdf",
             })
             wizard.get_report()
             headers = Headers()
@@ -670,6 +669,7 @@ class MyAccountController(PaymentFormController):
             pdf_download = base64.encodebytes(pdf_data)
             headers = Headers()
             headers.add(
-                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}.pdf"
+                "Content-Disposition", "attachment",
+                filename=_("labels") + f"_{child.preferred_name}.pdf"
             )
             return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)

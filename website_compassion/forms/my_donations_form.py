@@ -35,8 +35,8 @@ class PaymentOptionsForm(models.AbstractModel):
         ("1 year", "1 year"),
     ])
     additional_amount = fields.Selection(selection=[
-        (8, 8),
-        (0, 0)
+        (8, "8"),
+        (0, "0")
     ])
     bvr_reference = None
 

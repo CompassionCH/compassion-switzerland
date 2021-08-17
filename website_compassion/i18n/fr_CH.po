@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 12:27+0000\n"
-"PO-Revision-Date: 2021-08-12 14:34+0200\n"
+"POT-Creation-Date: 2021-08-17 12:07+0000\n"
+"PO-Revision-Date: 2021-08-17 14:08+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -801,7 +801,7 @@ msgid "Merge groups"
 msgstr "Fusionner les options de paiement"
 
 #. module: website_compassion
-#: code:addons/website_compassion/forms/my_donations_form.py:192
+#: code:addons/website_compassion/forms/my_donations_form.py:195
 #, python-format
 msgid "Merge payment groups"
 msgstr "Fusionner les options de paiement"
@@ -877,7 +877,7 @@ msgid "No postal mail"
 msgstr "Pas de courrier postal"
 
 #. module: website_compassion
-#: code:addons/website_compassion/forms/my_donations_form.py:203
+#: code:addons/website_compassion/forms/my_donations_form.py:206
 #, python-format
 msgid ""
 "Note that merging is an operation that cannot be undone. Your different "
@@ -943,7 +943,7 @@ msgid "Payment frequency"
 msgstr "Fréquence"
 
 #. module: website_compassion
-#: code:addons/website_compassion/forms/my_donations_form.py:196
+#: code:addons/website_compassion/forms/my_donations_form.py:199
 #, python-format
 msgid "Payment groups merged."
 msgstr "Options de paiement fusionnées."
@@ -955,13 +955,13 @@ msgid "Payment mode"
 msgstr "Mode de paiement"
 
 #. module: website_compassion
-#: code:addons/website_compassion/forms/my_donations_form.py:67
+#: code:addons/website_compassion/forms/my_donations_form.py:70
 #, python-format
 msgid "Payment options"
 msgstr "Options de paiement"
 
 #. module: website_compassion
-#: code:addons/website_compassion/forms/my_donations_form.py:75
+#: code:addons/website_compassion/forms/my_donations_form.py:78
 #, python-format
 msgid "Payment options updated."
 msgstr "Options de paiement mises à jour."
@@ -1082,7 +1082,7 @@ msgid "Reset password"
 msgstr "Réinitialiser le mot de passe"
 
 #. module: website_compassion
-#: code:addons/website_compassion/forms/my_donations_form.py:71
+#: code:addons/website_compassion/forms/my_donations_form.py:74
 #: code:addons/website_compassion/forms/partner_forms.py:86
 #: code:addons/website_compassion/forms/partner_forms.py:189
 #, python-format
@@ -1557,6 +1557,12 @@ msgstr ""
 "1s0x478dcfbc3513dddb:0xa87daf8cb3350fb!8m2!3d46.7658158!4d6.645769"
 
 #. module: website_compassion
+#: code:addons/website_compassion/controllers/my_account.py:673
+#, python-format
+msgid "labels"
+msgstr "etiquettes"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_page_template
 msgid "my_children_select_child"
 msgstr "my_children_select_child"
@@ -1586,6 +1592,12 @@ msgstr "selectElement"
 #: model_terms:ir.ui.view,arch_db:website_compassion.event_robots
 msgid "sitemap.xml"
 msgstr "sitemap.xml"
+
+#. module: website_compassion
+#: code:addons/website_compassion/controllers/my_account.py:579
+#, python-format
+msgid "tax_receipt"
+msgstr "attestation_fiscale"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.sponsor_a_child
