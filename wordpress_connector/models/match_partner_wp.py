@@ -80,6 +80,9 @@ class MatchPartnerWP(models.AbstractModel):
     def _match_rule_child_id(self, partner_obj, infos, options=None):
         # if a keyerror is raise it is handled as "no child found go to next rule"
         child_local_id = infos.pop("child_id")
-        child = self.env["compassion.child"].search([("local_id", "like", child_local_id)])
-        sponsorship = self.env["recurring.contract"].search([("child_id", "=", child.id)], limit=1)
-        return sponsorship[sponsorship.send_gifts_to]
+        if child_local_id:
+            child = self.env["compassion.child"].search([("local_id", "like", child_local_id)])
+            sponsorship = self.env["recurring.contract"].search([("child_id", "=", child.id)], limit=1)
+            return sponsorship[sponsorship.send_gifts_to]
+        else:
+            return False
