@@ -1,0 +1,39 @@
+# This workflow will trigger a prod build when a release occur on this repo
+
+name: Trigger Docker prod image build
+
+# Controls when the workflow will run
+on:
+  # Triggers this workflow on release events
+  release:
+    branches: [ "12.0" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "ask_to_build"
+  ask_to_build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Trigger a "manual" build on the private repo in charge of building the prod docker image
+      # See: https://github.community/t/triggering-by-other-repository/16163/2
+      # Could also be performed with action: https://github.com/peter-evans/repository-dispatch
+      # Secrets are:
+      #   - PAT_USERNAME: Username of Personnal Access Token
+      #   - PAT_TOKEN: Personnal Access Token
+      #   - BUILDING_REPO_REF: The repo to which trigger a workflow, on the form username/repo or organization/repo
+      #   - WORKFLOW_FILENAME: The workflow to be triggered, identified by its filename
+      - name: Trigger prod docker image build
+        run: |
+            curl -X POST \
+              -u "${{ secrets.PAT_USERNAME }}:${{ secrets.PAT_TOKEN }}" \
+              -H "Accept: application/vnd.github.everest-preview+json" \
+              -H "Content-Type: application/json" \
+              --data '{"ref": "main"}' \
+              "https://api.github.com/repos/${{ secrets.BUILDING_REPO_REF }}/actions/workflows/${{ secrets.WORKFLOW_FILENAME }}/dispatches"                    
+      
