@@ -5,17 +5,12 @@
             <t t-set="title">Unsubscribe from further mailing ?</t>
             <div class="container">
                 <div class="pt-4 mb-4">
-                    <h1 class="pt-4">Unsubscribe from further mailing ?</h1>
                     <p>
-                        If you chose to unsubscribe from the mailing process you won't receive any of the remaining communication
-                        nor any of the upcoming mass mailing.
-                    </p>
-                    <p>
-                        Are you sure you want to proceed ?
+                        Unsubscribe from further mailing ?
                     </p>
                     <form action="#">
                         <input type="hidden" name="confirm_opt_out" value="true"/>
-                        <input type="submit" class="btn btn-primary" value="Yes, I am sure."/>
+                        <input type="submit" class="btn btn-primary" value="Yes"/>
                     </form>
                 </div>
             </div>

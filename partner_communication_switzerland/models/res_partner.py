@@ -368,14 +368,18 @@ class ResPartner(models.Model):
 
     @api.multi
     def filter_onboarding_new_donors(self):
-        return self.filtered(lambda p: p.is_new_donor and not p.is_church and not p.sponsorship_ids)
+        # TODO CO-3711: waiting for blog posts until we can activate it
+        return self.env["res.partner"]
+        # return self.filtered(
+        #     lambda p: p.is_new_donor and not p.is_church and not p.sponsorship_ids
+        #     and p.lang not in ["en_US", "it_IT"]
+        # )
 
     def start_new_donors_onboarding(self):
-
         config = self.env.ref(
-            "partner_communication_switzerland.config_new_donors_onboarding_postcard_and_magazine"
+            "partner_communication_switzerland"
+            ".config_new_donors_onboarding_postcard_and_magazine"
         )
-
         for partner in self:
             self.env["partner.communication.job"].create(
                 {

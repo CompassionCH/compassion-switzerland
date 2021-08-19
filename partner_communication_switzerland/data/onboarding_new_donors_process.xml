@@ -62,7 +62,7 @@
                     Wir freuen uns, ${dich} kennenzulernen und ${dir} mehr davon zu erzählen, wie wir Kinder und Familien unterstützen, extreme Armut zu überwinden. ${du_upper} ${fragst} ${dich} vielleicht, was Kinderpatenschaften bringen, vielleicht sogar, ob sie sinnvoll sind oder ob nur christliche Kinder unterstützt werden? Gerne nehmen wir ${dich} mit und beantworten ${deine} Fragen.
                 </p>
                 <p>
-                    <!-- TODO add link      -->
+                    <!-- TODO add link -->
                     <a href="#">Weiterlesen</a>
                 </p>
                 <p>
@@ -75,7 +75,7 @@
                     Debora Alder-Gasser und das Team von Compassion
                 </p>
                 <p>
-                    <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Unsubscribe from further mailing</a>
+                    Du erhältst diese E-Mail, weil du gemeinsam mit Compassion Schweiz gegen extreme Armut kämpfst und die Arbeit mit einer Spende unterstützt hast. Du kannst dich jederzeit vom <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Nachrichtenversand abmelden</a>.
                 </p>
             </field>
         </record>
@@ -127,7 +127,7 @@
                     Debora Alder-Gasser und das Team von Compassion
                 </p>
                 <p>
-                    <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Unsubscribe from further mailing</a>
+                    Du erhältst diese E-Mail, weil du gemeinsam mit Compassion Schweiz gegen extreme Armut kämpfst und die Arbeit mit einer Spende unterstützt hast. Du kannst dich jederzeit vom <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Nachrichtenversand abmelden</a>.
                 </p>
             </field>
         </record>
