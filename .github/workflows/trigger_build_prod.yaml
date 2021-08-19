@@ -6,7 +6,8 @@ name: Trigger Docker prod image build
 on:
   # Triggers this workflow on release events
   release:
-    branches: [ "12.0" ]
+    types: [published]
+    branches: ["12.0"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
