@@ -416,13 +416,16 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         attachments = self.get_child_picture_attachment()
         # Add a blank page for printing the address
+        attachments.update(self.get_blank_communication_attachment())
+        return attachments
+
+    def get_blank_communication_attachment(self):
         blank_communication = self._get_pdf_from_data({
             "doc_ids": self.ids
         }, self.env.ref("report_compassion.report_blank_communication"))
-        attachments.update({
+        return {
             "cover.pdf": ["report_compassion.blank_communication", blank_communication]
-        })
-        return attachments
+        }
 
     def get_childpack_attachment(self):
         self.ensure_one()
