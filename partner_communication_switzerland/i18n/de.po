@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-02 10:11+0000\n"
-"PO-Revision-Date: 2021-08-02 12:21+0200\n"
+"POT-Creation-Date: 2021-08-19 09:15+0000\n"
+"PO-Revision-Date: 2021-08-19 11:26+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -4890,6 +4890,161 @@ msgstr ""
 "            "
 
 #. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_new_donors_onboarding_postcard_and_magazine
+msgid ""
+"<p>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set is_plural = partner.title.plural or partner.title."
+"id == 29\n"
+"                    % set dir = 'euch' if is_plural else 'dir'\n"
+"                    % set du = 'ihr' if is_plural else 'du'\n"
+"                    % set dich = 'euch' if is_plural else 'dich'\n"
+"                    % set hast = 'habt' if is_plural else 'hast'\n"
+"                    % set kennst = 'kennt' if is_plural else 'kennst'\n"
+"                    % set Melde = 'Meldet' if is_plural else 'Melde'\n"
+"                    ${partner.salutation}\n"
+"                </p>\n"
+"                <p>\n"
+"                    Danke!\n"
+"                </p>\n"
+"                <p>\n"
+"                    Wir freuen uns, ${dir} das aktuelle Compassion-Magazin "
+"zu senden. Einmal pro Jahr berichten wir in diesem Format über den Impact, "
+"den wir gemeinsam erreicht haben, was unsere Herausforderungen und Ziele "
+"sind und was Menschen im globalen Süden und in der Schweiz bewegt. Viel "
+"Freude beim Schmökern und Entdecken!\n"
+"                </p>\n"
+"                <p>\n"
+"                    Wenn ${du} Compassion noch nicht ${kennst}, ${hast} "
+"${du} vielleicht noch viele Fragen. ${Melde} ${dich} gerne jederzeit bei "
+"uns.\n"
+"                </p>\n"
+"                <p>\n"
+"                    Herzliche Grüsse\n"
+"                </p>\n"
+"                <p>\n"
+"                    Debora Alder-Gasser und das Team von Compassion\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_new_donors_onboarding_2nd_blog_post
+msgid ""
+"<p>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set is_plural = partner.title.plural or partner.title."
+"id == 29\n"
+"                    % set dir = 'euch' if is_plural else 'dir'\n"
+"                    % set du = 'ihr' if is_plural else 'du'\n"
+"                    % set du_upper = 'Ihr' if is_plural else 'Du'\n"
+"                    % set dich = 'euch' if is_plural else 'dich'\n"
+"                    % set deine = 'eure' if is_plural else 'deine'\n"
+"                    % set findest = 'findet' if is_plural else 'findest'\n"
+"                    % set fragst = 'fragt' if is_plural else 'fragst'\n"
+"                    % set base_url = object.env['ir.config_parameter']."
+"sudo().get_param('web.external.url')\n"
+"                    ${partner.salutation}\n"
+"                </p>\n"
+"                <p>\n"
+"                    ${du_upper} ${fragst} ${dich} vielleicht: "
+"\"Kinderpatenschaften kommen mir ein bisschen altmodisch vor. Sind sie "
+"wirklich noch relevant?\"\n"
+"                </p>\n"
+"                <p>\n"
+"                    Es wird ${dich} wahrscheinlich nicht überraschen, dass "
+"wir hier bei Compassion sagen, dass Kinderpatenschaften relevanter sind als "
+"je zuvor. Mit fast 70 Jahren Erfahrung glauben wir immer noch, dass eine "
+"Kinderpatenschaft eine lohnenswerte Investition ist, die effektiv, "
+"nachhaltig und engagiert ist - sogar in Krisenzeiten wie einer globalen "
+"Pandemie. Aber warum? Lass es uns gemeinsam auspacken.\n"
+"                </p>\n"
+"                <p>\n"
+"                    <!-- TODO add link      -->\n"
+"                    <a href=\"#\">Weiterlesen</a>\n"
+"                </p>\n"
+"                <p>\n"
+"                    Hier ${findest} ${du} Kinder, für die wir gerade "
+"dringend einen Paten oder eine Patin suchen.\n"
+"                </p>\n"
+"                <p>\n"
+"                    <a href=\"https://compassion.ch/de/finden-sie-ein-"
+"patenkind/?utm_event=sponsorshipheaderbutton\">Ja, ich möchte ein Kind mit "
+"einer Patenschaft unterstützen</a>\n"
+"                </p>\n"
+"                <p>\n"
+"                    Nochmals vielen Dank, denn gemeinsam verändern wir das "
+"Leben von Kindern - eins nach dem anderen.\n"
+"                </p>\n"
+"                <p>\n"
+"                    Herzliche Grüsse\n"
+"                </p>\n"
+"                <p>\n"
+"                    Debora Alder-Gasser und das Team von Compassion\n"
+"                </p>\n"
+"                <p>\n"
+"                    Du erhältst diese E-Mail, weil du gemeinsam mit "
+"Compassion Schweiz gegen extreme Armut kämpfst und die Arbeit mit einer "
+"Spende unterstützt hast. Du kannst dich jederzeit vom <a href=\"${base_url}/"
+"onboarding/new_donors/unsubscribe/${partner."
+"onboarding_new_donor_hash}\">Nachrichtenversand abmelden</a>.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_new_donors_onboarding_1st_blog_post
+msgid ""
+"<p>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set is_plural = partner.title.plural or partner.title."
+"id == 29\n"
+"                    % set dir = 'euch' if is_plural else 'dir'\n"
+"                    % set du = 'ihr' if is_plural else 'du'\n"
+"                    % set du_upper = 'Ihr' if is_plural else 'Du'\n"
+"                    % set dich = 'euch' if is_plural else 'dich'\n"
+"                    % set deine = 'eure' if is_plural else 'deine'\n"
+"                    % set hast = 'habt' if is_plural else 'hast'\n"
+"                    % set fragst = 'fragt' if is_plural else 'fragst'\n"
+"                    % set base_url = object.env['ir.config_parameter']."
+"sudo().get_param('web.external.url')\n"
+"                    ${partner.salutation}\n"
+"                </p>\n"
+"                <p>\n"
+"                    Wir freuen uns, ${dich} kennenzulernen und ${dir} mehr "
+"davon zu erzählen, wie wir Kinder und Familien unterstützen, extreme Armut "
+"zu überwinden. ${du_upper} ${fragst} ${dich} vielleicht, was "
+"Kinderpatenschaften bringen, vielleicht sogar, ob sie sinnvoll sind oder ob "
+"nur christliche Kinder unterstützt werden? Gerne nehmen wir ${dich} mit und "
+"beantworten ${deine} Fragen.\n"
+"                </p>\n"
+"                <p>\n"
+"                    <!-- TODO add link -->\n"
+"                    <a href=\"#\">Weiterlesen</a>\n"
+"                </p>\n"
+"                <p>\n"
+"                    Nochmals vielen Dank: mit ${dir} zusammen befreien wir "
+"zurzeit mit rund 8'000 Partnerkirchen in 25 Ländern 2,2 Millionen Kinder aus "
+"extremer Armut. Gemeinsam ermöglichen wir den Kindern ein Leben mit Hoffnung "
+"und Zukunft.\n"
+"                </p>\n"
+"                <p>\n"
+"                    Herzliche Grüsse\n"
+"                </p>\n"
+"                <p>\n"
+"                    Debora Alder-Gasser und das Team von Compassion\n"
+"                </p>\n"
+"                <p>\n"
+"                    Du erhältst diese E-Mail, weil du gemeinsam mit "
+"Compassion Schweiz gegen extreme Armut kämpfst und die Arbeit mit einer "
+"Spende unterstützt hast. Du kannst dich jederzeit vom <a href=\"${base_url}/"
+"onboarding/new_donors/unsubscribe/${partner."
+"onboarding_new_donor_hash}\">Nachrichtenversand abmelden</a>.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_zoom_link
 msgid ""
 "<p>\n"
@@ -5592,7 +5747,7 @@ msgid "Create depart communication"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/res_partner.py:310
+#: code:addons/partner_communication_switzerland/models/res_partner.py:316
 #, python-format
 msgid "Create odoo user"
 msgstr ""
@@ -5662,6 +5817,13 @@ msgstr ""
 #: model:survey.question,question:partner_communication_switzerland.onbs_question_remarks
 msgid "Do you have any additional comment that you would like us to know?"
 msgstr "Hast du noch andere Vorschläge oder Anmerkungen?"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.confirmation_onboarding_unsubscribe_template
+msgid ""
+"Don't hesitate to get in touch with us if you decide to change your mind "
+"down the road."
+msgstr "Wenn du deine Meinung änderst, melde dich gerne."
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.event_letter_template
@@ -6039,6 +6201,13 @@ msgid ""
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date
+#: model:ir.model.fields,help:partner_communication_switzerland.field_res_users__onboarding_new_donor_start_date
+msgid ""
+"Indicates when the first email of the new donor onboarding process was sent."
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_recurring_contract__onboarding_start_date
 msgid "Indicates when the first email of the onboarding process was sent."
 msgstr ""
@@ -6338,6 +6507,29 @@ msgid "Name"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_new_donors_onboarding_1st_blog_post
+#| msgid "The team of Compassion"
+msgid "Neu bei Compassion?"
+msgstr "Neu bei Compassion?"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_onboarding_settings_form
+msgid "New Donors Onboarding Process"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:base.automation,name:partner_communication_switzerland.new_donors_onboarding_1st_blog_post
+#: model:ir.actions.server,name:partner_communication_switzerland.new_donors_onboarding_1st_blog_post_ir_actions_server
+msgid "New Donors Onboarding: 1st blog post"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:base.automation,name:partner_communication_switzerland.new_donors_onboarding_2nd_blog_post
+#: model:ir.actions.server,name:partner_communication_switzerland.new_donors_onboarding_2nd_blog_post_ir_actions_server
+msgid "New Donors Onboarding: 2nd blog post"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.compassion_reset_password_email
 msgid "New Password for your Compassion Account"
 msgstr "Ein neues Passwort für dein Compassion Account"
@@ -6424,8 +6616,19 @@ msgid "Old Values"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner__onboarding_new_donor_hash
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_users__onboarding_new_donor_hash
+msgid "Onboarding New Donor Hash"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_users__onboarding_new_donor_start_date
+msgid "Onboarding New Donor Start Date"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract__onboarding_start_date
-#| msgid "Onboarding feedback"
 msgid "Onboarding Start Date"
 msgstr ""
 
@@ -7262,6 +7465,22 @@ msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.confirmation_onboarding_unsubscribe_template
+msgid "Unsubscribe Confirmation"
+msgstr "Abmeldebestätigung"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.new_donors_onboarding_unsubscribe_template
+msgid "Unsubscribe from further mailing ?"
+msgstr ""
+"Bist du dir sicher, dass du keine Nachrichten mehr von uns erhalten möchtest?"
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__new_donors_user
+msgid "User to notify on new donors onboarding opt out"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_users
 msgid "Users"
 msgstr "Benutzer"
@@ -7300,6 +7519,11 @@ msgstr ""
 msgid ""
 "Warning : There is a problem with this Sponsor's Email. \n"
 "reason: "
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_new_donors_onboarding_2nd_blog_post
+msgid "Warum sind Kinderpatenschaften nachhaltig und relevant?"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -7390,6 +7614,17 @@ msgid ""
 "You have received a letter from ${object.get_objects().mapped('child_id')."
 "get_list('preferred_name', 3, 'your children', False)}!"
 msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.confirmation_onboarding_unsubscribe_template
+msgid "You have successfully been unsubscribe"
+msgstr "Du hast dich erfolgreich abgemeldet."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.confirmation_onboarding_unsubscribe_template
+msgid ""
+"You have successfully been unsubscribe from further Compassion's mailing."
+msgstr "Du hast dich erfolgreich abgemeldet."
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/wizards/portal_wizard.py:63
@@ -7599,7 +7834,6 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:458
 #, python-format
-#| msgid "sponsorship gifts.pdf"
 msgid "ending sponsorship certificate.pdf"
 msgstr ""
 

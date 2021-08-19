@@ -68,7 +68,7 @@ class AccountInvoiceLine(models.Model):
             default_communication_config = self.env.ref(
                 "partner_communication_switzerland.config_event_standard"
             )
-        return super(
+        res = super(
             AccountInvoiceLine,
             self.with_context(
                 same_job_search=[("event_id", "=", event.id)],
@@ -78,6 +78,12 @@ class AccountInvoiceLine(models.Model):
                 default_communication_config=default_communication_config
             ),
         ).generate_thank_you()
+
+        # filter and start new donors onboarding for matching partners
+        new_donors = self.mapped("partner_id").filter_onboarding_new_donors()
+        new_donors.start_new_donors_onboarding()
+
+        return res
 
     @api.multi
     def send_receipt_to_ambassador(self):

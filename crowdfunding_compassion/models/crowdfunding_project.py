@@ -299,7 +299,7 @@ class CrowdfundingProject(models.Model):
     @api.multi
     def _compute_website_url(self):
         for project in self:
-            project.website_url = f"/project/{project.id}"
+            project.website_url = f"{project.website_id.domain}/project/{project.id}"
 
     @api.multi
     def _compute_time_left(self):

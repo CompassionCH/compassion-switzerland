@@ -34,7 +34,10 @@ class PaymentOptionsForm(models.AbstractModel):
         ("6 month", "6 months"),
         ("1 year", "1 year"),
     ])
-    additional_amount = fields.Integer()
+    additional_amount = fields.Selection(selection=[
+        (8, "8"),
+        (0, "0")
+    ])
     bvr_reference = None
 
     _form_model_fields = [
@@ -44,7 +47,7 @@ class PaymentOptionsForm(models.AbstractModel):
         "payment_mode_id"
     ]
     _form_fields_order = [
-        "payment_mode",
+        # "payment_mode", TODO remove comment when payment mode change is ready
         "payment_frequency",
         "additional_amount",
     ]
@@ -79,7 +82,7 @@ class PaymentOptionsForm(models.AbstractModel):
             request, main_object.sudo(), **kw
         )
         # Set default value
-        form.additional_amount = kw["total_amount"]
+        form.additional_amount = kw["total_amount"] if kw["total_amount"] in [8, 0] else 8
         form.bvr_reference = kw["bvr_reference"]
         return form
 
@@ -146,7 +149,7 @@ class PaymentOptionsForm(models.AbstractModel):
                     lambda c: c.state not in ["cancelled", "terminated"] and
                     c.type == "S"
                 )
-                amount = values[key]
+                amount = int(values[key])
                 amount_by_child = ceil(amount / len(contracts))
                 for contract in contracts:
                     amount_for_child = min(amount_by_child, amount)

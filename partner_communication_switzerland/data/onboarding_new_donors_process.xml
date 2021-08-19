@@ -1,0 +1,187 @@
+<odoo>
+    <data>
+        <!-- MAIL TEMPLATES       -->
+        <record id="mail_new_donors_onboarding_postcard_and_magazine" model="mail.template">
+            <field name="name">New Donors Onboarding - Postcard &amp; Magazine</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set is_plural = partner.title.plural or partner.title.id == 29
+                    % set dir = 'euch' if is_plural else 'dir'
+                    % set du = 'ihr' if is_plural else 'du'
+                    % set dich = 'euch' if is_plural else 'dich'
+                    % set hast = 'habt' if is_plural else 'hast'
+                    % set kennst = 'kennt' if is_plural else 'kennst'
+                    % set Melde = 'Meldet' if is_plural else 'Melde'
+                    ${partner.salutation}
+                </p>
+                <p>
+                    Danke!
+                </p>
+                <p>
+                    Wir freuen uns, ${dir} das aktuelle Compassion-Magazin zu senden. Einmal pro Jahr berichten wir in diesem Format über den Impact, den wir gemeinsam erreicht haben, was unsere Herausforderungen und Ziele sind und was Menschen im globalen Süden und in der Schweiz bewegt. Viel Freude beim Schmökern und Entdecken!
+                </p>
+                <p>
+                    Wenn ${du} Compassion noch nicht ${kennst}, ${hast} ${du} vielleicht noch viele Fragen. ${Melde} ${dich} gerne jederzeit bei uns.
+                </p>
+                <p>
+                    Herzliche Grüsse
+                </p>
+                <p>
+                    Debora Alder-Gasser und das Team von Compassion
+                </p>
+            </field>
+        </record>
+
+        <record id="mail_new_donors_onboarding_1st_blog_post" model="mail.template">
+            <field name="name">New Donors Onboarding - 1st Blog Post</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Neu bei Compassion?</field>
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set is_plural = partner.title.plural or partner.title.id == 29
+                    % set dir = 'euch' if is_plural else 'dir'
+                    % set du = 'ihr' if is_plural else 'du'
+                    % set du_upper = 'Ihr' if is_plural else 'Du'
+                    % set dich = 'euch' if is_plural else 'dich'
+                    % set deine = 'eure' if is_plural else 'deine'
+                    % set hast = 'habt' if is_plural else 'hast'
+                    % set fragst = 'fragt' if is_plural else 'fragst'
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
+                    ${partner.salutation}
+                </p>
+                <p>
+                    Wir freuen uns, ${dich} kennenzulernen und ${dir} mehr davon zu erzählen, wie wir Kinder und Familien unterstützen, extreme Armut zu überwinden. ${du_upper} ${fragst} ${dich} vielleicht, was Kinderpatenschaften bringen, vielleicht sogar, ob sie sinnvoll sind oder ob nur christliche Kinder unterstützt werden? Gerne nehmen wir ${dich} mit und beantworten ${deine} Fragen.
+                </p>
+                <p>
+                    <!-- TODO add link -->
+                    <a href="#">Weiterlesen</a>
+                </p>
+                <p>
+                    Nochmals vielen Dank: mit ${dir} zusammen befreien wir zurzeit mit rund 8'000 Partnerkirchen in 25 Ländern 2,2 Millionen Kinder aus extremer Armut. Gemeinsam ermöglichen wir den Kindern ein Leben mit Hoffnung und Zukunft.
+                </p>
+                <p>
+                    Herzliche Grüsse
+                </p>
+                <p>
+                    Debora Alder-Gasser und das Team von Compassion
+                </p>
+                <p>
+                    Du erhältst diese E-Mail, weil du gemeinsam mit Compassion Schweiz gegen extreme Armut kämpfst und die Arbeit mit einer Spende unterstützt hast. Du kannst dich jederzeit vom <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Nachrichtenversand abmelden</a>.
+                </p>
+            </field>
+        </record>
+
+        <record id="mail_new_donors_onboarding_2nd_blog_post" model="mail.template">
+            <field name="name">New Donors Onboarding - 2nd Blog Post</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Warum sind Kinderpatenschaften nachhaltig und relevant?</field>
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set is_plural = partner.title.plural or partner.title.id == 29
+                    % set dir = 'euch' if is_plural else 'dir'
+                    % set du = 'ihr' if is_plural else 'du'
+                    % set du_upper = 'Ihr' if is_plural else 'Du'
+                    % set dich = 'euch' if is_plural else 'dich'
+                    % set deine = 'eure' if is_plural else 'deine'
+                    % set findest = 'findet' if is_plural else 'findest'
+                    % set fragst = 'fragt' if is_plural else 'fragst'
+                    % set base_url = object.env['ir.config_parameter'].sudo().get_param('web.external.url')
+                    ${partner.salutation}
+                </p>
+                <p>
+                    ${du_upper} ${fragst} ${dich} vielleicht: "Kinderpatenschaften kommen mir ein bisschen altmodisch vor. Sind sie wirklich noch relevant?"
+                </p>
+                <p>
+                    Es wird ${dich} wahrscheinlich nicht überraschen, dass wir hier bei Compassion sagen, dass Kinderpatenschaften relevanter sind als je zuvor. Mit fast 70 Jahren Erfahrung glauben wir immer noch, dass eine Kinderpatenschaft eine lohnenswerte Investition ist, die effektiv, nachhaltig und engagiert ist - sogar in Krisenzeiten wie einer globalen Pandemie. Aber warum? Lass es uns gemeinsam auspacken.
+                </p>
+                <p>
+                    <!-- TODO add link      -->
+                    <a href="#">Weiterlesen</a>
+                </p>
+                <p>
+                    Hier ${findest} ${du} Kinder, für die wir gerade dringend einen Paten oder eine Patin suchen.
+                </p>
+                <p>
+                    <a href="https://compassion.ch/de/finden-sie-ein-patenkind/?utm_event=sponsorshipheaderbutton">Ja, ich möchte ein Kind mit einer Patenschaft unterstützen</a>
+                </p>
+                <p>
+                    Nochmals vielen Dank, denn gemeinsam verändern wir das Leben von Kindern - eins nach dem anderen.
+                </p>
+                <p>
+                    Herzliche Grüsse
+                </p>
+                <p>
+                    Debora Alder-Gasser und das Team von Compassion
+                </p>
+                <p>
+                    Du erhältst diese E-Mail, weil du gemeinsam mit Compassion Schweiz gegen extreme Armut kämpfst und die Arbeit mit einer Spende unterstützt hast. Du kannst dich jederzeit vom <a href="${base_url}/onboarding/new_donors/unsubscribe/${partner.onboarding_new_donor_hash}">Nachrichtenversand abmelden</a>.
+                </p>
+            </field>
+        </record>
+
+        <!-- COMMUNICATION CONFIGS       -->
+        <record id="config_new_donors_onboarding_postcard_and_magazine" model="partner.communication.config">
+            <field name="name">New Donors Onboarding - Postcard &amp; Magazine</field>
+            <field name="send_mode">physical</field>
+            <field name="email_template_id" ref="mail_new_donors_onboarding_postcard_and_magazine"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_res_partner"/>
+        </record>
+
+        <record id="config_new_donors_onboarding_1st_blog_post" model="partner.communication.config">
+            <field name="name">New Donors Onboarding - 1st Blog Post</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_new_donors_onboarding_1st_blog_post"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_res_partner"/>
+        </record>
+
+        <record id="config_new_donors_onboarding_2nd_blog_post" model="partner.communication.config">
+            <field name="name">New Donors Onboarding - 2nd Blog Post</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_new_donors_onboarding_2nd_blog_post"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="model_id" ref="model_res_partner"/>
+        </record>
+
+        <!-- BASE AUTOMATIONS  -->
+        <record id="new_donors_onboarding_1st_blog_post" model="base.automation">
+            <field name="name">New Donors Onboarding: 1st blog post</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="trigger">on_time</field>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date"/>
+            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
+            <field name="trg_date_range">1</field>
+            <field name="trg_date_range_type">month</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_new_donors_onboarding_1st_blog_post"/>
+            <field name="partner_field">self</field>
+        </record>
+
+        <record id="new_donors_onboarding_2nd_blog_post" model="base.automation">
+            <field name="name">New Donors Onboarding: 2nd blog post</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="trigger">on_time</field>
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date"/>
+            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
+            <field name="trg_date_range">2</field>
+            <field name="trg_date_range_type">month</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_new_donors_onboarding_2nd_blog_post"/>
+            <field name="partner_field">self</field>
+        </record>
+    </data>
+</odoo>

@@ -32,4 +32,17 @@
         <field name="binding_type">action</field>
     </record>
 
+
+    <record id="view_partner_new_donors" model="ir.ui.view">
+        <field name="name">new donors partners view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
+        <field name="arch" type="xml">
+            <!-- Make tags readonly if restricted tag is present -->
+            <field name="category_id" position="after">
+                <field name="onboarding_new_donor_start_date"/>
+            </field>
+        </field>
+    </record>
+
 </odoo>

@@ -18,6 +18,7 @@ SPONSOR_ICON = base64.b64encode(file_open(
 
 _logger = logging.getLogger(__name__)
 
+
 def sponsorship_card_content():
     return {"type": "sponsorship",
             "value": 0,
@@ -50,6 +51,7 @@ class HomepageController(Controller):
 
         current_year_projects = project_obj.sudo().get_active_projects(
             year=year, limit=8)
+
         active_funds = fund_obj.sudo().search(
             [("activate_for_crowdfunding", "=", True)]
         )
@@ -59,7 +61,7 @@ class HomepageController(Controller):
         }
 
         for fund in active_funds:
-            impact[fund.name] = {
+            impact[fund.id] = {
                 "type": "fund",
                 "value": 0,
                 "name": fund.crowdfunding_impact_text_active,
@@ -79,19 +81,19 @@ class HomepageController(Controller):
         for project in current_year_projects:
             impact["sponsorship"]["value"] += project.number_sponsorships_reached
 
-            project_fund = project.product_id.name
+            project_fund = project.product_id.id
             if project_fund in impact:
                 impact[project_fund]["value"] += project.product_number_reached
 
         for fund in active_funds:
-            if impact[fund.name]["value"] > 1:
-                impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
+            if impact[fund.id]["value"] > 1:
+                impact[fund.id]["text"] = fund.crowdfunding_impact_text_passive_plural
 
         if impact["sponsorship"]["value"] > 1:
             impact["sponsorship"]["text"] = _("sponsored children")
 
         return {
             "projects": current_year_projects,
-            "impact": impact,
+            "impact": {k: v for k, v in impact.items() if v['value']},
             "base_url": request.website.domain
         }
