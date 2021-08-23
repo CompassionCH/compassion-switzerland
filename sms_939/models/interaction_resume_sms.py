@@ -19,7 +19,7 @@ class InteractionResume(models.TransientModel):
         :param partner_id: the partner
         :return: True
         """
-        super().populate_resume(partner_id)
+        res = super().populate_resume(partner_id)
         self.env.cr.execute(
             f"""
               SELECT
@@ -40,5 +40,5 @@ class InteractionResume(models.TransientModel):
                 """
         )
         for row in self.env.cr.dictfetchall():
-            self.create(row)
-        return True
+            res += self.create(row)
+        return res

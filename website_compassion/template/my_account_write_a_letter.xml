@@ -49,10 +49,10 @@
                         <div t-attf-id="card_template_{{template.id}}" t-attf-onclick="selectElement('{{template.id}}', 'template')" class="card card-clickable text-center">
                             <li>
                                 <t t-if="template.id == template_id.id">
-                                    <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image border border-5 border-primary" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                    <img t-attf-id="template_{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image border border-5 border-primary" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
                                 </t>
                                 <t t-else="">
-                                    <img t-attf-id="template_{{template.id}}" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                    <img t-attf-id="template_{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
                                 </t>
                                 <span t-attf-id="template_name_{{template.id}}"  style="display: none;"><t t-esc="template.name"/></span>
                             </li>
@@ -93,6 +93,16 @@
                         <li>Your social media contact (Facebook or other platforms)</li>
                         <li>Don't make any promise about a gift or a visit</li>
                     </ul>
+
+                      <h5>Technical Recommendation</h5>
+                      <ul>
+                          <li>Make sure that any image you upload does not exceed 10Mb.</li>
+                          <ul>
+                              <li>There are many easy-to-use solution to resize an image.<br/> for example <a href="https://www.punchi.me/" target="_blank">punchi.me</a></li>
+                          </ul>
+                      </ul>
+
+
                       <h5>How to send a physical letter?</h5>
                       <ul>
 
@@ -153,10 +163,15 @@
                 Your letter was correctly sent ! Thank you for writing
             </div>
             <div id="letter_error" class="alert alert-danger alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
-                There was an error while submitting your letter. Please copy your text to make sure you won't lose it and contact us for signaling the issue.
+                There was an error while submitting your letter.<br/>
+                Please try again later and/or try to reboot your computer.<br/>
+                If the error still persist, copy your text to make sure you won't lose it and contact us at info@compassion.ch for signaling the issue.
             </div>
             <div id="preview_error" class="alert alert-danger alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
-                There was an error while rendering the preview. Make sure you entered some text and that your attachments are valid. Please contact us if you experience unexpected behaviours.
+                There was an error while rendering the preview. Make sure you entered some text and that your attachments are valid. Please contact us at info@compassion.ch if you experience unexpected behaviours.
+            </div>
+            <div id="image_too_large" class="alert alert-danger alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
+                The image file is too large to be uploaded. You can still send this picture if you first resize it with <a href="https://www.punchi.me/" target="_blank">punchi.me</a>.
             </div>
             <button id="sending_normal" class="btn btn-primary w-100" t-attf-onclick="sendLetter('{{request.env.user.partner_id.firstname}}')">
                 Send

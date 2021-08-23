@@ -17,18 +17,6 @@ _logger = logging.getLogger(__name__)
 class MailTrackingEvent(models.Model):
     _inherit = "mail.tracking.event"
 
-    @api.model
-    def process_delivered(self, tracking_email, metadata):
-        """ Mark correspondence as read. """
-        correspondence = self.env["correspondence"].search(
-            [
-                ("email_id", "=", tracking_email.mail_id.id),
-                ("letter_delivered", "=", False),
-            ]
-        )
-        correspondence.write({"letter_delivered": True})
-        return super().process_delivered(tracking_email, metadata)
-
     def send_mails_to_partner_and_staff(
             self, tracking_email, metadata, staff_email_body
     ):

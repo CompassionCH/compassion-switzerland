@@ -489,6 +489,13 @@ class Event(models.Model):
             record.amount_objective = event.participants_amount_objective
         return record
 
+    @api.model
+    def check_access_rights(self, operation, raise_exception=True):
+        """ Restore default access rights to prevent security restrictions
+        on our website.
+        """
+        return self.env['ir.model.access'].check(self._name, operation, raise_exception)
+
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################

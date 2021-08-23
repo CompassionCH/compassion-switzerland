@@ -48,6 +48,12 @@ mock_lifecycle = (
     ".CompassionChild.get_lifecycle_event"
 )
 
+mock_new_dossier = (
+    "odoo.addons.partner_communication_switzerland.models"
+    ".contracts.RecurringContract._new_dossier"
+)
+
+
 class TestSponsorship(BaseSponsorshipTest):
     def setUp(self):
         super().setUp()
@@ -362,7 +368,76 @@ class TestSponsorship(BaseSponsorshipTest):
         no_sub_comm = self.env["partner.communication.job"].search([
             ("partner_id", "=", partner.id),
             ("config_id", "=", no_sub.id),
-            ("object_ids", "=", subsponsorship.ids)
+            ("object_ids", "in", subsponsorship.ids)
         ])
 
         self.assertNotEqual(no_sub_comm, False)
+
+    @mock.patch(mock_new_dossier)
+    @mock.patch(mock_update_hold)
+    def test_new_dossier_called_once(self, hold_mock, new_dossier_mock):
+        hold_mock.return_value = True
+        number_call = 0
+
+        def increase_number_call():
+            nonlocal number_call
+            number_call += 1
+            return True
+
+        new_dossier_mock.return_value = increase_number_call()
+
+        child = self.create_child(self.ref(11))
+        partner = self.michel
+
+        correspondent = self.david
+
+        sc_contract = self.create_contract(
+            {
+                "partner_id": partner.id,
+                "correspondent_id": correspondent.id,
+                "group_id": self.create_group({"partner_id": partner.id}).id,
+                "child_id": child.id,
+                "type": "SC"
+            },
+            [],
+        )
+
+        sc_contract.contract_waiting()
+
+        self.assertEqual(number_call, 1)
+
+    @mock.patch(mock_update_hold)
+    def test_no_unwanted_comm_co_3696(self, hold_mock):
+        hold_mock.return_value = True
+
+        child = self.create_child(self.ref(11))
+        partner = self.michel
+        correspondent = self.david
+
+        self.assertIsNot(partner.email, False)
+
+        sc_contract = self.create_contract(
+            {
+                "partner_id": partner.id,
+                "correspondent_id": correspondent.id,
+                "group_id": self.create_group({"partner_id": partner.id}).id,
+                "child_id": child.id,
+                "type": "SC"
+            },
+            [],
+        )
+
+        sc_contract.contract_waiting()
+
+        # SC contract are immediately activate
+        self.assertEqual(sc_contract.state, "active")
+
+        all_contract_comm = self.env["partner.communication.job"].search([
+            ("partner_id", "=", correspondent.id),
+            ("model", "=", sc_contract._name),
+            ("object_ids", "like", str(sc_contract.id))
+        ])
+
+        self.assertEqual(len(all_contract_comm), 2)
+
+        self.assertIsNot(sc_contract, False)
