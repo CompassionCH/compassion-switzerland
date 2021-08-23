@@ -189,7 +189,7 @@ class MassMailingContact(models.Model):
         records.process_mailchimp_update()
         new_vals = [vals for vals in vals_list if "email" in vals]
         if new_vals:
-            new_records = super().create()
+            new_records = super().create(new_vals)
             new_records.action_export_to_mailchimp()
             records += new_records
         return records
