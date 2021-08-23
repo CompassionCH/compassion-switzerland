@@ -21,5 +21,5 @@ class ExportMailchimpWizard(models.TransientModel):
             return False
         # Push the partner_id in mailing_contact creation
         return super(
-            ExportMailchimpWizard, self.with_context(default_partner_id=partner_id)
+            ExportMailchimpWizard, self.with_context(default_partner_id=partner_id.id)
         ).get_mailing_contact_id(partner_id, force_create)
