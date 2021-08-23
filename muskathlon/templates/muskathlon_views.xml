@@ -150,6 +150,10 @@
                     $('header .navbar-brand img').first().attr('src', '/muskathlon/static/src/img/muskathlon.png');
                     // replace original footer
                     $('#main_footer').before($('#footer_muskathlon')[0].outerHTML);
+                    // and it goes on with the previous hot-fix...
+                    // replace URL and title
+                    $('header .navbar-brand').first().attr('href', '/events/');
+                    $('header .navbar-brand span').attr('title', 'Compassion Events');
                 });
             </script>
         </template>
