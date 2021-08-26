@@ -193,6 +193,10 @@
                     <div class="row justify-content-center">
                         <div class="col">
                             <div t-attf-class="#{form.form_wrapper_css_klass} ">
+                                <div id="collective_media_help" style="display:none">If there is any social media pages for your event, you can link them on the project page. Please don't put any personal profiles here. You will be able to put your personal social media accounts in the last step.</div>
+                                <div id="collective_url_help" style="display:none">Project web page</div>
+                                <div id="individual_media_help" style="display:none">If you have any social media account that you use to promote your project, you can link them to your personal page.</div>
+                                <div id="individual_url_help" style="display:none">Personal web page</div>
                                 <t t-raw="form.form_render()"/>
                             </div>
                         </div>
