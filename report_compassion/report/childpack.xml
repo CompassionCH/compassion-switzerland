@@ -252,7 +252,9 @@
                             <t t-raw="o.project_id.description_right"/>
                         </div>
                     </div>
-                    <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form" /> <!-- keep space -->
+                    <t t-if="full">
+                      <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form"/> <!-- keep space -->
+                    </t>
                     <div class="photo">
                         <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
                         <p t-field="o.local_id" id="child-ref"/>
