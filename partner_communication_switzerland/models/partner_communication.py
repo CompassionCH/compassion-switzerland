@@ -52,6 +52,22 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
+    def print_letter(self, print_name, **print_options):
+        """
+        Adds duplex printing option for Konica Minolta depending on page count.
+        """
+        if len(self) > 1:
+            page_counts = list(set(self.mapped("pdf_page_count")))
+            # Duplex if all documents have a pair page count
+            sided_option = "2sided"
+            for p_count in page_counts: 
+                if (p_count % 2 != 0):
+                    sided_option = "1Sided"
+                    break
+            print_options["KMDuplex"] = sided_option
+
+        return super().print_letter(print_name, **print_options)
+
     @api.model
     def send_mode_select(self):
         modes = super().send_mode_select()
@@ -66,7 +82,8 @@ class PartnerCommunication(models.Model):
 
     def filter_not_read(self):
         """
-        Useful for checking if the communication was read by the sponsor. Printed letters are always treated as read.
+        Useful for checking if the communication was read by the sponsor.
+        Printed letters are always treated as read.
         Returns only the communications that are not read.
         """
         not_read = self.env[self._name]
@@ -78,15 +95,17 @@ class PartnerCommunication(models.Model):
             FULL JOIN mail_tracking_event tevent ON tevent.tracking_email_id = tmail.id
             WHERE m.id = %s
             AND (
-                m.state = 'received'
-                OR tevent.event_type IN ('delivered', 'open', 'click')
-                OR tmail.state IN ('delivered', 'opened')
+                m.state IN ('exception', 'cancel')
+                OR tevent.event_type IN (
+                    'hard_bounce', 'soft_bounce', 'spam', 'reject')
+                OR tmail.state IN (
+                    'error', 'rejected', 'spam', 'bounced', 'soft-bounced')
             )
         """
         for communication in self:
             if communication.email_id:
                 self.env.cr.execute(query_sql, [communication.email_id.id])
-                if not self.env.cr.rowcount:
+                if self.env.cr.rowcount:
                     not_read += communication
             elif communication.state == 'done' and communication.send_mode == 'digital':
                 not_read += communication
@@ -233,8 +252,9 @@ class PartnerCommunication(models.Model):
         ):
             if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
-                pm = self.env['account.payment.mode'].search([('name', '=', payment_mode)])
-                return {"lsv_form.pdf": ["partner_communication_switzerland.field_office_info",
+                pm = self.env['account.payment.mode'].search([
+                    ('name', '=', payment_mode)])
+                return {"lsv_form.pdf": ["report_compassion.b2s_letter",
                                          pm.payment_method_id.lsv_form_pdf]}
 
         # Put product sponsorship to print the payment slip for physical print.
@@ -396,24 +416,22 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         attachments = self.get_child_picture_attachment()
         # Add a blank page for printing the address
+        attachments.update(self.get_blank_communication_attachment())
+        return attachments
+
+    def get_blank_communication_attachment(self):
         blank_communication = self._get_pdf_from_data({
             "doc_ids": self.ids
         }, self.env.ref("report_compassion.report_blank_communication"))
-        attachments.update({"cover.pdf": ["report_compassion.blank_communication", blank_communication]})
-        return attachments
+        return {
+            "cover.pdf": ["report_compassion.blank_communication", blank_communication]
+        }
 
     def get_childpack_attachment(self):
         self.ensure_one()
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
-        exit_conf = self.env.ref(
-            "partner_communication_switzerland.lifecycle_child_planned_exit"
-        )
-        if self.config_id == exit_conf and sponsorships.mapped("sub_sponsorship_id"):
-            sponsorships = sponsorships.mapped("sub_sponsorship_id")
         children = sponsorships.mapped("child_id")
-        # Always retrieve latest information before printing dossier
-        # children.get_infos()
         report_name = "report_compassion.childpack_small"
         data = {
             "lang": lang,
@@ -422,9 +440,25 @@ class PartnerCommunication(models.Model):
             "doc_ids": children.ids,
         }
         pdf = self._get_pdf_from_data(
-            data, self.env.ref("report_compassion.report_childpack_small")
+            data, self.sudo().env.ref("report_compassion.report_childpack_small")
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
+
+    def get_end_sponsorship_certificate(self):
+        self.ensure_one()
+        lang = self.partner_id.lang
+        sponsorships = self.get_objects()
+        report_name = "report_compassion.ending_sponsorship_certificate"
+        data = {
+            "lang": lang,
+            "is_pdf": self.send_mode != "physical",
+            "type": report_name,
+            "doc_ids": sponsorships.ids,
+        }
+        pdf = self._get_pdf_from_data(
+            data, self.sudo().env.ref("report_compassion.report_ending_sponsorship_certificate")
+        )
+        return {_("ending sponsorship certificate.pdf"): [report_name, pdf]}
 
     def get_tax_receipt(self):
         self.ensure_one()
@@ -450,6 +484,8 @@ class PartnerCommunication(models.Model):
         - Postpone no money holds when reminders sent.
         - Update donor tag
         - Sends SMS for sms send_mode
+        - Add to zoom session when zoom invitation is sent
+        - Set onboarding_start_date when first communication is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -491,27 +527,16 @@ class PartnerCommunication(models.Model):
                             )
                         )
         super(PartnerCommunication, other_jobs).send()
-        b2s_printed = other_jobs.filtered(
-            lambda c: c.config_id.model == "correspondence"
-                      and c.send_mode == "physical"
-                      and c.state == "done"
-        )
-        if b2s_printed:
-            letters = b2s_printed.get_objects()
-            if letters:
-                letters.write(
-                    {"letter_delivered": True, }
-                )
 
         # No money extension
         no_money_1 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_1"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_1"
         )
         no_money_2 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_2"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
         )
         no_money_3 = self.env.ref(
-            "partner_communication_switzerland." "sponsorship_waiting_reminder_3"
+            "partner_communication_switzerland.sponsorship_waiting_reminder_3"
         )
         settings = self.env["res.config.settings"].sudo()
         first_extension = settings.get_param("no_money_hold_duration")
@@ -536,6 +561,29 @@ class PartnerCommunication(models.Model):
                       and donor not in j.partner_id.category_id
         ).mapped("partner_id")
         partners.write({"category_id": [(4, donor.id)]})
+
+        zoom_invitation = self.env.ref(
+            "partner_communication_switzerland.config_onboarding_step1"
+        )
+        for invitation in other_jobs.filtered(
+                lambda j: j.config_id == zoom_invitation and
+                j.get_objects().filtered("is_first_sponsorship")):
+            next_zoom = self.env["res.partner.zoom.session"].with_context(
+                lang=invitation.partner_id.lang).get_next_session()
+            if next_zoom:
+                next_zoom.add_participant(invitation.partner_id)
+
+        welcome_onboarding = self.env.ref(
+            "partner_communication_switzerland"
+            ".config_onboarding_sponsorship_confirmation"
+        )
+        welcome_comms = other_jobs.filtered(
+            lambda j: j.config_id == welcome_onboarding and
+            j.get_objects().filtered("is_first_sponsorship"))
+        if welcome_comms:
+            welcome_comms.get_objects().write({
+                "onboarding_start_date": datetime.today()
+            })
 
         return True
 
@@ -607,24 +655,6 @@ class PartnerCommunication(models.Model):
             ).env.context
         return res
 
-    def get_new_dossier_attachments(self):
-        """
-        Returns pdfs for the New Dossier Communication, including:
-        - Small Childpack in PDF
-        :return: dict {attachment_name: [report_name, pdf_data]}
-        """
-        self.ensure_one()
-        attachments = OrderedDict()
-        sponsorships = self.get_objects()
-
-        # Childpack if not a SUB of planned exit.
-        lifecycle = sponsorships.mapped("parent_id.child_id.lifecycle_ids")
-        planned_exit = lifecycle and lifecycle[0].type == "Planned Exit"
-        if not planned_exit:
-            attachments.update(self.get_childpack_attachment())
-
-        return attachments
-
     def get_print_dossier_attachments(self):
         """
         Returns pdfs for the Printed New Dossier Communication, including:
@@ -639,7 +669,7 @@ class PartnerCommunication(models.Model):
         attachments.update(self.get_childpack_attachment())
         write_sponsorships = self.get_objects().filtered(
             lambda s: s.correspondent_id == self.partner_id)
-        if write_sponsorships:
+        if write_sponsorships and self.send_mode == "physical":
             attachments.update(self.get_label_attachment(write_sponsorships))
 
         # Child picture

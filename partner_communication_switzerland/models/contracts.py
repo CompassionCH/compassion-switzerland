@@ -52,6 +52,10 @@ class RecurringContract(models.Model):
     origin_name = fields.Char(related="origin_id.name")
     is_first_sponsorship = fields.Boolean(readonly=True)
 
+    onboarding_start_date = fields.Date(help="Indicates when the first email of "
+                                             "the onboarding process was sent.",
+                                        copy=False)
+
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
@@ -75,8 +79,8 @@ class RecurringContract(models.Model):
                 lambda s: s.state not in ("cancelled", "terminated"))
             if len(self) == len(total_paid):
                 phrase = _(
-                    "1 payment slip to set up a standing order ("
-                    "monthly payment of the sponsorship)"
+                    "Attached you will find a payment slip to set up a standing order "
+                    "for monthly payment of the sponsorship"
                 )
             else:
                 phrase = _(
@@ -86,8 +90,8 @@ class RecurringContract(models.Model):
         elif "LSV" in payment_mode or "Postfinance" in payment_mode:
             if "mandate" in self.mapped("state"):
                 phrase = _(
-                    "1 LSV or Direct Debit authorization form to "
-                    "fill in if you don't already have done it!"
+                    "Attached you will find the LSV or Direct Debit authorization form to fill in "
+                    "if you haven't already done it!"
                 )
             else:
                 phrase = _(
@@ -97,10 +101,9 @@ class RecurringContract(models.Model):
         else:
             freq = self.mapped("group_id.recurring_value")[:1]
             if freq == 12:
-                phrase = _("1 payment slip for the annual sponsorship "
-                           "payment")
+                phrase = _("Attached you will find a payment slip for the annual sponsorship payment")
             else:
-                phrase = _("payment slips for the sponsorship payment")
+                phrase = _("Attached you will find the payment slips for the sponsorship payment")
         return phrase
 
     def _compute_birthday_paid(self):
@@ -346,6 +349,7 @@ class RecurringContract(models.Model):
     def send_sponsorship_reminders(self):
         logger.info("Creating Sponsorship Reminders")
         today = datetime.now()
+        first_day_of_month = date(today.year, today.month, 1)
         first_reminder_config = self.env.ref(
             "partner_communication_switzerland.sponsorship_reminder_1"
         )
@@ -362,7 +366,6 @@ class RecurringContract(models.Model):
             default_auto_send=False,
             default_print_header=True,
         )
-        ninety_ago = today - relativedelta(days=90)
         twenty_ago = today - relativedelta(days=20)
         comm_obj = self.env["partner.communication.job"]
         search_domain = [
@@ -373,13 +376,7 @@ class RecurringContract(models.Model):
             ("child_id.project_id.suspension", "!=", "fund-suspended"),
             ("child_id.project_id.suspension", "=", False),
         ]
-        # Recompute due invoices of multi-months payers, because
-        # due months are only recomputed when new invoices are generated
-        # which could take up to one year for yearly payers.
-        multi_month = self.search(
-            search_domain + [("group_id.advance_billing_months", ">=", 3)]
-        )
-        multi_month.compute_due_invoices()
+
         for sponsorship in self.search(
                 search_domain + [("months_due", ">", 1)]):
             reminder_search = [
@@ -393,9 +390,14 @@ class RecurringContract(models.Model):
             ]
             # Look if first reminder was sent previous month (send second
             # reminder in that case)
+            # avoid taking into account reminder that the partner already took care of
+            # we substract month due to the first of the month to get the older threshold
+            # this also prevent reminder_1 to be sent after an already sent reminder_2
+            older_threshold = first_day_of_month - relativedelta(months=sponsorship.months_due)
+
             has_first_reminder = comm_obj.search_count(
                 reminder_search
-                + [("sent_date", ">=", ninety_ago),
+                + [("sent_date", ">=", older_threshold),
                    ("sent_date", "<", twenty_ago)]
             )
             if has_first_reminder:
@@ -483,6 +485,13 @@ class RecurringContract(models.Model):
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
+
+        for contract in self:
+            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
+                lambda c: c.state != "cancelled" and c.start_date
+                and c.start_date < contract.start_date)
+            contract.is_first_sponsorship = not old_sponsorships
+
         self.filtered(
             lambda c: "S" in c.type
                       and not c.is_active
@@ -499,12 +508,6 @@ class RecurringContract(models.Model):
             selected_config = self.env.ref(module + "csp_mail")
             csp.with_context({}).send_communication(
                 selected_config, correspondent=False)
-
-        for contract in self:
-            old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
-                lambda c: c.state != "cancelled" and c.start_date
-                and c.start_date < contract.start_date)
-            contract.is_first_sponsorship = not old_sponsorships
 
         return res
 
@@ -605,12 +608,19 @@ class RecurringContract(models.Model):
     def _is_unexpected_end(self):
         """Check if sponsorship hold had an unexpected end or not."""
         self.ensure_one()
+
+        # subreject could happened before hold expiration and should not be considered as unexpected
+        subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
+
+        if self.end_reason_id == subreject:
+            return False
+
         return self.hold_id and not datetime.now() > self.hold_id.expiration_date
 
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent.
+        correspondent. Adds new sponsors to next zoom conference.
         """
         for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
@@ -639,10 +649,10 @@ class RecurringContract(models.Model):
         sub_accept = self.env.ref(module + "sponsorship_sub_accept")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
-        if self.origin_id.type == "transfer":
+        if self.parent_id.sds_state == "sub":
+            configs = sub_accept + child_picture
+        elif self.origin_id.type == "transfer":
             configs = transfer
-        elif self.parent_id.sds_state == "sub":
-            configs = sub_accept
         elif not partner.email or \
                 partner.global_communication_delivery_preference == "physical":
             configs = print_wrpr if self.type == "SC" and partner != self.partner_id \

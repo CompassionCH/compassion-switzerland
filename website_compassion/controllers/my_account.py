@@ -19,13 +19,14 @@ from dateutil.relativedelta import relativedelta
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 
-from odoo import fields
+from odoo import fields, _
 from odoo.http import request, route
 from odoo.addons.web.controllers.main import content_disposition
-from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
 )
+
+from ..tools.image_compression import compress_big_images
 
 
 def _map_contracts(partner, mapping_val=None, sorting_val=None,
@@ -56,17 +57,19 @@ def _get_user_children(state=None):
     partner = request.env.user.partner_id
     only_correspondent = partner.app_displayed_sponsorships == "correspondent"
 
-    limit_date = datetime.now() - relativedelta(months=2)
+    limit_date_active = datetime.now() - relativedelta(months=2)
+    limit_date_for_writing = datetime.now() - relativedelta(months=6)
 
     exit_comm_config = list(
-        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, ["lifecycle_child_planned_exit",
-                                                                                     "lifecycle_child_unplanned_exit"]))
+        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, [
+            "lifecycle_child_planned_exit", "lifecycle_child_unplanned_exit"]))
 
-    end_reason_child_depart = partner.env.ref("sponsorship_compassion.end_reason_depart")
+    end_reason_child_depart = partner.env.ref(
+        "sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
 
-        exit_comm_to_send = not partner.env["partner.communication.job"].search_count([
+        exit_comm_sent = partner.env["partner.communication.job"].search_count([
             ("partner_id", "=", partner.id),
             ("config_id", "in", exit_comm_config),
             ("state", "=", "done"),
@@ -74,24 +77,23 @@ def _get_user_children(state=None):
         ])
 
         can_show = True
-        is_recent_terminated = (sponsorship.state == "terminated"
-                                and sponsorship.end_date
-                                and sponsorship.end_date >= limit_date
-                                and sponsorship.end_reason_id == end_reason_child_depart)
-
-        is_communication_not_sent = (sponsorship.state == "terminated"
-                                     and exit_comm_to_send)
+        is_active = sponsorship.state not in ["draft", "cancelled", "terminated"]
+        is_recent_terminated = (
+                sponsorship.state == "terminated"
+                and sponsorship.end_date and sponsorship.end_date >= limit_date_active
+                and sponsorship.end_reason_id == end_reason_child_depart)
+        can_still_write = is_active or sponsorship.state == "terminated"\
+            and sponsorship.end_date and sponsorship.end_date >= limit_date_for_writing
+        is_communication_sent = sponsorship.state == "terminated" and exit_comm_sent
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
-
-            can_show &= sponsorship.state not in ["draft", "cancelled", "terminated"] \
-                        or (is_communication_not_sent and is_recent_terminated)
+            can_show &= is_active or is_recent_terminated or (
+                    not is_communication_sent and can_still_write)
 
         elif state == "terminated":
-
             can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
-                (is_recent_terminated and is_communication_not_sent)
+                (is_recent_terminated or (is_communication_sent and can_still_write))
 
         return can_show
 
@@ -272,7 +274,7 @@ class MyAccountController(PaymentFormController):
         :return: a redirection to a webpage
         """
         actives = _get_user_children("active")
-        terminated = _get_user_children("terminated")
+        terminated = _get_user_children("terminated") - actives
 
         display_state = True
         # User can choose among groups if none of the two is empty
@@ -284,6 +286,7 @@ class MyAccountController(PaymentFormController):
             children = actives
         else:
             children = terminated
+            state = "terminated"
 
         # No sponsor children
         if len(children) == 0:
@@ -297,13 +300,23 @@ class MyAccountController(PaymentFormController):
                     f"/my/children?state={state}&child_id={children[0].id}"
                 )
             partner = request.env.user.partner_id
-            letters = request.env["correspondence"].search([
-                ("partner_id", "=", partner.id),
+
+            correspondence_obj = request.env["correspondence"]
+            correspondent = partner
+
+            if partner.app_displayed_sponsorships == "all_info":
+                correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
+                correspondence_obj = correspondence_obj.sudo()
+
+            letters = correspondence_obj.search([
+                ("partner_id", "in", correspondent.ids),
                 ("child_id", "=", int(child_id)),
                 "|",
                 "&", ("direction", "=", "Supporter To Beneficiary"),
                 ("state", "!=", "Quality check unsuccessful"),
-                "|", ("letter_delivered", "=", True), ("sent_date", "!=", False)
+                "&", "&", ("state", "=", "Published to Global Partner"),
+                ("letter_image", "!=", False),
+                "|", ("communication_id", "=", False), ("sent_date", "!=", False)
             ])
             gift_categ = request.env.ref(
                 "sponsorship_compassion.product_category_gift"
@@ -524,7 +537,7 @@ class MyAccountController(PaymentFormController):
         partner = request.env.user.partner_id
         picture_post = post.get("picture")
         if picture_post:
-            image_value = b64encode(picture_post.stream.read())
+            image_value = compress_big_images(b64encode(picture_post.stream.read()))
             if not image_value:
                 return "no image uploaded"
             partner.write({"image": image_value})
@@ -563,7 +576,7 @@ class MyAccountController(PaymentFormController):
                 .with_context(active_ids=partner.ids).create({
                 "pdf": True,
                 "year": year,
-                "pdf_name": f"tax_receipt_{year}.pdf",
+                "pdf_name": _("tax_receipt") + f"_{year}.pdf",
             })
             wizard.get_report()
             headers = Headers()
@@ -656,6 +669,7 @@ class MyAccountController(PaymentFormController):
             pdf_download = base64.encodebytes(pdf_data)
             headers = Headers()
             headers.add(
-                "Content-Disposition", "attachment", filename=f"labels_{child.preferred_name}.pdf"
+                "Content-Disposition", "attachment",
+                filename=_("labels") + f"_{child.preferred_name}.pdf"
             )
             return Response(b64decode(pdf_download), content_type="application/pdf", headers=headers)

@@ -217,7 +217,7 @@ class AdvocateDetails(models.Model):
         birthday_advocates = self.search(
             [
                 ("state", "in", ["active", "on_break"]),
-                ("birthdate", "like", three_open_days.strftime("%m-%d")),
+                ("birthdate", "like", three_open_days.strftime("-%m-%d")),
             ]
         )
         birthday_advocates = birthday_advocates.filtered(

@@ -257,7 +257,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
         else:
             partner = request.env.user.partner_id
 
-        registrations = request.env["event.registration"].search(
+        registrations = request.env["event.registration"].sudo().search(
             [("partner_id", "=", partner.id)]
         )
         surveys = request.env["survey.user_input"].search(

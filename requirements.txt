@@ -7,7 +7,7 @@ jwt
 matplotlib
 mysqlclient
 odoo-sphinx-autodoc
-openupgradelib
+git+git://github.com/OCA/openupgradelib
 opencv-python
 opencv-contrib-python
 pandas
@@ -36,3 +36,4 @@ unidecode
 wand
 PyMuPDF
 boxdetect
+fintech

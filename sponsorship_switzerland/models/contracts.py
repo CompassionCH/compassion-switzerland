@@ -212,7 +212,9 @@ class RecurringContracts(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         need_mandate = self.filtered(lambda s: not s.partner_id.valid_mandate_id)
-        need_mandate.write({"state": "mandate", "mandate_date": fields.Datetime.now()})
+        if need_mandate:
+            need_mandate.write({"state": "mandate",
+                                "mandate_date": fields.Datetime.now()})
         return True
 
     @api.multi
@@ -244,7 +246,8 @@ class RecurringContracts(models.Model):
             super(RecurringContracts, contract).contract_waiting()
             contract._reconcile_open_amount()
 
-        needs_mandate.contract_waiting_mandate()
+        if needs_mandate:
+            needs_mandate.contract_waiting_mandate()
         super(RecurringContracts, self - sponsorships).contract_waiting()
         return True
 
@@ -383,13 +386,6 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondent_id.write(
                     {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
                 )
-
-            # Deactivate pending invoice lines.
-            opened = sponsorship.invoice_line_ids.mapped("invoice_id").filtered(
-                lambda i: i.state == "open"
-            )
-            lsv_dd_invoices = self._get_lsv_dd_invoices(opened)
-            (opened - lsv_dd_invoices).action_cancel()
 
     def check_mandate_needed(self, old_payment_modes):
         """ Change state of contract if payment is changed to/from LSV or DD.

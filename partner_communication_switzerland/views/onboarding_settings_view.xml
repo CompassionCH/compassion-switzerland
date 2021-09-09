@@ -1,0 +1,25 @@
+<odoo>
+
+    <record id="view_onboarding_settings_form" model="ir.ui.view">
+        <field name="name">onboarding.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="message_center_compassion.compassion_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='compassion_settings']" position='inside'>
+
+                <h2>New Donors Onboarding Process</h2>
+                <div class="row mt16 o_settings_container">
+                    <div class="col-xs-12 col-md-12 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <div class="row">
+                                <label class="col-md-3 o_light_label" for="new_donors_user"/>
+                                <field name="new_donors_user"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

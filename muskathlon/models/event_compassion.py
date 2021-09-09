@@ -64,7 +64,8 @@ class EventCompassion(models.Model):
             amount_raised = 0
             amount_objective = 0
 
-            for registration in event.registration_ids:
+            for registration in event.sudo().registration_ids.filtered(
+                    lambda r: r.state != "cancel"):
                 amount_raised += registration.amount_raised
                 amount_objective += registration.amount_objective
 

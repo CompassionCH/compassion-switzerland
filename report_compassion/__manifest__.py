@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "12.0.1.0.3",
+    "version": "12.0.1.0.7",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -37,6 +37,7 @@
     "depends": [
         "label",  # compassion-modules
         "sponsorship_switzerland",  # compassion-switzerland
+        "report_wkhtmltopdf_param"  # addons_oca
     ],
     "external_dependencies": {"python": ["pyquery", "babel"]},
     "data": [
@@ -51,6 +52,7 @@
         "report/a4_bvr.xml",
         "report/bvr_fund.xml",
         "report/tax_receipt.xml",
+        "report/ending_sponsorship_certificate.xml",
         "report/communication_mailing_bvr.xml",
         "views/print_sponsorship_bvr_view.xml",
         "views/print_sponsorship_gift_bvr_view.xml",

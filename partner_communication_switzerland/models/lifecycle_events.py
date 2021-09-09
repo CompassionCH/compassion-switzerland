@@ -19,23 +19,35 @@ class ChildLifecycle(models.Model):
     def process_commkit(self, commkit_data):
         ids = super().process_commkit(commkit_data)
         for lifecycle in self.browse(ids).filtered("child_id.sponsor_id"):
-            communication_type = self.env["partner.communication.config"].search(
-                [
-                    ("name", "ilike", lifecycle.type),
-                    ("name", "like", "Beneficiary"),
-                    ("name", "not like", "Exit")  # Departures are treated
-                    # when sub is created.
-                ]
-            )
-            if communication_type:
-                self.env["partner.communication.job"].create(
-                    {
-                        "config_id": communication_type.id,
-                        "partner_id": lifecycle.child_id.sponsor_id.id,
-                        "object_ids": lifecycle.child_id.id,
-                        "user_id": communication_type.user_id.id,
-                    }
+            # Planned Exit notification
+            if lifecycle.type == "Planned Exit":
+                communication_type = self.env.ref(
+                    "partner_communication_switzerland.planned_exit_notification"
                 )
+                sponsorship = lifecycle.child_id.sponsorship_ids[:1]
+                comm = sponsorship.send_communication(communication_type, both=True)
+                # TODO remove this when all languages are set (comm will be set to
+                #  auto_send)
+                if sponsorship.correspondent_id.lang in ("fr_CH", "de_DE"):
+                    comm.send()
+            else:
+                communication_type = self.env["partner.communication.config"].search(
+                    [
+                        ("name", "ilike", lifecycle.type),
+                        ("name", "like", "Beneficiary"),
+                        ("name", "not like", "Exit")  # Departures are treated
+                        # when sub is created.
+                    ]
+                )
+                if communication_type:
+                    self.env["partner.communication.job"].create(
+                        {
+                            "config_id": communication_type.id,
+                            "partner_id": lifecycle.child_id.sponsor_id.id,
+                            "object_ids": lifecycle.child_id.id,
+                            "user_id": communication_type.user_id.id,
+                        }
+                    )
         return ids
 
 

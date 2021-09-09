@@ -8,7 +8,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2021 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,14 +29,15 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "12.0.1.1.0",
+    "version": "12.0.1.1.2",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "report_compassion",  # compassion-switzerland
-        "child_switzerland",  # compassion-switzerland
+        "report_compassion",
+        "child_switzerland",
+        "theme_compassion",
         "sms_939",  # compassion-switzerland
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
@@ -54,6 +55,7 @@
     },
     "data": [
         "security/ir.model.access.csv",
+        "security/access_rules.xml",
         "data/major_revision_emails.xml",
         "data/child_letter_emails.xml",
         "data/lifecycle_emails.xml",
@@ -70,10 +72,10 @@
         "data/label_print.xml",
         "data/sponsorship_action_rules.xml",
         "data/utm_data.xml",
-        "data/field_office_info_report.xml",
         "report/onboarding_photo_by_post.xml",
         "data/onboarding_process.xml",
         "data/onboarding_survey.xml",
+        "data/onboarding_new_donors_process.xml",
         "report/child_picture.xml",
         "views/communication_job_view.xml",
         "views/download_child_pictures_view.xml",
@@ -88,7 +90,11 @@
         "views/res_partner_zoom_session.xml",
         "views/field_office_view.xml",
         "views/communication_test_case_view.xml",
+        "views/notification_settings_view.xml",
+        "views/onboarding_settings_view.xml",
         "wizards/res_partner_create_portal_wizard.xml",
+        "templates/zoom_registration_form.xml",
+        "templates/onboarding_unsubscribe.xml"
     ],
     "demo": [],
     "installable": True,

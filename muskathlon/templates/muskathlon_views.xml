@@ -138,7 +138,8 @@
                             <img src="/muskathlon/static/src/img/4mch.png" style="margin-right: 20px;"/>
                         </a>
                         <a href="https://compassion.ch" target="_blank">
-                            <img src="/muskathlon/static/src/img/compassion.png"/>
+                            <img t-if="request.env.lang in ['de_DE', 'fr_CH', 'it_IT']" t-attf-src="/muskathlon/static/src/img/Swiss_logo_blue_wtagline_#{request.env.lang}.png" />
+                            <img t-else="" src="/muskathlon/static/src/img/compassion.png"/>
                         </a>
                     </div>
                 </div>
@@ -149,6 +150,10 @@
                     $('header .navbar-brand img').first().attr('src', '/muskathlon/static/src/img/muskathlon.png');
                     // replace original footer
                     $('#main_footer').before($('#footer_muskathlon')[0].outerHTML);
+                    // and it goes on with the previous hot-fix...
+                    // replace URL and title
+                    $('header .navbar-brand').first().attr('href', '/events/');
+                    $('header .navbar-brand span').attr('title', 'Compassion Events');
                 });
             </script>
         </template>

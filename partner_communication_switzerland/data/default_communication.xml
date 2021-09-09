@@ -1,6 +1,8 @@
 <odoo>
-    <record id="partner_communication.default_communication" model="partner.communication.config">
-        <field name="email_template_id" ref="email_template_default_communication"/>
-        <field name="report_id" ref="report_compassion.report_partner_communication"/>
-    </record>
+    <data noupdate="1">
+        <record id="partner_communication.default_communication" model="partner.communication.config">
+            <field name="email_template_id" ref="email_template_default_communication"/>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        </record>
+    </data>
 </odoo>

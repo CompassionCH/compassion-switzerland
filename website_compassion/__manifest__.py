@@ -47,7 +47,7 @@
         "template/login_template.xml",
         "template/form_widgets.xml",
         "views/correspondence_template_view.xml",
-        "views/robots.xml"
+        "views/robots.xml",
     ],
     "depends": [
         "theme_compassion",

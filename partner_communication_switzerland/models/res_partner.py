@@ -9,8 +9,10 @@
 ##############################################################################
 import logging
 from datetime import date
+import uuid
 
 from odoo import api, models, fields, _
+from odoo.addons.auth_signup.models.res_partner import now
 
 _logger = logging.getLogger(__name__)
 
@@ -46,6 +48,11 @@ class ResPartner(models.Model):
     informal_salutation = fields.Char(compute="_compute_informal_salutation",
                                       help="Informal salutation used in French")
 
+    onboarding_new_donor_start_date = fields.Date(help="Indicates when the first email of "
+                                                       "the new donor onboarding process was sent.",
+                                                  copy=False)
+    onboarding_new_donor_hash = fields.Char()
+
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
         family_title = self.env.ref("partner_compassion.res_partner_title_family")
@@ -80,7 +87,7 @@ class ResPartner(models.Model):
         if title == family_title:
             return f"Liebe Familie {self.lastname}"
         elif title == mister_madam_title:
-            return  f"Hallo {self.firstname}"
+            return f"Hallo {self.firstname}"
         elif is_company:
             return "Liebe Freundinnen und Freunde von Compassion"
         else:
@@ -156,19 +163,19 @@ class ResPartner(models.Model):
     def _compute_no_physical_letter(self):
         for partner in self:
             partner.no_physical_letter = (
-                "only" in partner.global_communication_delivery_preference
-                or partner.global_communication_delivery_preference == "none"
+                 "only" in partner.global_communication_delivery_preference
+                 or partner.global_communication_delivery_preference == "none"
             ) and (
-                "only" in partner.letter_delivery_preference
-                or partner.letter_delivery_preference == "none"
+                 "only" in partner.letter_delivery_preference
+                 or partner.letter_delivery_preference == "none"
             ) and (
-                "only" in partner.photo_delivery_preference
-                or partner.photo_delivery_preference == "none"
+                 "only" in partner.photo_delivery_preference
+                 or partner.photo_delivery_preference == "none"
             ) and (
-                "only" in partner.thankyou_preference
-                or partner.thankyou_preference == "none"
+                 "only" in partner.thankyou_preference
+                 or partner.thankyou_preference == "none"
             ) and partner.tax_certificate != "paper" and partner.nbmag in (
-                "email", "no_mag")
+             "email", "no_mag")
 
     def _inverse_no_physical_letter(self):
         for partner in self:
@@ -176,7 +183,7 @@ class ResPartner(models.Model):
                 vals = {
                     "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
                     "tax_certificate": "no"
-                    if partner.tax_certificate == "no"else "only_email",
+                    if partner.tax_certificate == "no" else "only_email",
                     "calendar": False,
                     "christmas_card": False
                 }
@@ -217,7 +224,7 @@ class ResPartner(models.Model):
                 ("state", "=", "done")
             ], limit=1)
             if last_tax_receipt.date:
-                partner.last_completed_tax_receipt = last_tax_receipt.date.year-1
+                partner.last_completed_tax_receipt = last_tax_receipt.date.year - 1
             else:
                 partner.last_completed_tax_receipt = 1979
 
@@ -317,3 +324,69 @@ class ResPartner(models.Model):
             "target": "new",
             "context": ctx,
         }
+
+    def action_reset_password(self):
+        """
+        Action to change partner's password from backend.
+        generate a token and start a communication. The
+        communication is not sent automatically but rather
+        shown to the backend user once created.
+        :return: a redirection to communication job form
+        """
+
+        # handle on reset at a time to allow redirection to work properly
+        self.ensure_one()
+
+        # use signup prepare to generate a token valid 1 day for password reset
+        expiration = now(days=+1)
+        self.sudo().signup_prepare(
+            signup_type="reset", expiration=expiration
+        )
+
+        # create but does not send the communication for password reset
+        config = self.env.ref(
+            "partner_communication_switzerland.reset_password_email"
+        )
+        comm = self.env["partner.communication.job"].create(
+            {
+                "partner_id": self.id,
+                "config_id": config.id,
+                "auto_send": False,
+            }
+        )
+
+        # redirect the backend user to the newly created communication.
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Reset Password",
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "partner.communication.job",
+            "res_id": comm.id,
+            "target": "current",
+        }
+
+    @api.multi
+    def filter_onboarding_new_donors(self):
+        # TODO CO-3711: waiting for blog posts until we can activate it
+        return self.env["res.partner"]
+        # return self.filtered(
+        #     lambda p: p.is_new_donor and not p.is_church and not p.sponsorship_ids
+        #     and p.lang not in ["en_US", "it_IT"]
+        # )
+
+    def start_new_donors_onboarding(self):
+        config = self.env.ref(
+            "partner_communication_switzerland"
+            ".config_new_donors_onboarding_postcard_and_magazine"
+        )
+        for partner in self:
+            self.env["partner.communication.job"].create(
+                {
+                    "partner_id": partner.id,
+                    "config_id": config.id,
+                    "auto_send": False,
+                })
+
+            partner.onboarding_new_donor_start_date = fields.Date.today()
+            partner.onboarding_new_donor_hash = uuid.uuid4()

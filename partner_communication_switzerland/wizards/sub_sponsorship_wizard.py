@@ -54,7 +54,7 @@ class SubSponsorshipWizard(models.TransientModel):
             lifecycle_type = lifecycle and lifecycle.type or "Unplanned Exit"
             if lifecycle_type == "Planned Exit":
                 config = self.env.ref(
-                    "partner_communication_switzerland." "lifecycle_child_planned_exit"
+                    "partner_communication_switzerland.lifecycle_child_planned_exit"
                 )
             elif lifecycle_type == "Unplanned Exit":
                 config = self.env.ref(
@@ -69,7 +69,7 @@ class SubSponsorshipWizard(models.TransientModel):
             config = self.env.ref("partner_communication_switzerland.planned_no_sub")
 
         if config:
-            communications = sponsorship.send_communication(config)
+            communications = sponsorship.send_communication(config, both=True)
             res = {
                 "name": communications[0].subject,
                 "type": "ir.actions.act_window",

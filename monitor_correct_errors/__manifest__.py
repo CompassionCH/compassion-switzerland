@@ -35,6 +35,8 @@
     "website": "http://www.compassion.ch",
     "license": "AGPL-3",
     "data": ["data/monitor_correct_errors_cron.xml", "security/ir.model.access.csv"],
-    "installable": True,
+    "depends": ["sbc_compassion"],
+    "installable": False,
     "auto_install": False,
+    "description": "Update the checks in this module if you want to use it",
 }
