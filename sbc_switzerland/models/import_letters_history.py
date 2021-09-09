@@ -28,12 +28,71 @@ from . import translate_connector
 logger = logging.getLogger(__name__)
 
 try:
-    from smb.SMBConnection import SMBConnection
     from smb.smb_structs import OperationFailure
     from PyPDF2 import PdfFileWriter, PdfFileReader
     from PyPDF2.pdf import PageObject
+    import pysftp
+    from pysftp import RSAKey
 except ImportError:
     logger.warning("Please install python dependencies.")
+
+
+class SftpConnection:
+    """
+    Class helper used to handle connection between server and SFTP server.
+    """
+
+    def __init__(self, key_data=None):
+        self.sftp_config = {
+            "username": config.get("sftp_user"),
+            "password": config.get("sftp_pwd"),
+            "host": config.get("sftp_ip"),
+            "port": int(config.get("sftp_port", 22))
+        }
+
+        self.credential_ok = all(self.sftp_config.values())
+
+        if not self.credential_ok:
+            logger.error(
+                """
+                Missing credentials for sftp connection to NAS. 
+                Please update configuration file with :
+                - sftp_user
+                - sftp_pwd
+                - sftp_ip
+                - sftp_port (default 22)
+                """
+            )
+
+        cnopts = pysftp.CnOpts()
+
+        try:
+            key = RSAKey(data=base64.decodebytes(key_data.encode('utf-8')))
+            cnopts.hostkeys.add(config.get("sftp_ip"), "ssh-rsa", key)
+        except:
+            cnopts.hostkeys = None
+            logger.warning(
+                "No hostkeys defined in StfpConnection. Connection will be unsecured. "
+                "Please configure parameter sbc_switzerland.nas_ssh_key with ssh_key data.")
+
+        self.sftp_config.update({"cnopts": cnopts})
+
+    def get_connection(self, starting_dir=None):
+        """
+        Use instance config to start a connection with sftp server
+        raise AssertionError if credential are not set or IOError if
+        starting_dir is not None and points to a not existing directory
+        :param starting_dir: (optional) starting dir for the connection
+        :return: Return a pysftp connection object
+        """
+
+        assert self.credential_ok, "Missing credentials for sftp connection to NAS."
+
+        conn = pysftp.Connection(**self.sftp_config)
+        if starting_dir:
+            conn.chdir(starting_dir)
+
+        return conn
 
 
 class ImportLettersHistory(models.Model):
@@ -58,76 +117,85 @@ class ImportLettersHistory(models.Model):
         Counts the number of scans. If a zip file is given, the number of
         scans inside is counted.
         """
-        for letter in self:
-            if letter.manual_import or (letter.state and letter.state != "draft"):
-                super(ImportLettersHistory, letter)._compute_nber_letters()
-            else:
-                # files are not selected by user so we find them on NAS
-                # folder 'Imports' counter
-                tmp = 0
 
-                smb_conn = letter._get_smb_connection()
-                share_nas = letter.env.ref("sbc_switzerland.share_on_nas").value
-                imported_letter_path = letter.import_folder_path
+        # files are not selected by user so we find them on NAS
+        count_from_nas_letters = self.filtered(lambda x:
+                                               (x.state and x.state == "draft") and not x.manual_import)
 
-                if (
-                        smb_conn
-                        and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port)
-                        and imported_letter_path
-                ):
-                    imported_letter_path = letter.check_path(imported_letter_path)
+        for letter in self.filtered(lambda x: x not in count_from_nas_letters):
+            super(ImportLettersHistory, letter)._compute_nber_letters()
 
-                    try:
-                        list_paths = smb_conn.listPath(share_nas, imported_letter_path)
-                    except OperationFailure:
-                        logger.error("--------------- PATH NOT CORRECT ---------------")
-                        list_paths = []
+        # avoid setting up smtp connection if unneeded
+        if not len(count_from_nas_letters):
+            return
 
-                    for shared_file in list_paths:
-                        if func.check_file(shared_file.filename) == 1:
-                            tmp += 1
-                        elif func.is_zip(shared_file.filename):
-                            logger.debug(
-                                "File to retrieve:"
-                                f" {imported_letter_path + shared_file.filename}"
+        sftp_con_handler = SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value)
+        sftp = None
+        try:
+            sftp = sftp_con_handler.get_connection()
+        except (AssertionError, IOError) as e:
+            logger.error("Could not establish connection with sftp server")
+            count_from_nas_letters.write({"nber_letters": 0})
+            return
+
+        for letter in count_from_nas_letters:
+            # folder 'Imports' counter
+            imported_letter_path = letter.check_path(letter.import_folder_path)
+
+            if not imported_letter_path:
+                logger.error("Failed to list files in imported folder due to unset import folder path")
+                letter.nber_letters = 0
+                continue
+
+            tmp = 0
+            with sftp.cd(self.env.ref("sbc_switzerland.share_on_nas").value):
+
+                try:
+                    list_paths = sftp.listdir(imported_letter_path)
+                except FileNotFoundError:
+                    logger.error("--------------- PATH NOT CORRECT ---------------")
+                    list_paths = []
+
+                for shared_file in list_paths:
+                    if func.check_file(shared_file) == 1:
+                        tmp += 1
+                    elif func.is_zip(shared_file):
+                        logger.debug(
+                            "File to retrieve:"
+                            f" {imported_letter_path + shared_file}"
+                        )
+
+                        file_obj = BytesIO()
+                        sftp.getfo(
+                            imported_letter_path + shared_file,
+                            flo=file_obj,
+                        )
+                        try:
+                            zip_ = zipfile.ZipFile(file_obj, "r")
+                            list_file = zip_.namelist()
+                            # loop over all files in zip
+                            for tmp_file in list_file:
+                                tmp += func.check_file(tmp_file) == 1
+                        except zipfile.BadZipfile:
+                            raise exceptions.UserError(
+                                _(
+                                    "Zip file corrupted ("
+                                    + shared_file
+                                    + ")"
+                                )
+                            )
+                        except zipfile.LargeZipFile:
+                            raise exceptions.UserError(
+                                _(
+                                    "Zip64 is not supported("
+                                    + shared_file
+                                    + ")"
+                                )
                             )
 
-                            file_obj = BytesIO()
-                            smb_conn.retrieveFile(
-                                share_nas,
-                                imported_letter_path + shared_file.filename,
-                                file_obj,
-                            )
-                            try:
-                                zip_ = zipfile.ZipFile(file_obj, "r")
-                                list_file = zip_.namelist()
-                                # loop over all files in zip
-                                for tmp_file in list_file:
-                                    tmp += func.check_file(tmp_file) == 1
-                            except zipfile.BadZipfile:
-                                raise exceptions.UserError(
-                                    _(
-                                        "Zip file corrupted ("
-                                        + shared_file.filename
-                                        + ")"
-                                    )
-                                )
-                            except zipfile.LargeZipFile:
-                                raise exceptions.UserError(
-                                    _(
-                                        "Zip64 is not supported("
-                                        + shared_file.filename
-                                        + ")"
-                                    )
-                                )
-                    smb_conn.close()
-                else:
-                    logger.error(
-                        f"""Failed to list files in imported folder \
-                    Imports oh the NAS in emplacement: {imported_letter_path}"""
-                    )
+            letter.nber_letters = tmp
 
-                letter.nber_letters = tmp
+        sftp.close()
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -146,15 +214,8 @@ class ImportLettersHistory(models.Model):
                 else:
                     letters_import._run_analyze()
             return True
-        else:
-            # when letters selected by user, save them on NAS and call
-            # super method
-            for letters_import in self:
-                if letters_import.data and self.env.context.get("async_mode", True):
-                    for attachment in letters_import.data:
-                        self._save_imported_letter(attachment)
 
-            return super().button_import()
+        return super().button_import()
 
     @api.multi
     def button_save(self):
@@ -171,72 +232,22 @@ class ImportLettersHistory(models.Model):
                         import_letters.config_id.name
                         == self.env.ref("sbc_switzerland.web_letter").name
                 ):
-                    for line in import_letters.import_line_ids:
-                        # build part of filename, corresponding to this web
-                        # import
-                        # letters remove part after '-' caracter (including)
-                        # corresponding to the page number
-                        part_filename = (line.file_name[:-4]).split("-")[0]
-                        share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
-                        smb_conn = self._get_smb_connection()
-                        if smb_conn and smb_conn.connect(
-                                SmbConfig.smb_ip, SmbConfig.smb_port
-                        ):
-                            imported_letter_path = self.env.ref(
-                                "sbc_switzerland.scan_letter_imported"
-                            ).value
-                            list_paths = smb_conn.listPath(
-                                share_nas, imported_letter_path
-                            )
 
-                            # loop in import folder and find pdf corresponding
-                            # to this web letter and eventual attached image
-                            image_ext = None
-                            file_to_save = False
-                            for shared_file in list_paths:
-                                ext = shared_file.filename[-4:]
-                                if part_filename == shared_file.filename[:-4]:
-                                    if ext == ".pdf":
-                                        file_to_save = True
-                                    else:
-                                        image_ext = ext
+                    with SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).get_connection(
+                            self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
 
-                            # move web letter on 'Done' folder on the NAS
-                            if file_to_save:
-                                filename = part_filename + ".pdf"
-                                file_obj = BytesIO()
-                                smb_conn.retrieveFile(
-                                    share_nas, imported_letter_path + filename, file_obj
-                                )
-                                file_obj.seek(0)
-                                self._copy_imported_to_done_letter(
-                                    filename, file_obj, False
-                                )
-                                # delete files corresponding to web letter in
-                                # 'Import'
-                                try:
-                                    smb_conn.deleteFiles(
-                                        share_nas, imported_letter_path + filename
-                                    )
-                                except Exception as inst:
-                                    logger.warning(
-                                        f"Failed to delete pdf web letter {inst}"
-                                    )
+                        imported_letter_path = self.env.ref("sbc_switzerland.scan_letter_imported").value
 
-                                # image is attached to this letter so we
-                                # remove it
-                                if image_ext:
-                                    try:
-                                        smb_conn.deleteFiles(
-                                            share_nas,
-                                            imported_letter_path
-                                            + part_filename
-                                            + image_ext,
-                                        )
-                                    except Exception as inst:
-                                        logger.warning(
-                                            f"Failed to delete attached image {inst}"
-                                        )
+                        # look for pdfs and images to remove
+                        list_files = [l for l in sftp.listdir(imported_letter_path) if
+                                      l[:-4] in  # could be pdf or image
+                                      map(lambda x: x[:-4].split("-")[0],  # lines are store in multiple part
+                                          import_letters.import_line_ids.mapped('file_name'))]
+                        try:
+                            for file_to_remove in list_files:
+                                sftp.remove(imported_letter_path + file_to_remove)
+                        except Exception as inst:
+                            logger.warning(f"Failed to delete pdf web letter {inst}")
 
                 if import_letters.manual_import:
                     self._manage_all_imported_files()
@@ -258,6 +269,7 @@ class ImportLettersHistory(models.Model):
     #########################################################################
     #                             PRIVATE METHODS                           #
     #########################################################################
+
     @job(default_channel="root.sbc_compassion")
     @related_action(action="related_action_s2b_imports")
     def _run_analyze(self):
@@ -268,49 +280,48 @@ class ImportLettersHistory(models.Model):
         - call _analyze_attachment for every resulting file
         """
         self.ensure_one()
+
+        if self.manual_import:
+            return super()._run_analyze()
+
         # keep track of file names to detect duplicates
         # file_name_history = []
         logger.info("Imported letters analysis started...")
         progress = 1
 
-        share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
-
-        smb_conn = self._get_smb_connection()
-        if not self.manual_import:
-            imported_letter_path = self.check_path(self.import_folder_path)
-            if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-                list_paths = smb_conn.listPath(share_nas, imported_letter_path)
+        imported_letter_path = self.check_path(self.import_folder_path)
+        try:
+            with SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).get_connection(
+                    self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
+                list_paths = sftp.listdir(imported_letter_path)
                 for shared_file in list_paths:
-                    if func.check_file(shared_file.filename) == 1:
-                        logger.info(
-                            f"Analyzing letter {progress}" f"/{len(list_paths)}"
-                        )
+
+                    logger.info(f"Analyzing letter {progress}" f"/{len(list_paths)}")
+
+                    if func.check_file(shared_file) == 1:
 
                         with NamedTemporaryFile() as file_obj:
-                            smb_conn.retrieveFile(
-                                share_nas,
-                                imported_letter_path + shared_file.filename,
+                            sftp.getfo(
+                                imported_letter_path + shared_file,
                                 file_obj,
                             )
                             self._analyze_attachment(
-                                self._convert_pdf(file_obj), shared_file.filename
+                                self._convert_pdf(file_obj), shared_file
                             )
 
                             progress += 1
-                    elif func.is_zip(shared_file.filename):
+                    elif func.is_zip(shared_file):
 
                         zip_file = BytesIO()
-                        # retrieve zip file from imports letters stored on
-                        # NAS
-                        smb_conn.retrieveFile(
-                            share_nas,
-                            imported_letter_path + shared_file.filename,
+                        # retrieve zip file from imports letters stored on NAS
+                        sftp.getfo(
+                            imported_letter_path + shared_file,
                             zip_file,
                         )
                         zip_file.seek(0)
                         zip_ = zipfile.ZipFile(zip_file, "r")
                         # loop over files inside zip
-                        files = len(zip_.namelist())
+                        files = zip_.namelist()
                         for f in files:
                             logger.info(
                                 f"Analyzing letter {progress}/{len(files)}"
@@ -318,50 +329,16 @@ class ImportLettersHistory(models.Model):
 
                             self._analyze_attachment(self._convert_pdf(zip_.open(f)), f)
                             progress += 1
-                smb_conn.close()
-            else:
-                logger.error(
-                    f"Failed to list files in Imports on the NAS in \
-                emplacement: {imported_letter_path}"
-                )
-        else:
-            super()._run_analyze()
+
+        except (AssertionError, IOError) as e:
+            logger.error("Could not establish connection with sftp server")
+            return
 
         # remove all the files (now they are inside import_line_ids)
         self.data.unlink()
-        if not self.manual_import:
-            self._manage_all_imported_files()
+        self._manage_all_imported_files()
         self.import_completed = True
         logger.info("Imported letters analysis completed.")
-
-    def _save_imported_letter(self, attachment):
-        """
-        Save attachment letter to a shared folder on the NAS ('Imports')
-            - attachment : the attachment to save
-        Done by Michael Sandoz 02.2016
-        """
-        # Store letter on a shared folder on the NAS:
-        # Copy file in the imported letter folder
-        smb_conn = self._get_smb_connection()
-        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-            file_ = BytesIO(
-                base64.b64decode(attachment.with_context(bin_size=False).datas)
-            )
-            share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
-
-            if self.manual_import:
-                imported_letter_path = (
-                    self.env.ref("sbc_switzerland.scan_letter_imported").value
-                    + attachment.name
-                )
-            else:
-                imported_letter_path = (
-                    self.check_path(self.import_folder_path) + attachment.name
-                )
-
-            smb_conn.storeFile(share_nas, imported_letter_path, file_)
-            smb_conn.close()
-        return True
 
     def _manage_all_imported_files(self):
         """
@@ -370,43 +347,36 @@ class ImportLettersHistory(models.Model):
             - Delete files from their import location on the NAS
         Done by Michael Sandoz 02.2016
         """
-        share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
-        # to delete after treatment
-        list_zip_to_delete = []
+
         imported_letter_path = ""
         if self.manual_import:
             imported_letter_path = self.env.ref(
                 "sbc_switzerland.scan_letter_imported"
             ).value
         else:
-            imported_letter_path = self.check_path(self.import_folder_path)
+            imported_letter_path = self.import_folder_path
 
-        smb_conn = self._get_smb_connection()
-        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
+        imported_letter_path = self.check_path(imported_letter_path)
 
-            list_paths = smb_conn.listPath(share_nas, imported_letter_path)
-            for shared_file in list_paths:
-                if func.check_file(shared_file.filename) == 1:
+        with SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).get_connection(
+                self.env.ref("sbc_switzerland.share_on_nas").value) as sftp:
+
+            for shared_file in sftp.listdir(imported_letter_path):
+
+                if func.check_file(shared_file) == 1:
                     # when this is manual import we don't have to copy all
                     # files, web letters are stored in the same folder...
-                    if not self.manual_import or self.is_in_list_letter(
-                            shared_file.filename
-                    ):
-                        file_obj = BytesIO()
-                        smb_conn.retrieveFile(
-                            share_nas,
-                            imported_letter_path + shared_file.filename,
-                            file_obj,
-                        )
-                        file_obj.seek(0)
-                        self._copy_imported_to_done_letter(
-                            shared_file.filename, file_obj, True
-                        )
-                elif func.is_zip(shared_file.filename):
+                    if not self.manual_import or self.is_in_list_letter(shared_file):
+                        try:
+                            sftp.remove(imported_letter_path + shared_file)
+                        except Exception as inst:
+                            logger.warning("Failed to delete a file on NAS : {}".format(inst))
+
+                elif func.is_zip(shared_file):
                     zip_file = BytesIO()
 
-                    smb_conn.retrieveFile(
-                        share_nas, imported_letter_path + shared_file.filename, zip_file
+                    sftp.getfo(
+                        imported_letter_path + shared_file, zip_file
                     )
                     zip_file.seek(0)
                     zip_ = zipfile.ZipFile(zip_file, "r")
@@ -416,21 +386,13 @@ class ImportLettersHistory(models.Model):
                         # when this is manual import we are not sure that this
                         # zip contains current letters treated
                         if not self.manual_import or self.is_in_list_letter(f):
-                            self._copy_imported_to_done_letter(
-                                f, BytesIO(zip_.read(f)), False
-                            )
                             zip_to_remove = True
 
                     if zip_to_remove:
-                        list_zip_to_delete.append(shared_file.filename)
-
-            # delete zip file from origin import folder on the NAS
-            for filename in list_zip_to_delete:
-                try:
-                    smb_conn.delete_files(share_nas, imported_letter_path + filename)
-                except Exception as inst:
-                    logger.warning(f"Failed to delete zip file on NAS: {inst}")
-            smb_conn.close()
+                        try:
+                            sftp.remove(imported_letter_path + shared_file)
+                        except Exception as inst:
+                            logger.warning("Failed to delete a file on NAS : {}".format(inst))
 
     def is_in_list_letter(self, filename):
         """
@@ -441,77 +403,11 @@ class ImportLettersHistory(models.Model):
                 return True
         return False
 
-    def _copy_imported_to_done_letter(self, filename, file_to_copy, delete_file):
-        """
-        Copy letter from 'imported' folder to 'done' folder on  a shared folder
-        on NAS
-            - filename: filename to give to saved file
-            - file_to_copy: the file to copy
-            - delete_file: set to true if file_to_copy must be deleted after
-              the copy
-        Done by Michael Sandoz 02.2016
-        """
-        smb_conn = self._get_smb_connection()
-        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-            # Copy file in attachment in the done letter folder
-            share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
-
-            # Add end path corresponding to the end of the import folder path
-            end_path = ""
-            if self.import_folder_path:
-                end_path = (
-                    self.check_path(self.import_folder_path)
-                        .replace("\\", "/")
-                        .replace("//", "/")
-                )
-                end_path = end_path.split("/")[-2] + "/"
-            done_letter_path = (
-                self.env.ref("sbc_switzerland.scan_letter_done").value
-                + end_path
-                + filename
-            )
-
-            smb_conn.storeFile(share_nas, done_letter_path, file_to_copy)
-
-            # Delete file in the imported letter folder
-            if delete_file:
-                if self.manual_import:
-                    imported_letter_path = (
-                        self.env.ref("sbc_switzerland.scan_letter_imported").value
-                        + filename
-                    )
-                else:
-                    imported_letter_path = (
-                        self.check_path(self.import_folder_path) + filename
-                    )
-
-                try:
-                    smb_conn.deleteFiles(share_nas, imported_letter_path)
-                except Exception as inst:
-                    logger.warning("Failed to delete a file on NAS : {}".format(inst))
-
-            smb_conn.close()
-        return True
-
     def check_path(self, path):
         """" Add backslash at end of path if not contains ever one """
-        if path and not path[-1] == "\\":
-            path = path + "\\"
+        if path and not path[-1] == "/":
+            path = path + "/"
         return path
-
-    def _get_smb_connection(self):
-        """" Retrieve configuration SMB """
-        if not (
-                SmbConfig.smb_user
-                and SmbConfig.smb_pass
-                and SmbConfig.smb_ip
-                and SmbConfig.smb_port
-        ):
-            return False
-        else:
-            return SMBConnection(
-                SmbConfig.smb_user, SmbConfig.smb_pass, "openerp", "nas"
-            )
 
     def analyze_webletter(self, pdf_letter):
         """
@@ -564,12 +460,3 @@ class ImportLettersHistory(models.Model):
                 return temp_pdf_file.read()
             output.seek(0)
             return output.read()
-
-
-class SmbConfig:
-    """" Little class who contains SMB configuration """
-
-    smb_user = config.get("smb_user")
-    smb_pass = config.get("smb_pwd")
-    smb_ip = config.get("smb_ip")
-    smb_port = int(config.get("smb_port", 0))
