@@ -32,3 +32,4 @@ order by p.create_date asc
             # This will trigger the biennial communication and the order photo
             child.new_photo()
         _logger.info("... %s / %s done", count, len(children))
+        env.cr.commit()
