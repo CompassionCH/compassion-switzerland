@@ -527,6 +527,21 @@ class PartnerCommunication(models.Model):
                                 " before printing the communication."
                             )
                         )
+
+        # Prevent sending onboarding card when partner is not validated
+        onboarding_new_donor = self.env.ref(
+            "partner_communication_switzerland"
+            ".config_new_donors_onboarding_postcard_and_magazine")
+        verify = self.env.ref("cms_form_compassion.activity_check_duplicates")
+        blocking = other_jobs.filtered(
+            lambda j: j.config_id == onboarding_new_donor
+            and j.partner_id.activity_ids.filtered(
+                lambda a: a.activity_type_id == verify))
+        if blocking:
+            raise UserError(_(
+                "You cannot send the onboarding postcard when the partner is not "
+                "verified. Please check the following partners: %s"
+            ) % ",".join(blocking.mapped("partner_id.name")))
         super(PartnerCommunication, other_jobs).send()
 
         # No money extension
