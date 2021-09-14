@@ -486,6 +486,7 @@ class PartnerCommunication(models.Model):
         - Sends SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
         - Set onboarding_start_date when first communication is sent
+        - Star onboarding new donor after first thank you letter is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -556,11 +557,13 @@ class PartnerCommunication(models.Model):
                     hold.expiration_date = expiration
 
         donor = self.env.ref("partner_compassion.res_partner_category_donor")
-        partners = other_jobs.filtered(
+        new_donor_partners = other_jobs.filtered(
             lambda j: j.config_id.model == "account.invoice.line"
-                      and donor not in j.partner_id.category_id
+            and j.config_id.send_mode_pref_field == "thankyou_preference"
+            and donor not in j.partner_id.category_id
         ).mapped("partner_id")
-        partners.write({"category_id": [(4, donor.id)]})
+        new_donor_partners.write({"category_id": [(4, donor.id)]})
+        new_donor_partners.filter_onboarding_new_donors().start_new_donors_onboarding()
 
         zoom_invitation = self.env.ref(
             "partner_communication_switzerland.config_onboarding_step1"
