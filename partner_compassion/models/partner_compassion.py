@@ -421,7 +421,6 @@ class ResPartner(models.Model):
             if not res:
                 res = self.search(
                     ["|", ("name", "%", name), ("name", "ilike", name)],
-                    order="similarity(res_partner.name, '%s') DESC" % name,
                     limit=limit,
                 )
             # Search by e-mail
@@ -430,22 +429,6 @@ class ResPartner(models.Model):
         else:
             res = self.search(args, limit=limit)
         return res.name_get()
-
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        """ Order search results based on similarity if name search is used."""
-        fuzzy_search = False
-        for arg in args:
-            if arg[0] == "name" and arg[1] == "%":
-                fuzzy_search = arg[2]
-                break
-        if fuzzy_search:
-            order = self.env.cr.mogrify(
-                "similarity(res_partner.name, %s) DESC", [fuzzy_search]
-            )
-        if order and isinstance(order, bytes):
-            order = order.decode("utf-8")
-        return super().search(args, offset, limit, order, count)
 
     ##########################################################################
     #                             ONCHANGE METHODS                           #
