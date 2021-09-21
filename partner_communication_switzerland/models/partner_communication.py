@@ -486,6 +486,7 @@ class PartnerCommunication(models.Model):
         - Sends SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
         - Set onboarding_start_date when first communication is sent
+        - Star onboarding new donor after first thank you letter is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -526,6 +527,21 @@ class PartnerCommunication(models.Model):
                                 " before printing the communication."
                             )
                         )
+
+        # Prevent sending onboarding card when partner is not validated
+        onboarding_new_donor = self.env.ref(
+            "partner_communication_switzerland"
+            ".config_new_donors_onboarding_postcard_and_magazine")
+        verify = self.env.ref("cms_form_compassion.activity_check_duplicates")
+        blocking = other_jobs.filtered(
+            lambda j: j.config_id == onboarding_new_donor
+            and j.partner_id.activity_ids.filtered(
+                lambda a: a.activity_type_id == verify))
+        if blocking:
+            raise UserError(_(
+                "You cannot send the onboarding postcard when the partner is not "
+                "verified. Please check the following partners: %s"
+            ) % ",".join(blocking.mapped("partner_id.name")))
         super(PartnerCommunication, other_jobs).send()
 
         # No money extension
@@ -556,11 +572,13 @@ class PartnerCommunication(models.Model):
                     hold.expiration_date = expiration
 
         donor = self.env.ref("partner_compassion.res_partner_category_donor")
-        partners = other_jobs.filtered(
+        new_donor_partners = other_jobs.filtered(
             lambda j: j.config_id.model == "account.invoice.line"
-                      and donor not in j.partner_id.category_id
+            and j.config_id.send_mode_pref_field == "thankyou_preference"
+            and donor not in j.partner_id.category_id
         ).mapped("partner_id")
-        partners.write({"category_id": [(4, donor.id)]})
+        new_donor_partners.write({"category_id": [(4, donor.id)]})
+        new_donor_partners.filter_onboarding_new_donors().start_new_donors_onboarding()
 
         zoom_invitation = self.env.ref(
             "partner_communication_switzerland.config_onboarding_step1"

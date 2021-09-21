@@ -137,7 +137,7 @@ class CompassionChild(models.Model):
         for child in self.filtered(
                 lambda r: r.sponsor_id
                 and r.pictures_ids
-                and r.sponsorship_ids[0].state in ("active", "waiting", "mandate")
+                and r.sponsorship_ids[0].state == "active"
         ):
             sponsor = child.sponsor_id
             delivery = sponsor.photo_delivery_preference

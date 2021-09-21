@@ -79,10 +79,6 @@ class AccountInvoiceLine(models.Model):
             ),
         ).generate_thank_you()
 
-        # filter and start new donors onboarding for matching partners
-        new_donors = self.mapped("partner_id").filter_onboarding_new_donors()
-        new_donors.start_new_donors_onboarding()
-
         return res
 
     @api.multi
