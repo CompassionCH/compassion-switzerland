@@ -6,11 +6,13 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from .auto_texts import CHRISTMAS_TEXTS
+
 import base64
 from datetime import datetime, timedelta
 from base64 import b64decode, b64encode
 from os import path, remove
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlencode
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 from math import ceil
@@ -248,20 +250,30 @@ class MyAccountController(PaymentFormController):
             templates = request.env["correspondence.template"].search([
                 ("active", "=", True),
                 ("website_published", "=", True),
-            ]).sorted("name")
+            ]).sorted(lambda t: "0" if "christmas" in t.name else t.name)
             if not template_id and len(templates) > 0:
                 template_id = templates[0].id
             template = templates.filtered(lambda t: t.id == int(template_id))
+            auto_texts = {}
+            if kwargs.get("auto_christmas"):
+                for c in children:
+                    auto_texts[c.id] = CHRISTMAS_TEXTS.get(
+                        c.field_office_id.primary_language_id.code_iso,
+                        CHRISTMAS_TEXTS["eng"]
+                    ) % (c.preferred_name, request.env.user.partner_id.firstname)
             return request.render(
                 "website_compassion.letter_page_template",
                 {"child_id": child,
                  "template_id": template,
                  "children": children,
                  "templates": templates,
-                 "partner": request.env.user.partner_id}
+                 "partner": request.env.user.partner_id,
+                 "auto_texts": auto_texts}
             )
         else:
-            return request.redirect(f"/my/letter?child_id={children[0].id}")
+            return request.redirect(
+                f"/my/letter?child_id={children[0].id}&template_id={template_id or ''}"
+                f"&{urlencode(kwargs)}")
 
     @route("/my/children", type="http", auth="user", website=True)
     def my_child(self, state="active", child_id=None, **kwargs):
