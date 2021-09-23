@@ -84,7 +84,7 @@ class HomepageController(Controller):
             impact["sponsorship"]["text"] = _("sponsored children")
 
         return {
-            "projects": current_year_projects,
+            "projects": current_year_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
             "base_url": request.website.domain
         }
