@@ -47,13 +47,13 @@ class HomepageController(Controller):
     def _compute_homepage_context(self, year, **kwargs):
 
         project_obj = request.env["crowdfunding.project"].sudo()
-        current_year_projects = project_obj.get_active_projects(year=year, limit=8)
+        current_year_projects = project_obj.get_active_projects(year=year)
         active_funds = current_year_projects.mapped("product_id")
         impact = {
             "sponsorship": sponsorship_card_content()
         }
         for fund in active_funds:
-            impact[fund.id] = {
+            impact[fund.name] = {
                 "type": "fund",
                 "value": 0,
                 "name": fund.crowdfunding_impact_text_active,
@@ -72,19 +72,19 @@ class HomepageController(Controller):
 
         for project in current_year_projects:
             impact["sponsorship"]["value"] += project.number_sponsorships_reached
-            project_fund = project.product_id.id
+            project_fund = project.product_id.name
             if project_fund in impact:
                 impact[project_fund]["value"] += project.product_number_reached
 
         for fund in active_funds:
-            if impact[fund.id]["value"] > 1:
-                impact[fund.id]["text"] = fund.crowdfunding_impact_text_passive_plural
+            if impact[fund.name]["value"] > 1:
+                impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
 
         if impact["sponsorship"]["value"] > 1:
             impact["sponsorship"]["text"] = _("sponsored children")
 
         return {
-            "projects": current_year_projects,
+            "projects": current_year_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
             "base_url": request.website.domain
         }

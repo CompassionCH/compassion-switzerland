@@ -221,7 +221,7 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         background = self.send_mode and "physical" not in self.send_mode
-        product_id = self.env["product.product"].search([("default_code", "=", "gen_christmas")])
+        product_id = self.env["product.product"].search([("default_code", "=", "noel")])
         data = {
             "product_id": product_id.id,
             "product_ids": product_id.ids,
