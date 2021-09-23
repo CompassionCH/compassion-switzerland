@@ -18,7 +18,7 @@ import base64
 from io import BytesIO
 
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
-from odoo.addons.sbc_switzerland.models.import_letters_history import SmbConfig
+from odoo.addons.sbc_switzerland.models.import_letters_history import SftpConnection
 from werkzeug.utils import escape
 
 from odoo import models, api, fields
@@ -173,16 +173,18 @@ class ImportLettersHistory(models.Model):
 
             import_config.import_completed = True
             # Copy file in attachment in the done letter folder
-            share_nas = self.env.ref("sbc_switzerland.share_on_nas").value
             import_letter_path = (
                 self.env.ref(
                     "sbc_switzerland.scan_letter_imported").value + filename
             )
 
             file_pdf = BytesIO(pdf_letter)
-            smb_conn = self._get_smb_connection()
-            if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
-                smb_conn.storeFile(share_nas, import_letter_path, file_pdf)
+
+            sftp_conn = SftpConnection(self.env.ref("sbc_switzerland.nas_ssh_key").value).\
+                get_connection(self.env.ref("sbc_switzerland.share_on_nas").value)
+
+            with sftp_conn as sftp:
+                sftp.putfo(file_pdf, import_letter_path)
 
                 # save eventual attachment
                 if attachment_url:
@@ -192,8 +194,7 @@ class ImportLettersHistory(models.Model):
                     )
 
                     file_attachment = BytesIO(attachment_data)
-                    smb_conn.storeFile(share_nas, import_letter_path, file_attachment)
-                smb_conn.close()
+                    sftp.putfo(file_attachment, import_letter_path)
 
             # Accept privacy statement
             sponsor_id.set_privacy_statement(origin="new_letter")

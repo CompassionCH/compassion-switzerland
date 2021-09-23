@@ -21,12 +21,12 @@ from odoo.tools.config import config
 from odoo.exceptions import UserError
 from odoo.addons.sbc_compassion.models.correspondence_page import BOX_SEPARATOR
 
-
 logger = logging.getLogger(__name__)
 
 try:
     from PyPDF2 import PdfFileReader, PdfFileWriter
     from smb.SMBConnection import SMBConnection
+    import pysftp
 except ImportError:
     logger.warning("Please install pyPdf and smb.")
 
@@ -84,7 +84,7 @@ class Correspondence(models.Model):
                 correspondence = super(
                     Correspondence, self.with_context(no_comm_kit=True)
                 ).create(vals)
-                correspondence.send_local_translate()
+                # correspondence.send_local_translate()
             else:
                 correspondence = super().create(vals)
 
@@ -412,26 +412,35 @@ class Correspondence(models.Model):
         """
         self.ensure_one()
         # Retrieve configuration
-        smb_user = config.get("smb_user")
-        smb_pass = config.get("smb_pwd")
-        smb_ip = config.get("smb_ip")
-        smb_port = int(config.get("smb_port", 0))
-        if not (smb_user and smb_pass and smb_ip and smb_port):
-            raise Exception("No config SMB in file .conf")
+        sftp_user = config.get("sftp_user")
+        sftp_pass = config.get("sftp_pwd")
+        sftp_ip = config.get("sftp_ip")
+        sftp_port = int(config.get("sftp_port", 0))
+        if not (sftp_user and sftp_pass and sftp_ip and sftp_port):
+            raise Exception("No config SFTP in file .conf")
+
+        cnopts = pysftp.CnOpts()
+        # TODO import hostkey for compassion nas
+        cnopts.hostkeys = None
+
+        if cnopts.hostkeys is None:
+            logger.warning("No hostkeys defined in StfpConnection. Connection will be unsecured.")
 
         # Copy file in the imported letter folder
-        smb_conn = SMBConnection(smb_user, smb_pass, "openerp", "nas")
-        if smb_conn.connect(smb_ip, smb_port):
-            file_ = BytesIO(self.get_image())
-            nas_share_name = self.env.ref("sbc_switzerland.nas_share_name").value
+        try:
+            sftp_conn = pysftp.Connection(host=sftp_ip, password=sftp_pass, username=sftp_user,
+                                          port=sftp_port, cnopts=cnopts)
+        except Exception:
+            raise UserError(_("Connection to NA failed."))
 
-            nas_letters_store_path = (
-                self.env.ref(
-                    "sbc_switzerland.nas_letters_store_path").value + file_name
-            )
-            smb_conn.storeFile(nas_share_name, nas_letters_store_path, file_)
-        else:
-            raise UserError(_("Connection to NAS failed"))
+        with sftp_conn as sftp:
+            file_ = BytesIO(self.get_image())
+            with sftp.cd(self.env.ref("sbc_switzerland.nas_share_name").value):
+                nas_letters_store_path = (
+                        self.env.ref(
+                            "sbc_switzerland.nas_letters_store_path").value + file_name
+                )
+                sftp.putfo(file_, nas_letters_store_path)
 
     # CRON Methods
     ##############

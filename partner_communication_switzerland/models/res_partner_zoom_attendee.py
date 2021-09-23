@@ -90,13 +90,15 @@ class ZoomAttendee(models.Model):
         short_notice_config = self.env.ref(
             "partner_communication_switzerland.config_onboarding_zoom_link")
         for attendee in self:
+            object_id = attendee.id
             config = confirmation_config
             if attendee.zoom_session_id.date_start <= datetime.now() + relativedelta(
                     days=2):
                 config = short_notice_config
+                object_id = attendee.zoom_session_id.id
             self.env["partner.communication.job"].create({
                 "partner_id": attendee.partner_id.id,
                 "config_id": config.id,
-                "object_ids": attendee.id
+                "object_ids": object_id
             })
         return True

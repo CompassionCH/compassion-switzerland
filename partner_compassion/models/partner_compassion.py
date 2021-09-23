@@ -11,8 +11,10 @@ import logging
 import tempfile
 import uuid
 import base64
+import re
 
 from odoo import api, registry, fields, models, _
+from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.tools.config import config
 
@@ -38,14 +40,15 @@ THANKYOU_MAPPING = {
 
 logger = logging.getLogger(__name__)
 MAGIC_INSTALLED = False
+regex_order = re.compile('^similarity\((.*),.*\)(\s+(desc|asc))?$', re.I)
 
 try:
     import magic
     MAGIC_INSTALLED = True
     import pyminizip
     import csv
-    from smb.SMBConnection import SMBConnection
-    from smb.smb_structs import OperationFailure
+    import pysftp
+    from pysftp import RSAKey
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
 
@@ -421,7 +424,7 @@ class ResPartner(models.Model):
             if not res:
                 res = self.search(
                     ["|", ("name", "%", name), ("name", "ilike", name)],
-                    order="similarity(res_partner.name, '%s') DESC" % name,
+                    order="similarity(name, '%s') DESC" % name,
                     limit=limit,
                 )
             # Search by e-mail
@@ -446,6 +449,27 @@ class ResPartner(models.Model):
         if order and isinstance(order, bytes):
             order = order.decode("utf-8")
         return super().search(args, offset, limit, order, count)
+
+    @api.model
+    def _generate_order_by_inner(self, alias, order_spec, query,
+                                 reverse_direction=False, seen=None):
+        # Small trick to allow similarity ordering while bypassing odoo checks
+        is_similarity_ordering = regex_order.match(order_spec) if order_spec else False
+        if is_similarity_ordering:
+            order_by_elements = [order_spec]
+        else:
+            order_by_elements = super()._generate_order_by_inner(
+                alias, order_spec, query, reverse_direction, seen)
+        return order_by_elements
+
+    def _check_qorder(self, word):
+        """ Allow similarity order """
+        try:
+            super()._check_qorder(word)
+        except UserError:
+            if not regex_order.match(word):
+                raise
+        return True
 
     ##########################################################################
     #                             ONCHANGE METHODS                           #
@@ -644,18 +668,16 @@ class ResPartner(models.Model):
         inside a password-protected ZIP file.
         :return: None
         """
-        smb_conn = self._get_smb_connection()
-        if smb_conn and smb_conn.connect(SmbConfig.smb_ip, SmbConfig.smb_port):
+        sftp = self._get_sftp_connection()
+        if sftp:
             config_obj = self.env["ir.config_parameter"].sudo()
-            share_nas = config_obj.get_param("partner_compassion.share_on_nas")
             store_path = config_obj.get_param("partner_compassion.store_path")
             src_zip_file = tempfile.NamedTemporaryFile()
-            attrs = smb_conn.retrieveFile(share_nas, store_path, src_zip_file)
-            file_size = attrs[1]
+            file_size = sftp.getfo(store_path, src_zip_file)
             if file_size:
                 src_zip_file.flush()
                 zip_dir = tempfile.mkdtemp()
-                pyminizip.uncompress(src_zip_file.name, SmbConfig.file_pw, zip_dir, 0)
+                pyminizip.uncompress(src_zip_file.name, SftpConfig.file_pw, zip_dir, 0)
                 csv_path = zip_dir + "/partner_data.csv"
                 with open(csv_path, "a", newline="", encoding="utf-8") as csv_file:
                     csv_writer = csv.writer(csv_file)
@@ -668,29 +690,44 @@ class ResPartner(models.Model):
                         ]
                     )
                 dst_zip_file = tempfile.NamedTemporaryFile()
-                pyminizip.compress(
-                    csv_path, "", dst_zip_file.name, SmbConfig.file_pw, 5
-                )
+                pyminizip.compress(csv_path, "", dst_zip_file.name, SftpConfig.file_pw, 5)
                 try:
-                    smb_conn.storeFile(share_nas, store_path, dst_zip_file)
-                except OperationFailure:
+                    sftp.putfo(dst_zip_file, store_path)
+                except Exception:
                     logger.error(
                         "Couldn't store secure partner data on NAS. "
                         "Please do it manually by replicating the following "
                         "file: " + dst_zip_file.name
                     )
+                finally:
+                    src_zip_file.close()
+                    dst_zip_file.close()
 
-    def _get_smb_connection(self):
+    def _get_sftp_connection(self):
         """" Retrieve configuration SMB """
         if not (
-                SmbConfig.smb_user
-                and SmbConfig.smb_pass
-                and SmbConfig.smb_ip
-                and SmbConfig.smb_port
+                SftpConfig.username
+                and SftpConfig.password
+                and SftpConfig.host
+                and SftpConfig.port
         ):
             return False
         else:
-            return SMBConnection(SmbConfig.smb_user, SmbConfig.smb_pass, "odoo", "nas")
+
+            cnopts = pysftp.CnOpts()
+
+            try:
+                key_data = self.env.ref("sbc_switzerland.nas_ssh_key").value
+                key = RSAKey(data=base64.decodebytes(key_data.encode('utf-8')))
+                cnopts.hostkeys.add(SftpConfig.host, "ssh-rsa", key)
+            except:
+                cnopts.hostkeys = None
+                logger.warning(
+                    "No hostkeys defined in StfpConnection. Connection will be unsecured. "
+                    "Please configure parameter sbc_switzerland.nas_ssh_key with ssh_key data.")
+
+            return pysftp.Connection(username=SftpConfig.username, password=SftpConfig.password, port=SftpConfig.port,
+                                     host=SftpConfig.host, cnopts=cnopts)
 
     def _get_active_sponsorships_domain(self):
         """
@@ -730,11 +767,11 @@ class ResPartner(models.Model):
         return mail_values
 
 
-class SmbConfig:
+class SftpConfig:
     """" Little class who contains SMB configuration """
 
-    smb_user = config.get("smb_user")
-    smb_pass = config.get("smb_pwd")
-    smb_ip = config.get("smb_ip")
-    smb_port = int(config.get("smb_port", 0))
+    username = config.get("sftp_user")
+    password = config.get("sftp_pwd")
+    host = config.get("sftp_ip")
+    port = int(config.get("sftp_port", 22))
     file_pw = config.get("partner_data_password")

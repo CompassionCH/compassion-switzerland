@@ -16,6 +16,10 @@ from zipfile import ZipFile
 from odoo import api, models, fields
 
 _logger = logging.getLogger(__name__)
+
+# Limit number of photos to handle at a time to avoid memory issues
+NUMBER_LIMIT = 80
+
 try:
     from pdf2image import convert_from_path
 except ImportError:
@@ -62,11 +66,12 @@ class CompassionHold(models.TransientModel):
         :param _print: Set to true for PDF generation instead of ZIP file.
         :return: Window Action
         """
+        sponsorships = self.sponsorship_ids[:NUMBER_LIMIT]
         if _print:
             report = self.env.ref(
                 "partner_communication_switzerland.report_child_picture")
             res = report.report_action(
-                self.mapped("sponsorship_ids.child_id.id"), config=False
+                sponsorships.mapped("child_id.id"), config=False
             )
         else:
             self.download_data = self._make_zip()
@@ -79,8 +84,10 @@ class CompassionHold(models.TransientModel):
                 "context": self.env.context,
                 "target": "new",
             }
-
-        self.sponsorship_ids.write({"order_photo": False})
+        sponsorships.write({"order_photo": False})
+        # Log a note to recover the sponsorships in case the ZIP is lost
+        for s in sponsorships:
+            s.message_post("Picture ordered.")
         return res
 
     @api.multi
@@ -91,20 +98,21 @@ class CompassionHold(models.TransientModel):
         :return: b64_data of the generated zip file
         """
         zip_buffer = BytesIO()
+        children = self.mapped("sponsorship_ids.child_id")[:NUMBER_LIMIT]
         with ZipFile(zip_buffer, "w") as zip_data:
             report_ref = self.env.ref(
                 "partner_communication_switzerland.report_child_picture"
             ).with_context(must_skip_send_to_printer=True)
             pdf_data = report_ref.render_qweb_pdf(
-                self.mapped("sponsorship_ids.child_id.id"),
-                data={"doc_ids": self.mapped("sponsorship_ids.child_id.id")}
+                children.ids,
+                data={"doc_ids": children.ids}
             )[0]
             pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()
             os.write(pdf_temp_file, pdf_data)
             pages = convert_from_path(pdf_temp_file_name)
             for page_id, page in enumerate(pages):
                 child = self.env["compassion.child"].browse(
-                    self.mapped("sponsorship_ids.child_id.id")[page_id]
+                    children.ids[page_id]
                 )
                 fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
 

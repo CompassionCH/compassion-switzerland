@@ -86,20 +86,13 @@ class ProjectController(Controller):
         sponsorships, donations = self.get_sponsorships_and_donations(
             project.sponsorship_ids, project.invoice_line_ids)
 
-        # check if current partner is owner of current project
-        participant = request.env['crowdfunding.participant'].search([
-            ("project_id", "=", project.id),
-            ("partner_id", "in", (project.project_owner_id +
-                                  request.env.user.partner_id).ids)
-        ])
-
         return {
             "project": project,
             "main_object": project,
             "impact": self.get_impact(sponsorships, donations),
             "fund": project.product_id,
             "sponsorship_card_content": sponsorship_card_content(),
-            "participant": participant,
+            "participant": project.owner_participant_id,
             "model": "project",
             "base_url": request.website.domain,
             "page": page
