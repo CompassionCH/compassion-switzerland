@@ -89,6 +89,11 @@ odoo.define('crowdfunding_compassion.creation_form', function (require) {
                     web_input.attr("placeholder", web_text);
                 }
             });
+
+            $("form").submit(function () {
+                // prevent duplicate form submissions
+                $(this).find(":submit").attr('disabled', 'disabled');
+            });
         }
     });
 
