@@ -9,3 +9,4 @@
 
 from . import cms_form
 from . import my_account
+from . import auto_texts

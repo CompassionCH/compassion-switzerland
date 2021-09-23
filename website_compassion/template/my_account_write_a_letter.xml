@@ -35,8 +35,8 @@
         <!-- Children pictures at the top of the view -->
         <template id="letter_horizontal_pictures">
             <h3 class="text-primary text-center text-uppercase my-5">I want to write to:</h3>
-            <t t-set="javascript_hook">selectElement</t>
-            <t t-set="javascript_param">child</t>
+            <t t-set="javascript_hook" t-translate="off">selectElement</t>
+            <t t-set="javascript_param" t-translate="off">child</t>
             <t t-call="website_compassion.children_horizontal_cards"/>
         </template>
 
@@ -127,7 +127,12 @@
                 </a>
             </div>
             <t t-set="placeholder">Write your text here...</t>
-            <textarea id="letter_content" class="w-100" t-att-placeholder="placeholder" style="height: 30rem; resize: none;"/>
+            <t t-if="auto_texts">
+                <textarea id="letter_content" class="w-100 auto_text" style="height: 30rem; resize: none;"><t t-raw="auto_texts[child_id.id]"/></textarea>
+            </t>
+            <t t-else="">
+                <textarea id="letter_content" class="w-100" t-att-placeholder="placeholder" style="height: 30rem; resize: none;"/>
+            </t>
         </template>
 
         <!-- Menu of available actions to do with you letter (image loading, preview, send, ...) -->
@@ -150,6 +155,9 @@
             <span id="child_local_id" t-esc="child_id.local_id" style="display: none;"/>
             <span id="template_id" t-esc="template_id.id" style="display: none;"/>
             <span id="template_name" t-esc="template_id.name" style="display: none;"/>
+            <t t-foreach="auto_texts" t-as="auto_text">
+                <span t-attf-id="auto_text_#{auto_text}" t-raw="auto_text_value" style="display: none;"/>
+            </t>
 
             <h3 class="text-primary text-center text-uppercase mt-5 mb-4">Send your letter</h3>
             <button id="preview_normal" class="btn btn-primary w-100 mb-2" t-attf-onclick="createLetter(preview=true)">
@@ -180,6 +188,10 @@
                 <span class="spinner-border spinner-border-sm" role="status"/>
                 Sending...
             </button>
+            <t t-set="christmas_donation_page">https://compassion.ch/formulaire-pour-dons</t>
+            <a t-attf-href="#{christmas_donation_page}?fund_code=noel&amp;fund_amount=60&amp;#{partner.wordpress_form_data}" target="blank" class="btn btn-primary w-100 mt-2 mb-2 christmas_action d-none" t-att-style="'display: inline-block;' if 'christmas' in template_id.name else 'display: none;'">
+                Support the Christmas action with a donation
+            </a>
         </template>
     </data>
 </odoo>

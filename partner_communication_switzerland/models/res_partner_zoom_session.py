@@ -26,9 +26,9 @@ class ZoomSession(models.Model):
     lang = fields.Selection("_get_lang", required=True)
     date_start = fields.Datetime("Zoom session time", required=True)
     date_stop = fields.Datetime()
-    link = fields.Char("Invitation link")
-    meeting_id = fields.Char("Meeting ID")
-    passcode = fields.Char("Passcode")
+    link = fields.Char("Invitation link", required=True)
+    meeting_id = fields.Char("Meeting ID", required=True)
+    passcode = fields.Char("Passcode", required=True)
     participant_ids = fields.One2many(
         "res.partner.zoom.attendee", "zoom_session_id", "Participants"
     )
