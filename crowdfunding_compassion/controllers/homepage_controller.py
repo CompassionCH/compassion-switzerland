@@ -47,7 +47,7 @@ class HomepageController(Controller):
     def _compute_homepage_context(self, year, **kwargs):
 
         project_obj = request.env["crowdfunding.project"].sudo()
-        current_year_projects = project_obj.get_active_projects(year=year, limit=8)
+        current_year_projects = project_obj.get_active_projects(year=year)
         active_funds = current_year_projects.mapped("product_id")
         impact = {
             "sponsorship": sponsorship_card_content()
