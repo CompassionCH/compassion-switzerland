@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-17 12:07+0000\n"
-"PO-Revision-Date: 2021-08-17 14:08+0200\n"
+"POT-Creation-Date: 2021-09-23 13:48+0000\n"
+"PO-Revision-Date: 2021-09-23 15:52+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -1164,6 +1164,11 @@ msgid "Street"
 msgstr "Rue"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
+msgid "Support the Christmas action with a donation"
+msgstr "Offrir un cadeau de Noël"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Technical Recommendation"
 msgstr "Recommandation technique"
@@ -1541,6 +1546,12 @@ msgid "https://compassion.ch/le-voyage-de-vos-lettres"
 msgstr "https://compassion.ch/le-voyage-de-vos-lettres"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
+#| msgid "https://compassion.ch/protection-des-donnees/"
+msgid "https://compassion.ch/noel"
+msgstr "https://compassion.ch/noel"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "https://compassion.ch/protection-des-donnees/"
 msgstr "https://compassion.ch/protection-des-donnees/"
@@ -1557,7 +1568,7 @@ msgstr ""
 "1s0x478dcfbc3513dddb:0xa87daf8cb3350fb!8m2!3d46.7658158!4d6.645769"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:673
+#: code:addons/website_compassion/controllers/my_account.py:685
 #, python-format
 msgid "labels"
 msgstr "etiquettes"
@@ -1594,7 +1605,7 @@ msgid "sitemap.xml"
 msgstr "sitemap.xml"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:579
+#: code:addons/website_compassion/controllers/my_account.py:591
 #, python-format
 msgid "tax_receipt"
 msgstr "attestation_fiscale"

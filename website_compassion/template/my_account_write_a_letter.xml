@@ -188,8 +188,8 @@
                 <span class="spinner-border spinner-border-sm" role="status"/>
                 Sending...
             </button>
-            <t t-set="christmas_donation_page">https://compassion.ch/formulaire-pour-dons</t>
-            <a t-attf-href="#{christmas_donation_page}?fund_code=noel&amp;fund_amount=60&amp;#{partner.wordpress_form_data}" target="blank" class="btn btn-primary w-100 mt-2 mb-2 christmas_action d-none" t-att-style="'display: inline-block;' if 'christmas' in template_id.name else 'display: none;'">
+            <t t-set="christmas_donation_page">https://compassion.ch/noel</t>
+            <a t-attf-href="#{christmas_donation_page}?fund_amount=60&amp;#{partner.wordpress_form_data}" target="blank" class="btn btn-primary w-100 mt-2 mb-2 christmas_action d-none" t-att-style="'display: inline-block;' if 'christmas' in template_id.name else 'display: none;'">
                 Support the Christmas action with a donation
             </a>
         </template>
