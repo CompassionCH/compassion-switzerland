@@ -347,7 +347,6 @@
                                 <br/>
                                 <span t-field="o.local_id" class="ref"/>
                             </div>
-                            <img class="qrcode" t-att-src="o.get_qrcode_sponsorship_url()" alt="QR Code to online sponsorship form" /> <!-- keep space -->
                             <p style="page-break-after:always;"/>
                         </div>
                     </div>
