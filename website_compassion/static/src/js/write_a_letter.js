@@ -68,6 +68,8 @@ selectElement = function(obj_id, elem_type) {
     // We correctly set some values for letter writing to work properly
     const name = $(`#${elem_type}_name_${obj_id}`);
     const local_id = $(`#${elem_type}_local_id_${obj_id}`);
+    // Replace auto_text if any is present and child is changed
+    $(".auto_text").html($(`#auto_text_${obj_id}`).html());
     if (local_id) {
         $(`span[id^=${elem_type}]`).removeClass("font-weight-bold");
         name.addClass("font-weight-bold");
@@ -77,6 +79,13 @@ selectElement = function(obj_id, elem_type) {
     }
     $(`#${elem_type}_id`).text(obj_id);
     $(`#${elem_type}_name`).text(name.text());
+
+    // Special case if a christmas template is chosen: display a donation option and a generic text when needed
+    if (name.text().includes("christmas")) {
+        $(".christmas_action").show();
+    } else {
+        $(".christmas_action").hide();
+    }
 
      // We use replaceState for refreshes to work as intended
     history.replaceState({}, document.title, base_url + params);
@@ -351,6 +360,7 @@ const sendLetter = async function() {
                 }
 
                 displayAlert("letter_sent_correctly");
+                $(".christmas_action").toggleClass("d-none");
             } else {
                 displayAlert("letter_error");
             }
