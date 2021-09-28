@@ -40,7 +40,7 @@ msgstr ""
 "notamment l'accès à la scolarité, au soutien scolaire, à des repas "
 "équilibrés réguliers, à un suivi médical et à des formations dans le domaine "
 "spirituel, de l'hygiène, etc. L'enfant participe chaque semaine à des "
-"activités d'un des centres d'accueil des 8000 Eglises locales partenaires de "
+"activités d'un des centres de développement de l'enfant des 8000 Eglises locales partenaires de "
 "Compassion. Elles lui permettent de découvrir et développer ses talents."
 
 #. module: crowdfunding_compassion
