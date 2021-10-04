@@ -69,21 +69,31 @@ class MuskathlonRegistration(models.Model):
 
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
-        muskathlon_report = self.env["muskathlon.report"]
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
+        pids = m_reg.mapped("partner_id").ids
+        origins = m_reg.mapped("compassion_event_id.origin_id")
+        self.env.cr.execute("""
+            SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id
+            FROM account_invoice_line il
+            WHERE il.state IN ('draft', 'open', 'paid')
+            AND il.account_id = 2775 -- Muskathlon event
+            AND il.user_id = ANY(%s)
+            AND il.event_id = ANY(%s)
+            GROUP BY il.user_id, il.event_id
+            UNION ALL
+            SELECT sum(1000) AS amount, r.user_id, o.event_id
+            FROM recurring_contract r
+            JOIN recurring_contract_origin o ON r.origin_id = o.id
+            WHERE r.user_id = ANY(%s)
+            AND r.origin_id = ANY(%s)
+            GROUP BY r.user_id, o.event_id
+        """, [pids, origins.mapped("event_id").ids, pids, origins.ids])
+        results = self.env.cr.dictfetchall()
         for registration in m_reg:
-            amount_raised = int(
-                sum(
-                    item.amount
-                    for item in muskathlon_report.search(
-                        [
-                            ("user_id", "=", registration.partner_id.id),
-                            ("event_id", "=", registration.compassion_event_id.id),
-                        ]
-                    )
-                )
-            )
-            registration.amount_raised = amount_raised
+            registration.amount_raised = int(sum(
+                r["amount"] for r in results
+                if r["user_id"] == registration.partner_id_id
+                and r["event_id"] == registration.compassion_event_id.id))
         super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
 
     def _compute_is_in_two_months(self):
