@@ -11,7 +11,7 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +38,7 @@ class ZoomSession(models.Model):
         ("cancel", "Cancelled")
     ], required=True, default="planned")
     is_published = fields.Boolean(compute="_compute_website_published")
+    number_participants = fields.Integer(compute="_compute_number_participants")
 
     @api.model
     def _get_lang(self):
@@ -53,6 +54,11 @@ class ZoomSession(models.Model):
     def _compute_website_published(self):
         for record in self:
             record.is_published = record.state == "planned"
+
+    @api.multi
+    def _compute_number_participants(self):
+        for zoom in self:
+            zoom.number_participants = len(zoom.participant_ids)
 
     @api.onchange("date_start")
     def onchange_date_start(self):
@@ -120,3 +126,15 @@ class ZoomSession(models.Model):
     @api.multi
     def cancel(self):
         return self.write({"state": "cancel"})
+
+    def edit_participants(self):
+        return {
+            "name": _("Participants"),
+            "type": "ir.actions.act_window",
+            "view_type": "form",
+            "view_mode": "kanban,tree,form",
+            "res_model": "res.partner.zoom.attendee",
+            "context": self.env.context,
+            "domain": [("zoom_session_id", "=", self.id)],
+            "target": "current",
+        }
