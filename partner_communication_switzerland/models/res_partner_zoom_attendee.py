@@ -37,7 +37,7 @@ class ZoomAttendee(models.Model):
         ("confirmed", "Confirmed"),
         ("attended", "Attended"),
         ("declined", "Declined")
-    ], default="invited")
+    ], default="invited", group_expand="_expand_states")
     optional_message = fields.Text()
     color = fields.Integer(compute="_compute_color")
 
@@ -49,6 +49,9 @@ class ZoomAttendee(models.Model):
     def _compute_color(self):
         for attendee in self:
             attendee.color = COLOR_MAPPING.get(attendee.state)
+
+    def _expand_states(self, states, domain, order):
+        return [key for key, val in type(self).state.selection]
 
     def inform_about_next_session(self):
         for attendee in self:

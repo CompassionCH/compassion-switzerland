@@ -19,6 +19,7 @@ from io import BytesIO
 from tempfile import NamedTemporaryFile
 
 from odoo import fields, models, api, _, exceptions
+from odoo.exceptions import UserError
 from odoo.tools.config import config
 from odoo.tools.misc import find_in_path
 from odoo.addons.sbc_compassion.tools import import_letter_functions as func
@@ -265,6 +266,18 @@ class ImportLettersHistory(models.Model):
             raise e
 
         return True
+
+    def unlink(self):
+        running_job = self.env["queue.job"].search_count([
+            ("model_name", "=", self._name),
+            ("state", "not in", ["done", "failed", "cancelled"]),
+            ("record_ids", "in", self.ids)
+        ])
+        if running_job:
+            raise UserError(_(
+                "The import is currently analyzing files and cannot be removed. "
+                "Try again later."))
+        return super().unlink()
 
     #########################################################################
     #                             PRIVATE METHODS                           #
