@@ -359,7 +359,7 @@ const sendLetter = async function() {
                     removeImage(image.name, image.size, image.type);
                 }
 
-                displayAlert("letter_sent_correctly");
+                $("#letter_sent_correctly").modal('show');
                 $(".christmas_action").toggleClass("d-none");
             } else {
                 displayAlert("letter_error");
