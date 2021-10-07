@@ -84,7 +84,7 @@ class Correspondence(models.Model):
                 correspondence = super(
                     Correspondence, self.with_context(no_comm_kit=True)
                 ).create(vals)
-                # correspondence.send_local_translate()
+                correspondence.send_local_translate()
             else:
                 correspondence = super().create(vals)
 
