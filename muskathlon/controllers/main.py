@@ -1,7 +1,7 @@
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
-#    @author: Sebastien Toth <popod@me.com>
+#    Copyright (C) 2018-2021 Compassion CH (http://www.compassion.ch)
+#    @author: Sebastien Toth <popod@me.com>, Emanuel Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
@@ -10,7 +10,6 @@ import json
 import urllib.error
 import urllib.parse
 import urllib.request
-from base64 import b64encode
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
@@ -134,40 +133,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             result = request.redirect("/my/muskathlon")
         else:
             result = request.render("muskathlon.custom_portal_my_home", values)
-        return self._form_redirect(result, full_page=True)
-
-    @route(
-        "/muskathlon_registration/payment/validate",
-        type="http", auth="public", website=True, sitemap=False
-    )
-    def registration_payment_validate(self, **post):
-        """ Method that should be called by the server when receiving an update
-        for a transaction.
-        """
-        uid = request.env.ref("muskathlon.user_muskathlon_portal").id
-        try:
-            tx = (
-                request.env["payment.transaction"]
-                .sudo(uid)
-                ._ogone_form_get_tx_from_data(post)
-            )
-        except ValidationError:
-            tx = None
-
-        if not tx or not tx.registration_id:
-            return request.render("muskathlon.registration_failure")
-
-        event = tx.registration_id.compassion_event_id
-        if tx.state == "done" and tx.registration_id:
-            # Confirm the registration
-            tx.registration_id.confirm_registration()
-        post.update({"event": event})
-        return self.compassion_payment_validate(
-            tx,
-            "muskathlon.new_registration_successful",
-            "muskathlon.registration_failure",
-            **post
-        )
+        return result
 
     @route(
         '/my/muskathlon/<model("event.registration"):registration>',

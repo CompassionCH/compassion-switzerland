@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <field name="reference" position="after">
                 <field name="registration_id" attrs="{'invisible': [('registration_id','=',False)]}"/>
-                <field name="payment_mode_id"/>
             </field>
         </field>
     </record>

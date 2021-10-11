@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import werkzeug
 from dateutil.relativedelta import relativedelta
@@ -96,7 +96,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
         if event.event_type_id.sudo().travel_features:
             # Travel events are full not called by AJAX popup form
             return result
-        return self._form_redirect(result, full_page=True)
+        return result
 
     @http.route(
         '/event/<model("crm.event.compassion"):event>/faq', auth="public", website=True,
@@ -214,7 +214,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
             result = werkzeug.utils.redirect(donation_form.form_next_url(), code=303)
         else:
             result = request.render(values["website_template"], values)
-        return self._form_redirect(result)
+        return result
 
     def get_participant_page_values(self, event, registration, **kwargs):
         """
@@ -264,10 +264,6 @@ class EventsController(PaymentFormController, FormControllerMixin):
         event = invoice_lines.mapped("event_id")
 
         if transaction.state != "done":
-            # Cancel potential registration(avoid launching jobs at the same
-            # time, can cause rollbacks)
-            delay = datetime.today() + timedelta(seconds=10)
-            transaction.registration_id.with_delay(eta=delay).cancel_registration()
             return request.render(
                 self.get_donation_failure_template(event), {"error_intro": ""}
             )
