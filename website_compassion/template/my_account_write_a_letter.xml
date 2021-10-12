@@ -167,8 +167,22 @@
                 <span class="spinner-border spinner-border-sm" role="status"/>
                 Creation...
             </button>
-            <div id="letter_sent_correctly" class="alert alert-success alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
-                Your letter was correctly sent ! Thank you for writing
+            <!-- Modal for success confirmation -->
+            <div class="modal fade" id="letter_sent_correctly" tabindex="-1" aria-labelledby="modalBody" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div id="modalBody" class="modal-body">
+                    Your letter was correctly sent ! Thank you for writing
+                  </div>
+                  <div class="modal-footer">
+                      <a t-attf-href="/my/children?child_id=#{child_id.id}#letters_section" type="button" class="btn btn-secondary">View my letter</a>
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="" class="alert alert-success alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
+
             </div>
             <div id="letter_error" class="alert alert-danger alert-dismissable text-center ml-2 mt-2 mb-2" style="display: none;">
                 There was an error while submitting your letter.<br/>
