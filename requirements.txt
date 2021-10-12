@@ -24,6 +24,8 @@ pysftp
 pysmb
 pytz
 pyzbar
+pypng
+pyqrcode
 regex
 requests
 Shapely
