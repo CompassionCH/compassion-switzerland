@@ -49,8 +49,8 @@
             .local_id {
                 font-family: "Miller";
                 position: absolute;
-                margin-top: 65mm;
-                margin-left: 56mm;
+                margin-top: 37mm;
+                margin-left: 60mm;
                 width: 108mm;
                 writing-mode:vertical-rl;
                 -webkit-transform:rotate(-90deg);
@@ -65,8 +65,8 @@
             }
             .desc {
                 position: absolute;
-                margin-left: <t t-esc="marginLeft+7"/>mm;
-                margin-top: 32mm;
+                margin-left: <t t-esc="marginLeft+14.7"/>mm;
+                margin-top: 29mm;
                 width: 130mm;
                 height: 116mm;
                 max-height: 116mm;
@@ -112,42 +112,25 @@
             }
             .photo {
                 position: absolute;
-                <!-- Resolve shifts with small dossier -->
-                <t t-if="small">
-                    margin-left: 176mm;
-                    margin-top: 45mm;
-                </t>
-                <t t-if="full">
-                    margin-left: 300mm;
-                    margin-top: 55mm;
-                </t>
+                margin-left: <t t-esc="marginLeft+156"/>mm;
+                margin-top: 48mm;
                 width: 88mm;
-                height: 112mm;
+                height: 125mm;
             }
             .photo img {
                 max-width: 100%;
                 max-height: 100%;
-                margin: auto;
             }
             #child-ref {
-                //width: 56mm;
-                //text-align: center;
                 font-size: small;
                 font-family: "Miller";
-                margin-top: 2mm;
-                margin-left: 6.5mm;
+                margin-top: 4mm;
             }
             .summary {
                 position: absolute;
-                <!-- Resolve shifts with small dossier -->
-                <t t-if="small">
-                    margin-top: 179mm;
-                    margin-left: 229mm;
-                </t>
-                <t t-if="full">
-                    margin-top: 179mm;
-                    margin-left: 352mm;
-                </t>
+                margin-left: <t t-esc="marginLeft+189"/>mm;
+                margin-top: 182mm;
+                width: 100%;
             }
             .summary_field {
                 position: relative;
@@ -157,18 +140,15 @@
                 margin: 0mm;
             }
             .summary_field.name {
-                font-size: 17pt;
+                font-size: 12pt;
                 white-space: nowrap;
-                left: -7mm;
+                top: 1.5pt;
             }
             .summary_field.birthday {
-                font-size: 15pt;
-                top: -2pt;
+                font-size: 10pt;
             }
             .summary_field.country {
-                font-size: 13pt;
-                top: -1pt;
-                left: -15mm;
+                font-size: 9pt;
             }
             .activities {
                 display: none;
@@ -206,10 +186,10 @@
             }
             .qrcode {
               position: absolute;
-              margin-left: <t t-esc="marginLeft+105"/>mm;
-              margin-top: 140mm;
-              width: 30mm;
-              height: 30mm;
+              margin-left: <t t-esc="marginLeft+269"/>mm;
+              margin-top: 10mm;
+              width: 23mm;
+              height: 23mm;
             }
         </t>
         <t t-call="web.html_container">
@@ -242,6 +222,7 @@
                             <span t-field="o.project_title"/>
                         </h6>
                         <t t-raw="o.project_id.description_left"/>
+                        <p t-field="o.local_id" id="child-ref"/>
                     </div>
                     <div class="right">
                         <t t-raw="o.description_right"/>
@@ -251,16 +232,26 @@
                         <t t-raw="o.project_id.description_right"/>
                     </div>
                 </div>
-                <t t-if="full">
                   <img class="qrcode" t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}" alt="QR Code to online sponsorship form"/>
-                </t>
                 <div class="photo">
                     <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
-                    <p t-field="o.local_id" id="child-ref"/>
                 </div>
                 <div class="summary">
                     <p t-field="o.preferred_name" class="summary_field name"/>
-                    <p t-raw="o.get_date('birthdate', 'date_short')" class="summary_field birthday"/>
+                    <p class="summary_field birthday">
+                        <t t-if="o.age">
+                            <span t-esc="o.age"/>
+                            <span>(</span>
+                        </t>
+                        <t t-if="o.gender=='F' and o.env.lang == 'fr_CH'">
+                            <span>Born (F)</span>
+                        </t>
+                        <t t-else="">
+                            <span>Born</span>
+                        </t>
+                        <span t-esc="o.get_date('birthdate', 'date_short')"/>
+                        <span t-if="o.age">)</span>
+                    </p>
                     <p t-field="o.project_id.country_id.name" class="summary_field country"/>
                 </div>
                 <p style="page-break-after:always;"/>
