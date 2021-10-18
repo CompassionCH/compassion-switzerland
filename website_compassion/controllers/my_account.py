@@ -60,7 +60,7 @@ def _get_user_children(state=None):
     only_correspondent = partner.app_displayed_sponsorships == "correspondent"
 
     limit_date_active = datetime.now() - relativedelta(months=2)
-    limit_date_for_writing = datetime.now() - relativedelta(months=6)
+    limit_date_for_writing = datetime.now() - relativedelta(months=3)
 
     exit_comm_config = list(
         map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, [
