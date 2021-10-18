@@ -644,6 +644,13 @@ msgid "Family information"
 msgstr "Infos über die Familie"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
+msgid "link"
+msgstr "https://compassion.ch/haeufig-gestellte-fragen/"
+
+
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Father/representative's job"
 msgstr "Arbeit des Vaters/Betreuers"

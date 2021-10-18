@@ -28,6 +28,10 @@
                                 <li t-attf-class="nav-item#{' active' if selected == 'letter' else ''}">
                                     <a class="nav-link" t-attf-href="/my/letter?child_id=#{request.session['child_id'] if 'child_id' in request.session else ''}">Write a letter</a>
                                 </li>
+                                <li t-attf-class="nav-item#{' active' if selected == 'faq' else ''}">
+                                    <t t-set="faqlink">link</t>
+                                    <a class="nav-link" t-att-href="faqlink">FAQ</a>
+                                </li>
                                 <li t-attf-class="nav-item#{' active' if selected == 'contact_us' else ''}">
                                     <a class="nav-link" href="/my/contact">Contact us</a>
                                 </li>
