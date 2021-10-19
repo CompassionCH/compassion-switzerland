@@ -43,6 +43,7 @@ class SubSponsorshipWizard(models.TransientModel):
         """
         config = False
         res = False
+        communications = self.env["partner.communication.job"]
         if sponsorship.state != "active":
             # Make sure new child has all info
             sponsorship.sub_sponsorship_id.child_id.with_context(
@@ -52,15 +53,18 @@ class SubSponsorshipWizard(models.TransientModel):
             child = sponsorship.child_id
             lifecycle = child.lifecycle_ids and child.lifecycle_ids[0]
             lifecycle_type = lifecycle and lifecycle.type or "Unplanned Exit"
+            certificate = self.env.ref(
+                    "partner_communication_switzerland.sponsorship_certificate")
             if lifecycle_type == "Planned Exit":
                 config = self.env.ref(
-                    "partner_communication_switzerland.lifecycle_child_planned_exit"
-                )
+                    "partner_communication_switzerland.lifecycle_child_planned_exit")
+                # Send also the sponsorship certificate
+                communications += sponsorship.send_communication(certificate, both=True)
             elif lifecycle_type == "Unplanned Exit":
                 config = self.env.ref(
-                    "partner_communication_switzerland."
-                    "lifecycle_child_unplanned_exit"
-                )
+                    "partner_communication_switzerland.lifecycle_child_unplanned_exit")
+                # Send also the sponsorship certificate
+                communications += sponsorship.send_communication(certificate, both=True)
                 if lifecycle and lifecycle.request_reason == "deceased":
                     sponsorship = sponsorship.with_context(default_need_call=True)
         else:
@@ -69,7 +73,7 @@ class SubSponsorshipWizard(models.TransientModel):
             config = self.env.ref("partner_communication_switzerland.planned_no_sub")
 
         if config:
-            communications = sponsorship.send_communication(config, both=True)
+            communications += sponsorship.send_communication(config, both=True)
             res = {
                 "name": communications[0].subject,
                 "type": "ir.actions.act_window",

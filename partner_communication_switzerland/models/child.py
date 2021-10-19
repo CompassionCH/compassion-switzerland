@@ -103,6 +103,9 @@ class CompassionChild(models.Model):
                     "partner_communication_switzerland.lifecycle_child_unplanned_exit"
                 )
             sponsorship.send_communication(communication_type, both=True)
+            # Send also the sponsorship certificate
+            sponsorship.send_communication(self.env.ref(
+                "partner_communication_switzerland.sponsorship_certificate"), both=True)
         super().depart()
 
     @api.multi

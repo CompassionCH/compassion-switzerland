@@ -275,18 +275,6 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
         </record>
-        <record id="planned_completion" model="partner.communication.config">
-            <field name="name">Sponsorship - Completion</field>
-            <field name="email_template_id" ref="email_sponsorship_completion"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">digital</field>
-            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
-            <field name="print_if_not_email">True</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-            <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
-            <field name="attachments_function">get_graduation_bvr</field>
-            <field name="active" eval="False"/>
-        </record>
         <record id="planned_sub_dossier" model="partner.communication.config">
             <field name="name">Sponsorship - SUB Proposal</field>
             <field name="email_template_id" ref="email_sponsorship_sub_dossier_new"/>

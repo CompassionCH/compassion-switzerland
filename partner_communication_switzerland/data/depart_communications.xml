@@ -175,6 +175,32 @@ ${object.user_id.signature | safe}
             </field>
         </record>
 
+        <!-- Sponsorship certificate -->
+        <record id="email_sponsorship_certificate" model="mail.template">
+            <field name="name">Sponsorship - Certificate</field>
+            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True"/>
+            <field name="subject">Thank you for changing one life</field>
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set sponsorships = object.get_objects()
+                    ${partner.salutation}
+                </p>
+                <p>
+                    We recently informed you by email about the end of the sponsorship.
+                </p>
+                <p>
+                    From the bottom of our hearts, we would like to thank you for your valuable contribution!
+                </p>
+                <p>
+                    Best regards
+                </p>
+            </field>
+        </record>
+
         <!-- Communication Rules -->
         <record id="planned_exit_notification" model="partner.communication.config">
             <field name="name">Notification Planned Exit</field>
@@ -204,6 +230,15 @@ ${object.user_id.signature | safe}
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
             <field name="attachments_function" eval="False"/>
+        </record>
+        <record id="sponsorship_certificate" model="partner.communication.config">
+            <field name="name">Sponsorship - Certificate</field>
+            <field name="send_mode">physical</field>
+            <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+            <field name="report_id" ref="report_compassion.report_partner_communication"/>
+            <field name="email_template_id" ref="email_sponsorship_certificate"/>
+            <field name="model_id" ref="model_recurring_contract"/>
+            <field name="attachments_function">get_end_sponsorship_certificate</field>
         </record>
     </data>
 </odoo>
