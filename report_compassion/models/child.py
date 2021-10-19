@@ -48,7 +48,7 @@ class CompassionChild(models.Model):
             firstname = child.preferred_name
             suffix_s = "s" if not firstname.endswith("s") else ""
             lang_map = {
-                "fr_CH": "À propos du centre d'accueil",
+                "fr_CH": "À propos du centre de développement de l’enfant",
                 "de_DE": f"Über {firstname + suffix_s} Kinderzentrum",
                 "en_US": firstname + "'s Project",
                 "it_IT": "Project",
