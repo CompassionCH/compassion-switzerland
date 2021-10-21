@@ -243,7 +243,7 @@
                             <span t-esc="o.age"/>
                             <span>(</span>
                         </t>
-                        <t t-if="o.gender=='F' and o.env.lang == 'fr_CH'">
+                        <t t-if="o.gender=='F' and o.env.lang in ('fr_CH','it_IT')">
                             <span>Born (F)</span>
                         </t>
                         <t t-else="">
