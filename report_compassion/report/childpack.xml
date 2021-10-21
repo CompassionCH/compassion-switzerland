@@ -232,7 +232,7 @@
                         <t t-raw="o.project_id.description_right"/>
                     </div>
                 </div>
-                  <img class="qrcode" t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}" alt="QR Code to online sponsorship form"/>
+                  <img class="qrcode" t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}" alt="QR Code to online sponsorship form" t-if="full"/>
                 <div class="photo">
                     <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
                 </div>
