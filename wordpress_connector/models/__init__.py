@@ -8,7 +8,6 @@
 #
 ##############################################################################
 from . import contracts
-from . import import_letters_history
 from . import account_invoice
 from . import match_partner_wp
 from . import request

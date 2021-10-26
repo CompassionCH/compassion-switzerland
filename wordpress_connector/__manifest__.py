@@ -34,7 +34,7 @@
     "author": "Emanuel Cino",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "data": ["views/import_letter_view.xml", "views/request.xml", ],
+    "data": ["views/request.xml", ],
     "depends": [
         "mass_mailing_switzerland",
         "child_sync_wp",

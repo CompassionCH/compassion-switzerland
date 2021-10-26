@@ -3,15 +3,11 @@
         <!-- production config -->
         <record id="share_on_nas" model="ir.config_parameter">
             <field name="key">sbc_switzerland.share_on_nas</field>
-            <field name="value">/share/Scan</field>
-        </record>
-        <record id="scan_letter_imported" model="ir.config_parameter">
-            <field name="key">sbc_switzerland.scan_letter_imported</field>
-            <field name="value">Imports</field>
+            <field name="value">/share/Scan/</field>
         </record>
         <record id="scan_letter_done" model="ir.config_parameter">
             <field name="key">sbc_switzerland.scan_letter_done</field>
-            <field name="value">\Scan Lettres S2B\Done\</field>
+            <field name="value">Done/</field>
         </record>
     </data>
 </odoo>
