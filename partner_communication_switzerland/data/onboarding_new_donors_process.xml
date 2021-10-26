@@ -164,7 +164,7 @@
             <field name="model_id" ref="model_res_partner"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date"/>
-            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
+            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US']),'|',('number_sponsorships','=',False),('number_sponsorships','=',0)]"/>
             <field name="trg_date_range">1</field>
             <field name="trg_date_range_type">month</field>
             <field name="state">communication</field>
@@ -177,7 +177,7 @@
             <field name="model_id" ref="model_res_partner"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_res_partner__onboarding_new_donor_start_date"/>
-            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US'])]"/>
+            <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','not in',['it_IT','en_US']),'|',('number_sponsorships','=',False),('number_sponsorships','=',0)]"/>
             <field name="trg_date_range">2</field>
             <field name="trg_date_range_type">month</field>
             <field name="state">communication</field>
