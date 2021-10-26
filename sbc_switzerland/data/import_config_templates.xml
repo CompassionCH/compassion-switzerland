@@ -21,9 +21,5 @@
             <field name="physical_attachments">sent_by_mail</field>
             <field name="import_folder_path">No_Standard_With_Attachments</field>
         </record>
-        <record id="web_letter" model="import.letter.config">
-            <field name="name">Web Letter</field>
-            <field name="source">website</field>
-        </record>
     </data>
 </odoo>
