@@ -796,7 +796,7 @@ msgstr "Spenden"
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_text_content
 msgid "Make sure that any image you upload does not exceed 10Mb."
-msgstr "Stell dich sicher, dass jedes Bild 10 MB nicht überschreitet."
+msgstr "Bitte stelle sicher, dass dein Bild nicht 10 MB überschreitet."
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_payment_options_multiple
@@ -1245,8 +1245,7 @@ msgstr ""
 msgid ""
 "There are many easy-to-use solution to resize an image.<br/> for example"
 msgstr ""
-"Es gibt viele benutzerfreundliche Lösungen, um die Grösse eines Bildes zu "
-"ändern.<br/> Zum Beispiel"
+"Du kannst die Grösse des Bildes verkleinern, bspw. über "
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_actions
