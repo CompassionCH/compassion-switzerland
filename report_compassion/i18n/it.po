@@ -1,35 +1,40 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* report_compassion
+# 	* report_compassion
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-27 13:33+0000\n"
-"PO-Revision-Date: 2021-07-27 13:33+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2021-10-14 08:08+0000\n"
+"PO-Revision-Date: 2021-10-21 11:19+0200\n"
+"Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 3.0\n"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "#header {\n"
+msgid ""
+"#header {\n"
 "                        margin-left: 15mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "#header {\n"
+msgid ""
+"#header {\n"
 "                    margin-left: 15mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
-msgid ".container {\n"
+msgid ""
+".container {\n"
 "                    font-family: \"millerLight\";\n"
 "                    font-size: 10pt;\n"
 "                }\n"
@@ -110,88 +115,91 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid ".container {\n"
-"                    font-family: \"millerLight\";\n"
-"                    font-size: 8pt;\n"
-"                }\n"
-"                .local_id {\n"
-"                    font-family: \"Miller\";\n"
-"                    position: absolute;\n"
-"                    margin-top: 65mm;\n"
-"                    margin-left: 56mm;\n"
-"                    width: 108mm;\n"
-"                    writing-mode:vertical-rl;\n"
-"                    -webkit-transform:rotate(-90deg);\n"
-"                    -moz-transform:rotate(-90deg);\n"
-"                    -o-transform: rotate(-90deg);\n"
-"                    -ms-transform:rotate(-90deg);\n"
-"                    transform: rotate(-90deg);\n"
-"                    white-space:nowrap;\n"
-"                }\n"
-"                #due_date {\n"
-"                    margin-right: 20mm;\n"
-"                }\n"
-"                .desc {\n"
-"                    position: absolute;\n"
-"                    margin-left:"
+msgid ""
+".container {\n"
+"                font-family: \"millerLight\";\n"
+"                font-size: 8pt;\n"
+"            }\n"
+"            .local_id {\n"
+"                font-family: \"Miller\";\n"
+"                position: absolute;\n"
+"                margin-top: 37mm;\n"
+"                margin-left: 60mm;\n"
+"                width: 108mm;\n"
+"                writing-mode:vertical-rl;\n"
+"                -webkit-transform:rotate(-90deg);\n"
+"                -moz-transform:rotate(-90deg);\n"
+"                -o-transform: rotate(-90deg);\n"
+"                -ms-transform:rotate(-90deg);\n"
+"                transform: rotate(-90deg);\n"
+"                white-space:nowrap;\n"
+"            }\n"
+"            #due_date {\n"
+"                margin-right: 20mm;\n"
+"            }\n"
+"            .desc {\n"
+"                position: absolute;\n"
+"                margin-left:"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_mini
-msgid ".local_id {\n"
-"                    font-family: \"Miller\";\n"
-"                    position: absolute;\n"
-"                    margin-top: 200mm;\n"
-"                    margin-left: 8mm;\n"
-"                    width: 25mm;\n"
-"                    font-size: 8pt;\n"
-"                }\n"
-"                h6 {\n"
-"                    font-family: \"Miller\";\n"
-"                    text-transform: uppercase;\n"
-"                }\n"
-"                .photo {\n"
-"                    position: absolute;\n"
-"                    margin-left: 118mm;\n"
-"                    margin-top: 49mm;\n"
-"                    width: 88mm;\n"
-"                    height: 125mm;\n"
-"                }\n"
-"                .photo img {\n"
-"                    max-width: 100%;\n"
-"                    max-height: 100%;\n"
-"                    margin: auto;\n"
-"                }\n"
-"                .summary {\n"
-"                    position: absolute;\n"
-"                    margin-left: 118mm;\n"
-"                    margin-top: 177mm;\n"
-"                    text-transform: uppercase;\n"
-"                    font-family: \"Miller\";\n"
-"                    font-size: 15pt;\n"
-"                    line-height: 1.4;\n"
-"                    color: #0054a6;\n"
-"                }\n"
-"                .summary .name {\n"
-"                    font-family: \"Miller\";\n"
-"                    font-weight: bold;\n"
-"                }\n"
-"                .summary .ref {\n"
-"                    color: black;\n"
-"                    font-size: 8pt;\n"
-"                }\n"
-"                .qrcode {\n"
-"                    position: absolute;\n"
-"                    margin-top: 181mm;\n"
-"                    margin-left: 185mm;\n"
-"                    width: 18mm;\n"
-"                    height: 18mm;\n"
-"                }"
+msgid ""
+".local_id {\n"
+"                font-family: \"Miller\";\n"
+"                position: absolute;\n"
+"                margin-top: 200mm;\n"
+"                margin-left: 8mm;\n"
+"                width: 25mm;\n"
+"                font-size: 8pt;\n"
+"            }\n"
+"            h6 {\n"
+"                font-family: \"Miller\";\n"
+"                text-transform: uppercase;\n"
+"            }\n"
+"            .photo {\n"
+"                position: absolute;\n"
+"                margin-left: 118mm;\n"
+"                margin-top: 49mm;\n"
+"                width: 88mm;\n"
+"                height: 125mm;\n"
+"            }\n"
+"            .photo img {\n"
+"                max-width: 100%;\n"
+"                max-height: 100%;\n"
+"                margin: auto;\n"
+"            }\n"
+"            .summary {\n"
+"                position: absolute;\n"
+"                margin-left: 118mm;\n"
+"                margin-top: 177mm;\n"
+"                text-transform: uppercase;\n"
+"                font-family: \"Miller\";\n"
+"                font-size: 15pt;\n"
+"                line-height: 1.4;\n"
+"                color: #0054a6;\n"
+"            }\n"
+"            .summary .name {\n"
+"                font-family: \"Miller\";\n"
+"                font-weight: bold;\n"
+"            }\n"
+"            .summary .ref {\n"
+"                color: black;\n"
+"                font-size: 8pt;\n"
+"            }\n"
+"            .qrcode {\n"
+"                position: absolute;\n"
+"                margin-top: 181mm;\n"
+"                margin-left: 185mm;\n"
+"                width: 18mm;\n"
+"                height: 18mm;\n"
+"            }"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.bvr_style
-msgid ".one_slip {\n"
+msgid ""
+".one_slip {\n"
 "                font-size: 8pt;\n"
 "                width: 210mm;\n"
 "                height: 106mm;\n"
@@ -319,80 +327,76 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "/* Put the text down to avoid showing in the address window */\n"
+msgid ""
+"/* Put the text down to avoid showing in the address window */\n"
 "                            margin-top: 9mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "/* Put the text down to avoid showing in the address window */\n"
+msgid ""
+"/* Put the text down to avoid showing in the address window */\n"
 "                        margin-top: 9mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
-msgid "/report_compassion/static/font/Montserrat-Bold.ttf);\n"
+msgid ""
+"/report_compassion/static/font/Montserrat-Bold.ttf);\n"
 "                }\n"
 "                body{\n"
-"                padding: 0;\n"
-"                margin: 0;\n"
+"                    padding: 0;\n"
+"                    margin: 0;\n"
 "                }\n"
-"\n"
 "                .legend_date{\n"
-"                color: #005eb8;\n"
-"                text-transform: uppercase;\n"
-"                text-align: center;\n"
-"                font-size:13px;\n"
-"                margin-top:0;\n"
+"                    color: #005eb8;\n"
+"                    text-transform: uppercase;\n"
+"                    text-align: center;\n"
+"                    font-size:13px;\n"
+"                    margin-top:0;\n"
 "                }\n"
 "                .child_name{\n"
-"                color: #4a4a49;\n"
-"                text-transform: uppercase;\n"
-"                font-weight: bold;\n"
-"                text-align: center;\n"
-"                font-size:24px;\n"
-"                margin-bottom:0;\n"
-"                padding-bottom: -10pt;\n"
+"                    color: #4a4a49;\n"
+"                    text-transform: uppercase;\n"
+"                    font-weight: bold;\n"
+"                    text-align: center;\n"
+"                    font-size:24px;\n"
+"                    margin-bottom:0;\n"
+"                    padding-bottom: -10pt;\n"
 "                }\n"
 "                .yellow_line{\n"
-"                width:25mm;\n"
-"                color: #dcaa02;\n"
-"                background-color: #dcaa02;\n"
-"                height: 1pt;\n"
-"                border: none;\n"
-"                margin-top: 3mm;\n"
-"                margin-bottom: 3mm;\n"
-"                padding:0;\n"
-"\n"
+"                    width:25mm;\n"
+"                    color: #dcaa02;\n"
+"                    background-color: #dcaa02;\n"
+"                    height: 1pt;\n"
+"                    border: none;\n"
+"                    margin-top: 3mm;\n"
+"                    margin-bottom: 3mm;\n"
+"                    padding:0;\n"
 "                }\n"
-"\n"
 "                .child_picture{\n"
-"                width: 66mm;\n"
-"                height: 99mm;\n"
-"                margin-left: 25mm;\n"
+"                    width: 66mm;\n"
+"                    height: 99mm;\n"
+"                    margin-left: 25mm;\n"
 "                }\n"
-"\n"
 "                .multi{\n"
-"                margin-left: 25mm;\n"
+"                    margin-left: 25mm;\n"
 "                }\n"
-"\n"
 "                .single{\n"
-"                margin-left: 72mm;\n"
+"                    margin-left: 72mm;\n"
 "                }\n"
-"\n"
 "                .pictures_layout {\n"
-"                margin: 0;\n"
-"                position: absolute;\n"
-"                top: 16.5mm;\n"
+"                    margin: 0;\n"
+"                    position: absolute;\n"
+"                    top: 16.5mm;\n"
 "                }\n"
-"\n"
 "                .info_layout {\n"
-"                font-family: \"montserratBold\";\n"
-"                margin: 0;\n"
-"                padding:0;\n"
-"                position: absolute;\n"
-"                top: 115mm;\n"
-"                width:100%;\n"
+"                    font-family: \"montserratBold\";\n"
+"                    margin: 0;\n"
+"                    padding:0;\n"
+"                    position: absolute;\n"
+"                    top: 115mm;\n"
+"                    width:100%;\n"
 "                }"
 msgstr ""
 
@@ -410,20 +414,27 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.report_bvr_due_document
-msgid "<br/>\n"
+msgid ""
+"<br/>\n"
 "                    CHF"
 msgstr ""
 
 #. module: report_compassion
 #: model:mail.template,body_html:report_compassion.tax_receipt_template
-msgid "<div>\n"
+msgid ""
+"<div>\n"
 "                    % set year = ctx['year']\n"
 "                </div>\n"
 "                <div>\n"
-"                    <h2>Your donations in ${year} add up to CHF <span style=\"font-family: 'miller';\">${object.get_receipt_text(year)}</span></h2>\n"
+"                    <h2>Your donations in ${year} add up to CHF <span style="
+"\"font-family: 'miller';\">${object.get_receipt_text(year)}</span></h2>\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    <p>The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the association is recognized as a registered non profit organisation.\n"
+"                    <p>The Christian humanitarian organisation Compassion "
+"Suisse, that serves as an advocate for children in poverty, is exempt from "
+"taxes. By a decision taken May 24, 2004 by the cantonal administration of "
+"the canton of Vaud, the association is recognized as a registered non profit "
+"organisation.\n"
 "                    </p>\n"
 "                    <br/>\n"
 "                    <br/>\n"
@@ -431,26 +442,35 @@ msgid "<div>\n"
 "                    <p>Best regards</p>\n"
 "                </div>\n"
 "            "
-msgstr "<div>\n"
+msgstr ""
+"<div>\n"
 "                    % set year = ctx['year']\n"
 "                </div>\n"
 "                <div>\n"
-"                    <h3>Le vostre donazioni nel ${year} ammontano a CHF ${object.get_receipt_text(year)}</h3>\n"
+"                    <h3>Le vostre donazioni nel ${year} ammontano a CHF "
+"${object.get_receipt_text(year)}</h3>\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    <p>L'associazione Compassion Svizzera di aiuti umanitari cristiana a favore dei bambini svantaggiati è esente da imposta ed é riconosciuta di pura utilità pubblica per decisione delle autorità fiscali cantonali del cantone di Vaud del 24 maggio 2004.\n"
+"                    <p>L'associazione Compassion Svizzera di aiuti umanitari "
+"cristiana a favore dei bambini svantaggiati è esente da imposta ed é "
+"riconosciuta di pura utilità pubblica per decisione delle autorità fiscali "
+"cantonali del cantone di Vaud del 24 maggio 2004.\n"
 "                    </p>\n"
 "                    <br/>\n"
 "                    <br/>\n"
-"                    <p>Ancora una volta, grazie per la vostra generosità. Con voi, vogliamo cambiare il mondo, un bambino alla volta. </p>\n"
-"                    <p>Ricevete, ${object.salutation[0].lower() + object.salutation[1:]}, i nostri migliori saluti.</p>\n"
+"                    <p>Ancora una volta, grazie per la vostra generosità. "
+"Con voi, vogliamo cambiare il mondo, un bambino alla volta. </p>\n"
+"                    <p>Ricevete, ${object.salutation[0].lower() + object."
+"salutation[1:]}, i nostri migliori saluti.</p>\n"
 "                </div>\n"
 "            "
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
-msgid "<span class=\"blue\">COMPASSION</span>\n"
-"                        <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>\n"
+msgid ""
+"<span class=\"blue\">COMPASSION</span>\n"
+"                        <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</"
+"span>\n"
 "                        <br/>\n"
 "                        <span class=\"blue\">TEL</span>\n"
 "                        <span>.: 031 552 21 25</span>\n"
@@ -463,7 +483,8 @@ msgid "<span class=\"blue\">COMPASSION</span>\n"
 "                        <br/>\n"
 "                        <span class=\"blue\">CCP/PC</span>\n"
 "                        <span> 17-312562-0</span>"
-msgstr "<span class=\"blue\">COMPASSION</span>\n"
+msgstr ""
+"<span class=\"blue\">COMPASSION</span>\n"
 "                    <span>, Effingerstrasse 10, 3011 Bern</span>\n"
 "                    <br/>\n"
 "                    <span class=\"blue\">TEL</span>\n"
@@ -480,12 +501,23 @@ msgstr "<span class=\"blue\">COMPASSION</span>\n"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_document
+msgid "<span>Born (F)</span>"
+msgstr "<span>Nata</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_document
+msgid "<span>Born</span>"
+msgstr "<span>Nato</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_document
 msgid "<span>Childpack available until: </span>"
 msgstr "<span>Disponibile fino : </span>"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
-msgid "@font-face {\n"
+msgid ""
+"@font-face {\n"
 "                    font-family: montserratBold;\n"
 "                    src: url("
 msgstr ""
@@ -578,14 +610,16 @@ msgstr "Aziende"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.report_sponsorship_single_slip
-msgid "Compassion Switzerland\n"
+msgid ""
+"Compassion Switzerland\n"
 "                <br/>\n"
 "                Rue Galilée 3\n"
 "                <br/>\n"
 "                1400 Yverdon-les-Bains\n"
 "                <br/>\n"
 "                Switzerland"
-msgstr "Compassion Svizzera\n"
+msgstr ""
+"Compassion Svizzera\n"
 "            <br/>\n"
 "            Rue Galilée 3\n"
 "            <br/>\n"
@@ -703,7 +737,9 @@ msgstr ""
 #: model:ir.model.fields,help:report_compassion.field_print_bvr_fund__preprinted
 #: model:ir.model.fields,help:report_compassion.field_print_sponsorship_bvr__preprinted
 #: model:ir.model.fields,help:report_compassion.field_print_sponsorship_gift_bvr__preprinted
-msgid "Enable if you print on a payment slip that already has company information printed on it."
+msgid ""
+"Enable if you print on a payment slip that already has company information "
+"printed on it."
 msgstr ""
 
 #. module: report_compassion
@@ -923,7 +959,9 @@ msgstr ""
 #. module: report_compassion
 #: code:addons/report_compassion/wizards/print_tax_receipt.py:39
 #, python-format
-msgid "Payments for the selected year are not yet registered completely. The tax receipt may be incomplete."
+msgid ""
+"Payments for the selected year are not yet registered completely. The tax "
+"receipt may be incomplete."
 msgstr ""
 
 #. module: report_compassion
@@ -1019,8 +1057,17 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_document
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_mini
 msgid "QR Code to online sponsorship form"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,help:report_compassion.field_compassion_child__qr_code_data
+msgid "QR code for sponsoring the child"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child__qr_code_data
+msgid "Qr Code Data"
 msgstr ""
 
 #. module: report_compassion
@@ -1045,12 +1092,15 @@ msgstr ""
 
 #. module: report_compassion
 #: model:ir.model,name:report_compassion.model_print_sponsorship_bvr
-msgid "Select a period and the format for printing payment slips of a sponsorship"
+msgid ""
+"Select a period and the format for printing payment slips of a sponsorship"
 msgstr ""
 
 #. module: report_compassion
 #: model:ir.model,name:report_compassion.model_print_sponsorship_gift_bvr
-msgid "Select a period and the format for printing the payment slips of a sponsorship"
+msgid ""
+"Select a period and the format for printing the payment slips of a "
+"sponsorship"
 msgstr ""
 
 #. module: report_compassion
@@ -1094,12 +1144,12 @@ msgstr ""
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
 msgid "Sponsored since"
-msgstr "sostenuto"
+msgstr "Sostenuto"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
 msgid "Sponsored since (Female)"
-msgstr "sostenuta"
+msgstr "Sostenuta"
 
 #. module: report_compassion
 #: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr_due
@@ -1240,19 +1290,22 @@ msgstr "ragazza"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "height: 145mm;\n"
+msgid ""
+"height: 145mm;\n"
 "                            overflow: hidden;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "height: 145mm;\n"
+msgid ""
+"height: 145mm;\n"
 "                        overflow: hidden;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "height: 45mm;\n"
+msgid ""
+"height: 45mm;\n"
 "                        font-size: 8pt;\n"
 "                    }\n"
 "                    #date {\n"
@@ -1294,7 +1347,8 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "height: 45mm;\n"
+msgid ""
+"height: 45mm;\n"
 "                    font-size: 8pt;\n"
 "                }\n"
 "                #logo {\n"
@@ -1335,56 +1389,40 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "margin-left: 11mm;\n"
+msgid ""
+"margin-left: 11mm;\n"
 "                            margin-right: 1mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "margin-left: 11mm;\n"
+msgid ""
+"margin-left: 11mm;\n"
 "                        margin-right: 1mm;"
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "margin-left: 176mm;\n"
-"                        margin-top: 45mm;"
-msgstr ""
-
-#. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "margin-left: 25mm;\n"
+msgid ""
+"margin-left: 25mm;\n"
 "                            margin-right: 15mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "margin-left: 25mm;\n"
+msgid ""
+"margin-left: 25mm;\n"
 "                        margin-right: 15mm;"
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "margin-left: 300mm;\n"
-"                        margin-top: 55mm;"
-msgstr ""
-
-#. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
 msgid "margin-top: -20mm;"
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "margin-top: 179mm;\n"
-"                        margin-left: 229mm;"
-msgstr ""
-
-#. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "margin-top: 179mm;\n"
-"                        margin-left: 352mm;"
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "margin-top: 20mm;"
 msgstr ""
 
 #. module: report_compassion
@@ -1401,67 +1439,136 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "mm;\n"
-"                    margin-top: 32mm;\n"
-"                    width: 130mm;\n"
-"                    height: 116mm;\n"
-"                    max-height: 116mm;\n"
-"                    font-size: 9pt;\n"
-"                    column-count: 2;\n"
-"                    -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
-"                    -moz-column-count: 2; /* Firefox */\n"
-"                }\n"
-"                .desc .left {\n"
-"                    width: 60mm;\n"
-"                    max-width: 100%;\n"
-"                }\n"
-"                .desc .right {\n"
-"                    width: 65mm;\n"
-"                    max-width: 100%;\n"
-"                    position: absolute;\n"
-"                    left: 65mm;\n"
-"                    top: 0mm;\n"
-"                }\n"
-"                .desc .left table {\n"
-"                    width: 60mm;\n"
-"                }\n"
-"                .desc .right table {\n"
-"                    width: 65mm;\n"
-"                }\n"
-"                .desc td {\n"
-"                    vertical-align: bottom;\n"
-"                    padding-bottom: 1.5mm;\n"
-"                }\n"
-"                .desc td:first-child {\n"
-"                    padding-right: 2mm;\n"
-"                    vertical-align: top;\n"
-"                    width: 50%;\n"
-"                }\n"
-"                h6 {\n"
-"                    font-family: \"Miller\";\n"
-"                    text-transform: uppercase;\n"
-"                    font-weight: bold;\n"
-"                }\n"
-"                .desc h6 {\n"
-"                    margin-top: 3mm;\n"
-"                    margin-bottom: 0mm;\n"
-"                }\n"
-"                .photo {\n"
-"                    position: absolute;"
+msgid ""
+"mm;\n"
+"                margin-top: 182mm;\n"
+"                width: 100%;\n"
+"            }\n"
+"            .summary_field {\n"
+"                position: relative;\n"
+"                font-weight: bold;\n"
+"                font-family: \"millerBold\";\n"
+"                text-transform: uppercase;\n"
+"                margin: 0mm;\n"
+"            }\n"
+"            .summary_field.name {\n"
+"                font-size: 12pt;\n"
+"                white-space: nowrap;\n"
+"                top: 1.5pt;\n"
+"            }\n"
+"            .summary_field.birthday {\n"
+"                font-size: 10pt;\n"
+"            }\n"
+"            .summary_field.country {\n"
+"                font-size: 9pt;\n"
+"            }\n"
+"            .activities {\n"
+"                display: none;\n"
+"            }\n"
+"            /* Comma separated lists */\n"
+"            ul {\n"
+"                margin: 0;\n"
+"                padding: 0;\n"
+"            }\n"
+"            li {\n"
+"                display: inline;\n"
+"            }\n"
+"            li:after {\n"
+"                content: \", \";\n"
+"            }\n"
+"            li:last-child:after {\n"
+"                content: \"\";\n"
+"            }\n"
+"            #background {"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "mm;\n"
-"                  margin-top: 140mm;\n"
-"                  width: 30mm;\n"
-"                  height: 30mm;\n"
-"                }"
+msgid ""
+"mm;\n"
+"                margin-top: 29mm;\n"
+"                width: 130mm;\n"
+"                height: 116mm;\n"
+"                max-height: 116mm;\n"
+"                font-size: 9pt;\n"
+"                column-count: 2;\n"
+"                -webkit-column-count: 2; /* Chrome, Safari, Opera */\n"
+"                -moz-column-count: 2; /* Firefox */\n"
+"            }\n"
+"            .desc .left {\n"
+"                width: 60mm;\n"
+"                max-width: 100%;\n"
+"            }\n"
+"            .desc .right {\n"
+"                width: 65mm;\n"
+"                max-width: 100%;\n"
+"                position: absolute;\n"
+"                left: 65mm;\n"
+"                top: 0mm;\n"
+"            }\n"
+"            .desc .left table {\n"
+"                width: 60mm;\n"
+"            }\n"
+"            .desc .right table {\n"
+"                width: 65mm;\n"
+"            }\n"
+"            .desc td {\n"
+"                vertical-align: bottom;\n"
+"                padding-bottom: 1.5mm;\n"
+"            }\n"
+"            .desc td:first-child {\n"
+"                padding-right: 2mm;\n"
+"                vertical-align: top;\n"
+"                width: 50%;\n"
+"            }\n"
+"            h6 {\n"
+"                font-family: \"Miller\";\n"
+"                text-transform: uppercase;\n"
+"                font-weight: bold;\n"
+"            }\n"
+"            .desc h6 {\n"
+"                margin-top: 3mm;\n"
+"                margin-bottom: 0mm;\n"
+"            }\n"
+"            .photo {\n"
+"                position: absolute;\n"
+"                margin-left:"
 msgstr ""
 
 #. module: report_compassion
-#: selection:print.bvr.fund,state:0
-#: selection:print.childpack,state:0
+#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
+msgid ""
+"mm;\n"
+"                margin-top: 48mm;\n"
+"                width: 88mm;\n"
+"                height: 125mm;\n"
+"            }\n"
+"            .photo img {\n"
+"                max-width: 100%;\n"
+"                max-height: 100%;\n"
+"            }\n"
+"            #child-ref {\n"
+"                font-size: small;\n"
+"                font-family: \"Miller\";\n"
+"                margin-top: 4mm;\n"
+"            }\n"
+"            .summary {\n"
+"                position: absolute;\n"
+"                margin-left:"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
+msgid ""
+"mm;\n"
+"              margin-top: 10mm;\n"
+"              width: 23mm;\n"
+"              height: 23mm;\n"
+"            }"
+msgstr ""
+
+#. module: report_compassion
+#: selection:print.bvr.fund,state:0 selection:print.childpack,state:0
 #: selection:print.sponsorship.bvr,state:0
 #: selection:print.sponsorship.bvr.due,state:0
 #: selection:print.sponsorship.gift.bvr,state:0
@@ -1470,8 +1577,7 @@ msgid "new"
 msgstr ""
 
 #. module: report_compassion
-#: selection:print.bvr.fund,state:0
-#: selection:print.childpack,state:0
+#: selection:print.bvr.fund,state:0 selection:print.childpack,state:0
 #: selection:print.sponsorship.bvr,state:0
 #: selection:print.sponsorship.bvr.due,state:0
 #: selection:print.sponsorship.gift.bvr,state:0
@@ -1481,16 +1587,18 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "position: absolute;\n"
-"                        width: 297mm;\n"
-"                        height: 210mm;"
+msgid ""
+"position: absolute;\n"
+"                    width: 297mm;\n"
+"                    height: 210mm;"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "position: absolute;\n"
-"                        width: 420mm;\n"
-"                        height: 210mm;"
+msgid ""
+"position: absolute;\n"
+"                    width: 420mm;\n"
+"                    height: 210mm;"
 msgstr ""
 
 #. module: report_compassion
@@ -1536,28 +1644,6 @@ msgid "width: 62%;"
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "width: 88mm;\n"
-"                    height: 112mm;\n"
-"                }\n"
-"                .photo img {\n"
-"                    max-width: 100%;\n"
-"                    max-height: 100%;\n"
-"                    margin: auto;\n"
-"                }\n"
-"                #child-ref {\n"
-"                    //width: 56mm;\n"
-"                    //text-align: center;\n"
-"                    font-size: small;\n"
-"                    font-family: \"Miller\";\n"
-"                    margin-top: 2mm;\n"
-"                    margin-left: 6.5mm;\n"
-"                }\n"
-"                .summary {\n"
-"                    position: absolute;"
-msgstr ""
-
-#. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
 msgid "width: 90%;"
@@ -1566,11 +1652,12 @@ msgstr ""
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.childpack_mini
 msgid "years)"
-msgstr ""
+msgstr "anni)"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "}\n"
+msgid ""
+"}\n"
 "                    #success-story hr {\n"
 "                        background-color: white;\n"
 "                    }\n"
@@ -1597,15 +1684,18 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "}\n"
+msgid ""
+"}\n"
 "                    .body_text {\n"
 "                        display: inline-block;\n"
-"                        margin-right: 2mm; /* omr code need nothing 5mm all over it */"
+"                        margin-right: 2mm; /* omr code need nothing 5mm all "
+"over it */"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "}\n"
+msgid ""
+"}\n"
 "                    .right {\n"
 "                        width: 44%;\n"
 "                        margin-left: auto;\n"
@@ -1671,7 +1761,8 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style_mailing_bvr
-msgid "}\n"
+msgid ""
+"}\n"
 "                    hr {\n"
 "                        margin-top: 0px;\n"
 "                        padding: 0mm;\n"
@@ -1681,21 +1772,9 @@ msgid "}\n"
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "}\n"
-"                #background img {\n"
-"                    max-width: 100%;\n"
-"                    max-height: 100%;\n"
-"                    margin: auto;\n"
-"                }\n"
-"                .qrcode {\n"
-"                  position: absolute;\n"
-"                  margin-left:"
-msgstr ""
-
-#. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "}\n"
+msgid ""
+"}\n"
 "                #success-story hr {\n"
 "                    background-color: white;\n"
 "                }\n"
@@ -1722,15 +1801,18 @@ msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "}\n"
+msgid ""
+"}\n"
 "                .body_text {\n"
 "                    display: inline-block;\n"
-"                    margin-right: 2mm; /* omr code need nothing 5mm all over it */"
+"                    margin-right: 2mm; /* omr code need nothing 5mm all over "
+"it */"
 msgstr ""
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "}\n"
+msgid ""
+"}\n"
 "                .right {\n"
 "                    width: 44%;\n"
 "                    margin-left: auto;\n"
@@ -1785,52 +1867,9 @@ msgid "}\n"
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
-msgid "}\n"
-"                .summary_field {\n"
-"                    position: relative;\n"
-"                    font-weight: bold;\n"
-"                    font-family: \"millerBold\";\n"
-"                    text-transform: uppercase;\n"
-"                    margin: 0mm;\n"
-"                }\n"
-"                .summary_field.name {\n"
-"                    font-size: 17pt;\n"
-"                    white-space: nowrap;\n"
-"                    left: -7mm;\n"
-"                }\n"
-"                .summary_field.birthday {\n"
-"                    font-size: 15pt;\n"
-"                    top: -2pt;\n"
-"                }\n"
-"                .summary_field.country {\n"
-"                    font-size: 13pt;\n"
-"                    top: -1pt;\n"
-"                    left: -15mm;\n"
-"                }\n"
-"                .activities {\n"
-"                    display: none;\n"
-"                }\n"
-"                /* Comma separated lists */\n"
-"                ul {\n"
-"                    margin: 0;\n"
-"                    padding: 0;\n"
-"                }\n"
-"                li {\n"
-"                    display: inline;\n"
-"                }\n"
-"                li:after {\n"
-"                    content: \", \";\n"
-"                }\n"
-"                li:last-child:after {\n"
-"                    content: \"\";\n"
-"                }\n"
-"                #background {"
-msgstr ""
-
-#. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
-msgid "}\n"
+msgid ""
+"}\n"
 "                hr {\n"
 "                    margin-top: 0px;\n"
 "                    padding: 0mm;\n"
@@ -1839,3 +1878,16 @@ msgid "}\n"
 "                    background-color: black;"
 msgstr ""
 
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.childpack_small
+msgid ""
+"}\n"
+"            #background img {\n"
+"                max-width: 100%;\n"
+"                max-height: 100%;\n"
+"                margin: auto;\n"
+"            }\n"
+"            .qrcode {\n"
+"              position: absolute;\n"
+"              margin-left:"
+msgstr ""
