@@ -19,8 +19,6 @@
                 </group>
                 <group>
                     <field name="pdf"/>
-                    <field name="draw_background" attrs="{'invisible': [('pdf', '=', False)]}"/>
-                    <field name="preprinted" attrs="{'invisible': [('pdf', '=', True)]}"/>
                 </group>
                 <group states="pdf">
                     <field name="pdf_name" invisible="1"/>
@@ -44,11 +42,4 @@
         <field name="binding_model_id" ref="model_recurring_contract"/>
         <field name="binding_type">report</field>
    </record>
-
-<!--   <record model="ir.values" id="ir_values_print_sponsorship_gift_bvr">-->
-<!--       <field name="key2" eval="'client_print_multi'"/>-->
-<!--       <field name="model" eval="'recurring.contract'"/>-->
-<!--       <field name="name">Gift Payment Slips</field>-->
-<!--       <field name="value" eval="'ir.actions.act_window,%d'%action_print_sponsorship_gift_bvr"/>-->
-<!--   </record>-->
 </odoo>

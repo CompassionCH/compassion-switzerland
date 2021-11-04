@@ -54,7 +54,6 @@ class PaymentSlipController(Controller):
                 raise BadRequest()
             wizard = request.env["print.bvr.fund"].sudo().create({
                 "product_id": product.id,
-                "draw_background": True,
                 "pdf": True,
                 "amount": fund_amount
             }).with_context(active_ids=partner.ids)
@@ -65,7 +64,6 @@ class PaymentSlipController(Controller):
             if product.categ_id == sponsorship:
                 wizard = request.env["print.sponsorship.bvr"].sudo().create({
                     "paper_format": "report_compassion.bvr_sponsorship",
-                    "draw_background": True,
                     "pdf": True
                 }).with_context(active_ids=sponsorship_id,
                                 active_model="recurring.contract")
@@ -79,7 +77,6 @@ class PaymentSlipController(Controller):
                         "project_gift": gift_index == 3,
                         "graduation_gift": gift_index == 4,
                         "paper_format": "report_compassion.bvr_gift_sponsorship",
-                        "draw_background": True,
                         "pdf": True
                     }
                     wizard = request.env["print.sponsorship.gift.bvr"].sudo().create(

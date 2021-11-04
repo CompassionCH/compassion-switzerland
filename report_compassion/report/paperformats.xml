@@ -1,144 +1,66 @@
 <odoo>
-    <data noupdate="1">
-        <!-- Childpack -->
-        <record id="paperformat_childpack" model="report.paperformat">
-            <field name="name">Childpack</field>
-            <field name="default" eval="True"/>
-            <field name="format">custom</field>
-            <field name="page_height">420</field>
-            <field name="page_width">210</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
+    <!-- Childpack -->
+    <record id="paperformat_childpack" model="report.paperformat">
+        <field name="name">Childpack</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">420</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">96</field>
+    </record>
 
-        <record id="paperformat_mini_childpack" model="report.paperformat">
-            <field name="name">Mini Childpack</field>
-            <field name="default" eval="True"/>
-            <field name="format">custom</field>
-            <field name="page_height">210</field>
-            <field name="page_width">210</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
+    <record id="paperformat_mini_childpack" model="report.paperformat">
+        <field name="name">Mini Childpack</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">210</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">96</field>
+    </record>
 
-        <!-- 3BVR -->
-        <record id="paperformat_3bvr" model="report.paperformat">
-            <field name="name">3BVR</field>
-            <field name="default" eval="True"/>
-            <field name="format">custom</field>
-            <field name="page_height">318</field>
-            <field name="page_width">210</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
+    <!-- Compassion A4 No margin Landscape -->
+    <record id="paperformat_a4_childpack" model="report.paperformat">
+        <field name="name">Compassion A4 Childpack</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">96</field>
+    </record>
 
-        <!-- Single BVR -->
-        <record id="paperformat_bvr" model="report.paperformat">
-            <field name="name">Single BVR</field>
-            <field name="default" eval="True"/>
-            <field name="format">custom</field>
-            <field name="page_height">106</field>
-            <field name="page_width">210</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
-
-        <!-- Compassion A4 Letter -->
-        <record id="paperformat_a4_letter" model="report.paperformat">
-            <field name="name">Compassion A4 Letterhead</field>
-            <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
-
-        <!-- Compassion A4 No margin Portrait -->
-        <record id="paperformat_a4_no_margin_portrait" model="report.paperformat">
-            <field name="name">Compassion A4 No Margin Portrait</field>
-            <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
-
-        <!-- Compassion A4 No margin Landscape -->
-        <record id="paperformat_a4_childpack" model="report.paperformat">
-            <field name="name">Compassion A4 Childpack</field>
-            <field name="default" eval="True"/>
-            <field name="format">A4</field>
-            <field name="orientation">Landscape</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
-
-        <!-- Compassion Anniversary Card -->
-        <record id="paperformat_anniversary_card" model="report.paperformat">
-            <field name="name">Sponsorship Anniversary Card</field>
-            <field name="default" eval="True"/>
-            <field name="format">custom</field>
-            <field name="orientation">Landscape</field>
-            <field name="page_height">210</field>
-            <field name="page_width">148</field>
-            <field name="margin_top">0</field>
-            <field name="margin_bottom">0</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">3</field>
-            <field name="dpi">96</field>
-        </record>
-
-        <!-- Create empty report for child letters printing -->
-        <report id="report_b2s_letter"
-                model="compassion.child"
-                string="B2S Letter"
-                report_type="qweb-pdf"
-                name="report_compassion.b2s_letter"
-                menu="False"
-        />
-        <record id="report_b2s_letter" model="ir.actions.report">
-            <field name="paperformat_id" ref="paperformat_a4_letter"/>
-        </record>
-    </data>
+    <!-- Compassion Anniversary Card -->
+    <record id="paperformat_anniversary_card" model="report.paperformat">
+        <field name="name">Sponsorship Anniversary Card</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="orientation">Landscape</field>
+        <field name="page_height">210</field>
+        <field name="page_width">148</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">96</field>
+    </record>
 </odoo>

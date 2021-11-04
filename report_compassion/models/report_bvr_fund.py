@@ -43,10 +43,6 @@ class BvrFundReport(models.AbstractModel):
                     _("You must give a product in data to print this report.")
                 )
             data["product_id"] = product_id
-        if "background" not in data:
-            # By default, prepare a report with background
-            data["background"] = True
-            data["preprinted"] = False
 
         if not docids and data["doc_ids"]:
             docids = data["doc_ids"]

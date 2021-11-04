@@ -36,24 +36,18 @@ class PrintSponsorshipBvr(models.TransientModel):
     )
     paper_format = fields.Selection(
         [
-            ("report_compassion.3bvr_sponsorship", "3 BVR"),
             ("report_compassion.2bvr_sponsorship", "2 BVR"),
             ("report_compassion.bvr_sponsorship", "Single BVR"),
         ],
-        default="report_compassion.3bvr_sponsorship",
+        default="report_compassion.2bvr_sponsorship",
     )
     date_start = fields.Date(default=lambda s: s.default_start())
     date_stop = fields.Date(default=lambda s: s.default_stop())
     include_gifts = fields.Boolean()
-    draw_background = fields.Boolean()
     state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
     pdf = fields.Boolean()
     pdf_name = fields.Char(default="sponsorship payment.pdf")
     pdf_download = fields.Binary(readonly=True)
-    preprinted = fields.Boolean(
-        help="Enable if you print on a payment slip that already has company "
-        "information printed on it."
-    )
 
     @api.model
     def default_start(self):
@@ -87,19 +81,11 @@ class PrintSponsorshipBvr(models.TransientModel):
         self.date_start = start
         self.date_stop = stop
 
-    @api.onchange("pdf")
-    def onchange_pdf(self):
-        if self.pdf:
-            self.draw_background = True
-            self.preprinted = False
-        else:
-            self.draw_background = False
-
     @api.multi
     def get_report(self):
         """
         Prepare data for the report and call the selected report
-        (single bvr / 2 bvr / 3 bvr).
+        (single bvr / 2 bvr).
         :return: Generated report
         """
         if self.date_start >= self.date_stop:
@@ -109,13 +95,10 @@ class PrintSponsorshipBvr(models.TransientModel):
             "date_stop": self.date_stop,
             "gifts": self.include_gifts,
             "doc_ids": self.env.context.get("active_ids"),
-            "background": self.draw_background,
-            "preprinted": self.preprinted,
         }
         report_name = "report_compassion.report_" + self.paper_format.split(".")[1]
         report_ref = self.env.ref(report_name)
         if self.pdf:
-            data["background"] = True
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
             ).render_qweb_pdf(data["doc_ids"], data=data)[0]
@@ -142,7 +125,6 @@ class PrintBvrDue(models.TransientModel):
     _name = "print.sponsorship.bvr.due"
     _description = "Print sponsorship due BVR"
 
-    draw_background = fields.Boolean()
     state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
     pdf = fields.Boolean()
     pdf_name = fields.Char(default="sponsorship due.pdf")
@@ -158,12 +140,10 @@ class PrintBvrDue(models.TransientModel):
             self.env.context.get("active_ids")
         )
         data = {
-            "background": self.draw_background,
             "doc_ids": records.ids,
         }
         report_ref = self.env.ref("report_compassion.report_bvr_due")
         if self.pdf:
-            data["background"] = True
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
             ).render_qweb_pdf(records.ids, data=data)[0]
