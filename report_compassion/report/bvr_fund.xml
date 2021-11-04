@@ -1,40 +1,37 @@
 <odoo>
-    <data noupdate="1">
-        <report id="report_bvr_fund"
-            model="res.partner"
-            string="Payment Slip for Fund"
-            report_type="qweb-pdf"
-            name="report_compassion.bvr_fund"
-            menu="False"
-        />
-        <record id="report_bvr_fund" model="ir.actions.report">
-            <field name="paperformat_id" ref="paperformat_bvr"/>
-        </record>
+    <report id="report_bvr_fund"
+        model="res.partner"
+        string="Payment Slip for Fund"
+        report_type="qweb-pdf"
+        name="report_compassion.bvr_fund"
+        menu="False"
+    />
+    <record id="report_bvr_fund" model="ir.actions.report">
+        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+    </record>
 
-        <template id="bvr_fund">
-            <t t-call="web.html_container">
+    <template id="bvr_fund">
+        <t t-call="web.external_layout">
+            <!-- Hide header -->
+            <t t-set="report_header_style">display: none;</t>
             <div class="article">
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="report_compassion.report_bvr_fund_document" t-lang="doc.lang"/>
                 </t>
             </div>
-            </t>
-        </template>
+        </t>
+    </template>
 
-        <!-- BVR page for product fund -->
-        <template id="report_bvr_fund_document">
-            <div class="page">
-                <t t-call="report_compassion.bvr_style"/>
-                <t t-set="o" t-value="doc.with_context({'lang':doc.lang})" />
-                <t t-set="partner" t-value="o"/>
-                <t t-set="partner_address" t-value="o.short_address"/>
-                <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_bvr_account()"/>
-                <t t-set="position" t-value="0"/>
-                <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
-                <t t-set="communication" t-value="communication or product.with_context(lang=o.lang).name"/>
-                <t t-set="scan_line" t-value="o.env['recurring.contract.group'].get_scan_line(company_account, reference, amount)"/>
-                <t t-call="report_compassion.report_sponsorship_single_slip"/>
-            </div>
-        </template>
-    </data>
+    <!-- BVR page for product fund -->
+    <template id="report_bvr_fund_document">
+        <div class="page">
+            <t t-set="o" t-value="doc.with_context({'lang':doc.lang})" />
+            <t t-set="partner" t-value="o"/>
+            <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_qrr_account()"/>
+            <t t-set="position" t-value="0"/>
+            <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
+            <t t-set="communication" t-value="communication or product.with_context(lang=o.lang).name"/>
+            <t t-call="report_compassion.report_compassion_qr_slip"/>
+        </div>
+    </template>
 </odoo>

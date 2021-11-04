@@ -354,31 +354,29 @@ class PartnerCommunication(models.Model):
         res[name] = ("partner_communication_switzerland.child_picture", pdf)
         return res
 
-    def get_yearly_payment_slips_2bvr(self):
-        return self.get_yearly_payment_slips(bv_number=2)
-
-    def get_yearly_payment_slips(self, bv_number=3):
+    def get_yearly_payment_slips(self):
         """
         Attach payment slips
-        :param bv_number number of BV on a page (switch between 2BV/3BV page)
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
-        assert bv_number in (2, 3)
         sponsorships = self.get_objects()
         payment_mode_bvr = self.env.ref("sponsorship_switzerland.payment_mode_bvr")
+        pm_permanent = self.env.ref(
+            "sponsorship_switzerland.payment_mode_permanent_order")
         attachments = dict()
         # IF payment mode is BVR and partner is paying
         # attach sponsorship payment slips
+        # Year 2022 only: we send Permanent Orders again for QR-update!
         pay_bvr = sponsorships.filtered(
-            lambda s: s.payment_mode_id == payment_mode_bvr
-                      and s.partner_id == self.partner_id
+            lambda s: s.payment_mode_id in (payment_mode_bvr, pm_permanent)
+            and s.partner_id == self.partner_id
         )
         if pay_bvr and pay_bvr.must_pay_next_year():
             today = date.today()
             date_start = today.replace(today.year + 1, 1, 1)
             date_stop = date_start.replace(month=12, day=31)
-            report_name = f"report_compassion.{bv_number}bvr_sponsorship"
+            report_name = f"report_compassion.2bvr_sponsorship"
             data = {
                 "doc_ids": pay_bvr.ids,
                 "date_start": date_start,
@@ -387,7 +385,7 @@ class PartnerCommunication(models.Model):
             }
             pdf = self._get_pdf_from_data(
                 data, self.env.ref(
-                    f"report_compassion.report_{bv_number}bvr_sponsorship")
+                    f"report_compassion.report_2bvr_sponsorship")
             )
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
         # Attach gifts for correspondents
@@ -396,18 +394,17 @@ class PartnerCommunication(models.Model):
             if sponsorship.mapped(sponsorship.send_gifts_to) == self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
-            nb_gifts = 4 if bv_number == 2 else 3
             product_ids = self.env['product.product'].search([
-                ('default_code', 'in', GIFT_REF[:nb_gifts])
+                ('default_code', 'in', [GIFT_REF[0]] + GIFT_REF[2:4])
             ]).ids
-            report_name = f"report_compassion.{bv_number}bvr_gift_sponsorship"
+            report_name = f"report_compassion.2bvr_gift_sponsorship"
             data = {
                 "doc_ids": pays_gift.ids,
                 "product_ids": product_ids
             }
             pdf = self._get_pdf_from_data(
                 data, self.env.ref(
-                    f"report_compassion.report_{bv_number}bvr_gift_sponsorship"),
+                    f"report_compassion.report_2bvr_gift_sponsorship"),
             )
             attachments.update({_("sponsorship gifts.pdf"): [report_name, pdf]})
         return attachments

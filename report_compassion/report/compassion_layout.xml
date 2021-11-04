@@ -3,11 +3,13 @@
         <!-- Custom css for PDF pages -->
         <template id="style">
             <style type="text/css">
-                /* Remove padding of reports to allow precise positionning */
-                .container {
-                    padding: 0mm;
+                /* Atempt to remove all blanks for wkhtmltopdf and avoid extra pages */
+                html, body, .container, .footer.o_standard_footer, #wrapwrap, container, .article {
+                    height: 0;
+                    padding: 0;
+                    margin: 0;
+                    line-height: normal;
                 }
-
                 /* Declare fonts */
                 @font-face {
                     font-family: miller;

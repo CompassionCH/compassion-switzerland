@@ -1,213 +1,133 @@
 <odoo>
-    <data noupdate="1">
-        <!-- Template for outputting a payment slip
-        Must be called with the following variables set in order to work :
-        - partner (for who is the payment?)
-        - communication
-        - company_account
-        - reference (bvr reference)
-        - partner_address (the address of the partner)
-        - scan_line
-        - o (sponsorship group)
-        -->
-        <template id="report_sponsorship_single_slip">
-            <t t-set="company_address">
-                Compassion Switzerland
-                <br/>
-                Rue Galilée 3
-                <br/>
-                1400 Yverdon-les-Bains
-                <br/>
-                Switzerland
-            </t>
-            <div class="one_slip" t-attf-style="margin-top: #{ margin }mm">
-                <t t-if="background">
-                    <div id="background">
-                        <img src="/report_compassion/static/img/bvr.jpg"/>
+    <!-- Replace default styling with wrong positions -->
+    <template id="assets_common_qr" inherit_id="l10n_ch.assets_common_qr">
+        <xpath expr="//link[@href='/l10n_ch/static/src/scss/report_swissqr.scss']" position="attributes">
+            <attribute name="href">/report_compassion/static/scss/report_swissqr.scss</attribute>
+        </xpath>
+    </template>
+
+    <!-- Template for outputting a QR payment slip
+    Must be called with the following variables set in order to work :
+    - partner (for who is the payment?)
+    - bank_account (IBAN account for QR reception)
+    - communication
+    - reference (bvr reference)
+    - date_due (if there is a due date)
+    - o (current object)
+    -->
+    <template id="report_compassion_qr_slip">
+        <t t-set="formatted_amount" t-value="('%.2f' % (amount)).split(' ')[0].replace(',',' ') if amount else 0"/>
+         <div class="swissqr_content" t-if="bank_account.validate_swiss_code_arguments(bank_account.currency_id, partner, reference)" t-attf-style="top: #{ swissqr_position_top or '192' }mm;">
+                <div class="swissqr_receipt">
+                    <span class="swissqr_text title title_zone">Receipt</span><br/>
+                    <div class="receipt_information_zone">
+                        <span class="swissqr_text title">Payable to</span><br/>
+                        <span class="swissqr_text content" t-field="bank_account.acc_number"/><br/>
+                        <span class="swissqr_text content" t-field="partner.company_id.name"/><br/>
+                        <span class="swissqr_text content" t-field="partner.company_id.country_id.code"/>
+                        <span class="swissqr_text content" t-field="partner.company_id.zip"/>
+                        <span class="swissqr_text content" t-field="partner.company_id.city"/><br/>
+
+                        <span class="swissqr_text title">Reference</span><br/>
+                        <span class="swissqr_text content" t-esc="o.env['account.invoice'].space_qrr_reference(reference)"/><br/>
+
+                        <span class="swissqr_text title">Payable by</span><br/>
+                        <span class="swissqr_text content" t-field="partner.commercial_partner_id.name"/><br/>
+                        <span class="swissqr_text content" t-field="partner.country_id.code"/>
+                        <span class="swissqr_text content" t-field="partner.zip"/>
+                        <span class="swissqr_text content" t-field="partner.city"/><br/>
                     </div>
-                </t>
-                <div class="receipt">
-                    <span t-raw="company_address" class="pay_for" t-if="not preprinted"/>
-                    <span t-raw="communication" class="communication"/>
-                    <b>
-                        <span t-esc="company_account" class="account" t-if="not preprinted"/>
-                    </b>
-                    <div t-if="amount" class="amount">
-                        <span t-esc="int(amount)"/>
-                        <span t-esc="str(int(amount*100))[-2:]"/>
+                    <div id="receipt_amount_zone" class="receipt_amount_zone">
+                        <div class="column">
+                            <span class="swissqr_text title">Currency</span><br/>
+                            <span class="swissqr_text content" t-field="bank_account.currency_id.name"/>
+                        </div>
+                        <div class="column" t-if="formatted_amount">
+                            <span class="swissqr_text title">Amount</span><br/>
+                            <span class="swissqr_text content" t-esc="formatted_amount"/>
+                        </div>
                     </div>
-                    <span t-esc="reference" class="reference"/>
-                    <span t-raw="partner_address" class="pay_from"/>
+
+                    <div id="receipt_acceptance_point_zone" class="receipt_acceptance_point_zone">
+                        <span class="swissqr_text title">Acceptance point</span>
+                    </div>
                 </div>
-                <div class="transfer">
-                    <span t-raw="company_address" class="pay_for" t-if="not preprinted"/>
-                    <span t-esc="reference" class="reference"/>
-                    <b>
-                        <span t-esc="company_account" class="account" t-if="not preprinted"/>
-                    </b>
-                    <div t-if="amount" class="amount">
-                        <span t-esc="int(amount)"/>
-                        <span t-esc="str(int(amount*100))[-2:]"/>
+
+                <div class="swissqr_body">
+                    <div>
+                        <span class="swissqr_text title title_zone">Payment part</span><br/>
+                        <img class="swissqr" t-att-src="bank_account.build_swiss_code_base64(amount, bank_account.currency_id.name, None, partner, None, reference, communication)"/>
+                        <img class="ch_cross" src="/l10n_ch/static/src/img/CH-Cross_7mm.png"/>
+
+                        <div id="indications_zone" class="swissqr_column_right indication_zone">
+                            <span class="swissqr_text title">Payable to</span><br/>
+                            <span class="swissqr_text content" t-field="bank_account.acc_number"/><br/>
+                            <span class="swissqr_text content" t-field="partner.company_id.name"/><br/>
+                            <span class="swissqr_text content" t-field="partner.company_id.street"/><br/>
+                            <span class="swissqr_text content" t-field="partner.company_id.country_id.code"/>
+                            <span class="swissqr_text content" t-field="partner.company_id.zip"/>
+                            <span class="swissqr_text content" t-field="partner.company_id.city"/><br/>
+
+                            <t t-if="bank_account._is_qr_iban()">
+                                <span class="swissqr_text title">Reference</span><br/>
+                                <span class="swissqr_text content" t-esc="o.env['account.invoice'].space_qrr_reference(reference)"/><br/>
+                            </t>
+
+                            <span class="swissqr_text title">Additional information</span><br/>
+                            <span class="swissqr_text content" t-esc="reference or communication" t-if="not bank_account._is_qr_iban()"/>
+                            <span class="swissqr_text content" t-raw="communication" t-if="bank_account._is_qr_iban()"/>
+                            <br/>
+
+                            <span class="swissqr_text title">Payable by</span><br/>
+                            <span class="swissqr_text content" t-field="partner.commercial_partner_id.name"/><br/>
+                            <span class="swissqr_text content" t-field="partner.street"> </span>
+                            <span class="swissqr_text content" t-field="partner.street2"/><br/>
+                            <span class="swissqr_text content" t-field="partner.country_id.code"/>
+                            <span class="swissqr_text content" t-field="partner.zip"/>
+                            <span class="swissqr_text content" t-field="partner.city"/><br/>
+
+                            <span class="swissqr_text title" t-if="date_due">Due date</span><br/>
+                            <span class="swissqr_text content" t-esc="date_due" t-if="date_due"/><br/>
+                        </div>
+                        <div id="amount_zone" class="swissqr_column_left amount_zone">
+                            <div class="column">
+                                <span class="swissqr_text title">Currency</span><br/>
+                                <span class="swissqr_text content" t-field="bank_account.currency_id.name"/>
+                            </div>
+                            <div class="column" t-if="formatted_amount">
+                                <span class="swissqr_text title">Amount</span><br/>
+                                <span class="swissqr_text content" t-esc="formatted_amount"/>
+                            </div>
+                        </div>
                     </div>
-                    <span t-raw="partner_address" class="pay_from"/>
-                    <span t-raw="scan_line" class="scan_line"/>
                 </div>
-            </div>
-        </template>
+         </div>
+    </template>
 
-        <template id="report_sponsorship_2bvr_top_slip">
-            <t t-call="report_compassion.report_sponsorship_single_slip">
-                <t t-set="margin" t-value="0"/>
-                <t t-set="amount" t-value="False"/>
-            </t>
-            <h4 style="position: absolute; top: 104mm; padding: 5mm; text-align: center; width: 100%">
-                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
-                <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
-            </h4>
-        </template>
+    <template id="report_sponsorship_2bvr_top_slip">
+        <t t-call="report_compassion.report_compassion_qr_slip"/>
+        <h4 t-attf-style="position: absolute; top: #{ swissqr_position_top + 115}mm; padding: 5mm; text-align: center; width: 100%; font-size: 10pt;">
+            <span style="font-size: 35px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
+            <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
+            <span style="font-size: 35px; font-family: monospace; font-weight: 400" t-esc="u'\u2191'"/>
+        </h4>
+    </template>
 
-        <template id="report_sponsorship_2bvr_bottom_slip">
-            <h4 style="position: absolute; bottom: 106mm; padding: 5mm; text-align: center; width: 100%">
-                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
-                <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
-                <span style="font-size: 40px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
-            </h4>
-            <t t-call="report_compassion.report_sponsorship_single_slip">
-                <t t-set="margin" t-value="85"/>
-                <t t-set="amount" t-value="False"/>
-            </t>
-        </template>
+    <template id="report_sponsorship_2bvr_bottom_slip">
+        <h4 t-attf-style="position: absolute; top: #{ swissqr_position_top }mm; padding: 5mm; text-align: center; width: 100%; font-size: 10pt;">
+            <span style="font-size: 35px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
+            <span t-esc="communication.replace('&lt;br/&gt;', ', ')"/>
+            <span style="font-size: 35px; font-family: monospace; font-weight: 400" t-esc="u'\u2193'"/>
+        </h4>
+        <t t-call="report_compassion.report_compassion_qr_slip">
+            <t t-set="swissqr_position_top" t-value="swissqr_position_top + 30"/>
+        </t>
+    </template>
 
-        <!-- Style css rules for BVR -->
-        <template id="bvr_style">
-            <t t-set="custom_css_2">
-                .one_slip {
-                font-size: 8pt;
-                width: 210mm;
-                height: 106mm;
-                }
-                #background {
-                position: absolute;
-                width: 210mm;
-                height: 106mm;
-                }
-                #background img {
-                max-width: 100%;
-                max-height: 100%;
-                margin: auto;
-                }
-                .receipt {
-                position: absolute;
-                padding-top: 9mm;
-                padding-left: 5mm;
-                width: 60mm;
-                height: 106mm;
-                }
-                .pay_for::first-line {
-                font-weight: bold;
-                }
-                .receipt .pay_for {
-                position: absolute;
-                height: 15mm;
-                width: 100%;
-                }
-                .receipt .communication {
-                position: absolute;
-                margin-top: 18mm;
-                height: 15mm;
-                line-height: 1.3;
-                }
-                .receipt .account {
-                position: absolute;
-                margin-top: 33mm;
-                margin-left: 30.5mm;
-                }
-                .amount {
-                position: absolute;
-                width: 55mm;
-                font-size: 12pt;
-                letter-spacing: 1.5mm;
-                text-align: right;
-                top: 50.5mm;
-                }
-                .receipt .amount span:first-child {
-                position: absolute;
-                width: 40mm;
-                right: 20mm;
-                }
-                .receipt .amount span:last-child {
-                width: 10mm;
-                float: right;
-                margin-right: 3mm;
-                }
-                .receipt .reference {
-                position: absolute;
-                margin-top: 51mm;
-                }
-                .receipt .pay_from {
-                position: absolute;
-                margin-top: 56mm;
-                max-height: 20mm;
-                }
-
-                .transfer {
-                position: absolute;
-                margin-left: 60mm;
-                padding-left: 4mm;
-                width: 150mm;
-                height: 106mm;
-                }
-                .transfer .pay_for {
-                position: absolute;
-                margin-top: 9mm;
-                width: 55mm;
-                }
-                .transfer .reference {
-                position: absolute;
-                margin-left: 61mm;
-                margin-top: 33mm;
-                width: 84mm;
-                height: 6mm;
-                padding: 1mm;
-                font-size: 10pt;
-                text-align: center;
-                }
-                .transfer .amount span:first-child {
-                position: absolute;
-                width: 40mm;
-                right: 19mm;
-                }
-                .transfer .amount span:last-child {
-                width: 10mm;
-                float: right;
-                margin-right: 2mm;
-                }
-                .transfer .account {
-                position: absolute;
-                margin-left: 28mm;
-                margin-top: 42.5mm;
-                }
-                .transfer .pay_from {
-                position: absolute;
-                margin-left: 61mm;
-                margin-top: 54mm;
-                line-height: 5mm;
-                width: 80mm;
-                height: 30mm;
-                padding: auto;
-                }
-                .transfer .scan_line {
-                position: absolute;
-                right: 7.62mm;
-                top: 84.5mm;
-                width: 140mm;
-                font-family: "ocr";
-                font-size: 12pt;
-                text-align: right;
-                }
-            </t>
-            <t t-call="report_compassion.style"/>
-        </template>
-    </data>
+    <!-- Add top positioning to default invoice qr-slip -->
+    <template id="compassion_invoice_slip" inherit_id="l10n_ch.l10n_ch_swissqr_template">
+        <xpath expr="//div[@class='swissqr_content']" position="attributes">
+            <attribute name="style">top: 192mm;</attribute>
+        </xpath>
+    </template>
 </odoo>
