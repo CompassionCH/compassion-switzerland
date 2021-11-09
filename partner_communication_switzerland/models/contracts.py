@@ -73,10 +73,11 @@ class RecurringContract(models.Model):
         return cancelled_sponsorships
 
     def get_payment_type_attachment_string(self):
-        payment_mode = self.with_context(lang="en_US").mapped("payment_mode_id")[:1].name
+        payment_mode = self.with_context(lang="en_US").mapped(
+            "payment_mode_id")[:1].name
         if payment_mode == "Permanent Order":
             total_paid = self.mapped("group_id.contract_ids").filtered(
-                lambda s: s.state not in ("cancelled", "terminated"))
+                lambda s: s.state not in ("cancelled", "terminated") and s.total_amount)
             if len(self) == len(total_paid):
                 phrase = _(
                     "Attached you will find a payment slip to set up a standing order "
@@ -84,14 +85,14 @@ class RecurringContract(models.Model):
                 )
             else:
                 phrase = _(
-                    "Attached you will find the payment slip that will allow you to increase your current "
-                    "standing order to CHF %s.-"
+                    "Attached you will find the payment slip that will allow you "
+                    "to increase your current standing order to CHF %s.-"
                 ) % int(sum(total_paid.mapped("total_amount")))
         elif "LSV" in payment_mode or "Postfinance" in payment_mode:
             if "mandate" in self.mapped("state"):
                 phrase = _(
-                    "Attached you will find the LSV or Direct Debit authorization form to fill in "
-                    "if you haven't already done it!"
+                    "Attached you will find the LSV or Direct Debit authorization "
+                    "form to fill in if you haven't already done it!"
                 )
             else:
                 phrase = _(
@@ -101,9 +102,11 @@ class RecurringContract(models.Model):
         else:
             freq = self.mapped("group_id.recurring_value")[:1]
             if freq == 12:
-                phrase = _("Attached you will find a payment slip for the annual sponsorship payment")
+                phrase = _("Attached you will find a payment slip for the annual "
+                           "sponsorship payment")
             else:
-                phrase = _("Attached you will find the payment slips for the sponsorship payment")
+                phrase = _("Attached you will find the payment slips for the "
+                           "sponsorship payment")
         return phrase
 
     def _compute_birthday_paid(self):

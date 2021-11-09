@@ -646,9 +646,24 @@ msgid "Family information"
 msgstr "Informations sur la famille"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
+msgid "link"
+msgstr "https://compassion.ch/questions-frequentes/"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Father/representative's job"
 msgstr "Travail du père / représentant légal"
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.my_account_layout
+msgid "FAQ"
+msgstr "Questions fr&eacute;quentes"
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.letter_page_template
+msgid "FAQ |"
+msgstr "Questions fr&eacute;quentes"
 
 #. module: website_compassion
 #: model:ir.model,name:website_compassion.model_cms_form_match_partner

@@ -91,7 +91,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
         if transaction.state != "done" or payment == "error":
             return request.render("crowdfunding_compassion.donation_failure")
 
-        else:
+        elif invoice.communication_id.state != "done":
             comm_obj = request.env["partner.communication.job"].sudo()
 
             # Send confirmation email

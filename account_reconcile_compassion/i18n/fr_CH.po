@@ -396,7 +396,7 @@ msgstr "Etat"
 #~ msgstr "Avancé. Règles Compassion"
 
 #~ msgid "Project %s is fund-suspended."
-#~ msgstr "Le centre d'accueil %s est en suspension avec retenue des fonds."
+#~ msgstr "Le centre de développement de l’enfant %s est en suspension avec retenue des fonds."
 
 #~ msgid "Account Lost"
 #~ msgstr "Compte des pertes"

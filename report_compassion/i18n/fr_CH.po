@@ -1534,7 +1534,7 @@ msgstr "Point de géolocalisation du projet"
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__project_gift
 msgid "Project Gift"
-msgstr "Cadeau centre d'accueil"
+msgstr "Cadeau centre de développement de l’enfant"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_compassion_child__project_title
