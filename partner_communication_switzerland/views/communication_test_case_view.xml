@@ -5,46 +5,58 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="generate_test_cases" string="Generate test cases" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_single" string="Generate single person test cases" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_family" string="Generate family test cases" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_partner" string="Generate partner test case" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_all" string="Generate all test cases" type="object" class="oe_highlight"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="config_id"/>
+                        </group>
+                        <group>
                             <field name="language"/>
+                            <field name="partner"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Single person">
-                            <group>
+                        <page string="Selected language / Single person">
+                            <group col="3">
                                 <group string="1 Child">
                                     <field name="single_1_child_subject" string="Subject"/>
                                     <field name="single_1_child_body" string="Body"/>
                                 </group>
                                 <group string="3 Children">
-                                    <field name="single_3_children_subject" string="Subject"/>
-                                    <field name="single_3_children_body" string="Body"/>
+                                    <field name="single_3_child_subject" string="Subject"/>
+                                    <field name="single_3_child_body" string="Body"/>
                                 </group>
                                 <group string="4 Children">
-                                    <field name="single_4_children_subject" string="Subject"/>
-                                    <field name="single_4_children_body" string="Body"/>
+                                    <field name="single_4_child_subject" string="Subject"/>
+                                    <field name="single_4_child_body" string="Body"/>
                                 </group>
                             </group>
                         </page>
-                        <page string="Family">
-                            <group>
+                        <page string="Selected language / Family">
+                            <group col="3">
                                 <group string="1 Child">
                                     <field name="family_1_child_subject" string="Subject"/>
                                     <field name="family_1_child_body" string="Body"/>
                                 </group>
                                 <group string="3 Children">
-                                    <field name="family_3_children_subject" string="Subject"/>
-                                    <field name="family_3_children_body" string="Body"/>
+                                    <field name="family_3_child_subject" string="Subject"/>
+                                    <field name="family_3_child_body" string="Body"/>
                                 </group>
                                 <group string="4 Children">
-                                    <field name="family_4_children_subject" string="Subject"/>
-                                    <field name="family_4_children_body" string="Body"/>
+                                    <field name="family_4_child_subject" string="Subject"/>
+                                    <field name="family_4_child_body" string="Body"/>
                                 </group>
+                            </group>
+                        </page>
+                        <page string="Partner">
+                            <group>
+                                <field name="partner_subject" string="Subject"/>
+                                <field name="partner_body" string="Body"/>
                             </group>
                         </page>
                     </notebook>

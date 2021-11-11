@@ -7,7 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from random import randint
+import random
+import itertools
 
 from odoo import api, models
 
@@ -16,33 +17,28 @@ class PartnerCommunication(models.Model):
     _inherit = "partner.communication.config"
 
     @api.multi
-    def generate_test_cases(self, lang="de_DE", send_mode="digital"):
+    def generate_test_cases_by_language_family_case(self, lang="de_DE", family_case="single", send_mode="digital"):
         """
-        Generates example communications for our multiple cases in CH.
+        Generates example communications for our multiple cases in CH
+        depending on the language and the family case
         Outputs the texts in a file
         :param lang:
         :return: True
         """
         self.ensure_one()
-        family = self.env.ref("partner_compassion.res_partner_title_family")
-        # Find a partner with > 3 sponsorships
-        family_pool = self.env["res.partner"].search([
-            ("number_sponsorships", ">", 3),
-            ("lang", "=", lang),
-            ("title", "=", family.id)
-        ], order="name asc", limit=50)
-        single_pool = self.env["res.partner"].search([
-            ("number_sponsorships", ">", 3),
-            ("lang", "=", lang),
-            ("title", "!=", family.id),
-            ("title.plural", "=", False)
-        ], order="name asc", limit=50)
-        comm_obj = self.env["partner.communication.job"].with_context(must_skip_send_to_printer=True)
+
+        comm_obj = self.env["partner.communication.job"].with_context(
+            must_skip_send_to_printer=True)
+
         res = []
-        for case in ["single", "family"]:
-            pool = single_pool if case == "single" else family_pool
-            partner = pool[min(randint(0, 49), len(pool) - 1)]
+
+        for number_sponsorship in [1, 3, 4]:
+            partner = self._find_partner(number_sponsorship, lang, family_case)
+            if partner is None:
+                continue
             object_ids = self._get_test_objects(partner)
+            object_ids = ",".join([str(id)
+                                  for id in object_ids[0:number_sponsorship]])
             temp_comm = comm_obj.create({
                 "partner_id": partner.id,
                 "config_id": self.id,
@@ -51,28 +47,46 @@ class PartnerCommunication(models.Model):
                 "send_mode": send_mode,
             })
             res.append({
-                "case": f"{case}_4_children",
+                "case": f"{family_case}_{number_sponsorship}_child",
                 "subject": temp_comm.subject,
-                "body_html": temp_comm.body_html})
-            partner = pool[min(randint(0, 49), len(pool) - 1)]
-            object_ids = self._get_test_objects(partner)
-            temp_comm.object_ids = ",".join(map(str, object_ids[:3]))
-            temp_comm.partner_id = partner
-            temp_comm.refresh_text()
-            res.append({
-                "case": f"{case}_3_children",
-                "subject": temp_comm.subject,
-                "body_html": temp_comm.body_html})
-            partner = pool[min(randint(0, 49), len(pool) - 1)]
-            object_ids = self._get_test_objects(partner)
-            temp_comm.object_ids = object_ids[0]
-            temp_comm.partner_id = partner
-            temp_comm.refresh_text()
-            res.append({
-                "case": f"{case}_1_child",
-                "subject": temp_comm.subject,
-                "body_html": temp_comm.body_html})
+                "body_html": temp_comm.body_html
+            })
             temp_comm.unlink()
+
+        return res
+
+    @api.multi
+    def generate_test_case_by_partner(self, partner=None, send_mode="digital"):
+        """
+        Generates example communications for our multiple cases in CH
+        depending on partner
+        Outputs the texts in a file
+        :param partner:
+        :return: True
+        """
+        self.ensure_one()
+
+        comm_obj = self.env["partner.communication.job"].with_context(
+            must_skip_send_to_printer=True)
+
+        res = []
+
+        object_ids = self._get_test_objects(partner)
+        object_ids = ",".join([str(id) for id in object_ids])
+        temp_comm = comm_obj.create({
+            "partner_id": partner.id,
+            "config_id": self.id,
+            "object_ids": object_ids,
+            "auto_send": False,
+            "send_mode": send_mode,
+        })
+        res = {
+            "case": "partner",
+            "subject": temp_comm.subject,
+            "body_html": temp_comm.body_html
+        }
+        temp_comm.unlink()
+
         return res
 
     def open_test_case_wizard(self):
@@ -101,3 +115,25 @@ class PartnerCommunication(models.Model):
                 ("invoice_id.invoice_category", "=", "fund")
             ], limit=4).ids
         return object_ids
+
+    def _find_partner(self, number_sponsorships, lang, family_case):
+        family = self.env.ref("partner_compassion.res_partner_title_family")
+
+        query = [
+            ("number_sponsorships", "=", number_sponsorships),
+            ("lang", "=", lang),
+        ]
+        if family_case == "single":
+            query += [("title", "!=", family.id), ("title.plural", "=", False)]
+        else:
+            query += [("title", "=", family.id)]
+
+        answers = self.env["res.partner"].search(query, limit=50)
+
+        # check that the query returned a result
+        if len(answers) <= 0:
+            return None
+
+        # randomly select one
+        answer = random.choice(answers)
+        return answer
