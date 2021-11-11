@@ -25,6 +25,8 @@ class GenerateCommunicationWizard(models.TransientModel):
         "res.partner", string="Partner",
         required=False
     )
+    partner_selected = fields.Boolean(
+        compute="_compute_partner_selected", store=True)
     send_mode = fields.Selection(
         [("digital", _("By e-mail")),
          ("physical", _("Print report"))],
@@ -55,6 +57,14 @@ class GenerateCommunicationWizard(models.TransientModel):
         langs = self.env["res.lang"].search([])
         return [(l.code, l.name) for l in langs]
 
+    @api.depends("partner")
+    @api.multi
+    def _compute_partner_selected(self):
+        for line in self:
+            if len(line.partner) <= 0:
+                line.partner_selected = False
+            else:
+                line.partner_selected = line.partner.name != ""
 
     @api.multi
     def generate_test_cases_single(self):
@@ -75,22 +85,13 @@ class GenerateCommunicationWizard(models.TransientModel):
     @api.multi
     def generate_test_cases_partner(self):
         self.ensure_one()
-        if len(self.partner) < 1:
+        if not self.partner_selected:
             raise exceptions.UserError("No partner selected")
             return False
-        case = self.config_id.generate_test_case_by_partner(self.partner, self.send_mode)
+        case = self.config_id.generate_test_case_by_partner(
+            self.partner, self.send_mode)
         self._apply_cases([case])
         return True
-
-    @api.multi
-    def generate_test_cases_all(self):
-        self.ensure_one()
-        answer = True
-        answer &= self.generate_test_cases_single()
-        answer &= self.generate_test_cases_family()
-        answer &= self.generate_test_cases_partner()
-        return answer
-
 
     def _apply_cases(self, cases):
         for case in cases:

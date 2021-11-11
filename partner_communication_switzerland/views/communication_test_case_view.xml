@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <odoo>
     <record id="communication_test_case_form" model="ir.ui.view">
         <field name="name">partner.communication.test.cases.wizard.form</field>
@@ -5,23 +6,23 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="generate_test_cases_single" string="Generate single person test cases" type="object" class="oe_highlight"/>
-                    <button name="generate_test_cases_family" string="Generate family test cases" type="object" class="oe_highlight"/>
-                    <button name="generate_test_cases_partner" string="Generate partner test case" type="object" class="oe_highlight"/>
-                    <button name="generate_test_cases_all" string="Generate all test cases" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_single" attrs="{'invisible': [('partner_selected', '=', True)]}" string="Generate single person test cases" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_family" attrs="{'invisible': [('partner_selected', '=', True)]}" string="Generate family test cases" type="object" class="oe_highlight"/>
+                    <button name="generate_test_cases_partner" attrs="{'invisible': [('partner_selected', '!=', True)]}" string="Generate partner test case" type="object" class="oe_highlight"/>
                 </header>
                 <sheet>
+                    <field name="partner_selected" invisible="1"/>
                     <group>
                         <group>
                             <field name="config_id"/>
                         </group>
                         <group>
-                            <field name="language"/>
+                            <field name="language" attrs="{'invisible': [('partner_selected', '=', True)]}"/>
                             <field name="partner"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Selected language / Single person">
+                        <page string="Selected language / Single person" attrs="{'invisible': [('partner_selected', '=', True)]}">
                             <group col="3">
                                 <group string="1 Child">
                                     <field name="single_1_child_subject" string="Subject"/>
@@ -37,7 +38,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Selected language / Family">
+                        <page string="Selected language / Family" attrs="{'invisible': [('partner_selected', '=', True)]}">
                             <group col="3">
                                 <group string="1 Child">
                                     <field name="family_1_child_subject" string="Subject"/>
@@ -53,7 +54,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Partner">
+                        <page string="Partner" attrs="{'invisible': [('partner_selected', '!=', True)]}">
                             <group>
                                 <field name="partner_subject" string="Subject"/>
                                 <field name="partner_body" string="Body"/>
