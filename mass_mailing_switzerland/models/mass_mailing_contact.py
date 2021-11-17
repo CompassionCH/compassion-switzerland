@@ -69,6 +69,8 @@ class MassMailingContact(models.Model):
     sponsored_child_your_child = fields.Char(compute="_compute_sponsored_child_fields")
     pending_letter_child_names = fields.Char(compute="_compute_sponsored_child_fields")
 
+    numspons = fields.Integer(compute="_compute_sponsored_child_fields")
+
     _sql_constraints = [(
         "unique_email", "unique(email)", "This mailing contact already exists"
     )]
@@ -83,9 +85,10 @@ class MassMailingContact(models.Model):
         for contact in self:
             partners = contact.partner_ids.with_context(lang=contact.partner_id.lang)
             # Allow option to take a child given in context, otherwise take
+            sponsored_child_ids = partners.mapped("sponsored_child_ids")
             # the sponsored children.
-            child = self.env.context.get("mailchimp_child",
-                                         partners.mapped("sponsored_child_ids"))
+            child = self.env.context.get("mailchimp_child", sponsored_child_ids)
+            contact.numspons = len(list(child))
             if country_filter_id:
                 child = child.filtered(
                     lambda c: c.field_office_id.id == country_filter_id)
@@ -228,7 +231,10 @@ class MassMailingContact(models.Model):
         """Override to fetch partner directly from relation if set."""
         self.ensure_one()
         if self.partner_ids:
-            return self.partner_ids[0].id
+            partners = self.partner_ids.with_context(lang=self.partner_id.lang)
+            partners_by_child_count = [(p, len(list(p.mapped("sponsored_child_ids")))) for p in partners]
+            partners_by_child_count.sort(key=lambda x:-x[-1])
+            return partners_by_child_count[0][0].id
         else:
             return self.env["res.partner"].search([
                 ("email", "=ilike", email),
