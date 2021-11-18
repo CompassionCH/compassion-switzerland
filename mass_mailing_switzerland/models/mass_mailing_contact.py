@@ -69,7 +69,7 @@ class MassMailingContact(models.Model):
     sponsored_child_your_child = fields.Char(compute="_compute_sponsored_child_fields")
     pending_letter_child_names = fields.Char(compute="_compute_sponsored_child_fields")
 
-    numspons = fields.Integer(compute="_compute_sponsored_child_fields")
+    numspons = fields.Char(compute="_compute_sponsored_child_fields")
 
     _sql_constraints = [(
         "unique_email", "unique(email)", "This mailing contact already exists"
