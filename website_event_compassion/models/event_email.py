@@ -57,20 +57,21 @@ class EventMail(models.Model):
         """
         for scheduler in self:
             event = scheduler.event_id
+            # update registration lines
+            missing_registrations = event.registration_ids.filtered(
+                lambda r: not scheduler.stage_id or r.stage_id == scheduler.stage_id
+                and r.state != "cancel"
+            ) - scheduler.mail_registration_ids.mapped("registration_id")
+            if missing_registrations:
+                scheduler.write(
+                    {
+                        "mail_registration_ids": [
+                            (0, 0, {"registration_id": reg.id})
+                            for reg in missing_registrations
+                        ]
+                    }
+                )
             if scheduler.interval_type in ("after_sub", "after_stage"):
-                # update registration lines
-                missing_registrations = event.registration_ids.filtered(
-                    lambda r: not scheduler.stage_id or r.stage_id == scheduler.stage_id
-                ) - scheduler.mail_registration_ids.mapped("registration_id")
-                if missing_registrations:
-                    scheduler.write(
-                        {
-                            "mail_registration_ids": [
-                                (0, 0, {"registration_id": reg.id})
-                                for reg in missing_registrations
-                            ]
-                        }
-                    )
                 # execute scheduler on registrations
                 scheduler.mail_registration_ids.filtered(
                     lambda reg: reg.scheduled_date
@@ -78,16 +79,20 @@ class EventMail(models.Model):
                 ).execute()
             else:
                 if not scheduler.mail_sent:
-                    for registration in event.registration_ids.filtered(
-                            lambda r: r.state != "cancel"
-                    ):
-                        self.env["partner.communication.job"].create(
-                            {
-                                "partner_id": registration.partner_id.id,
-                                "object_ids": registration.ids,
-                                "config_id": scheduler.communication_id.id,
-                            }
-                        )
+                    for mail_reg in scheduler.mail_registration_ids.filtered(
+                            lambda m: not m.mail_sent):
+                        registration = mail_reg.registration_id
+                        if registration.state != "cancel":
+                            self.env["partner.communication.job"].create(
+                                {
+                                    "partner_id": registration.partner_id.id,
+                                    "object_ids": registration.ids,
+                                    "config_id": scheduler.communication_id.id,
+                                }
+                            )
+                        mail_reg.mail_sent = True
+                        # Commit after each mail sent to avoid sending duplicates
+                        self.env.cr.commit()
                     scheduler.write({"mail_sent": True})
         return True
 

@@ -132,34 +132,6 @@ class RecurringContracts(models.Model):
                 }
             }
 
-    @api.onchange("group_id")
-    def on_change_group_id(self):
-        """ Compute next invoice_date """
-        current_date = datetime.date.today()
-        is_active = False
-
-        if self.state not in ("draft", "mandate") and self.next_invoice_date:
-            is_active = True
-            current_date = self.next_invoice_date
-
-        if self.group_id:
-            contract_group = self.group_id
-            if contract_group.next_invoice_date:
-                next_group_date = contract_group.next_invoice_date
-                next_invoice_date = current_date.replace(day=next_group_date.day)
-            else:
-                next_invoice_date = current_date.replace(day=1)
-            payment_mode = contract_group.payment_mode_id.name
-        else:
-            next_invoice_date = current_date.replace(day=1)
-            payment_mode = ""
-
-        if current_date.day > 15 or (
-                payment_mode in ("LSV", "Postfinance") and not is_active
-        ):
-            next_invoice_date += relativedelta(months=+1)
-        self.next_invoice_date = next_invoice_date
-
     @api.multi
     def postpone_reminder(self):
         self.ensure_one()
