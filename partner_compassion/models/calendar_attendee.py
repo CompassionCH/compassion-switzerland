@@ -15,17 +15,8 @@ class Attendee(models.Model):
 
     @api.multi
     def _send_mail_to_attendees(self, template_xmlid):
-        # Only send email to compassion staff
-        compassion_staff = self.filtered(
-            lambda x: x.partner_id.user_ids and not x.partner_id.user_ids[0].share
-        )
-
-        return super(Attendee, compassion_staff)._send_mail_to_attendees(
-            template_xmlid, True
-        )
+        pass
 
     @api.multi
     def send_invitation_to_partner(self):
-        return super()._send_mail_to_attendees(
-            "calendar.calendar_template_meeting_invitation", True
-        )
+        pass
