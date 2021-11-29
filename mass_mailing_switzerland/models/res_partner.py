@@ -105,12 +105,15 @@ class ResPartner(models.Model):
                 mailing_contact_vals["opt_out"] = vals["opt_out"]
             if "category_id" in vals:
                 mailing_contact_vals["tag_ids"] = vals["category_id"]
-            if "email" in vals and not vals["email"] and not self.env.context.get(
+            if "email" in vals and vals["email"] and not self.env.context.get(
                     "import_from_mailchimp"):
+                mailing_contacts.write({"partner_ids": [(3, self.id)]})
                 # In this case we don't need anymore the mailchimp contacts
-                mailing_contacts.unlink()
+                if len(mailing_contacts.partner_ids) <= 0:
+                    mailing_contacts.unlink()
             if mailing_contact_vals:
                 mailing_contacts.write(mailing_contact_vals)
+
         return super().write(vals)
 
     @api.multi
