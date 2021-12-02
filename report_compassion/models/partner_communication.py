@@ -74,7 +74,7 @@ class PartnerCommunication(models.Model):
         comm_attachment = self.env["partner.communication.attachment"].create(
             {
                 "name": bvr.report_id.name,
-                "report_name": "report_compassion.a4_bvr",
+                "report_name": "report_compassion.partner_communication",
                 "communication_id": bvr.id,
                 "attachment_id": attachment.id,
             }
