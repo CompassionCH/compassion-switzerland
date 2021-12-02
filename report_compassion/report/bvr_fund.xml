@@ -11,27 +11,25 @@
     </record>
 
     <template id="bvr_fund">
-        <t t-call="web.external_layout">
-            <!-- Hide header -->
-            <t t-set="report_header_style">display: none;</t>
-            <div class="article">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <!-- Hide header -->
+                <t t-set="report_header_style">display: none;</t>
+                <t t-call="report_compassion.style"/>
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="report_compassion.report_bvr_fund_document" t-lang="doc.lang"/>
                 </t>
-            </div>
+            </t>
         </t>
     </template>
 
     <!-- BVR page for product fund -->
     <template id="report_bvr_fund_document">
-        <div class="page">
-            <t t-set="o" t-value="doc.with_context({'lang':doc.lang})" />
-            <t t-set="partner" t-value="o"/>
-            <t t-set="company_account" t-value="o.env['recurring.contract.group'].get_company_qrr_account()"/>
-            <t t-set="position" t-value="0"/>
-            <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
-            <t t-set="communication" t-value="communication or product.with_context(lang=o.lang).name"/>
-            <t t-call="report_compassion.report_compassion_qr_slip"/>
-        </div>
+        <t t-set="o" t-value="doc.with_context({'lang':doc.lang})" />
+        <t t-set="partner" t-value="o"/>
+        <t t-set="bank_account" t-value="o.env['recurring.contract.group'].get_company_qrr_account()"/>
+        <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
+        <t t-set="communication" t-value="communication or product.with_context(lang=o.lang).name"/>
+        <t t-call="report_compassion.report_compassion_qr_slip"/>
     </template>
 </odoo>

@@ -33,11 +33,4 @@
          <field name="binding_model_id" ref="model_res_partner"/>
          <field name="binding_type">report</field>
    </record>
-
-<!--   <record model="ir.values" id="ir_values_print_bvr_fund">-->
-<!--       <field name="key2" eval="'client_print_multi'"/>-->
-<!--       <field name="model" eval="'res.partner'"/>-->
-<!--       <field name="name">Payment Slip for Fund</field>-->
-<!--       <field name="value" eval="'ir.actions.act_window,%d'%action_print_bvr_fund"/>-->
-<!--   </record>-->
 </odoo>
