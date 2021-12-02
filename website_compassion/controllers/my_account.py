@@ -17,6 +17,8 @@ from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 from math import ceil
 from dateutil.relativedelta import relativedelta
+import secrets
+from passlib.context import CryptContext
 
 from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
@@ -198,6 +200,49 @@ def _download_image(type, child_id=None, obj_id=None):
 
 
 class MyAccountController(PaymentFormController):
+    @route("/my/login/<partner_uuid>/<redirect_page>", type="http", auth="public", website=True)
+    def magic_login(self, partner_uuid=None, redirect_page=None):
+        if not partner_uuid:
+            return None
+
+        res_partner = request.env["res.partner"].sudo()
+        res_users = request.env["res.users"].sudo()
+
+        partner = res_partner.search([["uuid", "=", partner_uuid]], limit=1)
+        partner = partner.sudo()
+
+        if len(partner) <= 0:
+            # account does not exist
+            return request.redirect(f"/my/{redirect_page}")
+
+        if res_users.search([["partner_id", "=", partner.id]], limit=1):
+            # already have an account
+            return request.redirect(f"/my/{redirect_page}")
+
+        login = "magic_login_" + secrets.token_urlsafe(16)
+        values = {
+            "login": partner.email or login,
+            "partner_id": partner.id,
+        }
+
+        partner.signup_prepare()
+        _, login, _ = res_users.signup(values=values, token=partner.signup_token)
+
+        # create a random password
+        password = secrets.token_urlsafe(16)
+
+        # reset password
+        crypt_context = CryptContext(schemes=["pbkdf2_sha512", "plaintext"], deprecated=["plaintext"])
+        password_encrypted = crypt_context.encrypt(password)
+        request.env.cr.execute(f"UPDATE res_users SET password='{password_encrypted}' WHERE login='{login}';")
+        request.env.cr.commit()
+
+        # authenticate
+        request.session.authenticate(request.session.db, login, password)
+
+        return request.redirect(f"/my/{redirect_page}")
+
+
     @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
         # All this paths needs to be redirected
