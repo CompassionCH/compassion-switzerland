@@ -1,37 +1,35 @@
 <odoo>
-    <data noupdate="1">
-        <!-- Custom css for PDF pages -->
-        <template id="style">
-            <style type="text/css">
-                /* Atempt to remove all blanks for wkhtmltopdf and avoid extra pages */
-                html, body, .container, .footer.o_standard_footer, #wrapwrap, container, .article {
-                    height: 0;
-                    padding: 0;
-                    margin: 0;
-                    line-height: normal;
-                }
-                /* Declare fonts */
-                @font-face {
-                    font-family: miller;
-                    src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/report_compassion/static/font/Miller Text Roman.otf);
-                }
-                @font-face {
-                    font-family: millerBold;
-                    src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/report_compassion/static/font/Miller Text Bold.otf);
-                }
-                @font-face {
-                    font-family: millerLight;
-                    src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/report_compassion/static/font/Miller Display Light.otf);
-                }
-                @font-face {
-                    font-family: ocr;
-                    src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
-                }
+    <!-- Custom css for PDF pages -->
+    <template id="style">
+        <style type="text/css">
+            /* Atempt to remove all blanks for wkhtmltopdf and avoid extra pages */
+            html, body, .container, .footer.o_standard_footer, #wrapwrap, container, .article {
+                height: 0;
+                padding: 0;
+                margin: 0;
+                line-height: normal;
+            }
+            /* Declare fonts */
+            @font-face {
+                font-family: miller;
+                src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/report_compassion/static/font/Miller Text Roman.otf);
+            }
+            @font-face {
+                font-family: millerBold;
+                src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/report_compassion/static/font/Miller Text Bold.otf);
+            }
+            @font-face {
+                font-family: millerLight;
+                src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/report_compassion/static/font/Miller Display Light.otf);
+            }
+            @font-face {
+                font-family: ocr;
+                src: url(<t t-esc="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>/l10n_ch_payment_slip/static/src/font/ocrbb.ttf);
+            }
 
-                /* Allow custom style for each report */
-                <t t-raw="custom_css"/>
-                <t t-raw="custom_css_2"/>
-            </style>
-        </template>
-    </data>
+            /* Allow custom style for each report */
+            <t t-raw="custom_css"/>
+            <t t-raw="custom_css_2"/>
+        </style>
+    </template>
 </odoo>

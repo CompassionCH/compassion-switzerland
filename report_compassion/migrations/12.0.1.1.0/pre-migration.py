@@ -31,7 +31,7 @@ def migrate(env, version):
          "report_bvr_sponsorship_document_2bvr", "report_gift_document_2bvr", "bvr_due",
          "report_bvr_due_document", "report_partner_communication_mailing_bvr",
          "partner_communication_mailing_bvr", "paperformat_childpack",
-         "paperformat_mini_childpack", "paperformat_a4_childpack",
+         "paperformat_mini_childpack", "paperformat_a4_childpack", "style",
          "paperformat_anniversary_card", "tax_receipt_report", "tax_receipt"],
         False
     )
