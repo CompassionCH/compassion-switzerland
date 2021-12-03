@@ -234,7 +234,7 @@ class MyAccountController(PaymentFormController):
         # reset password
         crypt_context = CryptContext(schemes=["pbkdf2_sha512", "plaintext"], deprecated=["plaintext"])
         password_encrypted = crypt_context.encrypt(password)
-        request.env.cr.execute(f"UPDATE res_users SET password='{password_encrypted}' WHERE login='{login}';")
+        request.env.cr.execute("UPDATE res_users SET password=%s WHERE login=%s;", [password_encrypted, login])
         request.env.cr.commit()
 
         # authenticate
