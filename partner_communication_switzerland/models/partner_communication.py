@@ -790,7 +790,7 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if is_payer and make_payment_pdf:
             report_name = "report_compassion.report_2bvr_sponsorship"
-            data = {"doc_ids": csp.mapped('group_id').ids}
+            data = {"doc_ids": csp.ids}
             pdf = self._get_pdf_from_data(
                 data, self.env.ref("report_compassion.report_2bvr_sponsorship")
             )
