@@ -114,6 +114,10 @@ class PartnerCommunication(models.Model):
                 ("partner_id", "=", partner.id),
                 ("invoice_id.invoice_category", "=", "fund")
             ], limit=4).ids
+        elif self.model == "account.invoice":
+            object_ids = self.env["account.invoice"].search([
+                ("partner_id", "=", partner.id)
+            ], limit=4).ids
         return object_ids
 
     def _find_partner(self, number_sponsorships, lang, family_case):
