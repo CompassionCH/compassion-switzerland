@@ -25,8 +25,8 @@
     <!-- Top container for 2 BVR sponsorship gift reports iterating over all products selected
          outputting payment slips for gifts -->
     <template id="bvr_gift_sponsorship_2bvr">
-        <t t-set="position_top_odd" t-value="135"/>
-        <t t-set="position_top_even" t-value="10"/>
+        <t t-set="position_top_odd" t-value="192"/>
+        <t t-set="position_top_even" t-value="0"/>
         <t t-set="page_height" t-value="297"/>
         <t t-set="qr_count" t-value="0"/>
         <t t-set="swissqr_position_top" t-value="position_top_even"/>
