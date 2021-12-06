@@ -211,23 +211,32 @@ class MyAccountController(PaymentFormController):
         partner = res_partner.search([["uuid", "=", partner_uuid]], limit=1)
         partner = partner.sudo()
 
-        if len(partner) <= 0:
-            # account does not exist
-            return request.redirect(f"/my/{redirect_page}")
+        redirect_page_request = request.redirect(f"/my/{redirect_page}")
 
-        if res_users.search([["partner_id", "=", partner.id]], limit=1):
-            # already have an account
-            return request.redirect(f"/my/{redirect_page}")
+        if not partner:
+            # partner does not exist
+            return redirect_page_request
 
-        login = "magic_login_" + secrets.token_urlsafe(16)
-        values = {
-            "login": partner.email or login,
-            "partner_id": partner.id,
-        }
+        user = res_users.search([["partner_id", "=", partner.id]], limit=1)
 
-        partner.signup_prepare()
-        _, login, _ = res_users.signup(values=values, token=partner.signup_token)
+        if user and not user.created_with_magic_link:
+            # user already have an account not created with the magic link
+            # this will ask him to log in then redirect him on the route asked
+            return redirect_page_request
 
+        if not user:
+            # don't have a res_user must be created
+            login = MyAccountController._create_magic_user_from_partner(partner)
+        else:
+            # already have a res_user created with a magic link
+            login = user.login
+
+        MyAccountController._reset_password_and_authenticate(login)
+
+        return redirect_page_request
+
+    @staticmethod
+    def _reset_password_and_authenticate(login):
         # create a random password
         password = secrets.token_urlsafe(16)
 
@@ -239,9 +248,23 @@ class MyAccountController(PaymentFormController):
 
         # authenticate
         request.session.authenticate(request.session.db, login, password)
+        return True
 
-        return request.redirect(f"/my/{redirect_page}")
+    @staticmethod
+    def _create_magic_user_from_partner(partner):
+        res_users = request.env["res.users"].sudo()
 
+        values = {
+            # ensure a login when the partner doesnt have an email
+            "login": partner.email or "magic_login_" + secrets.token_urlsafe(16),
+            "partner_id": partner.id,
+            "created_with_magic_link": True,
+        }
+
+        # create a signup_token and create the account
+        partner.signup_prepare()
+        _, login, _ = res_users.signup(values=values, token=partner.signup_token)
+        return login
 
     @route(["/my", "/my/home", "/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
