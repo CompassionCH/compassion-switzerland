@@ -22,3 +22,4 @@ from . import survey
 from . import mail_activity
 from . import partner_segment
 from . import parter_segment_affinity
+from . import res_users

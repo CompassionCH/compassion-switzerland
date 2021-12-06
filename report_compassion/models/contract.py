@@ -97,11 +97,7 @@ class Contract(models.Model):
     @api.multi
     def generate_bvr_reference(self, product):
         self.ensure_one()
-        return self.env["l10n_ch.payment_slip"]._space(
-            self.env["generate.gift.wizard"]
-                .generate_bvr_reference(self, product)
-                .lstrip("0")
-        )
+        return self.env["generate.gift.wizard"].generate_bvr_reference(self, product)
 
     @api.model
     def get_sponsorship_gift_products(self):

@@ -16,10 +16,6 @@ class GenerateCommunicationWizard(models.TransientModel):
     product_id = fields.Many2one(
         "product.product", "Attach payment slip for", readonly=False
     )
-    preprinted = fields.Boolean(
-        help="Enable if you print on a payment slip that already has company "
-             "information printed on it."
-    )
 
     @api.multi
     def generate(self):
@@ -27,6 +23,5 @@ class GenerateCommunicationWizard(models.TransientModel):
             GenerateCommunicationWizard,
             self.with_context(
                 default_product_id=self.product_id.id,
-                default_preprinted=self.preprinted,
             ),
         ).generate()

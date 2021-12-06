@@ -803,7 +803,7 @@ class Event(models.Model):
             communication.attachment_ids.create(
                 {
                     "name": _("medical discharge.docx"),
-                    "report_name": "report_compassion.a4_bvr",
+                    "report_name": "report_compassion.partner_communication",
                     "data": base64.b64encode(file_data),
                     "communication_id": communication.id,
                 }
