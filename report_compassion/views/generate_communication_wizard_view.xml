@@ -6,7 +6,6 @@
         <field name="arch" type="xml">
             <field name="print_subject" position="before">
                 <field name="product_id" attrs="{'invisible': [('send_mode', '=', 'digital')]}"/>
-                <field name="preprinted" attrs="{'invisible': [('product_id', '=', False)]}"/>
             </field>
         </field>
     </record>

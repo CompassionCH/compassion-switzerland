@@ -43,7 +43,6 @@ class BvrSponsorship(models.AbstractModel):
         return {
             "date_start": print_bvr_obj.default_start(),
             "date_stop": print_bvr_obj.default_stop(),
-            "preprinted": False,
         }
 
     @api.model

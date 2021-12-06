@@ -1,0 +1,132 @@
+/* We override completely the scss file present in l10n_ch module because we want to use --disable-smart-shrinking
+on our reports and use the real measures in our reports */
+body {
+    padding: 0!important;
+
+    /* Disable custom bakground */
+    .o_report_layout_background {
+        background: none;
+        min-height: 0;
+    }
+
+    .swissqr_title {
+        position: absolute;
+        padding: 15px;
+        padding-top: 200px;
+    }
+
+    .swissqr_content {
+        position: absolute;
+        height: 105mm;
+    }
+
+    .swissqr_receipt {
+        position: absolute;
+        background-color: white;
+        border-color:black;
+        border-width: 1pt 1pt 1pt 1pt;
+        border-style: solid;
+        width: 62mm;
+        height: 105mm;
+        padding: 5mm;
+    }
+
+    .swissqr_body {
+        position: absolute;
+        background-color: white;
+        border-color:black;
+        border-width: 1pt 1pt 1pt 1pt;
+        border-style: solid;
+        left: 62mm;
+        height: 105mm;
+        width: 148mm;
+        padding: 5mm;
+    }
+
+    .swissqr {
+        position: absolute;
+        top: 12mm;
+        height: 46mm;
+        width: 46mm;
+    }
+
+    .ch_cross {
+        position: absolute;
+        background-color: white;
+        height: 7mm;
+        width: 7mm;
+        top: 31.5mm;
+        left: 25mm;
+    }
+
+    .swissqr_text {
+        font-family: OCR-B, Arial, Frutiger, Helvetica;
+        color: black;
+    }
+
+    .swissqr_text.title {
+        font-size: 7pt;
+        font-weight: bold;
+    }
+
+    .swissqr_text.title.title_zone {
+        font-size: 9pt;
+        font-weight: bold;
+    }
+
+    .swissqr_text.content {
+        font-size: 9pt;
+    }
+
+    .swissqr_column_right {
+        position: absolute;
+        left: 66.5mm;
+        max-width: 87mm;
+    }
+
+    .title_zone {
+        position: absolute;
+        height: 7mm;
+        width: 46mm;
+    }
+
+    .indication_zone {
+        max-height: 85mm;
+        overflow: hidden;
+    }
+
+    .receipt_information_zone {
+        position: absolute;
+        top: 7mm;
+        max-height: 56mm;
+        overflow: hidden;
+    }
+
+    .receipt_amount_zone {
+        position: absolute;
+        top: 73mm;
+        .column {
+            margin-right: 5mm;
+            float: left;
+        }
+    }
+
+   .receipt_acceptance_point_zone {
+        position: absolute;
+        top: 87mm;
+        text-align: right;
+        width: 52mm;
+    }
+
+    .amount_zone {
+        position: absolute;
+        top: 73mm;
+
+        .column {
+            margin-right: 5mm;
+            float: left;
+        }
+    }
+}
+
+

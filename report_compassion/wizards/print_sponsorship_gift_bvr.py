@@ -35,35 +35,21 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     paper_format = fields.Selection(
         [
-            ("report_compassion.3bvr_gift_sponsorship", "3 BVR"),
             ("report_compassion.2bvr_gift_sponsorship", "2 BVR"),
             ("report_compassion.bvr_gift_sponsorship", "Single BVR"),
         ],
-        default="report_compassion.3bvr_gift_sponsorship",
+        default="report_compassion.2bvr_gift_sponsorship",
     )
-    draw_background = fields.Boolean()
     state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
     pdf = fields.Boolean()
     pdf_name = fields.Char(default="fund.pdf")
     pdf_download = fields.Binary(readonly=True)
-    preprinted = fields.Boolean(
-        help="Enable if you print on a payment slip that already has company "
-             "information printed on it."
-    )
-
-    @api.onchange("pdf")
-    def onchange_pdf(self):
-        if self.pdf:
-            self.draw_background = True
-            self.preprinted = False
-        else:
-            self.draw_background = False
 
     @api.multi
     def get_report(self):
         """
         Prepare data for the report and call the selected report
-        (single bvr / 2 bvr / 3 bvr).
+        (single bvr / 2 bvr).
         :return: Generated report
         """
         product_search = list()
@@ -86,8 +72,6 @@ class PrintSponsorshipBvr(models.TransientModel):
         data = {
             "doc_ids": self.env.context.get("active_ids"),
             "product_ids": products.ids,
-            "background": self.draw_background,
-            "preprinted": self.preprinted,
         }
         records = self.env[self.env.context.get("active_model")].browse(data["doc_ids"])
         report_name = "report_compassion.report_" + self.paper_format.split(".")[1]

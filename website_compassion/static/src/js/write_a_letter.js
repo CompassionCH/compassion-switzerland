@@ -1,3 +1,27 @@
+//Global variables
+
+// The images compressed
+let images_comp = [];
+// The list of images actually displayed inside the view
+let images_list = [];
+// The new non-duplicated images to add to the view
+let new_images = [];
+
+let loading = false;
+
+// Consts
+const max_size = 1000;
+const hard_max_size_limit = 1e7;
+const resize_limit = 2e5;
+
+const file_selector = document.getElementById("file_selector");
+const image_display_table = document.getElementById("image_display_table");
+const letter_content = document.getElementById("letter_content");
+const canvas = document.createElement("canvas");
+
+file_selector.addEventListener("change", updateImageDisplay);
+
+
 /**
  * This function replaces a range in a string
  * @param from the starting point of the substitution
@@ -6,7 +30,7 @@
  * @returns {string} a new string substituted with the desired content
  */
 String.prototype.replaceRange = function(from, to, substitute) {
-    var result = this.substring(0, from) + substitute;
+    let result = this.substring(0, from) + substitute;
     if (to != -1) {
         result += this.substring(to)
     }
@@ -23,8 +47,8 @@ String.prototype.indexOfEnd = function(substring) {
     return index === -1 ? index : index + substring.length;
 }
 
-downloadLetter = function() {
-    window.open("/my/download/labels/?child_id="+$('#child_id').text());
+function downloadLetter() {
+    window.open("/my/download/labels/?child_id=" + $('#child_id').text());
 }
 /**
  * Selects the element given the element type and the object id. This relies
@@ -32,7 +56,7 @@ downloadLetter = function() {
  * @param obj_id the id of the object to select
  * @param elem_type the type of the object to select
  */
-selectElement = function(obj_id, elem_type) {
+function selectElement(obj_id, elem_type) {
     // The id in the XML must have this form precisely, for this to work.
     const elem_id = `${elem_type}_${obj_id}`;
     // Elements are selected by finding the corresponding image and setting
@@ -48,7 +72,7 @@ selectElement = function(obj_id, elem_type) {
 
     // Change url to display selected child and template id
     const base_url = window.location.origin + window.location.pathname;
-    var params = window.location.search;
+    let params = window.location.search;
     const from = params.indexOfEnd(`${elem_type}_id=`);
     if (from === -1) {
         params += `&${elem_type}_id=${obj_id}`;
@@ -87,11 +111,10 @@ selectElement = function(obj_id, elem_type) {
         $(".christmas_action").hide();
     }
 
-     // We use replaceState for refreshes to work as intended
+    // We use replaceState for refreshes to work as intended
     history.replaceState({}, document.title, base_url + params);
 }
 
-const max_size = 1000;
 /**
  * This function compresses images that are too big by shrinking them and if
  * necessary compressing using JPEG
@@ -99,11 +122,9 @@ const max_size = 1000;
  * @returns {Promise<unknown>} the image as a promised blob (to allow
  * asynchronous calls)
  */
-const compressImage = async function(image) {
-    var canvas = document.createElement('canvas');
-
-    var width = image.width;
-    var height = image.height;
+async function compressImage(image) {
+    let width = image.width;
+    let height = image.height;
 
     // calculate the width and height, constraining the proportions
     const min_width = Math.min(width, max_size);
@@ -113,7 +134,7 @@ const compressImage = async function(image) {
     // resize the canvas and draw the image data into it
     canvas.width = Math.floor(width * factor);
     canvas.height = Math.floor(height * factor);
-    var ctx = canvas.getContext("2d");
+    let ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     return await new Promise(resolve => ctx.canvas.toBlob(resolve, "image/jpeg"));
@@ -128,7 +149,7 @@ const compressImage = async function(image) {
  * @returns {number} the index if found or -1, else
  */
 Array.prototype.indexOfFile = function(name, size, type) {
-    for (var i = 0 ; i < this.length ; i++) {
+    for (let i = 0; i < this.length; i++) {
         const f = this[i];
         if (f.name === name && f.size === size && f.type === type) {
             return i;
@@ -154,7 +175,7 @@ Array.prototype.containsFile = function(name, size, type) {
  * @param size the size of the file
  * @param type the type of the file
  */
-const removeFile = function(name, size, type) {
+function removeFile(name, size, type) {
     if (images_list.containsFile(name, size, type)) {
         const index = images_list.indexOfFile(name, size, type);
         images_list.splice(index, 1);
@@ -168,7 +189,7 @@ const removeFile = function(name, size, type) {
  * @param size the size of the file
  * @param type the type of the file
  */
-const removeImage = function(name, size, type) {
+function removeImage(name, size, type) {
     removeFile(name, size, type);
     document.getElementById(`${name}_${size}_${type}`).remove();
 }
@@ -176,25 +197,20 @@ const removeImage = function(name, size, type) {
 /**
  * Display the images contained in new_images inside the HTML page
  */
-
- const hard_max_size_limit = 1e7;
- const resize_limit = 2e5;
-
-const displayImages = function() {
-    const image_display = document.getElementById("image_display_table");
+function displayImages() {
 
     // We use the images stored in the new_images array
-    for (var i = 0 ; i < new_images.length ; i++) {
+    for (let i = 0; i < new_images.length; i++) {
         const original_image = new_images[i];
 
-        if (original_image.size > hard_max_size_limit){
+        if (original_image.size > hard_max_size_limit) {
             displayAlert("image_too_large");
             continue;
         }
 
         const reader = new FileReader();
         reader.onload = function(event) {
-            var image = new Image();
+            let image = new Image();
             image.src = event.target.result;
             image.onload = function(event) {
                 if (original_image.size > resize_limit || original_image.type.valueOf() != "image/jpeg") {
@@ -208,7 +224,7 @@ const displayImages = function() {
                     images_comp = images_comp.concat(original_image);
                 }
 
-                image_display.innerHTML += `
+                image_display_table.innerHTML += `
                     <div id="${original_image.name}_${original_image.size}_${original_image.type}" class="w-100">
                         <li class="embed-responsive-item p-2" style="position: relative;">
                             <span class="close close-image p-2" onclick="removeImage('${original_image.name}', ${original_image.size}, '${original_image.type}');">&times;</span>
@@ -224,28 +240,22 @@ const displayImages = function() {
     new_images = [];
 }
 
-// The images compressed
-var images_comp = [];
-// The list of images actually displayed inside the view
-var images_list = [];
-// The new non-duplicated images to add to the view
-var new_images = [];
 
 /**
  * Handle the addition of new images and ignore the duplications
  * @param event the event containing the file, among other things
  */
-document.getElementById("file_selector").onchange = function(event) {
-    var input_images = event.target.files;
+function updateImageDisplay(event) {
+    let input_images = event.target.files;
 
     // TODO CI-765: remove the following block to support multiple images
-    for (var i = 0 ; i < images_list.length ; i++) {
+    for (let i = 0; i < images_list.length; i++) {
         const file = images_list[i];
         removeImage(file.name, file.size, file.type);
     }
     // TODO CI-765: end of block
 
-    for (var i = 0 ; i < input_images.length ; i++) {
+    for (let i = 0; i < input_images.length; i++) {
         const file = input_images[i];
 
         const is_image = file.type.startsWith("image/");
@@ -269,15 +279,14 @@ document.getElementById("file_selector").onchange = function(event) {
     displayImages();
 }
 
-var loading = false;
 /**
  * Starts and end the loading of the type elements
  * @param type the type of elements to start or stop loading
  */
-const startStopLoading = function(type) {
+function startStopLoading(type) {
     loading = !loading;
     $("button").attr('disabled', loading);
-    if(loading) {
+    if (loading) {
         document.getElementById(`${type}_normal`).style.display = "none";
         document.getElementById(`${type}_loading`).style.display = "";
     } else {
@@ -293,14 +302,14 @@ const startStopLoading = function(type) {
  * @returns {Promise<unknown>} return the entire method as a promise so that
  * we can send a letter directly if the user pressed the corresponding button
  */
-const createLetter = async function(preview=false, with_loading=true) {
+async function createLetter(preview = false, with_loading = true) {
     return new Promise(function(resolve) {
         if (with_loading) {
             startStopLoading("preview");
         }
-        var form_data = new FormData();
+        let form_data = new FormData();
 
-        form_data.append("letter-copy", document.getElementById('letter_content').value);
+        form_data.append("letter-copy", letter_content.value);
         form_data.append("selected-child", $('#child_local_id').text());
         form_data.append("selected-letter-id", $('#template_id').text());
         form_data.append("source", "website");
@@ -310,10 +319,10 @@ const createLetter = async function(preview=false, with_loading=true) {
         }
         // TODO CI-765: end of block
 
-        var xhr = new XMLHttpRequest();
-        var url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
+        let xhr = new XMLHttpRequest();
+        let url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
         xhr.open("POST", url, true);
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 if (preview) {
                     if (with_loading) {
@@ -336,26 +345,26 @@ const createLetter = async function(preview=false, with_loading=true) {
  * This function takes care of sending a letter when the corresponding button
  * is clicked
  */
-const sendLetter = async function() {
+async function sendLetter() {
     startStopLoading("sending");
-    await createLetter(preview=false, with_loading=false);
+    await createLetter(preview = false, with_loading = false);
 
-    var json_data = JSON.parse(`{
+    let json_data = JSON.parse(`{
         "TemplateID": "${$('#template_id').text()}",
         "Need": "${$('#child_id').text()}"
     }`);
 
-    var xhr = new XMLHttpRequest();
-    var url = `${window.location.origin}/mobile-app-api/correspondence/send_letter`;
+    let xhr = new XMLHttpRequest();
+    let url = `${window.location.origin}/mobile-app-api/correspondence/send_letter`;
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 // Empty images and text (to avoid duplicate)
-                document.getElementById("letter_content").value = ""
-                for (var i = 0 ; i < images_list.length ; i++) {
-                    var image = images_list[i];
+                letter_content.value = ""
+                for (let i = 0; i < images_list.length; i++) {
+                    let image = images_list[i];
                     removeImage(image.name, image.size, image.type);
                 }
 

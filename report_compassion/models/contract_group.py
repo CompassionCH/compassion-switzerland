@@ -8,48 +8,21 @@
 #
 ##############################################################################
 import logging
-import math
 from datetime import datetime
 
 from babel.dates import format_date
 
 from odoo import api, models, fields, _
-from odoo.exceptions import Warning as odooWarning
-from odoo.tools import mod10r
+from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 
-COMPASSION_BVR = "01-44443-7"
+COMPASSION_QRR = "CH2430808007681434347"
 
 
 class ContractGroup(models.Model):
     _inherit = ["recurring.contract.group", "translatable.model"]
     _name = "recurring.contract.group"
-
-    scan_line = fields.Char(compute="_compute_scan_line")
-    format_ref = fields.Char(compute="_compute_format_ref")
-
-    @api.multi
-    def _compute_scan_line(self):
-        """ Generate a scan line for contract group. """
-        acc_number = self.get_company_bvr_account()
-        for group in self.filtered("bvr_reference"):
-            group.scan_line = self.get_scan_line(acc_number, group.bvr_reference)
-
-    @api.multi
-    def compute_scan_line(self, start, stop, sponsorships):
-        """ Generate a scan line for contract group. """
-        self.ensure_one()
-        acc_number = self.get_company_bvr_account()
-        amount = self._get_amount(start, stop, sponsorships)
-        return self.get_scan_line(acc_number, self.bvr_reference, amount)
-
-    @api.multi
-    def _compute_format_ref(self):
-        slip_obj = self.env["l10n_ch.payment_slip"]
-        for group in self:
-            ref = group.bvr_reference or group.compute_partner_bvr_ref()
-            group.format_ref = slip_obj._space(ref.lstrip("0"))
 
     @api.multi
     def get_months(self, months, sponsorships):
@@ -69,7 +42,7 @@ class ContractGroup(models.Model):
         if open_invoice:
             first_invoice_date = open_invoice.replace(day=1)
         else:
-            raise odooWarning(_("No open invoice found !"))
+            raise UserError(_("No open invoice found !"))
 
         for i, month in enumerate(months):
             if isinstance(month, str):
@@ -79,7 +52,7 @@ class ContractGroup(models.Model):
 
         # check if first invoice is after last month
         if first_invoice_date > months[-1]:
-            raise odooWarning(_(f"First invoice is after Date Stop"))
+            raise UserError(_(f"First invoice is after Date Stop"))
 
         # Only keep unpaid months
         valid_months = [
@@ -120,7 +93,7 @@ class ContractGroup(models.Model):
         """
         self.ensure_one()
         payment_mode = self.with_context(lang="en_US").payment_mode_id
-        amount = self._get_amount(start, stop, sponsorships)
+        amount = self.get_amount(start, stop, sponsorships)
         valid = sponsorships
         number_sponsorship = len(sponsorships)
         date_start = fields.Date.to_date(start)
@@ -166,37 +139,12 @@ class ContractGroup(models.Model):
         )
 
     @api.model
-    def get_scan_line(self, account, reference, amount=False):
-        """ Generate a scan line given the reference """
-        if amount:
-            line = "01"
-            decimal_amount, int_amount = math.modf(amount)
-            str_amount = (
-                str(int(int_amount)) + str(int(decimal_amount * 100)).rjust(2, "0")
-            ).rjust(10, "0")
-            line += str_amount
-            line = mod10r(line)
-        else:
-            line = "042"
-        line += ">"
-        line += reference.replace(" ", "").rjust(27, "0")
-        line += "+ "
-        account_components = account.split("-")
-        bank_identifier = (
-            f"{account_components[0]}"
-            f"{account_components[1].rjust(6, '0')}"
-            f"{account_components[2]}"
-        )
-        line += bank_identifier
-        line += ">"
-        return line
-
-    @api.model
-    def get_company_bvr_account(self):
+    def get_company_qrr_account(self):
         """ Utility to find the bvr account of the company. """
-        return COMPASSION_BVR
+        return self.env["res.partner.bank"].search([
+            ('acc_number', '=', COMPASSION_QRR)])
 
-    def _get_amount(self, start, stop, sponsorships):
+    def get_amount(self, start, stop, sponsorships):
         self.ensure_one()
         amount = sum(sponsorships.mapped("total_amount"))
         months = int(stop.split("-")[1]) - int(start.split("-")[1]) + 1

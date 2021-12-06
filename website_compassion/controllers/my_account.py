@@ -30,6 +30,8 @@ from odoo.addons.cms_form_compassion.controllers.payment_controller import (
 
 from ..tools.image_compression import compress_big_images
 
+IMG_URL = "https://erp.compassion.ch/web/image/compassion.child.pictures/{id}/fullshot/"
+
 
 def _map_contracts(partner, mapping_val=None, sorting_val=None,
                    filter_fun=lambda _: True):
@@ -138,7 +140,7 @@ def _create_archive(images, archive_name):
             filename = path.basename(full_path)
 
             # Create file, write to archive and delete it from os
-            img_url = f'https://erp.compassion.ch/web/image/compassion.child.pictures/{img.id}/fullshot/'
+            img_url = IMG_URL.format(id=img.id)
             urlretrieve(img_url, filename)
             archive.write(filename, full_path)
             remove(filename)
@@ -185,7 +187,7 @@ def _download_image(type, child_id=None, obj_id=None):
 
         # We get the extension and the binary content from URL
         ext = image.image_url.split(".")[-1]
-        data = urlopen(image.image_url).read()
+        data = urlopen(IMG_URL.format(id=image.id)).read()
         filename = f"{child.preferred_name}_{image.date}.{ext}"
 
         return request.make_response(
