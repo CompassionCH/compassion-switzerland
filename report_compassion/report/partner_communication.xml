@@ -24,8 +24,8 @@
             #logo {
                 display: inline-block;
                 margin-top: 6mm;
-                width: 100mm;
-                height: 40mm;
+                width: 50mm;
+                height: 20mm;
             }
             #logo img {
                 max-width: 100%;
@@ -302,27 +302,25 @@
     <record id="report_blank_communication" model="ir.actions.report">
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
+
     <template id="blank_communication">
         <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
                         <t t-call="report_compassion.communication_style"/>
-                        <div id="header"/>
-                        <div id="letter">
-                        <div id="address" class="right" style="margin-top: 10mm;">
-                            <div id="pp" t-if="o.display_pp">
-                                <div id="pp-box">
-                                    <div>P.P.</div>
-                                    <div>CH-1400 Yverdon-les-Bains</div>
+                            <div id="letter" style="position: absolute; left: 95mm; top: 55mm;">
+                                <div id="pp" t-if="o.display_pp">
+                                    <div id="pp-box">
+                                        <div>P.P.</div>
+                                        <div>CH-1400 Yverdon-les-Bains</div>
+                                    </div>
+                                    <div id="pp-post">
+                                        <p>Poste CH SA</p>
+                                    </div>
+                                    <hr/>
                                 </div>
-                                <div id="pp-post">
-                                    <p>Poste CH SA</p>
-                                </div>
-                                <hr/>
+                                <span t-raw="o.partner_id.short_address"/>
                             </div>
-                            <span t-raw="o.partner_id.short_address"/>
-                        </div>
-                    </div>
                 </t>
         </t>
     </template>

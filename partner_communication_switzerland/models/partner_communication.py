@@ -790,11 +790,11 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if is_payer and make_payment_pdf:
             report_name = "report_compassion.report_2bvr_sponsorship"
-            data = {"doc_ids": csp.ids, "background": self.send_mode != "physical"}
+            data = {"doc_ids": csp.mapped('group_id').ids}
             pdf = self._get_pdf_from_data(
                 data, self.env.ref("report_compassion.report_2bvr_sponsorship")
             )
-            attachments.update({_("csv payment slips.pdf"): [report_name, pdf]})
+            attachments.update({_("csp payment slips.pdf"): [report_name, pdf]})
         return attachments
 
     def _convert_pdf(self, pdf_data):

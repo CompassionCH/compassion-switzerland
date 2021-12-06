@@ -162,6 +162,7 @@
         <t t-call="web.external_layout">
             <t t-call="report_compassion.style"/>
             <t t-set="report_header_style">display: none;</t>
+            <t t-set="swissqr_position_top" t-value="192"/>
             <t t-call="report_compassion.report_compassion_qr_slip"/>
         </t>
     </template>
