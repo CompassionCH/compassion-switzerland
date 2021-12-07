@@ -23,7 +23,6 @@
             }
             #logo {
                 display: inline-block;
-                margin-top: 6mm;
                 width: 50mm;
                 height: 20mm;
             }
@@ -34,11 +33,15 @@
             }
             #compassion_address {
                 float: left;
-                margin-bottom: 5mm;
+                margin-top: 10mm;
+                font-size: 8pt;
             }
             #title {
                 text-decoration: underline;
                 margin-bottom: 2mm;
+            }
+            #address {
+                margin-top: 8mm;
             }
             #letter {
                 position: absolute;
@@ -206,7 +209,7 @@
         </t>
         <div id="letter">
             <div id="date" t-if="not print_header">
-                <span t-raw="partner.date_communication" style="float: left; margin-top: 15mm; min-width: 70mm;"/>
+                <span t-raw="partner.date_communication" style="float: left; margin-top: 10mm; min-width: 70mm;"/>
             </div>
             <t t-if="print_header">
                 <div id="compassion_address">
@@ -226,7 +229,7 @@
                     <span> 17-312562-0</span>
                 </div>
             </t>
-            <div id="address" class="right" t-attf-style="margin-bottom: #{'0' if display_pp or print_header else '10'}mm;">
+            <div id="address" class="right">
                 <div id="pp" t-if="display_pp">
                     <div id="pp-box">
                         <div>P.P.</div>
@@ -238,7 +241,7 @@
                     <hr/>
                 </div>
                 <span t-raw="partner.short_address"/>
-                <div id="date" t-if="print_header" t-attf-style="margin-top: #{ '10' if display_pp else '20' }mm;">
+                <div id="date" t-if="print_header" t-attf-style="margin-top: #{'10' if display_pp else '15'}mm;">
                     <span t-raw="partner.date_communication"/>
                 </div>
             </div>
