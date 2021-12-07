@@ -95,13 +95,13 @@ class AccountInvoice(models.Model):
         return self._group_or_split_reconcile()
 
     def action_invoice_open(self):
-        condition = [
-            ("transaction_id", "=", self.transaction_id),
-            ("state", "=", "open"),
-        ]
-        same_transactions_invoices = self.env["account.invoice"].search(condition)
-        others_same_transactions_invoices = same_transactions_invoices.filtered(lambda x: x.id != self.id)
-        if len(others_same_transactions_invoices) > 0:
-            error_msg = _("The Transaction ID `{}` is already used in another validated account invoice !")
-            raise UserError(error_msg.format(self.transaction_id))
+        for invoice in self:
+            condition = [
+                ("transaction_id", "=", invoice.transaction_id),
+                ("state", "=", "open"),
+                ("id", "!=", invoice.id),
+            ]
+            if self.env[self._name].search(condition):
+                error_msg = _("The Transaction ID `{}` is already used in another validated account invoice !")
+                raise UserError(error_msg.format(invoice.transaction_id))
         return super(AccountInvoice, self).action_invoice_open()
