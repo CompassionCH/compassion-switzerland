@@ -34,6 +34,7 @@
 
     <template id="bvr_sponsorship">
         <t t-call="web.html_container">
+            <t t-set="swissqr_position_top" t-value="192"/>
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report_compassion.report_bvr_sponsorship_document"
                    t-lang="doc.partner_id.lang"/>
@@ -59,7 +60,6 @@
                 <t t-foreach="o.get_months(months, doc_value)" t-as="date">
                     <t t-call="report_compassion.report_compassion_qr_slip">
                         <t t-set="date_split" t-value="date.split(' - ')"/>
-                        <t t-set="margin" t-value="0"/>
                         <t t-set="reference" t-value="o.bvr_reference"/>
                         <t t-set="communication"
                            t-value="o.get_communication(date_split[0], date_split[-1], doc_value)"/>
@@ -73,8 +73,8 @@
     <!-- Top container for 2 BVR sponsorship reports iterating over all sponsorship groups
          outputting payment slips for sponsorships and gifts -->
     <template id="bvr_sponsorship_2bvr">
-        <t t-set="position_top_odd" t-value="135"/>
-        <t t-set="position_top_even" t-value="10"/>
+        <t t-set="position_top_odd" t-value="192"/>
+        <t t-set="position_top_even" t-value="0"/>
         <t t-set="swissqr_position_top" t-value="position_top_even"/>
         <t t-set="page_height" t-value="297"/>
         <t t-set="qr_count" t-value="0"/>
@@ -106,11 +106,11 @@
                     <t t-set="reference" t-value="o.bvr_reference"/>
                     <t t-if="qr_count % 2 == 0">
                         <t t-set="swissqr_position_top" t-value="page_height * (qr_count//2) + position_top_even"/>
-                        <t t-call="report_compassion.report_sponsorship_2bvr_top_slip" />
+                        <t t-call="report_compassion.report_sponsorship_2bvr_top_slip" t-lang="partner.lang"/>
                     </t>
                     <t t-else="">
                         <t t-set="swissqr_position_top" t-value="swissqr_position_top + position_top_odd"/>
-                        <t t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"/>
+                        <t t-call="report_compassion.report_sponsorship_2bvr_bottom_slip" t-lang="partner.lang"/>
                     </t>
                     <t t-set="qr_count" t-value="qr_count + 1"/>
                 </t>
@@ -145,7 +145,7 @@
         <t t-set="sponsorships" t-value="docs.browse(ids)"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
         <t t-set="bank_account" t-value="partner.env['recurring.contract.group'].get_company_qrr_account()"/>
-        <t t-set="position" t-value="0"/>
+        <t t-set="swissqr_position_top" t-value="192"/>
         <t t-set="contract_groups" t-value="sponsorships.mapped('group_id')"/>
         <t t-set="o" t-value="contract_groups[0]"/>
         <t t-set="reference" t-value="o.bvr_reference"/>
@@ -159,10 +159,6 @@
             </t>
         </t>
         <t t-set="amount" t-value="due"/>
-        <t t-call="web.external_layout">
-            <t t-call="report_compassion.style"/>
-            <t t-set="report_header_style">display: none;</t>
-            <t t-call="report_compassion.report_compassion_qr_slip"/>
-        </t>
+        <t t-call="report_compassion.report_compassion_qr_slip"/>
     </template>
 </odoo>

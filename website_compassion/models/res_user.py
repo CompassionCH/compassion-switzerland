@@ -8,13 +8,16 @@
 ##############################################################################
 import logging
 
-from odoo import models, _
+from odoo import models, _, fields
+from odoo.odoo import api
 
 _logger = logging.getLogger(__name__)
 
 
 class ResUsers(models.Model):
     _inherit = 'res.users'
+
+    created_with_magic_link = fields.Boolean(default=False)
 
     def reset_password(self, login):
         """ retrieve the user corresponding to login (login or email),

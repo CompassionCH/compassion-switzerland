@@ -119,7 +119,7 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         attachments = dict()
         # Report is used for print configuration
-        report = "report_compassion.b2s_letter"
+        report = "partner_communication.a4_no_margin"
         letters = self.get_objects()
         if self.send_mode == "physical":
             for letter in self.get_objects():
@@ -254,7 +254,7 @@ class PartnerCommunication(models.Model):
                 # Don't put payment slip if we just wait the authorization form
                 pm = self.env['account.payment.mode'].search([
                     ('name', '=', payment_mode)])
-                return {"lsv_form.pdf": ["report_compassion.b2s_letter",
+                return {"lsv_form.pdf": ["partner_communication.a4_no_margin",
                                          pm.payment_method_id.lsv_form_pdf]}
 
         # Put product sponsorship to print the payment slip for physical print.
@@ -790,11 +790,11 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if is_payer and make_payment_pdf:
             report_name = "report_compassion.report_2bvr_sponsorship"
-            data = {"doc_ids": csp.ids, "background": self.send_mode != "physical"}
+            data = {"doc_ids": csp.ids}
             pdf = self._get_pdf_from_data(
                 data, self.env.ref("report_compassion.report_2bvr_sponsorship")
             )
-            attachments.update({_("csv payment slips.pdf"): [report_name, pdf]})
+            attachments.update({_("csp payment slips.pdf"): [report_name, pdf]})
         return attachments
 
     def _convert_pdf(self, pdf_data):

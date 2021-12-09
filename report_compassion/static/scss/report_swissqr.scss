@@ -24,7 +24,6 @@ body {
         position: absolute;
         background-color: white;
         border-color:black;
-        border-width: 1pt 1pt 1pt 1pt;
         border-style: solid;
         width: 62mm;
         height: 105mm;
@@ -35,12 +34,40 @@ body {
         position: absolute;
         background-color: white;
         border-color:black;
-        border-width: 1pt 1pt 1pt 1pt;
         border-style: solid;
         left: 62mm;
         height: 105mm;
         width: 148mm;
         padding: 5mm;
+    }
+
+    .paperclip_top {
+        position: absolute;
+        top: -3mm;
+        font-size: 18pt;
+        color: black;
+    }
+
+    .paperclip_bottom {
+        position: absolute;
+        bottom: -5mm;
+        font-size: 18pt;
+        color: black;
+    }
+
+    .paperclip_right {
+        position: absolute;
+        top: 5mm;
+        left: 58mm;
+        z-index: 10;
+        font-size: 18pt;
+        writing-mode: vertical-rl;
+        -webkit-transform:rotate(90deg);
+        -moz-transform:rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform:rotate(90deg);
+        transform: rotate(90deg);
+        color: black;
     }
 
     .swissqr {
@@ -81,6 +108,7 @@ body {
     .swissqr_column_right {
         position: absolute;
         left: 66.5mm;
+        width: 87mm;
         max-width: 87mm;
     }
 
