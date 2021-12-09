@@ -98,10 +98,10 @@ class AccountInvoice(models.Model):
         for invoice in self:
             condition = [
                 ("transaction_id", "=", invoice.transaction_id),
-                ("state", "=", "open"),
+                ("state", "in", ["open", "paid"]),
                 ("id", "!=", invoice.id),
             ]
-            if self.env[self._name].search(condition):
+            if self.env[self._name].search_count(condition):
                 error_msg = _("The Transaction ID `{}` is already used in another validated account invoice !")
                 raise UserError(error_msg.format(invoice.transaction_id))
         return super(AccountInvoice, self).action_invoice_open()
