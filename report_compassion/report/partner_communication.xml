@@ -46,7 +46,8 @@
             #letter {
                 position: absolute;
                 font-family: "millerLight";
-                font-size: 10pt;
+                font-size: <t t-esc="font_size or '10'"/>pt;
+                color: black;
                 top: 40mm;
                 <t t-if="success_story">
                     margin-left: 11mm;
