@@ -71,6 +71,17 @@ class MassMailingContact(models.Model):
 
     numspons = fields.Char(compute="_compute_sponsored_child_fields")
 
+    # overried to correctly compute the tags
+    tag_ids = fields.Many2many('res.partner.category', string='Tags', compute="_compute_tags")
+
+    def _compute_tags(self):
+        for record in self:
+            tags = set()
+            for partner in self.partner_ids:
+                for tag in partner.category_id:
+                    tags.add(tag.id)
+            record.tag_ids = [(6, False, list(tags))]
+
     _sql_constraints = [(
         "unique_email", "unique(email)", "This mailing contact already exists"
     )]
@@ -216,6 +227,7 @@ class MassMailingContact(models.Model):
         if values.get('is_email_valid') is False:
             bounced = values.get("message_bounce", 0) > 0
             self._invalid_contact(bounced)
+        self.action_update_to_mailchimp()
         return out
 
     @api.multi
