@@ -29,7 +29,7 @@
                 <t t-set="custom_css">
                 .container {
                     font-family: "millerLight";
-                    font-size: 12pt;
+                    font-size: 10pt;
                 }
                 #body {
                     width: 100%;

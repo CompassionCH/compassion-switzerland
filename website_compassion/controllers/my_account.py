@@ -24,7 +24,7 @@ from werkzeug.datastructures import Headers
 from werkzeug.wrappers import Response
 
 from odoo import fields, _
-from odoo.http import request, route
+from odoo.http import request, route, local_redirect
 from odoo.addons.web.controllers.main import content_disposition
 from odoo.addons.cms_form_compassion.controllers.payment_controller import (
     PaymentFormController,
@@ -200,8 +200,9 @@ def _download_image(type, child_id=None, obj_id=None):
 
 
 class MyAccountController(PaymentFormController):
-    @route("/my/login/<partner_uuid>/<redirect_page>", type="http", auth="public", website=True)
-    def magic_login(self, partner_uuid=None, redirect_page=None):
+    @route("/my/login/<partner_uuid>/<redirect_page>", type="http", auth="public",
+           website=True)
+    def magic_login(self, partner_uuid=None, redirect_page=None, **kwargs):
         if not partner_uuid:
             return None
 
@@ -211,7 +212,7 @@ class MyAccountController(PaymentFormController):
         partner = res_partner.search([["uuid", "=", partner_uuid]], limit=1)
         partner = partner.sudo()
 
-        redirect_page_request = request.redirect(f"/my/{redirect_page}")
+        redirect_page_request = local_redirect(f"/my/{redirect_page}", kwargs)
 
         if not partner:
             # partner does not exist
