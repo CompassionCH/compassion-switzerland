@@ -105,21 +105,16 @@ class ResPartner(models.Model):
                 mailing_contact_vals["opt_out"] = vals["opt_out"]
             if "category_id" in vals:
                 mailing_contact_vals["tag_ids"] = vals["category_id"]
-            # Whenever a partner with a mailing_contacts change email
-            # we update his mailchimp data
-            if "email" in vals and vals["email"] != partner.email and not \
-                    self.env.context.get("import_from_mailchimp"):
+            # Whenever a partner with a mailing_contacts change email we update his mailchimp data
+            if "email" in vals and not self.env.context.get("import_from_mailchimp"):
                 # Remove the hold the partner from the mailing_contact
                 mailing_contacts.write({"partner_ids": [(3, self.id)]})
-                # If the partner was the last in this mailing_contact we don't need it
-                # anymore. Keep the previous mailchimp_list_id before
-                # we potentially delete it
-                mailchimp_list_id = mailing_contacts.subscription_list_ids.mapped(
-                    'list_id').mapped('mailchimp_list_id')
+                # If the partner was the last in this mailing_contact we don't need it anymore
+                # Keep the previous mailchimp_list_id before we potentially delete it
+                mailchimp_list_id = mailing_contacts.subscription_list_ids.mapped('list_id').mapped('mailchimp_list_id')
                 if len(mailing_contacts.partner_ids) <= 0:
                     mailing_contacts.unlink()
-                # If the new email is not None, Export to MailChimp the new email
-                # address
+                # If the new email is not None, Export to MailChimp the new email address
                 if vals["email"]:
                     self.action_export_partner_mailchimp(mailchimp_list_id)
             if mailing_contact_vals:
