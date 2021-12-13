@@ -98,6 +98,7 @@ class AccountInvoice(models.Model):
         for invoice in self:
             condition = [
                 ("transaction_id", "=", invoice.transaction_id),
+                ("transaction_id", "!=", False),
                 ("state", "in", ["open", "paid"]),
                 ("id", "!=", invoice.id),
             ]
