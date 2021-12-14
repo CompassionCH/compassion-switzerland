@@ -254,6 +254,8 @@ class Contracts(models.Model):
         :param form_data: wordpress form data
         :return: <recurring.contract> record
         """
+        child = self.env["compassion.child"].browse(values["child_id"])
+        child.remove_from_wordpress()
         sponsorship = self.env["recurring.contract"].create(values)
         list_keys = [
             "salutation",

@@ -93,3 +93,16 @@ class AccountInvoice(models.Model):
         """Reconcile given invoices with partner open payments.
         """
         return self._group_or_split_reconcile()
+
+    def action_invoice_open(self):
+        for invoice in self:
+            condition = [
+                ("transaction_id", "=", invoice.transaction_id),
+                ("transaction_id", "!=", False),
+                ("state", "in", ["open", "paid"]),
+                ("id", "!=", invoice.id),
+            ]
+            if self.env[self._name].search_count(condition):
+                error_msg = _("The Transaction ID `{}` is already used in another validated account invoice !")
+                raise UserError(error_msg.format(invoice.transaction_id))
+        return super(AccountInvoice, self).action_invoice_open()

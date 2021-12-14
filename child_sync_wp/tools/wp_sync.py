@@ -131,7 +131,7 @@ class WPSync(object):
             _logger.info("Remove from Wordpress : " + str(res))
             return res
         except:
-            _logger.error("Remove from Wordpress failed.")
+            _logger.error("Remove from Wordpress failed.", exc_info=True)
 
         return False
 

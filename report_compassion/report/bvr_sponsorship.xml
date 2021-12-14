@@ -133,8 +133,11 @@
     <!-- Sponsorship Due Template -->
     <template id="bvr_due">
         <t t-call="web.html_container">
-            <t t-foreach="docs.mapped('partner_id')" t-as="partner">
-                <t t-call="report_compassion.report_bvr_due_document" t-lang="partner.lang"/>
+            <t t-call="web.external_layout">
+                <t t-set="report_header_style">display: none;</t>
+                <t t-foreach="docs.mapped('partner_id')" t-as="partner">
+                    <t t-call="report_compassion.report_bvr_due_document" t-lang="partner.lang"/>
+                </t>
             </t>
         </t>
     </template>
@@ -145,7 +148,7 @@
         <t t-set="sponsorships" t-value="docs.browse(ids)"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
         <t t-set="bank_account" t-value="partner.env['recurring.contract.group'].get_company_qrr_account()"/>
-        <t t-set="position" t-value="0"/>
+        <t t-set="swissqr_position_top" t-value="192"/>
         <t t-set="contract_groups" t-value="sponsorships.mapped('group_id')"/>
         <t t-set="o" t-value="contract_groups[0]"/>
         <t t-set="reference" t-value="o.bvr_reference"/>
@@ -159,11 +162,6 @@
             </t>
         </t>
         <t t-set="amount" t-value="due"/>
-        <t t-call="web.external_layout">
-            <t t-call="report_compassion.style"/>
-            <t t-set="report_header_style">display: none;</t>
-            <t t-set="swissqr_position_top" t-value="192"/>
-            <t t-call="report_compassion.report_compassion_qr_slip"/>
-        </t>
+        <t t-call="report_compassion.report_compassion_qr_slip"/>
     </template>
 </odoo>
