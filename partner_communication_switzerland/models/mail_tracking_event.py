@@ -55,15 +55,6 @@ class MailTrackingEvent(models.Model):
         return super().process_hard_bounce(tracking_email, metadata)
 
     @api.model
-    def process_soft_bounce(self, tracking_email, metadata):
-        body = _(
-            "Warning : Sponsor's Email is invalid!\n Error description: "
-            + metadata.get("error_description", "")
-        )
-        self.send_mails_to_partner_and_staff(tracking_email, metadata, body)
-        return super().process_soft_bounce(tracking_email, metadata)
-
-    @api.model
     def process_unsub(self, tracking_email, metadata):
         """
         Opt out partners when they unsubscribe.
