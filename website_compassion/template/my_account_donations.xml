@@ -218,8 +218,9 @@
                     <t t-set="children" t-value="invoice.invoice_line_ids.mapped('contract_id.child_id')"/>
                     <div class="row">
                         <div class="col-6">
-                            <label><t t-esc="invoice.get_date('date_invoice', 'MMMM Y').title()"/></label>
+                            <label><t t-esc="invoice.get_date('date_invoice', 'MMMM yyyy').title()"/></label>
                         </div>
+                        <div class="col-3">
                         <div class="col-3">
                             <label><t t-esc="children.get_list('preferred_name', 3, children.get_number())"/></label>
                         </div>
@@ -254,7 +255,7 @@
                             <label>
                                 <t t-if="invoice.invoice_category == 'sponsorship'">
                                     <span>Sponsorship </span>
-                                    <t t-esc="invoice.get_date('date_invoice', 'MMMM Y').title()"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
+                                    <t t-esc="invoice.get_date('date_invoice', 'MMMM yyyy').title()"/> (<t t-esc="children.get_list('preferred_name', 2, children.get_number())"/>)
                                 </t>
                                 <t t-else="">
                                     <t t-esc="invoice.invoice_line_ids.get_list('product_id.name')"/>
@@ -262,7 +263,7 @@
                             </label>
                         </div>
                         <div class="col-3">
-                            <label><t t-esc="invoice.get_date('last_payment', 'd MMM Y')"/></label>
+                            <label><t t-esc="invoice.get_date('last_payment', 'd MMM yyyy')"/></label>
                         </div>
                         <div class="col-3">
                             <label><t t-raw="int(invoice.amount_total)"/> <t t-esc="invoice.currency_id.name"/> </label>
