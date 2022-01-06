@@ -42,7 +42,7 @@ class UtmMixin(models.AbstractModel):
             )
             if not utm_campaign_id:
                 # Search in mailchimp campaigns
-                mass_mailing = self.env["mail.mass_mailing"].search([
+                mass_mailing = self.env["mail.mass_mailing"].sudo().search([
                     ("mailchimp_id", "like", utm_campaign.split("-")[0])], limit=1)
                 if mass_mailing:
                     utm_campaign_id = mass_mailing.campaign_id.id
