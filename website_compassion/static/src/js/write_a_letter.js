@@ -358,7 +358,6 @@ async function sendLetter() {
     get_params.forEach(function(v, k, _) {
         json_data[k] = v;
     })
-    console.log(json_data);
 
     let xhr = new XMLHttpRequest();
     let url = `${window.location.origin}/mobile-app-api/correspondence/send_letter`;
