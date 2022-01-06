@@ -221,7 +221,6 @@
                             <label><t t-esc="invoice.get_date('date_invoice', 'MMMM yyyy').title()"/></label>
                         </div>
                         <div class="col-3">
-                        <div class="col-3">
                             <label><t t-esc="children.get_list('preferred_name', 3, children.get_number())"/></label>
                         </div>
                         <div class="col-3">

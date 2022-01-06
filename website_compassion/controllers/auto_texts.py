@@ -2,13 +2,11 @@ CHRISTMAS_TEXTS = {
     "fra": """Bonjour %s,
 
 
-Je te souhaite un beau et paisible Noël! A Noël, nous nous souvenons de la venue de Jésus parmi nous, pour nous montrer l’amour de Dieu. Cette année a été marquée dans le monde entier par la pandémie Covid-19.
+Je te souhaite de belles fêtes de Noël! 
 
+Noël nous rappelle la venue de Jésus parmi nous, signe de l’amour de Dieu pour nous et pour le monde entier.
 
-Heureusement, Noël nous rappelle que Jésus est la lumière du monde! Il nous a promis d’être toujours avec nous.
-
-
-Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
+Quelle bonne nouvelle: il a aussi promis d’être avec nous tous les jours de notre vie et de prendre soin de nous! Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
 
 
 %s
@@ -16,27 +14,23 @@ Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
     "eng": """Dear %s,
 
 
-I wish you a lovely, peaceful Christmas! At Christmas, we are reminded of Jesus' coming to us, to show God's love for us.
+I wish you a Merry Christmas and beautiful holidays!
 
+Christmas reminds us that Jesus came among us, as a sign of God's love for us and for the whole world.
 
-This year has been disrupted by the Covid-19 pandemic across the whole world. Fortunately, Christmas reminds us that Jesus is the light of the world! He has promised to always be with us.
-
-
-I wish you and your loved ones all the best for the New Year.
+What a good news: He also promised to be with us everyday of our life and to take care of us! I wish you, as well as your loved ones, all the best for the New Year.
 
 
 %s
 """,
-    "por": """Bom dia %s
+    "por": """Oi %s, tudo bem?
 
 
-Eu lhe desejo um bom Natal cheio de Paz! No Natal nós lembramos da vinda de JESUS no meio de nós, para nos mostrar o amor de Deus por nós. Este ano foi marcado no mundo inteiro pela pandemia do covid-19.
+Desejo-lhe um Feliz Natal e belos dias de feriado!
 
+O Natal nos lembra que Jesus veio entre nós, como um sinal do amor de Deus por nós e pelo mundo inteiro.
 
-Felizmente, Natal nos faz lembrar que JESUS é a luz do mundo! Ele nos prometeu de estar sempre conosco.
-
-
-Desejo à você e a sua família, o melhor para o próximo ano de 2022.
+Que boa notícia: Ele também prometeu estar conosco todos os dias da nossa vida e cuidar de nós! Desejo-lhe, assim como a seus entes queridos, tudo de bom para o Ano Novo.
 
 
 %s
@@ -44,13 +38,11 @@ Desejo à você e a sua família, o melhor para o próximo ano de 2022.
     "spa": """Hola %s,
 
 
-¡Te deseo una maravillosa y feliz Navidad! En Navidad recordamos la venida de Jesús entre nosotros para mostrarnos el amor de Dios por nosotros. Este año ha estado marcado en todo el mundo por la pandemia de Covid-19.
+¡ Te deseo unas muy felices fiestas de Navidad !
 
+Navidad nos recuerda que Jesús vino a este mundo para mostrarnos el amor de Dios para con nosotros y con todos.
 
-Afortunadamente, la Navidad nos recuerda que Jesús es la luz del mundo. Prometió estar siempre con nosotros.
-
-
-Te deseo a ti y tus queridos todo lo mejor para el Año Nuevo.
+Es una buena noticia que también haya prometido estar con nosotros y cuidarnos todos los días de nuestra vida. Les deseo lo mejor para el nuevo año a ti y a todos tus seres queridos.
 
 
 %s
