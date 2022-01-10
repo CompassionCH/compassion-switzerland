@@ -8280,8 +8280,9 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/res_users.py:74
 #, python-format
-msgid "mo-fri: 8am-4pm"
-msgstr "lun-ven: 8.00-16.00"
+msgid "mo-thu: 8am-4pm<br/>fri 8am-12am"
+msgstr "lu-gi : 8.00-16.00<br/>ve 8.00-12.00"
+
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
