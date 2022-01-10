@@ -103,6 +103,16 @@
                          </t>
                     </t>
                 </t>
+                <!-- Criminal extract form -->
+                <a t-attf-class="list-group-item #{'list-group-item-success' if registration.criminal_record_uploaded else ''}"
+                   href="#" data-toggle="modal" data-target="#criminal">
+                    <t t-if="registration.criminal_record_uploaded">
+                        <span>Modify criminal extract</span>
+                    </t>
+                    <t t-else="">
+                        <span>Upload criminal extract</span>
+                    </t>
+                </a>
                 <!-- Child protection charter -->
                 <t t-if="child_protection_charter['has_agreed']">
                     <a class="list-group-item list-group-item-success" t-attf-href="#{child_protection_charter['url']}">

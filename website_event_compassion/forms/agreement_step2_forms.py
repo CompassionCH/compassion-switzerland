@@ -313,13 +313,13 @@ class CriminalForm(models.AbstractModel):
     _form_model_fields = ["criminal_record"]
     _form_required_fields = ["criminal_record"]
 
-    form_id = fields.Char(default="criminal")
+    form_id = "criminal"
     criminal_record = fields.Binary()
 
     @property
     def _form_fieldsets(self):
         return [
-            {"id": "criminal", "fields": ["criminal_record", "form_id"]},
+            {"id": "criminal", "fields": ["criminal_record"]},
         ]
 
     @property

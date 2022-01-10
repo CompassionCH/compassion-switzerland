@@ -20,7 +20,7 @@
                         <group>
                             <field name="date_start"/>
                             <field name="lang"/>
-                            <field name="participant_ids" widget="many2many_tags" context="{'default_zoom_session_id': active_id}" options="{'color_field': 'color'}"/>
+                            <field name="participant_ids" widget="many2many_tags" context="{'default_zoom_session_id': active_id}" options="{'color_field': 'color'}" domain="[('zoom_session_id', '=', active_id)]"/>
                         </group>
                         <group>
                             <field name="date_stop"/>

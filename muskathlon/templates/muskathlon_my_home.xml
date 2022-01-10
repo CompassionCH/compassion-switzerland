@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="custom_portal_my_home" name="Custom My Portal">
+    <template id="custom_portal_my_home" name="My Muskathlon">
         <t t-set="selected" t-value="'muskathlon'"/>
         <t t-call="website_compassion.my_account_layout">
             <!-- Page content -->
@@ -17,6 +17,9 @@
                     </t>
                     <t t-call="cms_form_compassion.modal_form">
                         <t t-set="form" t-value="passport_form"/>
+                    </t>
+                    <t t-call="cms_form_compassion.modal_form">
+                        <t t-set="form" t-value="criminal_form"/>
                     </t>
                     <div id="modal_flight_details" class="modal fade cms_modal_form" tabindex="-1" role="dialog"
                          aria-labelledby="donation_modal_label" aria-hidden="true">
