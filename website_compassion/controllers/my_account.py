@@ -312,39 +312,41 @@ class MyAccountController(PaymentFormController):
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
-        if child_id:
-            child = children.filtered(lambda c: c.id == int(child_id))
-            if not child:  # The user does not sponsor this child_id
-                return request.redirect(
-                    f"/my/letter?child_id={children[0].id}"
-                )
-            templates = request.env["correspondence.template"].search([
-                ("active", "=", True),
-                ("website_published", "=", True),
-            ]).sorted(lambda t: "0" if "christmas" in t.name else t.name)
-            if not template_id and len(templates) > 0:
-                template_id = templates[0].id
-            template = templates.filtered(lambda t: t.id == int(template_id))
-            auto_texts = {}
-            if kwargs.get("auto_christmas"):
-                for c in children:
-                    auto_texts[c.id] = CHRISTMAS_TEXTS.get(
-                        c.field_office_id.primary_language_id.code_iso,
-                        CHRISTMAS_TEXTS["eng"]
-                    ) % (c.preferred_name, request.env.user.partner_id.firstname)
-            return request.render(
-                "website_compassion.letter_page_template",
-                {"child_id": child,
-                 "template_id": template,
-                 "children": children,
-                 "templates": templates,
-                 "partner": request.env.user.partner_id,
-                 "auto_texts": auto_texts}
-            )
-        else:
+        if not child_id:
             return request.redirect(
                 f"/my/letter?child_id={children[0].id}&template_id={template_id or ''}"
                 f"&{urlencode(kwargs)}")
+
+        child = children.filtered(lambda c: c.id == int(child_id))
+        if not child:  # The user does not sponsor this child_id
+            return request.redirect(
+                f"/my/letter?child_id={children[0].id}"
+            )
+        templates = request.env["correspondence.template"].search([
+            ("active", "=", True),
+            ("website_published", "=", True),
+        ]).sorted(lambda t: "0" if "christmas" in t.name else t.name)
+        if not template_id and len(templates) > 0:
+            template_id = templates[0].id
+        template = templates.filtered(lambda t: t.id == int(template_id))
+        auto_texts = {}
+        if kwargs.get("auto_christmas"):
+            for c in children:
+                auto_texts[c.id] = CHRISTMAS_TEXTS.get(
+                    c.field_office_id.primary_language_id.code_iso,
+                    CHRISTMAS_TEXTS["eng"]
+                ) % (c.preferred_name, request.env.user.partner_id.firstname)
+        return request.render(
+            "website_compassion.letter_page_template",
+            {
+                "child_id": child,
+                "template_id": template,
+                "children": children,
+                "templates": templates,
+                "partner": request.env.user.partner_id,
+                "auto_texts": auto_texts
+             }
+        )
 
     @route("/my/children", type="http", auth="user", website=True)
     def my_child(self, state="active", child_id=None, **kwargs):
