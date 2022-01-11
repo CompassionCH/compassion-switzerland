@@ -568,13 +568,10 @@ class PartnerCommunication(models.Model):
                     expiration = datetime.now() + relativedelta(days=extension)
                     hold.expiration_date = expiration
 
-        donor = self.env.ref("partner_compassion.res_partner_category_donor")
         new_donor_partners = other_jobs.filtered(
             lambda j: j.config_id.model == "account.invoice.line"
             and j.config_id.send_mode_pref_field == "thankyou_preference"
-            and donor not in j.partner_id.category_id
         ).mapped("partner_id")
-        new_donor_partners.write({"category_id": [(4, donor.id)]})
         new_donor_partners.filter_onboarding_new_donors().start_new_donors_onboarding()
 
         zoom_invitation = self.env.ref(

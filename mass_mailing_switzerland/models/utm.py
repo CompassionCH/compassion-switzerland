@@ -21,38 +21,16 @@ class UtmMixin(models.AbstractModel):
         :param utm_campaign:
         :return: dictionary with utm ids
         """
-        utm_source_id = False
-        if utm_source:
-            utm_source_id = (
-                self.env["utm.source"].search([("name", "=", utm_source)], limit=1).id
-            )
-        utm_medium_id = False
-        if utm_medium:
-            utm_medium_id = (
-                self.env["utm.medium"].search([("name", "=", utm_medium)],
-                                              limit=1).id
-                or utm_medium_id
-            )
-        utm_campaign_id = False
-        if utm_campaign:
-            utm_campaign_id = (
-                self.env["utm.campaign"]
-                    .search([("name", "=", utm_campaign)], limit=1)
-                    .id
-            )
-            if not utm_campaign_id:
-                # Search in mailchimp campaigns
-                mass_mailing = self.env["mail.mass_mailing"].search([
-                    ("mailchimp_id", "like", utm_campaign.split("-")[0])], limit=1)
-                if mass_mailing:
-                    utm_campaign_id = mass_mailing.campaign_id.id
-                    utm_source_id = mass_mailing.source_id.id
-                    utm_medium_id = mass_mailing.medium_id.id
-        return {
-            "source": utm_source_id,
-            "medium": utm_medium_id,
-            "campaign": utm_campaign_id,
-        }
+        utms = super().get_utms(utm_source, utm_medium, utm_campaign)
+        if utm_campaign and not utms["campaign"]:
+            # Search in mailchimp campaigns
+            mass_mailing = self.env["mail.mass_mailing"].search([
+                ("mailchimp_id", "like", utm_campaign.split("-")[0])], limit=1)
+            if mass_mailing:
+                utms["campaign"] = mass_mailing.campaign_id.id
+                utms["source"] = mass_mailing.source_id.id
+                utms["medium"] = mass_mailing.medium_id.id
+        return utms
 
 
 class UtmObjects(models.AbstractModel):

@@ -354,6 +354,11 @@ async function sendLetter() {
         "Need": "${$('#child_id').text()}"
     }`);
 
+    let get_params = new URLSearchParams(window.location.search)
+    get_params.forEach(function(v, k, _) {
+        json_data[k] = v;
+    })
+
     let xhr = new XMLHttpRequest();
     let url = `${window.location.origin}/mobile-app-api/correspondence/send_letter`;
     xhr.open("POST", url, true);
