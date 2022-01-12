@@ -528,7 +528,7 @@ class ResPartner(models.Model):
             geo_point = fields.GeoPoint.from_latlon(
                 self.env.cr, partner.partner_latitude, partner.partner_longitude
             )
-            vals = {"geo_point": geo_point.wkt}
+            vals = {"geo_point": geo_point}
             partner.write(vals)
             partner.advocate_details_id.write(vals)
         return True
