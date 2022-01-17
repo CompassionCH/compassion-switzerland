@@ -12,3 +12,4 @@ from . import invoice_line
 from . import mail_activity
 from . import compassion_child_pictures
 from . import res_user
+from . import password_security_home_requirements
