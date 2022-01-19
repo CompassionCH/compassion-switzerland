@@ -13,6 +13,7 @@ between the database and the mail.
 """
 import base64
 import logging
+import traceback
 from pathlib import Path
 
 from odoo import fields, models, api, _
@@ -121,8 +122,11 @@ class ImportLettersHistory(models.Model):
         return SftpConnection(key).get_connection(share)
 
     def sftp_generator(self):
-        import_letter_path = Path(self.import_folder_path)
-        imported_letter_path = Path(self.env.ref("sbc_switzerland.scan_letter_done").value)
+        try:
+            import_letter_path = Path(self.import_folder_path)
+            imported_letter_path = Path(self.env.ref("sbc_switzerland.scan_letter_done").value)
+        except TypeError:
+            return
         try:
             with self._get_connection() as sftp:
                 files = sftp.listdir(str(import_letter_path))
@@ -138,8 +142,8 @@ class ImportLettersHistory(models.Model):
 
                     try:
                         sftp.rename(import_full_path, imported_full_path)
-                    except Exception as inst:
-                        logger.warning("Failed to move a file on NAS : {}".format(inst))
+                    except Exception as e:
+                        logger.warning(f"Failed to move a file on NAS :\n{traceback.format_exc()}")
         except (AssertionError, IOError) as e:
             logger.error("Could not establish connection with sftp server")
             return
