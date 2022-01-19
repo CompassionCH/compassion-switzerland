@@ -120,19 +120,9 @@ class ImportLettersHistory(models.Model):
         share = self.env.ref("sbc_switzerland.share_on_nas").value
         return SftpConnection(key).get_connection(share)
 
-    @job(default_channel="root.sbc_compassion")
-    @related_action(action="related_action_s2b_imports")
-    def run_analyze(self):
-        self.ensure_one()
-        self.state = "pending"
-        logger.info("Letters import started...")
-
-        if self.manual_import:
-            return super().run_analyze()
-
+    def sftp_generator(self):
         import_letter_path = Path(self.import_folder_path)
         imported_letter_path = Path(self.env.ref("sbc_switzerland.scan_letter_done").value)
-
         try:
             with self._get_connection() as sftp:
                 files = sftp.listdir(str(import_letter_path))
@@ -140,7 +130,8 @@ class ImportLettersHistory(models.Model):
                     file = Path(file)
                     import_full_path = str(import_letter_path / file)
                     imported_full_path = str(imported_letter_path / file)
-                    logger.info(f"{i + 1}/{len(files)} : {import_full_path}")
+
+                    yield i + 1, len(files), import_full_path
 
                     pdf_data = sftp.open(import_full_path).read()
                     self._analyze_pdf(pdf_data, file)
@@ -153,6 +144,10 @@ class ImportLettersHistory(models.Model):
             logger.error("Could not establish connection with sftp server")
             return
 
-        self.data.unlink()
-        self.import_completed = True
-        logger.info("Letters import completed!")
+    @job(default_channel="root.sbc_compassion")
+    @related_action(action="related_action_s2b_imports")
+    def run_analyze(self):
+        if not self.manual_import:
+            return super().run_analyze(self.sftp_generator)
+        else:
+            return super().run_analyze()
