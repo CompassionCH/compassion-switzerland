@@ -377,6 +377,8 @@ class ResPartner(models.Model):
                         summary="Potential volunteer",
                         note="This person wants to be involved with volunteering",
                         user_id=notify_user)
+        if "zip" in vals:
+            self.update_state_from_zip(vals)
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
@@ -532,6 +534,26 @@ class ResPartner(models.Model):
             partner.write(vals)
             partner.advocate_details_id.write(vals)
         return True
+
+    def update_state_from_zip(self, vals):
+        zip_ = vals.get("zip")
+        country_id = vals.get("country_id") or self.country_id.id
+        domain = [
+            ("name", "=", zip_),
+            ("city_id.country_id", "=", country_id),
+        ]
+        city_zip = self.env["res.city.zip"].search(domain)
+        state_id = set(city_zip.mapped("city_id.state_id.id"))
+        if len(state_id) > 1:
+            raise UserError(_("This ZIP is in multiple states !"))
+        vals.update({
+            # check if a state was found or not for this zip
+            "state_id": state_id.pop() if state_id else None,
+            # remove this field value since its only used for the UI
+            "zip_id": None,
+        })
+        return vals
+
 
     @api.multi
     def generate_bvr_reference(self, product):
