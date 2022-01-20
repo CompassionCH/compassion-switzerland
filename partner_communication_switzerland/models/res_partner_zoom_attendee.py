@@ -36,7 +36,7 @@ class ZoomAttendee(models.Model):
 
     partner_id = fields.Many2one("res.partner", "Partner", required=True, index=True)
     zoom_session_id = fields.Many2one(
-        "res.partner.zoom.session", "Zoom session", required=True, index=True)
+        "res.partner.zoom.session", "Zoom session", required=True, index=True, ondelete="cascade")
     state = fields.Selection([
         ("invited", "Invited"),
         ("confirmed", "Confirmed"),
@@ -45,6 +45,8 @@ class ZoomAttendee(models.Model):
     ], default="invited", group_expand="_expand_states")
     optional_message = fields.Text()
     color = fields.Integer(compute="_compute_color")
+
+    link_received = fields.Boolean(default=False)
 
     _sql_constraints = [
         ("unique_participant", "unique(partner_id,zoom_session_id)",
@@ -94,6 +96,13 @@ class ZoomAttendee(models.Model):
         config_id = self.env.ref(config_name.value).id
         partner_id = self.partner_id.id
 
+        # avoid sending this twice communication
+        if config_name == ZoomCommunication.LINK:
+            if self.link_received:
+                return
+            else:
+                self.link_received = True
+
         if config_name in [ZoomCommunication.REMINDER, ZoomCommunication.LINK]:
             object_id = self.zoom_session_id.id
         elif config_name in [ZoomCommunication.REGISTRATION]:
@@ -109,8 +118,7 @@ class ZoomAttendee(models.Model):
 
     @api.one
     def form_completion_callback(self):
-        if self.zoom_session_id.date_start > datetime.now() + timedelta(days=2):
-            self.send_communication(ZoomCommunication.REGISTRATION)
-        else:
-            self.send_communication(ZoomCommunication.LINK)
-        return True
+        if datetime.now() > self.zoom_session_id.date_send_link:
+            return self.send_communication(ZoomCommunication.LINK)
+        return self.send_communication(ZoomCommunication.REGISTRATION)
+

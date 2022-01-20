@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-from dateutil.relativedelta import relativedelta
+from datetime import datetime, timedelta
 from .res_partner_zoom_attendee import ZoomCommunication
 
 from odoo import api, models, fields, _
@@ -24,9 +24,14 @@ class ZoomSession(models.Model):
     _rec_name = "date_start"
     _order = "date_start desc"
 
+    DELTA_BEFORE_REMINDER = timedelta(days=2)
+    DELTA_BEFORE_LINK = timedelta(days=2)
+    DELTA_ZOOM_DEFAULT_DURATION = timedelta(hours=1)
+
     lang = fields.Selection("_get_lang", required=True)
     date_start = fields.Datetime("Zoom session time", required=True)
     date_stop = fields.Datetime()
+    date_send_link = fields.Datetime("Datetime when the link is sent", compute="_compute_date_send_link")
     link = fields.Char("Invitation link", required=True)
     meeting_id = fields.Char("Meeting ID", required=True)
     passcode = fields.Char("Passcode", required=True)
@@ -61,10 +66,19 @@ class ZoomSession(models.Model):
         for zoom in self:
             zoom.number_participants = len(zoom.participant_ids)
 
+    @api.multi
+    def _compute_date_send_link(self):
+        for zoom in self:
+            if zoom.date_start:
+                zoom.date_send_link = zoom.date_start - zoom.DELTA_BEFORE_LINK
+            else:
+                zoom.date_send_link = datetime.max
+
+
     @api.onchange("date_start")
     def onchange_date_start(self):
         if self.date_start:
-            self.date_stop = self.date_start + relativedelta(hours=1)
+            self.date_stop = self.date_start + self.DELTA_ZOOM_DEFAULT_DURATION
 
     @api.multi
     def post_attended(self):
@@ -92,7 +106,7 @@ class ZoomSession(models.Model):
         ], order="date_start asc", limit=1)
 
     @api.multi
-    def send_reminder(self):
+    def send_reminder_or_link(self):
         communications = self.env["partner.communication.job"]
         for zoom in self.filtered(lambda z: z.state == "planned"):
             for participant in zoom.mapped("participant_ids").filtered(lambda p: p.state in ("invited", "confirmed")):
