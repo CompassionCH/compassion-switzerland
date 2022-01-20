@@ -10,6 +10,7 @@
 import logging
 
 from dateutil.relativedelta import relativedelta
+from .res_partner_zoom_attendee import ZoomCommunication
 
 from odoo import api, models, fields, _
 
@@ -92,21 +93,13 @@ class ZoomSession(models.Model):
 
     @api.multi
     def send_reminder(self):
-        pending_config = self.env.ref(
-            "partner_communication_switzerland.config_onboarding_zoom_reminder")
-        attending_config = self.env.ref(
-            "partner_communication_switzerland.config_onboarding_zoom_link")
         communications = self.env["partner.communication.job"]
         for zoom in self.filtered(lambda z: z.state == "planned"):
-            for participant in zoom.mapped("participant_ids").filtered(
-                    lambda p: p.state in ("invited", "confirmed")):
-                communications += self.env["partner.communication.job"].create({
-                    "config_id": (
-                        attending_config if participant.state == "confirmed"
-                        else pending_config).id,
-                    "partner_id": participant.partner_id.id,
-                    "object_ids": zoom.id
-                })
+            for participant in zoom.mapped("participant_ids").filtered(lambda p: p.state in ("invited", "confirmed")):
+                if participant.state in ["invited"]:
+                    communications += participant.send_communication(ZoomCommunication.REMINDER)
+                elif participant.state in ["confirmed"]:
+                    communications += participant.send_communication(ZoomCommunication.LINK)
         return communications
 
     @api.multi

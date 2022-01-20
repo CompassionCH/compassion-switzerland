@@ -83,7 +83,7 @@ class ZoomRegistrationForm(models.AbstractModel):
             self.main_object.sudo().inform_about_next_session()
         if values.get("optional_message"):
             self.main_object.sudo().notify_user()
-        self.main_object.sudo().send_confirmation()
+        self.main_object.sudo().form_completion_callback()
 
     @property
     def form_msg_success_created(self):
