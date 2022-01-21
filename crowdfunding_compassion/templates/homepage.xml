@@ -27,7 +27,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 text-center py-5">
-                                <h3 class="subheading">What we achieved so far</h3>
+                                <h3 class="subheading" t-esc="heading"></h3>
                             </div>
                         </div>
 
