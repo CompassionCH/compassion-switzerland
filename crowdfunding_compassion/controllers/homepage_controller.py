@@ -84,11 +84,11 @@ class HomepageController(Controller):
         if impact["sponsorship"]["value"] > 1:
             impact["sponsorship"]["text"] = _("sponsored children")
 
-        heading = _("What we achieved so far in {year}").format(year=year)
+        subheading = _("What we achieved so far in {year}").format(year=year)
 
         return {
             "projects": current_year_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
             "base_url": request.website.domain,
-            "heading": heading,
+            "subheading": subheading,
         }
