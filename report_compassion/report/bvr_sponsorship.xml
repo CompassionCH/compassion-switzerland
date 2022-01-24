@@ -21,6 +21,17 @@
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
 
+    <report id="report_single_bvr_sponsorship"
+            model="recurring.contract.group"
+            string="Sponsorship Payment Slip Single BVR"
+            report_type="qweb-pdf"
+            name="report_compassion.single_bvr_sponsorship"
+            menu="False"
+    />
+    <record id="report_single_bvr_sponsorship" model="ir.actions.report">
+        <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship"/>
+    </record>
+
     <!-- Report for sponsorship due -->
     <report id="report_bvr_due"
             model="recurring.contract"
@@ -36,6 +47,22 @@
         <t t-call="web.html_container">
             <t t-set="swissqr_position_top" t-value="192"/>
             <t t-foreach="docs" t-as="doc">
+                <t t-call="report_compassion.report_bvr_sponsorship_document"
+                   t-lang="doc.partner_id.lang"/>
+                <t t-if="gifts">
+                    <t t-call="report_compassion.report_bvr_sponsorship_gift_document" t-lang="doc.partner_id.lang">
+                        <t t-set="doc" t-value="doc_value"/>
+                        <t t-set="products" t-value="products or doc.get_sponsorship_gift_products()"/>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="single_bvr_sponsorship">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="disable_scissors" t-value="True"/>
                 <t t-call="report_compassion.report_bvr_sponsorship_document"
                    t-lang="doc.partner_id.lang"/>
                 <t t-if="gifts">
