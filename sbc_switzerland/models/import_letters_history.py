@@ -122,6 +122,15 @@ class ImportLettersHistory(models.Model):
         return SftpConnection(key).get_connection(share)
 
     def sftp_generator(self):
+        """
+        Generator function for the sftp imports
+        Read the files from the specified stfp directory and analyse them
+
+        yield:
+            int: the current step in the analysis
+            int: the current last step for the analysis
+            str: the name of the file analysed
+        """
         try:
             import_letter_path = Path(self.import_folder_path)
             imported_letter_path = Path(self.env.ref("sbc_switzerland.scan_letter_done").value)
@@ -151,6 +160,9 @@ class ImportLettersHistory(models.Model):
     @job(default_channel="root.sbc_compassion")
     @related_action(action="related_action_s2b_imports")
     def run_analyze(self):
+        """
+        Redefine the run_analyze function to handle both the manual import case and the sftp import case
+        """
         if not self.manual_import:
             return super().run_analyze(self.sftp_generator)
         else:
