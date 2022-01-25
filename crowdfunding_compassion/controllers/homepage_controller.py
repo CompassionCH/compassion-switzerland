@@ -41,11 +41,12 @@ class HomepageController(Controller):
     def homepage(self, **kwargs):
         return request.render(
             "crowdfunding_compassion.homepage_template",
-            self._compute_homepage_context(datetime.now().year),
+            self._compute_homepage_context(),
         )
 
-    def _compute_homepage_context(self, year, **kwargs):
-
+    @staticmethod
+    def _compute_homepage_context():
+        year = datetime.now().year
         project_obj = request.env["crowdfunding.project"].sudo()
         current_year_projects = project_obj.get_active_projects(year=year)
         active_funds = current_year_projects.mapped("product_id")
@@ -83,8 +84,11 @@ class HomepageController(Controller):
         if impact["sponsorship"]["value"] > 1:
             impact["sponsorship"]["text"] = _("sponsored children")
 
+        subheading = _("What we achieved so far in {year}").format(year=year)
+
         return {
             "projects": current_year_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
-            "base_url": request.website.domain
+            "base_url": request.website.domain,
+            "subheading": subheading,
         }
