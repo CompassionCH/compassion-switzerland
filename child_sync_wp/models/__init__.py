@@ -9,4 +9,3 @@
 ##############################################################################
 
 from . import child_compassion
-from . import project_compassion
