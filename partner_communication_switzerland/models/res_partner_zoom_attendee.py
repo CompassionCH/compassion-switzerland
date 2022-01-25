@@ -93,6 +93,7 @@ class ZoomAttendee(models.Model):
                 user_id=user_id)
 
     def send_communication(self, config_name):
+        self.ensure_one()
         config_id = self.env.ref(config_name.value).id
         partner_id = self.partner_id.id
 
@@ -116,8 +117,8 @@ class ZoomAttendee(models.Model):
             "object_ids": object_id,
         })
 
-    @api.one
     def form_completion_callback(self):
+        self.ensure_one()
         if datetime.now() > self.zoom_session_id.date_send_link:
             return self.send_communication(ZoomCommunication.LINK)
         return self.send_communication(ZoomCommunication.REGISTRATION)

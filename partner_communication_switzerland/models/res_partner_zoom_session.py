@@ -24,7 +24,6 @@ class ZoomSession(models.Model):
     _rec_name = "date_start"
     _order = "date_start desc"
 
-    DELTA_BEFORE_REMINDER = timedelta(days=2)
     DELTA_BEFORE_LINK = timedelta(days=2)
     DELTA_ZOOM_DEFAULT_DURATION = timedelta(hours=1)
 
