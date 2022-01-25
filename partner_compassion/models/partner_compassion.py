@@ -537,18 +537,16 @@ class ResPartner(models.Model):
 
     def update_state_from_zip(self, vals):
         zip_ = vals.get("zip")
-        country_id = vals.get("country_id") or self.country_id.id
+        country_id = vals.get("country_id") or self[:1].country_id.id
         domain = [
             ("name", "=", zip_),
             ("city_id.country_id", "=", country_id),
         ]
         city_zip = self.env["res.city.zip"].search(domain)
-        state_id = set(city_zip.mapped("city_id.state_id.id"))
-        if len(state_id) > 1:
-            raise UserError(_("This ZIP is in multiple states !"))
+        state_id = city_zip.mapped("city_id.state_id.id")
         vals.update({
             # check if a state was found or not for this zip
-            "state_id": state_id.pop() if state_id else None,
+            "state_id": state_id,
             # remove this field value since its only used for the UI
             "zip_id": None,
         })
