@@ -8,9 +8,8 @@
 #
 ##############################################################################
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from dateutil.relativedelta import relativedelta
 from werkzeug.exceptions import Unauthorized
 
 from odoo import http
@@ -32,7 +31,7 @@ class ZoomRegistration(Controller, FormControllerMixin):
     def zoom_registration(self, session=None, **kwargs):
         if session is None:
             # Allow to register in the current zoom session for 15 minutes after start
-            start = datetime.now() - relativedelta(minutes=15)
+            start = datetime.now() - timedelta(minutes=15)
             session = request.env["res.partner.zoom.session"].get_next_session(start)
         if not session.website_published:
             raise Unauthorized()

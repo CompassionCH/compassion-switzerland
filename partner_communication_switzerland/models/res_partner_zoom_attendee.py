@@ -7,11 +7,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime
+from datetime import datetime, timedelta
+from enum import Enum
 
-from dateutil.relativedelta import relativedelta
-
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 COLOR_MAPPING = {
@@ -20,6 +19,12 @@ COLOR_MAPPING = {
     "declined": 1,
     "attended": 11
 }
+
+
+class ZoomCommunication(Enum):
+    REGISTRATION = "partner_communication_switzerland.config_onboarding_zoom_registration_confirmation"
+    LINK = "partner_communication_switzerland.config_onboarding_zoom_link"
+    REMINDER = "partner_communication_switzerland.config_onboarding_zoom_reminder"
 
 
 class ZoomAttendee(models.Model):
@@ -31,7 +36,7 @@ class ZoomAttendee(models.Model):
 
     partner_id = fields.Many2one("res.partner", "Partner", required=True, index=True)
     zoom_session_id = fields.Many2one(
-        "res.partner.zoom.session", "Zoom session", required=True, index=True)
+        "res.partner.zoom.session", "Zoom session", required=True, index=True, ondelete="cascade")
     state = fields.Selection([
         ("invited", "Invited"),
         ("confirmed", "Confirmed"),
@@ -40,6 +45,8 @@ class ZoomAttendee(models.Model):
     ], default="invited", group_expand="_expand_states")
     optional_message = fields.Text()
     color = fields.Integer(compute="_compute_color")
+
+    link_received = fields.Boolean(default=False)
 
     _sql_constraints = [
         ("unique_participant", "unique(partner_id,zoom_session_id)",
@@ -85,23 +92,34 @@ class ZoomAttendee(models.Model):
                 note=self.optional_message,
                 user_id=user_id)
 
-    def send_confirmation(self):
-        confirmation_config = self.env.ref(
-            "partner_communication_switzerland"
-            ".config_onboarding_zoom_registration_confirmation"
-        )
-        short_notice_config = self.env.ref(
-            "partner_communication_switzerland.config_onboarding_zoom_link")
-        for attendee in self:
-            object_id = attendee.id
-            config = confirmation_config
-            if attendee.zoom_session_id.date_start <= datetime.now() + relativedelta(
-                    days=2):
-                config = short_notice_config
-                object_id = attendee.zoom_session_id.id
-            self.env["partner.communication.job"].create({
-                "partner_id": attendee.partner_id.id,
-                "config_id": config.id,
-                "object_ids": object_id
-            })
-        return True
+    def send_communication(self, config_name):
+        self.ensure_one()
+        config_id = self.env.ref(config_name.value).id
+        partner_id = self.partner_id.id
+
+        # avoid sending this twice communication
+        if config_name == ZoomCommunication.LINK:
+            if self.link_received:
+                return
+            else:
+                self.link_received = True
+
+        if config_name in [ZoomCommunication.REMINDER, ZoomCommunication.LINK]:
+            object_id = self.zoom_session_id.id
+        elif config_name in [ZoomCommunication.REGISTRATION]:
+            object_id = self.id
+        else:
+            object_id = None
+
+        return self.env["partner.communication.job"].create({
+            "config_id": config_id,
+            "partner_id": partner_id,
+            "object_ids": object_id,
+        })
+
+    def form_completion_callback(self):
+        self.ensure_one()
+        if datetime.now() > self.zoom_session_id.date_send_link:
+            return self.send_communication(ZoomCommunication.LINK)
+        return self.send_communication(ZoomCommunication.REGISTRATION)
+
