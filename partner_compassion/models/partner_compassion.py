@@ -543,10 +543,10 @@ class ResPartner(models.Model):
             ("city_id.country_id", "=", country_id),
         ]
         city_zip = self.env["res.city.zip"].search(domain)
-        state_id = city_zip.mapped("city_id.state_id.id")
+        state = city_zip.mapped("city_id.state_id")
         vals.update({
             # check if a state was found or not for this zip
-            "state_id": state_id,
+            "state_id": state.id if len(state) == 1 else None,
             # remove this field value since its only used for the UI
             "zip_id": None,
         })
