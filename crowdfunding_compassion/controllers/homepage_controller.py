@@ -11,7 +11,7 @@ from odoo.addons.website_compassion.tools.image_compression import compress_big_
 
 SPONSOR_HEADER = compress_big_images(base64.b64encode(file_open(
     "crowdfunding_compassion/static/src/img/sponsor_children_banner.jpg", "rb"
-).read()), max_bytes_size=2e4, max_width=400)
+).read()), max_width=400)
 
 SPONSOR_ICON = base64.b64encode(file_open(
     "crowdfunding_compassion/static/src/img/icn_children.png", "rb").read())
@@ -65,7 +65,6 @@ class HomepageController(Controller):
                 "header_image":
                     compress_big_images(
                         fund.image_large,
-                        max_bytes_size=2e4,
                         max_width=400
                     ) if fund.image_large else SPONSOR_HEADER,
 
