@@ -249,12 +249,23 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.multi
     def agree_to_child_protection_charter(self):
-        return self.write(
-            {
-                "has_agreed_child_protection_charter": True,
-                "date_agreed_child_protection_charter": fields.Datetime.now(),
-            }
-        )
+        return self.write({"has_agreed_child_protection_charter": True})
+
+    @api.multi
+    def update_child_protection_charter(self, vals):
+        for partner in self:
+            agreed = vals.get("has_agreed_child_protection_charter")
+            date = fields.Datetime.now() if agreed else None
+            vals.update({
+                "date_agreed_child_protection_charter": date,
+            })
+            agreed_message = _("Has agreed to the child protection charter.")
+            disagreed_message = _("Has disagreed to the child protection charter.")
+            partner.message_post(
+                body=agreed_message if agreed else disagreed_message,
+                subject=_("Child protection charter"),
+            )
+        return True
 
     @api.multi
     def get_unreconciled_amount(self):
@@ -379,6 +390,8 @@ class ResPartner(models.Model):
                         user_id=notify_user)
         if "zip" in vals:
             self.update_state_from_zip(vals)
+        if "has_agreed_child_protection_charter" in vals:
+            self.update_child_protection_charter(vals)
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
