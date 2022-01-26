@@ -494,7 +494,7 @@
         <field name="arch" type="xml">
             <field name="privacy_statement_ids" position="after">
                 <group string="Child Protection Charter Agreement" name="child_protection_charter_fields">
-                    <field string="Has agreed" name="has_agreed_child_protection_charter" readonly="1"/>
+                    <field string="Has agreed" name="has_agreed_child_protection_charter"/>
                     <field string="Date agreed" name="date_agreed_child_protection_charter" readonly="1"/>
                 </group>
                 <group string="Other" name="other_fields">
