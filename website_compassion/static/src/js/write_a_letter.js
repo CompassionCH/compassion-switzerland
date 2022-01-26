@@ -59,15 +59,16 @@ function downloadLetter() {
 function selectElement(obj_id, elem_type) {
     // The id in the XML must have this form precisely, for this to work.
     const elem_id = `${elem_type}_${obj_id}`;
+
     // Elements are selected by finding the corresponding image and setting
     // the border around the selected one
     const elements = $(`img[class~="${elem_type}-image"]`);
     elements.fadeTo(0, 0.7);
     elements.removeClass("border border-5 border-primary");
-    const element = elements.filter(`#${elem_id}`);
-    element.fadeTo(0, 1.0);
 
     // Here we are in the selected element
+    const element = elements.filter(`#${elem_id}`);
+    element.fadeTo(0, 1.0);
     element.addClass("border border-5 border-primary");
 
     // Change url to display selected child and template id
@@ -93,7 +94,7 @@ function selectElement(obj_id, elem_type) {
     const name = $(`#${elem_type}_name_${obj_id}`);
     const local_id = $(`#${elem_type}_local_id_${obj_id}`);
     // Replace auto_text if any is present and child is changed
-    $(".auto_text").html($(`#auto_text_${obj_id}`).html());
+    letter_content.value = document.getElementById("auto_text_" + obj_id).innerHTML;
     if (local_id) {
         $(`span[id^=${elem_type}]`).removeClass("font-weight-bold");
         name.addClass("font-weight-bold");
@@ -114,6 +115,8 @@ function selectElement(obj_id, elem_type) {
     // We use replaceState for refreshes to work as intended
     history.replaceState({}, document.title, base_url + params);
 }
+
+selectElement($("#child_id").text(), "child");
 
 /**
  * This function compresses images that are too big by shrinking them and if
@@ -309,7 +312,7 @@ async function createLetter(preview = false, with_loading = true) {
         }
         let form_data = new FormData();
 
-        form_data.append("letter-copy", letter_content.value);
+        form_data.append("letter-copy", $('#letter_content').text());
         form_data.append("selected-child", $('#child_local_id').text());
         form_data.append("selected-letter-id", $('#template_id').text());
         form_data.append("source", "website");
@@ -367,7 +370,7 @@ async function sendLetter() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 // Empty images and text (to avoid duplicate)
-                letter_content.value = ""
+                letter_content.value = "";
                 for (let i = 0; i < images_list.length; i++) {
                     let image = images_list[i];
                     removeImage(image.name, image.size, image.type);

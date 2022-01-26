@@ -330,7 +330,7 @@ class MyAccountController(PaymentFormController):
             template_id = templates[0].id
         template = templates.filtered(lambda t: t.id == int(template_id))
         auto_texts = {}
-        if kwargs.get("auto_christmas"):
+        if "auto_christmas" in kwargs:
             for c in children:
                 auto_texts[c.id] = CHRISTMAS_TEXTS.get(
                     c.field_office_id.primary_language_id.code_iso,
