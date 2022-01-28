@@ -129,7 +129,8 @@
                     <span>What happens to my letter?</span>
                 </a>
             </div>
-            <textarea id="letter_content" class="w-100" placeholder="Write your text here..." style="height: 30rem; resize: none;"></textarea>
+            <t t-set="placeholder">Write your text here...</t>
+            <textarea id="letter_content" class="w-100" t-att-placeholder="placeholder" style="height: 30rem; resize: none;"></textarea>
         </template>
 
         <!-- Menu of available actions to do with you letter (image loading, preview, send, ...) -->
