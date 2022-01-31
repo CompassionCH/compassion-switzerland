@@ -728,7 +728,7 @@ class PartnerCommunication(models.Model):
         attachments = {}
         # Payment slips
         if bv_sponsorships:
-            report_name = "report_compassion.report_2bvr_sponsorship"
+            report_name = "report_compassion.2bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
             if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
                 # One single slip is enough for permanent order.
@@ -786,7 +786,7 @@ class PartnerCommunication(models.Model):
 
         # Payment slips
         if is_payer and make_payment_pdf:
-            report_name = "report_compassion.report_2bvr_sponsorship"
+            report_name = "report_compassion.2bvr_sponsorship"
             data = {"doc_ids": csp.ids}
             pdf = self._get_pdf_from_data(
                 data, self.env.ref("report_compassion.report_2bvr_sponsorship")
