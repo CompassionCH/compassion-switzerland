@@ -6,6 +6,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from urllib.error import HTTPError
+
 from .auto_texts import CHRISTMAS_TEXTS
 
 import base64
@@ -143,7 +145,10 @@ def _create_archive(images, archive_name):
 
             # Create file, write to archive and delete it from os
             img_url = IMG_URL.format(id=img.id)
-            urlretrieve(img_url, filename)
+            try:
+                urlretrieve(img_url, filename)
+            except HTTPError:
+                continue
             archive.write(filename, full_path)
             remove(filename)
 
