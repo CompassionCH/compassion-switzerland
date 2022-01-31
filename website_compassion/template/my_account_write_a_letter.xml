@@ -29,14 +29,13 @@
                 </div>
             </t>
             <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
-            <script type="text/javascript" src="/website_compassion/static/src/js/write_a_letter.js"/>
+            <script type="text/javascript" src="/website_compassion/static/src/js/write_a_letter.js" defer="defer"/>
         </template>
 
         <!-- Children pictures at the top of the view -->
         <template id="letter_horizontal_pictures">
             <h3 class="text-primary text-center text-uppercase my-5">I want to write to:</h3>
-            <t t-set="javascript_hook" t-translate="off">selectElement</t>
-            <t t-set="javascript_param" t-translate="off">child</t>
+            <t t-set="reload" t-value="'false'"/>
             <t t-call="website_compassion.children_horizontal_cards"/>
         </template>
 
@@ -46,15 +45,10 @@
             <ul class="templates nav nav-tabs" style="height: 33rem; overflow-y: scroll">
                 <t t-foreach="templates" t-as="template">
                     <div class="w-50 p-2">
-                        <div t-attf-id="card_template_{{template.id}}" t-attf-onclick="selectElement('{{template.id}}', 'template')" class="card card-clickable text-center">
+                        <div t-attf-id="template-card-{{template.id}}" class="template-card card card-clickable text-center" t-attf-onclick="selectTemplate({{template.id}})">
                             <li>
-                                <t t-if="template.id == template_id.id">
-                                    <img t-attf-id="template_{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image border border-5 border-primary" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
-                                </t>
-                                <t t-else="">
-                                    <img t-attf-id="template_{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
-                                </t>
-                                <span t-attf-id="template_name_{{template.id}}"  style="display: none;"><t t-esc="template.name"/></span>
+                                <img t-attf-id="template-image-{{template.id}}" t-att-title="template.name" t-att-name="template.name" class="template-image" t-att-src="template.template_image_url" alt="Template image" style="width: 95%; height: auto;"/>
+                                <span t-attf-id="template-name-{{template.id}}" style="display: none;"><t t-esc="template.name"/></span>
                             </li>
                         </div>
                     </div>
