@@ -100,7 +100,7 @@ class ImportLettersHistory(models.Model):
         for letter in self:
             try:
                 with letter._get_connection() as sftp:
-                    letter.nber_letters = len(sftp.listdir(self.import_folder_path))
+                    letter.nber_letters = len(sftp.listdir(letter.import_folder_path))
             except (FileNotFoundError, TypeError):
                 letter.nber_letters = 0
 
