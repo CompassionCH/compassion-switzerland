@@ -7,10 +7,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 COLOR_MAPPING = {
@@ -22,7 +22,8 @@ COLOR_MAPPING = {
 
 
 class ZoomCommunication(Enum):
-    REGISTRATION = "partner_communication_switzerland.config_onboarding_zoom_registration_confirmation"
+    REGISTRATION = "partner_communication_switzerland" \
+        ".config_onboarding_zoom_registration_confirmation"
     LINK = "partner_communication_switzerland.config_onboarding_zoom_link"
     REMINDER = "partner_communication_switzerland.config_onboarding_zoom_reminder"
 
@@ -36,7 +37,8 @@ class ZoomAttendee(models.Model):
 
     partner_id = fields.Many2one("res.partner", "Partner", required=True, index=True)
     zoom_session_id = fields.Many2one(
-        "res.partner.zoom.session", "Zoom session", required=True, index=True, ondelete="cascade")
+        "res.partner.zoom.session", "Zoom session", required=True, index=True,
+        ondelete="cascade")
     state = fields.Selection([
         ("invited", "Invited"),
         ("confirmed", "Confirmed"),
@@ -119,7 +121,7 @@ class ZoomAttendee(models.Model):
 
     def form_completion_callback(self):
         self.ensure_one()
-        if datetime.now() > self.zoom_session_id.date_send_link:
+        if datetime.now() >= (
+                self.zoom_session_id.date_send_link or self.zoom_session_id.date_start):
             return self.send_communication(ZoomCommunication.LINK)
         return self.send_communication(ZoomCommunication.REGISTRATION)
-
