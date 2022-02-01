@@ -73,26 +73,10 @@ class EventMail(models.Model):
                 )
             if scheduler.interval_type in ("after_sub", "after_stage"):
                 # execute scheduler on registrations
-                scheduler.mail_registration_ids.filtered(
-                    lambda reg: reg.scheduled_date
-                    and reg.scheduled_date <= fields.Datetime.now()
-                ).execute()
+                scheduler.mail_registration_ids.filtered(lambda reg: reg.scheduled_date and reg.scheduled_date <= fields.Datetime.now()).execute()
             else:
                 if not scheduler.mail_sent:
-                    for mail_reg in scheduler.mail_registration_ids.filtered(
-                            lambda m: not m.mail_sent):
-                        registration = mail_reg.registration_id
-                        if registration.state != "cancel":
-                            self.env["partner.communication.job"].create(
-                                {
-                                    "partner_id": registration.partner_id.id,
-                                    "object_ids": registration.ids,
-                                    "config_id": scheduler.communication_id.id,
-                                }
-                            )
-                        mail_reg.mail_sent = True
-                        # Commit after each mail sent to avoid sending duplicates
-                        self.env.cr.commit()
+                    scheduler.mail_registration_ids.execute()
                     scheduler.write({"mail_sent": True})
         return True
 
@@ -140,11 +124,16 @@ class EventMailRegistration(models.Model):
         for email in self:
             registration = email.registration_id
             if registration.state in ["open", "done"] and not email.mail_sent:
-                self.env["partner.communication.job"].create(
-                    {
-                        "partner_id": registration.partner_id.id,
-                        "object_ids": registration.ids,
-                        "config_id": email.scheduler_id.communication_id.id,
-                    }
-                )
-                email.write({"mail_sent": True})
+                try:
+                    self.env["partner.communication.job"].create(
+                        {
+                            "partner_id": registration.partner_id.id,
+                            "object_ids": registration.ids,
+                            "config_id": email.scheduler_id.communication_id.id,
+                        }
+                    )
+                except Exception as e:
+                    # if the communication job fail do nothing
+                    pass
+                else:
+                    email.write({"mail_sent": True})
