@@ -55,29 +55,32 @@ class EventMail(models.Model):
         partner communication jobs instead of mail_templates
         :return: True
         """
-        for scheduler in self:
-            event = scheduler.event_id
+        for scheduler in self.filtered(lambda s: not s.mail_sent):
             # update registration lines
-            missing_registrations = event.registration_ids.filtered(
+            missing_registrations = scheduler.event_id.registration_ids.filtered(
                 lambda r: not scheduler.stage_id or r.stage_id == scheduler.stage_id
                 and r.state != "cancel"
             ) - scheduler.mail_registration_ids.mapped("registration_id")
             if missing_registrations:
-                scheduler.write(
-                    {
-                        "mail_registration_ids": [
-                            (0, 0, {"registration_id": reg.id})
-                            for reg in missing_registrations
-                        ]
-                    }
-                )
+                mail_registration_ids = [
+                    (0, 0, {"registration_id": reg.id})
+                    for reg in missing_registrations
+                ]
+                scheduler.write({"mail_registration_ids": mail_registration_ids})
+
+            mail_registrations = scheduler.mail_registration_ids.filtered(
+                lambda reg: reg.registration_id.state in ["open", "draft", "done"]
+            )
+
             if scheduler.interval_type in ("after_sub", "after_stage"):
-                # execute scheduler on registrations
-                scheduler.mail_registration_ids.filtered(lambda reg: reg.scheduled_date and reg.scheduled_date <= fields.Datetime.now()).execute()
-            else:
-                if not scheduler.mail_sent:
-                    scheduler.mail_registration_ids.execute()
-                    scheduler.write({"mail_sent": True})
+                mail_registrations = mail_registrations.filtered(
+                    lambda reg: reg.scheduled_date and reg.scheduled_date <= fields.Datetime.now()
+                )
+
+            # execute scheduler on registrations only mark the scheduler as mail sent
+            # if the mail was received by every partner
+            if mail_registrations.execute():
+                scheduler.write({"mail_sent": True})
         return True
 
     @job
@@ -120,20 +123,27 @@ class EventMailRegistration(models.Model):
     @api.multi
     def execute(self):
         """ Replace execute method to send communication instead of using
-        email template. """
+        email template.
+         return bool: true if all event_mail_registration were sent
+         """
+        sent_to_everyone = True
         for email in self:
-            registration = email.registration_id
-            if registration.state in ["open", "done"] and not email.mail_sent:
-                try:
-                    self.env["partner.communication.job"].create(
-                        {
-                            "partner_id": registration.partner_id.id,
-                            "object_ids": registration.ids,
-                            "config_id": email.scheduler_id.communication_id.id,
-                        }
-                    )
-                except Exception as e:
-                    # if the communication job fail do nothing
-                    pass
-                else:
-                    email.write({"mail_sent": True})
+            if email.mail_sent:
+                continue
+            try:
+                # if the communication fail by either an uncaught exception or is in the state failure
+                # skip this mail and dont mark it as sent
+                communication = self.env["partner.communication.job"].create(
+                    {
+                        "partner_id": email.registration_id.partner_id.id,
+                        "object_ids": email.registration_id.ids,
+                        "config_id": email.scheduler_id.communication_id.id,
+                    }
+                )
+                if communication is None or communication.state in ["failure"]:
+                    raise Exception
+                email.write({"mail_sent": True})
+            except Exception:
+                sent_to_everyone = False
+                continue
+        return sent_to_everyone
