@@ -568,13 +568,10 @@ class PartnerCommunication(models.Model):
                     expiration = datetime.now() + relativedelta(days=extension)
                     hold.expiration_date = expiration
 
-        donor = self.env.ref("partner_compassion.res_partner_category_donor")
         new_donor_partners = other_jobs.filtered(
             lambda j: j.config_id.model == "account.invoice.line"
             and j.config_id.send_mode_pref_field == "thankyou_preference"
-            and donor not in j.partner_id.category_id
         ).mapped("partner_id")
-        new_donor_partners.write({"category_id": [(4, donor.id)]})
         new_donor_partners.filter_onboarding_new_donors().start_new_donors_onboarding()
 
         zoom_invitation = self.env.ref(
@@ -731,7 +728,7 @@ class PartnerCommunication(models.Model):
         attachments = {}
         # Payment slips
         if bv_sponsorships:
-            report_name = "report_compassion.report_2bvr_sponsorship"
+            report_name = "report_compassion.2bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
             if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
                 # One single slip is enough for permanent order.
@@ -789,7 +786,7 @@ class PartnerCommunication(models.Model):
 
         # Payment slips
         if is_payer and make_payment_pdf:
-            report_name = "report_compassion.report_2bvr_sponsorship"
+            report_name = "report_compassion.2bvr_sponsorship"
             data = {"doc_ids": csp.ids}
             pdf = self._get_pdf_from_data(
                 data, self.env.ref("report_compassion.report_2bvr_sponsorship")

@@ -107,6 +107,12 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
             return_flight_form.form_process(**kw)
             form_success = return_flight_form.form_success
 
+        kw["form_model_key"] = "cms.form.group.visit.criminal.record"
+        criminal_form = self.get_form("event.registration", registration.id, **kw)
+        if form_id is None or form_id == criminal_form.form_id:
+            criminal_form.form_process()
+            form_success = criminal_form.form_success
+
         values.update(
             {
                 "trip_info_form": trip_info_form,
@@ -114,6 +120,7 @@ class MuskathlonWebsite(EventsController, CustomerPortal):
                 "passport_form": passport_form,
                 "outbound_flight_form": outbound_flight_form,
                 "return_flight_form": return_flight_form,
+                "criminal_form": criminal_form,
             }
         )
         values.update(kw)

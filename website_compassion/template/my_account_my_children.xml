@@ -105,14 +105,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link border-0">
                                         <!-- We add a border for the selected child -->
-                                        <t t-if="child.id == child_id.id">
-                                            <t t-set="opacity" t-value="'1' if child.state == 'P' else '0.4'"/>
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-primary border-5 mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; opacity: #{opacity}"/>
-                                        </t>
-                                        <t t-else="">
-                                            <t t-set="opacity" t-value="'0.7' if child.state == 'P' else '0.4'"/>
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-primary border-1 mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; opacity: #{opacity}"/>
-                                        </t>
+                                        <t t-set="opacity" t-value="'0.7' if child.state == 'P' else '0.4'"/>
+                                        <img t-attf-id="child_{{child.id}}" class="child-image rounded-circle mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; opacity: #{opacity}"/>
                                         <span t-attf-id="child_name_#{child.id}" t-esc="child.preferred_name" t-att-class="'font-weight-bold' if child.id == child_id.id else None"/>
                                         <br/>
                                         <span t-attf-id="child_local_id_#{child.id}" t-esc="child.local_id" t-att-class="'font-weight-bold' if child.id == child_id.id else None"/>

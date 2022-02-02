@@ -37,7 +37,8 @@ class PrintSponsorshipBvr(models.TransientModel):
     paper_format = fields.Selection(
         [
             ("report_compassion.2bvr_sponsorship", "2 BVR"),
-            ("report_compassion.bvr_sponsorship", "Single BVR"),
+            ("report_compassion.bvr_sponsorship", "Single BVR A4"),
+            ("report_compassion.single_bvr_sponsorship", "Single BVR"),
         ],
         default="report_compassion.2bvr_sponsorship",
     )
@@ -54,7 +55,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         today = date.today()
         start = today.replace(day=1, month=1)
         # Exception in December, we want to print for next year.
-        if today.month == 12 and today.day > 10:
+        if today.month == 12 and today.day >= 15:
             start = start.replace(year=today.year + 1)
         return start.replace(day=1)
 
@@ -63,7 +64,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         today = date.today()
         stop = today.replace(day=31, month=12)
         # Exception in December, we want to print for next year.
-        if today.month == 12 and today.day > 10:
+        if today.month == 12 and today.day >= 15:
             stop = stop.replace(year=today.year + 1)
         return stop
 

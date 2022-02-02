@@ -6,6 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import base64
 from datetime import datetime
 
 import logging
@@ -68,7 +69,6 @@ class ProjectCreationWizard(models.AbstractModel):
             step_values = self._prepare_step_values_to_store(self.request.form, {})
             self.wiz_save_step(step_values)
         return super().form_next_url(main_object) + "?save=True"
-
 
     def sanitized_url(values, key):
         def validate_url(url):

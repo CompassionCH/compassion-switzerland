@@ -249,12 +249,23 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.multi
     def agree_to_child_protection_charter(self):
-        return self.write(
-            {
-                "has_agreed_child_protection_charter": True,
-                "date_agreed_child_protection_charter": fields.Datetime.now(),
-            }
-        )
+        return self.write({"has_agreed_child_protection_charter": True})
+
+    @api.multi
+    def update_child_protection_charter(self, vals):
+        for partner in self:
+            agreed = vals.get("has_agreed_child_protection_charter")
+            date = fields.Datetime.now() if agreed else None
+            vals.update({
+                "date_agreed_child_protection_charter": date,
+            })
+            agreed_message = _("Has agreed to the child protection charter.")
+            disagreed_message = _("Has disagreed to the child protection charter.")
+            partner.message_post(
+                body=agreed_message if agreed else disagreed_message,
+                subject=_("Child protection charter"),
+            )
+        return True
 
     @api.multi
     def get_unreconciled_amount(self):
@@ -377,6 +388,10 @@ class ResPartner(models.Model):
                         summary="Potential volunteer",
                         note="This person wants to be involved with volunteering",
                         user_id=notify_user)
+        if "zip" in vals:
+            self.update_state_from_zip(vals)
+        if "has_agreed_child_protection_charter" in vals:
+            self.update_child_protection_charter(vals)
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
@@ -528,10 +543,28 @@ class ResPartner(models.Model):
             geo_point = fields.GeoPoint.from_latlon(
                 self.env.cr, partner.partner_latitude, partner.partner_longitude
             )
-            vals = {"geo_point": geo_point.wkt}
+            vals = {"geo_point": geo_point}
             partner.write(vals)
             partner.advocate_details_id.write(vals)
         return True
+
+    def update_state_from_zip(self, vals):
+        zip_ = vals.get("zip")
+        country_id = vals.get("country_id") or self[:1].country_id.id
+        domain = [
+            ("name", "=", zip_),
+            ("city_id.country_id", "=", country_id),
+        ]
+        city_zip = self.env["res.city.zip"].search(domain)
+        state = city_zip.mapped("city_id.state_id")
+        vals.update({
+            # check if a state was found or not for this zip
+            "state_id": state.id if len(state) == 1 else None,
+            # remove this field value since its only used for the UI
+            "zip_id": None,
+        })
+        return vals
+
 
     @api.multi
     def generate_bvr_reference(self, product):

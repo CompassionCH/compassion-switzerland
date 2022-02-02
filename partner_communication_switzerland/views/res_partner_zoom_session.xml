@@ -20,10 +20,11 @@
                         <group>
                             <field name="date_start"/>
                             <field name="lang"/>
-                            <field name="participant_ids" widget="many2many_tags" context="{'default_zoom_session_id': active_id}" options="{'color_field': 'color'}"/>
+                            <field name="participant_ids" widget="many2many_tags" context="{'default_zoom_session_id': active_id}" options="{'color_field': 'color'}" domain="[('zoom_session_id', '=', active_id)]"/>
                         </group>
                         <group>
                             <field name="date_stop"/>
+                            <field name="date_send_link" readonly="1"/>
                         </group>
                     </group>
                     <group>
@@ -106,6 +107,7 @@
                         <field name="zoom_session_id"/>
                         <field name="partner_id"/>
                         <field name="state"/>
+                        <field name="link_received" states="invited,confirmed,attended"/>
                         <field name="optional_message"/>
                     </group>
                 </sheet>
@@ -124,6 +126,7 @@
             <tree>
                 <field name="partner_id"/>
                 <field name="state"/>
+                <field name="link_received"/>
             </tree>
         </field>
     </record>

@@ -149,3 +149,14 @@ class BvrSponsorshipDue(models.AbstractModel):
             }
         )
         return data
+
+
+class SingleBvrSponsorship(models.AbstractModel):
+    _name = "report.report_compassion.single_bvr_sponsorship"
+    _inherit = "report.report_compassion.bvr_sponsorship"
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        if data is None:
+            raise Exception()
+        return super()._get_report_values(docids, data)

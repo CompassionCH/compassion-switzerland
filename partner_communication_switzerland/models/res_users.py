@@ -71,7 +71,7 @@ class ResUsers(models.Model):
                     "lang": self.env.lang,
                     "lang_short": self.env.lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
-                    "office_hours": _("mo-fri: 8am-4pm"),
+                    "office_hours": _("mo-thu: 8am-4pm<br/>fri 8am-12am"),
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(self.env.lang),
                     "phone": phone.get(self.env.lang),

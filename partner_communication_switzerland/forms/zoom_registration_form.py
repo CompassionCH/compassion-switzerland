@@ -62,8 +62,18 @@ class ZoomRegistrationForm(models.AbstractModel):
 
     def _form_create(self, values):
         # Create as sudo user
+        attendee_obj = self.form_model.sudo()
         try:
-            self.main_object = self.form_model.sudo().create(values.copy())
+            attendee = attendee_obj.search([
+                ("partner_id", "=", values["partner_id"]),
+                ("zoom_session_id", "=", int(values["zoom_session_id"])),
+                ("state", "=", "invited")
+            ])
+            if attendee:
+                attendee.write(values.copy())
+            else:
+                attendee = attendee_obj.create(values.copy())
+            self.main_object = attendee
         except IntegrityError:
             # Make error message more friendly
             raise IntegrityError(_("You are already registered for this session."))
@@ -73,7 +83,7 @@ class ZoomRegistrationForm(models.AbstractModel):
             self.main_object.sudo().inform_about_next_session()
         if values.get("optional_message"):
             self.main_object.sudo().notify_user()
-        self.main_object.sudo().send_confirmation()
+        self.main_object.sudo().form_completion_callback()
 
     @property
     def form_msg_success_created(self):
