@@ -441,19 +441,24 @@ class PartnerCommunication(models.Model):
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
 
-    def get_end_sponsorship_certificate(self):
+    def get_end_sponsorship_certificate_new_version(self):
+        return self.get_end_sponsorship_certificate(new_version=True)
+
+    def get_end_sponsorship_certificate(self, new_version=False):
         self.ensure_one()
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
         report_name = "report_compassion.ending_sponsorship_certificate"
         data = {
             "lang": lang,
-            "is_pdf": self.send_mode != "physical",
-            "type": report_name,
+            "digital": self.send_mode != "physical",
             "doc_ids": sponsorships.ids,
+            "long_lasting": max(sponsorships.mapped('contract_duration')) >= 730,
+            "new_version": new_version
         }
         pdf = self._get_pdf_from_data(
-            data, self.sudo().env.ref("report_compassion.report_ending_sponsorship_certificate")
+            data, self.sudo().env.ref(
+                "report_compassion.report_ending_sponsorship_certificate")
         )
         return {_("ending sponsorship certificate.pdf"): [report_name, pdf]}
 
