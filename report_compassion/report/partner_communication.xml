@@ -242,7 +242,7 @@
                     <hr/>
                 </div>
                 <span t-raw="partner.short_address"/>
-                <div id="date" t-if="print_header" t-attf-style="margin-top: #{'10' if display_pp else '15'}mm;">
+                <div id="date" t-if="print_header" t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;">
                     <span t-raw="partner.date_communication"/>
                 </div>
             </div>
