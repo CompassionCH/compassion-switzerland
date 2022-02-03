@@ -58,7 +58,7 @@ class EventMail(models.Model):
         for scheduler in self.filtered(lambda s: not s.mail_sent):
             # update registration lines
             missing_registrations = scheduler.event_id.registration_ids.filtered(
-                lambda r: not scheduler.stage_id or r.stage_id == scheduler.stage_id
+                lambda r: (not scheduler.stage_id or r.stage_id == scheduler.stage_id)
                 and r.state != "cancel"
             ) - scheduler.mail_registration_ids.mapped("registration_id")
             if missing_registrations:
@@ -74,7 +74,8 @@ class EventMail(models.Model):
 
             if scheduler.interval_type in ("after_sub", "after_stage"):
                 mail_registrations = mail_registrations.filtered(
-                    lambda reg: reg.scheduled_date and reg.scheduled_date <= fields.Datetime.now()
+                    lambda reg: reg.scheduled_date
+                    and reg.scheduled_date <= fields.Datetime.now()
                 )
 
             # execute scheduler on registrations only mark the scheduler as mail sent
@@ -142,5 +143,5 @@ class EventMailRegistration(models.Model):
             if communication is None or communication.state in ["failure"]:
                 sent_to_everyone = False
                 continue
-            email.write({"mail_sent": True})
+            email.write({"mail_sent": communication.state == "done"})
         return sent_to_everyone
