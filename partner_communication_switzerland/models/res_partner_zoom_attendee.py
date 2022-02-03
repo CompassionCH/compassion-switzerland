@@ -17,7 +17,8 @@ COLOR_MAPPING = {
     "invited": 0,
     "confirmed": 10,
     "declined": 1,
-    "attended": 11
+    "attended": 11,
+    "missing": 6,
 }
 
 
@@ -43,6 +44,7 @@ class ZoomAttendee(models.Model):
         ("invited", "Invited"),
         ("confirmed", "Confirmed"),
         ("attended", "Attended"),
+        ("missing", "Didn't show up"),
         ("declined", "Declined")
     ], default="invited", group_expand="_expand_states")
     optional_message = fields.Text()
