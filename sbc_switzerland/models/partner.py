@@ -23,26 +23,6 @@ class ResPartner(models.Model):
 
     _inherit = "res.partner"
 
-    @api.multi
-    def write(self, vals):
-        res = super().write(vals)
-
-        translation = self.env.ref("partner_compassion.engagement_translation")
-
-        for partner in self:
-            if translation in partner.engagement_ids:
-                tc_values = ["lang", "ref", "email", "firstname", "lastname"]
-                tc_change = functools.reduce(
-                    lambda x, y: x or y, [v in vals for v in tc_values]
-                )
-
-                if tc_change:
-                    tc = translate_connector.TranslateConnect()
-                    # _logger.info("translator tag still present, we update "
-                    #              "partner in translation platform")
-                    tc.upsert_user(partner, create=False)
-
-        return res
 
     @api.multi
     def agree_to_child_protection_charter(self):
