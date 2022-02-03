@@ -61,7 +61,6 @@ for(let i = 0; i < document.getElementsByClassName("child-card").length; i++) {
     child_card.addEventListener("click", function() {load_auto_text(child_card.dataset.childid)});
 }
 
-
 function downloadLetter() {
     window.open("/my/download/labels/?child_id=" + $('#child_id').text());
 }
