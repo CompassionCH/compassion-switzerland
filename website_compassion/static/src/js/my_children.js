@@ -13,6 +13,8 @@ function selectChild(selected_child_id, reload) {
     // on some pages, its easier to reload the page with the right url
     if(reload){
         window.location = url;
+        // since the page reload is slow don't update the UI before the reload
+        return;
     }
 
     // unselect all

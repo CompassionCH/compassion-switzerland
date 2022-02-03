@@ -14,6 +14,7 @@ const max_size = 1000;
 const hard_max_size_limit = 1e7;
 const resize_limit = 2e5;
 
+const child_id = document.getElementById("child_id");
 const file_selector = document.getElementById("file_selector");
 const image_display_table = document.getElementById("image_display_table");
 const letter_content = document.getElementById("letter_content");
@@ -47,8 +48,10 @@ function selectTemplate(selected_template_id) {
 selectTemplate(template_id.innerHTML);
 
 function load_auto_text(child_id) {
-    let text = document.getElementById("auto_text_" + child_id).innerHTML;
-    letter_content.value = text;
+    let el = document.getElementById("auto_text_" + child_id);
+    if(el) {
+        letter_content.value = el.innerHTML;
+    }
 }
 load_auto_text(new URLSearchParams(window.location.search).get("child_id"));
 
@@ -57,8 +60,6 @@ for(let i = 0; i < document.getElementsByClassName("child-card").length; i++) {
     let child_card = child_cards[i];
     child_card.addEventListener("click", function() {load_auto_text(child_card.dataset.childid)});
 }
-
-
 
 function downloadLetter() {
     window.open("/my/download/labels/?child_id=" + $('#child_id').text());
@@ -247,46 +248,51 @@ function startStopLoading(type) {
  * Create a new letter object in the database
  * @param preview boolean to determine whether we want to see the preview
  * @param with_loading determines whether we want to have a loading or not
- * @returns {Promise<unknown>} return the entire method as a promise so that
  * we can send a letter directly if the user pressed the corresponding button
  */
 async function createLetter(preview = false, with_loading = true) {
-    return new Promise(function(resolve) {
+    if (with_loading) {
+        startStopLoading("preview");
+    }
+
+    let params = new URLSearchParams(window.location.search);
+
+    json_data = {
+        "letter-copy": letter_content.value,
+        "selected-child": params.get("child_id"),
+        "selected-letter-id": params.get("template_id"),
+        "source": "website",
+    }
+    if (images_comp.length > 0) {
+        json_data["file_upl"] = images_comp[0];
+    }
+
+    let form_data = new FormData();
+    for (let key in json_data ) {
+        form_data.append(key, json_data[key]);
+    }
+
+    let init = {
+        method: "POST",
+        // Do not set the Content-Type, otherwise the form data can not set the multipart boundary
+        //headers: {"Content-Type": "multipart/form-data"},
+        body: form_data
+    };
+    let request = new Request(`${window.location.origin}/mobile-app-api/correspondence/get_preview`);
+    let response = await fetch(request, init);
+    return response.text().then(function(text) {
         if (with_loading) {
             startStopLoading("preview");
         }
-        let form_data = new FormData();
-
-        form_data.append("letter-copy", $('#letter_content').text());
-        form_data.append("selected-child", $('#child_local_id').text());
-        form_data.append("selected-letter-id", template_id.innerHTML);
-        form_data.append("source", "website");
-        // TODO CI-765: Handle properly multiple images
-        if (images_list.length > 0) {
-            form_data.append("file_upl", images_comp[0]);
+        if (!response.ok) {
+            displayAlert("preview_error");
+            return false;
         }
-        // TODO CI-765: end of block
-
-        let xhr = new XMLHttpRequest();
-        let url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
-        xhr.open("POST", url, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (preview) {
-                    if (with_loading) {
-                        startStopLoading("preview");
-                    }
-                    if (xhr.status === 200) {
-                        window.open(xhr.responseText.slice(1, -1), "_blank");
-                    } else {
-                        displayAlert("preview_error");
-                    }
-                }
-                resolve();
-            }
-        };
-        xhr.send(form_data);
-    })
+        if (preview) {
+            window.open(text.slice(1, -1), "_blank");
+        }
+        return true;
+    });
 }
 
 /**
@@ -297,37 +303,40 @@ async function sendLetter() {
     startStopLoading("sending");
     await createLetter(preview = false, with_loading = false);
 
-    let json_data = JSON.parse(`{
-        "TemplateID": "${$('#template_id').text()}",
-        "Need": "${$('#child_id').text()}"
-    }`);
+    let params = new URLSearchParams(window.location.search);
 
-    let get_params = new URLSearchParams(window.location.search)
-    get_params.forEach(function(v, k, _) {
+    let json_data = {
+        "TemplateID": params.get("template_id"),
+        "Need": params.get("child_id"),
+    };
+
+    params.forEach(function(v, k, _) {
         json_data[k] = v;
     })
 
-    let xhr = new XMLHttpRequest();
-    let url = `${window.location.origin}/mobile-app-api/correspondence/send_letter`;
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                // Empty images and text (to avoid duplicate)
-                letter_content.value = "";
-                for (let i = 0; i < images_list.length; i++) {
-                    let image = images_list[i];
-                    removeImage(image.name, image.size, image.type);
-                }
-
-                $("#letter_sent_correctly").modal('show');
-                $(".christmas_action").toggleClass("d-none");
-            } else {
-                displayAlert("letter_error");
-            }
-        }
-        startStopLoading("sending");
+    let init = {
+        method: "POST",
+        headers: new Headers({"Content-Type": "application/json"}),
+        body: JSON.stringify(json_data)
     };
-    xhr.send(JSON.stringify(json_data));
+    let request = new Request(`${window.location.origin}/mobile-app-api/correspondence/send_letter`);
+    let response = await fetch(request, init);
+    console.log(response);
+    let answer = response.text().then(function(text) {
+        if (!response.ok) {
+            displayAlert("letter_error");
+            return false;
+        }
+
+        // Empty images and text (to avoid duplicate)
+        letter_content.value = "";
+        for (let i = 0; i < images_list.length; i++) {
+            let image = images_list[i];
+            removeImage(image.name, image.size, image.type);
+        }
+
+        $("#letter_sent_correctly").modal('show');
+        $(".christmas_action").toggleClass("d-none");
+    });
+    startStopLoading("sending");
 }
