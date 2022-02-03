@@ -30,8 +30,10 @@
                 </t>
 
                 <!-- The horizontal pictures to select the child -->
-                <t t-set="javascript_hook">my_children_select_child</t>
-                <t t-set="javascript_param" t-value="state"/>
+                <!-- When reload is set to true, the child picture are link that
+                reload the page instead of only selecting the child
+                this allow more flexibility on the behaviour of a click -->
+                <t t-set="reload" t-value="'true'"/>
                 <t t-call="website_compassion.children_horizontal_cards"/>
 
                 <!-- Small menu to jump directly to the right section inside the view -->
@@ -78,9 +80,8 @@
 
         <!-- Children pictures at the top of the view -->
         <template id="children_horizontal_cards">
-<!--            Template for horizontal children cards. Must provide following data :
-            - javascript_hook : name of function called when clicking on a child.
-            - javascript_param : parameter passed to the javascript function.
+            <!-- Template for horizontal children cards. Must provide following data :
+            - reload: 'true' or 'false' string if the page should be reloaded or not when selecting a child
             - children : recordset of children
             - child_id : current selected child -->
             <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -89,8 +90,7 @@
                         <t t-foreach="children" t-as="child">
                             <!-- Setting headshot for each child -->
                             <t t-if="child.image_url">
-                                <t t-set="child_image" t-value="request.env[
-                                    'child.pictures.download.wizard'
+                                <t t-set="child_image" t-value="request.env['child.pictures.download.wizard'
                                 ].get_picture_url(child.image_url, 'headshot', 150, 150)"/>
                             </t>
                             <t t-elif="child.gender == 'M'">
@@ -101,21 +101,13 @@
                             </t>
 
                             <!-- Creating the actual card for each children -->
-                            <div t-attf-id="card_child_{{child.id}}" t-attf-onclick="#{javascript_hook}('#{child.id}', '#{javascript_param}')" class="card card-clickable text-center text-primary bg-light m-1 mx-auto" style="width: 12rem;height: 13rem;">
+                            <div t-attf-id="child-card-{{child.id}}" t-attf-data-childid="{{child.id}}" t-attf-onclick="selectChild({{child.id}}, {{reload}})" class="child-card card card-clickable text-center text-primary bg-light m-1 mx-auto" style="width: 12rem; height: 13rem;">
                                 <li class="nav-item">
                                     <a class="nav-link border-0">
-                                        <!-- We add a border for the selected child -->
-                                        <t t-if="child.id == child_id.id">
-                                            <t t-set="opacity" t-value="'1' if child.state == 'P' else '0.4'"/>
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-primary border-5 mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; opacity: #{opacity}"/>
-                                        </t>
-                                        <t t-else="">
-                                            <t t-set="opacity" t-value="'0.7' if child.state == 'P' else '0.4'"/>
-                                            <img t-attf-id="child_{{child.id}}" class="rounded-circle border border-primary border-1 mb-2" t-att-src="child_image" alt="Child image" t-attf-style="width: 90%; height: 90%; opacity: #{opacity}"/>
-                                        </t>
-                                        <span t-attf-id="child_name_#{child.id}" t-esc="child.preferred_name" t-att-class="'font-weight-bold' if child.id == child_id.id else None"/>
+                                        <img t-attf-id="child-image-{{child.id}}" class="child-image rounded-circle mb-2" t-att-src="child_image" alt="Child image" style="width: 90%; height: 90%;"/>
+                                        <span t-attf-id="child-name-{{child.id}}" class="child-name" t-esc="child.preferred_name"/>
                                         <br/>
-                                        <span t-attf-id="child_local_id_#{child.id}" t-esc="child.local_id" t-att-class="'font-weight-bold' if child.id == child_id.id else None"/>
+                                        <span t-attf-id="child-local_id-{{child.id}}" class="child-local_id" t-esc="child.local_id"/>
                                     </a>
                                 </li>
                             </div>
@@ -123,6 +115,7 @@
                     </ul>
                 </div>
             </nav>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_children.js" defer="defer"/>
         </template>
 
         <!-- Children general information inside the view -->

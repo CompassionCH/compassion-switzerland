@@ -41,21 +41,25 @@ body {
         padding: 5mm;
     }
 
-    .paperclip_top {
+    .scissors_top {
         position: absolute;
         top: -3mm;
         font-size: 18pt;
         color: black;
     }
 
-    .paperclip_bottom {
+    .scissors_bottom {
         position: absolute;
         bottom: -5mm;
         font-size: 18pt;
         color: black;
     }
 
-    .paperclip_right {
+    .scissors_none {
+        display: none;
+    }
+
+    .scissors_right {
         position: absolute;
         top: 5mm;
         left: 58mm;
@@ -87,7 +91,7 @@ body {
     }
 
     .swissqr_text {
-        font-family: OCR-B, Arial, Frutiger, Helvetica;
+        font-family: Helvetica, OCR-B, Arial, Frutiger;
         color: black;
     }
 

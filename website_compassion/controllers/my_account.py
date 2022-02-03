@@ -6,6 +6,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from urllib.error import HTTPError
+
 from .auto_texts import CHRISTMAS_TEXTS
 
 import base64
@@ -143,7 +145,10 @@ def _create_archive(images, archive_name):
 
             # Create file, write to archive and delete it from os
             img_url = IMG_URL.format(id=img.id)
-            urlretrieve(img_url, filename)
+            try:
+                urlretrieve(img_url, filename)
+            except HTTPError:
+                continue
             archive.write(filename, full_path)
             remove(filename)
 
@@ -159,7 +164,19 @@ def _create_archive(images, archive_name):
     )
 
 
-def _download_image(type, child_id=None, obj_id=None):
+def _single_image_response(image):
+    ext = image.image_url.split(".")[-1]
+    data = urlopen(IMG_URL.format(id=image.id)).read()
+    filename = f"{image.child_id.preferred_name}_{image.date}.{ext}"
+
+    return request.make_response(
+        data,
+        [("Content-Type", f"image/{ext}"),
+         ("Content-Disposition", content_disposition(filename))]
+    )
+
+
+def _download_image(child_id, obj_id):
     """
     Download one or multiple images (in a .zip archive if more than one) and
     return a response for the user to download it.
@@ -169,34 +186,31 @@ def _download_image(type, child_id=None, obj_id=None):
     :return: A response for the user to download a single image or an archive
     containing multiples
     """
-    if type == "all":  # We want to download all the images of all children
-        children = _get_user_children()
+    children = _get_user_children()
+
+    # All children, all images
+    if children and child_id < 0 and obj_id < 0:
         images = []
         for child in children:
             images += _fetch_images_from_child(child)
-        return _create_archive(images, f"my_children_pictures.zip")
+        filename = f"my_children_pictures.zip"
+        return _create_archive(images, filename)
 
-    child = request.env["compassion.child"].browse(int(child_id))
+    # One child
+    child = children.filtered(lambda c: c.id == child_id)
 
-    if type == "multiple":  # We want to download all images from one child
-        return _create_archive(
-            _fetch_images_from_child(child),
-            f"{child.preferred_name}_{child.local_id}.zip"
-        )
+    # All images from a child
+    if child and obj_id < 0:
+        images = _fetch_images_from_child(child)
+        filename = f"{child.preferred_name}_{child.local_id}.zip"
+        return _create_archive(images, filename)
 
-    if type == "single":  # We want to download a single image from a child
-        image = request.env["compassion.child.pictures"].browse(int(obj_id))
+    # A single image from a child
+    if child and obj_id > 0:
+        image = child.pictures_ids.filtered(lambda p: p.id == obj_id)
+        return _single_image_response(image)
 
-        # We get the extension and the binary content from URL
-        ext = image.image_url.split(".")[-1]
-        data = urlopen(IMG_URL.format(id=image.id)).read()
-        filename = f"{child.preferred_name}_{image.date}.{ext}"
-
-        return request.make_response(
-            data,
-            [("Content-Type", f"image/{ext}"),
-             ("Content-Disposition", content_disposition(filename))]
-        )
+    return False
 
 
 class MyAccountController(PaymentFormController):
@@ -330,7 +344,7 @@ class MyAccountController(PaymentFormController):
             template_id = templates[0].id
         template = templates.filtered(lambda t: t.id == int(template_id))
         auto_texts = {}
-        if kwargs.get("auto_christmas"):
+        if "auto_christmas" in kwargs:
             for c in children:
                 auto_texts[c.id] = CHRISTMAS_TEXTS.get(
                     c.field_office_id.primary_language_id.code_iso,
@@ -377,55 +391,56 @@ class MyAccountController(PaymentFormController):
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
-        # A child is selected
-        if child_id:
-            child = children.filtered(lambda c: c.id == int(child_id))
-            if not child:  # The user does not sponsor this child_id
-                return request.redirect(
-                    f"/my/children?state={state}&child_id={children[0].id}"
-                )
-            partner = request.env.user.partner_id
-
-            correspondence_obj = request.env["correspondence"]
-            correspondent = partner
-
-            if partner.app_displayed_sponsorships == "all_info":
-                correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
-                correspondence_obj = correspondence_obj.sudo()
-
-            letters = correspondence_obj.search([
-                ("partner_id", "in", correspondent.ids),
-                ("child_id", "=", int(child_id)),
-                "|",
-                "&", ("direction", "=", "Supporter To Beneficiary"),
-                ("state", "!=", "Quality check unsuccessful"),
-                "&", "&", ("state", "=", "Published to Global Partner"),
-                ("letter_image", "!=", False),
-                "|", ("communication_id", "=", False), ("sent_date", "!=", False)
-            ])
-            gift_categ = request.env.ref(
-                "sponsorship_compassion.product_category_gift"
-            )
-            lines = request.env["account.invoice.line"].sudo().search([
-                ("partner_id", "=", partner.id),
-                ("state", "=", "paid"),
-                ("contract_id.child_id", "=", child.id),
-                ("product_id.categ_id", "=", gift_categ.id),
-                ("price_total", "!=", 0),
-            ])
-            request.session['child_id'] = child.id
-            return request.render(
-                "website_compassion.my_children_page_template",
-                {"child_id": child,
-                 "children": children,
-                 "letters": letters,
-                 "lines": lines,
-                 "state": state,
-                 "display_state": display_state}
-            )
-        else:
-            # No child is selected, we pick the first one by default
+        # No child is selected, we pick the first one by default
+        if not child_id:
             return request.redirect(f"/my/children?child_id={children[0].id}")
+
+        # A child is selected
+        child = children.filtered(lambda c: c.id == int(child_id))
+
+        # The user does not sponsor this child_id
+        if not child:
+            return request.redirect(f"/my/children?state={state}&child_id={children[0].id}")
+
+        # This child is sponsored by this user and is selected
+        partner = request.env.user.partner_id
+        correspondence_obj = request.env["correspondence"]
+        correspondent = partner
+
+        if partner.app_displayed_sponsorships == "all_info":
+            correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
+            correspondence_obj = correspondence_obj.sudo()
+
+        letters = correspondence_obj.search([
+            ("partner_id", "in", correspondent.ids),
+            ("child_id", "=", int(child_id)),
+            "|",
+            "&", ("direction", "=", "Supporter To Beneficiary"),
+            ("state", "!=", "Quality check unsuccessful"),
+            "&", "&", ("state", "=", "Published to Global Partner"),
+            ("letter_image", "!=", False),
+            "|", ("communication_id", "=", False), ("sent_date", "!=", False)
+        ])
+        gift_categ = request.env.ref("sponsorship_compassion.product_category_gift")
+        lines = request.env["account.invoice.line"].sudo().search([
+            ("partner_id", "=", partner.id),
+            ("state", "=", "paid"),
+            ("contract_id.child_id", "=", child.id),
+            ("product_id.categ_id", "=", gift_categ.id),
+            ("price_total", "!=", 0),
+        ])
+        request.session['child_id'] = child.id
+        return request.render(
+            "website_compassion.my_children_page_template",
+            {
+                "child_id": child,
+                "children": children,
+                "letters": letters,
+                "lines": lines,
+                "state": state,
+                "display_state": display_state
+            }
+        )
 
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
@@ -644,15 +659,10 @@ class MyAccountController(PaymentFormController):
             return params[key]
 
         if source == "picture":
-            child_id = kw.get("child_id", False)
-            obj_id = kw.get("obj_id", False)
+            child_id = int(kw.get("child_id", -1))
+            obj_id = int(kw.get("obj_id", -1))
+            return _download_image(child_id, obj_id)
 
-            if child_id and obj_id:
-                return _download_image("single", child_id, obj_id)
-            elif child_id:
-                return _download_image("multiple", child_id)
-            else:
-                return _download_image("all")
         elif source == "tax_receipt":
             partner = request.env.user.partner_id
             year = _get_required_param("year", kw)
@@ -670,6 +680,7 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+
         elif source == "sponsorship_bvr":
             partner = request.env.user.partner_id
             # list active sponsorship where current user is partner (and not only correspondent)
@@ -688,6 +699,7 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+
         elif source == "gift_bvr":
             partner = request.env.user.partner_id
             child_id = int(_get_required_param("child_id", kw))
@@ -708,6 +720,7 @@ class MyAccountController(PaymentFormController):
             )
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
+
         elif source == "labels":
             child_id = _get_required_param("child_id", kw)
             actives = _get_user_children("active")

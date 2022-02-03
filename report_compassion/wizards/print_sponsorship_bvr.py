@@ -37,7 +37,8 @@ class PrintSponsorshipBvr(models.TransientModel):
     paper_format = fields.Selection(
         [
             ("report_compassion.2bvr_sponsorship", "2 BVR"),
-            ("report_compassion.bvr_sponsorship", "Single BVR"),
+            ("report_compassion.bvr_sponsorship", "Single BVR A4"),
+            ("report_compassion.single_bvr_sponsorship", "Single BVR"),
         ],
         default="report_compassion.2bvr_sponsorship",
     )

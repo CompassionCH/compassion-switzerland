@@ -23,7 +23,7 @@ class AccountInvoiceLine(models.Model):
         # The campaign takes precedence over analytic at creation
         # because the donation may come from a campaign and we need to preserve
         # this information
-        if "campaign_id" in vals:
+        if vals.get("campaign_id"):
             analytic = self.env["account.analytic.account"].search([
                 ("campaign_id", "=", vals["campaign_id"])
             ], limit=1)

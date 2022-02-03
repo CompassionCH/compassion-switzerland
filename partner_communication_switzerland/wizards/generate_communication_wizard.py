@@ -184,10 +184,13 @@ class GenerateCommunicationWizard(models.TransientModel):
                     "partner_id": partner.id,
                     "object_ids": sponsorship.id,
                     "config_id": self.model_id.id,
-                    "auto_send": False,
-                    "send_mode": self.send_mode,
                     "report_id": self.report_id.id or self.model_id.report_id.id,
                 }
+                if self.send_mode:
+                    vals.update({
+                        "send_mode": self.send_mode,
+                        "auto_send": False,
+                    })
                 if async_mode:
                     wizard.with_delay().create_communication(vals)
                 else:
