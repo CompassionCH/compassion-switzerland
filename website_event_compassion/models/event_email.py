@@ -130,20 +130,17 @@ class EventMailRegistration(models.Model):
         for email in self:
             if email.mail_sent:
                 continue
-            try:
-                # if the communication fail by either an uncaught exception or is in the state failure
-                # skip this mail and dont mark it as sent
-                communication = self.env["partner.communication.job"].create(
-                    {
-                        "partner_id": email.registration_id.partner_id.id,
-                        "object_ids": email.registration_id.ids,
-                        "config_id": email.scheduler_id.communication_id.id,
-                    }
-                )
-                if communication is None or communication.state in ["failure"]:
-                    raise Exception
-                email.write({"mail_sent": True})
-            except Exception:
+            # if the communication fail by either an uncaught exception or is in the state failure
+            # skip this mail and dont mark it as sent
+            communication = self.env["partner.communication.job"].create(
+                {
+                    "partner_id": email.registration_id.partner_id.id,
+                    "object_ids": email.registration_id.ids,
+                    "config_id": email.scheduler_id.communication_id.id,
+                }
+            )
+            if communication is None or communication.state in ["failure"]:
                 sent_to_everyone = False
                 continue
+            email.write({"mail_sent": True})
         return sent_to_everyone
