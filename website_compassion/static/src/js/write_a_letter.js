@@ -264,7 +264,7 @@ async function createLetter(preview = false, with_loading = true) {
         "selected-letter-id": params.get("template_id"),
         "source": "website",
     }
-    if (images_list.length > 0) {
+    if (images_comp.length > 0) {
         json_data["file_upl"] = images_comp[0];
     }
 
@@ -275,8 +275,9 @@ async function createLetter(preview = false, with_loading = true) {
 
     let init = {
         method: "POST",
-        headers: new Headers(),
-        body: new URLSearchParams(form_data)
+        // Do not set the Content-Type, otherwise the form data can not set the multipart boundary
+        //headers: {"Content-Type": "multipart/form-data"},
+        body: form_data
     };
     let request = new Request(`${window.location.origin}/mobile-app-api/correspondence/get_preview`);
     let response = await fetch(request, init);
