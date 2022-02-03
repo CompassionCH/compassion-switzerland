@@ -329,6 +329,5 @@ async function sendLetter() {
         }
         startStopLoading("sending");
     };
-    console.log(json_data);
     xhr.send(JSON.stringify(json_data));
 }
