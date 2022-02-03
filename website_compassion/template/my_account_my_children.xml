@@ -30,6 +30,9 @@
                 </t>
 
                 <!-- The horizontal pictures to select the child -->
+                <!-- When reload is set to true, the child picture are link that
+                reload the page instead of only selecting the child
+                this allow more flexibility on the behaviour of a click -->
                 <t t-set="reload" t-value="'true'"/>
                 <t t-call="website_compassion.children_horizontal_cards"/>
 
