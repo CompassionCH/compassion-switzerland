@@ -7,6 +7,8 @@ class PasswordSecurityHomeRequirements(PasswordSecurityHome):
         qcontext = super().get_auth_signup_qcontext()
         if qcontext.get('login'):
             user = request.env["res.users"].sudo().search([("login", "=", qcontext.get('login'))])
+            if not user:
+                return qcontext
             message = user.password_match_message()
             lines = message.split("\n")
             message_html = ""
