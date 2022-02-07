@@ -36,6 +36,7 @@
     "website": "http://www.compassion.ch",
     "data": ["views/request.xml", ],
     "depends": [
+        "advanced_translation",
         "mass_mailing_switzerland",
         "child_sync_wp",
         "cms_form_compassion",
