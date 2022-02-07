@@ -45,7 +45,6 @@
     "external_dependencies": {
         "python": [
             "wand",
-            "detectlanguage",
             "bs4",
             "pdf2image",
             "babel",
