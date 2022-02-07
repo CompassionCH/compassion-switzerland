@@ -135,7 +135,10 @@ class ContractGroup(models.Model):
 
         return (
             f"{vals['payment_type']} {vals['amount']}"
-            f"<br/>{vals['subject']}<br/>{vals['date']}"
+            "<br/>"
+            f"{vals['subject']}"
+            "<br/>"
+            f"{vals['date']}"
         )
 
     @api.model
