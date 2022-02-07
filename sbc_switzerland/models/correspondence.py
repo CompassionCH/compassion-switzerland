@@ -16,9 +16,9 @@ from io import BytesIO
 
 from . import translate_connector
 
-from odoo import models, api, registry, fields, _
+from odoo import models, api, fields, _
 from odoo.tools.config import config
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, CacheMiss
 from odoo.addons.sbc_compassion.models.correspondence_page import BOX_SEPARATOR
 
 logger = logging.getLogger(__name__)
@@ -464,6 +464,10 @@ class Correspondence(models.Model):
                 )
                 tc.update_translation_to_treated(letter["id"])
                 self.env.cr.commit()
+            except (KeyError, CacheMiss):
+                # In that case the letter doesn't exist in Odoo
+                self.env.clear()
+                tc.remove_translation_with_odoo_id(letter["letter_odoo_id"])
             except:
                 logger.error(
                     "Error fetching a translation on translation platform",
