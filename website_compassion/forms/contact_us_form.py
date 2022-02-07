@@ -94,7 +94,7 @@ class ContactUsForm(models.AbstractModel):
             "partner_id": self.partner_id.id,
             "categ_id": category_id,
             "user_id": False,
-            "language": self.main_object.detect_lang(values.get("name")).lang_id.code,
+            "language": self.env["langdetect"].detect_language(values.get("name")).lang_id.code,
             "email_from": self.partner_id.email,
             "stage_id": self.sudo().env.ref("crm_claim.stage_claim1").id,
         })
