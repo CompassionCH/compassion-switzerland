@@ -37,78 +37,60 @@ from ..tools.image_compression import compress_big_images
 IMG_URL = "https://erp.compassion.ch/web/image/compassion.child.pictures/{id}/fullshot/"
 
 
-def _map_contracts(partner, mapping_val=None, sorting_val=None,
-                   filter_fun=lambda _: True):
-    """
-    Map the contracts accordingly to the given values
-    :param partner: the partner to map contracts from
-    :param mapping_val: optional value to use for the mapping
-    :param sorting_val: optional sorting value to use
-    :param filter_fun: optional filter function
-    :return:
-    """
-    return (
-            partner.contracts_fully_managed.filtered(filter_fun) +
-            partner.contracts_correspondant.filtered(filter_fun) +
-            partner.contracts_paid.filtered(filter_fun)
-    ).mapped(mapping_val).sorted(sorting_val)
-
-
 def _get_user_children(state=None):
     """
     Find all the children for which the connected user has a contract for.
-    There is the possibility to fetch either only active chidren or only those
+    There is the possibility to fetch either only active children or only those
     that are terminated / cancelled. By default, all sponsorships are returned
 
     :return: a recordset of child.compassion which the connected user sponsors
     """
-    partner = request.env.user.partner_id
+    env = request.env
+    partner = env.user.partner_id
     only_correspondent = partner.app_displayed_sponsorships == "correspondent"
 
     limit_date_active = datetime.now() - relativedelta(months=2)
     limit_date_for_writing = datetime.now() - relativedelta(months=3)
 
-    exit_comm_config = list(
-        map(lambda x: partner.env.ref("partner_communication_switzerland." + x).id, [
-            "lifecycle_child_planned_exit", "lifecycle_child_unplanned_exit"]))
-
-    end_reason_child_depart = partner.env.ref(
-        "sponsorship_compassion.end_reason_depart")
+    end_reason_child_depart = env.ref("sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
-
-        exit_comm_sent = partner.env["partner.communication.job"].search_count([
-            ("partner_id", "=", partner.id),
-            ("config_id", "in", exit_comm_config),
-            ("state", "=", "done"),
-            ("object_ids", "like", sponsorship.id)
-        ])
-
         can_show = True
         is_active = sponsorship.state not in ["draft", "cancelled", "terminated"]
         is_recent_terminated = (
-                sponsorship.state == "terminated"
-                and sponsorship.end_date and sponsorship.end_date >= limit_date_active
-                and sponsorship.end_reason_id == end_reason_child_depart)
-        can_still_write = is_active or sponsorship.state == "terminated"\
-            and sponsorship.end_date and sponsorship.end_date >= limit_date_for_writing
-        is_communication_sent = sponsorship.state == "terminated" and exit_comm_sent
+            sponsorship.state == "terminated"
+            and sponsorship.end_date
+            and sponsorship.end_date >= limit_date_active
+            and sponsorship.end_reason_id == end_reason_child_depart
+        )
+        can_still_write = (
+            is_active
+            or sponsorship.state == "terminated"
+            and sponsorship.end_date
+            and sponsorship.end_date >= limit_date_for_writing
+        )
+        exit_communication_sent = (
+            sponsorship.state == "terminated"
+            and sponsorship.sds_state != "sub_waiting"
+        )
+
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
-            can_show &= is_active or is_recent_terminated or (
-                    not is_communication_sent and can_still_write)
-
+            can_show &= (
+                is_active
+                or is_recent_terminated
+                or (not exit_communication_sent and can_still_write)
+            )
         elif state == "terminated":
-            can_show &= sponsorship.state in ["cancellled", "terminated"] and not \
-                (is_recent_terminated or (is_communication_sent and can_still_write))
+            can_show &= (
+                sponsorship.state in ["cancelled", "terminated"]
+                and not (is_recent_terminated or (exit_communication_sent and can_still_write))
+            )
 
         return can_show
 
-    return _map_contracts(
-        partner, mapping_val="child_id", sorting_val="preferred_name",
-        filter_fun=filter_sponsorships
-    )
+    return partner.sponsorship_ids.filtered(filter_sponsorships).mapped("child_id").sorted("preferred_name")
 
 
 def _fetch_images_from_child(child):
@@ -491,10 +473,10 @@ class MyAccountController(PaymentFormController):
 
         last_completed_tax_receipt = partner.last_completed_tax_receipt
 
-        groups = _map_contracts(
-            partner, "group_id", filter_fun=lambda s: s.state not in
-                                                      ["cancelled", "terminated"] and partner == s.mapped("partner_id")
-        )
+        groups = partner.sponsorship_ids.filtered(
+            lambda s: s.state not in ["cancelled", "terminated"] and partner == s.mapped("partner_id")
+        ).mapped("group_id")
+
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
