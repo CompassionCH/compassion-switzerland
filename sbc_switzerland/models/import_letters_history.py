@@ -16,6 +16,8 @@ import logging
 import traceback
 from pathlib import Path
 
+from paramiko.ssh_exception import SSHException
+
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 from odoo.tools.config import config
@@ -103,7 +105,7 @@ class ImportLettersHistory(models.Model):
             try:
                 with letter._get_connection() as sftp:
                     letter.nber_letters = len(sftp.listdir(letter.import_folder_path))
-            except (FileNotFoundError, TypeError):
+            except (FileNotFoundError, TypeError, SSHException):
                 others += letter
         super(ImportLettersHistory, others)._compute_nber_letters()
 
