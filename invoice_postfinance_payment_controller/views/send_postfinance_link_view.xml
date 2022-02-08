@@ -16,8 +16,6 @@
                     <p>You can edit here the origin of the invoice. This short notice will appear to the partner on the Postfinance transaction page.</p>
                     <group>
                         <field name="origin"/>
-                        <field name="success_url"/>
-                        <field name="error_url"/>
                     </group>
                     <group>
                         <field name="invoice_ids" context="{'search_default_unpaid': 1}"/>

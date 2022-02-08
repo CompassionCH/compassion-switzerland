@@ -6,7 +6,6 @@ class CrowdfundingDonationForm(models.AbstractModel):
     _inherit = ["cms.form.payment", "cms.form.match.partner"]
 
     _form_model = "crowdfunding.participant"
-    _display_type = "full"
 
     # Just load the participant partner to avoid security issues with relation fields
     _form_model_fields = ["partner_id"]
@@ -60,12 +59,8 @@ class CrowdfundingDonationForm(models.AbstractModel):
         return req_values.get(fname, "")
 
     @property
-    def _payment_success_redirect(self):
-        return f"/crowdfunding/payment/validate/{self.invoice_id.id}?payment=success"
-
-    @property
-    def _payment_error_redirect(self):
-        return f"/crowdfunding/payment/validate/{self.invoice_id.id}?payment=error"
+    def _payment_redirect(self):
+        return f"/crowdfunding/payment/validate/{self.invoice_id.id}"
 
     def generate_invoice(self):
         participant = self.main_object.sudo()

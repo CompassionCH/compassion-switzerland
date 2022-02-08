@@ -39,7 +39,6 @@
         "crm_compassion",  # compassion-modules
         "event_sale",  # source
         "partner_communication_switzerland",  # compassion-switzerland
-        "payment_ogone_compassion",  # compassion-switzerland
         "survey_phone",  # compassion-modules
     ],
     "external_dependencies": {"python": ["magic"], },

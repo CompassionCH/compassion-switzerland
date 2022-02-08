@@ -173,5 +173,24 @@
                 <t t-call="muskathlon.footer_muskathlon"/>
             </t>
         </template>
+
+        <template id="payment_submit" inherit_id="cms_form_compassion.payment_submit">
+            <xpath expr="//div[@id='wrap']" position="after">
+                <t t-if="'muskathlon' in request.httprequest.host_url">
+                    <t t-call="muskathlon.footer_muskathlon"/>
+                    <script type="text/javascript">
+                        $("#o_payment_form_pay").addClass("btn-muskathlon");
+                    </script>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="payment_process" inherit_id="payment.payment_process_page">
+            <xpath expr="//div[@class='wrap']" position="after">
+                <t t-if="'muskathlon' in request.httprequest.host_url">
+                    <t t-call="muskathlon.footer_muskathlon"/>
+                </t>
+            </xpath>
+        </template>
     </data>
 </odoo>

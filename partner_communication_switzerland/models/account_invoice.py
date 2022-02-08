@@ -82,9 +82,10 @@ class AccountInvoice(models.Model):
             event_thank = invoice_lines.filtered("event_id")
             other_thank = invoice_lines - event_thank
             for event in event_thank.mapped("event_id"):
-                event_thank.filtered(lambda l: l.event_id == event).generate_thank_you()
+                event_thank.filtered(
+                    lambda l: l.event_id == event).with_delay().generate_thank_you()
             if other_thank:
-                other_thank.generate_thank_you()
+                other_thank.with_delay().generate_thank_you()
 
         # Send confirmation to ambassadors
         ambassadors = self.mapped("invoice_line_ids.user_id")
@@ -97,7 +98,7 @@ class AccountInvoice(models.Model):
                 and l.product_id.categ_id != gift_category
             )
             if ambassador_lines:
-                ambassador_lines.send_receipt_to_ambassador()
+                ambassador_lines.with_delay().send_receipt_to_ambassador()
 
     @api.multi
     def _filter_invoice_to_thank(self):
