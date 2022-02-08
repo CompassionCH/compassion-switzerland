@@ -431,7 +431,7 @@ class Correspondence(models.Model):
             sftp_conn = pysftp.Connection(host=sftp_ip, password=sftp_pass, username=sftp_user,
                                           port=sftp_port, cnopts=cnopts)
         except Exception:
-            raise UserError(_("Connection to NA failed."))
+            raise UserError(_("Connection to NAS failed."))
 
         with sftp_conn as sftp:
             file_ = BytesIO(self.get_image())
