@@ -37,7 +37,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
         "partner_zip",
         "partner_city",
     ]
-    _payment_success_redirect = "/muskathlon_registration/payment/validate"
+    _payment_redirect = "/muskathlon_registration/payment/validate"
 
     invoice_id = fields.Many2one("account.invoice", readonly=False)
     partner_image = fields.Binary("Profile picture")

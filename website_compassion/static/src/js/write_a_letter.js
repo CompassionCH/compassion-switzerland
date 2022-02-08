@@ -14,6 +14,7 @@ const max_size = 1000;
 const hard_max_size_limit = 1e7;
 const resize_limit = 2e5;
 
+const child_id = document.getElementById("child_id");
 const file_selector = document.getElementById("file_selector");
 const image_display_table = document.getElementById("image_display_table");
 const letter_content = document.getElementById("letter_content");
@@ -21,102 +22,48 @@ const canvas = document.createElement("canvas");
 
 file_selector.addEventListener("change", updateImageDisplay);
 
+const template_images = document.getElementsByClassName("template-image");
+const template_id = document.getElementById("template_id");
 
-/**
- * This function replaces a range in a string
- * @param from the starting point of the substitution
- * @param to the end point of the substitution, can be -1 to drop the rest
- * @param substitute the substitution to use
- * @returns {string} a new string substituted with the desired content
- */
-String.prototype.replaceRange = function(from, to, substitute) {
-    let result = this.substring(0, from) + substitute;
-    if (to != -1) {
-        result += this.substring(to)
+function selectTemplate(selected_template_id) {
+    // Change url to display selected template
+    let search_params = new URLSearchParams(window.location.search);
+    search_params.set("template_id", selected_template_id);
+    let url = window.location.origin + window.location.pathname + "?" + search_params.toString();
+    history.replaceState({}, document.title, url);
+
+    // unselect all
+    for(let i = 0; i < template_images.length; i++) {
+        let template_image = template_images[i];
+        template_image.classList.remove("border", "border-5", "border-primary");
     }
-    return result;
+
+    // select the one
+    let selected_template_image = document.getElementById("template-image-" + selected_template_id);
+    selected_template_image.classList.add("border", "border-5", "border-primary");
+
+    template_id.innerHTML = selected_template_id;
 }
 
-/**
- * Returns the last index of a substring found in a string or -1
- * @param substring the substring to find inside the string object
- * @returns {number|*} -1 if the substring is not in the string or the index
- */
-String.prototype.indexOfEnd = function(substring) {
-    const index = this.indexOf(substring);
-    return index === -1 ? index : index + substring.length;
+selectTemplate(template_id.innerHTML);
+
+function load_auto_text(child_id) {
+    let el = document.getElementById("auto_text_" + child_id);
+    if(el) {
+        letter_content.value = el.innerHTML;
+    }
+}
+load_auto_text(new URLSearchParams(window.location.search).get("child_id"));
+
+// add listener on child change to load the auto text
+for(let i = 0; i < document.getElementsByClassName("child-card").length; i++) {
+    let child_card = child_cards[i];
+    child_card.addEventListener("click", function() {load_auto_text(child_card.dataset.childid)});
 }
 
 function downloadLetter() {
     window.open("/my/download/labels/?child_id=" + $('#child_id').text());
 }
-/**
- * Selects the element given the element type and the object id. This relies
- * on a smart choice of ids in the XML file.
- * @param obj_id the id of the object to select
- * @param elem_type the type of the object to select
- */
-function selectElement(obj_id, elem_type) {
-    // The id in the XML must have this form precisely, for this to work.
-    const elem_id = `${elem_type}_${obj_id}`;
-
-    // Elements are selected by finding the corresponding image and setting
-    // the border around the selected one
-    const elements = $(`img[class~="${elem_type}-image"]`);
-    elements.fadeTo(0, 0.7);
-    elements.removeClass("border border-5 border-primary");
-
-    // Here we are in the selected element
-    const element = elements.filter(`#${elem_id}`);
-    element.fadeTo(0, 1.0);
-    element.addClass("border border-5 border-primary");
-
-    // Change url to display selected child and template id
-    const base_url = window.location.origin + window.location.pathname;
-    let params = window.location.search;
-    const from = params.indexOfEnd(`${elem_type}_id=`);
-    if (from === -1) {
-        params += `&${elem_type}_id=${obj_id}`;
-    } else {
-        const to = params.indexOf("&", from);
-        params = params.replaceRange(from, to, obj_id);
-    }
-
-    // Scroll smoothly to selected child
-    const card = document.getElementById(`card_${elem_type}_${obj_id}`);
-    card.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "start",
-    });
-
-    // We correctly set some values for letter writing to work properly
-    const name = $(`#${elem_type}_name_${obj_id}`);
-    const local_id = $(`#${elem_type}_local_id_${obj_id}`);
-    // Replace auto_text if any is present and child is changed
-    letter_content.value = document.getElementById("auto_text_" + obj_id).innerHTML;
-    if (local_id) {
-        $(`span[id^=${elem_type}]`).removeClass("font-weight-bold");
-        name.addClass("font-weight-bold");
-        local_id.addClass("font-weight-bold");
-        $(`#${elem_type}_local_id`).text(local_id.text());
-        $("#guideline_child_ref").text(local_id.text());
-    }
-    $(`#${elem_type}_id`).text(obj_id);
-    $(`#${elem_type}_name`).text(name.text());
-
-    // Special case if a christmas template is chosen: display a donation option and a generic text when needed
-    if (name.text().includes("christmas")) {
-        $(".christmas_action").show();
-    } else {
-        $(".christmas_action").hide();
-    }
-
-    // We use replaceState for refreshes to work as intended
-    history.replaceState({}, document.title, base_url + params);
-}
-
-selectElement($("#child_id").text(), "child");
 
 /**
  * This function compresses images that are too big by shrinking them and if
@@ -243,7 +190,6 @@ function displayImages() {
     new_images = [];
 }
 
-
 /**
  * Handle the addition of new images and ignore the duplications
  * @param event the event containing the file, among other things
@@ -302,46 +248,51 @@ function startStopLoading(type) {
  * Create a new letter object in the database
  * @param preview boolean to determine whether we want to see the preview
  * @param with_loading determines whether we want to have a loading or not
- * @returns {Promise<unknown>} return the entire method as a promise so that
  * we can send a letter directly if the user pressed the corresponding button
  */
 async function createLetter(preview = false, with_loading = true) {
-    return new Promise(function(resolve) {
+    if (with_loading) {
+        startStopLoading("preview");
+    }
+
+    let params = new URLSearchParams(window.location.search);
+
+    json_data = {
+        "letter-copy": letter_content.value,
+        "selected-child": params.get("child_id"),
+        "selected-letter-id": params.get("template_id"),
+        "source": "website",
+    }
+    if (images_comp.length > 0) {
+        json_data["file_upl"] = images_comp[0];
+    }
+
+    let form_data = new FormData();
+    for (let key in json_data ) {
+        form_data.append(key, json_data[key]);
+    }
+
+    let init = {
+        method: "POST",
+        // Do not set the Content-Type, otherwise the form data can not set the multipart boundary
+        //headers: {"Content-Type": "multipart/form-data"},
+        body: form_data
+    };
+    let request = new Request(`${window.location.origin}/mobile-app-api/correspondence/get_preview`);
+    let response = await fetch(request, init);
+    return response.text().then(function(text) {
         if (with_loading) {
             startStopLoading("preview");
         }
-        let form_data = new FormData();
-
-        form_data.append("letter-copy", $('#letter_content').text());
-        form_data.append("selected-child", $('#child_local_id').text());
-        form_data.append("selected-letter-id", $('#template_id').text());
-        form_data.append("source", "website");
-        // TODO CI-765: Handle properly multiple images
-        if (images_list.length > 0) {
-            form_data.append("file_upl", images_comp[0]);
+        if (!response.ok) {
+            displayAlert("preview_error");
+            return false;
         }
-        // TODO CI-765: end of block
-
-        let xhr = new XMLHttpRequest();
-        let url = `${window.location.origin}/mobile-app-api/correspondence/get_preview`;
-        xhr.open("POST", url, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (preview) {
-                    if (with_loading) {
-                        startStopLoading("preview");
-                    }
-                    if (xhr.status === 200) {
-                        window.open(xhr.responseText.slice(1, -1), "_blank");
-                    } else {
-                        displayAlert("preview_error");
-                    }
-                }
-                resolve();
-            }
-        };
-        xhr.send(form_data);
-    })
+        if (preview) {
+            window.open(text.slice(1, -1), "_blank");
+        }
+        return true;
+    });
 }
 
 /**
@@ -352,37 +303,40 @@ async function sendLetter() {
     startStopLoading("sending");
     await createLetter(preview = false, with_loading = false);
 
-    let json_data = JSON.parse(`{
-        "TemplateID": "${$('#template_id').text()}",
-        "Need": "${$('#child_id').text()}"
-    }`);
+    let params = new URLSearchParams(window.location.search);
 
-    let get_params = new URLSearchParams(window.location.search)
-    get_params.forEach(function(v, k, _) {
+    let json_data = {
+        "TemplateID": params.get("template_id"),
+        "Need": params.get("child_id"),
+    };
+
+    params.forEach(function(v, k, _) {
         json_data[k] = v;
     })
 
-    let xhr = new XMLHttpRequest();
-    let url = `${window.location.origin}/mobile-app-api/correspondence/send_letter`;
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                // Empty images and text (to avoid duplicate)
-                letter_content.value = "";
-                for (let i = 0; i < images_list.length; i++) {
-                    let image = images_list[i];
-                    removeImage(image.name, image.size, image.type);
-                }
-
-                $("#letter_sent_correctly").modal('show');
-                $(".christmas_action").toggleClass("d-none");
-            } else {
-                displayAlert("letter_error");
-            }
-        }
-        startStopLoading("sending");
+    let init = {
+        method: "POST",
+        headers: new Headers({"Content-Type": "application/json"}),
+        body: JSON.stringify(json_data)
     };
-    xhr.send(JSON.stringify(json_data));
+    let request = new Request(`${window.location.origin}/mobile-app-api/correspondence/send_letter`);
+    let response = await fetch(request, init);
+    console.log(response);
+    let answer = response.text().then(function(text) {
+        if (!response.ok) {
+            displayAlert("letter_error");
+            return false;
+        }
+
+        // Empty images and text (to avoid duplicate)
+        letter_content.value = "";
+        for (let i = 0; i < images_list.length; i++) {
+            let image = images_list[i];
+            removeImage(image.name, image.size, image.type);
+        }
+
+        $("#letter_sent_correctly").modal('show');
+        $(".christmas_action").toggleClass("d-none");
+    });
+    startStopLoading("sending");
 }

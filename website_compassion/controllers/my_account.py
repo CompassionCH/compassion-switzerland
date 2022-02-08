@@ -391,55 +391,56 @@ class MyAccountController(PaymentFormController):
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
-        # A child is selected
-        if child_id:
-            child = children.filtered(lambda c: c.id == int(child_id))
-            if not child:  # The user does not sponsor this child_id
-                return request.redirect(
-                    f"/my/children?state={state}&child_id={children[0].id}"
-                )
-            partner = request.env.user.partner_id
-
-            correspondence_obj = request.env["correspondence"]
-            correspondent = partner
-
-            if partner.app_displayed_sponsorships == "all_info":
-                correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
-                correspondence_obj = correspondence_obj.sudo()
-
-            letters = correspondence_obj.search([
-                ("partner_id", "in", correspondent.ids),
-                ("child_id", "=", int(child_id)),
-                "|",
-                "&", ("direction", "=", "Supporter To Beneficiary"),
-                ("state", "!=", "Quality check unsuccessful"),
-                "&", "&", ("state", "=", "Published to Global Partner"),
-                ("letter_image", "!=", False),
-                "|", ("communication_id", "=", False), ("sent_date", "!=", False)
-            ])
-            gift_categ = request.env.ref(
-                "sponsorship_compassion.product_category_gift"
-            )
-            lines = request.env["account.invoice.line"].sudo().search([
-                ("partner_id", "=", partner.id),
-                ("state", "=", "paid"),
-                ("contract_id.child_id", "=", child.id),
-                ("product_id.categ_id", "=", gift_categ.id),
-                ("price_total", "!=", 0),
-            ])
-            request.session['child_id'] = child.id
-            return request.render(
-                "website_compassion.my_children_page_template",
-                {"child_id": child,
-                 "children": children,
-                 "letters": letters,
-                 "lines": lines,
-                 "state": state,
-                 "display_state": display_state}
-            )
-        else:
-            # No child is selected, we pick the first one by default
+        # No child is selected, we pick the first one by default
+        if not child_id:
             return request.redirect(f"/my/children?child_id={children[0].id}")
+
+        # A child is selected
+        child = children.filtered(lambda c: c.id == int(child_id))
+
+        # The user does not sponsor this child_id
+        if not child:
+            return request.redirect(f"/my/children?state={state}&child_id={children[0].id}")
+
+        # This child is sponsored by this user and is selected
+        partner = request.env.user.partner_id
+        correspondence_obj = request.env["correspondence"]
+        correspondent = partner
+
+        if partner.app_displayed_sponsorships == "all_info":
+            correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
+            correspondence_obj = correspondence_obj.sudo()
+
+        letters = correspondence_obj.search([
+            ("partner_id", "in", correspondent.ids),
+            ("child_id", "=", int(child_id)),
+            "|",
+            "&", ("direction", "=", "Supporter To Beneficiary"),
+            ("state", "!=", "Quality check unsuccessful"),
+            "&", "&", ("state", "=", "Published to Global Partner"),
+            ("letter_image", "!=", False),
+            "|", ("communication_id", "=", False), ("sent_date", "!=", False)
+        ])
+        gift_categ = request.env.ref("sponsorship_compassion.product_category_gift")
+        lines = request.env["account.invoice.line"].sudo().search([
+            ("partner_id", "=", partner.id),
+            ("state", "=", "paid"),
+            ("contract_id.child_id", "=", child.id),
+            ("product_id.categ_id", "=", gift_categ.id),
+            ("price_total", "!=", 0),
+        ])
+        request.session['child_id'] = child.id
+        return request.render(
+            "website_compassion.my_children_page_template",
+            {
+                "child_id": child,
+                "children": children,
+                "letters": letters,
+                "lines": lines,
+                "state": state,
+                "display_state": display_state
+            }
+        )
 
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
@@ -583,7 +584,7 @@ class MyAccountController(PaymentFormController):
             result = request.render(
                 "website_compassion.my_donations_page_template", values
             )
-        return self._form_redirect(result, full_page=True)
+        return result
 
     @route("/my/information", type="http", auth="user", website=True)
     def my_information(self, form_id=None, **kw):
@@ -623,7 +624,7 @@ class MyAccountController(PaymentFormController):
             result = request.render(
                 "website_compassion.my_information_page_template", values
             )
-        return self._form_redirect(result, full_page=True)
+        return result
 
     @route("/my/picture", type="http", auth="user", website=True, method="POST",
            sitemap=False)

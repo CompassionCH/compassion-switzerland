@@ -87,7 +87,7 @@ class Correspondence(models.Model):
                 )
                 if s:
                     # find the language of text argument
-                    lang = self.env["crm.claim"].detect_lang(letter.translated_text)
+                    lang = self.env["langdetect"].detect_language(letter.translated_text)
                     letter.has_valid_language = (
                         lang and lang in letter.supporter_languages_ids
                     )

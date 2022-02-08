@@ -166,11 +166,11 @@ class TranslateConnect(MysqlConnector):
         """ Delete a text record for the text_id given """
         self.query("DELETE FROM text WHERE id=%s", text_id)
 
-    def remove_translation_with_odoo_id(self, text_id):
+    def remove_translation_with_odoo_id(self, odoo_id):
         self.query(
             "DELETE text FROM text INNER JOIN translation ON text.id\
              = translation.text_id WHERE translation.letter_odoo_id = %s",
-            text_id,
+            odoo_id,
         )
 
     def get_server_uptime(self):

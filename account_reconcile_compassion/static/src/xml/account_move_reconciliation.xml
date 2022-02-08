@@ -24,6 +24,10 @@
             </t>
         </t>
 
+        <t t-jquery="td.cell_label" t-operation="after">
+            <td width="30%"><t t-if="state.st_line.note"><i t-esc="state.st_line.note"></i></t></td>
+        </t>
+
         <!-- Add sponsor reference -->
         <t t-jquery="span.partner_name span" t-operation="before">
             (<t t-esc="state.st_line.partner_ref"/>)

@@ -32,7 +32,6 @@ class EventRegistrationForm(models.AbstractModel):
         "email_copy",
         "partner_birthdate_date",
     ]
-    _display_type = "full"
 
     email_copy = fields.Char("Confirm your e-mail address")
     spoken_lang_en = fields.Boolean("English")

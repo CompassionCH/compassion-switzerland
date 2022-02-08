@@ -33,12 +33,6 @@ class SendPostfinanceLinkWizard(models.TransientModel):
         compute="_compute_state",
     )
     origin = fields.Char(compute="_compute_origin", inverse="_inverse_origin")
-    success_url = fields.Char(
-        help="Optional link for redirection after payment is successful"
-    )
-    error_url = fields.Char(
-        help="Optional link for redirection after payment is declined"
-    )
 
     def _default_invoices(self):
         return (
@@ -90,8 +84,7 @@ class SendPostfinanceLinkWizard(models.TransientModel):
             }
         )
         # Inject success_url and error_url inside the communication
-        new_link = f"/compassion/payment/invoice/{self.invoice_ids.id}?success_url=" \
-                   f"{self.success_url or ''}&error_url={self.error_url or ''}"
+        new_link = self.invoice_ids.sudo().get_portal_url()
         link_pattern = re.compile(r"/compassion/payment/invoice/\d+")
         communication.body_html = link_pattern.sub(new_link, communication.body_html)
         return {

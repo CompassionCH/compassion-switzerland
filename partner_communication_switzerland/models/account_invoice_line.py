@@ -10,6 +10,7 @@
 
 from odoo import models, api
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_CATEGORY
+from odoo.addons.queue_job.job import job
 
 
 class AccountInvoiceLine(models.Model):
@@ -54,6 +55,7 @@ class AccountInvoiceLine(models.Model):
         return total_string, res_name
 
     @api.multi
+    @job
     def generate_thank_you(self):
         """
         Do not group communications which have not same event linked.
@@ -82,6 +84,7 @@ class AccountInvoiceLine(models.Model):
         return res
 
     @api.multi
+    @job
     def send_receipt_to_ambassador(self):
         """
         Generates a receipt for the ambassador informing him or her that he or she

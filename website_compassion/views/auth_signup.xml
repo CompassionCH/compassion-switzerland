@@ -9,6 +9,7 @@
                 <t t-raw="requirements"/>
             </small>
         </div>
+        <script type="text/javascript" src="/website_compassion/static/src/js/auth_signup.js" defer="defer"/>
     </xpath>
 </template>
 

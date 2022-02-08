@@ -459,19 +459,16 @@ class PartnerCommunication(models.Model):
 
     def get_tax_receipt(self):
         self.ensure_one()
-        res = {}
-        if self.send_mode == "digital":
-            report_name = "report_compassion.tax_receipt"
-            data = {
-                "doc_ids": self.partner_id.ids,
-                "year": self.env.context.get("year", date.today().year - 1),
-                "lang": self.partner_id.lang,
-            }
-            pdf = self._get_pdf_from_data(
-                data, self.env.ref("report_compassion.tax_receipt_report")
-            )
-            res = {_("tax receipt.pdf"): [report_name, pdf]}
-        return res
+        report_name = "report_compassion.tax_receipt"
+        data = {
+            "doc_ids": self.partner_id.ids,
+            "year": self.env.context.get("year", date.today().year - 1),
+            "lang": self.partner_id.lang,
+        }
+        pdf = self._get_pdf_from_data(
+            data, self.env.ref("report_compassion.tax_receipt_report")
+        )
+        return {_("tax receipt.pdf"): [report_name, pdf]}
 
     @api.multi
     def send(self):

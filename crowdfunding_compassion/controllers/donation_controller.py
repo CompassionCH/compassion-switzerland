@@ -78,9 +78,6 @@ class DonationController(PaymentFormController, FormControllerMixin):
     )
     def crowdfunding_donation_validate(self, invoice_id=None, **kwargs):
         """ Method called after a payment attempt """
-
-        payment = kwargs.get("payment")
-
         try:
             invoice = request.env["account.invoice"].sudo().browse(int(invoice_id))
             invoice.exists().ensure_one()
@@ -88,7 +85,7 @@ class DonationController(PaymentFormController, FormControllerMixin):
         except ValueError:
             transaction = request.env["payment.transaction"]
 
-        if transaction.state != "done" or payment == "error":
+        if transaction.state != "done":
             return request.render("crowdfunding_compassion.donation_failure")
 
         elif invoice.communication_id.state != "done":
