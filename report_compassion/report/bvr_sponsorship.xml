@@ -129,7 +129,7 @@
                 <t t-foreach="o.get_months(months, doc_value)" t-as ="date">
                     <t t-set="date_split" t-value="date.split(' - ')"/>
                     <t t-set="communication" t-value="o.get_communication(date_split[0], date_split[-1], doc_value)"/>
-                    <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>T
+                    <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>
                     <t t-set="amount" t-value="o.get_amount(date_split[0], date_split[-1], doc_value)"/>
                     <t t-set="reference" t-value="o.bvr_reference"/>
                     <t t-if="qr_count % 2 == 0">
