@@ -1,6 +1,5 @@
 Babel
 bs4
-detectlanguage
 firebase_admin
 geojson
 jwt
