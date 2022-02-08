@@ -97,12 +97,15 @@ class ImportLettersHistory(models.Model):
 
     @api.onchange("data", "import_folder_path")
     def _compute_nber_letters(self):
-        for letter in self.filtered(lambda l: l.state in ["draft", "pending", "open", "ready"]):
+        to_check = self.filtered(lambda l: l.state != "done")
+        others = self - to_check
+        for letter in to_check:
             try:
                 with letter._get_connection() as sftp:
                     letter.nber_letters = len(sftp.listdir(letter.import_folder_path))
             except (FileNotFoundError, TypeError):
-                letter.nber_letters = 0
+                others += letter
+        super(ImportLettersHistory, others)._compute_nber_letters()
 
     def unlink(self):
         running_job = self.env["queue.job"].search_count([
