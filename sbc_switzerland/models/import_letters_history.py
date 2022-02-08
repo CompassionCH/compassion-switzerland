@@ -97,7 +97,7 @@ class ImportLettersHistory(models.Model):
 
     @api.onchange("data", "import_folder_path")
     def _compute_nber_letters(self):
-        for letter in self:
+        for letter in self.filtered(lambda l: l.state in ["draft", "pending", "open", "ready"]):
             try:
                 with letter._get_connection() as sftp:
                     letter.nber_letters = len(sftp.listdir(letter.import_folder_path))
