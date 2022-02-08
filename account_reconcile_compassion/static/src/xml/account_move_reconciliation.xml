@@ -17,12 +17,15 @@
     <t t-extend="reconciliation.line">
         <t t-jquery="td.cell_label" t-operation="inner">
             <t t-if="state.st_line.name" t-esc="state.st_line.name"/>
-            <t t-if="state.st_line.note"><br />Note : <i t-esc="state.st_line.note"></i> </t>
             <t t-if="state.st_line.amount_currency_str"> (<t t-esc="state.st_line.amount_currency_str"/>)</t>
             <t t-if="state.st_line.ref">
                 <br/>
                 <t t-esc="state.st_line.ref"/>
             </t>
+        </t>
+
+        <t t-jquery="td.cell_label" t-operation="after">
+            <td width="30%"><t t-if="state.st_line.note"><i t-esc="state.st_line.note"></i></t></td>
         </t>
 
         <!-- Add sponsor reference -->
