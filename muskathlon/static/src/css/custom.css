@@ -53,8 +53,9 @@
     text-align: center;
 }
 
-.btn-muskathlon {
+.btn-muskathlon, .btn-muskathlon:hover, .btn-muskathlon:disabled {
     background-color: #CD171E;
+    border-color: #CD171E;
 }
 
 .progress-amount {

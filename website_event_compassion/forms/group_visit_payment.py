@@ -14,14 +14,12 @@ class GroupVisitPaymentForm(models.AbstractModel):
     _name = "cms.form.event.group.visit.payment"
     _inherit = "cms.form.payment"
 
-    _display_type = "full"
-
     event_id = fields.Many2one("crm.event.compassion", readonly=False)
     registration_id = fields.Many2one("event.registration", readonly=False)
     partner_name = fields.Char("Participant", readonly=True)
 
     @property
-    def _payment_success_redirect(self):
+    def _payment_redirect(self):
         return f"/event/payment/gpv_payment_validate/{self.invoice_id.id}"
 
     @property

@@ -39,12 +39,8 @@ class EventDonationForm(models.AbstractModel):
         return 0, 0
 
     @property
-    def _payment_success_redirect(self):
-        return f"/event/payment/validate/{self.invoice_id.id}?payment=success"
-
-    @property
-    def _payment_error_redirect(self):
-        return f"/event/payment/validate/{self.invoice_id.id}?payment=error"
+    def _payment_redirect(self):
+        return f"/event/payment/validate/{self.invoice_id.id}"
 
     @property
     def _form_fieldsets(self):

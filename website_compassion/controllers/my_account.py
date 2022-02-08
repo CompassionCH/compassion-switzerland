@@ -584,7 +584,7 @@ class MyAccountController(PaymentFormController):
             result = request.render(
                 "website_compassion.my_donations_page_template", values
             )
-        return self._form_redirect(result, full_page=True)
+        return result
 
     @route("/my/information", type="http", auth="user", website=True)
     def my_information(self, form_id=None, **kw):
@@ -624,7 +624,7 @@ class MyAccountController(PaymentFormController):
             result = request.render(
                 "website_compassion.my_information_page_template", values
             )
-        return self._form_redirect(result, full_page=True)
+        return result
 
     @route("/my/picture", type="http", auth="user", website=True, method="POST",
            sitemap=False)

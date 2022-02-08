@@ -34,6 +34,7 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
+        "advanced_translation",
         "cms_form_compassion",  # compassion-modules
         "theme_crowdfunding",  # compassion-switzerland
         "partner_communication_switzerland",  # compassion-switzerland
