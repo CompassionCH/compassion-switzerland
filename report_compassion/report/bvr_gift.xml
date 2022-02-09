@@ -53,6 +53,7 @@
             <t t-set="amount" t-value="False"/>
             <t t-foreach="products" t-as="product">
                 <t t-set="communication" t-value="o.get_gift_communication(product)"/>
+                <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>
                 <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
                 <t t-if="qr_count % 2 == 0">
                     <t t-set="swissqr_position_top" t-value="page_height * (qr_count//2) + position_top_even"/>
@@ -91,6 +92,7 @@
                 <t t-call="report_compassion.report_compassion_qr_slip">
                     <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
                     <t t-set="communication" t-value="o.get_gift_communication(product)"/>
+                    <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>
                     <t t-set="amount" t-value="False"/>
                 </t>
             </t>
