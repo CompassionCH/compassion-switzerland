@@ -111,7 +111,7 @@
             <field name="config_id" ref="sponsorship_wrpr_reminder"/>
             <field name="state">communication</field>
             <field name="partner_field">correspondent_id</field>
-            <field name="filter_domain">[("state", "=", "active"), ("type", "=", "SC"), ("last_sponsor_letter", "=", False)]</field>
+            <field name="filter_domain">[("state", "=", "active"), ("type", "=", "SWP"), ("last_sponsor_letter", "=", False)]</field>
             <field name="last_run" eval="datetime.now()"/>
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__activation_date"/>
