@@ -332,7 +332,7 @@
                         </div>
                     </t>
                 </div>
-                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="https://compassion.ch/donations?{{request.env.user.partner_id.wordpress_form_data}}" target="_blank"><span>Make a donation</span></a>
+                <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="{{request.env.user._wp_url_gift_child(child_id)}}" target="_blank"><span>Make a donation</span></a>
                 <a t-if="state == 'active'" class="btn btn-primary" t-attf-href="/my/download/gift_bvr?child_id={{child_id.id}}"><span>Download payment slips</span></a>
             </div>
         </template>
