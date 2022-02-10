@@ -603,11 +603,10 @@ class ResPartner(models.Model):
     @api.multi
     def ensure_company_title_consistency(self):
         for partner in self:
-            if partner.company_type == "company":
-                title = self.env.ref(
+            if partner.is_company:
+                partner.title = self.env.ref(
                     "partner_compassion.res_partner_title_friends"
                 ).id
-                partner.title = title
 
     @api.multi
     @api.depends("is_company", "title")
