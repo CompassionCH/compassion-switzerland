@@ -499,7 +499,7 @@ class MyAccountController(PaymentFormController):
         ]
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
-            len(sponsorship.filtered(lambda s: s.type == "SC"))
+            len(sponsorship.filtered(lambda s: s.type in ["SC", "SWP"]))
             for sponsorship in sponsorships_by_group
         ]
 
