@@ -46,6 +46,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "phone",
         "mobile",
         "email",
+        "user_login",
         "birthdate_date",
     ]
     _form_required_fields = [
@@ -59,6 +60,8 @@ class PartnerCoordinatesForm(models.AbstractModel):
         "country_id",
         "email",
     ]
+
+    __form_redirect = True
 
     @property
     def _form_fieldsets(self):
@@ -88,6 +91,15 @@ class PartnerCoordinatesForm(models.AbstractModel):
     @property
     def form_msg_success_updated(self):
         return _("Coordinates updated.")
+
+    def _form_validate_user_login(self, value, **req_values):
+        domain = [
+            ("login", "=", value),
+            ("id", "!=", self.env.user.id),
+        ]
+        if self.env["res.users"].sudo().search_count(domain) > 0:
+            return "user_login", _("The login '%s' is already used") % value
+        return self._form_validate_alpha_field("user_login", value, accept=".")
 
     def _form_validate_phone(self, value, **req_values):
         if value and not re.match(r"^[+\d][\d\s]{7,}$", value, re.UNICODE):
@@ -147,13 +159,6 @@ class PartnerDeliveryForm(models.AbstractModel):
     form_id = "modal_delivery"
     _form_model = "res.partner"
 
-    no_physical_letter = fields.Boolean(
-        "No postal mail",
-        help="Use this option if you don't want to receive any mail by post. "
-             "By doing so, you won't receive anymore the photos of your children or "
-             "any other postal communication."
-    )
-
     _form_model_fields = [
         "lang",
         "spoken_lang_ids",
@@ -168,17 +173,32 @@ class PartnerDeliveryForm(models.AbstractModel):
         "lang"
     ]
 
-    lang = fields.Selection([
-        ("fr_CH", "French"),
-        ("de_DE", "German"),
-        ("it_IT", "Italian"),
-        ("en_US", "English"),
-    ], string="Primary language",
-        help="This will affect the language by which we communicate with you.")
+    # redefine the fields for the help text which is used on the site
+    lang = fields.Selection(
+        [
+            ("fr_CH", "French"),
+            ("de_DE", "German"),
+            ("it_IT", "Italian"),
+            ("en_US", "English"),
+        ],
+        string="Primary language",
+        help="This will affect the language by which we communicate with you."
+    )
+
     spoken_lang_ids = fields.Many2many(
-        "res.lang.compassion", string="Spoken languages",
+        "res.lang.compassion",
+        string="Spoken languages",
+        readonly=False,
         help="This is useful for checking translation needs on your correspondence "
-             "with your children.")
+             "with your children."
+    )
+
+    no_physical_letter = fields.Boolean(
+        "No postal mail",
+        help="Use this option if you don't want to receive any mail by post. "
+             "By doing so, you won't receive anymore the photos of your children or "
+             "any other postal communication."
+    )
 
     @property
     def form_title(self):

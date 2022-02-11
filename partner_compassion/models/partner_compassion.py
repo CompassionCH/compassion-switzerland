@@ -244,6 +244,15 @@ class ResPartner(models.Model):
     )
     city_id = fields.Many2one(related="zip_id.city_id", store=True)
 
+    user_login = fields.Char(
+        string="MyCompassion login",
+        compute="_get_user_login",
+        inverse="_set_user_login",
+        # store must be true, otherwise the CMS from ignore it
+        store=True,
+        track_visibility="onchange"
+    )
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -318,6 +327,25 @@ class ResPartner(models.Model):
                 THANKYOU_MAPPING[partner.thankyou_preference]
 
     @api.multi
+    def _get_user_login(self):
+        for partner in self:
+            login = partner.mapped("user_ids.login")
+            if len(login) > 0:
+                partner.user_login = login[0]
+            else:
+                partner.user_login = False
+
+    @api.multi
+    def _set_user_login(self):
+        for partner in self:
+            users = partner.user_ids
+            if len(users) > 0:
+                user = users[0]
+                user.login = partner.user_login
+            else:
+                pass
+
+    @api.multi
     @api.depends("segments_affinity_ids", "segments_affinity_ids.affinity")
     def _compute_prim_sec_segments(self):
         for partner in self:
@@ -364,16 +392,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
-        email = vals.get("email")
-        if email:
-            vals["email"] = email.strip()
-            # Push email to non-internal users
-            user_ids = self.mapped("user_ids").filtered("share").ids
-            self.env.cr.execute("""
-                UPDATE res_users
-                SET login=%s
-                WHERE id=ANY(%s)
-            """, [vals["email"], user_ids])
+        self = self.sudo()
         if vals.get("criminal_record"):
             vals["criminal_record_date"] = fields.Date.today()
         if vals.get("interested_for_volunteering"):
