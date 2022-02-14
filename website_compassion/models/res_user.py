@@ -7,9 +7,8 @@
 #
 ##############################################################################
 import logging
-import urllib.parse
 
-from odoo import models, fields, _
+from odoo import models, fields
 
 _logger = logging.getLogger(__name__)
 
@@ -32,27 +31,3 @@ class ResUsers(models.Model):
             if len(users) != 1:
                 raise
             return users.action_reset_password()
-
-
-    def _wp_url_gift_child(self, child):
-        self.ensure_one()
-        partner = self.partner_id.with_context(lang=self.lang)
-
-        if not child or not partner:
-            return "#"
-
-        data = {
-            "firstname": partner.preferred_name,
-            "pname": partner.name,
-            "email": partner.email,
-            "pstreet": partner.street,
-            "pcity": partner.city,
-            "pzip": partner.zip,
-            "pcountry": partner.country_id.name,
-            "sponsor_ref": partner.ref,
-            "child_ref": child.local_id,
-        }
-        filter_data = {key: val for key, val in data.items() if val}
-        params = urllib.parse.urlencode(filter_data)
-        url = f"{_('https://compassion.ch/de/geschenkformular/')}?{params}"
-        return url
