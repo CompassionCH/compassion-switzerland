@@ -82,10 +82,6 @@
                 </div>
             </field>
 
-            <field name="email" position="before">
-                <field name="user_login" attrs="{'invisible': [('user_login', '=', False)]}"/>
-            </field>
-
             <!-- Add invalid email fields -->
             <field name="email" position="after">
                 <field name="invalid_mail" attrs="{'invisible': [('invalid_mail', '=', False)]}"/>
@@ -93,6 +89,7 @@
 
             <!-- Add birthdate and deathdate -->
             <xpath expr="//field[@name='website'][1]" position="after">
+                <field name="user_login" attrs="{'invisible': [('user_login', '=', False)]}"/>
                 <field name="birthdate_date" attrs="{'invisible': [('is_company','=',True)]}"/>
                 <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
             </xpath>

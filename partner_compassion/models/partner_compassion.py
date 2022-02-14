@@ -248,8 +248,6 @@ class ResPartner(models.Model):
         string="MyCompassion login",
         compute="_get_user_login",
         inverse="_set_user_login",
-        # store must be true, otherwise the CMS from ignore it
-        store=True,
         track_visibility="onchange"
     )
 
