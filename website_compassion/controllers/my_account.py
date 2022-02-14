@@ -412,17 +412,21 @@ class MyAccountController(PaymentFormController):
             ("price_total", "!=", 0),
         ])
         request.session['child_id'] = child.id
-        return request.render(
-            "website_compassion.my_children_page_template",
-            {
-                "child_id": child,
-                "children": children,
-                "letters": letters,
-                "lines": lines,
-                "state": state,
-                "display_state": display_state
-            }
-        )
+
+        gift_base_url = _("https://compassion.ch/de/geschenkformular")
+        child_gift_params = partner.with_context({'mailchimp_child': child}).wordpress_form_data
+        url_child_gift = f"{gift_base_url}?{child_gift_params}"
+
+        context = {
+            "child_id": child,
+            "children": children,
+            "letters": letters,
+            "lines": lines,
+            "state": state,
+            "display_state": display_state,
+            "url_child_gift": url_child_gift,
+        }
+        return request.render("website_compassion.my_children_page_template", context)
 
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
