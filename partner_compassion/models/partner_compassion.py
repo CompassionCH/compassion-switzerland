@@ -225,6 +225,10 @@ class ResPartner(models.Model):
     lastname = fields.Char(track_visibility="onchange")
     # module mail
     opt_out = fields.Boolean(track_visibility="onchange")
+    company_type = fields.Selection(
+        compute='_compute_company_type',
+        inverse='_write_company_type'
+    )
 
     # Surveys
     survey_input_lines = fields.One2many(
@@ -595,15 +599,25 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
+
     @api.multi
-    def onchange_type(self, is_company):
-        """ Put title 'Friends of Compassion for companies. """
-        res = super().onchange_type(is_company)
-        if is_company:
-            res["value"]["title"] = self.env.ref(
-                "partner_compassion.res_partner_title_friends"
-            ).id
-        return res
+    def ensure_company_title_consistency(self):
+        for partner in self:
+            if partner.is_company:
+                partner.title = self.env.ref(
+                    "partner_compassion.res_partner_title_friends"
+                ).id
+
+    @api.multi
+    @api.depends("is_company", "title")
+    def _compute_company_type(self):
+        super()._compute_company_type()
+        self.ensure_company_title_consistency()
+
+    @api.multi
+    def _write_company_type(self):
+        super()._write_company_type()
+        self.ensure_company_title_consistency()
 
     @api.model
     def get_lang_from_phone_number(self, phone):
