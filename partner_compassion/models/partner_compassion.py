@@ -388,7 +388,6 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
-        self = self.sudo()
         if vals.get("criminal_record"):
             vals["criminal_record_date"] = fields.Date.today()
         if vals.get("interested_for_volunteering"):
