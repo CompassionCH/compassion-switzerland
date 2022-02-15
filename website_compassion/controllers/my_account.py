@@ -451,6 +451,7 @@ class MyAccountController(PaymentFormController):
             return request.redirect("/my/donations")
         return request.render(
             "website_compassion.my_donations_upgrade", {'sponsor':contract.id}
+        )
 
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
