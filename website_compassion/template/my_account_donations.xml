@@ -136,21 +136,6 @@
                 <t t-set="value" t-value="str(group.advance_billing_months) + ' ' + group.translate('recurring_unit')"/>
                 <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
-                <!-- Total additional amount -->
-                <t t-set="value" t-value="str(amount_by_group[0]).replace('.0', '.-') + ' CHF'"/>
-                <div class="row" t-if="value">
-                    <div class="col-6 border-right">
-                        <label>
-                            <span>Total additional amount</span>
-                            <t t-set="tooltip_title">This amount supports children that are not yet sponsored.</t>
-                            <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
-                        </label>
-                    </div>
-                    <div class="col-6">
-                        <label><t t-esc="value"/></label>
-                    </div>
-                </div>
-
                 <!-- Number of Write and Pray children -->
                 <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
                 <t t-call="website_compassion.fill_key_value">Number of Write and Pray children</t>
@@ -174,7 +159,11 @@
                         <label><b>Amount</b></label>
                     </div>
                     <div class="col-6">
-                        <label><b>Upgrade</b></label>
+                        <label>
+                            <b>Upgrade</b>
+                            <t t-set="tooltip_title">Upgrade your sponsorship to supports children that are not yet sponsored.</t>
+                            <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
+                        </label>
                     </div>
                 </div>
                 <t t-foreach="paid_sponsor" t-as="sponsor">

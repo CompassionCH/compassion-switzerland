@@ -459,7 +459,7 @@ class MyAccountController(PaymentFormController):
             }
             return request.render("website_compassion.my_donations_update_confirmation", context)
 
-        def create_line(contract, fund_name, amount):
+        def create_line(fund_name, amount):
             product_template = request.env["product.template"].sudo()
             product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
             return {
@@ -472,10 +472,10 @@ class MyAccountController(PaymentFormController):
         contract.sudo().write({"contract_line_ids": [(5, 0, 0)]})
 
         sponsorship_amount = min(42.0, new_amount)
-        contract_lines = [create_line(contract, "sponsorship", sponsorship_amount)]
+        contract_lines = [create_line("sponsorship", sponsorship_amount)]
         remain = new_amount - sponsorship_amount
         if remain > 0:
-            contract_lines.append(create_line(contract, "fund_gen", remain))
+            contract_lines.append(create_line("fund_gen", remain))
 
         request.env["recurring.contract.line"].sudo().create(contract_lines)
         return request.redirect("/my/donations")
