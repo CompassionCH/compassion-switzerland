@@ -340,8 +340,6 @@ class ResPartner(models.Model):
             if len(users) > 0:
                 user = users[0]
                 user.login = partner.user_login
-            else:
-                pass
 
     @api.multi
     @api.depends("segments_affinity_ids", "segments_affinity_ids.affinity")
