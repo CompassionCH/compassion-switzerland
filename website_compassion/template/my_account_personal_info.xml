@@ -84,7 +84,11 @@
 
             <!-- Email -->
             <t t-set="value" t-value="partner.email"/>
-            <t t-call="website_compassion.fill_key_value">Email / login</t>
+            <t t-call="website_compassion.fill_key_value">Email</t>
+
+            <!-- MyCompassion login -->
+            <t t-set="value" t-value="partner.user_login"/>
+            <t t-call="website_compassion.fill_key_value">MyCompassion login</t>
 
             <div class="d-flex mt-4">
                 <!-- This button opens the form to modify the personal info -->
