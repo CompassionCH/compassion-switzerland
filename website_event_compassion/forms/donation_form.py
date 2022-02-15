@@ -154,8 +154,8 @@ class EventDonationForm(models.AbstractModel):
         )
 
     def _form_create(self, values):
-        # Create as superuser
-        self.main_object = self.form_model.sudo().create(values.copy())
+        # redefine and do nothing to avoid creating the invoice on from creation
+        pass
 
     def form_after_create_or_update(self, values, extra_values):
         """ Mark the privacy statement as accepted.
