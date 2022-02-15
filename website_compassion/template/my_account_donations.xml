@@ -167,28 +167,49 @@
                 <!-- Payments option -->
                 <h3>My sponsorships</h3>
                 <div class="row" style="backgroud: lightgray;">
-                    <div class="col-6">
+                    <div class="col-4">
                         <label><b>Child</b></label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-2">
                         <label><b>Amount</b></label>
+                    </div>
+                    <div class="col-6">
+                        <label><b>Upgrade</b></label>
                     </div>
                 </div>
                 <t t-foreach="paid_sponsor" t-as="sponsor">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <label><t t-esc="sponsor.child_id.preferred_name"/></label>
                         </div>
-                        <div class="col-3">
-                            <label><t t-raw="int(sponsor.total_amount)"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
+                        <div class="col-2">
+                            <label><t t-raw="sponsor.total_amount"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
                         </div>
-                        <div class="col-3" t-if="int(sponsor.total_amount) == 42">
-                          <a t-attf-href="/my/donations/update?recurring_contract=#{sponsor.id}" class="btn btn-primary">Upgrade to 50 <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></a>
+                        <div class="col-3">
+                            <t t-if="sponsor.type in ['SWP']">
+                                <input t-attf-id="donation_range_#{sponsor.id}"
+                                       t-attf-data-id="#{sponsor.id}"
+                                       class="donation_range form-range"
+                                       type="range"
+                                       t-attf-value="#{sponsor.total_amount}"
+                                       step="0.00001"/>
+                            </t>
+                        </div>
+                       <div class="col-3" style="text-align:right;">
+                            <a t-attf-id="donation_button_#{sponsor.id}"
+                               class="donation_button btn btn-primary w-100"
+                               t-attf-href="/my/donations/update?recurring_contract=#{sponsor.id}">
+                                <t t-esc="upgrade_button_format.replace('%', '50.00')"/>
+                            </a>
                         </div>
                     </div>
                 </t>
-                <!-- Payment mode -->
             </div>
+            <script>
+                let button_format = '<t t-esc="upgrade_button_format"/>';
+            </script>
+            <link rel="stylesheet" href="/website_compassion/static/src/css/my_donations.css"/>
+            <script type="text/javascript" src="/website_compassion/static/src/js/my_donations.js"/>
         </template>
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
@@ -312,17 +333,17 @@
 
             <a href="https://compassion.ch/donations/" class="btn btn-primary" target="_blank">Make a donation</a>
         </template>
-        <template id="my_donations_upgrade" name="upgrade">
+
+        <template id="my_donations_update_confirmation">
             <t t-set="selected">donation</t>
             <t t-set="title">My financials</t>
             <t t-call="website_compassion.my_account_layout">
-               <center> Confirm upgrade to 50 CHF ? </center>
+               <center>You are about to upgrade to a <t t-esc="new_amount"/> CHF sponsorship</center>
                  <center>
-                    <a t-attf-href="/my/donations/update?res=accepted&amp;recurring_contract=#{sponsor}" class="btn btn-primary">Yes</a>
-                    <a t-attf-href="/my/donations/update?res=refused&amp;recurring_contract=#{sponsor}" class="btn btn-primary">No</a>
+                    <a t-attf-href="#{upgrade_url}" class="btn btn-primary">Yes</a>
+                    <a t-attf-href="/my/donations" class="btn btn-primary">No</a>
                 </center>
             </t>
-
         </template>
     </data>
 </odoo>
