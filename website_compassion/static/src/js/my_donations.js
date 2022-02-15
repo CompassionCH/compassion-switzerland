@@ -1,7 +1,7 @@
 let donation_ranges = document.querySelectorAll(".donation_range")
 // log-scale to simplify value selection for larger amounts
-let log_scale = 3
-let min_value = 0.1
+let log_scale = 2
+let min_value = 1
 let max_value = 50
 
 function f(x) {
@@ -25,8 +25,7 @@ for(let i=0; i < donation_ranges.length; i++) {
 
     donation_range.get_value = function () {
         let value = this.value
-        // round to 0.1
-        value = Math.round(f(value) * 10) / 10
+        value = Math.round(f(value))
         return value
     }
 

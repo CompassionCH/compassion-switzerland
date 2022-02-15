@@ -424,8 +424,8 @@ class MyAccountController(PaymentFormController):
             }
         )
 
-    @route("/my/donations/update", type="http", auth="user", website=True)
-    def my_donations_update(self, recurring_contract=None, accepted=False, new_amount=None, **kw):
+    @route("/my/donations/upgrade", type="http", auth="user", website=True)
+    def my_donations_update(self, recurring_contract=None, new_amount=None, **kw):
         # check if the arguments are valid
         # if not redirect to the donation page
         try:
@@ -439,18 +439,18 @@ class MyAccountController(PaymentFormController):
             )
             assert len(contract) == 1
 
-            if new_amount:
-                assert contract.type in ["SWP"]
+            if new_amount and contract.type in ["SWP"]:
                 new_amount = float(new_amount)
             else:
                 new_amount = 50.0
 
-            assert new_amount >= 0.1
+            assert 1 <= new_amount <= 50
+            assert new_amount > contract.total_amount
         except (ValueError, AssertionError):
             return request.redirect("/my/donations")
 
-        if accepted is None:
-            upgrade_url = f"/my/donations/update?accepted&recurring_contract={contract.id}"
+        if "confirmed" not in kw:
+            upgrade_url = f"/my/donations/upgrade?confirmed&recurring_contract={contract.id}"
             if new_amount:
                 upgrade_url += f"&new_amount={new_amount}"
             context = {
@@ -459,20 +459,25 @@ class MyAccountController(PaymentFormController):
             }
             return request.render("website_compassion.my_donations_update_confirmation", context)
 
-        if int(contract.total_amount) > 42:
-            return request.redirect("/my/donations")
+        def create_line(contract, fund_name, amount):
+            product_template = request.env["product.template"].sudo()
+            product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
+            return {
+                "contract_id": contract.id,
+                "product_id": product_template.id,
+                "quantity": 1,
+                "amount": amount,
+            }
 
-        gen_product = request.env["product.template"].search([
-            ("default_code", "=", "fund_gen"),
-            ("company_id", "=", request.env.user.company_id.id)
-        ], limit=1).product_variant_id
-        gen_vals = {
-            "product_id": gen_product.id,
-            "quantity": 1,
-            "amount": gen_product.list_price,
-            "subtotal": gen_product.list_price,
-        }
-        contract.write({"contract_line_ids": [(0, 0, gen_vals)]})
+        contract.sudo().write({"contract_line_ids": [(5, 0, 0)]})
+
+        sponsorship_amount = min(42.0, new_amount)
+        contract_lines = [create_line(contract, "sponsorship", sponsorship_amount)]
+        remain = new_amount - sponsorship_amount
+        if remain > 0:
+            contract_lines.append(create_line(contract, "fund_gen", remain))
+
+        request.env["recurring.contract.line"].sudo().create(contract_lines)
         return request.redirect("/my/donations")
 
     @route("/my/donations", type="http", auth="user", website=True)
@@ -599,6 +604,13 @@ class MyAccountController(PaymentFormController):
         currency = (paid_sponsor.mapped("invoice_line_ids.currency_id.name") or [False])[0] or "CHF"
         upgrade_button_format = f"{_('Upgrade to %')} {currency}"
 
+        upgrade_default_new_amount = {}
+        for sponsor in paid_sponsor:
+            value = sponsor.total_amount + 10
+            # constrain between 1 and 50
+            value = max(1, min(50, value))
+            upgrade_default_new_amount[sponsor.id] = value
+
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
@@ -615,6 +627,7 @@ class MyAccountController(PaymentFormController):
             "first_year": first_year,
             "current_year": current_year,
             "last_completed_tax_receipt": last_completed_tax_receipt,
+            "upgrade_default_new_amount": upgrade_default_new_amount,
             "upgrade_button_format": upgrade_button_format,
         })
 

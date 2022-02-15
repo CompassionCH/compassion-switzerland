@@ -178,30 +178,37 @@
                     </div>
                 </div>
                 <t t-foreach="paid_sponsor" t-as="sponsor">
-                    <div class="row">
+                    <div class="row pt-3">
                         <div class="col-4">
                             <label><t t-esc="sponsor.child_id.preferred_name"/></label>
                         </div>
                         <div class="col-2">
                             <label><t t-raw="sponsor.total_amount"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
                         </div>
-                        <div class="col-3">
-                            <t t-if="sponsor.type in ['SWP']">
-                                <input t-attf-id="donation_range_#{sponsor.id}"
-                                       t-attf-data-id="#{sponsor.id}"
-                                       class="donation_range form-range"
-                                       type="range"
-                                       t-attf-value="#{sponsor.total_amount}"
-                                       step="0.00001"/>
-                            </t>
-                        </div>
-                       <div class="col-3" style="text-align:right;">
-                            <a t-attf-id="donation_button_#{sponsor.id}"
-                               class="donation_button btn btn-primary w-100"
-                               t-attf-href="/my/donations/update?recurring_contract=#{sponsor.id}">
-                                <t t-esc="upgrade_button_format.replace('%', '50.00')"/>
-                            </a>
-                        </div>
+                        <t t-if="sponsor.total_amount &lt; 50">
+                            <div class="col-3">
+                                <t t-if="sponsor.type in ['SWP']">
+                                    <input t-attf-id="donation_range_#{sponsor.id}"
+                                           t-attf-data-id="#{sponsor.id}"
+                                           class="donation_range form-range"
+                                           type="range"
+                                           t-attf-value="#{upgrade_default_new_amount[sponsor.id]}"
+                                           step="0.00001"/>
+                                </t>
+                            </div>
+                            <div class="col-3" style="text-align:right;">
+                                <a t-attf-id="donation_button_#{sponsor.id}"
+                                   class="donation_button btn btn-primary w-100"
+                                   t-attf-href="/my/donations/upgrade?recurring_contract=#{sponsor.id}">
+                                    <t t-esc="upgrade_button_format.replace('%', '50.00')"/>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="col-6">
+                                Already maximal upgrade
+                            </div>
+                        </t>
                     </div>
                 </t>
             </div>
