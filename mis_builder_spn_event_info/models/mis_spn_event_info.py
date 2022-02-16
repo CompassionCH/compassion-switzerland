@@ -30,7 +30,7 @@ class MisSpnEventInfo(models.Model):
     )
     credit = fields.Float()
     debit = fields.Float()
-    date = fields.Date()
+    date = fields.Datetime()
 
     @api.model_cr
     def init(self):
