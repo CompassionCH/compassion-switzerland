@@ -145,6 +145,7 @@ class EventDonationForm(models.AbstractModel):
                     )
                 ],
                 "type": "out_invoice",
+                "auto_cancel_no_transaction": True,
                 "date_invoice": fields.Date.today(),
                 "payment_term_id": self.env.ref(
                     "account.account_payment_term_immediate"
@@ -154,7 +155,7 @@ class EventDonationForm(models.AbstractModel):
         )
 
     def _form_create(self, values):
-        # redefine and do nothing to avoid creating the invoice on from creation
+        # redefine and do nothing to avoid creating the invoice on form creation
         pass
 
     def form_after_create_or_update(self, values, extra_values):
