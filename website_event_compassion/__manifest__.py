@@ -53,6 +53,7 @@
         "data/communication_config.xml",
         "data/survey.xml",
         "data/action_rule_past_event.xml",
+        "data/action_rule_auto_cancel.xml",
         "data/event_message_subtype.xml",
         "views/event_compassion_open_wizard.xml",
         "views/event_compassion_view.xml",
