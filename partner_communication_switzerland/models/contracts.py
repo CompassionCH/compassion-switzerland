@@ -57,6 +57,28 @@ class RecurringContract(models.Model):
                                         copy=False)
     sub_proposal_date = fields.Date(help="Trigger for automatic SUB sponsorship validation after 2 weeks")
 
+    @api.onchange("type")
+    def _create_empty_lines_for_correspondence(self):
+        super()._create_empty_lines_for_correspondence()
+        if self.type == "SWP" and not self.correspondent_id.mobile:
+            return {
+                "warning": {
+                    "title": "Write&Pray",
+                    "message": "The correspondent doesn't have a mobile phone set. "
+                               "Please check this otherwise he or she won't receive "
+                               "the communications by SMS."
+                }
+            }
+        if self.type == "SWP" and not self.correspondent_id.is_young:
+            return {
+                "warning": {
+                    "title": "Write&Pray",
+                    "message": "The correspondent is not a young person. "
+                               "Please check that this sponsorship is indeed a "
+                               "Write&Pray, or use the 'Correspondence' type otherwise."
+                }
+            }
+
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
@@ -677,7 +699,7 @@ class RecurringContract(models.Model):
         new_dossier = self.env.ref(
             module + "config_onboarding_sponsorship_confirmation")
         print_dossier = self.env.ref(module + "planned_dossier")
-        print_wrpr = self.env.ref(module + "sponsorship_dossier_wrpr")
+        wrpr_welcome = self.env.ref(module + "config_wrpr_welcome")
         transfer = self.env.ref(module + "new_dossier_transfer")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
@@ -689,8 +711,9 @@ class RecurringContract(models.Model):
             configs = transfer
         elif not partner.email or \
                 partner.global_communication_delivery_preference == "physical":
-            configs = print_wrpr if self.type in ["SC", "SWP"] and partner != self.partner_id \
-                else print_dossier
+            configs = print_dossier
+        elif self.type == "SWP":
+            configs = wrpr_welcome + child_picture
         else:
             configs = new_dossier + child_picture
         for config in configs:
@@ -703,5 +726,7 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                self.with_context({}).send_communication(config, correspondent)
+                comms = self.with_context({}).send_communication(config, correspondent)
+                if config == wrpr_welcome:
+                    comms.write({"send_mode": "sms"})
         return True

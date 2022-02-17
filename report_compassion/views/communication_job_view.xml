@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="partner_communication.communication_job_form"/>
         <field name="arch" type="xml">
             <field name="ir_attachment_ids" position="before">
-                <field name="product_id" domain="[('fund_id', '!=', False)]"/>
+                <field name="product_id" domain="[('fund_id', '!=', False)]" attrs="{'invisible': ['|', ('send_mode', '!=', 'physical'), ('send_mode', '!=', 'both')]}"/>
             </field>
             <field name="subject" position="after">
-                <field name="display_pp"/>
+                <field name="display_pp" attrs="{'invisible': ['|', ('send_mode', '!=', 'physical'), ('send_mode', '!=', 'both')]}"/>
             </field>
         </field>
     </record>

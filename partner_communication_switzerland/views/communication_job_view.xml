@@ -1,5 +1,4 @@
 <odoo>
-    <!-- Add event in views -->
     <record model="ir.ui.view" id="communication_job_form_event">
         <field name="name">communication.job.form.event</field>
         <field name="model">partner.communication.job</field>
@@ -9,13 +8,22 @@
                 <field name="event_id"/>
                 <field name="ambassador_id"/>
             </field>
-            <field name="send_mode" position="after">
-                <field name="currency_id" invisible="1"/>
-                <field name="sms_cost" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('sms_cost', '=', False)]}"/>
-                <field name="sms_provider_id" attrs="{'invisible': [('sms_cost', '=', False)]}"/>
+            <xpath expr="//button[@name='send'][1]" position="after">
+                <button name="send" string="Send Now" icon="fa-comment" type="object" class="oe_highlight" attrs="{'invisible':['|',('send_mode', '!=', 'sms'),('state', '!=', 'pending')]}"/>
+            </xpath>
+            <!-- Hide fields for SMS -->
+            <field name="subject" position="attributes">
+                <attribute name="attrs">{'invisible': [('send_mode', '=', 'sms')]}</attribute>
+            </field>
+            <field name="ir_attachment_ids" position="attributes">
+                <attribute name="attrs">{'invisible': [('send_mode', '=', 'sms')]}</attribute>
+            </field>
+            <field name="ir_attachment_tmp" position="attributes">
+                <attribute name="attrs">{'invisible': [('send_mode', '=', 'sms')]}</attribute>
             </field>
         </field>
     </record>
+
     <!--   Add event and ambassador in thank you tree view -->
     <record model="ir.ui.view" id="communication_job_tree_event">
         <field name="name">communication.job.tree.event</field>

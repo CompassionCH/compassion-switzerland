@@ -632,8 +632,10 @@ class PartnerCommunication(models.Model):
             "partner_communication_switzerland"
             ".config_onboarding_sponsorship_confirmation"
         )
-        welcome_comms = other_jobs.filtered(
-            lambda j: j.config_id == welcome_onboarding and
+        wrpr_onboarding = self.env.ref(
+            "partner_communication_switzerland.config_wrpr_welcome")
+        welcome_comms = self.filtered(
+            lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding) and
             j.get_objects().filtered("is_first_sponsorship"))
         if welcome_comms:
             welcome_comms.get_objects().write({
@@ -655,7 +657,7 @@ class PartnerCommunication(models.Model):
         link_pattern = re.compile(r'<a href="(.*)">([^<]*)</a>')
         sms_medium_id = self.env.ref("sms_sponsorship.utm_medium_sms").id
         sms_texts = []
-        for job in self.filtered("partner_mobile"):
+        for job in self.filtered(lambda j: j.state == "pending" and j.partner_mobile):
             sms_text = job.convert_html_for_sms(link_pattern, sms_medium_id)
             sms_texts.append(sms_text)
             job.partner_id.with_context(
@@ -684,18 +686,24 @@ class PartnerCommunication(models.Model):
 
         def _replace_link(match):
             full_link = match.group(1).replace("&amp;", "&")
-            short_link = self.env["link.tracker"].create(
-                {
-                    "url": full_link,
-                    "campaign_id": self.utm_campaign_id.id
-                                   or self.env.ref(
-                        "partner_communication_switzerland."
-                        "utm_campaign_communication"
-                    ).id,
-                    "medium_id": sms_medium_id,
-                    "source_id": source_id,
-                }
-            )
+            short_link = self.env["link.tracker"].search([
+                ("url", "=", full_link),
+                ("source_id", "=", source_id),
+                ("medium_id", "=", sms_medium_id)
+            ])
+            if not short_link:
+                short_link = self.env["link.tracker"].create(
+                    {
+                        "url": full_link,
+                        "campaign_id": self.utm_campaign_id.id
+                                       or self.env.ref(
+                            "partner_communication_switzerland."
+                            "utm_campaign_communication"
+                        ).id,
+                        "medium_id": sms_medium_id,
+                        "source_id": source_id,
+                    }
+                )
             return short_link.short_url
 
         links_converted_text = link_pattern.sub(_replace_link, self.body_html)

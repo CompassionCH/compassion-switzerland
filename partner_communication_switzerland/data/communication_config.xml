@@ -355,14 +355,6 @@
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="attachments_function">get_yearly_payment_slips</field>
         </record>
-        <record id="sponsorship_dossier_wrpr" model="partner.communication.config">
-            <field name="name">Sponsorship - New Dossier Write&amp;Pray</field>
-            <field name="email_template_id" ref="email_wrpr_dossier"/>
-            <field name="report_id" ref="report_compassion.report_partner_communication"/>
-            <field name="send_mode">physical</field>
-            <field name="attachments_function">get_print_dossier_attachments</field>
-            <field name="model_id" ref="model_recurring_contract"/>
-        </record>
         <record id="sponsorship_sub_accept" model="partner.communication.config">
             <field name="name">Sponsorship - SUB Accept</field>
             <field name="email_template_id" ref="email_sub_accept"/>
