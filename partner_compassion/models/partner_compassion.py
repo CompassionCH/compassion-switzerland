@@ -12,6 +12,7 @@ import tempfile
 import uuid
 import base64
 import re
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, registry, fields, models, _
 from odoo.exceptions import UserError
@@ -139,6 +140,11 @@ class ResPartner(models.Model):
         required=True,
         default="default",
     )
+    is_young = fields.Boolean(compute="_compute_is_young",
+                              help="Tells whether the partner has less than 25 years.")
+    is_underage = fields.Boolean(
+        compute="_compute_is_underage",
+        help="Tells whether the partner has less than 18 years.")
 
     # Obsolete, rather use thankyou_preference kept for old template
     thankyou_letter = fields.Selection(
@@ -351,6 +357,23 @@ class ResPartner(models.Model):
         for partner in self:
             partner.primary_segment_id = partner.segments_affinity_ids[:1].segment_id
             partner.secondary_segment_id = partner.segments_affinity_ids[1:2].segment_id
+
+    def _compute_is_young(self):
+        limit_age = fields.Date.today() - relativedelta(years=25)
+        for partner in self:
+            partner.is_young = partner._is_born_before(limit_age)
+
+    def _compute_is_underage(self):
+        limit_age = fields.Date.today() - relativedelta(years=18)
+        for partner in self:
+            partner.is_underage = partner._is_born_before(limit_age)
+
+    def _is_born_before(self, limit_age):
+        self.ensure_one()
+        res = False
+        if self.birthdate_date:
+            res = self.birthdate_date >= limit_age
+        return res
 
     ##########################################################################
     #                              ORM METHODS                               #
