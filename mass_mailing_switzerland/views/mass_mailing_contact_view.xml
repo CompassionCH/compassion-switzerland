@@ -9,6 +9,12 @@
                 <field name="is_blacklisted" position="after">
                     <field name="partner_ids" domain="[('email', '=', email)]" />
                 </field>
+                <field name="partner_ids" position="after">
+                    <field name="partner_id"/>
+                </field>
+                <field name="title_id" position="after">
+                    <field name="salutation"/>
+                </field>
                 <!-- Hide contact button as we have the direct link field -->
                 <button name="open_contact_view" position="attributes">
                     <attribute name="invisible">1</attribute>
