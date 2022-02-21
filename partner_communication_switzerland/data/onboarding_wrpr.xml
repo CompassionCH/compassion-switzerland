@@ -1,0 +1,217 @@
+<odoo>
+    <!-- Mail templates -->
+    <record id="mail_wrpr_welcome" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Welcome</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_child_info" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Child information</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_letter_info" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Letter writing information</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_poverty" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Poverty</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_child_protection" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Child Protection</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_segmentation" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Segmentation</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_volunteering" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Volunteering</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+    <record id="mail_wrpr_feedback" model="mail.template">
+        <field name="name">Write&amp;Pray Onboarding - Feedback</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True"/>
+    </record>
+
+    <!-- Communication rules -->
+    <record id="config_wrpr_welcome" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Welcome</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_welcome"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_child_info" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Child information</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_child_info"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_letter_info" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Letter writing information</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_letter_info"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_poverty" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Poverty</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_poverty"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_child_protection" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Child Protection</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_child_protection"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_segmentation" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Segmentation</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_segmentation"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_volunteering" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Volunteering</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_volunteering"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+    <record id="config_wrpr_feedback" model="partner.communication.config">
+        <field name="name">Write&amp;Pray Onboarding - Feedback</field>
+        <field name="send_mode">none</field>
+        <field name="email_template_id" ref="mail_wrpr_feedback"/>
+        <field name="report_id" ref="report_compassion.report_partner_communication"/>
+        <field name="model_id" ref="model_recurring_contract"/>
+    </record>
+
+    <!-- Automations -->
+    <record id="automation_wrpr_2" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step2</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">1</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_child_info"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+    <record id="automation_wrpr_3" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step3</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">2</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_letter_info"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+    <record id="automation_wrpr_4" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step4</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">3</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_poverty"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+    <record id="automation_wrpr_5" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step5</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">4</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_child_protection"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+    <record id="automation_wrpr_6" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step6</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">5</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_segmentation"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+    <record id="automation_wrpr_7" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step7</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">6</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_volunteering"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+    <record id="automation_wrpr_8" model="base.automation">
+        <field name="name">W&amp;P Onboarding: step8</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="trg_date_range">7</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="config_wrpr_feedback"/>
+        <field name="partner_field">correspondent_id</field>
+        <field name="send_mode">sms</field>
+        <field name="auto_send" eval="True"/>
+    </record>
+</odoo>

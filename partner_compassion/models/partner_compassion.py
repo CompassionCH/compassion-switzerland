@@ -76,6 +76,9 @@ class ResPartner(models.Model):
 
     _inherit = "res.partner"
 
+    MAJORITY_AGE = 18
+    YOUNG_AGE = 25
+
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
@@ -268,9 +271,49 @@ class ResPartner(models.Model):
         help="Name used for postal sending"
     )
 
+    parent_consent = fields.Selection(
+        [
+            ("not_submitted", _("Not submitted yet.")),
+            ("waiting", _("Waiting Compassion approval")),
+            ("approved", _("Approved")),
+            ("refused", _("Refused")),
+        ],
+        string="Parent consents",
+        default="not_submitted",
+        required=True,
+        track_visibility="onchange",
+    )
+
+    can_manage_paid_sponsorships = fields.Boolean(
+        compute="_compute_can_manage_paid_sponsorships",
+        help="Sponsor has 18 years old or has parents consent for paying sponsorship"
+    )
+    has_majority = fields.Boolean(
+        compute="_compute_has_majority",
+        help="Tells whether the partner has less than 18 years."
+    )
+    is_young = fields.Boolean(
+        compute="_compute_is_young",
+        help="Tells whether the partner has less than 25 years."
+    )
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    @api.multi
+    def _compute_has_majority(self):
+        for record in self:
+            record.has_majority = record.age >= self.MAJORITY_AGE
+
+    def _compute_is_young(self):
+        for partner in self:
+            partner.is_young = partner.age < self.YOUNG_AGE
+
+    @api.multi
+    def _compute_can_manage_paid_sponsorships(self):
+        for record in self:
+            record.can_manage_paid_sponsorships = record.has_majority or record.parent_consent in ["approved"]
+
     @api.multi
     def agree_to_child_protection_charter(self):
         return self.write({"has_agreed_child_protection_charter": True})

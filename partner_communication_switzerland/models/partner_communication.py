@@ -652,7 +652,7 @@ class PartnerCommunication(models.Model):
         Sends communication jobs with SMS 939 service.
         :return: list of sms_texts
         """
-        link_pattern = re.compile(r'<a href="(.*)">(.*)</a>', re.DOTALL)
+        link_pattern = re.compile(r'<a href="(.*)">([^<]*)</a>')
         sms_medium_id = self.env.ref("sms_sponsorship.utm_medium_sms").id
         sms_texts = []
         for job in self.filtered("partner_mobile"):
@@ -699,7 +699,7 @@ class PartnerCommunication(models.Model):
             return short_link.short_url
 
         links_converted_text = link_pattern.sub(_replace_link, self.body_html)
-        soup = BeautifulSoup(links_converted_text, "lxml")
+        soup = BeautifulSoup(links_converted_text)
         return soup.get_text().strip()
 
     @api.multi

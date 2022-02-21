@@ -420,6 +420,8 @@ class MyAccountController(PaymentFormController):
 
     @route("/my/donations/upgrade", type="http", auth="user", website=True)
     def my_donations_update(self, recurring_contract=None, new_amount=None, **kw):
+        write_and_pray_max = 42
+        sponsorship_max = 50
         # check if the arguments are valid
         # if not redirect to the donation page
         try:
@@ -432,14 +434,16 @@ class MyAccountController(PaymentFormController):
                           and c.state not in ["cancelled", "terminated"]
             )
             assert len(contract) == 1
+            # ensure that the write and pray can manage paid sponsorship
+            assert contract.type not in ["SWP"] or partner.can_manage_paid_sponsorships
 
-            if new_amount and contract.type in ["SWP"]:
-                new_amount = float(new_amount)
-            else:
-                new_amount = 50.0
+            max_amount = write_and_pray_max if contract.type in ["SWP"] else sponsorship_max
 
-            assert 1 <= new_amount <= 50
-            assert new_amount > contract.total_amount
+            # only write and pray can select the amount
+            new_amount = int(new_amount) if new_amount and contract.type in ["SWP"] else max_amount
+
+            # can only increase the amount and must be in the range
+            assert max(1, contract.total_amount) < new_amount <= max_amount
         except (ValueError, AssertionError):
             return request.redirect("/my/donations")
 
@@ -456,22 +460,39 @@ class MyAccountController(PaymentFormController):
         def create_line(fund_name, amount):
             product_template = request.env["product.template"].sudo()
             product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
-            return {
-                "contract_id": contract.id,
+            return (0, 0, {
                 "product_id": product_template.id,
                 "quantity": 1,
                 "amount": amount,
-            }
-
-        contract.sudo().write({"contract_line_ids": [(5, 0, 0)]})
-
-        sponsorship_amount = min(42.0, new_amount)
-        contract_lines = [create_line("sponsorship", sponsorship_amount)]
+            })
+        sponsorship_amount = min(write_and_pray_max, new_amount)
+        contract_lines = [(5, 0, 0), create_line("sponsorship", sponsorship_amount)]
         remain = new_amount - sponsorship_amount
         if remain > 0:
             contract_lines.append(create_line("fund_gen", remain))
+        contract.sudo().write({"contract_line_ids": contract_lines})
 
-        request.env["recurring.contract.line"].sudo().create(contract_lines)
+        return request.redirect("/my/donations")
+
+    @route("/my/donations/submit_have_parent_consent", type="http", auth="user", website=True)
+    def my_donations_submit_have_parent_consent(self, parent_consent=None, **kw):
+        if parent_consent is None:
+            return request.redirect("/my/donations")
+        env = request.env
+        partner = env.user.partner_id
+
+        data = base64.b64encode(parent_consent.read())
+        date = datetime.today().isoformat(sep="T", timespec="seconds")
+        name = f"parent_consent_{date}_{parent_consent.filename}"
+
+        env["ir.attachment"].create({
+            "res_model": "res.partner",
+            "res_id": partner.id,
+            "name": name,
+            "db_datas": data,
+            "mimetype": parent_consent.content_type
+        })
+        partner.write({"parent_consent": "waiting"})
         return request.redirect("/my/donations")
 
     @route("/my/donations", type="http", auth="user", website=True)
@@ -598,11 +619,14 @@ class MyAccountController(PaymentFormController):
         upgrade_button_format = f"{_('Upgrade to %')} {currency}"
 
         upgrade_default_new_amount = {}
+        upgrade_max_amount = {}
         for sponsor in paid_sponsor:
             value = sponsor.total_amount + 10
-            # constrain between 1 and 50
-            value = max(1, min(50, value))
+            sponsorships_max_amount = 42 if sponsor.type in ["SWP"] else 50
+            # constrain between 1 and sponsorships_max_amount
+            value = max(1, min(sponsorships_max_amount, value))
             upgrade_default_new_amount[sponsor.id] = value
+            upgrade_max_amount[sponsor.id] = sponsorships_max_amount
 
         values = self._prepare_portal_layout_values()
         values.update({
@@ -621,6 +645,7 @@ class MyAccountController(PaymentFormController):
             "current_year": current_year,
             "last_completed_tax_receipt": last_completed_tax_receipt,
             "upgrade_default_new_amount": upgrade_default_new_amount,
+            "upgrade_max_amount": upgrade_max_amount,
             "upgrade_button_format": upgrade_button_format,
         })
 
