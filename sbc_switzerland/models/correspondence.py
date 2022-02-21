@@ -71,8 +71,8 @@ class Correspondence(models.Model):
             # TODO Remove this fix when HAITI case is resolved
             # For now, we switch French to Creole for avoiding translation
             if "HA" in sponsorship.child_id.local_id:
-                french = self.env.ref("child_compassion.lang_compassion_french")
-                creole = self.env.ref("child_compassion.lang_compassion_haitien_creole")
+                french = self.env.ref("advanced_translation.lang_compassion_french")
+                creole = self.env.ref("advanced_translation.lang_compassion_haitien_creole")
                 if original_lang == french:
                     vals["original_language_id"] = creole.id
 
@@ -392,13 +392,13 @@ class Correspondence(models.Model):
             if child_langs:
                 dst_lang = child_langs[-1]
             else:
-                dst_lang = self.env.ref("child_compassion.lang_compassion_english")
+                dst_lang = self.env.ref("advanced_translation.lang_compassion_english")
 
         elif self.direction == "Beneficiary To Supporter":
             if self.original_language_id and self.original_language_id.translatable:
                 src_lang = self.original_language_id
             else:
-                src_lang = self.env.ref("child_compassion.lang_compassion_english")
+                src_lang = self.env.ref("advanced_translation.lang_compassion_english")
             dst_lang = self.supporter_languages_ids.filtered(
                 lambda lang: lang.lang_id and lang.lang_id.code == self.partner_id.lang
             )

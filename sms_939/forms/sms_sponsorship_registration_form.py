@@ -58,11 +58,11 @@ class PartnerSmsRegistrationForm(models.AbstractModel):
         sponsor_langs = self.partner_id.sudo().spoken_lang_ids
         child_langs = self.main_object.sudo().child_id.field_office_id \
             .spoken_language_ids.filtered("translatable")
-        lang_en = self.env.ref("child_compassion.lang_compassion_english")
+        lang_en = self.env.ref("advanced_translation.lang_compassion_english")
         if lang_en not in sponsor_langs or not (child_langs & sponsor_langs):
-            lang_po = self.env.ref("child_compassion.lang_compassion_portuguese")
-            lang_fr = self.env.ref("child_compassion.lang_compassion_french")
-            lang_es = self.env.ref("child_compassion.lang_compassion_spanish")
+            lang_po = self.env.ref("advanced_translation.lang_compassion_portuguese")
+            lang_fr = self.env.ref("advanced_translation.lang_compassion_french")
+            lang_es = self.env.ref("advanced_translation.lang_compassion_spanish")
             _fields = []
             if lang_en not in sponsor_langs:
                 _fields.append("spoken_lang_en")
@@ -107,19 +107,19 @@ class PartnerSmsRegistrationForm(models.AbstractModel):
         spoken_langs = []
         if extra_values.get("spoken_lang_en"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_english").id
+                self.env.ref("advanced_translation.lang_compassion_english").id
             )
         if extra_values.get("spoken_lang_fr"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_french").id
+                self.env.ref("advanced_translation.lang_compassion_french").id
             )
         if extra_values.get("spoken_lang_es"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_spanish").id
+                self.env.ref("advanced_translation.lang_compassion_spanish").id
             )
         if extra_values.get("spoken_lang_po"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_portuguese").id
+                self.env.ref("advanced_translation.lang_compassion_portuguese").id
             )
         if spoken_langs:
             result["spoken_lang_ids"] = [(4, sid) for sid in spoken_langs]
