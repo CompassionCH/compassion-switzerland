@@ -7,20 +7,12 @@
 #
 ##############################################################################
 
-from odoo import api, models, fields
+from odoo import api, models
 from odoo.addons.queue_job.job import job
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
-
-    auto_cancel_date = fields.Datetime(
-        string="Auto cancel date",
-        help="Date at which the invoice should be canceled automatically via Automated Actions",
-        default=False,
-        invisible=True,
-        readonly=True,
-    )
 
     @api.multi
     @job
@@ -61,9 +53,3 @@ class AccountInvoice(models.Model):
         task = self.env.ref("website_event_compassion.task_full_payment")
         registrations.write({"completed_task_ids": [(4, task.id)]})
         return res
-
-    @api.multi
-    def auto_cancel(self):
-        invoices = self.filtered(lambda i: i.state in ["open"])
-        invoices.write({"auto_cancel_date": False})
-        invoices.action_invoice_cancel()
