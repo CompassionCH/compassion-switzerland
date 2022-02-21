@@ -82,50 +82,6 @@ class CompassionChild(models.Model):
             child.completion_month = format_date(completion, "MMMM", locale=lang)
 
     @api.multi
-    def depart(self):
-        """ Send depart communication to sponsor if no sub. """
-        for child in self.filtered("sponsor_id"):
-            sponsorship = self.env["recurring.contract"].search(
-                [
-                    ("child_id", "=", child.id),
-                    ("state", "not in", ["terminated", "cancelled"]),
-                    ("sds_state", "=", "no_sub"),
-                ]
-            )
-            if not sponsorship:
-                continue
-            if child.lifecycle_ids[0].type == "Planned Exit":
-                communication_type = self.env.ref(
-                    "partner_communication_switzerland.lifecycle_child_planned_exit"
-                )
-            else:
-                communication_type = self.env.ref(
-                    "partner_communication_switzerland.lifecycle_child_unplanned_exit"
-                )
-            sponsorship.send_communication(communication_type, both=True)
-            # Send also the sponsorship certificate
-            sponsorship.send_communication(self.env.ref(
-                "partner_communication_switzerland.sponsorship_certificate"), both=True)
-        super().depart()
-
-    @api.multi
-    def reinstatement(self):
-        """ Send communication to sponsor. """
-        communication_type = self.env.ref(
-            "partner_communication_switzerland.lifecycle_child_reinstatement"
-        )
-        for child in self.filtered("sponsorship_ids"):
-            self.env["partner.communication.job"].create(
-                {
-                    "config_id": communication_type.id,
-                    "partner_id": child.sponsorship_ids[0].correspondent_id.id,
-                    "object_ids": child.id,
-                    "user_id": communication_type.user_id.id,
-                }
-            )
-        super().reinstatement()
-
-    @api.multi
     def new_photo(self):
         """
         Upon reception of a new child picture :
