@@ -58,34 +58,34 @@ def _get_user_children(state=None):
         can_show = True
         is_active = sponsorship.state not in ["draft", "cancelled", "terminated"]
         is_recent_terminated = (
-            sponsorship.state == "terminated"
-            and sponsorship.end_date
-            and sponsorship.end_date >= limit_date_active
-            and sponsorship.end_reason_id == end_reason_child_depart
+                sponsorship.state == "terminated"
+                and sponsorship.end_date
+                and sponsorship.end_date >= limit_date_active
+                and sponsorship.end_reason_id == end_reason_child_depart
         )
         can_still_write = (
-            is_active
-            or sponsorship.state == "terminated"
-            and sponsorship.end_date
-            and sponsorship.end_date >= limit_date_for_writing
+                is_active
+                or sponsorship.state == "terminated"
+                and sponsorship.end_date
+                and sponsorship.end_date >= limit_date_for_writing
         )
         exit_communication_sent = (
-            sponsorship.state == "terminated"
-            and sponsorship.sds_state != "sub_waiting"
+                sponsorship.state == "terminated"
+                and sponsorship.sds_state != "sub_waiting"
         )
 
         if only_correspondent:
             can_show = sponsorship.correspondent_id == partner
         if state == "active":
             can_show &= (
-                is_active
-                or is_recent_terminated
-                or (not exit_communication_sent and can_still_write)
+                    is_active
+                    or is_recent_terminated
+                    or (not exit_communication_sent and can_still_write)
             )
         elif state == "terminated":
             can_show &= (
-                sponsorship.state in ["cancelled", "terminated"]
-                and not (is_recent_terminated or (exit_communication_sent and can_still_write))
+                    sponsorship.state in ["cancelled", "terminated"]
+                    and not (is_recent_terminated or (exit_communication_sent and can_still_write))
             )
 
         return can_show
@@ -341,7 +341,7 @@ class MyAccountController(PaymentFormController):
                 "templates": templates,
                 "partner": request.env.user.partner_id,
                 "auto_texts": auto_texts
-             }
+            }
         )
 
     @route("/my/children", type="http", auth="user", website=True)
@@ -412,17 +412,21 @@ class MyAccountController(PaymentFormController):
             ("price_total", "!=", 0),
         ])
         request.session['child_id'] = child.id
-        return request.render(
-            "website_compassion.my_children_page_template",
-            {
-                "child_id": child,
-                "children": children,
-                "letters": letters,
-                "lines": lines,
-                "state": state,
-                "display_state": display_state
-            }
-        )
+
+        gift_base_url = _("https://compassion.ch/de/geschenkformular")
+        child_gift_params = partner.with_context({'mailchimp_child': child}).wordpress_form_data
+        url_child_gift = f"{gift_base_url}?{child_gift_params}"
+
+        context = {
+            "child_id": child,
+            "children": children,
+            "letters": letters,
+            "lines": lines,
+            "state": state,
+            "display_state": display_state,
+            "url_child_gift": url_child_gift,
+        }
+        return request.render("website_compassion.my_children_page_template", context)
 
     @route("/my/donations/upgrade", type="http", auth="user", website=True)
     def my_donations_update(self, recurring_contract=None, new_amount=None, **kw):
@@ -650,19 +654,20 @@ class MyAccountController(PaymentFormController):
         """
         partner = request.env.user.partner_id
 
-        # Load forms
-        form_success = False
-        kw["form_model_key"] = "cms.form.partner.my.coordinates"
-        coordinates_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == coordinates_form.form_id:
-            coordinates_form.form_process()
-            form_success = coordinates_form.form_success
+        def get_form(form_model_key):
+            form = self.get_form("res.partner", partner.id, form_model_key=form_model_key, **kw)
+            if form_id is None or form_id == form.form_id:
+                form.form_process()
+            return form
 
-        kw["form_model_key"] = "cms.form.partner.delivery"
-        delivery_form = self.get_form("res.partner", partner.id, **kw)
-        if form_id is None or form_id == delivery_form.form_id:
-            delivery_form.form_process()
-            form_success = delivery_form.form_success
+        coordinates_form = get_form("cms.form.partner.my.coordinates")
+        # This fixes an issue that forms fail after first submission
+        if coordinates_form.form_success:
+            return request.redirect("/my/information")
+
+        delivery_form = get_form("cms.form.partner.delivery")
+        if delivery_form.form_success:
+            return request.redirect("/my/information")
 
         values = self._prepare_portal_layout_values()
         values.update({
@@ -671,14 +676,7 @@ class MyAccountController(PaymentFormController):
             "delivery_form": delivery_form,
         })
 
-        # This fixes an issue that forms fail after first submission
-        if form_success:
-            result = request.redirect("/my/information")
-        else:
-            result = request.render(
-                "website_compassion.my_information_page_template", values
-            )
-        return result
+        return request.render("website_compassion.my_information_page_template", values)
 
     @route("/my/picture", type="http", auth="user", website=True, method="POST",
            sitemap=False)
@@ -743,8 +741,8 @@ class MyAccountController(PaymentFormController):
 
             wizard = request.env["print.sponsorship.bvr"] \
                 .with_context(active_ids=active_sponsorship.mapped("id")).sudo().create({
-                    "pdf": True,
-                    "paper_format": "report_compassion.bvr_sponsorship",
+                "pdf": True,
+                "paper_format": "report_compassion.bvr_sponsorship",
             })
             wizard.get_report()
             headers = Headers()
@@ -763,9 +761,9 @@ class MyAccountController(PaymentFormController):
 
             wizard = request.env["print.sponsorship.gift.bvr"] \
                 .with_context(active_ids=sponsorship.id, active_model="recurring.contract").sudo().create({
-                    "pdf": True,
-                    "paper_format": "report_compassion.bvr_gift_sponsorship",
-                    "draw_background": True
+                "pdf": True,
+                "paper_format": "report_compassion.bvr_gift_sponsorship",
+                "draw_background": True
             })
             wizard.get_report()
             headers = Headers()
