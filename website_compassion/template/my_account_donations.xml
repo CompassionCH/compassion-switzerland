@@ -40,6 +40,8 @@
                         </form>
                     </t>
 
+                    <t t-call="website_compassion.my_donations_underage_form"/>
+
                     <t t-call="website_compassion.my_sponsorship_donation"/>
                     
                     <t t-call="website_compassion.my_donations_tax_receipt"/>
@@ -47,6 +49,38 @@
                     <t t-call="website_compassion.my_donations_gift_history"/>
                 </div>
                 <script type="text/javascript" src="/website_compassion/static/src/js/my_account.js"/>
+            </t>
+        </template>
+
+        <template id="my_donations_underage_form">
+            <t t-if="not partner.is_of_age">
+                <hr/>
+                <h3 class="mt-4">Parent consent</h3>
+                <t t-if="partner.parent_consent in ['not_submitted', 'refused']">
+                    <p>
+                        You can not manage paid sponsorships yet.
+                    </p>
+                    <p>
+                        <!-- use the right pdf file when available -->
+                        You can download the consent document and make your parents sign it.
+                        <a href="/website_compassion/static/src/css/my_donations.css" target="_blank"> [.PDF]</a>
+                    </p>
+                    <p>
+                        You can then either scan and submit it below or send it by post.
+                    </p>
+                    <form id="bvr_download" action="/my/donations/submit_have_parent_consent" enctype="multipart/form-data" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input name="parent_consent" type="file" class="form-control-file" accept=".pdf, image/png, image/jpeg" />
+                        <t t-set="input_value">Submit</t>
+                        <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
+                    </form>
+                </t>
+                <t t-if="partner.parent_consent in ['waiting']">
+                    Compassion is treating your parent consent request.
+                </t>
+                <t t-if="partner.parent_consent in ['approved']">
+                    Compassion approved your parent consent request.
+                </t>
             </t>
         </template>
 
@@ -148,6 +182,7 @@
             </div>
         </template>
         <template id="my_sponsorship_donation">
+            <hr/>
             <div class="mt-4">
                 <!-- Payments option -->
                 <h3>My sponsorships</h3>

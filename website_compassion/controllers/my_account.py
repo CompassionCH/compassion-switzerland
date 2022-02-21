@@ -484,6 +484,28 @@ class MyAccountController(PaymentFormController):
         request.env["recurring.contract.line"].sudo().create(contract_lines)
         return request.redirect("/my/donations")
 
+    @route("/my/donations/submit_have_parent_consent", type="http", auth="user", website=True)
+    def my_donations_submit_have_parent_consent(self, parent_consent=None, **kw):
+        if parent_consent is None:
+            return request.redirect("/my/donations")
+        env = request.env
+        partner = env.user.partner_id
+
+        data = base64.b64encode(parent_consent.read())
+        date = datetime.today().isoformat(sep="T", timespec="seconds")
+        name = f"parents_approval_{date}_{parent_consent.filename}"
+
+        env["ir.attachment"].create({
+            "res_model": "res.partner",
+            "res_id": partner.id,
+            "name": name,
+            "db_datas": data,
+            "mimetype": parent_consent.content_type
+        })
+        partner.write({"parent_consent": "waiting"})
+        return request.redirect("/my/donations")
+
+
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
         """
