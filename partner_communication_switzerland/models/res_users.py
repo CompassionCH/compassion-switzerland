@@ -62,7 +62,8 @@ class ResUsers(models.Model):
                 "en_US": "https://www.facebook.com/compassionsuisse/"
             }
             for user in self:
-                photo = user.with_context(bin_size=False).image_small
+                employee = user.employee_ids[:1].with_context(bin_size=False)
+                photo = employee.image_small
                 values = {
                     "name":
                     f"{user.preferred_name} {user.lastname}" if user.firstname else _(
@@ -71,7 +72,7 @@ class ResUsers(models.Model):
                     "lang": self.env.lang,
                     "lang_short": self.env.lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
-                    "job_title": user.employee_ids[:1].job_id.name or "",
+                    "job_title": employee.job_id.name or "",
                     "office_hours": _("mo-thu: 8am-4pm<br/>fri 8am-12am"),
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(self.env.lang),
