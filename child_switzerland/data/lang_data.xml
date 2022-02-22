@@ -19,7 +19,7 @@
         <field name="lang_id" ref="base.lang_it"/>
     </record>
 
-    <record id="child_compassion.lang_compassion_french" model="res.lang.compassion">
+    <record id="advanced_translation.lang_compassion_french" model="res.lang.compassion">
         <field name="lang_id" ref="base.lang_fr_CH"/>
     </record>
 </odoo>
