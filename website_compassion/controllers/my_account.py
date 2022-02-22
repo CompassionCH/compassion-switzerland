@@ -471,7 +471,6 @@ class MyAccountController(PaymentFormController):
             product_template = request.env["product.template"].sudo()
             product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
             return (0, 0, {
-                "contract_id": contract.id,
                 "product_id": product_template.id,
                 "quantity": 1,
                 "amount": amount,
