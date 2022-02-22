@@ -255,9 +255,46 @@ class ResPartner(models.Model):
         track_visibility="onchange"
     )
 
+    parent_consent = fields.Selection(
+        [
+            ("not_submitted", _("Not submitted yet.")),
+            ("waiting", _("Waiting Compassion approval")),
+            ("approved", _("Approved")),
+            ("refused", _("Refused")),
+        ],
+        string="Parent consents",
+        default="not_submitted",
+        store=True,
+        readonly=False,
+        required=True,
+        track_visibility="onchange",
+    )
+
+    can_manage_paid_sponsorships = fields.Boolean(
+        compute="_compute_can_manage_paid_sponsorships",
+        store=False,
+        readonly=True,
+    )
+    is_of_age = fields.Boolean(
+        compute="_compute_is_of_age",
+        store=False,
+        readonly=True,
+    )
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+
+    @api.multi
+    def _compute_is_of_age(self):
+        for record in self:
+            record.is_of_age = record.age >= self.MAJORITY_AGE
+
+    @api.multi
+    def _compute_can_manage_paid_sponsorships(self):
+        for record in self:
+            record.can_manage_paid_sponsorships = record.is_of_age or record.parent_consent in ["approved"]
+
     @api.multi
     def agree_to_child_protection_charter(self):
         return self.write({"has_agreed_child_protection_charter": True})
