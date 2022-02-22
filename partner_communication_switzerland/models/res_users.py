@@ -85,6 +85,8 @@ class ResUsers(models.Model):
                     template.remove("#bern")
                 else:
                     template.remove("#yverdon")
+                if not photo:
+                    template.remove("#photo")
                 user.signature = template.html().format(**values)
 
     @api.multi
