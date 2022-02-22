@@ -7,6 +7,8 @@
 #
 ##############################################################################
 
+from datetime import datetime, timedelta
+
 from odoo import models, fields, _
 
 
@@ -29,6 +31,8 @@ class EventDonationForm(models.AbstractModel):
     partner_street = fields.Char(required=True)
     partner_zip = fields.Char(required=True)
     partner_city = fields.Char(required=True)
+
+    AUTO_CANCEL_DELTA = 30
 
     def _form_validate_amount(self, value, **kwargs):
         try:
@@ -125,6 +129,7 @@ class EventDonationForm(models.AbstractModel):
         product = event.odoo_event_id.donation_product_id
         ambassador = self.ambassador_id.sudo()
         name = f"[{event.name}] Donation for {ambassador.name}"
+        auto_cancel_date = datetime.today() + timedelta(minutes=self.AUTO_CANCEL_DELTA)
         return self.env["account.invoice"].sudo().create(
             {
                 "name": name,
@@ -145,6 +150,8 @@ class EventDonationForm(models.AbstractModel):
                     )
                 ],
                 "type": "out_invoice",
+                "auto_cancel_no_transaction": True,
+                "auto_cancel_date": auto_cancel_date,
                 "date_invoice": fields.Date.today(),
                 "payment_term_id": self.env.ref(
                     "account.account_payment_term_immediate"
@@ -154,8 +161,8 @@ class EventDonationForm(models.AbstractModel):
         )
 
     def _form_create(self, values):
-        # Create as superuser
-        self.main_object = self.form_model.sudo().create(values.copy())
+        # redefine and do nothing to avoid creating the invoice on form creation
+        pass
 
     def form_after_create_or_update(self, values, extra_values):
         """ Mark the privacy statement as accepted.
