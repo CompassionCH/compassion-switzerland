@@ -470,22 +470,19 @@ class MyAccountController(PaymentFormController):
         def create_line(fund_name, amount):
             product_template = request.env["product.template"].sudo()
             product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
-            return {
+            return (0, 0, {
                 "contract_id": contract.id,
                 "product_id": product_template.id,
                 "quantity": 1,
                 "amount": amount,
-            }
-
-        contract.sudo().write({"contract_line_ids": [(5, 0, 0)]})
-
+            })
         sponsorship_amount = min(write_and_pray_max, new_amount)
-        contract_lines = [create_line("sponsorship", sponsorship_amount)]
+        contract_lines = [(5, 0, 0), create_line("sponsorship", sponsorship_amount)]
         remain = new_amount - sponsorship_amount
         if remain > 0:
             contract_lines.append(create_line("fund_gen", remain))
+        contract.sudo().write({"contract_line_ids": contract_lines})
 
-        request.env["recurring.contract.line"].sudo().create(contract_lines)
         return request.redirect("/my/donations")
 
     @route("/my/donations/submit_have_parent_consent", type="http", auth="user", website=True)
