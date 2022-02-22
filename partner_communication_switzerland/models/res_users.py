@@ -62,8 +62,8 @@ class ResUsers(models.Model):
                 "en_US": "https://www.facebook.com/compassionsuisse/"
             }
             for user in self:
+                photo = user.with_context(bin_size=False).image_small
                 values = {
-                    "user": user,
                     "name":
                     f"{user.preferred_name} {user.lastname}" if user.firstname else _(
                         "The team of Compassion"),
@@ -71,11 +71,14 @@ class ResUsers(models.Model):
                     "lang": self.env.lang,
                     "lang_short": self.env.lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
+                    "job_title": user.employee_ids[:1].job_id.name or "",
                     "office_hours": _("mo-thu: 8am-4pm<br/>fri 8am-12am"),
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(self.env.lang),
                     "phone": phone.get(self.env.lang),
                     "facebook": facebook.get(self.env.lang),
+                    "photo": photo.decode(
+                        "utf-8") if isinstance(photo, bytes) else photo,
                 }
                 if self.env.lang in ("fr_CH", "en_US"):
                     template.remove("#bern")
@@ -87,7 +90,7 @@ class ResUsers(models.Model):
     def _compute_short_signature(self):
         for user in self:
             template = PyQuery(user.signature)
-            user.short_signature = template("#header").outerHtml()
+            user.short_signature = template("#short").html()
 
     @api.multi
     def _compute_signature_letter(self):
