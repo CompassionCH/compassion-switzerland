@@ -132,7 +132,7 @@ class RecurringContract(models.Model):
         for contract in self:
             if (
                     contract.child_id.project_id.suspension != "fund-suspended"
-                    and contract.type != "SC"
+                    and contract.type not in ["SC", "SWP"]
             ):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang="en_US"
@@ -501,11 +501,10 @@ class RecurringContract(models.Model):
                       and c not in mandates_valid
         ).with_context({})._new_dossier()
 
-        csp_product = self.env.ref(
-            "sponsorship_switzerland.product_template_fund_csp")
         csp = self.filtered(
-            lambda s: csp_product in s.contract_line_ids.mapped(
-                "product_id.product_tmpl_id"))
+            lambda s: "6014" in s.mapped(
+                "contract_line_ids.product_id.property_account_income_id.code")
+        )
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
@@ -527,7 +526,7 @@ class RecurringContract(models.Model):
         # Send sponsorship confirmation for write&pray sponsorships
         # that didn't get through waiting state (would already have the communication)
         self.filtered(
-            lambda s: s.type == "SC" and s.state == "draft"
+            lambda s: s.type in ["SC", "SWP"] and s.state == "draft"
         )._new_dossier()
         return super().contract_active()
 
@@ -658,7 +657,7 @@ class RecurringContract(models.Model):
             configs = transfer
         elif not partner.email or \
                 partner.global_communication_delivery_preference == "physical":
-            configs = print_wrpr if self.type == "SC" and partner != self.partner_id \
+            configs = print_wrpr if self.type in ["SC", "SWP"] and partner != self.partner_id \
                 else print_dossier
         else:
             configs = new_dossier + child_picture

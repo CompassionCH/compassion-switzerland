@@ -37,7 +37,7 @@ class Contract(models.Model):
         for contract in self:
             if (
                     contract.child_id.project_id.suspension != "fund-suspended"
-                    and contract.type != "SC"
+                    and contract.type not in ["SC", "SWP"]
             ):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang="en_US"

@@ -27,6 +27,17 @@
                     }(document, 'script', 'facebook-jssdk'));
                 </script>
 
+                <!-- Germany modal donation -->
+                <div id="modal_germany_donation" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" tabindex="-1" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <p>Wenn du eine Spendenbescheinigung aus Deutschland wünschst, dann nutzt bitte dieses Formular. Spenden aus Deutschland werden dem Barometer zeitverzögert gutgeschrieben.</p>
+                                <script type="text/javascript" t-attf-src="https://secure.fundraisingbox.com/app/paymentJS?hash=bw6nrmh44d7u7sm7&amp;donation_custom_field_8487=#{registration.partner_name}"></script><noscript>Bitte Javascript aktivieren</noscript><a target="_blank" href="https://www.fundraisingbox.com"><img border="0" style="border: 0 !important" src="https://secure.fundraisingbox.com/images/FundraisingBox-Logo-Widget.png" alt="FundraisingBox Logo" /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="main_container" id="participants_details">
                     <div class="position-relative mb64">
                         <div class="participant_header muskathlon_background_red">
@@ -62,6 +73,17 @@
                                             Sponsor a child
                                         </a>
                                     </p>
+                                    <t t-if="env.lang == 'de_DE'">
+                                    <!-- Germany donation button -->
+                                        <p class="center-text">
+                                            <a href="#"
+                                               class="btn btn-danger btn-muskathlon"
+                                               data-toggle="modal"
+                                               data-target="#modal_germany_donation">
+                                                Spenden aus Deutschland
+                                            </a>
+                                        </p>
+                                    </t>
                                 </div>
                             </div>
                             <div class="col-sm-7">
