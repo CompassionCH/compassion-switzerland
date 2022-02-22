@@ -77,6 +77,9 @@ class ResUsers(models.Model):
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(self.env.lang),
                     "phone": phone.get(self.env.lang),
+                    "mobile": employee.mobile_phone,
+                    "mobile_link": (employee.mobile_phone or "").replace(
+                        " ", "").replace("(0)", ""),
                     "facebook": facebook.get(self.env.lang),
                     "photo": photo.decode(
                         "utf-8") if isinstance(photo, bytes) else photo,
@@ -87,6 +90,8 @@ class ResUsers(models.Model):
                     template.remove("#yverdon")
                 if not photo:
                     template.remove("#photo")
+                if not employee.mobile_phone:
+                    template.remove(".work_mobile")
                 user.signature = template.html().format(**values)
 
     @api.multi
