@@ -442,14 +442,17 @@ class MyAccountController(PaymentFormController):
                           and c.state not in ["cancelled", "terminated"]
             )
             assert len(contract) == 1
+            # ensure that the write and pray can manage paid sponsorship
+            assert contract.type not in ["SWP"] or partner.can_manage_paid_sponsorships
 
+            # only write and pray can select the amount
             if new_amount and contract.type in ["SWP"]:
-                new_amount = float(new_amount)
+                new_amount = int(new_amount)
             else:
-                new_amount = 50.0
+                new_amount = 50
 
-            assert 1 <= new_amount <= 50
-            assert new_amount > contract.total_amount
+            # can only increase the amount and must be in the range
+            assert max(1, contract.total_amount) < new_amount <= 50
         except (ValueError, AssertionError):
             return request.redirect("/my/donations")
 
@@ -493,7 +496,7 @@ class MyAccountController(PaymentFormController):
 
         data = base64.b64encode(parent_consent.read())
         date = datetime.today().isoformat(sep="T", timespec="seconds")
-        name = f"parents_approval_{date}_{parent_consent.filename}"
+        name = f"parent_consent_{date}_{parent_consent.filename}"
 
         env["ir.attachment"].create({
             "res_model": "res.partner",
@@ -504,7 +507,6 @@ class MyAccountController(PaymentFormController):
         })
         partner.write({"parent_consent": "waiting"})
         return request.redirect("/my/donations")
-
 
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):

@@ -59,20 +59,23 @@
                 <t t-if="partner.parent_consent in ['not_submitted', 'refused']">
                     <p>
                         You can not manage paid sponsorships yet.
+                        <span t-if="partner.parent_consent in ['refused']" class="text-danger">
+                            Your last submission was refused by our team.
+                        </span>
                     </p>
+                    <!-- use the right pdf file when available -->
                     <p>
-                        <!-- use the right pdf file when available -->
-                        You can download the consent document and make your parents sign it.
-                        <a href="/website_compassion/static/src/css/my_donations.css" target="_blank"> [.PDF]</a>
+                        You can download the consent document and make your parents sign it
+                        <a href="/website_compassion/static/src/css/my_donations.css" target="_blank" download="parent_consent.pdf">[PDF]</a>.
                     </p>
                     <p>
                         You can then either scan and submit it below or send it by post.
                     </p>
-                    <form id="bvr_download" action="/my/donations/submit_have_parent_consent" enctype="multipart/form-data" method="post">
+                    <form id="bvr_download" action="/my/donations/submit_have_parent_consent" enctype="multipart/form-data" method="post" class="row">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                        <input name="parent_consent" type="file" class="form-control-file" accept=".pdf, image/png, image/jpeg" />
+                        <input name="parent_consent" type="file" class="form-control-file col-5" accept=".pdf, image/png, image/jpeg" />
                         <t t-set="input_value">Submit</t>
-                        <input type="submit" class="btn btn-primary" t-att-value="input_value"/>
+                        <input type="submit" class="btn btn-primary col-3" t-att-value="input_value"/>
                     </form>
                 </t>
                 <t t-if="partner.parent_consent in ['waiting']">
@@ -201,15 +204,23 @@
                         </label>
                     </div>
                 </div>
-                <t t-foreach="paid_sponsor" t-as="sponsor">
+                <div t-foreach="paid_sponsor" t-as="sponsor">
                     <div class="row pt-3">
                         <div class="col-4">
-                            <label><t t-esc="sponsor.child_id.preferred_name"/></label>
+                            <label>
+                                <t t-esc="sponsor.child_id.preferred_name"/>
+                            </label>
                         </div>
                         <div class="col-2">
-                            <label><t t-raw="sponsor.total_amount"/> <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/></label>
+                            <label>
+                                <t t-raw="sponsor.total_amount"/>
+                                <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/>
+                            </label>
                         </div>
-                        <t t-if="sponsor.total_amount &lt; 50">
+                        <div t-if="sponsor.type in ['SWP'] and not partner.can_manage_paid_sponsorships" class="col-6">
+                            You can not upgrade your sponsorship until you have completed the parent consent or you reach 18 years old.
+                        </div>
+                        <t t-elif="sponsor.total_amount &lt; 50">
                             <div class="col-3">
                                 <t t-if="sponsor.type in ['SWP']">
                                     <input t-attf-id="donation_range_#{sponsor.id}"
@@ -217,6 +228,9 @@
                                            class="donation_range form-range"
                                            type="range"
                                            t-attf-value="#{upgrade_default_new_amount[sponsor.id]}"
+                                           t-attf-data-min="#{sponsor.total_amount + 1}"
+                                           t-attf-data-max="50"
+                                           t-attf-data-log_scale="2"
                                            step="0.00001"/>
                                 </t>
                             </div>
@@ -228,13 +242,11 @@
                                 </a>
                             </div>
                         </t>
-                        <t t-else="">
-                            <div class="col-6">
-                                Already maximal upgrade
-                            </div>
-                        </t>
+                        <div t-else="" class="col-6">
+                            Already maximal upgrade
+                        </div>
                     </div>
-                </t>
+                </div>
             </div>
             <script>
                 let button_format = '<t t-esc="upgrade_button_format"/>';
