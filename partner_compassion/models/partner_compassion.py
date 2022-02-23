@@ -274,8 +274,8 @@ class ResPartner(models.Model):
         compute="_compute_can_manage_paid_sponsorships",
         help="Sponsor has 18 years old or has parents consent for paying sponsorship"
     )
-    is_of_age = fields.Boolean(
-        compute="_compute_is_of_age",
+    has_majority = fields.Boolean(
+        compute="_compute_has_majority",
         store=False,
         readonly=True,
     )
@@ -285,14 +285,14 @@ class ResPartner(models.Model):
     ##########################################################################
 
     @api.multi
-    def _compute_is_of_age(self):
+    def _compute_has_majority(self):
         for record in self:
-            record.is_of_age = record.age >= self.MAJORITY_AGE
+            record.has_majority = record.age >= self.MAJORITY_AGE
 
     @api.multi
     def _compute_can_manage_paid_sponsorships(self):
         for record in self:
-            record.can_manage_paid_sponsorships = record.is_of_age or record.parent_consent in ["approved"]
+            record.can_manage_paid_sponsorships = record.has_majority or record.parent_consent in ["approved"]
 
     @api.multi
     def agree_to_child_protection_charter(self):

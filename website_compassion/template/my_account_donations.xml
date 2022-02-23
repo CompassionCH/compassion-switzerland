@@ -53,7 +53,7 @@
         </template>
 
         <template id="my_donations_underage_form">
-            <t t-if="not partner.is_of_age">
+            <t t-if="not partner.has_majority">
                 <hr/>
                 <h3 class="mt-4">Parent consent</h3>
                 <t t-if="partner.parent_consent in ['not_submitted', 'refused']">
