@@ -50,12 +50,7 @@ class MassMailingContact(models.Model):
     salutation = fields.Char(
         compute="_compute_salutation",
     )
-    tag_ids = fields.Many2many(
-        "res.partner.category",
-        string="Tags",
-        compute="_compute_tag_ids",
-        store=False,
-        readonly=True,
+    tag_ids = fields.Many2many(related="partner_id.tag_ids"
     )
 
     # Add some computed fields to be used in mailchimp merge fields
