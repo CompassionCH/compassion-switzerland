@@ -41,16 +41,22 @@ class MassMailingContact(models.Model):
     )
     name = fields.Char(related="partner_id.name")
     country_id = fields.Many2one(related="partner_id.country_id")
+    company_name = fields.Char(related="partner_id.company_name")
+
     title_id = fields.Many2one(
         "res.partner.title",
         string="Title",
         compute="_compute_title_id",
     )
-    company_name = fields.Char(related="partner_id.company_name")
     salutation = fields.Char(
         compute="_compute_salutation",
     )
-    tag_ids = fields.Many2many(related="partner_id.tag_ids"
+    tag_ids = fields.Many2many(
+        "res.partner.category",
+        string="Tags",
+        compute="_compute_tag_ids",
+        store=False,
+        readonly=True,
     )
 
     # Add some computed fields to be used in mailchimp merge fields
@@ -98,14 +104,6 @@ class MassMailingContact(models.Model):
             else:
                 record.partner_id = partners
 
-    def _compute_name(self):
-        for record in self:
-            record.name = record.partner_id.name
-
-    def _compute_country_id(self):
-        for record in self:
-            record.country_id = record.partner_id.country_id
-
     def _compute_title_id(self):
         def _get_title(name):
             return self.env.ref(f"partner_compassion.res_partner_title_{name}")
@@ -133,10 +131,6 @@ class MassMailingContact(models.Model):
                 record.title_id = men
             else:
                 record.title_id = mister_miss
-
-    def _compute_company_name(self):
-        for record in self:
-            record.company_name = record.partner_id.company_name
 
     def _compute_salutation(self):
         for record in self:
