@@ -272,8 +272,7 @@ class ResPartner(models.Model):
 
     can_manage_paid_sponsorships = fields.Boolean(
         compute="_compute_can_manage_paid_sponsorships",
-        store=False,
-        readonly=True,
+        help="Sponsor has 18 years old or has parents consent for paying sponsorship"
     )
     is_of_age = fields.Boolean(
         compute="_compute_is_of_age",
