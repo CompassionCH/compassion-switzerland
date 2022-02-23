@@ -40,13 +40,7 @@ class MassMailingContact(models.Model):
         readonly=True,
     )
     name = fields.Char(related="partner_id.name")
-    country_id = fields.Many2one(
-        "res.country",
-        string="Country",
-        compute="_compute_country_id",
-        store=False,
-        readonly=True,
-    )
+    country_id = fields.Many2one(related="partner_id.country_id")
     title_id = fields.Many2one(
         "res.partner.title",
         string="Title",
