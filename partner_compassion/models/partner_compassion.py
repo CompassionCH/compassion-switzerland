@@ -327,7 +327,7 @@ class ResPartner(models.Model):
     @api.multi
     def _compute_write_and_pray(self):
         for partner in self:
-            partner.write_and_pray = any([t == "SWP" for t in partner.mapped("sponsorship_ids.type")])
+            partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
 
     @api.multi
     @api.depends("thankyou_preference")
