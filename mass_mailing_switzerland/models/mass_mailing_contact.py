@@ -46,12 +46,7 @@ class MassMailingContact(models.Model):
         string="Title",
         compute="_compute_title_id",
     )
-    company_name = fields.Char(
-        string="Company Name",
-        compute="_compute_company_name",
-        store=False,
-        readonly=True,
-    )
+    company_name = fields.Char(related="partner_id.company_name")
     salutation = fields.Char(
         compute="_compute_salutation",
         store=False,
