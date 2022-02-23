@@ -76,6 +76,10 @@
                               <h3>
                                  <field name="project_owner_id" widget="many2one" />
                               </h3>
+                              <label for="group" />
+                              <h3>
+                                 <field name="group" widget="char" />
+                              </h3>
                               <label for="event_id" attrs="{'readonly':True , 'invisible':[('event_id', '==', '')] }"/>
                               <h3>
                                  <field name="event_id" widget="many2one"
@@ -200,6 +204,7 @@
              <field name="name" />
             <field name="website_id"/>
              <field name="project_owner_id"/>
+             <field name="group"/>
              <field name="deadline" />
             <field name="product_number_reached" />
             <field name="number_sponsorships_reached" />
@@ -237,6 +242,7 @@
             <field name="deadline" widget="date" />
             <field name="cover_photo" widget="binary" required="1" />
             <field name="project_owner_id" />
+            <field name="group" />
             <field name="product_number_goal" />
             <field name="product_number_reached" />
             <field name="number_sponsorships_goal" />

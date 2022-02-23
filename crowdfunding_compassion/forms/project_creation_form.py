@@ -106,6 +106,12 @@ class ProjectCreationFormStep1(models.AbstractModel):
         required=True
     )
 
+    group = fields.Char(
+        "Name of your group / organisation",
+        help="This name will be display instead of your name.",
+        required=False
+    )
+
     _form_model_fields = [
         "description",
         "deadline",
@@ -129,6 +135,7 @@ class ProjectCreationFormStep1(models.AbstractModel):
             "fields": [
                 "campaign_name",
                 "description",
+                "group",
                 "deadline",
                 "cover_photo",
                 "presentation_video",

@@ -114,7 +114,7 @@
                                     <t t-set="participant" t-value="project.owner_participant_id" t-if="model == 'project'" />
                                     <img class="profile-pic" t-att-src="participant.profile_photo_url" alt="Project owner" t-if="participant.profile_photo_url"/>
                                     <h5>
-                                        <t t-esc="project.project_owner_id.name" t-if="model == 'project'"/>
+                                        <t t-esc="project.group if project.group else project.project_owner_id.name" t-if="model == 'project'"/>
                                         <t t-esc="participant.partner_id.name" t-else=""/>
                                     </h5>
                                 </div>
