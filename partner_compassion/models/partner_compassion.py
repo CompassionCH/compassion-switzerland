@@ -259,7 +259,6 @@ class ResPartner(models.Model):
         string="Write & Pray",
         help="Have at least one sponsorship for the W&P program",
         compute="_compute_write_and_pray",
-        store=False,
     )
 
     ##########################################################################
