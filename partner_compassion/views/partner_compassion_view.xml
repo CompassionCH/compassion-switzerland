@@ -96,7 +96,6 @@
                 <field name="is_of_age" invisible="1"/>
                 <field name="age"/>
                 <field name="parent_consent" attrs="{'invisible': [('is_of_age','=',True)]}"/>
-                <field name="can_manage_paid_sponsorships" attrs="{'invisible': [('is_of_age','=',True)]}"/>
             </xpath>
 
             <!-- Add correspondance tab -->
