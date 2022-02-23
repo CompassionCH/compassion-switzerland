@@ -266,8 +266,6 @@ class ResPartner(models.Model):
         ],
         string="Parent consents",
         default="not_submitted",
-        store=True,
-        readonly=False,
         required=True,
         track_visibility="onchange",
     )
