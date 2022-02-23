@@ -9,11 +9,15 @@
 ##############################################################################
 from ast import literal_eval
 from datetime import date
+import logging
+import traceback
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
 from odoo.addons.queue_job.job import job
+
+logger = logging.getLogger(__name__)
 
 
 def _partner_split_name(partner_name):
@@ -220,7 +224,10 @@ class MassMailingContact(models.Model):
 
     @api.multi
     def unlink(self):
-        self.action_archive_from_mailchimp()
+        try:
+            self.action_archive_from_mailchimp()
+        except Exception as e:
+            logger.error(traceback.format_exc())
         return super().unlink()
 
     ##########################################################################
