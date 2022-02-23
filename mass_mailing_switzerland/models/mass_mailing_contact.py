@@ -49,8 +49,6 @@ class MassMailingContact(models.Model):
     company_name = fields.Char(related="partner_id.company_name")
     salutation = fields.Char(
         compute="_compute_salutation",
-        store=False,
-        readonly=True,
     )
     tag_ids = fields.Many2many(
         "res.partner.category",
