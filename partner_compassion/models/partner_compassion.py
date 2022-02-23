@@ -325,7 +325,6 @@ class ResPartner(models.Model):
                 partner.criminal_record_name = f"Criminal record {partner.name}{ftype}"
 
     @api.multi
-    @api.depends("sponsorship_ids")
     def _compute_write_and_pray(self):
         for partner in self:
             partner.write_and_pray = any([t == "SWP" for t in partner.mapped("sponsorship_ids.type")])
