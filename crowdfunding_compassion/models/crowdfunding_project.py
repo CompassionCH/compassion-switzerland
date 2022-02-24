@@ -88,6 +88,7 @@ class CrowdfundingProject(models.Model):
         "account.invoice.line", compute="_compute_invoice_line_ids", string="Donations"
     )
     project_owner_id = fields.Many2one("res.partner", "Project owner", required=True)
+    group = fields.Char(string="Group / Organisation")
     owner_participant_id = fields.Many2one(
         "crowdfunding.participant", compute="_compute_owner_participant_id"
     )
