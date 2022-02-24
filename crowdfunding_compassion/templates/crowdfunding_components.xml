@@ -225,7 +225,7 @@
                                     <p>
                                         <small>
                                             <i class="fa fa-user-circle white"/>
-                                            <t t-esc="project.group if project.group else project.project_owner_id.name"/>
+                                            <t t-esc="project.group or project.project_owner_id.name"/>
                                             <t t-if="(len(project.participant_ids) - 1) > 0">
                                                <t t-esc="' + ' + str((len(project.participant_ids) - 1))"/>
                                                 <span> friends</span>
