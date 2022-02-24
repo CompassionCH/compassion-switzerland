@@ -255,6 +255,12 @@ class ResPartner(models.Model):
         track_visibility="onchange"
     )
 
+    write_and_pray = fields.Boolean(
+        string="Write & Pray",
+        help="Have at least one sponsorship for the W&P program",
+        compute="_compute_write_and_pray",
+    )
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
@@ -317,6 +323,11 @@ class ResPartner(models.Model):
                 ftype = get_file_type(
                     partner.with_context(bin_size=False).criminal_record)
                 partner.criminal_record_name = f"Criminal record {partner.name}{ftype}"
+
+    @api.multi
+    def _compute_write_and_pray(self):
+        for partner in self:
+            partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
 
     @api.multi
     @api.depends("thankyou_preference")
