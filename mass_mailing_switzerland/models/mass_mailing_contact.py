@@ -9,11 +9,14 @@
 ##############################################################################
 from ast import literal_eval
 from datetime import date
+import logging
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
 from odoo.addons.queue_job.job import job
+
+logger = logging.getLogger(__name__)
 
 
 class MassMailingContact(models.Model):
@@ -245,7 +248,10 @@ class MassMailingContact(models.Model):
 
     @api.multi
     def unlink(self):
-        self.action_archive_from_mailchimp()
+        try:
+            self.action_archive_from_mailchimp()
+        except:
+            logger.error("Error archiving mailchimp contact", exc_info=True)
         return super().unlink()
 
     ##########################################################################
