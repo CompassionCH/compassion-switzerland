@@ -492,7 +492,8 @@ class ResPartner(models.Model):
             )
         if order and isinstance(order, bytes):
             order = order.decode("utf-8")
-        return super().search(args, offset, limit, order, count)
+        return super().search(args,
+                              offset=offset, limit=limit, order=order, count=count)
 
     @api.model
     def _generate_order_by_inner(self, alias, order_spec, query,
