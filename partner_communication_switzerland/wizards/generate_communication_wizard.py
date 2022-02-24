@@ -105,7 +105,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
-    @api.onchange("selection_domain", "force_language")
+    @api.onchange("selection_domain")
     def onchange_domain(self):
         if self.res_model == "recurring.contract":
             if self.partner_source == "send_gifts_to":
@@ -113,14 +113,6 @@ class GenerateCommunicationWizard(models.TransientModel):
                 partner_source = "correspondent_id"
             else:
                 partner_source = self.partner_source
-            if self.force_language and not self.language_added_in_domain:
-                domain = self.selection_domain or "[]"
-                domain = (
-                    domain[:-1]
-                    + f", ('{partner_source}.lang', '=', '{self.force_language}')]"
-                )
-                self.selection_domain = domain.replace("[, ", "[")
-                self.language_added_in_domain = True
             if self.selection_domain:
                 self.sponsorship_ids = self.env["recurring.contract"].search(
                     safe_eval(self.selection_domain)
@@ -132,8 +124,6 @@ class GenerateCommunicationWizard(models.TransientModel):
                 else:
                     partners = self.sponsorship_ids.mapped(partner_source)
                 self.partner_ids = partners
-            if not self.force_language:
-                self.language_added_in_domain = False
         else:
             super().onchange_domain()
 
