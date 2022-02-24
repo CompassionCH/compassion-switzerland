@@ -10,7 +10,6 @@
 from ast import literal_eval
 from datetime import date
 import logging
-import traceback
 
 from dateutil.relativedelta import relativedelta
 
