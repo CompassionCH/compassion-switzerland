@@ -470,6 +470,7 @@ class MyAccountController(PaymentFormController):
         remain = new_amount - sponsorship_amount
         if remain > 0:
             contract_lines.append(create_line("fund_gen", remain))
+        # TODO: Change the partner if it's Donors of Compassion? Or we change everyone before that.
         contract.sudo().write({"contract_line_ids": contract_lines})
 
         return request.redirect("/my/donations")
@@ -493,6 +494,13 @@ class MyAccountController(PaymentFormController):
             "mimetype": parent_consent.content_type
         })
         partner.write({"parent_consent": "waiting"})
+        partner.activity_schedule(
+            "mail.mail_activity_data_todo",
+            summary=_("Parental consent submitted"),
+            note=_("Please review the parental consent for the W&P contribution."),
+            user_id=partner.mapped("sponsorship_ids.sds_uid")[:1].id,
+            date_deadline=datetime.date(datetime.today() + timedelta(weeks=1))
+        )
         return request.redirect("/my/donations")
 
     @route("/my/donations", type="http", auth="user", website=True)
@@ -567,8 +575,8 @@ class MyAccountController(PaymentFormController):
             len(sponsorship.filtered(lambda s: s.type == "S"))
             for sponsorship in sponsorships_by_group
         ]
-        paid_sponsor = (partner.contracts_fully_managed
-                        + partner.contracts_paid) \
+        paid_sponsorships = (partner.contracts_fully_managed
+                             + partner.contracts_paid) \
             .filtered(lambda a: a.state not in ["cancelled", "terminated"])
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
@@ -615,12 +623,12 @@ class MyAccountController(PaymentFormController):
         current_year = datetime.today().year
         first_year = create_date.year if create_date else current_year
 
-        currency = (paid_sponsor.mapped("invoice_line_ids.currency_id.name") or [False])[0] or "CHF"
+        currency = (paid_sponsorships.mapped("invoice_line_ids.currency_id.name") or [False])[0] or "CHF"
         upgrade_button_format = f"{_('Upgrade to %')} {currency}"
 
         upgrade_default_new_amount = {}
         upgrade_max_amount = {}
-        for sponsor in paid_sponsor:
+        for sponsor in paid_sponsorships:
             value = sponsor.total_amount + 10
             sponsorships_max_amount = 42 if sponsor.type in ["SWP"] else 50
             # constrain between 1 and sponsorships_max_amount
@@ -631,7 +639,7 @@ class MyAccountController(PaymentFormController):
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
-            "paid_sponsor": paid_sponsor,
+            "paid_sponsorships": paid_sponsorships,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
             "invoice_page": invoice_page,

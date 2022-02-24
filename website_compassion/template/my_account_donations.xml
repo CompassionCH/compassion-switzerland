@@ -7,7 +7,7 @@
         <!--        one or more groups for the partner -->
         <!--     3. invoices, the list of paid invoices of the partner -->
         <!--     4. groups, the groups of payment of the partner -->
-        <!--     5. paid_sponsor, the list of active paid sponsorships-->
+        <!--     5. paid_sponsorships, the list of active paid sponsorships-->
         <!--     6. amount_by_group, The additional amount that is payed, by group -->
         <!--     7. paid_sponsor_count_by_group, the number of paid sponsorships, by group -->
         <!--     8. wp_sponsor_count_by_group, the number of write and pray sponsorships, by group -->
@@ -30,7 +30,7 @@
                         <t t-call="website_compassion.my_donations_payment_options"/>
                     </t>
 
-                    <t t-if="groups and any(groups.mapped('bvr_reference'))">
+                    <t t-if="groups and any(groups.mapped('bvr_reference')) and sum(groups.mapped('contract_ids.total_amount')) &gt; 0">
 
                         <br/>
 
@@ -53,23 +53,23 @@
         </template>
 
         <template id="my_donations_underage_form">
-            <t t-if="not partner.has_majority">
+            <t t-if="partner.write_and_pray and not partner.has_majority">
                 <hr/>
-                <h3 class="mt-4">Parent consent</h3>
+                <h3 class="mt-4">Parental consent</h3>
                 <t t-if="partner.parent_consent in ['not_submitted', 'refused']">
                     <p>
-                        You can not manage paid sponsorships yet.
+                        If you want to contribute financially to your Write&amp;Pray sponsorships, we need the consent from your parents.
                         <span t-if="partner.parent_consent in ['refused']" class="text-danger">
                             Your last submission was refused by our team.
                         </span>
                     </p>
-                    <!-- use the right pdf file when available -->
+                    <!-- TODO use the right pdf file when available -->
                     <p>
                         You can download the consent document and make your parents sign it
-                        <a href="/website_compassion/static/src/css/my_donations.css" target="_blank" download="parent_consent.pdf">[PDF]</a>.
+                        <a href="/partner_compassion/static/src/img/parental_consent_de_DE.pdf" target="_blank">[PDF]</a>.
                     </p>
                     <p>
-                        You can then either scan and submit it below or send it by post.
+                        You can then either take a picture of it (or scan it) and submit it below or send it by post (address in the document).
                     </p>
                     <form id="bvr_download" action="/my/donations/submit_have_parent_consent" enctype="multipart/form-data" method="post" class="row">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
@@ -79,17 +79,17 @@
                     </form>
                 </t>
                 <t t-if="partner.parent_consent in ['waiting']">
-                    Compassion is treating your parent consent request.
+                    Compassion is treating your parental consent request.
                 </t>
                 <t t-if="partner.parent_consent in ['approved']">
-                    Compassion approved your parent consent request.
+                    Compassion approved your parental consent request.
                 </t>
             </t>
         </template>
 
         <!-- Template that displays multiple groups for partners that have more than one -->
         <template id="my_donations_payment_options_multiple">
-            <div class="mt-4" t-if="groups">
+            <div class="mt-4" t-if="groups and sum(groups.mapped('contract_ids.total_amount')) &gt; 0">
                 <h3>Payment Groups</h3>
                 <div class="row">
                     <ul class="nav nav-tabs w-100 mb-4">
@@ -153,7 +153,7 @@
 
         <!-- Template that displays the single group for partners that have only one -->
         <template id="my_donations_payment_options">
-            <div class="mt-4" t-if="groups">
+            <div class="mt-4" t-if="groups and sum(groups.mapped('contract_ids.total_amount')) &gt; 0">
                 <t t-set="group" t-value="groups[0]"/>
                 <!-- Payments option -->
                 <h3>My payment options</h3>
@@ -189,56 +189,55 @@
             <div class="mt-4">
                 <!-- Payments option -->
                 <h3>My sponsorships</h3>
-                <div class="row" style="backgroud: lightgray;">
+                <div class="row">
                     <div class="col-4">
                         <label><b>Child</b></label>
                     </div>
                     <div class="col-2">
-                        <label><b>Amount</b></label>
+                        <label><b>Monthly contribution</b></label>
                     </div>
                     <div class="col-6">
                         <label>
                             <b>Upgrade</b>
-                            <t t-set="tooltip_title">Upgrade your sponsorship to supports children that are not yet sponsored.</t>
+                            <t t-set="tooltip_title" t-if="min(paid_sponsorships.mapped('total_amount')) &gt;= 42">Sponsorship PLUS allows for the financing of urgent needs or those not covered by sponsorship (natural disasters, surgical interventions, malaria prevention, etc.). This solidarity fund is common to all children supported by Compassion.</t>
+                            <t t-set="tooltip_title" t-else="">Upgrade your financial contribution.</t>
                             <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
                         </label>
                     </div>
                 </div>
-                <div t-foreach="paid_sponsor" t-as="sponsor">
+                <div t-foreach="paid_sponsorships" t-as="sponsorship">
                     <div class="row pt-3">
                         <div class="col-4">
                             <label>
-                                <t t-esc="sponsor.child_id.preferred_name"/>
+                                <t t-esc="sponsorship.child_id.preferred_name"/>
                             </label>
                         </div>
                         <div class="col-2">
                             <label>
-                                <t t-raw="sponsor.total_amount"/>
-                                <t t-esc="sponsor.invoice_line_ids[0].currency_id.name"/>
+                                <t t-raw="sponsorship.total_amount"/>
+                                <t t-esc="sponsorship.invoice_line_ids[0].currency_id.name"/>
                             </label>
                         </div>
-                        <div t-if="sponsor.type in ['SWP'] and not partner.can_manage_paid_sponsorships" class="col-6">
-                            You can not upgrade your sponsorship until you have completed the parent consent or you reach 18 years old.
-                        </div>
-                        <t t-elif="sponsor.total_amount &lt; upgrade_max_amount[sponsor.id]">
+                        <div t-if="sponsorship.type in ['SWP'] and not partner.can_manage_paid_sponsorships" class="col-6">We ask the consent of your parents before you can increase your contribution amount.</div>
+                        <t t-elif="sponsorship.total_amount &lt; upgrade_max_amount[sponsorship.id]">
                             <div class="col-3">
-                                <t t-if="sponsor.type in ['SWP']">
-                                    <input t-attf-id="donation_range_#{sponsor.id}"
-                                           t-attf-data-id="#{sponsor.id}"
+                                <t t-if="sponsorship.type in ['SWP']">
+                                    <input t-attf-id="donation_range_#{sponsorship.id}"
+                                           t-attf-data-id="#{sponsorship.id}"
                                            class="donation_range form-range"
                                            type="range"
-                                           t-attf-value="#{upgrade_default_new_amount[sponsor.id]}"
-                                           t-attf-data-min="#{sponsor.total_amount + 1}"
-                                           t-attf-data-max="#{upgrade_max_amount[sponsor.id]}"
+                                           t-attf-value="#{upgrade_default_new_amount[sponsorship.id]}"
+                                           t-attf-data-min="#{sponsorship.total_amount + 1}"
+                                           t-attf-data-max="#{upgrade_max_amount[sponsorship.id]}"
                                            t-attf-data-log_scale="2"
                                            step="0.00001"/>
                                 </t>
                             </div>
                             <div class="col-3" style="text-align:right;">
-                                <a t-attf-id="donation_button_#{sponsor.id}"
+                                <a t-attf-id="donation_button_#{sponsorship.id}"
                                     class="donation_button btn btn-primary w-100"
-                                    t-attf-href="/my/donations/upgrade?recurring_contract=#{sponsor.id}">
-                                    <t t-esc="upgrade_button_format.replace('%', '{:.2f}'.format(upgrade_max_amount[sponsor.id]))"/>
+                                    t-attf-href="/my/donations/upgrade?recurring_contract=#{sponsorship.id}">
+                                    <t t-esc="upgrade_button_format.replace('%', '{:.2f}'.format(upgrade_max_amount[sponsorship.id]))"/>
                                 </a>
                             </div>
                         </t>
@@ -256,8 +255,8 @@
         </template>
         <!-- Allows the partner to download its tax receipt for a selected year -->
         <template id="my_donations_tax_receipt">
-            <hr t-if="first_year"/>
-            <div class="mt-4" t-if="first_year">
+            <hr t-if="invoices"/>
+            <div class="mt-4" t-if="invoices">
                 <h3 id="tax_title">
                     <span>Download your tax receipt</span>
                 </h3>
@@ -297,7 +296,7 @@
                     <t t-set="tooltip_title">Your latest payments may not already be taken into account.</t>
                     <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" t-att-title="tooltip_title" data-toggle="tooltip" id="tax_toggle"></i>
                 </h3>
-                <div class="row" style="backgroud: lightgray;">
+                <div class="row">
                     <div class="col-6">
                         <label><b>Month</b></label>
                     </div>
@@ -330,7 +329,7 @@
                     <t t-set="tooltip_title">Your latest payments may not already be taken into account.</t>
                     <i style="font-size: 1rem" class="fa fa-info-circle ml-1 d-inline" data-toggle="tooltip" t-att-title="tooltip_title" id="tax_toggle"/>
                 </h3>
-                <div class="row" style="backgroud: lightgray;">
+                <div class="row">
                     <div class="col-6">
                         <label><b>Details of donation</b></label>
                     </div>
@@ -381,7 +380,7 @@
             <t t-set="selected">donation</t>
             <t t-set="title">My financials</t>
             <t t-call="website_compassion.my_account_layout">
-               <center>You are about to upgrade to a <t t-esc="new_amount"/> CHF sponsorship</center>
+               <center class="mb-4">You are about to upgrade to a <t t-esc="new_amount"/> CHF sponsorship</center>
                  <center>
                     <a t-attf-href="#{upgrade_url}" class="btn btn-primary">Yes</a>
                     <a t-attf-href="/my/donations" class="btn btn-primary">No</a>
