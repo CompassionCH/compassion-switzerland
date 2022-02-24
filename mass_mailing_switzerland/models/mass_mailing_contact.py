@@ -226,8 +226,8 @@ class MassMailingContact(models.Model):
     def unlink(self):
         try:
             self.action_archive_from_mailchimp()
-        except Exception as e:
-            logger.error(traceback.format_exc())
+        except:
+            logger.error("Error archiving mailchimp contact", exc_info=True)
         return super().unlink()
 
     ##########################################################################
