@@ -64,6 +64,15 @@ class OrderMaterialForm(models.AbstractModel):
         )
         return res
 
+    @staticmethod
+    def create_description(material, values, languages=["french", "german"]):
+        lines = []
+        for lang in languages:
+            if int(values[f'flyer_{lang}']) > 0:
+                lines.append(f"<li>{values[f'flyer_{lang}']} <b>{material}</b> in {lang}</li>")
+        description = f"<ul>{''.join(lines)}</ul>"
+        return description
+
     def form_init(self, request, main_object=None, **kw):
         form = super(OrderMaterialForm, self).form_init(request, main_object, **kw)
         # Set default values
@@ -87,17 +96,10 @@ class OrderMaterialForm(models.AbstractModel):
         )
         values.update(
             {
-                "name": "Muskathlon material order - {}".format(
-                    self.partner_id.name
-                ),
-                "description": f"""Number of flyers wanted :
-                <ul>
-                    <li>In german: {extra_values["flyer_german"]}</li>
-                    <li>In french: {extra_values["flyer_french"]}</li>
-                </ul>
-                """,
+                "name": f"Muskathlon flyer order - {self.partner_id.name}",
+                "description": self.create_description("flyer", extra_values),
                 "user_id": staff_id,
-                "event_id": self.event_id.id,
+                "event_ids": [(4, self.event_id.id, None)],
                 "partner_id": self.partner_id.id,
             }
         )
@@ -121,7 +123,7 @@ class OrderMaterialForm(models.AbstractModel):
         self.main_object._onchange_partner_id()
 
         # Send mail
-        email_template = self.env.ref("muskathlon.order_material_mail_template2")
+        email_template = self.env.ref("muskathlon.order_material_mail_template")
         email_template.sudo().send_mail(
             self.main_object.id,
             raise_exception=False,
@@ -155,15 +157,7 @@ class OrderMaterialFormChildpack(models.AbstractModel):
         )
         values.update(
             {
-                "name": "Muskathlon childpack order - {}".format(
-                    self.partner_id.name
-                ),
-
-                "description": f"""Number of childpacks wanted :
-                <ul>
-                    <li>In german: {extra_values["flyer_german"]}</li>
-                    <li>In french: {extra_values["flyer_french"]}</li>
-                </ul>
-                """,
+                "name": f"Muskathlon childpack order - {self.partner_id.name}",
+                "description": self.create_description("childpack", extra_values),
             }
         )
