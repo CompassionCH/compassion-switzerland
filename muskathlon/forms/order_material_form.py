@@ -27,20 +27,20 @@ class OrderMaterialForm(models.AbstractModel):
 
     _form_model = "crm.lead"
     _form_model_fields = ["partner_id", "description"]
-    _form_required_fields = ["flyer_number"]
+    _form_required_fields = ["flyer_german", "flyer_french"]
 
     partner_id = fields.Many2one("res.partner", readonly=False)
     event_id = fields.Many2one("crm.event.compassion", readonly=False)
     form_id = fields.Char()
-    flyer_number = fields.Selection(
-        [("5", "5"), ("10", "10"), ("15", "15"), ("20", "20"), ("30", "30"), ],
-        "Number of flyers",
-    )
+
+    flyers_select = [(i, str(i)) for i in (0, 5, 10, 15, 20, 30)]
+    flyer_german = fields.Selection(flyers_select, string="Number of flyers in german", default=0)
+    flyer_french = fields.Selection(flyers_select, string="Number of flyers in french", default=0)
 
     @property
     def _form_fieldsets(self):
         return [
-            {"id": "flyers", "fields": ["flyer_number", "form_id"]},
+            {"id": "flyers", "fields": ["flyer_german", "flyer_french", "form_id"]},
         ]
 
     @property
@@ -90,13 +90,23 @@ class OrderMaterialForm(models.AbstractModel):
                 "name": "Muskathlon material order - {}".format(
                     self.partner_id.name
                 ),
-                "description": "Number of flyers wanted: "
-                               + extra_values["flyer_number"],
+                "description": f"""Number of flyers wanted :
+                <ul>
+                    <li>In german: {extra_values["flyer_german"]}</li>
+                    <li>In french: {extra_values["flyer_french"]}</li>
+                </ul>
+                """,
                 "user_id": staff_id,
                 "event_id": self.event_id.id,
                 "partner_id": self.partner_id.id,
             }
         )
+
+    def form_check_empty_value(self, fname, field, value, **req_values):
+        """Invalidate the form if they order 0 flyers"""
+        is_valid = super().form_check_empty_value(fname, field, value, **req_values)
+        is_valid |= int(req_values["flyer_french"]) + int(req_values["flyer_german"]) <= 0
+        return is_valid
 
     def _form_create(self, values):
         """ Run as Muskathlon user to authorize lead creation. """
@@ -136,7 +146,8 @@ class OrderMaterialFormChildpack(models.AbstractModel):
     _inherit = "cms.form.order.material.mixin"
 
     form_id = fields.Char(default="muskathlon_childpack")
-    flyer_number = fields.Selection(string="Number of childpacks")
+    flyer_german = fields.Selection(string="Number of childpacks in german", default=0)
+    flyer_french = fields.Selection(string="Number of childpacks in french", default=0)
 
     def form_before_create_or_update(self, values, extra_values):
         super(OrderMaterialFormChildpack, self).form_before_create_or_update(
@@ -147,7 +158,12 @@ class OrderMaterialFormChildpack(models.AbstractModel):
                 "name": "Muskathlon childpack order - {}".format(
                     self.partner_id.name
                 ),
-                "description": "Number of childpacks wanted: "
-                               + extra_values["flyer_number"],
+
+                "description": f"""Number of childpacks wanted :
+                <ul>
+                    <li>In german: {extra_values["flyer_german"]}</li>
+                    <li>In french: {extra_values["flyer_french"]}</li>
+                </ul>
+                """,
             }
         )
