@@ -111,9 +111,12 @@ class OrderMaterialForm(models.AbstractModel):
         return is_valid
 
     def _form_create(self, values):
-        """ Run as Muskathlon user to authorize lead creation. """
+        """ Run as Muskathlon user to authorize lead creation,
+        and prevents default mail notification to staff
+        (a better one is sent just after)."""
         uid = self.env.ref("muskathlon.user_muskathlon_portal").id
-        self.main_object = self.form_model.sudo(uid).create(values.copy())
+        self.main_object = self.form_model\
+            .sudo(uid).with_context(tracking_disable=True).create(values.copy())
 
     def form_after_create_or_update(self, values, extra_values):
         super(OrderMaterialForm, self).form_after_create_or_update(
