@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Onboarding WRPR Feedback Survey -->
+    <record id="wrpr_onboarding_survey" model="survey.survey">
+        <field name="title">Write&amp;Pray Onboarding feedback</field>
+        <field name="auth_required" eval="False"/>
+        <field name="stage_id" ref="survey.stage_permanent"/>
+    </record>
+    <record id="wrpr_onbs_page1" model="survey.page">
+        <field name="title">Your feedback about the start of your sponsorship</field>
+        <field name="survey_id" ref="wrpr_onboarding_survey"/>
+    </record>
+    <!-- Questions -->
+    <record id="wrpr_onbs_question_rating" model="survey.question">
+        <field name="question">How have you experienced the start of your sponsorship</field>
+        <field name="type">simple_choice</field>
+        <field name="display_mode">columns</field>
+        <field name="constr_mandatory" eval="True"/>
+        <field name="column_nb">2</field>
+        <field name="page_id" ref="wrpr_onbs_page1"/>
+    </record>
+    <record id="wrpr_onbs_rating_1" model="survey.label">
+        <field name="value">Bad</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_rating"/>
+    </record>
+    <record id="wrpr_onbs_rating_2" model="survey.label">
+        <field name="value">Unconvincing</field>
+        <field name="quizz_mark">2</field>
+        <field name="question_id" ref="wrpr_onbs_question_rating"/>
+    </record>
+    <record id="wrpr_onbs_rating_3" model="survey.label">
+        <field name="value">Average</field>
+        <field name="quizz_mark">3</field>
+        <field name="question_id" ref="wrpr_onbs_question_rating"/>
+    </record>
+    <record id="wrpr_onbs_rating_4" model="survey.label">
+        <field name="value">Fairly good</field>
+        <field name="quizz_mark">4</field>
+        <field name="question_id" ref="wrpr_onbs_question_rating"/>
+    </record>
+    <record id="wrpr_onbs_rating_5" model="survey.label">
+        <field name="value">Excellent</field>
+        <field name="quizz_mark">5</field>
+        <field name="question_id" ref="wrpr_onbs_question_rating"/>
+    </record>
+    <record id="wrpr_onbs_question_ilike" model="survey.question">
+        <field name="question">What did you like?</field>
+        <field name="type">multiple_choice</field>
+        <field name="page_id" ref="wrpr_onbs_page1"/>
+    </record>
+    <record id="wrpr_onbs_ilike_1" model="survey.label">
+        <field name="value">Introduction of my sponsored child</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_2" model="survey.label">
+        <field name="value">Information about the circumstances my sponsored child lives in (Compassion development center, country information)</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_3" model="survey.label">
+        <field name="value">Letter writing explanation</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_4" model="survey.label">
+        <field name="value">Information about Compassions works worldwide</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_5" model="survey.label">
+        <field name="value">Information about Compassions work in Switzerland</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_6" model="survey.label">
+        <field name="value">Payment information</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_7" model="survey.label">
+        <field name="value">Frequency of information</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_8" model="survey.label">
+        <field name="value">Style of information</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_ilike_9" model="survey.label">
+        <field name="value">Sponsor and donor service</field>
+        <field name="quizz_mark">1</field>
+        <field name="question_id" ref="wrpr_onbs_question_ilike"/>
+    </record>
+    <record id="wrpr_onbs_question_dontlike" model="survey.question">
+        <field name="question">Was there something you didn't like (nothing everything was fine for me/I think certain things could be improved)?</field>
+        <field name="type">multiple_choice</field>
+        <field name="comments_allowed" eval="True"/>
+        <field name="comments_message">Other (specify):</field>
+        <field name="page_id" ref="wrpr_onbs_page1"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_1" model="survey.label">
+        <field name="value">Introduction of my sponsored child</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_2" model="survey.label">
+        <field name="value">Information about the circumstances my sponsored child lives in (Compassion development center, country information)</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_3" model="survey.label">
+        <field name="value">Letter writing explanation</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_4" model="survey.label">
+        <field name="value">Information about Compassions works worldwide</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_5" model="survey.label">
+        <field name="value">Information about Compassions work in Switzerland</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_6" model="survey.label">
+        <field name="value">Payment information</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_7" model="survey.label">
+        <field name="value">Frequency of information</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_8" model="survey.label">
+        <field name="value">Style of information</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_dontlike_9" model="survey.label">
+        <field name="value">Sponsor and donor service</field>
+        <field name="quizz_mark">-1</field>
+        <field name="question_id" ref="wrpr_onbs_question_dontlike"/>
+    </record>
+    <record id="wrpr_onbs_question_remarks" model="survey.question">
+        <field name="question">Do you have any additional comment that you would like us to know?</field>
+        <field name="type">free_text</field>
+        <field name="page_id" ref="wrpr_onbs_page1"/>
+    </record>
+</odoo>
