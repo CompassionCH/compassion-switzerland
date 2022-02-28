@@ -17,6 +17,8 @@ class CrowdfundingParticipant(models.Model):
     partner_id = fields.Many2one(
         "res.partner", string="Partner", required=True, index=True, ondelete="cascade"
     )
+    nickname = fields.Char("Name of your group / organisation",
+                           help="This name will be display instead of your name.")
     personal_motivation = fields.Text(translate=True)
     product_number_goal = fields.Integer(default=0)
     product_number_reached = fields.Integer(compute="_compute_product_number_reached")

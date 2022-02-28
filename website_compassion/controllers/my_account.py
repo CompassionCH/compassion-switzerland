@@ -267,7 +267,7 @@ class MyAccountController(PaymentFormController):
     def account(self, redirect=None, **post):
         # All this paths needs to be redirected
         partner = request.env.user.partner_id
-        if not partner.primary_segment_id:
+        if not partner.primary_segment_id and not partner.write_and_pray:
             # Redirect to the segmentation survey
             survey = request.env.ref(
                 "partner_compassion.partner_segmentation_survey").sudo()

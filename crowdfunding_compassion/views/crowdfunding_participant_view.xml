@@ -7,8 +7,9 @@
                 <sheet>
                     <group>
                         <group string="Participant" name="participant_information">
-                            <field name="partner_id" widget="many2one"/>
-                            <field name="project_id" widget="many2one"/>
+                            <field name="partner_id"/>
+                            <field name="nickname"/>
+                            <field name="project_id"/>
                             <field name="personal_motivation"/>
                             <field name="product_number_reached"/>
                             <field name="number_sponsorships_reached"/>
@@ -59,6 +60,7 @@
             <tree>
                 <field name="project_id"/>
                 <field name="partner_id"/>
+                <field name="nickname"/>
             </tree>
         </field>
     </record>
@@ -71,6 +73,7 @@
          <kanban default_order="name">
             <field name="id" />
             <field name="partner_id" />
+            <field name="nickname" />
             <field name="project_id" />
             <field name="product_number_goal" />
             <field name="product_number_reached" />
@@ -101,7 +104,8 @@
                      <div class="card-body oe_kanban_details">
                         <h4 class="card-title" style="text-transform: uppercase;">
                            <a type="open">
-                              <field name="partner_id" />
+                               <field name="nickname"/>
+                               <field name="partner_id"/>
                            </a>
                         </h4>
                         <h5>

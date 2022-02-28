@@ -27,7 +27,7 @@
                                     <t t-if="model == 'participant'">
                                         <h3 class="blue my-3 text-center">
                                             <span>Support </span>
-                                            <t t-esc="participant.partner_id.firstname"/>
+                                            <t t-esc="participant.nickname or participant.partner_id.firstname"/>
                                         </h3>
                                         <div class="project-hero__card-content">
                                             <!-- Setup data and display the sponsorship progress -->
@@ -114,8 +114,8 @@
                                     <t t-set="participant" t-value="project.owner_participant_id" t-if="model == 'project'" />
                                     <img class="profile-pic" t-att-src="participant.profile_photo_url" alt="Project owner" t-if="participant.profile_photo_url"/>
                                     <h5>
-                                        <t t-esc="project.project_owner_id.name" t-if="model == 'project'"/>
-                                        <t t-esc="participant.partner_id.name" t-else=""/>
+                                        <t t-esc="project.owner_participant_id.nickname or project.project_owner_id.name" t-if="model == 'project'"/>
+                                        <t t-esc="participant.nickname or participant.partner_id.name" t-else=""/>
                                     </h5>
                                 </div>
 

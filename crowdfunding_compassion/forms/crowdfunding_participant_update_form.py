@@ -24,6 +24,7 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
         "twitter_url",
         "instagram_url",
         "personal_web_page_url",
+        "nickname",
     ]
 
     profile_photo = fields.Binary()
@@ -36,6 +37,7 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
             "fields": [
                 "profile_photo",
                 "personal_motivation",
+                "nickname",
             ],
         },
             {
