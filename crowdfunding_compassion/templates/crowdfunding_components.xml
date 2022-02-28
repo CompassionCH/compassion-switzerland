@@ -106,7 +106,7 @@
                     <div class="participants__content">
                         <h4 class="participants__name">
                             <a t-attf-href="/participant/#{participant.id}">
-                                <t t-esc="participant.partner_id.name"/>
+                                <t t-esc="participant.nickname or participant.partner_id.name"/>
                             </a>
                         </h4>
 
@@ -184,7 +184,7 @@
                     <img class="profile-pic rounded-circle" t-att-src="participant.profile_photo_url" alt="Project participant" t-if="participant.profile_photo_url"/>
 
                     <h6 class="uppercase mt-3">
-                        <t t-esc="participant.partner_id.name"/>
+                        <t t-esc="participant.nickname or participant.partner_id.name"/>
                     </h6>
                 </div>
             </div>
@@ -225,7 +225,7 @@
                                     <p>
                                         <small>
                                             <i class="fa fa-user-circle white"/>
-                                            <t t-esc="project.group or project.project_owner_id.name"/>
+                                            <t t-esc="project.owner_participant_id.nickname or project.project_owner_id.name"/>
                                             <t t-if="(len(project.participant_ids) - 1) > 0">
                                                <t t-esc="' + ' + str((len(project.participant_ids) - 1))"/>
                                                 <span> friends</span>
@@ -237,7 +237,7 @@
                                     <p>
                                         <small>
                                             <i class="fa fa-user-circle white"/>
-                                            <t t-esc="project.group or project.project_owner_id.name"/>
+                                            <t t-esc="project.owner_participant_id.nickname or project.project_owner_id.name"/>
                                         </small>
                                     </p>
                                 </t>
