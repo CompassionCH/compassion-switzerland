@@ -75,7 +75,7 @@ class MuskathlonRegistration(models.Model):
         self.env.cr.execute("""
             SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id
             FROM account_invoice_line il
-            WHERE il.state IN ('draft', 'open', 'paid')
+            WHERE il.state = 'paid'
             AND il.account_id = 2775 -- Muskathlon event
             AND il.user_id = ANY(%s)
             AND il.event_id = ANY(%s)
