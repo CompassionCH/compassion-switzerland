@@ -458,10 +458,8 @@ class RecurringContract(models.Model):
     @api.multi
     def action_sub_reject(self):
         res = super().action_sub_reject()
-        no_sub_config = self.env.ref(
-            "partner_communication_switzerland.planned_no_sub")
-        self.with_context({}).send_communication(
-            no_sub_config, correspondent=False)
+        no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
+        self.with_context({}).send_communication(no_sub_config, both=True)
         return res
 
     ##########################################################################
@@ -597,7 +595,7 @@ class RecurringContract(models.Model):
                 s.activation_date
                 and fields.Date.from_string(s.activation_date) < activation_limit
             )
-        ).with_context({}).send_communication(cancellation, correspondent=False)
+        ).with_context({}).send_communication(cancellation, both=True)
         s_to_notify.filtered(
             lambda s: s.end_reason_id != depart
             and s.parent_id
@@ -605,13 +603,14 @@ class RecurringContract(models.Model):
                 not s.activation_date
                 or fields.Date.from_string(s.activation_date) >= activation_limit
             )
-        ).with_context({}).send_communication(no_sub, correspondent=False)
+        ).with_context({}).send_communication(no_sub, both=True)
 
     def _is_unexpected_end(self):
         """Check if sponsorship hold had an unexpected end or not."""
         self.ensure_one()
 
-        # subreject could happened before hold expiration and should not be considered as unexpected
+        # subreject could happened before hold expiration and should not be considered
+        # as unexpected
         subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
 
         if self.end_reason_id == subreject:
@@ -648,11 +647,12 @@ class RecurringContract(models.Model):
         print_dossier = self.env.ref(module + "planned_dossier")
         print_wrpr = self.env.ref(module + "sponsorship_dossier_wrpr")
         transfer = self.env.ref(module + "new_dossier_transfer")
-        sub_accept = self.env.ref(module + "sponsorship_sub_accept")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
-            configs = sub_accept + child_picture
+            # No automated communication in this case. The staff can manually send
+            # the SUB Accept communication when appropriate
+            return True
         elif self.origin_id.type == "transfer":
             configs = transfer
         elif not partner.email or \
@@ -672,3 +672,4 @@ class RecurringContract(models.Model):
             )
             if not already_sent:
                 self.with_context({}).send_communication(config, correspondent)
+        return True

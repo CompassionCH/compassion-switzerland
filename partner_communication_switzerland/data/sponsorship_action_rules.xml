@@ -45,9 +45,9 @@
         <field name="trg_date_range">6</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">code</field>
-        <field name="config_id" ref="partner_communication_switzerland.planned_sub_dossier"/>
         <field name="code">
-            records.send_communication(env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True)
+records.send_communication(env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True)
+records.send_communication(env.ref('partner_communication_switzerland.config_onboarding_photo_by_post'), both=True)
         </field>
     </record>
 

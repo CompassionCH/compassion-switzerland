@@ -28,8 +28,6 @@
                     Yours sincerely
                 </p>
             </field>
-            <!-- This field could be used to attach the labels sheet. -->
-            <field name="report_remplate"/>
         </record>
 
         <!-- Child Transition -->

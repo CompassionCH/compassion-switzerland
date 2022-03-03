@@ -18,7 +18,7 @@ class ChildLifecycle(models.Model):
     @api.model
     def process_commkit(self, commkit_data):
         ids = super().process_commkit(commkit_data)
-        for lifecycle in self.browse(ids).filtered("child_id.sponsor_id"):
+        for lifecycle in self.browse(ids).filtered("child_id.sponsorship_ids"):
             # Planned Exit notification
             if lifecycle.type == "Planned Exit":
                 communication_type = self.env.ref(
@@ -40,10 +40,11 @@ class ChildLifecycle(models.Model):
                     ]
                 )
                 if communication_type:
+                    sponsor = lifecycle.child_id.sponsorship_ids[:1].correspondent_id
                     self.env["partner.communication.job"].create(
                         {
                             "config_id": communication_type.id,
-                            "partner_id": lifecycle.child_id.sponsor_id.id,
+                            "partner_id": sponsor.id,
                             "object_ids": lifecycle.child_id.id,
                             "user_id": communication_type.user_id.id,
                         }
