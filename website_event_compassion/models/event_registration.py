@@ -237,6 +237,7 @@ class Event(models.Model):
                         [
                             ("user_id", "=", partner.id),
                             ("origin_id.event_id", "=", compassion_event.id),
+                            ("state", "!=", "cancelled")
                         ]
                     )
                 )
