@@ -126,7 +126,7 @@ class Correspondence(models.Model):
                     letter.sponsorship_id.send_introduction_letter:
                 continue
             if (letter.beneficiary_language_ids & letter.supporter_languages_ids) or \
-                    letter.has_valid_language:
+                    letter.has_valid_language or self.env.context.get("force_publish"):
                 if super(Correspondence, letter).process_letter():
                     letters_to_send += letter
 
@@ -255,7 +255,7 @@ class Correspondence(models.Model):
             self.create_commkit()
         else:
             self.state = "Published to Global Partner"
-            self.process_letter()
+            self.with_context(force_publish=True).process_letter()
 
     @api.multi
     def update_translation(self, translate_lang, translate_text, translator, src_lang):
