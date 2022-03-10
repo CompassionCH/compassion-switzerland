@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Bank Statement Reconcile for Compassion CH",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.1.0",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "category": "Finance",
@@ -40,7 +40,11 @@
         "sponsorship_switzerland",  # compassion-switzerland,
         "mobile_app_connector",  # compassion-modules
         "account_bank_statement_import_camt_details",  # OCA/bank-statement-import
+        "payment_postfinance_flex"  # paid-addons
     ],
+    "external_dependencies": {"python": [
+        "postfinancecheckout"
+    ]},
     "data": [
         "data/statement_operation.xml",
         "views/account_reconcile_compassion.xml",
@@ -53,6 +57,7 @@
         "views/statement_view.xml",
         "views/statement_operation_view.xml",
         "views/view_bank_statement_form.xml",
+        "views/reconcile_1015_wizard_view.xml",
     ],
     "qweb": ["static/src/xml/account_move_reconciliation.xml"],
     "auto_install": False,
