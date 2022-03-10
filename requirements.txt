@@ -7,6 +7,7 @@ matplotlib
 mysqlclient
 odoo-sphinx-autodoc
 git+git://github.com/OCA/openupgradelib
+git+git://github.com/pfpayments/python-sdk
 opencv-python
 opencv-contrib-python
 pandas
