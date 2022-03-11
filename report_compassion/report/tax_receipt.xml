@@ -18,7 +18,7 @@
                 <t t-set="print_header" t-value="1"/>
                 <t t-set="print_subject" t-value="1"/>
                 <t t-set="body_html" t-value="texts[partner.id]"/>
-                <t t-set="director" t-value="partner.env['hr.employee'].browse(2)"/>
+                <t t-set="director" t-value="partner.env['hr.employee'].browse(44)"/>
                 <t t-set="show_signature" t-value="1"/>
                 <t t-set="user" t-value="director.user_id"/>
                 <t t-call="report_compassion.partner_communication_document" t-lang="partner.lang"/>
