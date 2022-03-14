@@ -7,12 +7,14 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models, api, fields
 
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
     _description = "Employee"
+
+    job_title = fields.Char(translate=True)
 
     @api.multi
     def attendance_action_change(self):

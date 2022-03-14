@@ -9,24 +9,14 @@
 ##############################################################################
 from ast import literal_eval
 from datetime import date
+import logging
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
 from odoo.addons.queue_job.job import job
 
-
-def _partner_split_name(partner_name):
-    return [' '.join(partner_name.split()[:-1]), ' '.join(partner_name.split()[-1:])]
-
-
-def _filter_criteria(element, partner_to_update):
-    if not partner_to_update:
-        return True
-    else:
-        if len(element) == 1:
-            element = [element]
-        return any(x.id in partner_to_update for x in element)
+logger = logging.getLogger(__name__)
 
 
 class MassMailingContact(models.Model):
@@ -36,14 +26,41 @@ class MassMailingContact(models.Model):
     #                                 FIELDS                                 #
     ##########################################################################
     partner_ids = fields.Many2many(
-        "res.partner", "mass_mailing_contact_partner_rel",
-        "partner_id", "mass_mailing_contact_id",
-        string="Associated partners", readonly=False
+        "res.partner",
+        "mass_mailing_contact_partner_rel",
+        "partner_id",
+        "mass_mailing_contact_id",
+        string="Associated partners",
+        readonly=False,
     )
+    # the principal partner is computed field from the partner ids
+    # we then use the principal partner as a stepping stone to compute the other fields
     partner_id = fields.Many2one(
-        "res.partner", "Primary partner", ondelete="cascade",
+        "res.partner",
+        string="Principal partner",
+        compute="_compute_partner_id",
+        store=True,
+        readonly=True,
     )
-    salutation = fields.Char(compute="_compute_salutation")
+    name = fields.Char(related="partner_id.name")
+    country_id = fields.Many2one(related="partner_id.country_id")
+    company_name = fields.Char(related="partner_id.company_name")
+
+    title_id = fields.Many2one(
+        "res.partner.title",
+        string="Title",
+        compute="_compute_title_id",
+    )
+    salutation = fields.Char(
+        compute="_compute_salutation",
+    )
+    tag_ids = fields.Many2many(
+        "res.partner.category",
+        string="Tags",
+        compute="_compute_tag_ids",
+        store=False,
+        readonly=True,
+    )
 
     # Add some computed fields to be used in mailchimp merge fields
     sponsored_child_name = fields.Char(compute="_compute_sponsored_child_fields")
@@ -78,6 +95,62 @@ class MassMailingContact(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+
+    @api.depends("partner_ids")
+    def _compute_partner_id(self):
+        for record in self:
+            partners = record.partner_ids.sorted(
+                lambda partner: -len(partner.mapped("sponsored_child_ids"))
+            )
+            if len(partners) > 1:
+                record.partner_id = partners[0]
+            else:
+                record.partner_id = partners
+
+    def _compute_title_id(self):
+        def _get_title(name):
+            return self.env.ref(f"partner_compassion.res_partner_title_{name}")
+
+        madam = self.env.ref("base.res_partner_title_madam")
+        mister = self.env.ref("base.res_partner_title_mister")
+        ladies = _get_title("ladies")
+        men = _get_title("men")
+        family = _get_title("family")
+        mister_miss = _get_title("mister_miss")
+
+        for record in self:
+            partners = record.partner_ids.with_context(lang=record.partner_id.lang)
+            titles = partners.mapped("title")
+            if len(partners) == 1:
+                record.title_id = record.partner_id.title
+            elif len(set(partners.mapped("lastname"))) == 1:
+                record.title_id = family
+                # is a family, so update the title for the main partner
+                if family not in titles:
+                    record.partner_id.title = family
+            elif set(titles) == {madam}:
+                record.title_id = ladies
+            elif set(titles) == {mister}:
+                record.title_id = men
+            else:
+                record.title_id = mister_miss
+
+    def _compute_salutation(self):
+        for record in self:
+            partners = record.partner_ids.with_context(lang=record.partner_id.lang)
+            lastnames = partners.mapped("lastname")
+            if len(partners) == 1 or len(set(lastnames)) == 1:
+                record.salutation = record.partner_id.salutation
+            else:
+                has_male = len(partners.filtered(lambda p: p.title.gender == "M")) > 0
+                advanced_translation = self.env["ir.advanced.translation"].with_context(lang=record.partner_id.lang)
+                title_salutation = advanced_translation.get("salutation", female=not has_male, plural=True).title()
+                record.salutation = f"{title_salutation} {', '.join(lastnames)}"
+
+    def _compute_tag_ids(self):
+        for record in self:
+            record.tag_ids = record.partner_ids.mapped("category_id")
+
     @api.multi
     def _compute_sponsored_child_fields(self):
         country_filter_id = self.env["res.config.settings"].get_param(
@@ -131,37 +204,6 @@ class MassMailingContact(models.Model):
             contact.pending_letter_child_names = pending_b2s_child.get_list(
                 "preferred_name", translate=False)
 
-    @api.multi
-    def _compute_salutation(self):
-        family_title = self.env.ref("partner_compassion.res_partner_title_family")
-        for record in self.filtered(lambda c: c.partner_ids):
-            family = record.partner_ids.filtered(lambda p: p.title == family_title)
-            partners = record.partner_ids.with_context(lang=record.partner_id.lang)
-            if len(partners) == 1:
-                salutation = partners.salutation
-            elif len(set(partners.mapped("lastname"))) == 1:
-                if family:
-                    salutation = family[0].salutation
-                else:
-                    real_title = partners[0].title
-                    partners[0].title = family
-                    salutation = partners[0].salutation
-                    partners[0].title = real_title
-            else:
-                if partners.filtered(lambda p: p.title.gender == "M"):
-                    title_salutation = (
-                        partners.env["ir.advanced.translation"]
-                        .get("salutation", female=False, plural=True).title()
-                    )
-                else:
-                    title_salutation = (
-                        partners.env["ir.advanced.translation"]
-                        .get("salutation", female=True, plural=True).title()
-                    )
-                salutation = title_salutation + " " + partners.get_list(
-                    "name", translate=False)
-            record.salutation = salutation
-
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
@@ -199,48 +241,26 @@ class MassMailingContact(models.Model):
 
     @api.multi
     def write(self, values):
-        if values.get("email"):
-            # Check for duplicates when changing the email.
-            changed = self.filtered(lambda c: c.email != values["email"])
-            other_contacts = self.search([
-                ("email", "=", values["email"]),
-                ("id", "not in", changed.ids)
-            ])
-            if other_contacts:
-                values["partner_ids"] = [(4, c.id) for c in self.mapped("partner_ids")]
-                changed.delay_contact_unlink()
-                return super(MassMailingContact, other_contacts).write(values)
-        out = super().write(values)
-        # can't be simplified because we are looking for is_email_valid == False
-        # AND is_email_valid is in values (return None otherwise)
-        if values.get('is_email_valid') is False:
-            bounced = values.get("message_bounce", 0) > 0
-            self._invalid_contact(bounced)
-        return out
+        """Override the email write to avoid allowing to change email"""
+        if "email" in values:
+            del values["email"]
+        return super().write(values)
 
     @api.multi
     def unlink(self):
-        self.action_archive_from_mailchimp()
+        try:
+            self.action_archive_from_mailchimp()
+        except:
+            logger.error("Error archiving mailchimp contact", exc_info=True)
         return super().unlink()
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
     @api.multi
-    def get_partner(self, email):
+    def get_partner(self, _):
         """Override to fetch partner directly from relation if set."""
-        self.ensure_one()
-        if self.partner_ids:
-            partners = self.partner_ids.with_context(lang=self.partner_id.lang)
-            partners_by_child_count = [(p, len(list(p.mapped("sponsored_child_ids")))) for p in partners]
-            partners_by_child_count.sort(key=lambda x:-x[-1])
-            return partners_by_child_count[0][0].id
-        else:
-            return self.env["res.partner"].search([
-                ("email", "=ilike", email),
-                ("contact_type", "=", "standalone"),
-                ("opt_out", "!=", True)
-            ], limit=1).id
+        return self.partner_id.id
 
     @api.multi
     def process_mailchimp_update(self):
@@ -264,6 +284,7 @@ class MassMailingContact(models.Model):
         return True
 
     @api.multi
+    @job(default_channel="root.mass_mailing_switzerland.action_export_to_mailchimp")
     def action_export_to_mailchimp(self):
         """
         Filter opt_out partners
@@ -275,7 +296,7 @@ class MassMailingContact(models.Model):
         ).action_export_to_mailchimp()
 
     @api.multi
-    @job(default_channel="root.mass_mailing_switzerland.update_partner_mailchimp")
+    @job(default_channel="root.mass_mailing_switzerland.action_update_to_mailchimp")
     def action_update_to_mailchimp(self):
         out = True
 
@@ -306,6 +327,7 @@ class MassMailingContact(models.Model):
         return out
 
     @api.multi
+    @job(default_channel="root.mass_mailing_switzerland.action_archive_from_mailchimp")
     def action_archive_from_mailchimp(self):
         available_mailchimp_lists = self.env['mailchimp.lists'].search([])
         lists = available_mailchimp_lists.mapped('odoo_list_id').ids

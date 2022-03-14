@@ -286,6 +286,10 @@ class ProjectCreationStep3(models.AbstractModel):
     participant_instagram_url = fields.Char("Instagram link")
     participant_personal_web_page_url = fields.Char("Personal web page")
     participant_id = fields.Many2one("crowdfunding.participant")
+    participant_nickname = fields.Char(
+        "Name of your group / organisation",
+        help="This name will be display instead of your name.",
+    )
 
     # Make address fields mandatory
     partner_street = fields.Char(required=True)
@@ -301,6 +305,7 @@ class ProjectCreationStep3(models.AbstractModel):
                 "partner_title",
                 "partner_firstname",
                 "partner_lastname",
+                "participant_nickname",
                 "partner_birthdate_date",
                 "partner_street",
                 "partner_zip",

@@ -80,8 +80,19 @@ class PaymentOrder(models.Model):
                     body=f"The invoice has been imported in a {mode} payment order : "
                          f"{url}"
                 )
+        out = super().draft2open()
 
-        return super().draft2open()
+        # add the each move line name to the bank line name for Post-based journals
+        for order in self:
+            bic = order.mapped("company_partner_bank_id.bank_id.bic")
+            if len(bic) <= 0:
+                continue
+            if bic[0] == "POFICHBEXXX":
+                for payment_line_id in order.payment_line_ids:
+                    name = payment_line_id.bank_line_id.name
+                    payment_line_id.move_line_id.write({"name": name})
+
+        return out
 
     @api.multi
     def action_cancel(self):

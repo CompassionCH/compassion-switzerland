@@ -27,20 +27,20 @@ class OrderMaterialForm(models.AbstractModel):
 
     _form_model = "crm.lead"
     _form_model_fields = ["partner_id", "description"]
-    _form_required_fields = ["flyer_number"]
+    _form_required_fields = ["flyer_german", "flyer_french"]
 
     partner_id = fields.Many2one("res.partner", readonly=False)
     event_id = fields.Many2one("crm.event.compassion", readonly=False)
     form_id = fields.Char()
-    flyer_number = fields.Selection(
-        [("5", "5"), ("10", "10"), ("15", "15"), ("20", "20"), ("30", "30"), ],
-        "Number of flyers",
-    )
+
+    flyers_select = [(i, str(i)) for i in (0, 5, 10, 15, 20, 30)]
+    flyer_german = fields.Selection(flyers_select, string="Number of flyers in german", default=0)
+    flyer_french = fields.Selection(flyers_select, string="Number of flyers in french", default=0)
 
     @property
     def _form_fieldsets(self):
         return [
-            {"id": "flyers", "fields": ["flyer_number", "form_id"]},
+            {"id": "flyers", "fields": ["flyer_german", "flyer_french", "form_id"]},
         ]
 
     @property
@@ -63,6 +63,15 @@ class OrderMaterialForm(models.AbstractModel):
             }
         )
         return res
+
+    @staticmethod
+    def create_description(material, values, languages=["french", "german"]):
+        lines = []
+        for lang in languages:
+            if int(values[f'flyer_{lang}']) > 0:
+                lines.append(f"<li>{values[f'flyer_{lang}']} <b>{material}</b> in {lang}</li>")
+        description = f"<ul>{''.join(lines)}</ul>"
+        return description
 
     def form_init(self, request, main_object=None, **kw):
         form = super(OrderMaterialForm, self).form_init(request, main_object, **kw)
@@ -87,21 +96,27 @@ class OrderMaterialForm(models.AbstractModel):
         )
         values.update(
             {
-                "name": "Muskathlon material order - {}".format(
-                    self.partner_id.name
-                ),
-                "description": "Number of flyers wanted: "
-                               + extra_values["flyer_number"],
+                "name": f"Muskathlon flyer order - {self.partner_id.name}",
+                "description": self.create_description("flyer", extra_values),
                 "user_id": staff_id,
-                "event_id": self.event_id.id,
+                "event_ids": [(4, self.event_id.id, None)],
                 "partner_id": self.partner_id.id,
             }
         )
 
+    def form_check_empty_value(self, fname, field, value, **req_values):
+        """Invalidate the form if they order 0 flyers"""
+        is_valid = super().form_check_empty_value(fname, field, value, **req_values)
+        is_valid |= int(req_values["flyer_french"]) + int(req_values["flyer_german"]) <= 0
+        return is_valid
+
     def _form_create(self, values):
-        """ Run as Muskathlon user to authorize lead creation. """
+        """ Run as Muskathlon user to authorize lead creation,
+        and prevents default mail notification to staff
+        (a better one is sent just after)."""
         uid = self.env.ref("muskathlon.user_muskathlon_portal").id
-        self.main_object = self.form_model.sudo(uid).create(values.copy())
+        self.main_object = self.form_model\
+            .sudo(uid).with_context(tracking_disable=True).create(values.copy())
 
     def form_after_create_or_update(self, values, extra_values):
         super(OrderMaterialForm, self).form_after_create_or_update(
@@ -111,7 +126,7 @@ class OrderMaterialForm(models.AbstractModel):
         self.main_object._onchange_partner_id()
 
         # Send mail
-        email_template = self.env.ref("muskathlon.order_material_mail_template2")
+        email_template = self.env.ref("muskathlon.order_material_mail_template")
         email_template.sudo().send_mail(
             self.main_object.id,
             raise_exception=False,
@@ -136,7 +151,8 @@ class OrderMaterialFormChildpack(models.AbstractModel):
     _inherit = "cms.form.order.material.mixin"
 
     form_id = fields.Char(default="muskathlon_childpack")
-    flyer_number = fields.Selection(string="Number of childpacks")
+    flyer_german = fields.Selection(string="Number of childpacks in german", default=0)
+    flyer_french = fields.Selection(string="Number of childpacks in french", default=0)
 
     def form_before_create_or_update(self, values, extra_values):
         super(OrderMaterialFormChildpack, self).form_before_create_or_update(
@@ -144,10 +160,7 @@ class OrderMaterialFormChildpack(models.AbstractModel):
         )
         values.update(
             {
-                "name": "Muskathlon childpack order - {}".format(
-                    self.partner_id.name
-                ),
-                "description": "Number of childpacks wanted: "
-                               + extra_values["flyer_number"],
+                "name": f"Muskathlon childpack order - {self.partner_id.name}",
+                "description": self.create_description("childpack", extra_values),
             }
         )

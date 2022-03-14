@@ -132,7 +132,7 @@ class RecurringContract(models.Model):
         for contract in self:
             if (
                     contract.child_id.project_id.suspension != "fund-suspended"
-                    and contract.type != "SC"
+                    and contract.type not in ["SC", "SWP"]
             ):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang="en_US"
@@ -458,10 +458,8 @@ class RecurringContract(models.Model):
     @api.multi
     def action_sub_reject(self):
         res = super().action_sub_reject()
-        no_sub_config = self.env.ref(
-            "partner_communication_switzerland.planned_no_sub")
-        self.with_context({}).send_communication(
-            no_sub_config, correspondent=False)
+        no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
+        self.with_context({}).send_communication(no_sub_config, both=True)
         return res
 
     ##########################################################################
@@ -501,11 +499,10 @@ class RecurringContract(models.Model):
                       and c not in mandates_valid
         ).with_context({})._new_dossier()
 
-        csp_product = self.env.ref(
-            "sponsorship_switzerland.product_template_fund_csp")
         csp = self.filtered(
-            lambda s: csp_product in s.contract_line_ids.mapped(
-                "product_id.product_tmpl_id"))
+            lambda s: "6014" in s.mapped(
+                "contract_line_ids.product_id.property_account_income_id.code")
+        )
         if csp:
             module = "partner_communication_switzerland."
             selected_config = self.env.ref(module + "csp_mail")
@@ -527,7 +524,7 @@ class RecurringContract(models.Model):
         # Send sponsorship confirmation for write&pray sponsorships
         # that didn't get through waiting state (would already have the communication)
         self.filtered(
-            lambda s: s.type == "SC" and s.state == "draft"
+            lambda s: s.type in ["SC", "SWP"] and s.state == "draft"
         )._new_dossier()
         return super().contract_active()
 
@@ -598,7 +595,7 @@ class RecurringContract(models.Model):
                 s.activation_date
                 and fields.Date.from_string(s.activation_date) < activation_limit
             )
-        ).with_context({}).send_communication(cancellation, correspondent=False)
+        ).with_context({}).send_communication(cancellation, both=True)
         s_to_notify.filtered(
             lambda s: s.end_reason_id != depart
             and s.parent_id
@@ -606,13 +603,14 @@ class RecurringContract(models.Model):
                 not s.activation_date
                 or fields.Date.from_string(s.activation_date) >= activation_limit
             )
-        ).with_context({}).send_communication(no_sub, correspondent=False)
+        ).with_context({}).send_communication(no_sub, both=True)
 
     def _is_unexpected_end(self):
         """Check if sponsorship hold had an unexpected end or not."""
         self.ensure_one()
 
-        # subreject could happened before hold expiration and should not be considered as unexpected
+        # subreject could happened before hold expiration and should not be considered
+        # as unexpected
         subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
 
         if self.end_reason_id == subreject:
@@ -649,16 +647,17 @@ class RecurringContract(models.Model):
         print_dossier = self.env.ref(module + "planned_dossier")
         print_wrpr = self.env.ref(module + "sponsorship_dossier_wrpr")
         transfer = self.env.ref(module + "new_dossier_transfer")
-        sub_accept = self.env.ref(module + "sponsorship_sub_accept")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
-            configs = sub_accept + child_picture
+            # No automated communication in this case. The staff can manually send
+            # the SUB Accept communication when appropriate
+            return True
         elif self.origin_id.type == "transfer":
             configs = transfer
         elif not partner.email or \
                 partner.global_communication_delivery_preference == "physical":
-            configs = print_wrpr if self.type == "SC" and partner != self.partner_id \
+            configs = print_wrpr if self.type in ["SC", "SWP"] and partner != self.partner_id \
                 else print_dossier
         else:
             configs = new_dossier + child_picture
@@ -673,3 +672,4 @@ class RecurringContract(models.Model):
             )
             if not already_sent:
                 self.with_context({}).send_communication(config, correspondent)
+        return True

@@ -370,7 +370,7 @@ class ResPartner(models.Model):
     def filter_onboarding_new_donors(self):
         return self.filtered(
             lambda p: p.is_new_donor and not p.is_church and not p.sponsorship_ids
-            and p.lang not in ["en_US", "it_IT"] and not p.opt_out
+            and p.lang != "en_US" and not p.opt_out
         )
 
     def start_new_donors_onboarding(self):

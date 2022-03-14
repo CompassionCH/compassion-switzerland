@@ -1,4 +1,4 @@
 "id","name","code_iso","translatable","lang_id/id"
-"child_compassion.lang_compassion_french","French","fra","True","base.lang_fr_CH"
-"child_compassion.lang_compassion_spanish","Spanish","spa","True",""
-"child_compassion.lang_compassion_portuguese","Portuguese","por","True",""
+"advanced_translation.lang_compassion_french","French","fra","True","base.lang_fr_CH"
+"advanced_translation.lang_compassion_spanish","Spanish","spa","True",""
+"advanced_translation.lang_compassion_portuguese","Portuguese","por","True",""

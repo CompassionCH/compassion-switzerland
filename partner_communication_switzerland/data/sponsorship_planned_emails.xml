@@ -290,50 +290,6 @@
         </record>
 
         <!--
-        Completion in 4 months
-        -->
-        <record id="email_sponsorship_completion" model="mail.template">
-            <field name="name">Sponsorship - Completion</field>
-            <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
-            <field name="email_from">"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
-            <field name="reply_to">info@compassion.ch</field>
-            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
-            <field name="subject">Sponsorship Completion</field>
-            <field name="body_html" type="html">
-                <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
-                    % set him = child.get('him')
-                    % set month = child[0].birthday_month
-                </div>
-                <p>
-                    ${object.partner_id.salutation},
-                    <br/>
-                    <br/>
-                    You have been sponsoring ${firstname + ' '}
-                    % if len(child) == 1:
-                        from ${child.project_id.country_id.name + ' '}
-                    % endif
-                    for many years. We would like to thank you once more for your generosity and help to the children in need.
-                    <br/>
-                    <br/>
-                    <b>We would like to inform you, that ${child.get('your sponsored child')} will complete the Compassion program and end the activities in the project in ${child.get_completion()}.</b>
-                    <br/>
-                    <br/>
-                    We would warmly advice you to send an encouraging letter before the end of the program and if you want, send ${him} a gift.
-                    <br/>
-                    <br/>
-                    For any further questions or remarks, please keep in touch with us.
-                    <br/>
-                    <br/>
-                    Yours sincereley,
-                </p>
-            </field>
-        </record>
-
-
-        <!--
         SUB Sponsorship proposal e-mails
         -->
         <record id="email_sponsorship_sub_dossier_new" model="mail.template">

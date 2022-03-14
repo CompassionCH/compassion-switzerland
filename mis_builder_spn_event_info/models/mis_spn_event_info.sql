@@ -54,7 +54,7 @@ union all
         left outer join recurring_contract_origin rco on rc.origin_id=rco.id
         left join crm_event_compassion cec on rco.event_id=cec.id
         where rc.activation_date is not null
-        and rc.type in ('SC','S')
+        and rc.type in ('SC','S','SWP')
 union all
     select rc.id as table_id,
      'depart/cancel' as line_type,
@@ -74,7 +74,7 @@ union all
         left outer join recurring_contract_origin rco on rc.origin_id=rco.id
         left join crm_event_compassion cec on rco.event_id=cec.id
         where rc.end_date is not null
-        and rc.type in ('SC','S')
+        and rc.type in ('SC','S','SWP')
 union all
 
     select aml.id as table_id,

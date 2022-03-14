@@ -240,11 +240,11 @@ class EventRegistrationForm(models.AbstractModel):
         spoken_langs = []
         if extra_values.get("spoken_lang_en"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_english").id
+                self.env.ref("advanced_translation.lang_compassion_english").id
             )
         if extra_values.get("spoken_lang_fr"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_french").id
+                self.env.ref("advanced_translation.lang_compassion_french").id
             )
         if extra_values.get("spoken_lang_de"):
             spoken_langs.append(
@@ -256,11 +256,11 @@ class EventRegistrationForm(models.AbstractModel):
             )
         if extra_values.get("spoken_lang_es"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_spanish").id
+                self.env.ref("advanced_translation.lang_compassion_spanish").id
             )
         if extra_values.get("spoken_lang_po"):
             spoken_langs.append(
-                self.env.ref("child_compassion.lang_compassion_portuguese").id
+                self.env.ref("advanced_translation.lang_compassion_portuguese").id
             )
         if spoken_langs:
             result["spoken_lang_ids"] = [(4, sid) for sid in spoken_langs]

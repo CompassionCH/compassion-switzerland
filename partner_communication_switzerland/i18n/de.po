@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-19 09:15+0000\n"
-"PO-Revision-Date: 2021-08-19 11:26+0200\n"
+"POT-Creation-Date: 2022-02-02 14:25+0000\n"
+"PO-Revision-Date: 2022-02-03 15:55+0100\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,6 +16,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "X-Generator: Poedit 3.0\n"
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step1
+msgid ""
+"${'Get to know ' + object.get_objects().mapped('child_id')."
+"get_list('preferred_name', 3, 'your sponsored children', translate=False) if "
+"object.partner_id.title.plural or object.partner_id.title.id == 29 else 'Get "
+"to know ' + object.get_objects().mapped('child_id')."
+"get_list('preferred_name', 3, 'your sponsored children', translate=False)} "
+"better!"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,mobile_notification_title:partner_communication_switzerland.birthday_remainder_1day_before
@@ -95,7 +106,7 @@ msgstr "- Fragerunde"
 msgid ""
 ".container {\n"
 "                    font-family: \"millerLight\";\n"
-"                    font-size: 12pt;\n"
+"                    font-size: 10pt;\n"
 "                }\n"
 "                #body {\n"
 "                    width: 100%;\n"
@@ -933,40 +944,36 @@ msgid ""
 "<div>\n"
 "                    % set sponsorships = object.get_objects()\n"
 "                    % set child = sponsorships.mapped('child_id')\n"
-"                    % set firstname = child.get_list('preferred_name', 3, "
-"child.get_number(), False)\n"
+"                    % set firstname = child.get_list('firstname', 3, child."
+"get_number())\n"
 "                    % set him = child.get('him')\n"
 "                    % set month = child[0].birthday_month\n"
-"    % set correspondent = object.partner_id in sponsorships."
-"mapped('correspondent_id')\n"
 "                </div>\n"
 "                <p>\n"
 "                    ${object.partner_id.salutation},\n"
-"                    <br>\n"
-"                    <br>\n"
+"                    <br/>\n"
+"                    <br/>\n"
 "                    You have been sponsoring ${firstname + ' '}\n"
 "                    % if len(child) == 1:\n"
 "                        from ${child.project_id.country_id.name + ' '}\n"
 "                    % endif\n"
 "                    for many years. We would like to thank you once more for "
 "your generosity and help to the children in need.\n"
-"                    <br>\n"
-"                    <br>\n"
+"                    <br/>\n"
+"                    <br/>\n"
 "                    <b>We would like to inform you, that ${child.get('your "
 "sponsored child')} will complete the Compassion program and end the "
 "activities in the project in ${child.get_completion()}.</b>\n"
-"                    <br>\n"
-"                    <br>\n"
-"% if correspondent:\n"
+"                    <br/>\n"
+"                    <br/>\n"
 "                    We would warmly advice you to send an encouraging letter "
 "before the end of the program and if you want, send ${him} a gift.\n"
-"                    <br>\n"
-"                    <br>\n"
-"% endif\n"
+"                    <br/>\n"
+"                    <br/>\n"
 "                    For any further questions or remarks, please keep in "
 "touch with us.\n"
-"                    <br>\n"
-"                    <br>\n"
+"                    <br/>\n"
+"                    <br/>\n"
 "                    Yours sincereley,\n"
 "                </p>\n"
 "            "
@@ -4631,14 +4638,6 @@ msgid ""
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_first_letter
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_photo_by_post
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step1
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step2
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step3
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step4
-#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step5
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_zoom_reminder
 msgid ""
 "<p style='margin:0px 0 1rem 0;font-size:13px;font-family:\"Lucida Grande\", "
@@ -5045,6 +5044,51 @@ msgid ""
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_certificate
+msgid ""
+"<p>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set sponsorships = object.get_objects()\n"
+"                    ${partner.salutation}\n"
+"                </p>\n"
+"                <p>\n"
+"                    We recently informed you by email about the end of the "
+"sponsorship.\n"
+"                </p>\n"
+"                <p>\n"
+"                    From the bottom of our hearts, we would like to thank "
+"you for your valuable contribution!\n"
+"                </p>\n"
+"                <p>\n"
+"                    Best regards\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<p>\n"
+"                    % set partner = object.partner_id\n"
+"                    % set sponsorships = object.get_objects()\n"
+"% set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set du = 'ihr' if plural else 'du'\n"
+"    % set dir = 'euch' if plural else 'dir'\n"
+"    % set dich = 'euch' if plural else 'dich'\n"
+"    % set dein = 'euer' if plural else 'dein'\n"
+"    % set deine = 'eure' if plural else 'deine'\n"
+"                    ${partner.salutation}\n"
+"                </p>\n"
+"                <p>\n"
+"                    Vor Kurzem haben wir ${dich} per E-Mail über das Ende "
+"der Patenschaft informiert.\n"
+"                </p>\n"
+"                <p>\n"
+"                    Von ganzem Herzen möchten wir ${dir} hiermit für ${deine}"
+"n wertvollen Einsatz danken!\n"
+"                </p>\n"
+"                <p>\n"
+"                    Liebe Grüsse\n"
+"                </p>\n"
+"            "
+
+#. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_zoom_link
 msgid ""
 "<p>\n"
@@ -5117,6 +5161,595 @@ msgid ""
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_first_letter
+msgid ""
+"<p>\n"
+"    % set letter = object.get_objects()\n"
+"    % set partner = object.partner_id\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set child = letter.mapped('child_id')\n"
+"    % set firstname = child.get_list('preferred_name', 3, child."
+"get_number(), translate=False)\n"
+"    % set deinem_patenkind = child.get_list('preferred_name', 3, 'your "
+"sponsired children' if plural else 'your sponsired childrens', "
+"translate=False)\n"
+"    % set apos = \"'\" if firstname[-1] == 's' else \"'s\"\n"
+"    % set urls = []\n"
+"    % set special = \"BD\" in child.get_list(\"local_id\") or \"LK\" in "
+"child.get_list(\"local_id\")\n"
+"    % for letter_set in letter.filtered('read_url').mapped('read_url'):\n"
+"        % if letter_set not in urls:\n"
+"            % set void = urls.append(letter_set)\n"
+"        % endif \n"
+"    % endfor \n"
+"    ${partner.informal_salutation}\n"
+"</p>\n"
+"\n"
+"<p>We are excited to send you ${deinem_patenkind + apos} first letter today."
+"</p>\n"
+"\n"
+"% if object.send_mode != \"physical\":\n"
+"    % if len(letter) == 1:\n"
+"        <div style=\"margin:30px auto; text-align: center; text-transform: "
+"uppercase;\">\n"
+"            <a href=\"${urls[0]}\" style=\"padding: 12px 18px; font-size: "
+"14px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #0054A6; border: "
+"1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"                Download letter\n"
+"            </a>\n"
+"        </div>\n"
+"    % else:\n"
+"        <p>You can download the letters here:</p>\n"
+"        <ul>\n"
+"        % for the_url in urls:\n"
+"            <li><a href=\"${the_url}\">Letter from ${letter[loop.index0]."
+"child_id.preferred_name}</a></li>\n"
+"        % endfor\n"
+"        </ul>\n"
+"    % endif\n"
+"% endif\n"
+"\n"
+"<p>It's important to know that the sponsored children live in a culture "
+"where communication is predominantly verbal. Writing letters and responding "
+"to specific questions is, therefore, a long learning process. It's so nice "
+"that you're accompanying ${child.get_list('preferred_name', 3, 'your "
+"sponsored children', translate=False)} in that!</p>\n"
+"\n"
+"<p>Every letter travels a long way:</p>\n"
+"\n"
+"% if object.send_mode == \"digital\":\n"
+"    <div style=\"margin:30px auto; text-align: center;\">\n"
+"        <a href=\"https://compassion.ch/medias/onboarding/chemin_en.pdf\">\n"
+"            <img src=\"http://compassion.ch/medias/onboarding/"
+"image_1_letter_en.png\">\n"
+"        </a>\n"
+"    </div>\n"
+"% endif \n"
+"\n"
+"<p>You can reply to ${deinem_patenkind} via our \n"
+"    <a href=\"https://compassion.ch/de/app\" title=\"\">Compassion App</a>\n"
+"    or\n"
+"    <a href=\"https://mycompassion.ch/en_US/my/letter\">MyCompassion</a>.\n"
+"</p>  \n"
+"\n"
+"% if not letter.mapped('sponsorship_id').filtered('is_first_sponsorship'):\n"
+"    % if special:\n"
+"        <div style=\"margin:30px auto; text-align: center; text-transform: "
+"uppercase;\">\n"
+"            <a href=\"https://compassion.ch/medias/onboarding/"
+"BD_SL_child_communication_EN.pdf\" style=\"padding: 12px 18px; font-size: "
+"14px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #0054A6; border: "
+"1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"                Extra information for writing letters to your sponsored "
+"${'children' if plural else 'child'}\n"
+"            </a>\n"
+"        </div>\n"
+"    % endif\n"
+"% endif\n"
+"<p>Warm regards,</p>\n"
+"<p>${object.user_id.short_signature | safe}</p>"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step2
+msgid ""
+"<p>\n"
+"    % set partner = object.partner_id\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set sponsorship = object.get_objects()\n"
+"    % set child = sponsorship.mapped('child_id')\n"
+"    % set firstname = child.get_list('preferred_name', 3, 'your sponsored "
+"children', translate=False)\n"
+"    % set country = child.mapped('field_office_id')\n"
+"    % set alumni_name = country.get_list('alumni_representative')\n"
+"    % set apos = \"'\" if alumni_name[-1] == 's' else \"'s\"\n"
+"    % set alumni_link = country.get_list('alumni_video_link', 1, 'https://"
+"vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion')\n"
+"    % set multi_link = alumni_link == 'https://vimeo.com/showcase/"
+"geschichten-ehemaliger-patenkinder-von-compassion'\n"
+"    ${partner.salutation}, your sponsorship is making a difference!\n"
+"</p>\n"
+"<p>\n"
+"    % if not multi_link:\n"
+"        Today, we would like to introduce you to ${alumni_name}, a former "
+"sponsored child of Compassion. ${'She' if child[0].field_office_id."
+"alumni_gender == 'F' else 'He'} lives on the same continent as "
+"${firstname}.\n"
+"    % else:\n"
+"        Today, we would like to introduce you to ${alumni_name}, former "
+"sponsored children of Compassion. They on the same continent as "
+"${firstname}.\n"
+"    % endif\n"
+"</p>\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"${alumni_link}\" style=\"padding: 12px 18px; font-size: 14px; "
+"line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: "
+"none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-"
+"align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; "
+"background-image: none; background-color: #0054A6; border: 1px solid "
+"#0054A6; border-radius:3px\" title=\"\">Discover\n"
+"    % if multi_link:\n"
+"        their stories\n"
+"    % else:\n"
+"        ${alumni_name + apos} story\n"
+"    % endif\n"
+"    </a>\n"
+"</div>\n"
+"<h3 style=\"color: #0054A6; text-transform: uppercase;\">\n"
+"    <b>You enable ${firstname if len(child) < 4 else 'your sponsored "
+"children'}:</b>\n"
+"</h3>\n"
+"<ul>\n"
+"    <li>Access to school (school fees, uniform, material, tutoring)</li>\n"
+"    <li>Higher education (vocational training or university studies)</li>\n"
+"    <li>Medical care</li>\n"
+"    <li>Hygiene training and regular balanced meals</li>\n"
+"    <li>Love and care from a local church, bible teaching*</li>\n"
+"    <li>Encouragement to explore their personality as they learn and play</"
+"li>\n"
+"    <li>Letter contact with you</li>\n"
+"</ul>\n"
+"<p style=\"font-size: smaller\">\n"
+"    *In agreement with the child's parents\n"
+"</p>\n"
+"<p>The child will be supported until the end of school, including vocational "
+"training, but at most until the age of 22.</p>\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"https://compassion.ch/de/compassion-weltweit\" style="
+"\"padding: 12px 18px; font-size: 14px; line-height: 18px; color: #FFFFFF; "
+"border-color:#0054A6; text-decoration: none; display: inline-block; margin-"
+"bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; "
+"cursor: pointer; white-space: nowrap; background-image: none; background-"
+"color: #0054A6; border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"        Get to know more about the country where ${firstname} ${'lives' if "
+"len(child) == 1 else 'live'}\n"
+"    </a>\n"
+"</div>\n"
+"<p>Thanks to you, not only a child, but a whole family can find new hope for "
+"the future.</p>\n"
+"<p>Warm regards,</p>\n"
+"<p>${object.user_id.short_signature | safe}</p>"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step4
+msgid ""
+"<p>\n"
+"    % set partner = object.partner_id\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set sponsorship = partner.sponsorship_ids\n"
+"    % set child = sponsorship.mapped('child_id')\n"
+"    % set firstname = child.get_list('preferred_name', 3, child."
+"get_number(), translate=False)\n"
+"    % set less_4 = firstname != child.get_number()\n"
+"    % set dein_patenkind = child.get('euer Patenkind') if plural else child."
+"get('dein Patenkind')\n"
+"    % set restricted = namespace(field=False)\n"
+"    % for field in child.mapped('field_office_id'):\n"
+"        % if field.id in (1,19):\n"
+"            % set restricted.field = field.country_id.name\n"
+"        % endif \n"
+"    % endfor \n"
+"    ${partner.informal_salutation}\n"
+"</p>\n"
+"<p>\n"
+"    Your letters and prayers make a difference in the ${'life of your "
+"sponsored child' if len(child) == 1 else 'lives of your sponsored "
+"children'}!\n"
+"</p>\n"
+"<p>\n"
+"    In a letter from her sponsors, Michelle from the Philippines read for "
+"the first time in her life the words \"You are beautiful, you are precious, "
+"we love you\". Today, over 25 years later, the impact of letter exchanges "
+"with her sponsors is still evident: Michelle has started an aid organisation "
+"to help victims of prostitution and human trafficking.  \n"
+"</p>\n"
+"<p>\n"
+"    Why not write a letter and send a photo to ${firstname if less_4 else "
+"'your sponsored children'} for ${child.get('him')} to get to know you "
+"better.\n"
+"    <br>\n"
+"    You can write via our <a href=\"https://compassion.ch/de/app/"
+"\">Compassion App*</a> or\n"
+"    <a href=\"https://mycompassion.ch/de_DE/my/letter\">MyCompassion</a>.\n"
+"</p>\n"
+"<p>Do you need inspiration?</p>\n"
+"<div style=\"margin:20px auto; text-align: center;\">\n"
+"    <a href=\"https://compassion.ch/de/was-soll-ich-meinem-patenkind-"
+"schreiben/\" style=\"padding: 12px 18px; font-size: 12px; line-height: 18px; "
+"color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-"
+"block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-"
+"align: middle; cursor: pointer; white-space: nowrap; background-image: none; "
+"background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px\" "
+"title=\"\">\n"
+"    5 ideas for letter writing\n"
+"    </a>\n"
+"</div>\n"
+"% if restricted.field:\n"
+"    <p>Extra information on writing letters to your sponsored ${'child' if "
+"len(child) == 1 else 'children'}.</p>\n"
+"    <div style=\"margin:20px auto; text-align: center;\">\n"
+"        <a href=\"https://compassion.ch/medias/onboarding/"
+"BD_SL_child_communication_EN.pdf\" style=\"padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #0054A6; border: "
+"1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"        Information about letter writing: ${restricted.field}\n"
+"        </a>\n"
+"    </div>\n"
+"% endif\n"
+"<p>Another important letter writing information: To ensure the protection of "
+"the children, but also for your own safety, the communication between you "
+"and your sponsored child must run solely through us.</p>\n"
+"<p>Please never mention:<br></p>\n"
+"<ul>\n"
+"    <li>Your postal address</li>\n"
+"    <li>Your email address</li>\n"
+"    <li>Your phone number</li>\n"
+"    <li>Compassion Switzerland's address</li>\n"
+"    <li>Your Facebook or other social media contact details</li>\n"
+"    <li>Making promises (e.g. a gift or visit)</li>\n"
+"</ul>\n"
+"<p>It's so wonderful that you're investing in the life of ${firstname if "
+"less_4 else 'your sponsored children'}!</p>\n"
+"<p>Warm regards,</p>\n"
+"<p>${object.user_id.short_signature | safe}</p>\n"
+"<p>*PS: Have you already got the Compassion App? With it, you can always "
+"have pictures, letters and information regarding your sponsored child "
+"conveniently on your phone.</p>"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step5
+msgid ""
+"<p>\n"
+"    % set partner = object.partner_id\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set sponsorship = partner.sponsorship_ids\n"
+"    % set child = sponsorship.mapped('child_id')\n"
+"    % set firstname = child.get_list('preferred_name', 3, child."
+"get_number(), translate=False)\n"
+"    % set less_4 = firstname != child.get_number()\n"
+"    % set translator = False\n"
+"    % set event = False\n"
+"\n"
+"    % for engagement in partner.advocate_details_id.engagement_ids:\n"
+"        % if engagement.id == 2:\n"
+"            % set translator = True\n"
+"        % endif \n"
+"\n"
+"        % if engagement.id in (1,3,9):\n"
+"            % set event = True\n"
+"        % endif \n"
+"    % endfor \n"
+"\n"
+"    ${partner.informal_salutation}\n"
+"</p>\n"
+"\n"
+"<p>\n"
+"    % if sponsorship.mapped('invoice_line_ids').filtered('last_payment') or "
+"0 in sponsorship.mapped('total_amount'):\n"
+"        Congratulations, your ${'sponsorship has' if len(child) == 1 else "
+"'sponsorships have'} started well! The good news has reached ${firstname if "
+"less_4 else 'your sponsored children'} and ${child.get('his')} ${'family' if "
+"len(child) == 1 else 'families'}.\n"
+"    % endif \n"
+"    This is the final email you will receive from us concerning the start of "
+"your sponsorship.\n"
+"</p>\n"
+"\n"
+"<p>Your feedback regarding the start of your sponsorship is important to us. "
+"It should only take 60 seconds.</p>\n"
+"\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"${object.env.ref('partner_communication_switzerland."
+"onboarding_survey').public_url}\" style=\"padding: 12px 18px; font-size: "
+"14px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-"
+"decoration: none; display: inline-block; margin-bottom: 0px; font-weight: "
+"400; text-align: center; vertical-align: middle; cursor: pointer; white-"
+"space: nowrap; background-image: none; background-color: #0054A6; border: "
+"1px solid #0054A6; border-radius:3px\">\n"
+"        Take part in the questionnaire\n"
+"    </a>\n"
+"</div>\n"
+"\n"
+"% if not translator or not event:\n"
+"    <p>Did you know that Compassion is a network of many actively engaged "
+"people? This network is made up of you and other sponsors, Compassion staff "
+"in different countries and over 8000 local church partners in 25 countries.</"
+"p>\n"
+"    <p>\n"
+"        % if not translator:\n"
+"            In Switzerland, around 100 volunteers translate numerous letters "
+"from sponsors and sponsored children. Would you be interested in helping us? "
+"Many volunteers help in the fight against extreme poverty by participating "
+"at Compassion events or church services or through prayer. Do you want to "
+"get involved?\n"
+"        % endif \n"
+"    </p>\n"
+"    <div style=\"margin:30px auto; text-align: center; text-transform: "
+"uppercase;\">\n"
+"        <a href=\"https://compassion.ch/de/sich-mehr-engagieren/\" style="
+"\"padding: 12px 18px; font-size: 14px; line-height: 18px; color: #FFFFFF; "
+"border-color:#0054A6; text-decoration: none; display: inline-block; margin-"
+"bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; "
+"cursor: pointer; white-space: nowrap; background-image: none; background-"
+"color: #0054A6; border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"            Volunteer\n"
+"        </a>\n"
+"    </div>\n"
+"% endif\n"
+"\n"
+"<p>We would also like to present you our interactive fundraising platform "
+"TOGETHER. Here you can start your own project!</p>\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"https://together.compassion.ch/homepage\" style=\"padding: "
+"12px 18px; font-size: 14px; line-height: 18px; color: #FFFFFF; border-color:"
+"#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; "
+"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
+"pointer; white-space: nowrap; background-image: none; background-color: "
+"#0054A6; border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"        TOGETHER\n"
+"    </a>\n"
+"</div>\n"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
+msgid ""
+"<p>\n"
+"    % set partner = object.partner_id\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set sponsorships = object.get_objects()\n"
+"    % set others = partner.sponsorship_ids - sponsorships\n"
+"    % set wp = \"SC\" in sponsorships.mapped(\"type\")\n"
+"    % set payer = object.partner_id in sponsorships.mapped('partner_id') and "
+"len(sponsorships.filtered('period_paid')) != len(sponsorships)\n"
+"    % set children = sponsorships.mapped('child_id')\n"
+"    % set firstname = children.get_list('preferred_name', 3, children."
+"get_number(), translate=False)\n"
+"    % set less_3 = firstname != children.get_number()\n"
+"    % set apos = \"'\" if firstname[-1] == 's' else \"'s\"\n"
+"    % set payment_attachment = sponsorships."
+"get_payment_type_attachment_string()\n"
+"\n"
+"    ${partner.salutation}\n"
+"</p>\n"
+"<p>\n"
+"    % if len(partner.sponsorship_ids) == len(sponsorships):\n"
+"        It's so nice to have you as part of the Compassion family!\n"
+"    % else:\n"
+"        Thank you so much for deciding to sponsor ${'more children' if "
+"plural else 'another child'}.\n"
+"    % endif\n"
+"</p>\n"
+"<p>\n"
+"    With your help alongside around 8000 partner churches we are currently "
+"releasing over 2.2 million children from poverty in 25 countries. Together "
+"we enable children to have a life with hope and a future.\n"
+"</p>\n"
+"<p>\n"
+"    % if payer and not wp:\n"
+"        After receiving your first donation, ${'the children' if plural else "
+"firstname} will be informed that ${children.get('he')} now ${'have' if "
+"plural else 'has'} a sponsor. \n"
+"        <b>\n"
+"            ${payment_attachment}\n"
+"        </b>\n"
+"        %  if len(partner.sponsorship_ids) == len(sponsorships):\n"
+"            Please <a href=\"https://compassion.ch/de/zahlungsart-deiner-"
+"patenschaft\">click here</a> if you have any questions about your "
+"donation. \n"
+"        % endif\n"
+"    % elif wp:\n"
+"        % if sponsorships.filtered(\"total_amount\"):\n"
+"            The special feature of a \"Write & Pray\" sponsorship is team "
+"work. You are the sponsor who writes a letter to ${firstname if less_3 else "
+"'your sponsored children'} at least twice per year and prays for ${children."
+"get('him')}. Another donor will take care of the remaining financial support "
+"for ${firstname if less_3 else 'the children'}.  After receiving your first "
+"donation, ${firstname if less_3 else 'the children'} will be informed that "
+"${children.get('he')} now ${'have' if plural else 'has'} a sponsor.\n"
+"        <b>\n"
+"            ${payment_attachment}\n"
+"        </b>\n"
+"        %  if len(partner.sponsorship_ids) == len(sponsorships):\n"
+"            Please <a href=\"https://compassion.ch/de/zahlungsart-deiner-"
+"patenschaft\">click here</a> if you have any questions about your "
+"donation. \n"
+"        % endif\n"
+"        % else:\n"
+"            In a few days, ${firstname if less_3 else 'the children'} will "
+"be informed that ${children.get('he')} now ${'have' if plural else 'has'} a "
+"sponsor. It will be a day full of joy for ${children.get('him')} and "
+"${children.get('his')} ${'families' if plural else 'family'}! The special "
+"feature of a \"Write & Pray\" sponsorship is team work. You are the sponsor "
+"who writes a letter to ${firstname if less_3 else 'your sponsored children'} "
+"at least twice per year and prays for ${children.get('him')}. Another donor "
+"will take care of the financial support for ${firstname if less_3 else 'the "
+"children'}.\n"
+"        % endif\n"
+"    % endif\n"
+"</p>\n"
+"<p>In a series of short emails over the coming month, we will explain "
+"everything you need to know about ${firstname if less_3 else 'the children'} "
+"and the sponsorship.</p\n"
+"<p>\n"
+"    % if len(partner.sponsorship_ids) == len(sponsorships):\n"
+"        Register and discover MyCompassion to write to your sponsored "
+"${'children' if plural else 'child'}, download photos and letters, find out "
+"more and adapt information linked to your ${'sponsorships' if plural else "
+"'sponsorship'} and much more.\n"
+"    % else:\n"
+"        Just like for your other sponsorships, you will find all of "
+"${firstname + apos if less_3 else 'your sponsored children'} information and "
+"photos on MyCompassion and you can write to ${children.get('him')}.\n"
+"    % endif\n"
+"</p>\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"https://mycompassion.ch/de_DE/my/home\" style=\"padding: 12px "
+"18px; font-size: 14px; line-height: 18px; color: #FFFFFF; border-color:"
+"#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; "
+"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
+"pointer; white-space: nowrap; background-image: none; background-color: "
+"#0054A6; border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"        MyCompassion\n"
+"    </a>\n"
+"</div>\n"
+"% if len(partner.sponsorship_ids) == len(sponsorships):\n"
+"<p>\n"
+"    Thank you so much for making the decision to invest in the life of "
+"${firstname if less_3 else 'many children'}.\n"
+"</p>\n"
+"% endif\n"
+"<p>\n"
+"    Warm regards\n"
+"</p>\n"
+"<p>\n"
+"    ${object.user_id.browse(187).short_signature | safe} <!-- Sarah -->\n"
+"</p>\n"
+"\n"
+"\n"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step3
+msgid ""
+"<p>\n"
+"    % set partner = object.partner_id\n"
+"    % set sponsorship = partner.sponsorship_ids\n"
+"    % set child = sponsorship.mapped('child_id')\n"
+"    % set firstname = child.get_list('preferred_name', 3, child."
+"get_number(), translate=False)\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    ${partner.informal_salutation}\n"
+"</p>\n"
+"<p>This is the third of five emails that you will receive from us.</p>\n"
+"<p>child</p>\n"
+"<p>What does poverty mean in the life of your sponsored ${'child' if "
+"len(child) == 1 else 'children'}?</p>\n"
+"<p>The causes and effects of poverty can differ depending on the context.\n"
+"    <br>\n"
+"</p>\n"
+"<p>Compassion is active in areas where life is extremely difficult. Be it in "
+"Central America, where families live with the danger of gang violence on a "
+"daily basis; Africa, where diseases, alcohol, drugs dominate every day life; "
+"or Asia, where children are threatened with prostitution or child labour.</"
+"p>\n"
+"<p>Every child deserves to be able to go to school, be protected and "
+"experience a childhood filled with hope for the future.</p>\n"
+"<p>This is an important part of Compassion's work. A sponsorship protects a "
+"child from child labour and other forms of slavery, particularly from gang "
+"violence and forced marriage.\n"
+"    <br>\n"
+"</p>\n"
+"<p>Together we can protect children!</p>\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"https://compassion.ch/de/kinderschutz\" style=\"padding: 12px "
+"18px; font-size: 14px; line-height: 18px; color: #FFFFFF; border-color:"
+"#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; "
+"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
+"pointer; white-space: nowrap; background-image: none; background-color: "
+"#0054A6; border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"        More information on child protection   \n"
+"    </a>\n"
+"</div>\n"
+"<p>Warm regards,</p>\n"
+"<p>${object.user_id.short_signature | safe}</p>\n"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_step1
+msgid ""
+"<p>\n"
+"    % set partner = object.partner_id\n"
+"    % set sponsorships = object.get_objects()\n"
+"    % set children = sponsorships.mapped('child_id')\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set deine_patenkinder = 'your sponsored children'\n"
+"    % set firstname = children.get_list('preferred_name', 3, "
+"deine_patenkinder, translate=False)\n"
+"    % set less_4 = firstname != deine_patenkinder\n"
+"    % set wp = \"SC\" in sponsorships.mapped(\"type\")\n"
+"</p>\n"
+"<p>\n"
+"   ${partner.informal_salutation}\n"
+"</p>\n"
+"<p>\n"
+"    % if len(partner.sponsorship_ids) == len(sponsorships):\n"
+"\t    This is the first of five emails that you will receive from us.\n"
+"    % endif\n"
+"</p>\n"
+"<p>\n"
+"    Today we will help you get to know ${children."
+"get_child_preposition_country('from_preposition', child_limit=3, "
+"country_limit=3, child_substitution=deine_patenkinder, "
+"country_substitution=deine_patenkinder)} better (PDF attached).\n"
+"</p>\n"
+"<p>\n"
+"    Did you know that you can visit your sponsored ${'children' if plural "
+"else 'child'}?\n"
+"</p>\n"
+"<div style=\"margin:30px auto; text-align: center; text-transform: uppercase;"
+"\">\n"
+"    <a href=\"https://compassion.ch/de/reisen/\" style=\"padding: 12px 18px; "
+"font-size: 14px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; "
+"text-decoration: none; display: inline-block; margin-bottom: 0px; font-"
+"weight: 400; text-align: center; vertical-align: middle; cursor: pointer; "
+"white-space: nowrap; background-image: none; background-color: #0054A6; "
+"border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"    More information on visits\n"
+"    </a>\n"
+"</div>\n"
+"% if len(partner.sponsorship_ids) != len(sponsorships):\n"
+"<p>\n"
+"    Thank you for deciding to invest in the life of ${'more children' if "
+"plural else 'another child'}!\n"
+"</p>\n"
+"% endif\n"
+"<p>\n"
+"    Warm regards\n"
+"</p>\n"
+"<p>\n"
+"    ${object.user_id.short_signature | safe}\n"
+"</p>\n"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_no_sub
 msgid ""
 "<p>\n"
@@ -5157,6 +5790,41 @@ msgid ""
 "% endif\n"
 "  </p>\n"
 " "
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.mail_onboarding_photo_by_post
+msgid ""
+"<p>\n"
+"   % set partner = object.partner_id\n"
+"   % set plural = partner.title.plural or partner.title.id == 29\n"
+"   % set sponsorship = object.get_objects()\n"
+"   % set child = sponsorship.mapped('child_id')\n"
+"   % set firstname = child.get_list('preferred_name', 3, 'your sponsored "
+"children', translate=False)   \n"
+"   % set apos = \"'\" if firstname[-1] == 's' else \"'s\" \n"
+"   \n"
+"   ${partner.informal_salutation}\n"
+"</p>\n"
+"\n"
+"<p>We're so pleased to send you ${firstname + apos + ' first photo' if "
+"len(child) == 1 else 'the first photos of your sponsored children'}.</p>\n"
+"<p>Thank you for making room for ${firstname if len(child) == 1 else 'the "
+"children'} in your life and investing in ${child.get('his') if len(child) == "
+"1 else 'their'} future.</p>\n"
+"\n"
+"% if partner.email:\n"
+"   <p>Keep an eye on your emails, as we will send you all the necessary "
+"information about your ${'sponsorship' if len(child) == 1 else "
+"'sponsorships'}.</p>\n"
+"% endif\n"
+"\n"
+"<p>Please don't hesitate to contact us at info@compassion.ch or +41 31 552 "
+"21 21 if you have any questions.</p>\n"
+"\n"
+"<p>Together, we are changing the world! One child at a time.</p>\n"
+"\n"
+"<p>${object.user_id.browse(187).short_signature | striptags}</p>\n"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -5391,7 +6059,7 @@ msgid "A new picture from ${object.preferred_name} is available"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:506
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:512
 #, python-format
 msgid "A reconcile job has failed. Please call an admin for help."
 msgstr ""
@@ -5478,14 +6146,14 @@ msgid ""
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:104
+#: code:addons/partner_communication_switzerland/models/contracts.py:105
 #, python-format
 msgid ""
 "Attached you will find a payment slip for the annual sponsorship payment"
 msgstr "Im Anhang {findet} den Einzahlungsschein"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:81
+#: code:addons/partner_communication_switzerland/models/contracts.py:82
 #, python-format
 msgid ""
 "Attached you will find a payment slip to set up a standing order for monthly "
@@ -5493,7 +6161,7 @@ msgid ""
 msgstr "Im Anhang {findet} den Einzahlungsschein"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:92
+#: code:addons/partner_communication_switzerland/models/contracts.py:93
 #, python-format
 msgid ""
 "Attached you will find the LSV or Direct Debit authorization form to fill in "
@@ -5503,7 +6171,7 @@ msgstr ""
 "diese auszufüllen und uns per Post zurückzusenden"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:86
+#: code:addons/partner_communication_switzerland/models/contracts.py:87
 #, python-format
 msgid ""
 "Attached you will find the payment slip that will allow you to increase your "
@@ -5513,7 +6181,7 @@ msgstr ""
 "Dauerauftrag auf CHF %s.- erhöhen {kannst}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:106
+#: code:addons/partner_communication_switzerland/models/contracts.py:108
 #, python-format
 msgid "Attached you will find the payment slips for the sponsorship payment"
 msgstr "Im Anhang {findet} die Einzahlungsscheine"
@@ -5576,7 +6244,7 @@ msgid "Body"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:25
+#: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:31
 #: selection:partner.communication.test.cases.wizard,send_mode:0
 #, python-format
 msgid "By e-mail"
@@ -5819,6 +6487,11 @@ msgid "Do you have any additional comment that you would like us to know?"
 msgstr "Hast du noch andere Vorschläge oder Anmerkungen?"
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step5
+msgid "Do you have any more questions?"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.confirmation_onboarding_unsubscribe_template
 msgid ""
 "Don't hesitate to get in touch with us if you decide to change your mind "
@@ -5855,6 +6528,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence__email_id
 msgid "E-mail"
 msgstr "E-Mail"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_zoom_session_form
+msgid "Edit participants"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_cms_form_res_partner_zoom_attendee__partner_email
@@ -5944,11 +6622,6 @@ msgid "Fairly good"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
-msgid "Family"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_1_child_body
 msgid "Family 1 Child Body"
 msgstr ""
@@ -5959,23 +6632,23 @@ msgid "Family 1 Child Subject"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_3_children_body
-msgid "Family 3 Children Body"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_3_child_body
+msgid "Family 3 Child Body"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_3_children_subject
-msgid "Family 3 Children Subject"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_3_child_subject
+msgid "Family 3 Child Subject"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_4_children_body
-msgid "Family 4 Children Body"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_4_child_body
+msgid "Family 4 Child Body"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_4_children_subject
-msgid "Family 4 Children Subject"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__family_4_child_subject
+msgid "Family 4 Child Subject"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -6060,18 +6733,28 @@ msgid "Generate Communications"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
+msgid "Generate family test cases"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
+msgid "Generate partner test case"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.change_text_wizard_event_form
 msgid "Generate preview"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.cron,name:partner_communication_switzerland.yearly_tax_receipt_cron
-msgid "Generate tax receipts"
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
+msgid "Generate single person test cases"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
-msgid "Generate test cases"
+#: model:ir.cron,name:partner_communication_switzerland.yearly_tax_receipt_cron
+msgid "Generate tax receipts"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -6397,6 +7080,12 @@ msgid "Letter Delivery Preference"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step4
+#| msgid "5 Minutes for a letter to your sponsored child"
+msgid "Letter correspondence with your sponsored child"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:survey.label,value:partner_communication_switzerland.onbs_dontlike_3
 #: model:survey.label,value:partner_communication_switzerland.onbs_ilike_3
 msgid "Letter writing explanation"
@@ -6444,6 +7133,11 @@ msgid ""
 "P.S. Haben Sie die Compassion App schon? Damit haben Sie die Bilder, Briefe "
 "und alle Infos Ihres Patenkindes immer auf dem Handy dabei. Und können noch "
 "einfacher einen Brief schreiben. Hier downloaden: www.compassion.ch/de/app"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__link_received
+msgid "Link Received"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -6508,7 +7202,6 @@ msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_new_donors_onboarding_1st_blog_post
-#| msgid "The team of Compassion"
 msgid "Neu bei Compassion?"
 msgstr "Neu bei Compassion?"
 
@@ -6578,6 +7271,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner__no_physical_letter
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_users__no_physical_letter
 msgid "No Physical Letter"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__number_participants
+msgid "Number Participants"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -6655,7 +7353,7 @@ msgstr ""
 "Ein Jahr - Patenschaft mit ${prenom}"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:74
+#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:65
 #, python-format
 msgid "Opt-out"
 msgstr ""
@@ -6700,14 +7398,23 @@ msgid "Overdue"
 msgstr "Überfällig"
 
 #. module: partner_communication_switzerland
+#: code:addons/partner_communication_switzerland/models/res_partner_zoom_session.py:130
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__participant_ids
+#, python-format
 msgid "Participants"
 msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_cms_form_res_partner_zoom_attendee__partner_id
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__partner
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_id
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
 msgid "Partner"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__partner_body
+msgid "Partner Body"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -6721,12 +7428,22 @@ msgid "Partner Communication Generation Wizard"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__partner_selected
+msgid "Partner Selected"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__partner_subject
+msgid "Partner Subject"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_partner_title
 msgid "Partner Title"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:73
+#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:64
 #, python-format
 msgid "Partner Unsubscribed from marketing e-mails"
 msgstr ""
@@ -6808,7 +7525,7 @@ msgid "Print Photos"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:26
+#: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:32
 #: selection:partner.communication.test.cases.wizard,send_mode:0
 #, python-format
 msgid "Print report"
@@ -6854,6 +7571,11 @@ msgstr ""
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_zoom_registration_confirmation
 msgid "Registration to the video conference"
 msgstr "Anmeldung zur Videokonferenz für neue Patinnen und Paten<br/>"
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__date_send_link
+msgid "Reminder/link sent"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.partner_ambassador_action
@@ -6917,6 +7639,16 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_cms_form_recurring_contract
 msgid "SMS sponsorship confirmation form (step2)"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
+msgid "Selected language / Family"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
+msgid "Selected language / Single person"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -7026,28 +7758,23 @@ msgid "Single 1 Child Subject"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_3_children_body
-msgid "Single 3 Children Body"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_3_child_body
+msgid "Single 3 Child Body"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_3_children_subject
-msgid "Single 3 Children Subject"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_3_child_subject
+msgid "Single 3 Child Subject"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_4_children_body
-msgid "Single 4 Children Body"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_4_child_body
+msgid "Single 4 Child Body"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_4_children_subject
-msgid "Single 4 Children Subject"
-msgstr ""
-
-#. module: partner_communication_switzerland
-#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
-msgid "Single person"
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__single_4_child_subject
+msgid "Single 4 Child Subject"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -7071,7 +7798,7 @@ msgid "Sms Number Estimation"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:520
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:526
 #, python-format
 msgid ""
 "Some invoices of the partner are just being reconciled now. Please wait the "
@@ -7262,8 +7989,19 @@ msgid "Test cases"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step2
+#| msgid "Introduction of my sponsored child"
+msgid "Testimony of a former sponsored child"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_thankyou_config
 msgid "Thank You Configuration"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_certificate
+msgid "Thank you for changing one life"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -7309,6 +8047,10 @@ msgstr ""
 #: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_cancellation
 msgid "Thank you for the support you gave to a child"
 msgstr ""
+"% set partner = object.partner_id\n"
+"% set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set du = 'ihr' if plural else 'du'\n"
+"Danke, dass ${du} ein Leben verändert ${'habt' if plural else 'hast'}"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.email_wrpr_dossier
@@ -7324,7 +8066,7 @@ msgid "Thank you for your engagement"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/forms/zoom_registration_form.py:80
+#: code:addons/partner_communication_switzerland/forms/zoom_registration_form.py:90
 #, python-format
 msgid "Thank you for your registration,you will get a confirmation by email."
 msgstr ""
@@ -7350,15 +8092,32 @@ msgid "The answer you entered has an invalid format."
 msgstr "Ihre Antwort hat ein ungültiges Format."
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:120
+#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:111
 #, python-format
 msgid "The email couldn't be sent due to invalid address"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:142
+#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:133
 #, python-format
 msgid "The email was marked as spam by the partner"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_first_letter
+#| msgid ""
+#| "Last letter from ${object.get_objects().mapped('child_id')."
+#| "get_list('preferred_name', 3, 'your children', False)}!"
+msgid ""
+"The first ${'letter' if len(object.get_objects()) == 1 else 'letters'} from "
+"${object.get_objects().mapped('child_id').get_list('preferred_name', 1, "
+"'your sponsored children', translate=False)}!\t"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_photo_by_post
+#| msgid "Introduction of my sponsored child"
+msgid "The first photo of your sponsored child"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -7506,15 +8265,7 @@ msgid "Visible on current website"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:61
-#, python-format
-msgid ""
-"Warning : Sponsor's Email is invalid!\n"
-" Error description: "
-msgstr ""
-
-#. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:82
+#: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:73
 #, python-format
 msgid ""
 "Warning : There is a problem with this Sponsor's Email. \n"
@@ -7536,7 +8287,7 @@ msgstr ""
 "denke, einige Dinge könnten verbessert werden)?"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/contracts.py:97
+#: code:addons/partner_communication_switzerland/models/contracts.py:98
 #, python-format
 msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
@@ -7565,6 +8316,12 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
+#| msgid "Welcome to the family of Compassion!"
+msgid "Welcome to the Compassion family!"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_dossier
 msgid "Welcome to the family of Compassion!"
 msgstr "Willkommen in der Familie von Compassion!"
@@ -7573,6 +8330,11 @@ msgstr "Willkommen in der Familie von Compassion!"
 #: model:survey.question,question:partner_communication_switzerland.onbs_question_ilike
 msgid "What did you like?"
 msgstr "Was hat dir gefallen?"
+
+#. module: partner_communication_switzerland
+#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step3
+msgid "What does poverty mean?"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.wrpr_sponsorship_reminder
@@ -7586,7 +8348,7 @@ msgid "Wrong e-mail address"
 msgstr "Ungültige Emailadresse"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/forms/zoom_registration_form.py:69
+#: code:addons/partner_communication_switzerland/forms/zoom_registration_form.py:79
 #, python-format
 msgid "You are already registered for this session."
 msgstr "Du bist bereits für diese Videokonferenz registriert."
@@ -7606,6 +8368,14 @@ msgstr ""
 #: code:addons/partner_communication_switzerland/wizards/change_text_wizard.py:94
 #, python-format
 msgid "You can only update text on one communication type at time."
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:543
+#, python-format
+msgid ""
+"You cannot send the onboarding postcard when the partner is not verified. "
+"Please check the following partners: %s"
 msgstr ""
 
 #. module: partner_communication_switzerland
@@ -7729,12 +8499,6 @@ msgid "Zoom Sessions: mark session as attended"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: model:base.automation,name:partner_communication_switzerland.zoom_session_reminder
-#: model:ir.actions.server,name:partner_communication_switzerland.zoom_session_reminder_ir_actions_server
-msgid "Zoom Sessions: send reminder"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__zoom_attendee_de_id
 msgid "Zoom attendee (DE)"
 msgstr ""
@@ -7770,8 +8534,8 @@ msgid "am"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/child.py:206
-#: code:addons/partner_communication_switzerland/models/child.py:211
+#: code:addons/partner_communication_switzerland/models/child.py:209
+#: code:addons/partner_communication_switzerland/models/child.py:214
 #, python-format
 msgid "and"
 msgstr ""
@@ -7788,7 +8552,7 @@ msgid "at"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:737
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:757
 #, python-format
 msgid "bank authorization form.pdf"
 msgstr ""
@@ -7826,13 +8590,14 @@ msgid "cms.form.res.partner.zoom.attendee"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:779
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:799
 #, python-format
-msgid "csv payment slips.pdf"
+#| msgid "sponsorship payment slips.pdf"
+msgid "csp payment slips.pdf"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:458
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:463
 #, python-format
 msgid "ending sponsorship certificate.pdf"
 msgstr ""
@@ -7876,7 +8641,7 @@ msgid "sponsorship due.pdf"
 msgstr "Patenschaft Zahlung.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:412
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:409
 #, python-format
 msgid "sponsorship gifts.pdf"
 msgstr "Patenschaftsgeschenke.pdf"
@@ -7888,8 +8653,8 @@ msgid "sponsorship labels.pdf"
 msgstr "Patenschaft labels.pdf"
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:392
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:727
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:390
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:747
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "einzahlungsscheine.pdf"
@@ -7900,7 +8665,7 @@ msgid "take a partner and make it a odoo user"
 msgstr ""
 
 #. module: partner_communication_switzerland
-#: code:addons/partner_communication_switzerland/models/partner_communication.py:473
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:478
 #, python-format
 msgid "tax receipt.pdf"
 msgstr "Spendenbestaetigung.pdf"
@@ -7908,14 +8673,6 @@ msgstr "Spendenbestaetigung.pdf"
 #. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_planned_exit_notification
 #: model:mail.template,subject:partner_communication_switzerland.email_planned_exit_notification
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_first_letter
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_photo_by_post
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step1
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step2
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step3
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step4
-#: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step5
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_zoom_reminder
 msgid "todo"
 msgstr "Willkommen in der Familie von Compassion!"
