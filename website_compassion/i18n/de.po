@@ -204,6 +204,11 @@ msgid "<span>Make a donation</span>"
 msgstr "Ein Geschenk machen<br/>"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.my_children_gift_history
+msgid "https://compassion.ch/de/geschenkformular"
+msgstr "https://compassion.ch/de/geschenkformular"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history
 msgid "<span>Open contributions</span>"
 msgstr "Offene Zahlungen"
