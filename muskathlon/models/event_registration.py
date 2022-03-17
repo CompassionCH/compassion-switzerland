@@ -95,20 +95,6 @@ class MuskathlonRegistration(models.Model):
                     amount_raised += int(item.amount)
             registration.amount_raised = amount_raised
 
-        # for registration in m_reg:
-        #     amount_raised = int(
-        #         sum(
-        #             item.amount
-        #             for item in muskathlon_report.search(
-        #                 [
-        #                     ("user_id", "=", registration.partner_id.id),
-        #                     ("event_id", "=", registration.compassion_event_id.id),
-        #                 ]
-        #             )
-        #         )
-        #     )
-        #     registration.amount_raised = amount_raised
-
         # pids = m_reg.mapped("partner_id").ids
         # origins = m_reg.mapped("compassion_event_id.origin_id")
         # self.env.cr.execute("""
