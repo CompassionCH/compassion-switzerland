@@ -3,11 +3,10 @@ bs4
 firebase_admin
 geojson
 jwt
-matplotlib
 mysqlclient
 odoo-sphinx-autodoc
-git+git://github.com/OCA/openupgradelib
-git+git://github.com/pfpayments/python-sdk
+git+https://github.com/OCA/openupgradelib
+git+https://github.com/pfpayments/python-sdk
 opencv-python
 opencv-contrib-python
 pandas
@@ -37,5 +36,4 @@ timezonefinder
 unidecode
 wand
 PyMuPDF
-boxdetect
 fintech
