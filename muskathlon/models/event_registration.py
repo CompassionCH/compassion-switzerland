@@ -67,33 +67,72 @@ class MuskathlonRegistration(models.Model):
         for reg in self:
             reg.passport_uploaded = muskathlon_passport in reg.completed_task_ids
 
+
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
+        currency_target = self.env.ref('base.main_company').currency_id
+
+        muskathlon_report = self.env['muskathlon.report']
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
-        pids = m_reg.mapped("partner_id").ids
-        origins = m_reg.mapped("compassion_event_id.origin_id")
-        self.env.cr.execute("""
-            SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id
-            FROM account_invoice_line il
-            WHERE il.state = 'paid'
-            AND il.account_id = 2775 -- Muskathlon event
-            AND il.user_id = ANY(%s)
-            AND il.event_id = ANY(%s)
-            GROUP BY il.user_id, il.event_id
-            UNION ALL
-            SELECT sum(1000) AS amount, r.user_id, o.event_id
-            FROM recurring_contract r
-            JOIN recurring_contract_origin o ON r.origin_id = o.id
-            WHERE r.user_id = ANY(%s)
-            AND r.origin_id = ANY(%s)
-            GROUP BY r.user_id, o.event_id
-        """, [pids, origins.mapped("event_id").ids, pids, origins.ids])
-        results = self.env.cr.dictfetchall()
         for registration in m_reg:
-            registration.amount_raised = int(sum(
-                r["amount"] for r in results
-                if r["user_id"] == registration.partner_id_id
-                and r["event_id"] == registration.compassion_event_id.id))
+            amount_raised = 0
+            for item in muskathlon_report.search([
+                    ("user_id", "=", registration.partner_id.id),
+                    ("event_id", "=", registration.compassion_event_id.id)]):
+
+                # Either we have an invoice line attached to the item, then we convert
+                # If not we assume it was done in the currency of the company, thus do nothing
+                if item.invoice_line_id and item.invoice_line_id.currency_id != currency_target:
+                    amount = item.invoice_line_id.currency_id._convert(
+                        item.amount,
+                        currency_target,
+                        self.env.ref('base.main_company'),
+                        item.date,
+                        False)
+                    amount_raised += amount
+                else:
+                    amount_raised += int(item.amount)
+            registration.amount_raised = amount_raised
+
+        # for registration in m_reg:
+        #     amount_raised = int(
+        #         sum(
+        #             item.amount
+        #             for item in muskathlon_report.search(
+        #                 [
+        #                     ("user_id", "=", registration.partner_id.id),
+        #                     ("event_id", "=", registration.compassion_event_id.id),
+        #                 ]
+        #             )
+        #         )
+        #     )
+        #     registration.amount_raised = amount_raised
+
+        # pids = m_reg.mapped("partner_id").ids
+        # origins = m_reg.mapped("compassion_event_id.origin_id")
+        # self.env.cr.execute("""
+        #     SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id
+        #     FROM account_invoice_line il
+        #     WHERE il.state = 'paid'
+        #     AND il.account_id = 2775 -- Muskathlon event
+        #     AND il.user_id = ANY(%s)
+        #     AND il.event_id = ANY(%s)
+        #     GROUP BY il.user_id, il.event_id
+        #     UNION ALL
+        #     SELECT sum(1000) AS amount, r.user_id, o.event_id
+        #     FROM recurring_contract r
+        #     JOIN recurring_contract_origin o ON r.origin_id = o.id
+        #     WHERE r.user_id = ANY(%s)
+        #     AND r.origin_id = ANY(%s)
+        #     GROUP BY r.user_id, o.event_id
+        # """, [pids, origins.mapped("event_id").ids, pids, origins.ids])
+        # results = self.env.cr.dictfetchall()
+        # for registration in m_reg:
+        #     registration.amount_raised = int(sum(
+        #         r["amount"] for r in results
+        #         if r["user_id"] == registration.partner_id_id
+        #         and r["event_id"] == registration.compassion_event_id.id))
+
         super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
 
     def _compute_is_in_two_months(self):
