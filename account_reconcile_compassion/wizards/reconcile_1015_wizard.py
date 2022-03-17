@@ -67,17 +67,28 @@ class ReconcileFundWizard(models.TransientModel):
             self.reconcile_using_pf_checkout(cl)
 
         # Compute results
-        oldest_credit = min(self.partial_reconcile_line_ids.mapped("date"))
-        self.missing_donation_line_ids = mvl_obj.search([
-            ("account_id", "=", self.account_id.id),
-            ("full_reconcile_id", "=", False),
-            ("debit", ">", 0),
-            ("date", "<=", fields.Date.to_string(oldest_credit)),
-            ("date", ">=", "2022-02-09")  # Date of activation of pf_checkout
-        ]).filtered(lambda m: not m.matched_credit_ids)
-        self.env.user.notify_success(
-            message=_("Successfully reconciled %s entries")
-            % len(self.full_reconcile_line_ids))
+        if self.partial_reconcile_line_ids:
+            oldest_credit = min(self.partial_reconcile_line_ids.mapped("date"))
+            self.missing_donation_line_ids = mvl_obj.search([
+                ("account_id", "=", self.account_id.id),
+                ("full_reconcile_id", "=", False),
+                ("debit", ">", 0),
+                ("date", "<=", fields.Date.to_string(oldest_credit)),
+                ("date", ">=", "2022-02-09")  # Date of activation of pf_checkout
+            ]).filtered(lambda m: not m.matched_credit_ids)
+        if self.full_reconcile_line_ids:
+            self.env.user.notify_success(
+                message=_("Successfully reconciled %s entries")
+                % len(self.full_reconcile_line_ids),
+                sticky=True
+            )
+        else:
+            if not credit_lines:
+                self.env.user.notify_success(
+                    message=_("Every credit entry is reconciled"))
+            else:
+                self.env.user.notify_warning(
+                    message=_("0 credit entry could be fully reconciled"))
         return {
             "type": "ir.actions.act_window",
             "view_mode": "tree,form",
