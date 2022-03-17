@@ -70,10 +70,11 @@ class MuskathlonRegistration(models.Model):
 
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
-        currency_target = self.env.ref('base.main_company').currency_id
-
+        base_company = self.env.ref('base.main_company')
+        currency_target = base_company.currency_id
         muskathlon_report = self.env['muskathlon.report']
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
+
         for registration in m_reg:
             amount_raised = 0
             for item in muskathlon_report.search([
@@ -86,7 +87,7 @@ class MuskathlonRegistration(models.Model):
                     amount = item.invoice_line_id.currency_id._convert(
                         item.amount,
                         currency_target,
-                        self.env.ref('base.main_company'),
+                        base_company,
                         item.date,
                         False)
                     amount_raised += amount
