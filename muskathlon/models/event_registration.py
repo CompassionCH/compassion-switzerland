@@ -123,13 +123,13 @@ class MuskathlonRegistration(models.Model):
         pids = m_reg.mapped("partner_id").ids
         origins = m_reg.mapped("compassion_event_id.origin_id")
         self.env.cr.execute("""
-            SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id, il.currency_id
+            SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id, il.currency_id, il.date
             FROM account_invoice_line il
             WHERE il.state = 'paid'
             AND il.account_id = 2775 -- Muskathlon event
             AND il.user_id = ANY(%s)
             AND il.event_id = ANY(%s)
-            GROUP BY il.user_id, il.event_id, il.currency_id
+            GROUP BY il.user_id, il.event_id, il.currency_id, il.date
         """, [pids, origins.mapped("event_id").ids])
         results = self.env.cr.dictfetchall()
         for registration in m_reg:
@@ -137,6 +137,8 @@ class MuskathlonRegistration(models.Model):
             for item in results:
                 if (item["user_id"] == registration.partner_id_id
                 and item["event_id"] == registration.compassion_event_id.id):
+                    # We're missing the date to retrieve the conversion rate at payment time
+                    # So we have to group in sql per date too, which removes all advantages of using postgres
 
             registration.amount_raised = int(sum(
                 r["amount"] for r in results
