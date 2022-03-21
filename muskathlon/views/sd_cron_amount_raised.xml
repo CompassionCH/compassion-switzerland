@@ -8,6 +8,6 @@
     <record id="job_function_muskathlon_amount_raised" model="queue.job.function">
         <field name="model_id" ref="muskathlon.model_event_registration" />
         <field name="method">compute_amount_raised_job</field>
-        <field name="channel_id" ref="muskathlon.muskathlon_amount_raised" />
+        <field name="channel_id" ref="muskathlon_amount_raised" />
     </record>
 </odoo>
