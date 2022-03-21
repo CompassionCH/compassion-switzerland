@@ -69,7 +69,6 @@ class MuskathlonRegistration(models.Model):
 
     def _compute_amount_raised(self, force_compute=False):
         # Use Muskathlon report to compute Muskathlon event donation
-        base_company = self.env.ref('base.main_company')
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
 
         pids = m_reg.mapped("partner_id").ids
