@@ -75,6 +75,15 @@ class MuskathlonRegistration(models.Model):
         muskathlon_report = self.env['muskathlon.report']
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
 
+        pids = m_reg.mapped('partner_id').ids
+        origins = m_reg.mapped('compassion_event_id.origin_id')
+
+        lines = self.env['account.invoice.line'].search([
+            ('account_id', '=', 'paid'),
+            ('user_id', 'in', pids),
+            ('event_id', 'in', origins.mapped('event_id').ids)
+        ])
+
         for registration in m_reg:
             amount_raised = 0
             for item in muskathlon_report.search([
