@@ -55,7 +55,6 @@
         "views/notification_settings_view.xml",
         "views/payment_transaction_view.xml",
         "views/advocate_details.xml",
-        "views/sd_cron_amount_raised.xml",
         "templates/muskathlon_details.xml",
         "templates/muskathlon_my_details.xml",
         'templates/muskathlon_my_home.xml',
