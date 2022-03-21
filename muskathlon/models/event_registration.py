@@ -35,6 +35,8 @@ class MuskathlonRegistration(models.Model):
         related="partner_id.advocate_details_id.t_shirt_type", store=True
     )
 
+    amount_raised = fields.Float(default=0.0)  # Computed in cron job
+
     is_in_two_months = fields.Boolean(compute="_compute_is_in_two_months")
 
     _sql_constraints = [
@@ -74,15 +76,6 @@ class MuskathlonRegistration(models.Model):
         currency_target = base_company.currency_id
         muskathlon_report = self.env['muskathlon.report']
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
-
-        pids = m_reg.mapped('partner_id').ids
-        origins = m_reg.mapped('compassion_event_id.origin_id')
-
-        lines = self.env['account.invoice.line'].search([
-            ('account_id', '=', 'paid'),
-            ('user_id', 'in', pids),
-            ('event_id', 'in', origins.mapped('event_id').ids)
-        ])
 
         for registration in m_reg:
             amount_raised = 0
@@ -129,6 +122,34 @@ class MuskathlonRegistration(models.Model):
         #         if r["user_id"] == registration.partner_id_id
         #         and r["event_id"] == registration.compassion_event_id.id))
 
+        super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
+
+    def compute_amount_raised_job(self):
+        # Compute amounts for all registrations
+        base_company = self.env.ref('base.main_company')
+        currency_target = base_company.currency_id
+        muskathlon_report = self.env['muskathlon.report']
+        m_reg = self.filtered("compassion_event_id.website_muskathlon")
+
+        for registration in m_reg:
+            amount_raised = 0
+            for item in muskathlon_report.search([
+                ("user_id", "=", registration.partner_id.id),
+                ("event_id", "=", registration.compassion_event_id.id)]):
+
+                # Either we have an invoice line attached to the item, then we convert
+                # If not we assume it was done in the currency of the company, thus do nothing
+                if item.invoice_line_id and item.invoice_line_id.currency_id != currency_target:
+                    amount = item.invoice_line_id.currency_id._convert(
+                        item.amount,
+                        currency_target,
+                        base_company,
+                        item.date,
+                        False)
+                    amount_raised += amount
+                else:
+                    amount_raised += int(item.amount)
+            registration.amount_raised = amount_raised
         super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
 
     def _compute_is_in_two_months(self):
