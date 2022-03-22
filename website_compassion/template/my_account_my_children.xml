@@ -324,7 +324,7 @@
                                 <label><t t-esc="line.product_id.name"/></label>
                             </div>
                             <div class="col-4">
-                                <label><t t-esc="line.get_date('create_date', 'date_full')"/></label>
+                                <label><t t-esc="line.get_date('last_payment', 'date_full')"/></label>
                             </div>
                             <div class="col-4">
                                 <label><t t-esc="int(line.price_total)"/> <t t-esc="line.invoice_id.currency_id.name"/></label>
