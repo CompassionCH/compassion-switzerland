@@ -42,7 +42,7 @@
                     ${partner.salutation},
                     <br/>
                     <br/>
-                    Compassion Switzerland is glad to inform you that you just received a donation of ${donations[0].currency_id.symbol} ${donations[0]}.-
+                    Compassion Switzerland is glad to inform you that you just received a donation of ${object.user_id.company_id.currency_id.symbol} ${donations[0]}.-
                     % if donations[1]:
                         for the ${donations[1]}.
                     % endif
