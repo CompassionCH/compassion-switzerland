@@ -52,18 +52,33 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
+    def get_related_contracts(self):
+        self.ensure_one()
+        object_ids = list(map(int, self.object_ids.split(",")))
+        if self.model != "recurring.contract":
+            # We're only interested in recurring contract, if the records linked to this communication are
+            # not contracts (which should not happen in the context of sponsorships waiting reminder 2,
+            # then we return an empty set
+            return self.env['recurring.contract']
+        return self.env['recurring.contract'].sudo().search([('id', "in", object_ids)])
+
+
     def schedule_call(self):
         self.ensure_one()
         user_id = self.user_id.id
         sponsorship_reminder_2 = self.env.ref('partner_communication_switzerland.sponsorship_waiting_reminder_2')
+
         # Check if we're in a sponsorship reminder 2
         if self.config_id.name == sponsorship_reminder_2.name:
             church_rep = self.env.ref('hr_switzerland.employee_tag_church_rep')
-            employee = self.env['hr.employee'].sudo().search(['user_id', '=', self.ambassador_id.user_id], limit=1)
-
-            # Check if the ambassador is a church rep
-            if employee.job_id.name == church_rep.name:
-                user_id = self.ambassador_id.user_id
+            related_contracts = self.get_related_contracts()
+            for contract in related_contracts:
+                event = contract.origin_id.event_id
+                if event.user_id:
+                    employee = self.env['hr.employee'].sudo().search([('user_id', '=', event.user_id.id)], limit=1)
+                    # Event ambassador is a church rep
+                    if employee.job_id.name == church_rep.name:
+                        user_id = event.user_id.id
 
         self.activity_schedule(
             'mail.mail_activity_data_call',
@@ -83,7 +98,7 @@ class PartnerCommunication(models.Model):
             # Duplex if all documents have a pair page count
             sided_option = "2sided"
             for p_count in page_counts: 
-                if (p_count % 2 != 0):
+                if p_count % 2 != 0:
                     sided_option = "1Sided"
                     break
             print_options["KMDuplex"] = sided_option
