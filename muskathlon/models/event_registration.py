@@ -70,10 +70,11 @@ class MuskathlonRegistration(models.Model):
     def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
+
         pids = m_reg.mapped("partner_id").ids
         origins = m_reg.mapped("compassion_event_id.origin_id")
         self.env.cr.execute("""
-            SELECT sum(il.price_subtotal) AS amount, il.user_id, il.event_id
+            SELECT sum(il.price_subtotal_signed) AS amount, il.user_id, il.event_id
             FROM account_invoice_line il
             WHERE il.state = 'paid'
             AND il.account_id = 2775 -- Muskathlon event
@@ -94,6 +95,7 @@ class MuskathlonRegistration(models.Model):
                 r["amount"] for r in results
                 if r["user_id"] == registration.partner_id_id
                 and r["event_id"] == registration.compassion_event_id.id))
+
         super(MuskathlonRegistration, (self - m_reg))._compute_amount_raised()
 
     def _compute_is_in_two_months(self):

@@ -76,7 +76,7 @@
                     Your registration for the ${event.name} is progressing well. Thank you very much for your interest in Compassion's work to free more children from poverty every day, for a dignified and meaningful life.
                     <br/>
                     <br/>
-                    To confirm your registration, you only need to pay a deposit of CHF ${'%d' |format(registration.event_ticket_id.price)}.- You have the choice to make this payment:
+                    To confirm your registration, you only need to pay a deposit of ${object.user_id.company_id.currency_id.symbol} ${'%d' |format(registration.event_ticket_id.price)}.- You have the choice to make this payment:
                 </p>
                 <ul>
                     <li>

@@ -38,14 +38,16 @@
             <t t-if="amount_inside">
                 <div t-attf-class="progress-amount #{ barometer_amount_class }">
                     <t t-esc="'{:n}'.format(barometer.amount_raised or 0).replace(',', '\'')"/>/<t
-                        t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>CHF
+                        t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>
+                    <span t-field="registration.user_id.company_id.currency_id.symbol" />
                 </div>
             </t>
         </div>
         <t t-if="not amount_inside">
             <div t-attf-class="#{ barometer_amount_class }">
                 <t t-esc="'{:n}'.format(barometer.amount_raised or 0).replace(',', '\'')"/>/<t
-                    t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>CHF
+                    t-esc="'{:n}'.format(barometer.amount_objective or 0).replace(',', '\'')"/>
+                <span t-field="registration.user_id.company_id.currency_id.symbol" />
             </div>
         </t>
     </template>
