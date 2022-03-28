@@ -67,7 +67,7 @@ class MuskathlonRegistration(models.Model):
         for reg in self:
             reg.passport_uploaded = muskathlon_passport in reg.completed_task_ids
 
-    def _compute_amount_raised(self, force_compute=False):
+    def _compute_amount_raised(self):
         # Use Muskathlon report to compute Muskathlon event donation
         m_reg = self.filtered("compassion_event_id.website_muskathlon")
 
