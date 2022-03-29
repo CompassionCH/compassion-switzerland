@@ -202,7 +202,13 @@ msgstr "<span>Lettres</span>"
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_gift_history
 msgid "<span>Make a donation</span>"
-msgstr "<span>Faire un don</span>"
+msgstr "<span>Faire un cadeau</span>"
+
+#. module: website_compassion
+#: code:addons/website_compassion/controllers/my_account.py:418
+#, python-format
+msgid "https://compassion.ch/de/geschenkformular"
+msgstr "https://compassion.ch/formulaire-pour-cadeau"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_donations_gift_history

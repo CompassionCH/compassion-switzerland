@@ -52,6 +52,24 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
+    def schedule_call(self):
+        self.ensure_one()
+        user_id = self.user_id.id
+        sponsorship_reminder_2 = self.env.ref(
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2")
+
+        if self.config_id == sponsorship_reminder_2:
+            related_contracts = self.get_objects()
+            for contract in related_contracts:
+                ambassador = contract.origin_id.event_id.user_id
+                employee = self.env["hr.employee"].sudo().search([
+                    ("user_id", "=", ambassador.id)], limit=1)
+                # Event ambassador is a church rep
+                if employee.job_id.with_context(lang="en_US").name == "Church rep":
+                    user_id = ambassador.id
+
+        super(PartnerCommunication, self.sudo(user_id)).schedule_call()
+
     def print_letter(self, print_name, **print_options):
         """
         Adds duplex printing option for Konica Minolta depending on page count.
@@ -61,7 +79,7 @@ class PartnerCommunication(models.Model):
             # Duplex if all documents have a pair page count
             sided_option = "2sided"
             for p_count in page_counts: 
-                if (p_count % 2 != 0):
+                if p_count % 2 != 0:
                     sided_option = "1Sided"
                     break
             print_options["KMDuplex"] = sided_option
@@ -194,6 +212,7 @@ class PartnerCommunication(models.Model):
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.get_bvr_gift_attachment(family, background)
         return attachments
+
 
     def get_all_gift_bvr(self):
         """

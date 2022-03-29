@@ -42,7 +42,7 @@
                     ${partner.salutation},
                     <br/>
                     <br/>
-                    Compassion Switzerland is glad to inform you that you just received a donation of CHF ${donations[0]}.-
+                    Compassion Switzerland is glad to inform you that you just received a donation of ${object.user_id.company_id.currency_id.symbol} ${donations[0]}.-
                     % if donations[1]:
                         for the ${donations[1]}.
                     % endif
@@ -62,7 +62,7 @@
                         </ul>
                     % endif
                     % if muskathlon:
-                        You currently have raised CHF ${muskathlon.amount_raised}.- You can check your barometer at anytime
+                        You currently have raised ${object.user_id.company_id.currency_id.symbol} ${muskathlon.amount_raised}.- You can check your barometer at anytime
                         <a href="${muskathlon.website_url}" style="color: skyblue; text-decoration: underline;">on your sport profile page</a>.
                     % endif
                     <br/>

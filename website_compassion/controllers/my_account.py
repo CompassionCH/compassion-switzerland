@@ -447,7 +447,6 @@ class MyAccountController(PaymentFormController):
         invoice_search_criteria = [
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
-            ("invoice_category", "in", ["sponsorship", "fund", "other"]),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
         ]

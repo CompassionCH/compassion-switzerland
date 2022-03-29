@@ -523,10 +523,12 @@ class RecurringContract(models.Model):
         ).unlink()
         # Send sponsorship confirmation for write&pray sponsorships
         # that didn't get through waiting state (would already have the communication)
-        self.filtered(
+        wp = self.filtered(
             lambda s: s.type in ["SC", "SWP"] and s.state == "draft"
-        )._new_dossier()
-        return super().contract_active()
+        )
+        super().contract_active()
+        wp._new_dossier()
+        return True
 
     @api.multi
     def contract_terminated(self):
