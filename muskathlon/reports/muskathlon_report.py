@@ -23,14 +23,14 @@ class Muskathlon(models.Model):
     date_display = fields.Date(readonly=True)
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     partner_name = fields.Char(related="partner_id.display_name", readonly=True)
-    user_id = fields.Many2one("res.partner", "Ambassador", readonly=True)
+    user_id = fields.Many2one("res.partner", "Ambassador", readonly=True, index=True)
     amount = fields.Float("Amount", readonly=True)
     amount_cent = fields.Integer("Amount in currency (cents)", readonly=True)
     sent_to_4m = fields.Date("Date sent to 4M", readonly=True)
     payment_mode_id = fields.Many2one(
         "account.payment.mode", "Payment mode", readonly=True
     )
-    event_id = fields.Many2one("crm.event.compassion", "Event", readonly=True)
+    event_id = fields.Many2one("crm.event.compassion", "Event", readonly=True, index=True)
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
 
     # fields needed for csv exportation

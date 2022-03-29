@@ -37,6 +37,7 @@
     "depends": [
         "report_compassion",
         "child_switzerland",
+        "hr_switzerland",
         "theme_compassion",
         "sms_939",  # compassion-switzerland
         "auth_signup",  # source/addons

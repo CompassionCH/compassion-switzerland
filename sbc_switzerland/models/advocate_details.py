@@ -10,6 +10,7 @@
 import logging
 from odoo import api, fields, models
 from . import translate_connector
+from datetime import datetime
 
 
 _logger = logging.getLogger(__name__)
@@ -25,6 +26,16 @@ class AdvocateDetails(models.Model):
     nb_translated_letters = fields.Integer(
         compute="_compute_nb_translated_letters", store=True
     )
+    nb_translated_letters_this_year = fields.Integer(
+        compute="_compute_nb_translated_letters_this_year", store=True
+    )
+
+    @api.multi
+    @api.depends("partner_id.translated_letter_ids")
+    def _compute_nb_translated_letters_this_year(self):
+        for advocate in self:
+            advocate.nb_translated_letters_this_year = len(advocate.translated_letter_ids.filtered(
+                lambda it: it.translate_date.year == datetime.now().year))
 
     @api.multi
     @api.depends("partner_id.translated_letter_ids")

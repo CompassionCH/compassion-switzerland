@@ -227,7 +227,7 @@ class Event(models.Model):
                     ]
                 )
             )
-            amount_raised = sum(invoice_lines.mapped("price_subtotal"))
+            amount_raised = sum(invoice_lines.mapped("price_subtotal_signed"))
             s_value = registration.event_id.sponsorship_donation_value
             if s_value:
                 nb_sponsorships = (

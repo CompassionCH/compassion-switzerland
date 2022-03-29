@@ -28,7 +28,7 @@
                                     </td>
                                     <td>
                                         <t t-esc="report.amount"/>
-                                        CHF
+                                        <t t-esc="report.currency_id.symbol" />
                                     </td>
                                 </tr>
                             </t>

@@ -70,9 +70,10 @@ class ZoomSession(models.Model):
     @api.multi
     def post_attended(self):
         participants = self.mapped("participant_ids")
-        confirmed = participants.filtered(lambda p: p.state == "confirmed")
-        confirmed.write({"state": "attended"})
-        (participants - confirmed).write({"state": "declined"})
+        participants.filtered(lambda p: p.state == "confirmed").write({
+            "state": "attended"})
+        participants.filtered(lambda p: p.state == "invited").write({
+            "state": "declined"})
         self.write({"state": "done"})
         return True
 

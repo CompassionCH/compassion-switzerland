@@ -46,7 +46,7 @@ class ZoomAttendee(models.Model):
         ("attended", "Attended"),
         ("missing", "Didn't show up"),
         ("declined", "Declined")
-    ], default="invited", group_expand="_expand_states")
+    ], default="invited", group_expand="_expand_states", track_visibility="onchange")
     optional_message = fields.Text()
     color = fields.Integer(compute="_compute_color")
 

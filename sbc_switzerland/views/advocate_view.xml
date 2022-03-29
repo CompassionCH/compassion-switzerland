@@ -19,6 +19,7 @@
         <field name="inherit_id" ref="partner_compassion.advocate_details_tree" />
         <field name="arch" type="xml">
             <field name="engagement_ids" position="after">
+                <field name="nb_translated_letters_this_year"/>
                 <field name="nb_translated_letters"/>
             </field>
         </field>

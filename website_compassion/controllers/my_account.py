@@ -84,13 +84,15 @@ def _get_user_children(state=None):
             )
         elif state == "terminated":
             can_show &= (
-                    sponsorship.state in ["cancelled", "terminated"]
-                    and not (is_recent_terminated or (exit_communication_sent and can_still_write))
+                sponsorship.state == "terminated"
+                and not (is_recent_terminated or (exit_communication_sent and
+                                                  can_still_write))
             )
 
         return can_show
 
-    return partner.sponsorship_ids.filtered(filter_sponsorships).mapped("child_id").sorted("preferred_name")
+    return partner.sponsorship_ids.filtered(filter_sponsorships).mapped(
+        "child_id").sorted("preferred_name")
 
 
 def _fetch_images_from_child(child):
@@ -445,7 +447,6 @@ class MyAccountController(PaymentFormController):
         invoice_search_criteria = [
             ("partner_id", "=", partner.id),
             ("state", "=", "paid"),
-            ("invoice_category", "in", ["sponsorship", "fund", "other"]),
             ("type", "=", "out_invoice"),
             ("amount_total", "!=", 0),
         ]

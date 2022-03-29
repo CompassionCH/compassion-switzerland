@@ -40,9 +40,16 @@ class ResPartner(models.Model):
                 ("last_payment", "<=", end_date),
                 ("state", "=", "paid"),
                 ("product_id.requires_thankyou", "=", True),
+                # invoice from either the partner, the company or the employee
+                # to obtain the same results when tax receipt is computed from companies or employees
                 "|",
+                # invoice from the partner (when self is either an company or an employee)
                 ("partner_id", "=", self.id),
+                "|",
+                # invoice from the company (when self is an employee)
                 ("partner_id.parent_id", "=", self.id),
+                # invoice from the employees (when self is a company)
+                ("partner_id.child_ids", "=", self.id),
             ]
         )
         return sum(invoice_lines.mapped("price_subtotal"))
