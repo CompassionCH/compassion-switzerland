@@ -219,6 +219,7 @@ ${object.user_id.signature | safe}
             <field name="print_if_not_email">True</field>
             <field name="model_id" ref="model_recurring_contract"/>
             <field name="user_id" search="[('name', 'like', 'Rochat Carole')]"/>
+            <field name="attachments_function">final_letter_attachment</field>
         </record>
         <record id="lifecycle_child_unplanned_exit" model="partner.communication.config">
             <field name="name">Beneficiary Unplanned Exit</field>

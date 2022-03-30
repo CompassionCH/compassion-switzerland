@@ -129,7 +129,7 @@ class PartnerCommunication(models.Model):
                 not_read += communication
         return not_read
 
-    def get_correspondence_attachments(self):
+    def get_correspondence_attachments(self, letters=None):
         """
         Include PDF of letters if the send_mode is to print the letters.
         :return: dict {attachment_name: [report_name, pdf_data]}
@@ -138,16 +138,17 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         # Report is used for print configuration
         report = "partner_communication.a4_no_margin"
-        letters = self.get_objects()
+        if letters is None:
+            letters = self.get_objects()
         if self.send_mode == "physical":
-            for letter in self.get_objects():
+            for letter in letters:
                 try:
                     attachments[letter.file_name] = [
                         report,
                         self._convert_pdf(letter.letter_image),
                     ]
                 except MissingError:
-                    _logger.warn("Missing letter image", exc_info=True)
+                    _logger.warning("Missing letter image", exc_info=True)
                     self.send_mode = False
                     self.auto_send = False
                     self.message_post(
@@ -158,6 +159,25 @@ class PartnerCommunication(models.Model):
         else:
             # Attach directly a zip in the letters
             letters.attach_zip()
+        return attachments
+
+    def final_letter_attachment(self):
+        """ Include PDF of final letter if any exists. Remove any other correspondence
+        that would send it and link the letter to the current communication. """
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        attachments = dict()
+        final_type = self.env.ref("sbc_compassion.correspondence_type_final")
+        final_letters = self.env["correspondence"].search([
+            ("sponsorship_id", "in", sponsorships.ids),
+            ("communication_type_ids", "=", final_type.id),
+            ("sent_date", "=", False),
+            ("email_read", "=", False)
+        ])
+        if final_letters:
+            final_letters.mapped("communication_id").cancel()
+            final_letters.write({"communication_id": self.id})
+            attachments = self.get_correspondence_attachments(final_letters)
         return attachments
 
     def get_birthday_bvr(self):
@@ -504,7 +524,7 @@ class PartnerCommunication(models.Model):
         - Sends SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
         - Set onboarding_start_date when first communication is sent
-        - Star onboarding new donor after first thank you letter is sent
+        - Start onboarding new donor after first thank you letter is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
