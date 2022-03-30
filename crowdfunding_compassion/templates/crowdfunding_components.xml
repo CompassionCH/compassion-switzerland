@@ -136,7 +136,7 @@
                         <t t-call="crowdfunding_compassion.goal_progress" t-if="goal_objective"/>
                     </div>
                 </div>
-                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }" class="btn btn-primary btn-block mb-3">Support</a>
+                <a t-attf-href="/project/#{ project.id }/donation/?participant=#{ participant.id }&amp;page=2" class="btn btn-primary btn-block mb-3">Support</a>
             </div>
         </template>
 
