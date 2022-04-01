@@ -28,7 +28,7 @@
                                     </td>
                                     <td>
                                         <t t-esc="report.amount"/>
-                                        <t t-esc="report.currency_id.symbol" />
+                                        <t t-esc="report.sudo().contract_id.company_id.currency_id.symbol" />
                                     </td>
                                 </tr>
                             </t>
