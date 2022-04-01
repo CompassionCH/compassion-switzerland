@@ -8,6 +8,8 @@
 #
 ##############################################################################
 import logging
+from datetime import timedelta
+
 from odoo import api, models, fields
 from werkzeug.utils import escape
 
@@ -165,9 +167,8 @@ class AccountInvoice(models.Model):
                 "payment_mode_id": payment_mode.id,
                 "origin": origin,
                 "reference": str(pf_payid),
-                "transaction_id": str(pf_payid),
                 "date_invoice": fields.Date.from_string(time),
-                "auto_cancel_no_transaction": True,
+                "auto_cancel_date": time + timedelta(minutes=30),
                 "currency_id": 6,  # Always in CHF
                 "account_id": account.id,
                 "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,

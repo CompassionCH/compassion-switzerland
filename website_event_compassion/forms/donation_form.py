@@ -150,7 +150,6 @@ class EventDonationForm(models.AbstractModel):
                     )
                 ],
                 "type": "out_invoice",
-                "auto_cancel_no_transaction": True,
                 "auto_cancel_date": auto_cancel_date,
                 "date_invoice": fields.Date.today(),
                 "payment_term_id": self.env.ref(
