@@ -5,7 +5,10 @@ import urllib.parse
 import urllib.error
 import logging
 
-from odoo import api, models
+from bs4 import BeautifulSoup
+
+from odoo import api, models, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,14 +36,13 @@ class SmsApi(models.AbstractModel):
             }
             for mobile in numbers:
                 request = [
-                    ("receiver", mobile),
+                    ("receiver", mobile.replace(" ", "")),
                     ("service", "compassion"),
-                    ("maximumSMSAmount", 3),
+                    ("maximumSMSAmount", 4),
                     ("cost", 0),
                     ("text", message),
                 ]
-                self._smsbox_send(request, headers, server_config)
-                return True
+                return self._smsbox_send(request, headers, server_config)
         else:
             return super()._send_sms(numbers, message)
 
@@ -53,5 +55,11 @@ class SmsApi(models.AbstractModel):
         _logger.debug(f"Sending SMS message: {url}")
         request_server.request("GET", url, headers=headers)
         response = request_server.getresponse()
+        result = response.read()
         _logger.debug(f"SMS response status: {response.status}")
-        _logger.debug(response.read())
+        _logger.debug(result)
+        if response.code != 200 or "error" in str(result):
+            soup = BeautifulSoup(result, "html")
+            raise UserError(_("SMS was not delivered: \n %s")
+                            % soup.smsboxxmlreply.prettify())
+        return True

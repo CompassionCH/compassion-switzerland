@@ -638,6 +638,8 @@ class PartnerCommunication(models.Model):
             lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding) and
             j.get_objects().filtered("is_first_sponsorship"))
         if welcome_comms:
+            # Prepare MyCompassion Account
+            welcome_comms.mapped("partner_id").action_signup_prepare()
             welcome_comms.get_objects().write({
                 "onboarding_start_date": datetime.today()
             })
@@ -670,6 +672,7 @@ class PartnerCommunication(models.Model):
                     "sms_cost": ceil(float(len(sms_text)) // SMS_CHAR_LIMIT) * SMS_COST,
                 }
             )
+            _logger.debug("SMS length: %s", len(sms_text))
         return sms_texts
 
     def convert_html_for_sms(self, link_pattern, sms_medium_id):
@@ -707,7 +710,7 @@ class PartnerCommunication(models.Model):
             return short_link.short_url
 
         links_converted_text = link_pattern.sub(_replace_link, self.body_html)
-        soup = BeautifulSoup(links_converted_text)
+        soup = BeautifulSoup(links_converted_text, "lxml")
         return soup.get_text().strip()
 
     @api.multi

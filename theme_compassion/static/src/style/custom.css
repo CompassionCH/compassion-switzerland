@@ -326,3 +326,7 @@ header .navbar-brand img {
       display: inline;
       margin-left: 1rem;
     }
+
+.o_livechat_button {
+    z-index: 30 !important;
+}

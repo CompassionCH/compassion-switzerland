@@ -154,7 +154,7 @@
         <!-- Template that displays the single group for partners that have only one -->
         <template id="my_donations_payment_options">
             <div class="mt-4" t-if="groups and sum(groups.mapped('contract_ids.total_amount')) &gt; 0">
-                <t t-set="group" t-value="groups[0]"/>
+                <t t-set="group" t-value="groups[:1]"/>
                 <!-- Payments option -->
                 <h3>My payment options</h3>
                 <!-- Payment mode -->
@@ -166,7 +166,7 @@
                 <t t-call="website_compassion.fill_key_value" t-if="group.bvr_reference">ESR Reference</t>
 
                  <!-- Number of fully paid children -->
-                <t t-set="value" t-value="paid_sponsor_count_by_group[0]"/>
+                <t t-set="value" t-value="paid_sponsor_count_by_group[:1]"/>
                 <t t-call="website_compassion.fill_key_value">Number of fully paid sponsorships</t>
 
                 <!-- Payment frequency -->
@@ -174,7 +174,7 @@
                 <t t-call="website_compassion.fill_key_value">Payment frequency</t>
 
                 <!-- Number of Write and Pray children -->
-                <t t-set="value" t-value="wp_sponsor_count_by_group[0]"/>
+                <t t-set="value" t-value="wp_sponsor_count_by_group[:1]"/>
                 <t t-call="website_compassion.fill_key_value">Number of Write and Pray children</t>
 
                 <!-- Button to open the payment options form -->
@@ -215,7 +215,7 @@
                         <div class="col-2">
                             <label>
                                 <t t-raw="sponsorship.total_amount"/>
-                                <t t-esc="sponsorship.invoice_line_ids[0].currency_id.name"/>
+                                <t t-esc="sponsorship.invoice_line_ids[:1].currency_id.name"/>
                             </label>
                         </div>
                         <div t-if="sponsorship.type in ['SWP'] and not partner.can_manage_paid_sponsorships" class="col-6">We ask the consent of your parents before you can increase your contribution amount.</div>

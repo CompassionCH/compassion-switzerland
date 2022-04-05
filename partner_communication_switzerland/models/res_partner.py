@@ -393,3 +393,12 @@ class ResPartner(models.Model):
 
             partner.onboarding_new_donor_start_date = fields.Date.today()
             partner.onboarding_new_donor_hash = uuid.uuid4()
+
+    @api.multi
+    def get_base_url(self):
+        """Get the base URL for the current partner."""
+        self.ensure_one()
+        if not self.user_ids or any(self.mapped("user_ids.share")):
+            return self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        else:
+            return super().get_base_url()
