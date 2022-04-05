@@ -773,8 +773,9 @@ class PartnerCommunication(models.Model):
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
             if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
                 # One single slip is enough for permanent order.
-                report_name = "report_compassion.bvr_sponsorship"
-                report_ref = self.env.ref("report_compassion.report_bvr_sponsorship")
+                report_name = "report_compassion.single_bvr_sponsorship"
+                report_ref = self.env.ref(
+                    "report_compassion.report_single_bvr_sponsorship")
             data = {
                 "doc_ids": bv_sponsorships.ids,
                 "background": self.send_mode != "physical",
