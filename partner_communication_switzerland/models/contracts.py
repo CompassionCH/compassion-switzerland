@@ -623,7 +623,7 @@ class RecurringContract(models.Model):
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent. Adds new sponsors to next zoom conference.
+        correspondent.
         """
         for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
@@ -650,11 +650,10 @@ class RecurringContract(models.Model):
         print_wrpr = self.env.ref(module + "sponsorship_dossier_wrpr")
         transfer = self.env.ref(module + "new_dossier_transfer")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
+        sub_accept = self.env.ref(module + "sponsorship_sub_accept")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
-            # No automated communication in this case. The staff can manually send
-            # the SUB Accept communication when appropriate
-            return True
+            configs = sub_accept + child_picture
         elif self.origin_id.type == "transfer":
             configs = transfer
         elif not partner.email or \

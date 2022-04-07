@@ -25,7 +25,7 @@ class AccountInvoiceLine(models.Model):
         override thankyou_letters.get_donations()
         """
         res_name = False
-        total = sum(self.mapped("price_subtotal"))
+        total = sum(self.mapped("price_subtotal_signed"))
         total_string = f"{int(total):,}".replace(",", "'")
 
         event_names = self.mapped("event_id.name")

@@ -233,9 +233,13 @@ class ContractGroup(models.Model):
         mandate = self.env["account.banking.mandate"].search(
             [("partner_id", "=", self.partner_id.id), ("state", "=", "valid")], limit=1
         )
-        inv_data.update(
-            {"reference": ref, "mandate_id": mandate.id, "partner_bank_id": bank.id, }
-        )
+        inv_data.update({
+            "reference": ref,
+            "mandate_id": mandate.id,
+            "partner_bank_id": bank.id,
+            'payment_term_id': self.env.ref(
+                "account.account_payment_term_immediate").id,
+        })
 
         return inv_data
 

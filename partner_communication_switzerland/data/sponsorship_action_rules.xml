@@ -47,7 +47,6 @@
         <field name="state">code</field>
         <field name="code">
 records.send_communication(env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True)
-records.send_communication(env.ref('partner_communication_switzerland.config_onboarding_photo_by_post'), both=True)
         </field>
     </record>
 

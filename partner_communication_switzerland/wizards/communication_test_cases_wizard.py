@@ -32,6 +32,8 @@ class GenerateCommunicationWizard(models.TransientModel):
          ("physical", _("Print report"))],
         default="digital"
     )
+    child_ids = fields.Many2many(
+        "compassion.child", string="Selected children")
     single_1_child_subject = fields.Char(readonly=True)
     single_3_child_subject = fields.Char(readonly=True)
     single_4_child_subject = fields.Char(readonly=True)
@@ -56,6 +58,11 @@ class GenerateCommunicationWizard(models.TransientModel):
     def _get_lang(self):
         langs = self.env["res.lang"].search([])
         return [(l.code, l.name) for l in langs]
+
+    @api.onchange("partner")
+    def onchange_partner(self):
+        if self.partner:
+            self.child_ids = self.partner.mapped("sponsored_child_ids")
 
     @api.depends("partner")
     @api.multi
@@ -89,7 +96,7 @@ class GenerateCommunicationWizard(models.TransientModel):
             raise exceptions.UserError("No partner selected")
             return False
         case = self.config_id.generate_test_case_by_partner(
-            self.partner, self.send_mode)
+            self.partner, self.child_ids, self.send_mode)
         self._apply_cases([case])
         return True
 
