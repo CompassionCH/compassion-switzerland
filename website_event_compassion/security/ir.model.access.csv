@@ -1,6 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_crm_event_website,Public events for website,model_crm_event_compassion,,1,0,0,0
-access_crm_event_stage,Read access registration stages,model_event_registration_stage,event.group_event_user,1,0,0,0
+access_crm_event_stage,Read access registration stages,model_event_registration_stage,base.group_portal,1,0,0,0
 access_admin_crm_event_stage,Full access registration stages,model_event_registration_stage,event.group_event_manager,1,1,1,1
 access_crm_event_task,Public read access to registration tasks,model_event_registration_task,,1,0,0,0
 access_admin_crm_event_task,Full access registration tasks,model_event_registration_task,event.group_event_manager,1,1,1,1
