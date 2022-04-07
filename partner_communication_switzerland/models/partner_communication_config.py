@@ -56,22 +56,17 @@ class PartnerCommunication(models.Model):
         return res
 
     @api.multi
-    def generate_test_case_by_partner(self, partner=None, send_mode="digital"):
+    def generate_test_case_by_partner(self, partner, children, send_mode):
         """
         Generates example communications for our multiple cases in CH
         depending on partner
         Outputs the texts in a file
-        :param partner:
-        :return: True
         """
         self.ensure_one()
 
         comm_obj = self.env["partner.communication.job"].with_context(
             must_skip_send_to_printer=True)
-
-        res = []
-
-        object_ids = self._get_test_objects(partner)
+        object_ids = self._get_test_objects(partner, children)
         object_ids = ",".join([str(id) for id in object_ids])
         temp_comm = comm_obj.create({
             "partner_id": partner.id,
@@ -100,15 +95,22 @@ class PartnerCommunication(models.Model):
             'target': 'current',
         }
 
-    def _get_test_objects(self, partner):
+    def _get_test_objects(self, partner, children=None):
         if self.model == "res.partner":
             object_ids = partner.ids
         elif self.model == "recurring.contract":
-            object_ids = partner.sponsorship_ids.ids
+            sponsorships = partner.sponsorship_ids
+            if children:
+                sponsorships = sponsorships.filtered(lambda s: s.child_id in children)
+            object_ids = sponsorships.ids
         elif self.model == "correspondence":
-            object_ids = partner.mapped("sponsorship_ids.child_letter_ids").ids
+            letters = partner.mapped("sponsorship_ids.child_letter_ids")
+            if children:
+                letters = letters.filtered(lambda l: l.child_id in children)
+            object_ids = letters.ids
         elif self.model == "compassion.child":
-            object_ids = partner.sponsored_child_ids.ids
+            selected_children = children or partner.sponsored_child_ids
+            object_ids = selected_children.ids
         elif self.model == "account.invoice.line":
             object_ids = self.env["account.invoice.line"].search([
                 ("partner_id", "=", partner.id),
