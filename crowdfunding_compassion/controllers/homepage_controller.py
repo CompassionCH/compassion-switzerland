@@ -49,16 +49,24 @@ class HomepageController(Controller):
         year = datetime.now().year
         project_obj = request.env["crowdfunding.project"].sudo()
         current_year_projects = project_obj.get_active_projects(year=year)
-        active_funds = current_year_projects.mapped("product_id")
+        funds_used = current_year_projects.mapped("product_id")
+        active_funds = funds_used.search([("activate_for_crowdfunding", "=", True)])
+        active_funds_data = []
         impact = {
             "sponsorship": sponsorship_card_content()
         }
-        for fund in active_funds:
+        for fund in funds_used:
             impact[fund.name] = {
                 "type": "fund",
                 "value": 0,
-                "name": fund.crowdfunding_impact_text_active,
+                # "name": fund.crowdfunding_impact_text_active,
                 "text": fund.crowdfunding_impact_text_passive_singular,
+                "description": fund.crowdfunding_description,
+                "icon_image": fund.image_medium or SPONSOR_ICON,
+            }
+        for fund in active_funds:
+            active_funds_data.append({
+                "name": fund.crowdfunding_impact_text_active,
                 "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or SPONSOR_ICON,
                 # the header is a small image so we can compress it to save space
@@ -67,8 +75,7 @@ class HomepageController(Controller):
                         fund.image_large,
                         max_width=400
                     ) if fund.image_large else SPONSOR_HEADER,
-
-            }
+            })
 
         for project in current_year_projects:
             impact["sponsorship"]["value"] += project.number_sponsorships_reached
@@ -76,8 +83,13 @@ class HomepageController(Controller):
             if project_fund in impact:
                 impact[project_fund]["value"] += project.product_number_reached
 
-        for fund in active_funds:
-            if impact[fund.name]["value"] > 1:
+        for fund in funds_used:
+            impact_val = impact[fund.name]["value"]
+            large_impact = fund.impact_type == "large"
+            if large_impact and impact_val > 100:
+                impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
+                impact[fund.name]["value"] = int(impact_val / 100)
+            elif not large_impact and impact_val > 1:
                 impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
 
         if impact["sponsorship"]["value"] > 1:
@@ -88,6 +100,7 @@ class HomepageController(Controller):
         return {
             "projects": current_year_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
+            "active_funds": active_funds_data,
             "base_url": request.website.domain,
             "subheading": subheading,
         }

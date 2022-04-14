@@ -11,6 +11,7 @@
                         <field name="activate_for_crowdfunding"/>
                     </group>
                     <group attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
+                        <field name="impact_type"/>
                         <field name="crowdfunding_description"/>
                         <field name="crowdfunding_quantity_singular"/>
                         <field name="crowdfunding_quantity_plural"/>
