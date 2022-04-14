@@ -146,9 +146,10 @@
                             <t t-call="website_compassion.fill_key_value">Hobbies</t>
 
                             <!-- Education level -->
-                            <t t-set="value" t-value="child_id.translate('education_level')"/>
-                            <t t-call="website_compassion.fill_key_value">Education level</t>
-
+                            <t t-if="child_id.education_level and child_id.education_level != 'Not Enrolled'">
+                                <t t-set="value" t-value="child_id.translate('education_level')"/>
+                                <t t-call="website_compassion.fill_key_value">Education level</t>
+                            </t>
                             <br/>
                         </t>
                     </div>
