@@ -8,6 +8,14 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     activate_for_crowdfunding = fields.Boolean()
+    impact_type = fields.Selection([
+        ("standard", "Standard"),
+        ("large", "Large impact project")
+    ],
+        help="Use large impact if the project goals should be displayed in terms "
+             "of percentage.",
+        default="standard"
+    )
     crowdfunding_description = fields.Text(translate=True)
     crowdfunding_quantity_singular = fields.Char(translate=True, help="Ex: toilet")
     crowdfunding_quantity_plural = fields.Char(translate=True, help="Ex: toilets")
