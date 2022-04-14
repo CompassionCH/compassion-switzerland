@@ -436,4 +436,4 @@ class RecurringContracts(models.Model):
             invoices = invoices[:number]
             delay = datetime.datetime.now() + relativedelta(seconds=15)
             if invoices:
-                invoices.with_delay(eta=delay).group_or_split_reconcile()
+                invoices.with_delay(eta=delay)._group_or_split_reconcile()

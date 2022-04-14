@@ -14,7 +14,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.addons.queue_job.job import job, related_action
 
 logger = logging.getLogger(__name__)
 
@@ -133,12 +132,10 @@ class AccountInvoice(models.Model):
             )
         )
 
-    @job(default_channel="root.group_reconcile")
-    @related_action(action="related_action_invoices")
-    def group_or_split_reconcile(self):
+    def _group_or_split_reconcile(self):
         """Reconcile given invoices with partner open payments.
         """
-        super().group_or_split_reconcile()
+        super()._group_or_split_reconcile()
         # Find if a communication with payment slips is pending and
         # regenerate it.
         jobs = self.env["partner.communication.job"].search(

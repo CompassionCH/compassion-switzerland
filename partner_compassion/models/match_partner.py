@@ -9,7 +9,7 @@
 ##############################################################################
 
 from odoo import api, models
-from odoo.addons.queue_job.job import job
+
 
 class MatchPartner(models.AbstractModel):
     """
@@ -38,7 +38,6 @@ class MatchPartner(models.AbstractModel):
                 partner.write({"active": True, "contact_id": False})
         return super().match_after_match(partner, new_partner, infos, opt)
 
-    @job
     @api.model
     def match_update(self, partner, infos, options=None):
         """

@@ -13,7 +13,6 @@ from math import ceil
 
 from odoo import models, api, fields
 from odoo.tools.safe_eval import safe_eval
-from odoo.addons.queue_job.job import job
 
 SMS_CHAR_LIMIT = 160
 SMS_COST = 0.08
@@ -157,7 +156,6 @@ class GenerateCommunicationWizard(models.TransientModel):
             GenerateCommunicationWizard, self.with_context(object_ids=object_ids)
         ).get_preview()
 
-    @job
     def generate_communications(self, async_mode=True):
         """ Create the communication records """
         wizard = self.with_context(

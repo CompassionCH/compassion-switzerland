@@ -47,6 +47,7 @@
     ]},
     "data": [
         "data/statement_operation.xml",
+        "data/queue_job.xml",
         "views/account_reconcile_compassion.xml",
         "views/reconcile_fund_wizard_view.xml",
         "views/reconcile_split_payment_wizard_view.xml",

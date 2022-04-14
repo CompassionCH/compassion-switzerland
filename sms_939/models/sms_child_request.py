@@ -13,7 +13,6 @@ from dateutil.relativedelta import relativedelta
 
 from random import randint
 from odoo import api, models, fields, _
-from odoo.addons.queue_job.job import job, related_action
 
 
 class SmsRequest(models.Model):
@@ -44,8 +43,6 @@ class SmsRequest(models.Model):
             )
         super().send_step1_reminder()
 
-    @job(default_channel="root.sms_request")
-    @related_action(action="related_action_sms_request")
     def reserve_child(self):
         self.ensure_one()
         if not self.event_id:
@@ -89,8 +86,6 @@ class SmsRequest(models.Model):
             })
         return super().cancel_request()
 
-    @job(default_channel="root.sms_request")
-    @related_action(action="related_action_sms_request")
     def get_children_from_global_pool_for_website(self, take=1):
         company_id = self.env.user.company_id.id
         child_env = self.env["compassion.child"]

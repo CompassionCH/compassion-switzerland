@@ -517,7 +517,6 @@ class PartnerCommunication(models.Model):
     @api.multi
     def send(self):
         """
-        - Prevent sending communication when invoices are being reconciled
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
         - Update donor tag
@@ -530,13 +529,14 @@ class PartnerCommunication(models.Model):
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
         sms_jobs.send_by_sms()
         other_jobs = self - sms_jobs
+        contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
         for job in other_jobs.filtered(
                 lambda j: j.model in ("recurring.contract", "account.invoice")
         ):
-            queue_job = self.env["queue.job"].search(
-                [("channel", "=", "root.group_reconcile"), ("state", "!=", "done"), ],
-                limit=1,
-            )
+            queue_job = self.env["queue.job"].search([
+                ("job_function_id.channel_id", "=", contract_channel.id),
+                ("state", "!=", "done")
+            ], limit=1)
             if queue_job:
                 invoices = self.env["account.invoice"].browse(queue_job.record_ids)
                 if job.partner_id in invoices.mapped("partner_id"):
