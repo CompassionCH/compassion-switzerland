@@ -16,7 +16,7 @@ class PartnerCommunication(models.Model):
     _inherit = "partner.communication.config"
 
     product_id = fields.Many2one(
-        "product.template", "Fund Bill attachment",
+        "product.product", "Fund Bill attachment",
         domain=[("categ_id.name", "=", "Fund")])
 
     @api.onchange("product_id")
