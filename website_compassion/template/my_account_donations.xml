@@ -63,10 +63,9 @@
                             Your last submission was refused by our team.
                         </span>
                     </p>
-                    <!-- TODO use the right pdf file when available -->
                     <p>
                         You can download the consent document and make your parents sign it
-                        <a href="/partner_compassion/static/src/img/parental_consent_de_DE.pdf" target="_blank">[PDF]</a>.
+                        <a t-attf-href="/partner_compassion/static/src/img/parental_consent_#{request.env.lang}.pdf" target="_blank">[PDF]</a>.
                     </p>
                     <p>
                         You can then either take a picture of it (or scan it) and submit it below or send it by post (address in the document).
@@ -235,9 +234,10 @@
                             </div>
                             <div class="col-3" style="text-align:right;">
                                 <a t-attf-id="donation_button_#{sponsorship.id}"
-                                    class="donation_button btn btn-primary w-100"
+                                    class="donation_button btn btn-primary"
+                                   style="white-space: normal;"
                                     t-attf-href="/my/donations/upgrade?recurring_contract=#{sponsorship.id}">
-                                    <t t-esc="upgrade_button_format.replace('%', '{:.2f}'.format(upgrade_max_amount[sponsorship.id]))"/>
+                                    <t t-esc="'{:.2f}'.format(upgrade_max_amount[sponsorship.id])"/>
                                 </a>
                             </div>
                         </t>

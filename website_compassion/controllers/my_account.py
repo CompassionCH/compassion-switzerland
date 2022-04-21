@@ -624,7 +624,7 @@ class MyAccountController(PaymentFormController):
         first_year = create_date.year if create_date else current_year
 
         currency = (paid_sponsorships.mapped("invoice_line_ids.currency_id.name") or [False])[0] or "CHF"
-        upgrade_button_format = f"{_('Upgrade to %')} {currency}"
+        upgrade_button_format = f"% {currency}"
 
         upgrade_default_new_amount = {}
         upgrade_max_amount = {}

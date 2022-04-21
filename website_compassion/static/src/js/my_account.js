@@ -39,4 +39,7 @@ $(document).ready(function() {
         }
     });
     $("#my_account_invoicing #year").val($("#last_complete_year").val());
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
 });
