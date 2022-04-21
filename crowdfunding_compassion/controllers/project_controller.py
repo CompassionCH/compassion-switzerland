@@ -114,25 +114,27 @@ class ProjectController(Controller):
             for sponsorship in sponsorship_ids
         ]
 
-        donations = [
-            {
+        donations = []
+        for donation in invoice_line_ids.filtered(lambda l: l.state == "paid"):
+            product = donation.product_id
+            quantity = donation.quantity
+            impact_text = product.crowdfunding_impact_text_passive_singular
+            if product.impact_type == "standard" and int(quantity) > 1:
+                impact_text = product.crowdfunding_impact_text_passive_plural
+            elif product.impact_type == "large" and quantity >= 100:
+                impact_text = product.crowdfunding_impact_text_passive_plural
+                quantity = int(quantity / 100)
+            donations.append({
                 "type": "donation",
                 "color": "grey",
-                "text": f"{int(donation.quantity)} "
-                f"{donation.product_id.crowdfunding_impact_text_passive_plural}"
-                if int(donation.quantity) > 1 else
-                f"{int(donation.quantity)} "
-                f"{donation.product_id.crowdfunding_impact_text_passive_singular}",
-                "image": donation.product_id.image_medium,
+                "text": f"{int(quantity)} {impact_text}",
+                "image": donation.product_id.image_small,
                 "benefactor": donation.invoice_id.partner_id.firstname,
                 "date": donation.invoice_id.create_date,
                 "time_ago": self.get_time_ago(donation.invoice_id.create_date),
                 "anonymous": donation.is_anonymous,
-                "quantity": int(donation.quantity)
-            }
-            for donation in invoice_line_ids.filtered(
-                lambda l: l.state == "paid")
-        ]
+                "quantity": int(quantity)
+            })
         return sponsorships, donations
 
     def get_impact(self, sponsorships, donations):

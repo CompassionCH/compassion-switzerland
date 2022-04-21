@@ -16,7 +16,6 @@ from odoo import api, models, fields, _, SUPERUSER_ID
 from odoo.addons.website.models.website import slugify as slug
 from odoo.tools import file_open
 
-from odoo.addons.queue_job.job import job
 from odoo.addons.partner_compassion.models.partner_compassion import get_file_type
 
 _logger = logging.getLogger(__name__)
@@ -548,11 +547,6 @@ class Event(models.Model):
             }
         )
 
-    @job
-    def cancel_registration(self):
-        """Cancel registration"""
-        return self.button_reg_cancel()
-
     @api.multi
     def get_event_registration_survey(self):
         event = self.event_id
@@ -613,7 +607,7 @@ class Event(models.Model):
             ):
                 registration.prepare_medical_survey()
         # Send potential communications after stage transition
-        self.env["event.mail"].with_delay().run_job()
+        self.env["event.mail"].with_delay().run()
         return True
 
     def prepare_down_payment(self):

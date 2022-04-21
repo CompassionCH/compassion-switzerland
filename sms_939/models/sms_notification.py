@@ -13,7 +13,6 @@ import traceback
 
 
 from odoo import models, api, fields, tools, _
-from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 testing = tools.config.get("test_enable")
@@ -163,7 +162,6 @@ class SmsNotification(models.Model):
     def test_service_error(self):
         raise Exception
 
-    @job(default_channel="root")
     def send_sms_answer(self, parameters):
         """Job for sending the SMS reply to a SMS child request.
         :param parameters: SMS parameters received from 939 API.

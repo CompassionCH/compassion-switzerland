@@ -8,16 +8,26 @@
 #
 ##############################################################################
 import random
-import itertools
 
-from odoo import api, models
+from odoo import api, models, fields
 
 
 class PartnerCommunication(models.Model):
     _inherit = "partner.communication.config"
 
+    product_id = fields.Many2one(
+        "product.template", "Fund Bill attachment",
+        domain=[("categ_id.name", "=", "Fund")])
+
+    @api.onchange("product_id")
+    def onchange_product(self):
+        if self.product_id:
+            self.attachments_function = "get_fund_bvr"
+
     @api.multi
-    def generate_test_cases_by_language_family_case(self, lang="de_DE", family_case="single", send_mode="digital"):
+    def generate_test_cases_by_language_family_case(self, lang="de_DE",
+                                                    family_case="single",
+                                                    send_mode="digital"):
         """
         Generates example communications for our multiple cases in CH
         depending on the language and the family case

@@ -10,8 +10,6 @@
 import logging
 import re
 
-from odoo.addons.queue_job.job import job, related_action
-
 from odoo import api, models, fields, _
 from odoo.tools import config
 from werkzeug.utils import escape
@@ -244,8 +242,6 @@ class Contracts(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     @api.model
-    @job(default_channel="root.child_sync_wp")
-    @related_action(action="related_action_contract")
     def create_sponsorship_job(self, values, form_data):
         """
         Creates the wordpress sponsorship.

@@ -41,8 +41,6 @@ class StaffNotificationSettings(models.TransientModel):
         domain=[("user_ids", "!=", False), ("user_ids.share", "=", False), ],
         readonly=False,
     )
-    share_on_nas = fields.Text()
-    store_path = fields.Text()
     potential_advocate_fr = fields.Many2one(
         "res.users", "Potential advocate FR", domain=[("share", "=", False)]
     )
@@ -88,12 +86,6 @@ class StaffNotificationSettings(models.TransientModel):
                 else 1
             ),
         )
-        self.env["ir.config_parameter"].sudo().set_param(
-            "partner_compassion.share_on_nas", self.share_on_nas
-        )
-        self.env["ir.config_parameter"].sudo().set_param(
-            "partner_compassion.store_path", self.store_path
-        )
         self.env["ir.config_parameter"].set_param(
             "partner_communication_switzerland.potential_advocate_fr",
             str(self.potential_advocate_fr.id or 0))
@@ -138,12 +130,6 @@ class StaffNotificationSettings(models.TransientModel):
                     or 0
                 )
                 or False,
-                "share_on_nas": str(
-                    param_obj.get_param("partner_compassion.share_on_nas", "")
-                ),
-                "store_path": str(
-                    param_obj.get_param("partner_compassion.store_path", "")
-                ),
             }
         )
         user_fr = self.env["ir.config_parameter"].get_param(

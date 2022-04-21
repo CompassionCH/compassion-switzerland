@@ -21,7 +21,6 @@ from paramiko.ssh_exception import SSHException
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 from odoo.tools.config import config
-from odoo.addons.queue_job.job import job, related_action
 
 logger = logging.getLogger(__name__)
 
@@ -162,8 +161,6 @@ class ImportLettersHistory(models.Model):
             logger.error("Could not establish connection with sftp server")
             return
 
-    @job(default_channel="root.sbc_compassion")
-    @related_action(action="related_action_s2b_imports")
     def run_analyze(self):
         """
         Redefine the run_analyze function to handle both the manual import case and the sftp import case

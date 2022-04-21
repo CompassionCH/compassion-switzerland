@@ -69,6 +69,7 @@
         "data/depart_communications.xml",
         "data/ir.advanced.translation.csv",
         "data/label_print.xml",
+        "data/queue_job.xml",
         "data/sponsorship_action_rules.xml",
         "data/utm_data.xml",
         "report/onboarding_photo_by_post.xml",

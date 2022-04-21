@@ -40,7 +40,7 @@
             name="report_compassion.bvr_due"
     />
     <record id="report_bvr_due" model="ir.actions.report">
-        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+        <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship"/>
     </record>
 
     <template id="bvr_sponsorship">

@@ -1,0 +1,18 @@
+<odoo>
+    <!-- Job functions -->
+    <record id="update_hold_expiration_job" model="queue.job.function">
+        <field name="model_id" ref="model_compassion_hold"/>
+        <field name="method">update_expiration_date</field>
+        <field name="channel_id" ref="child_compassion.channel_global_pool"/>
+    </record>
+    <record id="reserve_children_from_childpool_job" model="queue.job.function">
+        <field name="model_id" ref="model_sms_child_request"/>
+        <field name="method">get_children_from_global_pool_for_website</field>
+        <field name="channel_id" ref="child_compassion.channel_global_pool"/>
+    </record>
+    <record id="sms_notification_job" model="queue.job.function">
+        <field name="model_id" ref="model_sms_notification"/>
+        <field name="method">send_sms_answer</field>
+        <field name="channel_id" ref="sms_sponsorship.channel_sms_sponsorship"/>
+    </record>
+</odoo>

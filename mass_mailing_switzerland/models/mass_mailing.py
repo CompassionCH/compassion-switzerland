@@ -59,8 +59,9 @@ class MassMailing(models.Model):
         self.mailing_domain = mailing_domain
 
     def send_now_mailchimp(self, account=False):
+        mailchimp_channel = self.env.ref("mass_mailing_switzerland.channel_mailchimp")
         queue_job = self.env["queue.job"].search([
-            ("channel", "=", "root.mass_mailing_switzerland.update_mailchimp"),
+            ("job_function_id.channel_id", "=", mailchimp_channel.id),
             ("state", "!=", "done")
         ], limit=1)
         if queue_job:

@@ -233,7 +233,6 @@ class PartnerCommunication(models.Model):
             attachments = sponsorships.get_bvr_gift_attachment(family, background)
         return attachments
 
-
     def get_all_gift_bvr(self):
         """
         attach all 3 gifts slip with background for sending by e-mail
@@ -250,20 +249,21 @@ class PartnerCommunication(models.Model):
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.filtered(
-                lambda x: x.state not in ("terminated", "cancelled")).get_bvr_gift_attachment(all_gifts, background)
+                lambda x: x.state not in ("terminated", "cancelled")
+            ).get_bvr_gift_attachment(all_gifts, background)
         return attachments
 
-    def get_christmas_fund_bvr(self):
+    def get_fund_bvr(self):
         """
-        attach christmas fund slip with background for sending by e-mail
+        attach any fund slip with background for sending by e-mail
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
         background = self.send_mode and "physical" not in self.send_mode
-        product_id = self.env["product.product"].search([("default_code", "=", "noel")])
+        product = self.config_id.product_id
         data = {
-            "product_id": product_id.id,
-            "product_ids": product_id.ids,
+            "product_id": product.id,
+            "product_ids": product.ids,
             "background": background,
             "doc_ids": self.partner_id.ids
         }
@@ -271,7 +271,7 @@ class PartnerCommunication(models.Model):
         pdf = self._get_pdf_from_data(
             data, self.env.ref("report_compassion.report_bvr_fund")
         )
-        return {_("christmas fund.pdf"): [report_name, pdf]}
+        return {product.name + ".pdf": [report_name, pdf]}
 
     def get_reminder_bvr(self):
         """
@@ -387,7 +387,8 @@ class PartnerCommunication(models.Model):
         else:
             children = self.get_objects().mapped("child_id")
         pdf = self._get_pdf_from_data(
-            {"doc_ids": children.ids}, self.env.ref("partner_communication_switzerland.report_child_picture")
+            {"doc_ids": children.ids}, self.env.ref(
+                "partner_communication_switzerland.report_child_picture")
         )
         name = children.get_list("local_id", 1, _("pictures")) + ".pdf"
         res[name] = ("partner_communication_switzerland.child_picture", pdf)
@@ -517,7 +518,6 @@ class PartnerCommunication(models.Model):
     @api.multi
     def send(self):
         """
-        - Prevent sending communication when invoices are being reconciled
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
         - Update donor tag
@@ -530,13 +530,14 @@ class PartnerCommunication(models.Model):
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
         sms_jobs.send_by_sms()
         other_jobs = self - sms_jobs
+        contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
         for job in other_jobs.filtered(
                 lambda j: j.model in ("recurring.contract", "account.invoice")
         ):
-            queue_job = self.env["queue.job"].search(
-                [("channel", "=", "root.group_reconcile"), ("state", "!=", "done"), ],
-                limit=1,
-            )
+            queue_job = self.env["queue.job"].search([
+                ("job_function_id.channel_id", "=", contract_channel.id),
+                ("state", "!=", "done")
+            ], limit=1)
             if queue_job:
                 invoices = self.env["account.invoice"].browse(queue_job.record_ids)
                 if job.partner_id in invoices.mapped("partner_id"):

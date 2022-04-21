@@ -47,6 +47,7 @@
         "data/event_registration_task.xml",
         "data/mail_template.xml",
         "data/order_material_mail_template.xml",
+        "data/queue_job.xml",
         "reports/muskathlon_view.xml",
         "views/event_compassion_view.xml",
         "views/partner_compassion_view.xml",

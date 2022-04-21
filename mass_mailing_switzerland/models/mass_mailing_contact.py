@@ -268,8 +268,9 @@ class MassMailingContact(models.Model):
         if not self or self.env.context.get("skip_mailchimp"):
             return True
 
+        mailchimp_channel = self.env.ref("mass_mailing_switzerland.channel_mailchimp")
         queue_job = self.env["queue.job"].sudo().search([
-            ("channel", "=", "root.mass_mailing_switzerland.update_partner_mailchimp"),
+            ("job_function_id.channel_id", "=", mailchimp_channel.id),
             ("state", "!=", "done")
         ])
         to_update = self
@@ -284,7 +285,6 @@ class MassMailingContact(models.Model):
         return True
 
     @api.multi
-    @job(default_channel="root.mass_mailing_switzerland.action_export_to_mailchimp")
     def action_export_to_mailchimp(self):
         """
         Filter opt_out partners
@@ -296,7 +296,6 @@ class MassMailingContact(models.Model):
         ).action_export_to_mailchimp()
 
     @api.multi
-    @job(default_channel="root.mass_mailing_switzerland.action_update_to_mailchimp")
     def action_update_to_mailchimp(self):
         out = True
 
@@ -327,7 +326,6 @@ class MassMailingContact(models.Model):
         return out
 
     @api.multi
-    @job(default_channel="root.mass_mailing_switzerland.action_archive_from_mailchimp")
     def action_archive_from_mailchimp(self):
         available_mailchimp_lists = self.env['mailchimp.lists'].search([])
         lists = available_mailchimp_lists.mapped('odoo_list_id').ids
@@ -347,12 +345,6 @@ class MassMailingContact(models.Model):
                                 mailchimp_list_id.list_id, list.md5_email),
                             {}, method='DELETE')
         return True
-
-    @job(default_channel="root.mass_mailing_switzerland.delay_contact_unlink")
-    def delay_contact_unlink(self):
-        """Delay contact unlink to prevent potential issue if we removed it directly
-        on write."""
-        self.unlink()
 
     def _invalid_contact(self, bounced):
         for invalid_contact in self:
@@ -385,4 +377,4 @@ class MassMailingContact(models.Model):
                     subject=ref_partner.invalid_mail
                 )
             if not ref_partner or bounced:
-                invalid_contact.with_delay().delay_contact_unlink()
+                invalid_contact.with_delay().unlink()

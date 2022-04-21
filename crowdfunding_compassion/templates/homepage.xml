@@ -143,11 +143,11 @@
 
                     <div class="container mb-5 pb-5">
                         <div class="row">
-                            <t t-foreach="impact" t-as="fund">
-                                <t t-set="fund_image" t-value="impact[fund]['header_image']"/>
-                                <t t-set="fund_icon" t-value="impact[fund]['icon_image']" />
-                                <t t-set="fund_name" t-value="impact[fund]['name']" />
-                                <t t-set="fund_description" t-value="impact[fund]['description']" />
+                            <t t-foreach="active_funds" t-as="fund">
+                                <t t-set="fund_image" t-value="fund['header_image']"/>
+                                <t t-set="fund_icon" t-value="fund['icon_image']" />
+                                <t t-set="fund_name" t-value="fund['name']" />
+                                <t t-set="fund_description" t-value="fund['description']" />
                                 <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                                     <t t-call="crowdfunding_compassion.fund_card"/>
                                 </div>

@@ -75,7 +75,7 @@ class CrowdfundingProject(models.Model):
     number_sponsorships_reached = fields.Integer(
         "Sponsorships reached", compute="_compute_number_sponsorships_reached")
     product_crowdfunding_impact = fields.Char(
-        related="product_id.crowdfunding_impact_text_passive_plural")
+        compute="_compute_impact_text")
     color_sponsorship = fields.Char(compute="_compute_color_sponsorship")
     color_product = fields.Char(compute="_compute_color_product")
     color = fields.Integer(
@@ -192,6 +192,14 @@ class CrowdfundingProject(models.Model):
     def _compute_number_participants(self):
         for project in self:
             project.number_participants = len(project.participant_ids)
+
+    def _compute_impact_text(self):
+        for project in self:
+            product = project.product_id
+            project.product_crowdfunding_impact = \
+                product.crowdfunding_impact_text_passive_singular \
+                if product.impact_type == "large"\
+                else product.crowdfunding_impact_text_passive_plural
 
     @api.model
     def create(self, vals):
