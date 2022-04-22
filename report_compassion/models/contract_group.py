@@ -150,7 +150,8 @@ class ContractGroup(models.Model):
     def get_amount(self, start, stop, sponsorships):
         self.ensure_one()
         amount = sum(sponsorships.mapped("total_amount"))
-        months = int(stop.split("-")[1]) - int(start.split("-")[1]) + 1
+        months = (int(stop.split("-")[0]) - int(start.split("-")[0]))*12+
+            int(stop.split("-")[1]) - int(start.split("-")[1]) + 1
         payment_mode = self.with_context(lang="en_US").payment_mode_id
         if "Permanent" in payment_mode.name:
             months = self.advance_billing_months
