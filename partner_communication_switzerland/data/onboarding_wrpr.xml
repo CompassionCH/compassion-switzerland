@@ -6,6 +6,41 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+ % set my_url = "https://stage.compassion.ch/im_livechat/support/2"
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p>So schön, ${"ihr gehört" if plural else "du gehörst"} nun zur weltweiten Compassion-Familie! Herzlich wilkommen!
+</p>
+<p>${"Erfahrt" if plural else "Erfahre"} hier mehr dazu: <a href="https://vimeo.com/710323229/b9f3f472c5">https://vimeo.com/710323229/b9f3f472c5</a>
+</p><div>
+% if sum(sponsorships.mapped('total_amount')) and partner in sponsorships.mapped('partner_id'):
+    <p>Damit ${"ihr eure" if plural else "du deine"} Spende für die ${sponsorships.get('Patenschaft')} einrichten ${"könnt, findet ihr" if plural else "kannst, findest du"} hier den Einzahlungsschein: <a href="https://stage.compassion.ch/report/pdf/report_compassion.single_bvr_sponsorship/${str(sponsorships[:1].id)}">Einzahlungsschein</a>
+        % if partner.parent_consent == 'not_submitted':
+<br/>und die Einverständniserklärung, die wir von ${deine}n Eltern unterschrieben benötigen:
+<a href="https://stage.compassion.ch/partner_compassion/static/src/img/parental_consent_de_DE.pdf">https://stage.compassion.ch/partner_compassion/static/src/img/parental_consent_de_DE.pdf</a>
+         % endif
+    </p>
+% endif
+</div><p>In den kommenden Tagen werden wir ${dir} weitere wichtige Informationen zum Start der ${sponsorships.get('Patenschaft')} per SMS zukommen lassen. Heute sind wir bei Schritt 1/8.
+</p>
+<p>Liebe Grüsse
+<br/>Sarah
+<br/>Tel: +41 (0)31 552 21 21
+<br/>Fragen? ${"Meldet ihr" if plural else "Melde dich"} per Chat bei uns: <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_child_info" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Child information</field>
@@ -13,6 +48,42 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+% set my_url = "https://stage.compassion.ch/my/children" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>
+2/8:
+<br/>${partner.salutation}
+</p>
+<p>Heute stellen wir ${dir} ${child.get_child_preposition_country(child_limit=3, country_limit=3, child_substitution=deine_patenkinder, country_substitution=deine_patenkinder)} besser vor.
+</p><p>
+    % if not sponsorships.filtered("is_first_sponsorship") and partner.user_ids:
+Wie bisher ${"werdet ihr" if plural else "wirst du"} alle Informationen zu ${deine}r ${child.get('Patenschaft')} in MyCompassion finden: <a href="${my_url}">${my_url}</a>
+    % else:
+${"Registriert euch" if plural else "Registriere dich"} dazu auf MyCompassion: <a href="${my_url}">${my_url}</a>
+    % endif
+</p>
+<p>${"Stellt euch" if plural else "Stell dir"} einmal ${child.get('seine')} Herausforderungen und Träume vor und wie ${du} ${child.get('ihn')} darin ermutigen und unterstützen ${"könnt" if plural else "kannst"}.
+</p>
+<p>Danke, dass ${du} einen Unterschied im Leben von ${firstname} ${"macht" if plural else "machst"}.</p>
+<p>
+Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_letter_info" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Letter writing information</field>
@@ -20,6 +91,37 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+% set my_url = "https://stage.compassion.ch/my/letter" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>
+3/8:
+<br/>${partner.salutation}
+</p>
+<p>Damit ${firstname} ${dich} besser ${"kennenlernt" if len(child) == 1 else "kennenlernnen"}, ${"könnt ihr euch" if plural else "kannst du dich"} mit einem Foto und einem Brief vorstellen. Schreiben ${"könnt ihr" if plural else "kannst du"} über MyCompassion: <a href="${my_url}">${my_url}</a>
+</p>
+<p>${"Loggt euch" if plural else "Logge dich"} auf MyCompassion ein und ${"erfahrt" if plural else "erfahre"}:</p><p>
+- Wie das Briefeschreiben funktioniert<br/>
+- 5 Tipps zum Briefeschreiben<br/>
+- Wann dein Brief beim Patenkind ankommt
+</p>
+<p>Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_poverty" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Poverty</field>
@@ -27,6 +129,50 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+    % set country = child.mapped('field_office_id')
+    % set alumni_name = country.get_list('alumni_representative')
+    % set alumni_link = country.get_list('alumni_video_link', 1, 'https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion')
+    % set multi_link = alumni_link == 'https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion'
+% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>4/8:
+<br/>${partner.salutation}
+</p>
+<p>Was bedeutet Armut im Leben ${child.get('eures Patenkindes') if plural else child.get('deines Patenkindes')}?
+</p>
+<p>Die Ursachen und Auswirkungen von Armut sind je nach Kontext unterschiedlich.
+</p><p>
+    % if not multi_link:
+Heute möchten wir ${dir} ${alumni_name}, ein ehemaliges Patenkind von Compassion, vorstellen. ${'Sie' if child[0].field_office_id.alumni_gender == 'F' else 'Er'} lebt auf dem gleichen Kontinent wie ${firstname}.
+	% else:
+Heute möchten wir ${dir} ${alumni_name}, ehemalige Patenkinder von Compassion, vorstellen. Sie leben auf den gleichen Kontinenten wie ${firstname}.
+% endif
+</p>
+<p>${'Schaut euch' if plural else 'Schau dir'}
+    % if multi_link:
+ihre Geschichten an: <a href="${alumni_link}">${alumni_link}</a>
+        % else:
+die Geschichte von ${alumni_name} an: <a href="${alumni_link}">${alumni_link}</a>
+    % endif
+</p>
+<p>Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_child_protection" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Child Protection</field>
@@ -34,6 +180,33 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>5/8:
+<br/>${partner.salutation}
+</p>
+<p>Jedes Kind hat das Recht, zur Schule zu gehen, beschützt zu werden und eine gesunde und hoffnungsvolle Kindheit zu erleben. ${"Habt ihr" if plural else "Hast du"} gewusst, dass ${du} durch ${deine} Patenschaft ein Kind schützt?
+</p>
+<p>Beschützt, aber wovor? Hier ${"erfahrt ihr" if plural else "erfährst du"} mehr dazu: <a href="https://compassion.ch/de/5-risiken-fuer-kinder-die-in-extremer-armut-leben/">https://compassion.ch/de/5-risiken-fuer-kinder-die-in-extremer-armut-leben/</a>
+</p>
+<p>Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_segmentation" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Segmentation</field>
@@ -41,6 +214,36 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+    % set survey = object.env.ref("partner_compassion.partner_segmentation_survey").public_url
+% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>6/8:
+<br/>${partner.salutation}
+</p>
+<p>Gerne möchten wir ${dich} etwas besser kennenlernen! Vielen Dank, dass ${du} an dieser 5-minütigen Umfrage ${"teilnehmt" if plural else "teilnimmst"}. Damit ${"helft ihr" if plural else "hilfst du"} Compassion, besser auf ${deine} Interessen und Wünsche einzugehen.
+</p>
+<p>Die Umfrage ist absolut vertraulich. Wir werden ${deine} persönlichen Daten niemals veröffentlichen oder ohne ${deine} Zustimmung an Dritte weitergeben.
+</p>
+<p>Also lass uns loslegen! <a href="${survey}">${survey}</a>
+</p>
+<p>Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_volunteering" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Volunteering</field>
@@ -48,6 +251,34 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set dein = 'euer' if plural else 'dein'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>7/8:
+<br/>${partner.salutation}
+</p>
+<p>Wir gratulieren ${dir} zum erfolgreichen Beginn ${deine}r ${child.get('Patenschaft')}! ${"Möchtet ihr euch" if plural else "Möchtest du dich"} noch mehr engagieren, z.B. bei Events, mit Übersetzungen oder im Gebet? Oder sogar ${dein} eigenes Projekt starten und ${deine} Familie und Freunde mobilisieren? Hier ${"findet ihr" if plural else "findest du"} mehr Informationen dazu: <a href="https://compassion.ch/de/sich-mehr-engagieren">https://compassion.ch/de/sich-mehr-engagieren</a>
+</p>
+<p>Wir freuen uns sehr, mit ${dir} zusammen unterwegs zu sein.
+</p>
+<p>Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
     <record id="mail_wrpr_feedback" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Feedback</field>
@@ -55,6 +286,34 @@
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set child = sponsorships.mapped('child_id')
+    % set plural = partner.title.plural or partner.title.id == 29
+    % set du = 'ihr' if plural else 'du'
+    % set deine = 'eure' if plural else 'deine'
+    % set firstname = sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)
+    % set dir = 'euch' if plural else 'dir'
+    % set dich = 'euch' if plural else 'dich'
+    % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
+    % set survey = object.env.ref('partner_communication_switzerland.wrpr_onboarding_survey').public_url
+% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+</div>
+<p>8/8:
+<br/>${partner.salutation}
+</p>
+<p>${deine.title()} Rückmeldung zum Start der ${child.get('Patenschaft')} ist uns wichtig. Es dauert knapp 1 Minute: <a href="${survey}">${survey}</a>
+</p>
+<p>Vielen Dank fürs Ausfüllen!
+</p>
+<p>Liebe Grüsse<br/>
+Sarah<br/>
+Tel: +41 (0)31 552 21 21<br/>
+Fragen? <a href="${my_url}">${my_url}</a>
+</p>
+        </field>
     </record>
 
     <!-- Communication rules -->
@@ -94,7 +353,7 @@
         <field name="model_id" ref="model_recurring_contract"/>
     </record>
     <record id="config_wrpr_segmentation" model="partner.communication.config">
-        <field name="name">Write&amp;Pray Onboarding - Volunteering</field>
+        <field name="name">Write&amp;Pray Onboarding - Segmentation</field>
         <field name="send_mode">none</field>
         <field name="email_template_id" ref="mail_wrpr_segmentation"/>
         <field name="report_id" ref="report_compassion.report_partner_communication"/>
