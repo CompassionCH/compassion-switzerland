@@ -154,7 +154,7 @@
             li {
                 padding-left: 16px;
             }
-            li:before {
+            ul>li:before {
                 content: "-";
                 padding-right: 8px;
             }

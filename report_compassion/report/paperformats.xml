@@ -69,14 +69,14 @@
         <field name="default" eval="True"/>
         <field name="format">custom</field>
         <field name="orientation">Landscape</field>
-        <field name="page_height">205</field>
-        <field name="page_width">110</field>
+        <field name="page_height">210</field>
+        <field name="page_width">105</field>
         <field name="margin_top">0</field>
         <field name="margin_bottom">0</field>
         <field name="margin_left">0</field>
         <field name="margin_right">0</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">3</field>
-        <field name="dpi">46</field>
+        <field name="dpi">96</field>
     </record>
 </odoo>
