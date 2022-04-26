@@ -61,6 +61,7 @@ class ResUsers(models.Model):
                 "it_IT": "https://www.facebook.com/compassionsvizzera/",
                 "en_US": "https://www.facebook.com/compassionsuisse/"
             }
+            lang = self.env.lang or self._context.lang or "en_US"
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
                 photo = employee.image_small
@@ -69,22 +70,22 @@ class ResUsers(models.Model):
                     f"{user.preferred_name} {user.lastname}" if user.firstname else _(
                         "The team of Compassion"),
                     "email": user.email if user.firstname else "info@compassion.ch",
-                    "lang": self.env.lang,
-                    "lang_short": self.env.lang[:2],
+                    "lang": lang,
+                    "lang_short": lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
                     "job_title": employee.job_title or "",
                     "office_hours": _("mo-thu: 8am-4pm<br/>fri 8am-12am"),
                     "company_name": user.company_id.address_name,
-                    "phone_link": phone_link.get(self.env.lang),
-                    "phone": phone.get(self.env.lang),
+                    "phone_link": phone_link.get(lang),
+                    "phone": phone.get(lang),
                     "mobile": employee.mobile_phone,
                     "mobile_link": (employee.mobile_phone or "").replace(
                         " ", "").replace("(0)", ""),
-                    "facebook": facebook.get(self.env.lang),
+                    "facebook": facebook.get(lang),
                     "photo": photo.decode(
                         "utf-8") if isinstance(photo, bytes) else photo,
                 }
-                if self.env.lang in ("fr_CH", "en_US"):
+                if lang in ("fr_CH", "en_US"):
                     template.remove("#bern")
                 else:
                     template.remove("#yverdon")

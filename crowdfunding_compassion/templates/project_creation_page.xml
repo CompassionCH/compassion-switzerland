@@ -152,9 +152,9 @@
                                                     </div>
                                                     <p class="card-text text-white">
                                                         <span class="white">Indicate the amount in the above box. 1</span>
-                                                        <t t-esc="fund.crowdfunding_quantity_singular" class="white"/>
+                                                        <t t-esc="fund.crowdfunding_quantity_singular if fund.impact_type == 'standard' else fund.crowdfunding_quantity_plural" class="white"/>
                                                         <span class="white">is equivalent to CHF</span>
-                                                        <t t-esc="int(fund.standard_price)" class="white"/>.-
+                                                        <t t-esc="int(fund.standard_price) * (1 if fund.impact_type == 'standard' else 100)" class="white"/>.-
                                                     </p>
                                                 </div>
                                             </div>

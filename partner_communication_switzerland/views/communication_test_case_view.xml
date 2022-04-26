@@ -15,6 +15,7 @@
                     <group>
                         <group>
                             <field name="config_id"/>
+                            <field name="child_ids" widget="many2many_tags" attrs="{'invisible': [('partner_selected', '!=', True)]}" domain="[('sponsor_id', '=', partner)]"/>
                         </group>
                         <group>
                             <field name="language" attrs="{'invisible': [('partner_selected', '=', True)]}"/>
@@ -74,6 +75,9 @@
             <xpath expr="//div[@name='button_box']/button[1]" position="before">
                 <button name="open_test_case_wizard" type="object" icon="fa-edit" string="Test cases"/>
             </xpath>
+            <field name="attachments_function" position="before">
+                <field name="product_id"/>
+            </field>
         </field>
     </record>
 </odoo>

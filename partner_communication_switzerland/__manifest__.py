@@ -37,7 +37,6 @@
     "depends": [
         "report_compassion",
         "child_switzerland",
-        "hr_switzerland",
         "theme_compassion",
         "sms_939",  # compassion-switzerland
         "auth_signup",  # source/addons
@@ -70,6 +69,7 @@
         "data/depart_communications.xml",
         "data/ir.advanced.translation.csv",
         "data/label_print.xml",
+        "data/queue_job.xml",
         "data/sponsorship_action_rules.xml",
         "data/utm_data.xml",
         "report/onboarding_photo_by_post.xml",

@@ -42,6 +42,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "data/queue_job.xml",
         "data/sms_hook.xml",
         "data/sms_provider.xml",
         "data/sms_cron.xml",

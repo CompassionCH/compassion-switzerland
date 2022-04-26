@@ -52,42 +52,23 @@ class PartnerCommunication(models.Model):
         readonly=False,
     )
 
-    def get_related_contracts(self):
-        self.ensure_one()
-        object_ids = list(map(int, self.object_ids.split(",")))
-        if self.model != "recurring.contract":
-            # We're only interested in recurring contract, if the records linked to this communication are
-            # not contracts (which should not happen in the context of sponsorships waiting reminder 2,
-            # then we return an empty set
-            return self.env['recurring.contract']
-        return self.env['recurring.contract'].sudo().search([('id', "in", object_ids)])
-
-
     def schedule_call(self):
         self.ensure_one()
         user_id = self.user_id.id
-        sponsorship_reminder_2 = self.env.ref('partner_communication_switzerland.sponsorship_waiting_reminder_2')
+        sponsorship_reminder_2 = self.env.ref(
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2")
 
-        # Check if we're in a sponsorship reminder 2
-        if self.config_id.name == sponsorship_reminder_2.name:
-            church_rep = self.env.ref('hr_switzerland.employee_tag_church_rep')
-            related_contracts = self.get_related_contracts()
+        if self.config_id == sponsorship_reminder_2:
+            related_contracts = self.get_objects()
             for contract in related_contracts:
-                event = contract.origin_id.event_id
-                if event.user_id:
-                    employee = self.env['hr.employee'].sudo().search([('user_id', '=', event.user_id.id)], limit=1)
-                    # Event ambassador is a church rep
-                    if employee.job_id.name == church_rep.name:
-                        user_id = event.user_id.id
+                ambassador = contract.origin_id.event_id.user_id
+                employee = self.env["hr.employee"].sudo().search([
+                    ("user_id", "=", ambassador.id)], limit=1)
+                # Event ambassador is a church rep
+                if employee.job_id.with_context(lang="en_US").name == "Church rep":
+                    user_id = ambassador.id
 
-        self.activity_schedule(
-            'mail.mail_activity_data_call',
-            summary="Call " + self.partner_id.name,
-            user_id=user_id,
-            note=f"Call {self.partner_id.name} at (phone) "
-                 f"{self.partner_phone or self.partner_mobile} regarding "
-                 f"the communication."
-        )
+        super(PartnerCommunication, self.sudo(user_id)).schedule_call()
 
     def print_letter(self, print_name, **print_options):
         """
@@ -148,7 +129,7 @@ class PartnerCommunication(models.Model):
                 not_read += communication
         return not_read
 
-    def get_correspondence_attachments(self):
+    def get_correspondence_attachments(self, letters=None):
         """
         Include PDF of letters if the send_mode is to print the letters.
         :return: dict {attachment_name: [report_name, pdf_data]}
@@ -157,16 +138,17 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         # Report is used for print configuration
         report = "partner_communication.a4_no_margin"
-        letters = self.get_objects()
+        if letters is None:
+            letters = self.get_objects()
         if self.send_mode == "physical":
-            for letter in self.get_objects():
+            for letter in letters:
                 try:
                     attachments[letter.file_name] = [
                         report,
                         self._convert_pdf(letter.letter_image),
                     ]
                 except MissingError:
-                    _logger.warn("Missing letter image", exc_info=True)
+                    _logger.warning("Missing letter image", exc_info=True)
                     self.send_mode = False
                     self.auto_send = False
                     self.message_post(
@@ -177,6 +159,25 @@ class PartnerCommunication(models.Model):
         else:
             # Attach directly a zip in the letters
             letters.attach_zip()
+        return attachments
+
+    def final_letter_attachment(self):
+        """ Include PDF of final letter if any exists. Remove any other correspondence
+        that would send it and link the letter to the current communication. """
+        self.ensure_one()
+        sponsorships = self.get_objects()
+        attachments = dict()
+        final_type = self.env.ref("sbc_compassion.correspondence_type_final")
+        final_letters = self.env["correspondence"].search([
+            ("sponsorship_id", "in", sponsorships.ids),
+            ("communication_type_ids", "=", final_type.id),
+            ("sent_date", "=", False),
+            ("email_read", "=", False)
+        ])
+        if final_letters:
+            final_letters.mapped("communication_id").cancel()
+            final_letters.write({"communication_id": self.id})
+            attachments = self.get_correspondence_attachments(final_letters)
         return attachments
 
     def get_birthday_bvr(self):
@@ -232,7 +233,6 @@ class PartnerCommunication(models.Model):
             attachments = sponsorships.get_bvr_gift_attachment(family, background)
         return attachments
 
-
     def get_all_gift_bvr(self):
         """
         attach all 3 gifts slip with background for sending by e-mail
@@ -249,20 +249,21 @@ class PartnerCommunication(models.Model):
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.filtered(
-                lambda x: x.state not in ("terminated", "cancelled")).get_bvr_gift_attachment(all_gifts, background)
+                lambda x: x.state not in ("terminated", "cancelled")
+            ).get_bvr_gift_attachment(all_gifts, background)
         return attachments
 
-    def get_christmas_fund_bvr(self):
+    def get_fund_bvr(self):
         """
-        attach christmas fund slip with background for sending by e-mail
+        attach any fund slip with background for sending by e-mail
         :return: dict {attachment_name: [report_name, pdf_data]}
         """
         self.ensure_one()
         background = self.send_mode and "physical" not in self.send_mode
-        product_id = self.env["product.product"].search([("default_code", "=", "noel")])
+        product = self.config_id.product_id
         data = {
-            "product_id": product_id.id,
-            "product_ids": product_id.ids,
+            "product_id": product.id,
+            "product_ids": product.ids,
             "background": background,
             "doc_ids": self.partner_id.ids
         }
@@ -270,7 +271,7 @@ class PartnerCommunication(models.Model):
         pdf = self._get_pdf_from_data(
             data, self.env.ref("report_compassion.report_bvr_fund")
         )
-        return {_("christmas fund.pdf"): [report_name, pdf]}
+        return {product.name + ".pdf": [report_name, pdf]}
 
     def get_reminder_bvr(self):
         """
@@ -386,7 +387,8 @@ class PartnerCommunication(models.Model):
         else:
             children = self.get_objects().mapped("child_id")
         pdf = self._get_pdf_from_data(
-            {"doc_ids": children.ids}, self.env.ref("partner_communication_switzerland.report_child_picture")
+            {"doc_ids": children.ids}, self.env.ref(
+                "partner_communication_switzerland.report_child_picture")
         )
         name = children.get_list("local_id", 1, _("pictures")) + ".pdf"
         res[name] = ("partner_communication_switzerland.child_picture", pdf)
@@ -516,26 +518,26 @@ class PartnerCommunication(models.Model):
     @api.multi
     def send(self):
         """
-        - Prevent sending communication when invoices are being reconciled
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
         - Update donor tag
         - Sends SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
         - Set onboarding_start_date when first communication is sent
-        - Star onboarding new donor after first thank you letter is sent
+        - Start onboarding new donor after first thank you letter is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
         sms_jobs.send_by_sms()
         other_jobs = self - sms_jobs
+        contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
         for job in other_jobs.filtered(
                 lambda j: j.model in ("recurring.contract", "account.invoice")
         ):
-            queue_job = self.env["queue.job"].search(
-                [("channel", "=", "root.group_reconcile"), ("state", "!=", "done"), ],
-                limit=1,
-            )
+            queue_job = self.env["queue.job"].search([
+                ("job_function_id.channel_id", "=", contract_channel.id),
+                ("state", "!=", "done")
+            ], limit=1)
             if queue_job:
                 invoices = self.env["account.invoice"].browse(queue_job.record_ids)
                 if job.partner_id in invoices.mapped("partner_id"):
@@ -772,8 +774,9 @@ class PartnerCommunication(models.Model):
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
             if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
                 # One single slip is enough for permanent order.
-                report_name = "report_compassion.bvr_sponsorship"
-                report_ref = self.env.ref("report_compassion.report_bvr_sponsorship")
+                report_name = "report_compassion.single_bvr_sponsorship"
+                report_ref = self.env.ref(
+                    "report_compassion.report_single_bvr_sponsorship")
             data = {
                 "doc_ids": bv_sponsorships.ids,
                 "background": self.send_mode != "physical",

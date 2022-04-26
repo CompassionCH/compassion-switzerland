@@ -35,15 +35,6 @@
                     </div>
                 </div>
             </xpath>
-            <xpath expr="//div[@name='compassion_settings']">
-                <h2>NAS Settings</h2>
-                <div name="nas_settings" class="o_setting_right_pane">
-                    <label for="share_on_nas" class="o_right_label"/>
-                    <field name="share_on_nas"/>
-                    <label for="store_path" class="o_right_label"/>
-                    <field name="store_path"/>
-                </div>
-            </xpath>
         </field>
     </record>
 </odoo>

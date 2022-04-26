@@ -1,0 +1,8 @@
+<odoo>
+    <!-- Job functions -->
+    <record id="ambassdor_receipt_job" model="queue.job.function">
+        <field name="model_id" ref="model_account_invoice_line"/>
+        <field name="method">send_receipt_to_ambassador</field>
+        <field name="channel_id" ref="thankyou_letters.channel_thankyou_letters"/>
+    </record>
+</odoo>

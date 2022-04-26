@@ -18,7 +18,6 @@ from odoo.addons.sponsorship_compassion.models.product_names import (
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from functools import reduce
-from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +60,6 @@ class BankStatementLine(models.Model):
     ##########################################################################
 
     @api.multi
-    @job(default_channel="root.bank_reconciliation")
     def _process_reconciliation(
         self, counterpart_aml_dicts=None, payment_aml_rec=None, new_aml_dicts=None
     ):

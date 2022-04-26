@@ -7,7 +7,7 @@
         menu="False"
     />
     <record id="report_bvr_fund" model="ir.actions.report">
-        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+        <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship"/>
     </record>
 
     <template id="bvr_fund">
@@ -17,6 +17,7 @@
                 <t t-set="report_header_style">display: none;</t>
                 <t t-call="report_compassion.style"/>
                 <t t-foreach="docs" t-as="doc">
+                    <t t-set="disable_scissors" t-value="True"/>
                     <t t-call="report_compassion.report_bvr_fund_document" t-lang="doc.lang"/>
                 </t>
             </t>

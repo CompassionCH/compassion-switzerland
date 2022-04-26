@@ -18,7 +18,6 @@ from urllib.parse import urlparse, urlencode
 from zipfile import ZipFile
 from urllib.request import urlretrieve, urlopen
 from math import ceil
-from dateutil.relativedelta import relativedelta
 import secrets
 from passlib.context import CryptContext
 
@@ -47,11 +46,6 @@ def _get_user_children(state=None):
     """
     env = request.env
     partner = env.user.partner_id
-    only_correspondent = partner.app_displayed_sponsorships == "correspondent"
-
-    limit_date_active = datetime.now() - relativedelta(months=2)
-    limit_date_for_writing = datetime.now() - relativedelta(months=3)
-
     end_reason_child_depart = env.ref("sponsorship_compassion.end_reason_depart")
 
     def filter_sponsorships(sponsorship):
@@ -59,39 +53,30 @@ def _get_user_children(state=None):
         is_active = sponsorship.state not in ["draft", "cancelled", "terminated"]
         is_recent_terminated = (
                 sponsorship.state == "terminated"
-                and sponsorship.end_date
-                and sponsorship.end_date >= limit_date_active
+                and sponsorship.can_write_letter
                 and sponsorship.end_reason_id == end_reason_child_depart
-        )
-        can_still_write = (
-                is_active
-                or sponsorship.state == "terminated"
-                and sponsorship.end_date
-                and sponsorship.end_date >= limit_date_for_writing
         )
         exit_communication_sent = (
                 sponsorship.state == "terminated"
                 and sponsorship.sds_state != "sub_waiting"
         )
 
-        if only_correspondent:
-            can_show = sponsorship.correspondent_id == partner
         if state == "active":
-            can_show &= (
-                    is_active
-                    or is_recent_terminated
-                    or (not exit_communication_sent and can_still_write)
+            can_show = (
+                is_active or is_recent_terminated
+                and not exit_communication_sent
             )
         elif state == "terminated":
-            can_show &= (
+            can_show = (
                 sponsorship.state == "terminated"
-                and not (is_recent_terminated or (exit_communication_sent and
-                                                  can_still_write))
+                and not is_recent_terminated or exit_communication_sent
             )
+        elif state == "write":
+            can_show = sponsorship.can_write_letter
 
         return can_show
 
-    return partner.sponsorship_ids.filtered(filter_sponsorships).mapped(
+    return partner.get_portal_sponsorships().filtered(filter_sponsorships).mapped(
         "child_id").sorted("preferred_name")
 
 
@@ -170,18 +155,19 @@ def _download_image(child_id, obj_id):
     :return: A response for the user to download a single image or an archive
     containing multiples
     """
-    children = _get_user_children()
-
     # All children, all images
-    if children and child_id < 0 and obj_id < 0:
+    if child_id < 0 and obj_id < 0:
         images = []
-        for child in children:
+        for child in _get_user_children():
             images += _fetch_images_from_child(child)
         filename = f"my_children_pictures.zip"
         return _create_archive(images, filename)
 
+    if child_id < 0:
+        return False
+
     # One child
-    child = children.filtered(lambda c: c.id == child_id)
+    child = request.env["compassion.child"].browse(child_id)
 
     # All images from a child
     if child and obj_id < 0:
@@ -306,7 +292,7 @@ class MyAccountController(PaymentFormController):
         :param kwargs: additional arguments (optional)
         :return: a redirection to a webpage
         """
-        children = _get_user_children("active")
+        children = _get_user_children("write")
         if len(children) == 0:
             return request.render("website_compassion.sponsor_a_child", {})
 
@@ -391,8 +377,9 @@ class MyAccountController(PaymentFormController):
         correspondence_obj = request.env["correspondence"]
         correspondent = partner
 
-        if partner.app_displayed_sponsorships == "all_info":
-            correspondent |= child.sponsorship_ids.filtered(lambda x: x.is_active).mapped("correspondent_id")
+        if partner.portal_sponsorships == "all_info":
+            correspondent |= child.sponsorship_ids.filtered(
+                lambda x: x.is_active).mapped("correspondent_id")
             correspondence_obj = correspondence_obj.sudo()
 
         letters = correspondence_obj.search([
@@ -704,10 +691,8 @@ class MyAccountController(PaymentFormController):
 
         elif source == "labels":
             child_id = _get_required_param("child_id", kw)
-            actives = _get_user_children("active")
-            child = actives.filtered(lambda c: c.id == int(child_id))
+            child = request.env["compassion.child"].browse(int(child_id))
             sponsorships = child.sponsorship_ids[0]
-            attachments = dict()
             label_print = request.env["label.print"].search(
                 [("name", "=", "Sponsorship Label")], limit=1
             )

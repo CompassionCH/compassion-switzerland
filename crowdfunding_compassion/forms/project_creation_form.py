@@ -250,6 +250,10 @@ class ProjectCreationStep2(models.AbstractModel):
 
         if not product_goal:
             values["product_id"] = False
+        if product_goal and values["product_id"]:
+            product = self.env["product.product"].sudo().browse(values["product_id"])
+            if product.impact_type == "large":
+                extra_values["participant_product_number_goal"] = product_goal * 100
         super().form_before_create_or_update(values, extra_values)
 
     def _form_create(self, values):

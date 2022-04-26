@@ -21,6 +21,7 @@ class MuskathlonRegistrationForm(models.AbstractModel):
     _form_required_fields = [
         "partner_image",
         "ambassador_quote",
+        "sport_discipline_id",
         "sport_level",
         "sport_level_description",
         "gtc_accept",

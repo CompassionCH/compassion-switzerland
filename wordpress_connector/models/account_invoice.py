@@ -8,6 +8,8 @@
 #
 ##############################################################################
 import logging
+from datetime import timedelta
+
 from odoo import api, models, fields
 from werkzeug.utils import escape
 
@@ -159,15 +161,15 @@ class AccountInvoice(models.Model):
         internet_id = self.env.ref("utm.utm_medium_website").id
         payment_term_id = self.env.ref("account.account_payment_term_immediate").id
         account = self.env["account.account"].search([("code", "=", "1050")])
+        date_invoice = fields.Datetime.from_string(time)
         invoice = self.create(
             {
                 "partner_id": partner_id,
                 "payment_mode_id": payment_mode.id,
                 "origin": origin,
                 "reference": str(pf_payid),
-                "transaction_id": str(pf_payid),
-                "date_invoice": fields.Date.from_string(time),
-                "auto_cancel_no_transaction": True,
+                "date_invoice": date_invoice.date(),
+                "auto_cancel_date": date_invoice + timedelta(minutes=30),
                 "currency_id": 6,  # Always in CHF
                 "account_id": account.id,
                 "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,

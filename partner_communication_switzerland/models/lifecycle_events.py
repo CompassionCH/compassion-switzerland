@@ -25,11 +25,7 @@ class ChildLifecycle(models.Model):
                     "partner_communication_switzerland.planned_exit_notification"
                 )
                 sponsorship = lifecycle.child_id.sponsorship_ids[:1]
-                comm = sponsorship.send_communication(communication_type, both=True)
-                # TODO remove this when all languages are set (comm will be set to
-                #  auto_send)
-                if sponsorship.correspondent_id.lang in ("fr_CH", "de_DE"):
-                    comm.send()
+                sponsorship.send_communication(communication_type, both=True)
             else:
                 communication_type = self.env["partner.communication.config"].search(
                     [

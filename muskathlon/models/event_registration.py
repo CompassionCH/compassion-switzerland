@@ -8,7 +8,6 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
-from odoo.addons.queue_job.job import job, related_action
 import datetime
 
 from odoo.exceptions import UserError
@@ -131,8 +130,6 @@ class MuskathlonRegistration(models.Model):
                 }
             }
 
-    @job(default_channel="root.muskathlon")
-    @related_action("related_action_registration")
     def notify_new_registration(self):
         """Notify user for registration"""
         partners = self.mapped("user_id.partner_id") | self.event_id.mapped(
@@ -150,8 +147,6 @@ class MuskathlonRegistration(models.Model):
         )
         return True
 
-    @job(default_channel="root.muskathlon")
-    @related_action("related_action_registration")
     def muskathlon_medical_survey_done(self):
         for registration in self:
             user_input = self.env["survey.user_input"].search(

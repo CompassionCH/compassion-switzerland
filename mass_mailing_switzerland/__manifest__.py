@@ -38,6 +38,7 @@
         "security/ir.model.access.csv",
         "security/access_rules.xml",
         "data/smart_tags.xml",
+        "data/queue_job.xml",
         "views/mass_mailing_view.xml",
         "views/mail_template_view.xml",
         "views/utm_view.xml",

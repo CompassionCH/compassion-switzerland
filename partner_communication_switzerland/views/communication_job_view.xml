@@ -78,7 +78,7 @@
 
     <!-- Add Event Donation -->
     <record id="thankyou_letters.action_thank_you" model="ir.actions.act_window">
-        <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
+        <field name="domain">[('model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
     </record>
     <record id="action_thank_you_event" model="ir.actions.act_window">
         <field name="name">Event Donation Receipts</field>
@@ -87,7 +87,7 @@
         <field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
             (0, 0, {'view_mode': 'tree', 'view_id': ref('communication_job_tree_event')})]"/>
-        <field name="domain">[('config_id.model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
+        <field name="domain">[('model', '=', 'account.invoice.line'), ('event_id', '!=', False)]</field>
         <field name="context">{'search_default_my_communications': 1, 'search_default_pending': True, 'search_default_event': True, 'default_user_id': uid}</field>
     </record>
 

@@ -623,7 +623,7 @@ class RecurringContract(models.Model):
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
-        correspondent. Adds new sponsors to next zoom conference.
+        correspondent.
         """
         for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:

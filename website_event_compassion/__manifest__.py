@@ -51,6 +51,7 @@
         "data/product.xml",
         "data/group_visit_emails.xml",
         "data/communication_config.xml",
+        "data/queue_job.xml",
         "data/survey.xml",
         "data/action_rule_past_event.xml",
         "data/event_message_subtype.xml",
