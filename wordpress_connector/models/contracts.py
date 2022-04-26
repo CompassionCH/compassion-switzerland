@@ -251,75 +251,89 @@ class Contracts(models.Model):
         """
         child = self.env["compassion.child"].browse(values["child_id"])
         child.remove_from_wordpress()
-        sponsorship = self.env["recurring.contract"].create(values)
-        list_keys = [
-            "salutation",
-            "first_name",
-            "last_name",
-            "birthday",
-            "street",
-            "zipcode",
-            "city",
-            "land",
-            "email",
-            "phone",
-            "lang",
-            "language",
-            "kirchgemeinde",
-            "Beruf",
-            "zahlungsweise",
-            "consumer_source",
-            "consumer_source_text",
-            "patenschaftplus",
-            "mithelfen",
-            "childID",
-            "Child reference",
-        ]
-        web_info = ""
-        for key in list_keys:
-            web_info += (
-                    "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
+
+        try:
+            sponsorship = self.env["recurring.contract"].create(values)
+            list_keys = [
+                "salutation",
+                "first_name",
+                "last_name",
+                "birthday",
+                "street",
+                "zipcode",
+                "city",
+                "land",
+                "email",
+                "phone",
+                "lang",
+                "language",
+                "kirchgemeinde",
+                "Beruf",
+                "zahlungsweise",
+                "consumer_source",
+                "consumer_source_text",
+                "patenschaftplus",
+                "mithelfen",
+                "childID",
+                "Child reference",
+            ]
+            web_info = ""
+            for key in list_keys:
+                web_info += (
+                        "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
+                )
+            sponsorship.web_info = web_info
+            ambassador_match = re.match(
+                r"^msk_(\d{1,8})", form_data.get("consumer_source_text", "")
             )
-        sponsorship.web_info = web_info
-        ambassador_match = re.match(
-            r"^msk_(\d{1,8})", form_data.get("consumer_source_text", "")
-        )
-        event_match = re.match(r"^msk_(\d{1,8})", form_data.get("consumer_source", ""))
-        # The sponsorships consumer_source fields were set automatically due
-        # to a redirect from the sponsorship button on the muskathlon page.
-        if ambassador_match and event_match:
-            ambassador_id = int(ambassador_match.group(1))
-            event_id = int(event_match.group(1))
-            sponsorship.update(
-                {
-                    "user_id": ambassador_id,
-                    "origin_id": self.env["recurring.contract.origin"]
-                    .search([("event_id", "=", event_id)], limit=1)
-                    .id,
-                }
+            event_match = re.match(r"^msk_(\d{1,8})", form_data.get("consumer_source", ""))
+            # The sponsorships consumer_source fields were set automatically due
+            # to a redirect from the sponsorship button on the muskathlon page.
+            if ambassador_match and event_match:
+                ambassador_id = int(ambassador_match.group(1))
+                event_id = int(event_match.group(1))
+                sponsorship.update(
+                    {
+                        "user_id": ambassador_id,
+                        "origin_id": self.env["recurring.contract.origin"]
+                        .search([("event_id", "=", event_id)], limit=1)
+                        .id,
+                    }
+                )
+
+            # Notify staff
+            sponsor_lang = form_data["lang"][:2]
+            staff_param = "sponsorship_" + sponsor_lang + "_id"
+            staff = self.env["res.config.settings"].sudo().get_param(staff_param)
+            notify_text = (
+                "A new sponsorship was made on the website. Please "
+                "verify all information and validate the sponsorship "
+                "on Odoo: <br/><br/><ul>"
+            ) + web_info
+
+            title = _("New sponsorship from the website")
+            if "writepray" in form_data:
+                title = _("New Write&Pray sponsorship from the website")
+            sponsorship.message_post(
+                body=notify_text,
+                subject=title,
+                partner_ids=[staff],
+                type="comment",
+                subtype="mail.mt_comment",
+                content_subtype="html",
             )
 
-        # Notify staff
-        sponsor_lang = form_data["lang"][:2]
-        staff_param = "sponsorship_" + sponsor_lang + "_id"
-        staff = self.env["res.config.settings"].sudo().get_param(staff_param)
-        notify_text = (
-            "A new sponsorship was made on the website. Please "
-            "verify all information and validate the sponsorship "
-            "on Odoo: <br/><br/><ul>"
-        ) + web_info
-
-        title = _("New sponsorship from the website")
-        if "writepray" in form_data:
-            title = _("New Write&Pray sponsorship from the website")
-        sponsorship.message_post(
-            body=notify_text,
-            subject=title,
-            partner_ids=[staff],
-            type="comment",
-            subtype="mail.mt_comment",
-            content_subtype="html",
-        )
-
-        sponsorship.correspondent_id.set_privacy_statement(origin="new_sponsorship")
-        return sponsorship
+            sponsorship.correspondent_id.set_privacy_statement(origin="new_sponsorship")
+            return sponsorship
+        except BaseException as err:
+            """Log the error and send a mail stating that it failed running"""
+            _logger.error("Wordpress create sponsorship job failed", exc_info=True)
+            child.activity_schedule(
+                'mail.mail_activity_data_todo',
+                summary="[URGENT] Wordpress create sponsorship job failed",
+                note="Please verify this new sponsorship made from the website with "
+                     f"following information: {form_data}, "
+                     f"and given following values: {values}, "
+                     f"with following error: {err}",
+                user_id=21  # EMA
+            )
