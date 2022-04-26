@@ -151,6 +151,9 @@
             ul {
                 list-style: none;
             }
+            ol {
+                list-style-position: inside;
+            }
             li {
                 padding-left: 16px;
             }
