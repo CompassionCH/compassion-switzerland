@@ -6,7 +6,7 @@
             <t t-set="object" t-value="event"/>
             <t t-set="publish_edit" t-value="True"/>
         </t>
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>
@@ -43,7 +43,7 @@
 
     <!-- Registration success page -->
     <template id="event_registration_successful" name="Event registration success">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>

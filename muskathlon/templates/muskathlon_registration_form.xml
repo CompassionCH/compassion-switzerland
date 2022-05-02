@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="new_registration_successful" name="Muskathlon registration success">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex" />
             </t>
@@ -37,7 +37,7 @@
         </div>
     </template>
     <template id="registration_failure" name="Muskathlon registration failure">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="title">Muskathlon Registration</t>
             <div id="wrap">
                 <div class="container text-center">

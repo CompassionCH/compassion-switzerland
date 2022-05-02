@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="new_donors_onboarding_unsubscribe_template" name="New Donors Onboarding - Unsubscribe">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website.layout">
             <t t-set="title">Unsubscribe from further mailing ?</t>
             <div class="container">
                 <div class="pt-4 mb-4">
@@ -18,7 +18,7 @@
     </template>
 
     <template id="confirmation_onboarding_unsubscribe_template" name="Onboarding - Unsubscribe Confirmation">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website.layout">
             <t t-set="title">Unsubscribe Confirmation</t>
             <div class="container">
                 <div class="pt-4 mb-4">
