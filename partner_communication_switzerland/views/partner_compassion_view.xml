@@ -1,4 +1,16 @@
 <odoo>
+    <!-- Add no_physical_delivery field -->
+    <record id="view_partner_no_physical_delivery" model="ir.ui.view">
+        <field name="name">res.partner.physical.delivery</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
+        <field name="arch" type="xml">
+            <field name="global_communication_delivery_preference" position="before">
+                <field name="no_physical_letter"/>
+            </field>
+        </field>
+    </record>
+
     <!-- Add letter delivery preference and ambassador quote -->
     <record id="view_partner_letter_delivery" model="ir.ui.view">
         <field name="name">res.partner.letter.delivery</field>
