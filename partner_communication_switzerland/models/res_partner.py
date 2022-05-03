@@ -178,7 +178,8 @@ class ResPartner(models.Model):
              "email", "no_mag")
 
     @api.multi
-    def perform_inverse_no_physical_letter(self):
+    def set_no_physical_letters(self):
+        """Used from the view to manually switch to email only"""
         self._inverse_no_physical_letter()
 
     def _inverse_no_physical_letter(self):
