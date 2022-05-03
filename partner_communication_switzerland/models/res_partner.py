@@ -177,6 +177,10 @@ class ResPartner(models.Model):
             ) and partner.tax_certificate != "paper" and partner.nbmag in (
              "email", "no_mag")
 
+    @api.multi
+    def perform_inverse_no_physical_letter(self):
+        self._inverse_no_physical_letter()
+
     def _inverse_no_physical_letter(self):
         for partner in self:
             if partner.no_physical_letter:

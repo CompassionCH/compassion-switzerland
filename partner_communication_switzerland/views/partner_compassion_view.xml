@@ -5,9 +5,9 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
         <field name="arch" type="xml">
-            <field name="global_communication_delivery_preference" position="before">
-                <field name="no_physical_letter"/>
-            </field>
+            <xpath expr="//page[2]//button[@name='open_letters']" position="after">
+                <button class="btn-secondary ml-2" name="perform_inverse_no_physical_letter" type="object" string="Set E-Mail Only"/>
+            </xpath>
         </field>
     </record>
 
