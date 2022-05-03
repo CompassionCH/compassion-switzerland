@@ -41,13 +41,26 @@
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__create_date"/>
-        <field name="filter_domain">[('parent_id.sds_state','=','sub'),('state','=','draft'),('correspondent_id.lang','in',('de_DE','fr_CH'))]</field>
+        <field name="filter_domain">[('parent_id.sds_state','=','sub'),('state','=','draft')]</field>
         <field name="trg_date_range">6</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">code</field>
         <field name="code">
 records.send_communication(env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True)
 records.send_communication(env.ref('partner_communication_switzerland.config_onboarding_photo_by_post'), both=True)
+        </field>
+    </record>
+    <record id="sub_proposal_validation" model="base.automation">
+        <field name="name">Sponsorship SUB Proposal validation</field>
+        <field name="model_id" ref="model_recurring_contract"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="field_recurring_contract__sub_proposal_date"/>
+        <field name="filter_domain">[('parent_id','!=',False),('state','=','draft')]</field>
+        <field name="trg_date_range">14</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="state">code</field>
+        <field name="code">
+records.contract_waiting()
         </field>
     </record>
 

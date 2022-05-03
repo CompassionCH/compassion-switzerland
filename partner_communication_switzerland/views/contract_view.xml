@@ -19,6 +19,21 @@
             <xpath expr="//field[@name='activation_date']" position="before">
                 <field name="onboarding_start_date" />
             </xpath>
+            <header>
+                <field name="sub_proposal_date" invisible="1"/>
+                <button name="cancel_sub_validation" type="object" string="Cancel SUB validation" attrs="{'invisible': [('sub_proposal_date', '=', False)]}"/>
+            </header>
         </field>
      </record>
+
+    <record id="sub_validation_filter_view" model="ir.ui.view">
+        <field name="name">sub validation filter</field>
+        <field name="model">recurring.contract</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_recurring_contract_compassion_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="sub_validation" string="SUB validation" domain="[('sub_proposal_date', '!=', False),('state','=','draft')]"/>
+            </search>
+        </field>
+    </record>
 </odoo>
