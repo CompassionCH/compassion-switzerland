@@ -241,9 +241,14 @@ class MassMailingContact(models.Model):
 
     @api.multi
     def write(self, values):
-        """Override the email write to avoid allowing to change email"""
+        """Merge with other potential existing contacts"""
         if "email" in values:
-            del values["email"]
+            # Regroup same email contacts
+            other = self.search([("email", "=", values["email"]), ("id", "not in", self.ids)], limit=1)
+            if other:
+                other.write({"partner_ids": [(4, pid) for pid in self.partner_ids.ids]})
+                self.with_delay(eta=5).unlink()
+                return True
         return super().write(values)
 
     @api.multi
