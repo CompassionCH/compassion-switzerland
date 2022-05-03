@@ -525,6 +525,7 @@ class PartnerCommunication(models.Model):
         - Add to zoom session when zoom invitation is sent
         - Set onboarding_start_date when first communication is sent
         - Start onboarding new donor after first thank you letter is sent
+        - Prepare SUB validation after SUB proposal is sent
         :return: True
         """
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
@@ -638,6 +639,10 @@ class PartnerCommunication(models.Model):
             welcome_comms.get_objects().write({
                 "onboarding_start_date": datetime.today()
             })
+        sub_proposal = self.env.ref("partner_communication_switzerland.planned_sub_dossier")
+        subs = self.filtered(lambda j: j.config_id == sub_proposal)
+        if subs:
+            subs.get_objects().write({"sub_proposal_date": fields.Date.today()})
 
         return True
 

@@ -55,6 +55,7 @@ class RecurringContract(models.Model):
     onboarding_start_date = fields.Date(help="Indicates when the first email of "
                                              "the onboarding process was sent.",
                                         copy=False)
+    sub_proposal_date = fields.Date(help="Trigger for automatic SUB sponsorship validation after 2 weeks")
 
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
@@ -566,6 +567,9 @@ class RecurringContract(models.Model):
                 ("state", "=", "pending")
             ]).unlink()
         return True
+
+    def cancel_sub_validation(self):
+        return self.write({"sub_proposal_date": False})
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
