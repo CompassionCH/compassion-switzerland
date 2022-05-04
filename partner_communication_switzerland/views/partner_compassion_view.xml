@@ -6,7 +6,10 @@
         <field name="inherit_id" ref="partner_compassion.view_partner_form_compassion_ch"/>
         <field name="arch" type="xml">
             <xpath expr="//page[2]//button[@name='open_letters']" position="after">
-                <button class="btn-secondary ml-2" name="set_no_physical_letters" type="object" string="Set E-Mail Only"/>
+                <button class="btn-secondary ml-2" name="compute_inverse_no_physical_letter" type="object" string="Set E-Mail Only"
+                    context="{
+                        'no_physical_letters': True,
+                    }"/>
             </xpath>
         </field>
     </record>

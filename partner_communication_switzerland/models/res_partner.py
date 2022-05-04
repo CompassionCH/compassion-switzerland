@@ -177,17 +177,12 @@ class ResPartner(models.Model):
             ) and partner.tax_certificate != "paper" and partner.nbmag in (
              "email", "no_mag")
 
-    @api.one
-    def set_no_physical_letters(self):
-        """Used from the view to manually switch to email only"""
-        self._compute_inverse_no_physical_letter(True)
-
     def _inverse_no_physical_letter(self):
         for partner in self:
-            partner._compute_inverse_no_physical_letter(partner.no_physical_letter)
+            partner.compute_inverse_no_physical_letter(partner.no_physical_letter)
 
-    def _compute_inverse_no_physical_letter(self, no_physical_letters):
-        self.ensure_one()
+    @api.one
+    def compute_inverse_no_physical_letter(self, no_physical_letters):
         if no_physical_letters:
             vals = {
                 "nbmag": "no_mag" if self.nbmag == "no_mag" else "email",
