@@ -221,7 +221,7 @@ class Event(models.Model):
                     .search(
                     [
                         ("user_id", "=", partner.id),
-                        ("state", "in", ("draft", "open", "paid")),
+                        ("state", "=", "paid"),
                         ("event_id", "=", compassion_event.id),
                     ]
                 )
