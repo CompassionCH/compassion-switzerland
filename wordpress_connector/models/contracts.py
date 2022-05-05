@@ -222,7 +222,7 @@ class Contracts(models.Model):
             self.env.clear()
             # Notify staff
             child.activity_schedule(
-                'mail.mail_activity_data_todo',
+                'mail.mail_activity_data_warning',
                 summary="[URGENT] Sponsorship from website failed",
                 note="Please verify this new sponsorship made from the website with "
                      f"following information: {form_data} lang: {sponsor_lang} "
