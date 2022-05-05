@@ -179,12 +179,11 @@ class ResPartner(models.Model):
 
     def _inverse_no_physical_letter(self):
         for partner in self:
-            self.env.with_context(no_physical_letters=partner.no_physical_letter)
             partner.compute_inverse_no_physical_letter()
 
     def compute_inverse_no_physical_letter(self):
         self.ensure_one()
-        no_physical_letters = self.env.context['no_physical_letters']
+        no_physical_letters = self.env.context.get("no_physical_letters", partner.no_physical_letter)
         if no_physical_letters:
             vals = {
                 "nbmag": "no_mag" if self.nbmag == "no_mag" else "email",
