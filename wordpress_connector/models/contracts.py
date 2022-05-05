@@ -332,8 +332,8 @@ class Contracts(models.Model):
                 'mail_activity_data_warning',
                 summary="[URGENT] Wordpress create sponsorship job failed",
                 note="Please verify this new sponsorship made from the website with "
-                     f"following information: {form_data}, "
-                     f"and given following values: {values}, "
-                     f"with following error: {err}",
+                     f"following information: {str(form_data)}, "
+                     f"and given following values: {str(values)}, "
+                     f"with following error: {str(err)}",
                 user_id=21  # EMA
             )
