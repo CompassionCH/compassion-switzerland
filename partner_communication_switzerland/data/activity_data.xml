@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Activities -->
+    <record id="activity_check_partner_no_communication" model="mail.activity.type">
+        <field name="name">Notify "dont' inform" partner of new Sponsorship</field>
+        <field name="icon">fa-tasks</field>
+        <field name="res_model_id" ref="base.model_res_partner"/>
+    </record>
+</odoo>

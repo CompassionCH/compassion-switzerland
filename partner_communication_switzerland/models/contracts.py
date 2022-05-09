@@ -9,7 +9,7 @@
 ##############################################################################
 import base64
 import logging
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -493,6 +493,28 @@ class RecurringContract(models.Model):
                 lambda c: c.state != "cancelled" and c.start_date
                 and c.start_date < contract.start_date)
             contract.is_first_sponsorship = not old_sponsorships
+
+            # Notify SDS when partner has "don't inform" as comm setting
+            if contract.partner_id.global_communication_delivery_preference == "none":
+                # Notify the same SDS partner as the one notified when a sponsorship is created from the website
+                # so that we can manage partner language
+                config_settings = self.env["res.config.settings"].sudo()
+                sds_partner_id = config_settings.get_sponsorship_de_id()
+                if contract.partner_id.lang == 'fr_CH':
+                    sds_partner_id = config_settings.get_sponsorship_fr_id()
+                if contract.partner_id.lang == 'it_IT':
+                    sds_partner_id = config_settings.get_sponsorship_it_id()
+                sds_user = self.env['res.users'].sudo().search([('partner_id', '=', int(sds_partner_id))])
+
+                if sds_user.id:
+                    contract.partner_id.activity_schedule(
+                        'partner_communication_switzerland.activity_check_partner_no_communication',
+                        date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
+                        summary="Notify partner of new sponsorship",
+                        note="A sponsorship was added to a partner with the communication settings set to \"don't " +
+                             "inform\", please notify him of it",
+                        user_id=sds_user.id
+                    )
 
         self.filtered(
             lambda c: "S" in c.type
