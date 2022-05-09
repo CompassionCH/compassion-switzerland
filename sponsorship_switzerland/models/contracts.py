@@ -198,7 +198,8 @@ class RecurringContracts(models.Model):
         for contract in sponsorships:
             payment_mode = contract.payment_mode_id.name
             if (
-                    contract.type in ["S", "SC", "SWP"]
+                    payment_mode is not False
+                    and contract.type in ["S", "SC", "SWP"]
                     and ("LSV" in payment_mode or "Postfinance" in payment_mode)
                     and contract.total_amount != 0
                     and not contract.partner_id.valid_mandate_id
