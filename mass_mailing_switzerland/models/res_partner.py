@@ -66,6 +66,12 @@ class ResPartner(models.Model):
             filter_data = {key: val for key, val in data.items() if val}
             partner.wordpress_form_data = urlencode(filter_data)
 
+    @api.multi
+    def _compute_mailchimp_subscription_list_ids(self):
+        # Take subscriptions from all associated contacts
+        for partner in self:
+            partner.subscription_list_ids = partner.mapped("mass_mailing_contact_ids.subscription_list_ids")
+
     @api.model
     def create(self, vals):
         if vals.get("opt_out"):
@@ -112,6 +118,20 @@ class ResPartner(models.Model):
             if mailing_contact_vals:
                 mailing_contacts.write(mailing_contact_vals)
         return super().write(vals)
+
+    def update_contact_email(self, email):
+        """ Override from mailchimp to manage contact merge or unmerge. """
+        for partner in self.filtered(lambda x: x.subscription_list_ids):
+            mailing_contacts = partner.mass_mailing_contact_ids
+            other_partners = mailing_contacts.mapped("partner_ids") - partner
+            if other_partners:
+                # Dissociate this partner from others inside the mass_mailing.contact
+                mailchimp_lists = mailing_contacts.mapped("subscription_list_ids.mailchimp_list_id")
+                mailing_contacts.write({"partner_ids": [(3, partner.id)]})
+                mailing_contacts.with_delay(eta=6).action_update_to_mailchimp()
+                partner.with_delay(eta=5).action_export_partner_mailchimp(mailchimp_lists)
+            else:
+                super(ResPartner, partner).update_contact_email(email)
 
     @api.multi
     def update_selected_child_for_mailchimp(self, child):

@@ -76,7 +76,8 @@ def _get_user_children(state=None):
 
         return can_show
 
-    return partner.get_portal_sponsorships().filtered(filter_sponsorships).mapped(
+    return partner.get_portal_sponsorships().with_context(
+        allow_during_suspension=True).filtered(filter_sponsorships).mapped(
         "child_id").sorted("preferred_name")
 
 

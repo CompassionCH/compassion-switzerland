@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="group_visit_step2" name="Group Visit Contracts Agreements">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>

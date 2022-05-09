@@ -15,7 +15,7 @@
                 <meta property="og:image" t-att-content="image_url"/>
                 <meta property="og:type" content="fitness.course"/>
             </t>
-            <t t-call="theme_compassion.layout">
+            <t t-call="website_compassion.layout">
                 <!-- Facebook social share feature -->
                 <div id="fb-root"></div>
                 <script>(function(d, s, id) {

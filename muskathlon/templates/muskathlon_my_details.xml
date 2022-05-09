@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <template id="my_details" name="Muskathlon my donations">
-            <t t-call="theme_compassion.layout">
+            <t t-call="website_compassion.layout">
                 <div class="container">
                     <h2>Donations</h2>
                     <table class="table table-striped">

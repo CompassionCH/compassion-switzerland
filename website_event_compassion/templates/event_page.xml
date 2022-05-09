@@ -68,7 +68,7 @@
 
     <!-- Confirmation page -->
     <template id="event_confirmation_page" name="Event Confirmation Page">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="head">
                 <meta name="robots" content="noindex"/>
             </t>
@@ -101,7 +101,7 @@
             <t t-set="object" t-value="event"/>
             <t t-set="publish_edit" t-value="True"/>
         </t>
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="title" t-value="event.name"/>
 
             <!-- Include modal for registration -->
