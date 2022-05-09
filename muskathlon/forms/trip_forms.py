@@ -113,12 +113,11 @@ class MuskathlonTripForm(models.AbstractModel):
             valid = not old
         except (ValueError, TypeError):
             valid = False
-        finally:
-            if not valid:
-                message = _("Please enter a valid date")
-                if old:
-                    message = _("Your passport must be renewed!")
-                return "passport_expiration_date", message
+        if not valid:
+            message = _("Please enter a valid date")
+            if old:
+                message = _("Your passport must be renewed!")
+            return "passport_expiration_date", message
         # No error
         return 0, 0
 
