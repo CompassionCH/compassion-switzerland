@@ -510,9 +510,9 @@ class RecurringContract(models.Model):
                     contract.partner_id.activity_schedule(
                         'partner_communication_switzerland.activity_check_partner_no_communication',
                         date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
-                        summary="Notify partner of new sponsorship",
-                        note="A sponsorship was added to a partner with the communication settings set to \"don't " +
-                             "inform\", please notify him of it",
+                        summary=_("Notify partner of new sponsorship"),
+                        note=_("A sponsorship was added to a partner with the communication settings set to \"don't " +
+                               "inform\", please notify him of it"),
                         user_id=sds_user.id
                     )
 
