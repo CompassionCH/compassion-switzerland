@@ -21,10 +21,6 @@
             <field name="config_id" position="attributes">
                 <attribute name="attrs">{'invisible':[('manual_import', '==', True)]}</attribute>
             </field>
-            <!-- add attributes to hide this field when checkbox select -->
-            <field name="is_encourager" position="attributes">
-                <attribute name="attrs">{'invisible':[('manual_import', '==', True)]}</attribute>
-            </field>
 
              <!-- add text edit for import folder path -->
             <field name="template_id" position="after">
