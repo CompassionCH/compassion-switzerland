@@ -190,7 +190,7 @@ class ResPartner(models.Model):
                 "tax_certificate": "no"
                 if self.tax_certificate == "no" else "only_email",
                 "calendar": False,
-                "christmas_card": False
+                "sponsorship_anniversary_card": False
             }
             for _field in ["global_communication_delivery_preference",
                            "letter_delivery_preference",
@@ -205,7 +205,7 @@ class ResPartner(models.Model):
         else:
             vals = {
                 "calendar": True,
-                "christmas_card": True
+                "sponsorship_anniversary_card": True
             }
             for _field in ["global_communication_delivery_preference",
                            "letter_delivery_preference",
@@ -219,7 +219,6 @@ class ResPartner(models.Model):
             if self.tax_certificate == "only_email":
                 vals["tax_certificate"] = "default"
             self.write(vals)
-
 
     def _compute_last_completed_tax_receipt(self):
         for partner in self:

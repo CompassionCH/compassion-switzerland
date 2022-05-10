@@ -40,9 +40,6 @@
                     We are at your service for any questions or comments, by calling 031 552 21 25 or by email at <a href="mailto:info@compassion.ch">info@compassion.ch</a>
                     <br/>
                     <br/>
-                    % if object.partner_id.send_original:
-                        PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
-                    % endif
                 </p>
             </field>
         </record>
@@ -74,9 +71,6 @@
                            % endfor
                         </ul>
                         <br/>
-                    % endif
-                    % if object.partner_id.send_original:
-                        PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
                     % endif
                 </p>
             </field>
@@ -112,9 +106,6 @@
                             % endfor
                         </ul>
                         <br/>
-                    % endif
-                    % if object.partner_id.send_original:
-                        PS: As you requested, we will send you the original letter${s}. Please keep in mind it can take several weeks until we receive it.
                     % endif
                 </p>
             </field>

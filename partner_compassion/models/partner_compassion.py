@@ -155,13 +155,14 @@ class ResPartner(models.Model):
         help="Indicates if the partner wants to receive the Compassion " "calendar.",
         default=True,
     )
-    christmas_card = fields.Boolean(
-        help="Indicates if the partner wants to receive the " "christmas card.",
-        default=True,
-    )
     birthday_reminder = fields.Boolean(
         help="Indicates if the partner wants to receive a birthday "
              "reminder of his child.",
+        default=True,
+    )
+    sponsorship_anniversary_card = fields.Boolean(
+        help="Indicates the partner wants to receive a card when we celebrate "
+             "his or her sponsorship anniversary.",
         default=True,
     )
     photo_delivery_preference = fields.Selection(
