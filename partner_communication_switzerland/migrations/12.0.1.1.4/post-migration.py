@@ -10,10 +10,10 @@ def migrate(env, installed_version):
         return
 
     # Add activities "for dont inform" sponsors
-    sponsorships = env["res.partner"]\
-        .search([('global_communication_delivery_preference', '=', 'none')])\
-        .sponsorship_ids\
-        .filtered(lambda it: it.state in ["waiting", 'active'])
+    sponsorships = env["recurring.contract"].search([
+        ('correspondent_id.global_communication_delivery_preference', '=', 'none'),
+        ('state', 'in', ['waiting','active']),
+        ('correspondent_id.ref', '!=', '1502623')])
 
     for sponsorship in sponsorships:
         # Add the activity
