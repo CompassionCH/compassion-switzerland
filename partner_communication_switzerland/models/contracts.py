@@ -514,7 +514,7 @@ class RecurringContract(models.Model):
             contract.is_first_sponsorship = not old_sponsorships
 
             # Notify SDS when partner has "don't inform" as comm setting
-            if contract.partner_id.global_communication_delivery_preference == "none":
+            if contract.correspondent_id.global_communication_delivery_preference == "none":
                 # Notify the same SDS partner as the one notified when a sponsorship is created from the website
                 # so that we can manage partner language
                 self.notify_sds_new_sponsorship()
