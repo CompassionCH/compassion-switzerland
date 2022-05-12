@@ -54,6 +54,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/access_rules.xml",
+        "data/activity_data.xml",
         "data/major_revision_emails.xml",
         "data/child_letter_emails.xml",
         "data/lifecycle_emails.xml",
