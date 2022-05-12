@@ -487,14 +487,14 @@ class RecurringContract(models.Model):
         self.ensure_one()
         config_settings = self.env["res.config.settings"].sudo()
         sds_partner_id = config_settings.get_sponsorship_de_id()
-        if self.partner_id.lang == 'fr_CH':
+        if self.correspondent_id.lang == 'fr_CH':
             sds_partner_id = config_settings.get_sponsorship_fr_id()
-        if self.partner_id.lang == 'it_IT':
+        if self.correspondent_id.lang == 'it_IT':
             sds_partner_id = config_settings.get_sponsorship_it_id()
         sds_user = self.env['res.users'].sudo().search([('partner_id', '=', int(sds_partner_id))])
 
         if sds_user.id:
-            self.partner_id.activity_schedule(
+            self.correspondent_id.activity_schedule(
                 'partner_communication_switzerland.activity_check_partner_no_communication',
                 date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
                 summary=_("Notify partner of new sponsorship"),
