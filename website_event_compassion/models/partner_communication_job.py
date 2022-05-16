@@ -68,10 +68,9 @@ class CommunicationJob(models.Model):
             "communication": event_name,
         }
         report_name = "report_compassion.bvr_fund"
+        report = self.env.ref("report_compassion.report_bvr_fund")
         pdf_data = base64.b64encode(
-            self.env["report"]
-                .with_context(must_skip_send_to_printer=True)
-                .render_qweb_pdf(registration.partner_id.ids, report_name,
-                                 data=report_vals)
+            report.with_context(must_skip_send_to_printer=True)
+            .render_qweb_pdf(registration.partner_id.ids, data=report_vals)[0]
         )
         return {event_name + ".pdf": [report_name, pdf_data]}
