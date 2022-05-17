@@ -527,7 +527,7 @@ class ResPartner(models.Model):
                 ("lastname", "ilike", vals.get('lastname')),
                 ("zip", "=", vals.get('zip')),
             ]),
-            # address check
+            # name and address check
             (vals.get('lastname') and vals.get('street') and vals.get('zip'), [
                 "&",
                 "&",
