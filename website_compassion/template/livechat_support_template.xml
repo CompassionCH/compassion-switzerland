@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="support_page" inherit_id="im_livechat.support_page">
+        <xpath expr="//body/div/div" position="replace">
+            <div>
+                <p>You can chat with our team using the popup at the bottom right of the page.</p>
+                <p>The chat is available during our office hours only.</p>
+            </div>
+        </xpath>
+    </template>
+</odoo>

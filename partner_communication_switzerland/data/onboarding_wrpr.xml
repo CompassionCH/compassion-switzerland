@@ -60,7 +60,21 @@
     % set dir = 'euch' if plural else 'dir'
     % set dich = 'euch' if plural else 'dich'
     % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
-% set my_url = "https://stage.compassion.ch/my/children" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = "https://stage.compassion.ch/im_livechat/support/2"
+    % if partner.user_ids.login_date:
+        % set my_url = "https://stage.compassion.ch/my/children"
+        % set chat_url = my_url
+    % else:
+        % if partner.email:
+            % if not partner.signup_url:
+                % set void = partner.action_signup_prepare()
+                % set void = partner.env.clear()
+            % endif
+            % set my_url = partner.signup_url
+        % else:
+            % set my_url = "https://stage.compassion.ch/registration/" + partner.uuid + "?source=myaccount"
+        % endif
+    % endif
 </div>
 <p>
 2/8:
@@ -81,7 +95,7 @@ ${"Registriert euch" if plural else "Registriere dich"} dazu auf MyCompassion: <
 Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -103,7 +117,8 @@ Fragen? <a href="${my_url}">${my_url}</a>
     % set dir = 'euch' if plural else 'dir'
     % set dich = 'euch' if plural else 'dich'
     % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
-% set my_url = "https://stage.compassion.ch/my/letter" if partner.user_ids.login_date else partner.signup_url
+    % set my_url = "https://stage.compassion.ch/my/letter" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = my_url if partner.user_ids.login_date else "https://stage.compassion.ch/im_livechat/support/2"
 </div>
 <p>
 3/8:
@@ -119,7 +134,7 @@ Fragen? <a href="${my_url}">${my_url}</a>
 <p>Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -145,7 +160,8 @@ Fragen? <a href="${my_url}">${my_url}</a>
     % set alumni_name = country.get_list('alumni_representative')
     % set alumni_link = country.get_list('alumni_video_link', 1, 'https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion')
     % set multi_link = alumni_link == 'https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion'
-% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = my_url if partner.user_ids.login_date else "https://stage.compassion.ch/im_livechat/support/2"
 </div>
 <p>4/8:
 <br/>${partner.salutation}
@@ -170,7 +186,7 @@ die Geschichte von ${alumni_name} an: <a href="${alumni_link}">${alumni_link}</a
 <p>Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -192,7 +208,8 @@ Fragen? <a href="${my_url}">${my_url}</a>
     % set dir = 'euch' if plural else 'dir'
     % set dich = 'euch' if plural else 'dich'
     % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
-% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = my_url if partner.user_ids.login_date else "https://stage.compassion.ch/im_livechat/support/2"
 </div>
 <p>5/8:
 <br/>${partner.salutation}
@@ -204,7 +221,7 @@ Fragen? <a href="${my_url}">${my_url}</a>
 <p>Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -227,7 +244,8 @@ Fragen? <a href="${my_url}">${my_url}</a>
     % set dich = 'euch' if plural else 'dich'
     % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
     % set survey = object.env.ref("partner_compassion.partner_segmentation_survey").public_url
-% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = my_url if partner.user_ids.login_date else "https://stage.compassion.ch/im_livechat/support/2"
 </div>
 <p>6/8:
 <br/>${partner.salutation}
@@ -241,7 +259,7 @@ Fragen? <a href="${my_url}">${my_url}</a>
 <p>Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -264,7 +282,8 @@ Fragen? <a href="${my_url}">${my_url}</a>
     % set dir = 'euch' if plural else 'dir'
     % set dich = 'euch' if plural else 'dich'
     % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
-% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = my_url if partner.user_ids.login_date else "https://stage.compassion.ch/im_livechat/support/2"
 </div>
 <p>7/8:
 <br/>${partner.salutation}
@@ -276,7 +295,7 @@ Fragen? <a href="${my_url}">${my_url}</a>
 <p>Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -299,7 +318,8 @@ Fragen? <a href="${my_url}">${my_url}</a>
     % set dich = 'euch' if plural else 'dich'
     % set deine_patenkinder = 'deine Patenkinder' if not plural else 'eure Patenkinder'
     % set survey = object.env.ref('partner_communication_switzerland.wrpr_onboarding_survey').public_url
-% set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set my_url = "https://stage.compassion.ch/my/home" if partner.user_ids.login_date else partner.signup_url
+    % set chat_url = my_url if partner.user_ids.login_date else "https://stage.compassion.ch/im_livechat/support/2"
 </div>
 <p>8/8:
 <br/>${partner.salutation}
@@ -311,7 +331,7 @@ Fragen? <a href="${my_url}">${my_url}</a>
 <p>Liebe Grüsse<br/>
 Sarah<br/>
 Tel: +41 (0)31 552 21 21<br/>
-Fragen? <a href="${my_url}">${my_url}</a>
+Fragen? <a href="${chat_url}">${chat_url}</a>
 </p>
         </field>
     </record>
@@ -380,7 +400,7 @@ Fragen? <a href="${my_url}">${my_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
         <field name="trg_date_range">1</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
