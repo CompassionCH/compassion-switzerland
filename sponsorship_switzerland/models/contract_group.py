@@ -22,7 +22,7 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    bvr_reference = fields.Char("BVR Ref", size=32, track_visibility="onchange")
+    bvr_reference = fields.Char("BVR Ref", size=150, track_visibility="onchange")
     payment_mode_id = fields.Many2one(
         default=lambda self: self._get_op_payment_mode(), readonly=False
     )
@@ -189,6 +189,13 @@ class ContractGroup(models.Model):
     def on_change_bvr_ref(self):
         """ Test the validity of a reference number. """
         bvr_reference = self.bvr_reference
+
+        # Omit check if payment mode is wire transfer so that we can manually
+        # create recurring contracts based on recurrent payment a partner does
+        # reference: CO-3971
+        if self.payment_mode_id.name == 'wire transfer':
+            return
+
         is_valid = bvr_reference and bvr_reference.isdigit()
         if is_valid and len(bvr_reference) == 26:
             bvr_reference = mod10r(bvr_reference)
