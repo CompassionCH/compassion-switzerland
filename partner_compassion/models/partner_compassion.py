@@ -537,10 +537,12 @@ class ResPartner(models.Model):
             ])
         ]
 
+        # This step builds a domain query based on the checks that
+        # passed, prepending the list with a "|" operator for all item
+        # once its size is > 1
         search_filters = []
         for check in checks:
             if skip_props_check or check[0]:
-                # build domain and add or operator
                 if len(search_filters) > 0:
                     search_filters.insert(0, "|")
                 search_filters.extend(check[1])
