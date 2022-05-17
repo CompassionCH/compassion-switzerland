@@ -369,25 +369,9 @@ class ResPartner(models.Model):
     ##########################################################################
     @api.model
     def create(self, vals):
-        """
-        Lookup for duplicate partners and notify.
-        """
-        email = vals.get("email")
-        if email:
-            vals["email"] = email.strip()
-        duplicate = self.search(
-            [
-                "|",
-                "&",
-                ("email", "=", vals.get("email")),
-                ("email", "!=", False),
-                "&",
-                "&",
-                ("firstname", "ilike", vals.get("firstname")),
-                ("lastname", "ilike", vals.get("lastname")),
-                ("zip", "=", vals.get("zip")),
-            ]
-        )
+        duplicate_domain = self._check_duplicates_domain(vals, skip_props_check=True)
+        duplicate = self.search(duplicate_domain)
+
         duplicate_ids = [(4, itm.id) for itm in duplicate]
         vals.update({"partner_duplicate_ids": duplicate_ids})
         vals["ref"] = self.env["ir.sequence"].get("partner.ref")
@@ -517,47 +501,80 @@ class ResPartner(models.Model):
                 raise
         return True
 
+    def _check_duplicates_domain(self, vals=None, skip_props_check=False):
+        if not vals:
+            vals = {
+                "email": self.email,
+                "firstname": self.firstname,
+                "lastname": self.lastname,
+                "zip": self.zip,
+                "street": self.street,
+            }
+
+        # define set of checks for duplicates and required fields
+        checks = [
+            # Email check
+            (vals.get('email'), [
+                '&',
+                ('email', '=', vals.get('email')),
+                ('email', '!=', False)
+            ]),
+            # zip and name check
+            (vals.get('firstname') and vals.get('lastname') and vals.get('zip'), [
+                "&",
+                "&",
+                ("firstname", "ilike", vals.get('firstname')),
+                ("lastname", "ilike", vals.get('lastname')),
+                ("zip", "=", vals.get('zip')),
+            ]),
+            # address check
+            (vals.get('lastname') and vals.get('street') and vals.get('zip'), [
+                "&",
+                "&",
+                ("lastname", "ilike", vals.get('lastname')),
+                ("zip", "=", vals.get('zip')),
+                ("street", "ilike", vals.get('street'))
+            ])
+        ]
+
+        search_filters = []
+        for check in checks:
+            if skip_props_check or check[0]:
+                # build domain and add or operator
+                if len(search_filters) > 0:
+                    search_filters.insert(0, "|")
+                search_filters.extend(check[1])
+        return search_filters
+
     ##########################################################################
     #                             ONCHANGE METHODS                           #
     ##########################################################################
     @api.onchange("lastname", "firstname", "zip", "email")
     def _onchange_partner(self):
-        if (
-                (self.lastname and self.firstname and self.zip) or self.email
-        ) and self.contact_type != "attached":
-            partner_duplicates = self.search(
-                [
-                    ("id", "!=", self._origin.id),
-                    "|",
-                    "&",
-                    ("email", "=", self.email),
-                    ("email", "!=", False),
-                    "&",
-                    "&",
-                    ("firstname", "ilike", self.firstname),
-                    ("lastname", "ilike", self.lastname),
-                    ("zip", "=", self.zip),
-                ]
-            )
-            if partner_duplicates:
-                self.partner_duplicate_ids = partner_duplicates
-                # Commit the found duplicates
-                with api.Environment.manage():
-                    with registry(self.env.cr.dbname).cursor() as new_cr:
-                        new_env = api.Environment(new_cr, self.env.uid, {})
-                        self._origin.with_env(new_env).write(
-                            {"partner_duplicate_ids": [(6, 0, partner_duplicates.ids)]}
-                        )
-                return {
-                    "warning": {
-                        "title": _("Possible existing partners found"),
-                        "message": _(
-                            "The partner you want to add may "
-                            'already exist. Please use the "'
-                            'Check duplicates" button to review it.'
-                        ),
-                    },
-                }
+        duplicates_domain = self._check_duplicates_domain(skip_props_check=False)
+        if self.contact_type == "attached" or not duplicates_domain:
+            return
+
+        partner_duplicates = self.search([("id", "!=", self._origin.id)] + duplicates_domain)
+        if partner_duplicates:
+            self.partner_duplicate_ids = partner_duplicates
+            # Commit the found duplicates
+            with api.Environment.manage():
+                with registry(self.env.cr.dbname).cursor() as new_cr:
+                    new_env = api.Environment(new_cr, self.env.uid, {})
+                    self._origin.with_env(new_env).write(
+                        {"partner_duplicate_ids": [(6, 0, partner_duplicates.ids)]}
+                    )
+            return {
+                "warning": {
+                    "title": _("Possible existing partners found"),
+                    "message": _(
+                        "The partner you want to add may "
+                        'already exist. Please use the "'
+                        'Check duplicates" button to review it.'
+                    ),
+                },
+            }
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
