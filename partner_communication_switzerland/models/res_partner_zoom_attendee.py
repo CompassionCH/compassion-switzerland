@@ -124,6 +124,6 @@ class ZoomAttendee(models.Model):
     def form_completion_callback(self):
         self.ensure_one()
         if datetime.now() >= (
-                self.zoom_session_id.date_send_link or self.zoom_session_id.date_start):
+                self.zoom_session_id.date_send_link or self.zoom_session_id.date_start) and self.state != "declined":
             return self.send_communication(ZoomCommunication.LINK)
         return self.send_communication(ZoomCommunication.REGISTRATION)
