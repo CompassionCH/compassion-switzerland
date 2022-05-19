@@ -502,6 +502,11 @@ class ResPartner(models.Model):
         return True
 
     def _check_duplicates_domain(self, vals=None, skip_props_check=False):
+        """
+        Generates a search domain to find duplicates for this partner based on various filters
+        :param dict vals: a dictionnary containing values used by the filters, inferred from self if not provided
+        :param bool skip_props_checks: whether you want to skip verifying that each variable's filter are set, thus running them all anyway
+        """
         if not vals:
             vals = {
                 "email": self.email,
