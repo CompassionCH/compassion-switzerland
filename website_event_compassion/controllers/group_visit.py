@@ -105,7 +105,7 @@ class GroupVisitController(EventsController):
 
     def get_payment_form(self, reg_uid, form_model, **kwargs):
         kwargs["form_model_key"] = form_model
-        values = self._get_group_visit_page_values(reg_uid, "account.invoice", **kwargs)
+        values = self._get_group_visit_page_values(reg_uid, "cms.form.event.group.visit.payment", **kwargs)
         if not isinstance(values, dict):
             # values can be a redirect in case of error
             return values
@@ -221,7 +221,7 @@ class GroupVisitController(EventsController):
         :param kwargs: calling args
         :return: dict of values for template rendering
         """
-        registration = request.env["event.registration"].search(
+        registration = request.env["event.registration"].sudo().search(
             [("uuid", "=", reg_uid)]
         )
         if not registration:

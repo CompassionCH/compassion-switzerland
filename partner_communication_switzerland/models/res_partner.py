@@ -253,7 +253,7 @@ class ResPartner(models.Model):
                 ("partner_id.tax_certificate", "!=", "no"),
             ]
         )
-        config = self.env.ref("partner_communication_switzerland." "tax_receipt_config")
+        config = self.env.ref("partner_communication_switzerland.tax_receipt_config")
         existing_comm = self.env["partner.communication.job"].search(
             [
                 ("config_id", "=", config.id),
@@ -261,7 +261,7 @@ class ResPartner(models.Model):
                 ("date", ">", end_date),
             ]
         )
-        partners = invoice_lines.mapped("partner_id") - existing_comm.mapped(
+        partners = invoice_lines.mapped("partner_id.commercial_partner_id") - existing_comm.mapped(
             "partner_id"
         )
         total = len(partners)

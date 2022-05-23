@@ -97,3 +97,7 @@ class GroupVisitPaymentForm(models.AbstractModel):
                 }
             )
         return group_visit_invoice
+
+    def _form_create(self, values):
+        # Do nothing here
+        return True
