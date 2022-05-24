@@ -68,7 +68,7 @@
                                         </a>
                                     </p>
                                     <p class="center-text">
-                                        <a t-attf-href="https://#{ registration.wordpress_host }/parrainer-un-enfant/?eventId=#{ event.id }&amp;eventName=#{ event.name }&amp;registrationId=#{ registration.id }&amp;participantId=#{ registration.partner_id_id }&amp;participantName=#{ registration.partner_name }"
+                                        <a t-attf-href="https://#{ registration.sponsorship_url }?eventId=#{ event.id }&amp;eventName=#{ event.name }&amp;registrationId=#{ registration.id }&amp;participantId=#{ registration.partner_id_id }&amp;participantName=#{ registration.partner_name }"
                                            class="btn btn-danger btn-muskathlon">
                                             Sponsor a child
                                         </a>

@@ -5,6 +5,7 @@
         <template id="custom_footer_it" inherit_id="website.layout"
                   name="Custom Footer IT" priority="1000">
             <xpath expr="//div[@id='italian']" position="replace">
+                <t t-set="wordpress" t-value="request.env['wordpress.configuration'].sudo().get_config()"/>
                 <div class="row">
                     <div class="col-sm-3">
                         <ul>
@@ -14,28 +15,28 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="https://compassion.ch/it/parrainer-un-enfant/">
+                                        <a t-att-href="'https://' +  + wordpress.sponsorship_url">
                                             Sostieni un bambino
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/combattre-la-pauvrete/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/combattre-la-pauvrete/">
                                             Combattere la povertà
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/que-change-votre-parrainage/">
+                                        <a t-attf-href="https://https://#{wordpress.host}/it/que-change-votre-parrainage/">
                                             Cosa fa in concreto il vostro
                                             sostegno ?
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/offrir/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/offrir/">
                                             Offrire un regalo
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/ecrire/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/ecrire/">
                                             Scrivere
                                         </a>
                                     </li>
@@ -47,12 +48,12 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="https://compassion.ch/it/donations/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/donations/">
                                             Donare
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/participer/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/participer/">
                                             Impegnati come volontario
                                         </a>
                                     </li>
@@ -73,39 +74,39 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a href="https://compassion.ch/it/qui-sommes-nous/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/qui-sommes-nous/">
                                             Chi siamo
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/historique/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/historique/">
                                             La storia di Compasssion
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/finanze/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/finanze/">
                                             Finanze
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/ambasciatori/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/ambasciatori/">
                                             Ambasciatori di Compassion
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/telechargements/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/telechargements/">
                                             Download
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://compassion.ch/it/category/press-it/">
+                                        <a t-attf-href="https://#{wordpress.host}/it/category/press-it/">
                                             Compassion nei media
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="https://compassion.ch/it/nosprincipes/"
+                                <a t-attf-href="https://#{wordpress.host}/it/nosprincipes/"
                                    class="footer_section_title">I principi di
                                     Compassion
                                 </a>
@@ -115,22 +116,22 @@
                     <div class="col-sm-3">
                         <ul>
                             <li>
-                                <a href="https://compassion.ch/it/news/"
+                                <a t-attf-href="https://#{wordpress.host}/it/news/"
                                    class="footer_section_title">Blog
                                 </a>
                             </li>
                             <li>
-                                <a href="https://compassion.ch/it/newsletter/"
+                                <a t-attf-href="https://#{wordpress.host}/it/newsletter/"
                                    class="footer_section_title">Newsletter
                                 </a>
                             </li>
                             <li>
-                                <a href="https://compassion.ch/it/agenda/"
+                                <a t-attf-href="https://#{wordpress.host}/it/agenda/"
                                    class="footer_section_title">Agenda
                                 </a>
                             </li>
                             <li>
-                                <a href="https://compassion.ch/it/lapp-di-compassion-svizzera/">
+                                <a t-attf-href="https://#{wordpress.host}/it/lapp-di-compassion-svizzera/">
                                     L'app di Compassion
                                 </a>
                             </li>
@@ -184,21 +185,21 @@
                         <div class="col-sm-8 end_footer_links">
                             <ul>
                                 <li>
-                                    <a href="https://compassion.ch/it/contact/"
+                                    <a t-attf-href="https://#{wordpress.host}/it/contact/"
                                        class="end_footer_link">Contatti
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://compassion.ch/it/privacy-e-termini/"
+                                    <a t-attf-href="https://#{wordpress.host}/it/privacy-e-termini/"
                                        class="end_footer_link">Privacy e termini
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://compassion.ch/it/?page_id=17181"
+                                    <a t-attf-href="https://#{wordpress.host}/it/?page_id=17181"
                                        class="end_footer_link">Dichiarazione di impegno per la protezione dell’infanzia</a>
                                 </li>
                                 <li>
-                                    <a href="https://compassion.ch/it/domande-frequenti/"
+                                    <a t-attf-href="https://#{wordpress.host}/it/domande-frequenti/"
                                        class="end_footer_link">Domande frequenti
                                     </a>
                                 </li>

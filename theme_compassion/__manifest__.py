@@ -34,7 +34,7 @@
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "depends": ["website", "website_theme_install"],
+    "depends": ["website", "website_theme_install", "wordpress_configuration"],
     "data": [
         "views/footer.xml",
         "views/footer_fr.xml",
