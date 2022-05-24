@@ -193,7 +193,7 @@ class ContractGroup(models.Model):
         # Omit check if payment mode is wire transfer so that we can manually
         # create recurring contracts based on recurrent payment a partner does
         # reference: CO-3971
-        if self.payment_mode_id.name == 'wire transfer':
+        if self.payment_mode_id.with_context(lang="en_US").name == 'wire transfer':
             return
 
         is_valid = bvr_reference and bvr_reference.isdigit()
