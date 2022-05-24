@@ -53,7 +53,7 @@ class StatementCompletionRule(models.Model):
             ("get_from_lsv_dd", "Compassion: Put LSV DD Credits in 1098"),
             (
                 "recurring_contract_wire_transfer_mapping",
-                "Compassion: From custom reference on wire transfer"
+                "Compassion: From custom note on wire transfer"
                 "(based on the CAMT label)",
             ),
             (
@@ -151,13 +151,12 @@ class StatementCompletionRule(models.Model):
             logger.warning("Unable to find wire transfer payment mode")
             return res
 
-        recurring_contract_groups = self.env['recurring.contract.group'].search([
-            ("bvr_reference", "!=", False),
+        recurring_contracts = self.env['recurring.contract'].search([
+            ("comment", "ilike", name),
             ("payment_mode_id", "=", wire_transfer_mode.id)
-        ]).filtered(lambda it: name.startswith(it.bvr_reference))
-
-        if recurring_contract_groups:
-            res['partner_id'] = recurring_contract_groups[0].partner_id
+        ])
+        if recurring_contracts:
+            res['partner_id'] = recurring_contracts[0].partner_id
 
         return res
 

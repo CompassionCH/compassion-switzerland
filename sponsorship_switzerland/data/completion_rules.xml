@@ -26,7 +26,7 @@
     </record>
 
     <record id="bank_statement_completion_rule_recurring_contract_wire_transfer_mapping" model="account.statement.completion.rule">
-        <field name="name">Match wire transfer payment mode custom ref</field>
+        <field name="name">Match wire transfer payment mode custom note</field>
         <field name="sequence">20</field>
         <field name="function_to_call">recurring_contract_wire_transfer_mapping</field>
     </record>
