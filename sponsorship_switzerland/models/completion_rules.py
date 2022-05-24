@@ -152,7 +152,6 @@ class StatementCompletionRule(models.Model):
             return res
 
         recurring_contract_groups = self.env['recurring.contract.group'].search([
-            "&",
             ("bvr_reference", "!=", False),
             ("payment_mode_id", "=", wire_transfer_mode.id)
         ]).filtered(lambda it: name.startswith(it.bvr_reference))
