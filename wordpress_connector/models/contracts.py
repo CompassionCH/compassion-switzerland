@@ -329,7 +329,7 @@ class Contracts(models.Model):
             """Log the error and send a mail stating that it failed running"""
             _logger.error("Wordpress create sponsorship job failed", exc_info=True)
             child.activity_schedule(
-                'mail_activity_data_warning',
+                'mail.mail_activity_data_warning',
                 summary="[URGENT] Wordpress create sponsorship job failed",
                 note="Please verify this new sponsorship made from the website with "
                      f"following information: {str(form_data)}, "
