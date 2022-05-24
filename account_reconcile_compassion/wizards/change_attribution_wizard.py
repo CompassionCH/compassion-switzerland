@@ -88,7 +88,7 @@ class ChangeAttributionWizard(models.TransientModel):
                         {
                             "date_invoice": invoice.date_invoice,
                             "comment": self.comment
-                            or "New invoice after " "payment attribution changed.",
+                            or "New invoice after payment attribution changed.",
                             "invoice_line_ids": False,
                         }
                     )

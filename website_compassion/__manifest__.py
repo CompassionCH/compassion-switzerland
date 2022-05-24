@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion Website",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "category": "Website",
     "author": "Sebastien Toth",
     "license": "AGPL-3",
@@ -49,9 +49,9 @@
         'views/auth_signup.xml',
         "views/correspondence_template_view.xml",
         "views/robots.xml",
+        "views/header.xml",
     ],
     "depends": [
-        "theme_compassion",
         "partner_communication_switzerland",
         "password_security",
     ],

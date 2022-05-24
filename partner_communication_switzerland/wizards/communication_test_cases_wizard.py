@@ -94,7 +94,6 @@ class GenerateCommunicationWizard(models.TransientModel):
         self.ensure_one()
         if not self.partner_selected:
             raise exceptions.UserError("No partner selected")
-            return False
         case = self.config_id.generate_test_case_by_partner(
             self.partner, self.child_ids, self.send_mode)
         self._apply_cases([case])

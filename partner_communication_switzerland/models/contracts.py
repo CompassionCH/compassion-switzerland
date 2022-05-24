@@ -9,7 +9,7 @@
 ##############################################################################
 import base64
 import logging
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -55,6 +55,7 @@ class RecurringContract(models.Model):
     onboarding_start_date = fields.Date(help="Indicates when the first email of "
                                              "the onboarding process was sent.",
                                         copy=False)
+    sub_proposal_date = fields.Date(help="Trigger for automatic SUB sponsorship validation after 2 weeks")
 
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
@@ -482,6 +483,25 @@ class RecurringContract(models.Model):
 
         return res
 
+    def notify_sds_new_sponsorship(self):
+        self.ensure_one()
+        config_settings = self.env["res.config.settings"].sudo()
+        sds_partner_id = config_settings.get_sponsorship_de_id()
+        if self.correspondent_id.lang == 'fr_CH':
+            sds_partner_id = config_settings.get_sponsorship_fr_id()
+        if self.correspondent_id.lang == 'it_IT':
+            sds_partner_id = config_settings.get_sponsorship_it_id()
+        sds_user = self.env['res.users'].sudo().search([('partner_id', '=', int(sds_partner_id))])
+
+        if sds_user.id:
+            self.correspondent_id.activity_schedule(
+                'partner_communication_switzerland.activity_check_partner_no_communication',
+                date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
+                summary=_("Notify partner of new sponsorship"),
+                note=_("A sponsorship was added to a partner with the communication settings set to \"don't " +
+                       "inform\", please notify him of it"),
+                user_id=sds_user.id
+            )
     @api.multi
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
@@ -492,6 +512,12 @@ class RecurringContract(models.Model):
                 lambda c: c.state != "cancelled" and c.start_date
                 and c.start_date < contract.start_date)
             contract.is_first_sponsorship = not old_sponsorships
+
+            # Notify SDS when partner has "don't inform" as comm setting
+            if contract.correspondent_id.global_communication_delivery_preference == "none":
+                # Notify the same SDS partner as the one notified when a sponsorship is created from the website
+                # so that we can manage partner language
+                self.notify_sds_new_sponsorship()
 
         self.filtered(
             lambda c: "S" in c.type
@@ -566,6 +592,9 @@ class RecurringContract(models.Model):
                 ("state", "=", "pending")
             ]).unlink()
         return True
+
+    def cancel_sub_validation(self):
+        return self.write({"sub_proposal_date": False})
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

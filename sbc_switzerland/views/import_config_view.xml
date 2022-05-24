@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
 
             <!-- add text edit for import folder path -->
-            <field name="mandatory_review" position="before">
+            <field name="template_id" position="after">
                 <field name="import_folder_path"/>
             </field>
 

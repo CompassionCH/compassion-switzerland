@@ -31,6 +31,11 @@ class Step2Forms(models.AbstractModel):
         res["form_id"] = "cms_form_compassion.form.widget.hidden"
         return res
 
+    def form_init(self, request, main_object=None, **kw):
+        if main_object:
+            main_object = main_object.sudo()
+        return super().form_init(request, main_object, **kw)
+
     def form_cancel_url(self, main_object=None):
         """URL to redirect to after click on "cancel" button."""
         main_object = main_object or self.main_object
@@ -266,7 +271,7 @@ class TripForm(models.AbstractModel):
             valid = True
             old = False
             try:
-                date = datetime.strptime(value, "%d.%m.%Y")
+                date = fields.Datetime.from_string(value)
                 limit_date = (
                     self.main_object.compassion_event_id.end_date
                     + relativedelta(months=6)

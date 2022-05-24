@@ -12,6 +12,5 @@
 
     <record id="crm_phone.crm_phonecall_action_open" model="ir.actions.act_window">
         <field name="context">{'search_default_my_calls': 1, 'search_default_open': 1, 'default_state': 'open'}</field>
-        <!--<field name="search_view_id" ref="crm.phonecall.search"/>-->
     </record>
 </odoo>

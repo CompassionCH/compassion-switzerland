@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="zoom_registration_template" name="Zoom registration">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website.layout">
             <t t-set="title">Video Conference - New sponsors - Compassion Switzerland</t>
             <div class="blue-section pb-4">
                 <t t-if="request.env.lang == 'fr_CH'">
@@ -33,7 +33,7 @@
     </template>
 
     <template id="zoom_registration_done_template" name="Zoom registration done">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website.layout">
             <div class="container">
                 <h1>Thank you for your submission!</h1>
                 <br/>

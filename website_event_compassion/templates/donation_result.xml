@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="donation_successful" name="Event donation success">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="title" t-value="event.name"/>
             <div class="oe_structure donation_success">
                 <div class="thank_you_container">
@@ -32,7 +32,7 @@
     </template>
 
     <template id="donation_failure" name="Event donation failure">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <div id="wrap">
                 <div class="container text-center">
                     <h1>Payment Aborted</h1>

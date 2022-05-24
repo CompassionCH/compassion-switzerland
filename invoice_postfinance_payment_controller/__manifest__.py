@@ -38,6 +38,7 @@
         "cms_form_compassion",  # compassion-modules
         "partner_communication",  # compassion-modules
         "l10n_ch_payment_slip",  # l10n-switzerland
+        "payment_postfinance_flex"
     ],
     "data": [
         "views/send_postfinance_link_view.xml",

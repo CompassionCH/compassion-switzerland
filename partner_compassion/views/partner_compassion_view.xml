@@ -20,14 +20,11 @@
         </field>
     </record>
 
-    <!-- Remove old send_original field -->
-    <record id="view_remove_send_original" model="ir.ui.view">
-        <field name="name">res.partner.form.remove.send_original</field>
+    <record id="view_partner_church_unlinked" model="ir.ui.view">
+        <field name="name">res.partner.form.church.unlinked</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
         <field name="arch" type="xml">
-            <field name="send_original" position="replace"/>
-
             <field name="church_id" position="after">
                 <field name="church_unlinked"
                        attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
@@ -105,14 +102,12 @@
                         </group>
                         <group>
                             <field name="opt_out"/>
-                            <field name="send_original"/>
-                            <field name="mandatory_review"/>
                         </group>
                         <group>
                             <field name="nbmag"/>
                             <field name="calendar"/>
-                            <field name="christmas_card"/>
                             <field name="birthday_reminder"/>
+                            <field name="sponsorship_anniversary_card"/>
                         </group>
                         <group>
                             <field name="tax_certificate"/>
@@ -260,7 +255,6 @@
                         </div>
                         <field name="nbmag"/>
                         <field name="calendar"/>
-                        <field name="christmas_card"/>
                     </group>
                     <group>
                         <group string="Contact information">

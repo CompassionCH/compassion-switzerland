@@ -286,10 +286,10 @@ class EventsController(PaymentFormController, FormControllerMixin):
         """
         failure_template = "website_event_compassion.donation_failure"
         error_intro = _(
-            "Thank you for your efforts in the Compassion trip registration " "process."
+            "Thank you for your efforts in the Compassion trip registration process."
         )
         try:
-            invoice = request.env["account.invoice"].browse(int(invoice_id))
+            invoice = request.env["account.invoice"].browse(int(invoice_id)).sudo()
             invoice.exists().ensure_one()
             tx = invoice.get_portal_last_transaction()
         except ValueError:
@@ -329,9 +329,7 @@ class EventsController(PaymentFormController, FormControllerMixin):
                 "the departure. Until then, don't hesitate to contact us if "
                 "you have any question."
             )
-        return super().compassion_payment_validate(
-            tx, template, failure_template, **post
-        )
+        return request.render(template, post)
 
     def get_donation_success_template(self, event):
         """

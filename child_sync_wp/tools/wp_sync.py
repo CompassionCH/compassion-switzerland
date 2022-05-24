@@ -36,7 +36,7 @@ class CustomTransport(SafeTransport):
             if not data:
                 break
             if self.verbose:
-                _logger.info("body:", repr(data))
+                _logger.info("body: " + repr(data))
             p.feed(data)
 
         if stream is not response:
@@ -116,7 +116,7 @@ class WPSync(object):
                     "Child Upload partially failed."
                     + str(count_insert)
                     + " of "
-                    + len(children)
+                    + str(len(children))
                 )
             else:
                 _logger.error("Child Upload failed.")

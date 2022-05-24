@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "12.0.1.1.3",
+    "version": "12.0.1.1.4",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -37,7 +37,6 @@
     "depends": [
         "report_compassion",
         "child_switzerland",
-        "theme_compassion",
         "sms_939",  # compassion-switzerland
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
@@ -55,6 +54,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/access_rules.xml",
+        "data/activity_data.xml",
         "data/major_revision_emails.xml",
         "data/child_letter_emails.xml",
         "data/lifecycle_emails.xml",

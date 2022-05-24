@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="my_muskathlon_order_material" name="Muskathlon order material">
-        <t t-call="theme_compassion.layout">
+        <t t-call="website_compassion.layout">
             <t t-set="event" t-value="registration.compassion_event_id"/>
 
             <!-- Modal for image of flyer in fullscreen -->

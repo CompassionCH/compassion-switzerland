@@ -179,41 +179,46 @@ class ResPartner(models.Model):
 
     def _inverse_no_physical_letter(self):
         for partner in self:
-            if partner.no_physical_letter:
-                vals = {
-                    "nbmag": "no_mag" if partner.nbmag == "no_mag" else "email",
-                    "tax_certificate": "no"
-                    if partner.tax_certificate == "no" else "only_email",
-                    "calendar": False,
-                    "christmas_card": False
-                }
-                for _field in ["global_communication_delivery_preference",
-                               "letter_delivery_preference",
-                               "photo_delivery_preference",
-                               "thankyou_preference"]:
-                    value = getattr(partner, _field)
-                    if "auto" in value or value == "both":
-                        vals[_field] = "auto_digital_only"
-                    elif value in ["physical", "digital"]:
-                        vals[_field] = "digital_only"
-                partner.write(vals)
-            else:
-                vals = {
-                    "calendar": True,
-                    "christmas_card": True
-                }
-                for _field in ["global_communication_delivery_preference",
-                               "letter_delivery_preference",
-                               "photo_delivery_preference",
-                               "thankyou_preference"]:
-                    value = getattr(partner, _field)
-                    if "only" in value:
-                        vals[_field] = value.replace("_only", "")
-                if partner.nbmag == "no_mag":
-                    vals["nbmag"] = "one"
-                if partner.tax_certificate == "only_email":
-                    vals["tax_certificate"] = "default"
-                partner.write(vals)
+            partner.compute_inverse_no_physical_letter()
+
+    def compute_inverse_no_physical_letter(self):
+        self.ensure_one()
+        no_physical_letters = self.env.context.get("no_physical_letters", self.no_physical_letter)
+        if no_physical_letters:
+            vals = {
+                "nbmag": "no_mag" if self.nbmag == "no_mag" else "email",
+                "tax_certificate": "no"
+                if self.tax_certificate == "no" else "only_email",
+                "calendar": False,
+                "sponsorship_anniversary_card": False
+            }
+            for _field in ["global_communication_delivery_preference",
+                           "letter_delivery_preference",
+                           "photo_delivery_preference",
+                           "thankyou_preference"]:
+                value = getattr(self, _field)
+                if "auto" in value or value == "both":
+                    vals[_field] = "auto_digital_only"
+                elif value in ["physical", "digital"]:
+                    vals[_field] = "digital_only"
+            self.write(vals)
+        else:
+            vals = {
+                "calendar": True,
+                "sponsorship_anniversary_card": True
+            }
+            for _field in ["global_communication_delivery_preference",
+                           "letter_delivery_preference",
+                           "photo_delivery_preference",
+                           "thankyou_preference"]:
+                value = getattr(self, _field)
+                if "only" in value:
+                    vals[_field] = value.replace("_only", "")
+            if self.nbmag == "no_mag":
+                vals["nbmag"] = "one"
+            if self.tax_certificate == "only_email":
+                vals["tax_certificate"] = "default"
+            self.write(vals)
 
     def _compute_last_completed_tax_receipt(self):
         for partner in self:
@@ -248,7 +253,7 @@ class ResPartner(models.Model):
                 ("partner_id.tax_certificate", "!=", "no"),
             ]
         )
-        config = self.env.ref("partner_communication_switzerland." "tax_receipt_config")
+        config = self.env.ref("partner_communication_switzerland.tax_receipt_config")
         existing_comm = self.env["partner.communication.job"].search(
             [
                 ("config_id", "=", config.id),
@@ -256,7 +261,7 @@ class ResPartner(models.Model):
                 ("date", ">", end_date),
             ]
         )
-        partners = invoice_lines.mapped("partner_id") - existing_comm.mapped(
+        partners = invoice_lines.mapped("partner_id.commercial_partner_id") - existing_comm.mapped(
             "partner_id"
         )
         total = len(partners)

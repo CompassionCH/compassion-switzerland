@@ -29,14 +29,13 @@
 # pylint: disable=C8101
 {
     "name": "Main Compassion Theme",
-    "version": "1.0",
+    "version": "12.0.1.0.1",
     "category": "Theme",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "depends": ["website", "website_theme_install"],
+    "depends": ["website", "website_theme_install", "wordpress_configuration"],
     "data": [
-        "views/header.xml",
         "views/footer.xml",
         "views/footer_fr.xml",
         "views/footer_de.xml",
