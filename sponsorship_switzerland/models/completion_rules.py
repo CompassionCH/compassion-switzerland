@@ -52,6 +52,11 @@ class StatementCompletionRule(models.Model):
             ),
             ("get_from_lsv_dd", "Compassion: Put LSV DD Credits in 1098"),
             (
+                "recurring_contract_wire_transfer_mapping",
+                "Compassion: From custom reference on wire transfer"
+                "(based on the CAMT label)",
+            ),
+            (
                 "get_sponsor_name",
                 "Compassion[POST]: From sponsor reference "
                 "(based the sponsor name in the description)",
@@ -129,6 +134,32 @@ class StatementCompletionRule(models.Model):
                     f'Line named "{name}" (Ref:{ref}) was matched by more '
                     "than one partner while looking on partners"
                 )
+        return res
+
+    def recurring_contract_wire_transfer_mapping(self, stmts_val, st_line):
+        if "name" not in st_line:
+            return
+
+        name = st_line['name']
+        res = dict()
+
+        wire_transfer_mode = self.env['account.payment.mode'].search([
+            ("name", "=", "wire transfer")
+        ])
+
+        if not wire_transfer_mode:
+            logger.warning("Unable to find wire transfer payment mode")
+            return res
+
+        recurring_contract_groups = self.env['recurring.contract.group'].search([
+            "&",
+            ("bvr_reference", "!=", False),
+            ("payment_mode_id", "=", wire_transfer_mode.id)
+        ]).filtered(lambda it: name.startswith(it.bvr_reference))
+
+        if recurring_contract_groups:
+            res['partner_id'] = recurring_contract_groups.partner_id
+
         return res
 
     def get_from_bvr_ref(self, stmts_vals, st_line):
