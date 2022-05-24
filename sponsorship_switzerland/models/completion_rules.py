@@ -143,7 +143,7 @@ class StatementCompletionRule(models.Model):
         name = st_line['name']
         res = dict()
 
-        wire_transfer_mode = self.env['account.payment.mode'].search([
+        wire_transfer_mode = self.env['account.payment.mode'].with_context(lang="en_US").search([
             ("name", "=", "wire transfer")
         ])
 
