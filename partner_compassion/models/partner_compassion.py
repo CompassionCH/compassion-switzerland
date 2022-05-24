@@ -388,6 +388,11 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
+        # Avoid cascading the name from the user
+        if "name" in vals and self.env.context.get("write_from_user"):
+            del vals["name"]
+            if not vals:
+                return True
         if vals.get("criminal_record"):
             vals["criminal_record_date"] = fields.Date.today()
         if vals.get("interested_for_volunteering"):
