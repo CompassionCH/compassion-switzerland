@@ -157,7 +157,7 @@ class StatementCompletionRule(models.Model):
         ]).filtered(lambda it: name.startswith(it.bvr_reference))
 
         if recurring_contract_groups:
-            res['partner_id'] = recurring_contract_groups.partner_id
+            res['partner_id'] = recurring_contract_groups[0].partner_id
 
         return res
 
