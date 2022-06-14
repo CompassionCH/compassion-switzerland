@@ -1,7 +1,9 @@
 <odoo>
-    <!-- Mail templates -->
+    <data noupdate="1">
+        <!-- Mail templates -->
     <record id="mail_wrpr_welcome" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Welcome</field>
+        <field name="subject">Write&amp;Pray Onboarding - Welcome</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -44,6 +46,7 @@
     </record>
     <record id="mail_wrpr_child_info" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Child information</field>
+        <field name="subject">Write&amp;Pray Onboarding - Child information</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -101,6 +104,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
     </record>
     <record id="mail_wrpr_letter_info" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Letter writing information</field>
+        <field name="subject">Write&amp;Pray Onboarding - Letter writing information</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -140,6 +144,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
     </record>
     <record id="mail_wrpr_poverty" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Poverty</field>
+        <field name="subject">Write&amp;Pray Onboarding - Poverty</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -192,6 +197,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
     </record>
     <record id="mail_wrpr_child_protection" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Child Protection</field>
+        <field name="subject">Write&amp;Pray Onboarding - Child Protection</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -227,6 +233,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
     </record>
     <record id="mail_wrpr_segmentation" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Segmentation</field>
+        <field name="subject">Write&amp;Pray Onboarding - Segmentation</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -265,6 +272,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
     </record>
     <record id="mail_wrpr_volunteering" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Volunteering</field>
+        <field name="subject">Write&amp;Pray Onboarding - Volunteering</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -301,6 +309,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
     </record>
     <record id="mail_wrpr_feedback" model="mail.template">
         <field name="name">Write&amp;Pray Onboarding - Feedback</field>
+        <field name="subject">Write&amp;Pray Onboarding - Feedback</field>
         <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
         <field name="email_from">"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
@@ -400,7 +409,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">1</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -414,7 +423,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">2</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -428,7 +437,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">3</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -442,7 +451,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">4</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -456,7 +465,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">5</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -470,7 +479,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">6</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -484,7 +493,7 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="model_id" ref="model_recurring_contract"/>
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"/>
-        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US'])]"/>
+        <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]"/>
         <field name="trg_date_range">7</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">communication</field>
@@ -493,4 +502,5 @@ Fragen? <a href="${chat_url}">${chat_url}</a>
         <field name="send_mode">sms</field>
         <field name="auto_send" eval="True"/>
     </record>
+    </data>
 </odoo>

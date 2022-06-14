@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-21 12:03+0000\n"
-"PO-Revision-Date: 2022-04-21 14:33+0200\n"
+"POT-Creation-Date: 2022-06-14 06:33+0000\n"
+"PO-Revision-Date: 2022-06-27 13:08+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
@@ -99,7 +99,6 @@ msgstr "<b>Monatliche Spende</b>"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_sponsorship_donation
-#| msgid "<b>Date</b>"
 msgid "<b>Upgrade</b>"
 msgstr "<b>Spende erhöhen</b>"
 
@@ -311,6 +310,7 @@ msgstr "Datenschutz unterschreiben"
 #: model:ir.model.fields,field_description:website_compassion.field_mobile_app_feedback__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_note_note__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_partner_communication_job__activity_ids
+#: model:ir.model.fields,field_description:website_compassion.field_partner_log_other_interaction__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_product_product__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_product_template__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_project_task__activity_ids
@@ -567,6 +567,11 @@ msgid "Created With Magic Link"
 msgstr ""
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.layout
+msgid "DE"
+msgstr ""
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Data protection"
 msgstr "Datenschutz"
@@ -658,6 +663,11 @@ msgid "FAQ"
 msgstr ""
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.layout
+msgid "FR"
+msgstr ""
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Family"
 msgstr "Familie"
@@ -703,6 +713,11 @@ msgid "Gift history"
 msgstr "Geschenke"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.support_page
+msgid "Hello, do you have questions about your write&amp;pray sponsorship?"
+msgstr "Hallo, hast du Frage zu deiner write&pray Patenschaft?"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Hobbies"
 msgstr "Hobbys"
@@ -730,6 +745,11 @@ msgstr "Wem schreibe ich heute:"
 #: model:ir.model.fields,field_description:website_compassion.field_cms_form_payment_options_multiple__id
 #: model:ir.model.fields,field_description:website_compassion.field_website_compassion_form_widget_textarea__id
 msgid "ID"
+msgstr ""
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.layout
+msgid "IT"
 msgstr ""
 
 #. module: website_compassion
@@ -964,7 +984,7 @@ msgid "Parental consent"
 msgstr "Einverständniserklärung der Eltern"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:498
+#: code:addons/website_compassion/controllers/my_account.py:499
 #, python-format
 msgid "Parental consent submitted"
 msgstr "Erledigt!"
@@ -1066,7 +1086,7 @@ msgid "Please never mention:"
 msgstr "Bitte erwähne nie:"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:499
+#: code:addons/website_compassion/controllers/my_account.py:500
 #, python-format
 msgid "Please review the parental consent for the W&P contribution."
 msgstr "Please review the parental consent for the W&P contribution."
@@ -1267,6 +1287,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_templates
 msgid "Template image"
 msgstr ""
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.support_page
+msgid "Thank you for your engagement in the life of a child. So cool!"
+msgstr "Vielen Dank für dein Engagement für Kinder in Armut. So cool!"
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/contact_us_form.py:51
@@ -1510,6 +1535,17 @@ msgid "Write a letter |"
 msgstr "Einen Brief schreiben"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.support_page
+msgid ""
+"Write to us in the window below and we will answer as soon as possible. If "
+"the window is invisible, try again during our office hours Monday-Thursday "
+"(8am-4pm) or Friday (8-12am)"
+msgstr ""
+"Deine Fragen kannst du uns direkt im Chat unten rechts stellen. Der Chat ist "
+"während unseren Bürozeiten Mo-Do: 8.00-16.00 / Fr: 8.00-12.00 offen. Wir "
+"freuen uns, von dir zu hören."
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.contact_us_page_template
 msgid "Write us or visit us"
 msgstr "Wenn du uns einen Brief schreiben oder uns besuchen möchtest:"
@@ -1646,7 +1682,7 @@ msgid "donation"
 msgstr "Spende"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:405
+#: code:addons/website_compassion/controllers/my_account.py:406
 #, python-format
 msgid "https://compassion.ch/de/geschenkformular"
 msgstr ""
@@ -1683,7 +1719,7 @@ msgstr ""
 "1s0x478e39ba4e7acc13:0x945cae524aa9da56!8m2!3d46.9458747!4d7.4335123?hl=de"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:842
+#: code:addons/website_compassion/controllers/my_account.py:843
 #, python-format
 msgid "labels"
 msgstr "Etiketten"
@@ -1715,7 +1751,7 @@ msgid "sitemap.xml"
 msgstr ""
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:747
+#: code:addons/website_compassion/controllers/my_account.py:748
 #, python-format
 msgid "tax_receipt"
 msgstr "Steuerbescheinigung"

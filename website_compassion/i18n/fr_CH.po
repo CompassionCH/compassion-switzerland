@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-21 12:03+0000\n"
-"PO-Revision-Date: 2022-04-21 14:35+0200\n"
+"POT-Creation-Date: 2022-06-14 06:33+0000\n"
+"PO-Revision-Date: 2022-06-14 09:29+0200\n"
 "Last-Translator: Emanuel Cino <ecino@compassion.ch>\n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
@@ -311,6 +311,7 @@ msgstr "Accepter la charte"
 #: model:ir.model.fields,field_description:website_compassion.field_mobile_app_feedback__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_note_note__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_partner_communication_job__activity_ids
+#: model:ir.model.fields,field_description:website_compassion.field_partner_log_other_interaction__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_product_product__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_product_template__activity_ids
 #: model:ir.model.fields,field_description:website_compassion.field_project_task__activity_ids
@@ -567,6 +568,11 @@ msgid "Created With Magic Link"
 msgstr "Créé avec Magic Link"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.layout
+msgid "DE"
+msgstr "DE"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_information_privacy_data
 msgid "Data protection"
 msgstr "Protection des données"
@@ -668,6 +674,11 @@ msgid "FAQ"
 msgstr "FAQ"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.layout
+msgid "FR"
+msgstr "FR"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Family"
 msgstr "Famille"
@@ -713,6 +724,11 @@ msgid "Gift history"
 msgstr "Historique des dons"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.support_page
+msgid "Hello, do you have questions about your write&amp;pray sponsorship?"
+msgstr "Salut, tu as des questions sur ton parrainage write & pray?"
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.my_children_info
 msgid "Hobbies"
 msgstr "Loisirs"
@@ -741,6 +757,11 @@ msgstr "J'aimerais écrire à :"
 #: model:ir.model.fields,field_description:website_compassion.field_website_compassion_form_widget_textarea__id
 msgid "ID"
 msgstr "ID"
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.layout
+msgid "IT"
+msgstr "IT"
 
 #. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.register_layout
@@ -976,7 +997,7 @@ msgid "Parental consent"
 msgstr "Consentement des parents"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:498
+#: code:addons/website_compassion/controllers/my_account.py:499
 #, python-format
 msgid "Parental consent submitted"
 msgstr "Consentement parental soumis"
@@ -1078,7 +1099,7 @@ msgid "Please never mention:"
 msgstr "D'avance, merci de ne jamais mentionner:"
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:499
+#: code:addons/website_compassion/controllers/my_account.py:500
 #, python-format
 msgid "Please review the parental consent for the W&P contribution."
 msgstr "Merci de vérifier le consentement des parents pour ce parrainage W&P."
@@ -1281,6 +1302,11 @@ msgstr "Template Image Url"
 #: model_terms:ir.ui.view,arch_db:website_compassion.letter_templates
 msgid "Template image"
 msgstr "Template image"
+
+#. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.support_page
+msgid "Thank you for your engagement in the life of a child. So cool!"
+msgstr "Merci de ton engagement pour changer la vie d'un enfant. Trop classe!"
 
 #. module: website_compassion
 #: code:addons/website_compassion/forms/contact_us_form.py:51
@@ -1528,6 +1554,17 @@ msgid "Write a letter |"
 msgstr "Ecrire une lettre"
 
 #. module: website_compassion
+#: model_terms:ir.ui.view,arch_db:website_compassion.support_page
+msgid ""
+"Write to us in the window below and we will answer as soon as possible. If "
+"the window is invisible, try again during our office hours Monday-Thursday "
+"(8am-4pm) or Friday (8-12am)"
+msgstr ""
+"Écris-nous dans la fenêtre ci-dessous et nous te répondrons le plus "
+"rapidement possible. Si la fenêtre ne s'affiche pas, réessaie du lundi au "
+"jeudi (8h-16h) ou le vendredi (8h-12h)."
+
+#. module: website_compassion
 #: model_terms:ir.ui.view,arch_db:website_compassion.contact_us_page_template
 msgid "Write us or visit us"
 msgstr "Pour nous écrire ou nous rendre visite"
@@ -1662,7 +1699,7 @@ msgid "donation"
 msgstr ""
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:405
+#: code:addons/website_compassion/controllers/my_account.py:406
 #, python-format
 msgid "https://compassion.ch/de/geschenkformular"
 msgstr "https://compassion.ch/fr/formulaire-pour-cadeau"
@@ -1696,7 +1733,7 @@ msgid ""
 msgstr ""
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:842
+#: code:addons/website_compassion/controllers/my_account.py:843
 #, python-format
 msgid "labels"
 msgstr "etiquettes"
@@ -1728,7 +1765,7 @@ msgid "sitemap.xml"
 msgstr ""
 
 #. module: website_compassion
-#: code:addons/website_compassion/controllers/my_account.py:747
+#: code:addons/website_compassion/controllers/my_account.py:748
 #, python-format
 msgid "tax_receipt"
 msgstr "attestation_fiscale"
