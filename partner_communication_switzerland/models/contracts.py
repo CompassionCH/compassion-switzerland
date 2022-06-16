@@ -306,14 +306,15 @@ class RecurringContract(models.Model):
     def _send_birthday_reminders(self, sponsorships, communication):
         communication_jobs = self.env["partner.communication.job"]
         for sponsorship in sponsorships:
-            send_to_partner_as_he_paid_the_gift = (
-                sponsorship.send_gifts_to == "partner_id"
+            send_to_payer = (
+                sponsorship.send_gifts_to == "partner_id" and sponsorship.partner_id.birthday_reminder
             )
+            send_to_correspondent = sponsorship.correspondent_id.birthday_reminder
             try:
                 communication_jobs += sponsorship.send_communication(
                     communication,
-                    correspondent=True,
-                    both=send_to_partner_as_he_paid_the_gift,
+                    correspondent=send_to_correspondent,
+                    both=send_to_payer and send_to_correspondent,
                 )
             except Exception:
                 # In any case, we don't want to stop email generation!

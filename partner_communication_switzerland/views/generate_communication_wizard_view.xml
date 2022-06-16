@@ -20,14 +20,12 @@
                 <attribute name="domain">[('model', '=', res_model)]</attribute>
             </field>
             <field name="force_language" position="after">
-                <field name="sms_provider_id" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
-                <field name="sms_length_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
-                <field name="sms_number_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
+                <field name="sms_provider_id" attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"/>
+                <field name="sms_length_estimation" attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"/>
+                <field name="sms_number_estimation" attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"/>
                 <field name="currency_id" invisible="1"/>
-                <field name="sms_cost_estimation" attrs="{'invisible': [('send_mode', '!=', 'sms')]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-            </field>
-            <field name="report_id" position="after">
-                <field name="campaign_id" attrs="{'invisible': [('send_mode', '!=', 'sms')]}"/>
+                <field name="sms_cost_estimation" attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="campaign_id" attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"/>
             </field>
         </field>
     </record>
@@ -36,7 +34,7 @@
     <act_window id="action_generate_communication" key2="client_action_multi" name="Generate Communications"
                 res_model="partner.communication.generate.wizard" src_model="recurring.contract"
                 view_mode="form" target="new" view_type="form"
-                context="{'default_res_model': 'recurring.contract', 'default_sponsorship_ids': [(6, 0, active_ids)]}"
+                context="{'default_res_model': 'recurring.contract', 'default_selection_domain': [('id', 'in', active_ids)]}"
 
             />
 </odoo>

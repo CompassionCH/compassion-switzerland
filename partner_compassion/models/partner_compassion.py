@@ -261,6 +261,12 @@ class ResPartner(models.Model):
         help="Have at least one sponsorship for the W&P program",
         compute="_compute_write_and_pray",
     )
+    address_name = fields.Char(
+        compute="_compute_address_name",
+        inverse=lambda p: True,
+        store=True,
+        help="Name used for postal sending"
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -364,6 +370,10 @@ class ResPartner(models.Model):
             partner.primary_segment_id = partner.segments_affinity_ids[:1].segment_id
             partner.secondary_segment_id = partner.segments_affinity_ids[1:2].segment_id
 
+    @api.depends("name")
+    def _compute_address_name(self):
+        for partner in self:
+            partner.address_name = (partner.short_address or '').split("<br/>")[0]
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################

@@ -15,7 +15,7 @@
                                 </a>
                                 <ul>
                                     <li>
-                                        <a t-att-href="'https://' +  + wordpress.sponsorship_url">
+                                        <a t-att-href="'https://' + wordpress.host + wordpress.sponsorship_url">
                                             Sostieni un bambino
                                         </a>
                                     </li>

@@ -29,7 +29,8 @@ class GenerateCommunicationWizard(models.TransientModel):
     _inherit = "partner.communication.generate.wizard"
 
     sponsorship_ids = fields.Many2many(
-        "recurring.contract", string="Sponsorships", readonly=False
+        "recurring.contract", string="Sponsorships",
+        compute="_compute_sponsorships"
     )
     res_model = fields.Selection(
         [("res.partner", "Partners"), ("recurring.contract", "Sponsorships")],
@@ -47,9 +48,8 @@ class GenerateCommunicationWizard(models.TransientModel):
         default="correspondent_id",
         required=True,
     )
-    selection_domain = fields.Char(default=lambda s: s._default_domain())
     # Remove domain filter and handle it in the view
-    model_id = fields.Many2one(domain=[], readonly=False)
+    model_id = fields.Many2one(domain=[], readonly=False, required=True)
     sms_length_estimation = fields.Integer(readonly=True)
     sms_number_estimation = fields.Integer(readonly=True)
     sms_cost_estimation = fields.Float(compute="_compute_sms_cost_estimation")
@@ -63,15 +63,6 @@ class GenerateCommunicationWizard(models.TransientModel):
         default=lambda self: self.env.ref("sms_939.large_account_id", False),
         readonly=False,
     )
-
-    @api.model
-    def _default_domain(self):
-        # Select sponsorships if called from the sponsorship menu
-        sponsorship_ids = self.env.context.get("default_sponsorship_ids")
-        if sponsorship_ids:
-            return f"[('id', 'in', {str(sponsorship_ids[0][2])})]"
-        else:
-            return f"[('id', 'in', {self._default_partners()})]"
 
     @api.multi
     def _compute_progress(self):
@@ -104,8 +95,8 @@ class GenerateCommunicationWizard(models.TransientModel):
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
-    @api.onchange("selection_domain")
-    def onchange_domain(self):
+    @api.depends("selection_domain", "res_model")
+    def _compute_partners(self):
         if self.res_model == "recurring.contract":
             if self.partner_source == "send_gifts_to":
                 # We assume the payer and the correspondent speak same lang
@@ -124,37 +115,13 @@ class GenerateCommunicationWizard(models.TransientModel):
                     partners = self.sponsorship_ids.mapped(partner_source)
                 self.partner_ids = partners
         else:
-            super().onchange_domain()
+            super()._compute_partners()
 
-    @api.onchange("sponsorship_ids", "partner_source")
-    def onchange_sponsorships(self):
-        # Set partners for generation to work
-        if self.partner_source == "send_gifts_to":
-            partners = self.env["res.partner"]
-            for sponsorship in self.sponsorship_ids:
-                partners += sponsorship.mapped(sponsorship.send_gifts_to)
-        else:
-            partners = self.sponsorship_ids.mapped(self.partner_source)
-        self.partner_ids = partners
-
-    @api.onchange("partner_ids", "body_html")
-    def onchange_recipients(self):
-        if self.partner_ids and self.body_html:
-            soup = BeautifulSoup(self.body_html)
-            text_approximation = len(soup.get_text())
-            self.sms_length_estimation = text_approximation
-            self.sms_number_estimation = ceil(
-                float(text_approximation) // SMS_CHAR_LIMIT
-            ) * len(self.partner_ids)
-
-    @api.multi
-    def get_preview(self):
-        object_ids = self.partner_ids[0].id
-        if self.res_model == "recurring.contract":
-            object_ids = self.sponsorship_ids[0].id
-        return super(
-            GenerateCommunicationWizard, self.with_context(object_ids=object_ids)
-        ).get_preview()
+    @api.depends("selection_domain", "res_model")
+    def _compute_sponsorships(self):
+        if self.res_model == "recurring.contract" and self.selection_domain:
+            self.sponsorship_ids = self.env["recurring.contract"].search(
+                safe_eval(self.selection_domain))
 
     def generate_communications(self, async_mode=True):
         """ Create the communication records """
@@ -172,7 +139,6 @@ class GenerateCommunicationWizard(models.TransientModel):
                     "partner_id": partner.id,
                     "object_ids": sponsorship.id,
                     "config_id": self.model_id.id,
-                    "report_id": self.report_id.id or self.model_id.report_id.id,
                 }
                 if self.send_mode:
                     vals.update({

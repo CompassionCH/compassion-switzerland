@@ -244,7 +244,9 @@
                     </div>
                     <hr/>
                 </div>
-                <span t-raw="partner.short_address"/>
+                <span t-raw="partner.address_name"/>
+                <br/>
+                <span t-raw="'&lt;br/&gt;'.join((partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"/>
                 <div id="date" t-if="print_header" t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;">
                     <span t-raw="partner.date_communication"/>
                 </div>
