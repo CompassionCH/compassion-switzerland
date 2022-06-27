@@ -88,3 +88,22 @@ class PrintChildpack(models.TransientModel):
                 "context": self.env.context,
             }
         return report_ref.report_action(children.ids, data=data, config=False)
+
+    @api.multi
+    def print(self):
+        """
+        Print selected child dossier directly to printer
+        """
+        children = self.env["compassion.child"].browse(
+            self.env.context.get("active_ids")
+        ).with_context(lang=self.lang)
+        data = {
+            "lang": self.lang,
+            "doc_ids": children.ids,
+            "is_pdf": self.pdf,
+            "type": self.type,
+        }
+        report_name = "report_compassion.report_" + self.type.split(".")[1]
+        report_ref = self.env.ref(report_name).with_context(lang=self.lang)
+        report_ref.render_qweb_pdf(children.ids, data=data)
+        return True

@@ -767,9 +767,9 @@ class PartnerCommunication(models.Model):
 
         # Include all active sponsorships for Permanent Order
         bv_sponsorships |= (
-            sponsorships.filtered(lambda s: s.payment_mode_id == permanent_order)
-                .mapped("group_id.contract_ids")
-                .filtered(lambda s: s.state in ("active", "waiting"))
+            sponsorships.filtered(lambda s: s.partner_id == self.partner_id and s.payment_mode_id == permanent_order)
+            .mapped("group_id.contract_ids")
+            .filtered(lambda s: s.state in ("active", "waiting"))
         )
 
         attachments = {}

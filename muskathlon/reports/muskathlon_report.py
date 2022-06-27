@@ -129,7 +129,7 @@ class Muskathlon(models.Model):
               LEFT JOIN crm_event_compassion AS cec ON ail.event_id = cec.id
               LEFT JOIN event_registration AS mr
                 ON mr.partner_id = rp.id AND mr.event_id = cec.odoo_event_id
-              WHERE ail.state IN ('draft', 'open', 'paid')
+              WHERE ail.state = 'paid'
                 AND ail.account_id = 2775
                 AND ail.user_id IS NOT NULL
             )

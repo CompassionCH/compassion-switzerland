@@ -315,19 +315,23 @@ class MassMailingContact(models.Model):
                 # Email field in odoo and mailchimp are now different.
                 # solution : we remove previous link to mailchimp and export
                 # the contact with new mail
-                if e.args[0] and literal_eval(e.args[0])['status'] == 404:
-                    self.env.clear()
-                    available_mailchimp_lists = self.env['mailchimp.lists'].search([])
-                    lists = available_mailchimp_lists.mapped('odoo_list_id').ids
-                    contact_to_update.subscription_list_ids.filtered(
-                        lambda x: x.list_id.id in lists).write({"mailchimp_id": False})
-                # raise exception if it's any other type
-                else:
-                    raise e
+                try:
+                    if e.args[0] and literal_eval(e.args[0])['status'] == 404:
+                        self.env.clear()
+                        available_mailchimp_lists = self.env['mailchimp.lists'].search([])
+                        lists = available_mailchimp_lists.mapped('odoo_list_id').ids
+                        contact_to_update.subscription_list_ids.filtered(
+                            lambda x: x.list_id.id in lists).write({"mailchimp_id": False})
+                    # raise exception if it's any other type
+                    else:
+                        raise e
 
-                # once link is removed member can again be exported to mailchimp
-                out = out and super(MassMailingContact,
-                                    contact_to_update).action_export_to_mailchimp()
+                    # once link is removed member can again be exported to mailchimp
+                    out = out and super(MassMailingContact,
+                                        contact_to_update).action_export_to_mailchimp()
+                except:
+                    logger.warning("Mailchimp error is not correctly processed.")
+                    raise e
         return out
 
     @api.multi
