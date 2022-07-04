@@ -65,8 +65,6 @@ class SmsRequest(models.Model):
             self.write({"child_id": child.id, "state": "child_reserved"})
             child.hold_id.sms_request_id = self.id
             child.remove_from_wordpress()
-            if self.type == "sms":
-                child.write({"state": "S"})
 
             child.hold_id.with_delay().update_expiration_date(
                 fields.Datetime.to_string(datetime.now() + relativedelta(days=1))
