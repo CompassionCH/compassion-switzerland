@@ -62,7 +62,6 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
         <field name="trg_date_range">12</field>
         <field name="trg_date_range_type">month</field>
-        <field name="active" eval="False"/>
     </record>
     <record id="sponsorship_anniversary_3_communication" model="base.automation">
         <field name="name">Send sponsorship anniversary 3 years communication</field>
@@ -76,7 +75,6 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
         <field name="trg_date_range">36</field>
         <field name="trg_date_range_type">month</field>
-        <field name="active" eval="False"/>
     </record>
     <record id="sponsorship_anniversary_5_communication" model="base.automation">
         <field name="name">Send sponsorship anniversary 5 years communication</field>
@@ -90,7 +88,6 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
         <field name="trg_date_range">60</field>
         <field name="trg_date_range_type">month</field>
-        <field name="active" eval="False"/>
     </record>
     <record id="sponsorship_anniversary_10_communication" model="base.automation">
         <field name="name">Send sponsorship anniversary 10 years communication</field>
@@ -104,7 +101,6 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
         <field name="trg_date_range">120</field>
         <field name="trg_date_range_type">month</field>
-        <field name="active" eval="False"/>
     </record>
     <record id="sponsorship_anniversary_15_communication" model="base.automation">
         <field name="name">Send sponsorship anniversary 15 years communication</field>
@@ -118,6 +114,5 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date"/>
         <field name="trg_date_range">180</field>
         <field name="trg_date_range_type">month</field>
-        <field name="active" eval="False"/>
     </record>
 </odoo>
