@@ -1,0 +1,5 @@
+<odoo>
+    <record id="end_reason_wp_terminated" model="recurring.contract.end.reason">
+        <field name="name">Sponsor did not take over Write&amp;Pray</field>
+    </record>
+</odoo>

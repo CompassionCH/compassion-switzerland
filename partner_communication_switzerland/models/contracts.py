@@ -282,7 +282,7 @@ class RecurringContract(models.Model):
         sponsorships_with_birthday_tomorrow = \
             self._get_sponsorships_with_child_birthday_on(tomorrow)
 
-        sponsorships_to_avoid = self.env["recurring.contract"]
+        sponsorships_to_avoid = sponsorships_with_birthday_tomorrow.filtered(lambda s: s.type == "SWP")
 
         for sponsorship in sponsorships_with_birthday_tomorrow:
             sponsorship_correspondences = \
@@ -352,9 +352,10 @@ class RecurringContract(models.Model):
                 "|",
                 ("correspondent_id.birthday_reminder", "=", True),
                 ("partner_id.birthday_reminder", "=", True),
-                "|",
+                "|", "|",
                 ("correspondent_id.email", "!=", False),
                 ("partner_id.email", "!=", False),
+                "&", ("type", "=", "SWP"), ("correspondent_id.mobile", "!=", False),
                 ("state", "=", "active"),
                 ("type", "like", "S"),
                 ("partner_id.ref", "!=", "1502623"),
@@ -618,6 +619,81 @@ class RecurringContract(models.Model):
 
     def cancel_sub_validation(self):
         return self.write({"sub_proposal_date": False})
+
+    @api.model
+    def send_wrpr_letter_reminder(self):
+        wrprs = self.search([
+            ("type", "=", "SWP"),
+            ("state", "=", "active"),
+            ("correspondent_id.mobile", "!=", False),
+            ("correspondent_id.lang", "not in", ["it_IT", "en_US"])
+        ])
+        letter_reminder = self.env.ref("partner_communication_switzerland.sponsorship_wrpr_reminder")
+        comms = self.env["partner.communication.job"]
+        for wrpr in wrprs:
+            start_days = (fields.Datetime.now() - wrpr.start_date).days
+            if wrpr.last_letter > 545 or (not wrpr.sponsor_letter_ids and start_days > 545):
+                comms += wrpr.send_communication(letter_reminder)
+        comms.send()
+        return True
+
+    @api.model
+    def send_wrpr_contribution_reminder(self):
+        wrprs = self.search([
+            ("type", "=", "SWP"),
+            ("state", "=", "active"),
+            ("correspondent_id.mobile", "!=", False),
+            ("correspondent_id.lang", "not in", ["it_IT", "en_US"]),
+            ("total_amount", ">", 0),
+            ("invoice_line_ids.state", "!=", "paid")
+        ])
+        contribution_reminder = self.env.ref("partner_communication_switzerland.wrpr_contribution_reminder_config")
+        comms = self.env["partner.communication.job"]
+        first_reminder = comms
+        sub_reminders = comms
+        one_month_ago = fields.Date.today() - relativedelta(months=1)
+        for wrpr in wrprs.filtered(lambda w: not w.last_paid_invoice_date
+                                   and w.invoice_line_ids[:1].due_date < one_month_ago):
+            already_reminded = comms.search_count([
+                ("config_id", "=", contribution_reminder.id),
+                ("partner_id", "=", wrpr.partner_id.id),
+                ("object_ids", "like", wrpr.id),
+                ("state", "=", "done")
+            ])
+            job = wrpr.send_communication(contribution_reminder, correspondent=False)
+            if already_reminded:
+                sub_reminders += job
+            else:
+                first_reminder += job
+        sub_reminders.write({"send_mode": "physical"})
+        # first_reminder.send()  (not sure if we want to send it automatically)
+        return True
+
+    @api.multi
+    def confirm_upgrade(self):
+        """
+        Called by MyCompassion when sponsors increase his contribution.
+        - Change partner if it's Donors of Compassion (in case of Write and Pray) and setup payment options
+        - Send communication for confirmation
+        """
+        self.ensure_one()
+        config = self.env.ref("partner_communication_switzerland.sponsorship_upgrade_config")
+        if self.type == "SWP":
+            donors = self.env["res.partner"].search([("name", "=", "Donors of Compassion")], limit=1)
+            if donors and self.partner_id == donors:
+                self.partner_id = self.correspondent_id
+                self.on_change_partner_id()
+                if not self.group_id:
+                    self.group_id = self.env["recurring.contract.group"].create({
+                        "partner_id": self.partner_id.id,
+                        "payment_mode_id": self.env.ref("sponsorship_switzerland.payment_mode_permanent_order").id
+                    })
+                    self.group_id.on_change_payment_mode()
+            if self.total_amount >= 42:
+                # The sponsorship will transform to regular sponsorship.
+                config = self.env.ref("partner_communication_switzerland.wrpr_transformation_confirmation_config")
+        self.send_communication(config, correspondent=False)
+        return True
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

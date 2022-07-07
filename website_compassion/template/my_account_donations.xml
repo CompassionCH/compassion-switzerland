@@ -198,7 +198,7 @@
                     <div class="col-6">
                         <label>
                             <b>Upgrade</b>
-                            <t t-set="tooltip_title" t-if="min(paid_sponsorships.mapped('total_amount')) &gt;= 42">Sponsorship PLUS allows for the financing of urgent needs or those not covered by sponsorship (natural disasters, surgical interventions, malaria prevention, etc.). This solidarity fund is common to all children supported by Compassion.</t>
+                            <t t-set="tooltip_title" t-if="min(paid_sponsorships.mapped('total_amount') or [0]) &gt;= 42">Sponsorship PLUS allows for the financing of urgent needs or those not covered by sponsorship (natural disasters, surgical interventions, malaria prevention, etc.). This solidarity fund is common to all children supported by Compassion.</t>
                             <t t-set="tooltip_title" t-else="">Upgrade your financial contribution.</t>
                             <i class="fa fa-info-circle ml-1" data-toggle="tooltip" t-att-title="tooltip_title" id="amount_toggle"/>
                         </label>

@@ -150,7 +150,6 @@ def _download_image(child_id, obj_id):
     """
     Download one or multiple images (in a .zip archive if more than one) and
     return a response for the user to download it.
-    :param type: the type of download, either 'single', 'multiple' or 'all'
     :param obj_id: the id of the image to download or None
     :param child_id: the id of the child to download from or None
     :return: A response for the user to download a single image or an archive
@@ -470,9 +469,8 @@ class MyAccountController(PaymentFormController):
         remain = new_amount - sponsorship_amount
         if remain > 0:
             contract_lines.append(create_line("fund_gen", remain))
-        # TODO: Change the partner if it's Donors of Compassion? Or we change everyone before that.
         contract.sudo().write({"contract_line_ids": contract_lines})
-
+        contract.sudo().with_delay().confirm_upgrade()
         return request.redirect("/my/donations")
 
     @route("/my/donations/submit_have_parent_consent", type="http", auth="user", website=True)
