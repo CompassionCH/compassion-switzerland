@@ -15,9 +15,6 @@
                 <field name="preferred_name"/>
                 <field name="address_name"/>
             </field>
-            <xpath expr="//field[@name='child_ids']/form//field[@name='lastname']" position="before">
-                <field name="title"/>
-            </xpath>
         </field>
     </record>
 
@@ -63,10 +60,7 @@
             <field name="lang" position="replace"/>
             <field name="spoken_lang_ids" position="replace"/>
 
-            <!-- Make child_ids readonly to avoid creating partners from a company -->
-            <field name="child_ids" position="attributes">
-                <attribute name="readonly">1</attribute>
-            </field>
+            <field name="child_ids"/>
 
             <!-- Add street3 in the form of the partner -->
             <field name="street2" position="after">

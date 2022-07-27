@@ -1,13 +1,13 @@
 <odoo>
     <!-- Rule for sending welcome letter after 10 days of creation -->
-    <record id="check_welcome_email" model="base.automation">
-        <field name="name">Translators: Check Welcome Letter</field>
-        <field name="model_id" ref="model_advocate_details"/>
-        <field name="trigger">on_time</field>
-        <field name="trg_date_id" ref="field_advocate_details__translator_since"/>
-        <field name="trg_date_range">10</field>
-        <field name="trg_date_range_type">day</field>
-        <field name="state">code</field>
-        <field name="code">records.send_welcome_translator()</field>
-    </record>
+<!--    <record id="check_welcome_email" model="base.automation">-->
+<!--        <field name="name">Translators: Check Welcome Letter</field>-->
+<!--        <field name="model_id" ref="model_advocate_details"/>-->
+<!--        <field name="trigger">on_time</field>-->
+<!--        <field name="trg_date_id" ref="field_advocate_details__translator_since"/>-->
+<!--        <field name="trg_date_range">10</field>-->
+<!--        <field name="trg_date_range_type">day</field>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">records.send_welcome_translator()</field>-->
+<!--    </record>-->
 </odoo>
