@@ -109,9 +109,19 @@ class ResPartner(models.Model):
         help="Use this field if the church of the partner"
              " can not correctly be determined and linked.",
     )
+
+    type = fields.Selection([
+        ('contact', 'Contact'),
+        ('invoice', 'Invoice address'),
+        ('delivery', 'Venue address'),
+        ('other', 'Other address'),
+        ("private", "Private Address"),
+        ("email_alias", "Email alias")],
+        string='Address Type',
+        default='contact')
+
     deathdate = fields.Date("Death date", track_visibility="onchange")
-    nbmag = fields.Selection(
-        [
+    nbmag = fields.Selection([
             ("email", _("Email")),
             ("no_mag", _("No magazine")),
             ("one", "1"),
@@ -196,7 +206,6 @@ class ResPartner(models.Model):
     )
 
     email_copy = fields.Boolean(string="CC e-mails sent to main partner")
-    type = fields.Selection(selection_add=[("email_alias", "Email alias")])
 
     uuid = fields.Char(copy=False, index=True)
 
