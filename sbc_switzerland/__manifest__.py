@@ -35,8 +35,9 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "partner_communication_switzerland",  # compassion-switzerland
-        "child_switzerland",  # compassion-switzerland
+        "partner_communication_switzerland",
+        "child_switzerland",
+        "sbc_translation"  # compassion-modules
     ],
     "external_dependencies": {"python": [
         "PyPDF2",
