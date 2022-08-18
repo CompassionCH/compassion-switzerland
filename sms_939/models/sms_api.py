@@ -38,7 +38,7 @@ class SmsApi(models.AbstractModel):
                 request = [
                     ("receiver", mobile.replace(" ", "")),
                     ("service", "compassion"),
-                    ("maximumSMSAmount", 4),
+                    ("maximumSMSAmount", sms_provider.max_sms_amount),
                     ("cost", 0),
                     ("text", message),
                 ]
