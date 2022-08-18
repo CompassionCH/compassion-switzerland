@@ -657,12 +657,11 @@ class PartnerCommunication(models.Model):
         Sends communication jobs with SMS 939 service.
         :return: list of sms_texts
         """
-        link_pattern = re.compile(r'<a href="(.*)">([^<]*)</a>')
-        paragraph_pattern = re.compile(r"<p>.*</p>")
+        link_pattern = re.compile(r'<a href="([^<>]*)">([^<]*)</a>')
         sms_medium_id = self.env.ref("sms_sponsorship.utm_medium_sms").id
         sms_texts = []
         for job in self.filtered(lambda j: j.state == "pending" and j.partner_mobile):
-            sms_text = job.convert_html_for_sms(link_pattern, paragraph_pattern, sms_medium_id)
+            sms_text = job.convert_html_for_sms(link_pattern, sms_medium_id)
             sms_texts.append(sms_text)
             job.partner_id.with_context(
                 sms_provider=job.sms_provider_id
@@ -677,19 +676,18 @@ class PartnerCommunication(models.Model):
             _logger.debug("SMS length: %s", len(sms_text))
         return sms_texts
 
-    def convert_html_for_sms(self, link_pattern, paragraph_pattern, sms_medium_id):
+    def convert_html_for_sms(self, link_pattern, sms_medium_id):
         """
         Converts HTML into simple text for SMS.
         First replace links with short links using Link Tracker.
         Then clean HTML using BeautifulSoup library.
         :param link_pattern: the regex pattern for replacing links
-        :param paragraph_pattern: the regex pattern for replacing paragraphs
         :param sms_medium_id: the associated utm.medium id for generated links
         :return: Clean text with short links for SMS use.
         """
         self.ensure_one()
         source_id = self.config_id.source_id.id
-        body = self.body_html.replace("\n", "").replace("\t", "")
+        paragraph_delimiter = "###P###"
 
         def _replace_link(match):
             full_link = match.group(1).replace("&amp;", "&")
@@ -712,12 +710,17 @@ class PartnerCommunication(models.Model):
                     }
                 )
             return short_link.short_url
+
+        def _strip_paragraph(match):
+            return match.group(1) + match.group(2).strip() + match.group(3) + paragraph_delimiter
+
+        body = self.body_html.replace("\n", " ").replace("</p>", "</p>" + paragraph_delimiter)
         body = link_pattern.sub(_replace_link, body)
-        body = paragraph_pattern.sub(lambda m: m.group(0) + "\n\n", body)
-        body = re.sub(r"\s{2,}", " ", body)
+        body = re.sub(r"[ \t\r\f\v]+", " ", body)
         body = re.sub(r"<br>|<br/>", "\n", body)
         soup = BeautifulSoup(body, "lxml")
-        return soup.get_text().strip()
+        text = soup.get_text().replace(paragraph_delimiter, "\n\n")
+        return "\n".join([t.strip() for t in text.split("\n")])
 
     @api.multi
     def open_related(self):
