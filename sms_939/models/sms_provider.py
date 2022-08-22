@@ -20,3 +20,8 @@ class SmsProvider(models.Model):
     endpoint_939 = fields.Char("Endpoint", required=True)
     username_939 = fields.Char("Username for login", required=True)
     password_939 = fields.Char("Password for login", required=True)
+    max_sms_amount = fields.Integer(
+        default=5,
+        help="Maximum nb. of SMS used for a single sending. Increasing the number may higher the sending costs while "
+             "lowering it may result in truncated sendings.")
+

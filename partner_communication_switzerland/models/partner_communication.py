@@ -632,10 +632,15 @@ class PartnerCommunication(models.Model):
             "partner_communication_switzerland"
             ".config_onboarding_sponsorship_confirmation"
         )
-        welcome_comms = other_jobs.filtered(
-            lambda j: j.config_id == welcome_onboarding and
+        wrpr_onboarding = self.env.ref(
+            "partner_communication_switzerland.config_wrpr_welcome")
+        welcome_comms = self.filtered(
+            lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding) and
             j.get_objects().filtered("is_first_sponsorship"))
         if welcome_comms:
+            # Prepare MyCompassion Account
+            _logger.info("Prepare signup URL for new sponsor")
+            welcome_comms.mapped("partner_id").action_signup_prepare()
             welcome_comms.get_objects().write({
                 "onboarding_start_date": datetime.today()
             })
@@ -652,10 +657,10 @@ class PartnerCommunication(models.Model):
         Sends communication jobs with SMS 939 service.
         :return: list of sms_texts
         """
-        link_pattern = re.compile(r'<a href="(.*)">(.*)</a>', re.DOTALL)
+        link_pattern = re.compile(r'<a href="([^<>]*)">([^<]*)</a>')
         sms_medium_id = self.env.ref("sms_sponsorship.utm_medium_sms").id
         sms_texts = []
-        for job in self.filtered("partner_mobile"):
+        for job in self.filtered(lambda j: j.state == "pending" and j.partner_mobile):
             sms_text = job.convert_html_for_sms(link_pattern, sms_medium_id)
             sms_texts.append(sms_text)
             job.partner_id.with_context(
@@ -668,6 +673,7 @@ class PartnerCommunication(models.Model):
                     "sms_cost": ceil(float(len(sms_text)) // SMS_CHAR_LIMIT) * SMS_COST,
                 }
             )
+            _logger.debug("SMS length: %s", len(sms_text))
         return sms_texts
 
     def convert_html_for_sms(self, link_pattern, sms_medium_id):
@@ -681,26 +687,40 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         source_id = self.config_id.source_id.id
+        paragraph_delimiter = "###P###"
 
         def _replace_link(match):
             full_link = match.group(1).replace("&amp;", "&")
-            short_link = self.env["link.tracker"].create(
-                {
-                    "url": full_link,
-                    "campaign_id": self.utm_campaign_id.id
-                                   or self.env.ref(
-                        "partner_communication_switzerland."
-                        "utm_campaign_communication"
-                    ).id,
-                    "medium_id": sms_medium_id,
-                    "source_id": source_id,
-                }
-            )
+            short_link = self.env["link.tracker"].search([
+                ("url", "=", full_link),
+                ("source_id", "=", source_id),
+                ("medium_id", "=", sms_medium_id)
+            ])
+            if not short_link:
+                short_link = self.env["link.tracker"].create(
+                    {
+                        "url": full_link,
+                        "campaign_id": self.utm_campaign_id.id
+                                       or self.env.ref(
+                            "partner_communication_switzerland."
+                            "utm_campaign_communication"
+                        ).id,
+                        "medium_id": sms_medium_id,
+                        "source_id": source_id,
+                    }
+                )
             return short_link.short_url
 
-        links_converted_text = link_pattern.sub(_replace_link, self.body_html)
-        soup = BeautifulSoup(links_converted_text, "lxml")
-        return soup.get_text().strip()
+        def _strip_paragraph(match):
+            return match.group(1) + match.group(2).strip() + match.group(3) + paragraph_delimiter
+
+        body = self.body_html.replace("\n", " ").replace("</p>", "</p>" + paragraph_delimiter)
+        body = link_pattern.sub(_replace_link, body)
+        body = re.sub(r"[ \t\r\f\v]+", " ", body)
+        body = re.sub(r"<br>|<br/>", "\n", body)
+        soup = BeautifulSoup(body, "lxml")
+        text = soup.get_text().replace(paragraph_delimiter, "\n\n")
+        return "\n".join([t.strip() for t in text.split("\n")])
 
     @api.multi
     def open_related(self):

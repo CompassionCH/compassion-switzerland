@@ -8,8 +8,10 @@
 #
 ##############################################################################
 import logging
-from datetime import date
+from datetime import date, timedelta
 import uuid
+
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
 from odoo.addons.auth_signup.models.res_partner import now
@@ -73,7 +75,7 @@ class ResPartner(models.Model):
                     return f"{cher} {title.name} {self.lastname}"
             else:
                 if informal:
-                    return f"{cher} {self.firstname}"
+                    return f"Salut {self.firstname}"
                 else:
                     return f"{cher} {self.firstname} {self.lastname}"
 
@@ -232,6 +234,12 @@ class ResPartner(models.Model):
                 partner.last_completed_tax_receipt = last_tax_receipt.date.year - 1
             else:
                 partner.last_completed_tax_receipt = 1979
+
+    @api.model
+    def _get_delivery_preference(self):
+        res = super()._get_delivery_preference()
+        res.append(("sms", "SMS"))
+        return res
 
     @api.model
     def generate_tax_receipts(self):
@@ -393,3 +401,86 @@ class ResPartner(models.Model):
 
             partner.onboarding_new_donor_start_date = fields.Date.today()
             partner.onboarding_new_donor_hash = uuid.uuid4()
+
+    @api.multi
+    def get_base_url(self):
+        """Get the base URL for the current partner."""
+        self.ensure_one()
+        if not self.user_ids or any(self.mapped("user_ids.share")):
+            return self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        else:
+            return super().get_base_url()
+
+    @api.model
+    def wp_transformation_call(self, last_call=False):
+        """
+        CRON sending the communications at the beginning of the year when a W&P sponsor is turning 25.
+        - 1st communication proposing to contribute to his sponsorships
+        - 2nd communication reminder (after 1 month)
+        - 3rd communication last call (after 2 months)
+        """
+        twenty_five_years_ago = fields.Date.today().year - 25
+        youngsters = self.search([
+            ("birthdate_date", "!=", False),
+            ("birthdate_date", "like", str(twenty_five_years_ago)),
+            ("has_sponsorships", "=", True)
+        ])
+        transformation_call = self.env.ref("partner_communication_switzerland.wrpr_transformation_config")
+        last_call_config = self.env.ref("partner_communication_switzerland.wrpr_transformation_fail_config")
+        communication_obj = self.env["partner.communication.job"]
+        in_one_month = (fields.Datetime.now() + relativedelta(months=1)).date()
+        for wp_young in youngsters.filtered("write_and_pray"):
+            existing_reminders = communication_obj.search_count([
+                ("config_id", "=", transformation_call.id),
+                ("partner_id", "=", wp_young.id),
+                ("state", "=", "done")
+            ])
+            sponsorships = wp_young.sponsorship_ids.filtered(
+                lambda s: s.type == "SWP" and s.total_amount < 42 and s.state == "active")
+            use_config = last_call_config if existing_reminders >= 2 else transformation_call
+            if sponsorships:
+                communication_obj.create({
+                    "partner_id": wp_young.id,
+                    "config_id": use_config.id,
+                    "object_ids": sponsorships.ids
+                })
+            if last_call:
+                # Happy birthday! Will transform or terminate sponsorships at birthday or in one month
+                delay = max(in_one_month, wp_young.birthdate_date.replace(year=in_one_month.year))
+                wp_young.with_delay(eta=delay).transform_wp_sponsorships()
+        return True
+
+    @api.multi
+    def transform_wp_sponsorships(self):
+        """
+        Called at the end of the W&P Journey: change communication preference, cancel sponsorships that are not
+        fully paid, and transition sponsorships that are paid. Opt-in people if possible.
+        Send communication for further promoting W&P.
+        """
+        self.ensure_one()
+        if self.global_communication_delivery_preference == "sms" and self.email:
+            self.global_communication_delivery_preference = "auto_digital"
+        wp_sponsorships = self.sponsorship_ids.filtered(lambda s: s.type == "SWP" and s.state == "active")
+        to_tranform = wp_sponsorships.filtered(lambda s: s.total_amount >= 42)
+        to_cancel = wp_sponsorships - to_tranform
+        if to_tranform:
+            to_tranform.write({
+                "type": "S"
+            })
+            self.env["partner.communication.job"].create({
+                "partner_id": self.id,
+                "object_ids": to_tranform.ids,
+                "config_id": self.env.ref("partner_communication_switzerland.wrpr_transformation_complete_config").id
+            })
+        if to_cancel:
+            self.env["end.contract.wizard"].with_context(active_ids=to_cancel.ids).create({
+                "end_reason_id": self.env.ref("partner_communication_switzerland.end_reason_wp_terminated").id,
+                "keep_child_on_hold": True
+            }).end_contract()
+        self.env.cr.commit()
+        if self.opt_out:
+            try:
+                self.opt_out = False
+            except:
+                _logger.error("Could not remove opt-out of W&P partner %s", self.ref)
+        return True

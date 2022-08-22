@@ -34,10 +34,6 @@ class PaymentOptionsForm(models.AbstractModel):
         ("6 month", "6 months"),
         ("1 year", "1 year"),
     ])
-    additional_amount = fields.Selection(selection=[
-        (8, "8"),
-        (0, "0")
-    ])
     bvr_reference = None
 
     _form_model_fields = [
@@ -49,7 +45,6 @@ class PaymentOptionsForm(models.AbstractModel):
     _form_fields_order = [
         # "payment_mode", TODO remove comment when payment mode change is ready
         "payment_frequency",
-        "additional_amount",
     ]
 
     def _form_load_payment_mode(self, fname, field, value, **req_values):
@@ -61,9 +56,6 @@ class PaymentOptionsForm(models.AbstractModel):
     def _form_load_payment_frequency(self, fname, field, value, **req_values):
         group = self.main_object
         return f"{group.advance_billing_months} {group.recurring_unit}"
-
-    def _form_load_additional_amount(self, fname, field, value, **req_values):
-        return self.additional_amount
 
     @property
     def form_title(self):
@@ -82,7 +74,6 @@ class PaymentOptionsForm(models.AbstractModel):
             request, main_object.sudo(), **kw
         )
         # Set default value
-        form.additional_amount = kw["total_amount"] if kw["total_amount"] in [8, 0] else 8
         form.bvr_reference = kw["bvr_reference"]
         return form
 
@@ -142,39 +133,6 @@ class PaymentOptionsForm(models.AbstractModel):
                 })
             del values[key]
 
-        key = "additional_amount"
-        if key in values:
-            if values[key]:
-                contracts = self.main_object.mapped("contract_ids").filtered(
-                    lambda c: c.state not in ["cancelled", "terminated"] and
-                    c.type == "S"
-                )
-                amount = int(values[key])
-                amount_by_child = ceil(amount / len(contracts))
-                for contract in contracts:
-                    amount_for_child = min(amount_by_child, amount)
-                    if len(contract.contract_line_ids) == 1:
-                        gen_product = self.env["product.template"].search(
-                            [("default_code", "=", "fund_gen")]
-                        )
-                        contract_line = self.env["recurring.contract.line"]\
-                            .create({
-                                "contract_id": contract.id,
-                                "amount": amount_for_child,
-                                "quantity": 1,
-                                "product_id": gen_product.id,
-                            })
-                        contract.contract_line_ids += contract_line
-                    else:
-                        for contract_line in contract.contract_line_ids:
-                            if contract_line.amount != 42:
-                                contract_line.write({
-                                    "amount": amount_for_child,
-                                })
-                                break
-                    amount -= amount_for_child
-            del values[key]
-
         return self._if_needed(group_vals)
 
 
@@ -187,7 +145,6 @@ class PaymentOptionsMultipleForm(models.AbstractModel):
     _form_required_fields = [
         "payment_mode",
         "payment_frequency",
-        "additional_amount",
     ]
 
     @property
@@ -206,12 +163,11 @@ class PaymentOptionsMultipleForm(models.AbstractModel):
                 "description": _(
                     "Note that merging is an operation that cannot be undone. "
                     "Your different groups will be fused together with one "
-                    "payment method, payment frequency and additional amount."
+                    "payment method, payment frequency."
                 ),
                 "fields": [
                     "payment_mode",
                     "payment_frequency",
-                    "additional_amount",
                 ]
             }
         ]

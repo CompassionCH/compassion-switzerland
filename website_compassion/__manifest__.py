@@ -37,6 +37,7 @@
     "data": [
         "security/access_rules.xml",
         "security/ir.model.access.csv",
+        "template/livechat_support_template.xml",
         "template/my_account_components.xml",
         "template/my_account_personal_info.xml",
         "template/my_account_donations.xml",
@@ -46,6 +47,7 @@
         "template/survey_templates.xml",
         "template/login_template.xml",
         "template/form_widgets.xml",
+        "data/livechat_channels.xml",
         'views/auth_signup.xml',
         "views/correspondence_template_view.xml",
         "views/robots.xml",
@@ -54,6 +56,7 @@
     "depends": [
         "partner_communication_switzerland",
         "password_security",
+        "im_livechat"
     ],
     "demo": [],
     "installable": True,

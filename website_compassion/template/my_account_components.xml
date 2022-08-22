@@ -40,6 +40,14 @@
                     </div>
                 </nav>
                 <t t-raw="0"/>
+                <t t-if="env.user.partner_id.write_and_pray">
+                    <t t-if="env.lang == 'fr_CH'">
+                        <script type="text/javascript" t-attf-src="/im_livechat/loader/#{env.ref('website_compassion.livechat_wrpr_fr').id}"></script>
+                    </t>
+                    <t t-if="env.lang == 'de_DE'">
+                        <script type="text/javascript" t-attf-src="/im_livechat/loader/#{env.ref('website_compassion.livechat_wrpr_de').id}"></script>
+                    </t>
+                </t>
             </t>
         </template>
 

@@ -150,7 +150,6 @@ def _download_image(child_id, obj_id):
     """
     Download one or multiple images (in a .zip archive if more than one) and
     return a response for the user to download it.
-    :param type: the type of download, either 'single', 'multiple' or 'all'
     :param obj_id: the id of the image to download or None
     :param child_id: the id of the child to download from or None
     :return: A response for the user to download a single image or an archive
@@ -418,6 +417,90 @@ class MyAccountController(PaymentFormController):
         }
         return request.render("website_compassion.my_children_page_template", context)
 
+    @route("/my/donations/upgrade", type="http", auth="user", website=True)
+    def my_donations_update(self, recurring_contract=None, new_amount=None, **kw):
+        write_and_pray_max = 42
+        sponsorship_max = 50
+        # check if the arguments are valid
+        # if not redirect to the donation page
+        try:
+            assert recurring_contract is not None
+            recurring_contract = int(recurring_contract)
+            partner = request.env.user.partner_id
+            partner_contracts = partner.contracts_fully_managed + partner.contracts_paid
+            contract = partner_contracts.filtered(
+                lambda c: c.id == recurring_contract
+                          and c.state not in ["cancelled", "terminated"]
+            )
+            assert len(contract) == 1
+            # ensure that the write and pray can manage paid sponsorship
+            assert contract.type not in ["SWP"] or partner.can_manage_paid_sponsorships
+
+            max_amount = write_and_pray_max if contract.type in ["SWP"] else sponsorship_max
+
+            # only write and pray can select the amount
+            new_amount = int(new_amount) if new_amount and contract.type in ["SWP"] else max_amount
+
+            # can only increase the amount and must be in the range
+            assert max(1, contract.total_amount) < new_amount <= max_amount
+        except (ValueError, AssertionError):
+            return request.redirect("/my/donations")
+
+        if "confirmed" not in kw:
+            upgrade_url = f"/my/donations/upgrade?confirmed&recurring_contract={contract.id}"
+            if new_amount:
+                upgrade_url += f"&new_amount={new_amount}"
+            context = {
+                "new_amount": new_amount,
+                "upgrade_url": upgrade_url,
+            }
+            return request.render("website_compassion.my_donations_update_confirmation", context)
+
+        def create_line(fund_name, amount):
+            product_template = request.env["product.template"].sudo()
+            product_template = product_template.search([("default_code", "=", fund_name)], limit=1)
+            return (0, 0, {
+                "product_id": product_template.id,
+                "quantity": 1,
+                "amount": amount,
+            })
+        sponsorship_amount = min(write_and_pray_max, new_amount)
+        contract_lines = [(5, 0, 0), create_line("sponsorship", sponsorship_amount)]
+        remain = new_amount - sponsorship_amount
+        if remain > 0:
+            contract_lines.append(create_line("fund_gen", remain))
+        contract.sudo().write({"contract_line_ids": contract_lines})
+        contract.sudo().with_delay().confirm_upgrade()
+        return request.redirect("/my/donations")
+
+    @route("/my/donations/submit_have_parent_consent", type="http", auth="user", website=True)
+    def my_donations_submit_have_parent_consent(self, parent_consent=None, **kw):
+        if parent_consent is None:
+            return request.redirect("/my/donations")
+        env = request.env
+        partner = env.user.partner_id
+
+        data = base64.b64encode(parent_consent.read())
+        date = datetime.today().isoformat(sep="T", timespec="seconds")
+        name = f"parent_consent_{date}_{parent_consent.filename}"
+
+        env["ir.attachment"].create({
+            "res_model": "res.partner",
+            "res_id": partner.id,
+            "name": name,
+            "db_datas": data,
+            "mimetype": parent_consent.content_type
+        })
+        partner.write({"parent_consent": "waiting"})
+        partner.activity_schedule(
+            "mail.mail_activity_data_todo",
+            summary=_("Parental consent submitted"),
+            note=_("Please review the parental consent for the W&P contribution."),
+            user_id=partner.mapped("sponsorship_ids.sds_uid")[:1].id,
+            date_deadline=datetime.date(datetime.today() + timedelta(weeks=1))
+        )
+        return request.redirect("/my/donations")
+
     @route("/my/donations", type="http", auth="user", website=True)
     def my_donations(self, invoice_page='1', form_id=None, invoice_per_page=30, **kw):
         """
@@ -490,6 +573,9 @@ class MyAccountController(PaymentFormController):
             len(sponsorship.filtered(lambda s: s.type == "S"))
             for sponsorship in sponsorships_by_group
         ]
+        paid_sponsorships = (partner.contracts_fully_managed
+                             + partner.contracts_paid) \
+            .filtered(lambda a: a.state not in ["cancelled", "terminated"])
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type in ["SC", "SWP"]))
@@ -535,9 +621,23 @@ class MyAccountController(PaymentFormController):
         current_year = datetime.today().year
         first_year = create_date.year if create_date else current_year
 
+        currency = (paid_sponsorships.mapped("invoice_line_ids.currency_id.name") or [False])[0] or "CHF"
+        upgrade_button_format = f"% {currency}"
+
+        upgrade_default_new_amount = {}
+        upgrade_max_amount = {}
+        for sponsor in paid_sponsorships:
+            value = sponsor.total_amount + 10
+            sponsorships_max_amount = 42 if sponsor.type in ["SWP"] else 50
+            # constrain between 1 and sponsorships_max_amount
+            value = max(1, min(sponsorships_max_amount, value))
+            upgrade_default_new_amount[sponsor.id] = value
+            upgrade_max_amount[sponsor.id] = sponsorships_max_amount
+
         values = self._prepare_portal_layout_values()
         values.update({
             "partner": partner,
+            "paid_sponsorships": paid_sponsorships,
             "payment_options_form": payment_options_form,
             "invoices": invoices,
             "invoice_page": invoice_page,
@@ -549,7 +649,10 @@ class MyAccountController(PaymentFormController):
             "wp_sponsor_count_by_group": wp_sponsor_count_by_group,
             "first_year": first_year,
             "current_year": current_year,
-            "last_completed_tax_receipt": last_completed_tax_receipt
+            "last_completed_tax_receipt": last_completed_tax_receipt,
+            "upgrade_default_new_amount": upgrade_default_new_amount,
+            "upgrade_max_amount": upgrade_max_amount,
+            "upgrade_button_format": upgrade_button_format,
         })
 
         # This fixes an issue that forms fail after first submission

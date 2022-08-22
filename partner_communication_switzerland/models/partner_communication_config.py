@@ -105,6 +105,17 @@ class PartnerCommunication(models.Model):
             'target': 'current',
         }
 
+    def get_inform_mode(self, partner):
+        """""
+        Force SMS sending for W&P sponsors.
+        """
+        self.ensure_one()
+        send_mode, auto_mode = super().get_inform_mode(partner)
+        if partner.write_and_pray and partner.global_communication_delivery_preference == "sms"\
+                and send_mode == "digital" and partner.lang != "it_IT":
+            send_mode = "sms"
+        return send_mode, auto_mode
+
     def _get_test_objects(self, partner, children=None):
         if self.model == "res.partner":
             object_ids = partner.ids
