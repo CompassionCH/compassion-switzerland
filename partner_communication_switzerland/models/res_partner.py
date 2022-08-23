@@ -54,6 +54,10 @@ class ResPartner(models.Model):
                                                        "the new donor onboarding process was sent.",
                                                   copy=False)
     onboarding_new_donor_hash = fields.Char()
+    # Extend access rights on signup fields to allow generating links in onboardings
+    signup_token = fields.Char(groups="base.group_user")
+    signup_type = fields.Char(groups="base.group_user")
+    signup_expiration = fields.Datetime(groups="base.group_user")
 
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
