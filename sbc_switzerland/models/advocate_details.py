@@ -9,8 +9,6 @@
 ##############################################################################
 import logging
 from odoo import api, fields, models
-from . import translate_connector
-from datetime import datetime
 
 
 _logger = logging.getLogger(__name__)
@@ -19,29 +17,8 @@ _logger = logging.getLogger(__name__)
 class AdvocateDetails(models.Model):
     _inherit = "advocate.details"
 
-    translator_since = fields.Datetime()
-    translated_letter_ids = fields.One2many(
-        "correspondence", related="partner_id.translated_letter_ids", readonly=False
-    )
-    nb_translated_letters = fields.Integer(
-        compute="_compute_nb_translated_letters", store=True
-    )
-    nb_translated_letters_this_year = fields.Integer(
-        compute="_compute_nb_translated_letters_this_year", store=True
-    )
 
-    @api.multi
-    @api.depends("partner_id.translated_letter_ids")
-    def _compute_nb_translated_letters_this_year(self):
-        for advocate in self:
-            advocate.nb_translated_letters_this_year = len(advocate.translated_letter_ids.filtered(
-                lambda it: it.translate_date.year == datetime.now().year))
 
-    @api.multi
-    @api.depends("partner_id.translated_letter_ids")
-    def _compute_nb_translated_letters(self):
-        for advocate in self:
-            advocate.nb_translated_letters = len(advocate.translated_letter_ids)
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -140,16 +117,7 @@ class AdvocateDetails(models.Model):
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
-    @api.multi
-    def translated_letters(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Letters",
-            "res_model": "correspondence",
-            "view_type": "form",
-            "view_mode": "tree,form",
-            "context": {"search_default_translator_id": self.partner_id.id},
-        }
+
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

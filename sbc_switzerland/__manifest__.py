@@ -8,7 +8,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2022 Compassion CH (http://www.compassion.ch)
 #    @author: Roman Zoller, Emanuel Cino, Michaël Sandoz
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,18 +29,17 @@
 # pylint: disable=C8101
 {
     "name": "Sponsor to beneficiary email communication",
-    "version": "12.0.1.0.2",
+    "version": "12.0.2.0.0",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "mysql_connector",  # compassion-switzerland
-        "partner_communication_switzerland",  # compassion-switzerland
-        "child_switzerland",  # compassion-switzerland
+        "partner_communication_switzerland",
+        "child_switzerland",
+        "sbc_translation"  # compassion-modules
     ],
     "external_dependencies": {"python": [
-        "smb",
         "PyPDF2",
         "pysftp",
         "wand",
@@ -52,7 +51,6 @@
         "data/scan_letter_params.xml",
         "data/import_config_templates.xml",
         "data/nas_parameters.xml",
-        "data/local_letters_cron.xml",
         "data/translator_email.xml",
         "data/communication_config.xml",
         "data/translator_action_rules.xml",
@@ -60,9 +58,7 @@
         "data/res.lang.compassion.csv",
         "views/import_config_view.xml",
         "views/import_letters_history_view.xml",
-        "views/correspondence_view.xml",
         "views/s2b_generator_view.xml",
-        "views/advocate_view.xml",
         "reports/translation_reports_view.xml",
     ],
     "demo": [],

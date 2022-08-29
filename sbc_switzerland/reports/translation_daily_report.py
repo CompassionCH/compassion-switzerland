@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2022 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel  Cino <ecino@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
@@ -27,7 +27,8 @@ class TranslationDailyReport(models.Model):
     _order = "study_date asc"
 
     study_date = fields.Char(readonly=True)
-    translator_id = fields.Many2one("res.partner", "Translator", readonly=True)
+    new_translator_id = fields.Many2one("translation.user", "Translator", readonly=True)
+    translator_id = fields.Many2one("res.partner", related="new_translator_id.partner_id")
     ref = fields.Char(related="translator_id.ref")
     name = fields.Char(related="translator_id.name")
     src_lang = fields.Many2one("res.lang.compassion", "Source language", readonly=True)
@@ -98,7 +99,7 @@ class TranslationDailyReport(models.Model):
             -- numbers
             -- http://www.postgresqltutorial.com/postgresql-window-function/
             SELECT
-              c.id, c.translator_id, c.src_translation_lang_id AS src_lang,
+              c.id, c.new_translator_id, c.src_translation_lang_id AS src_lang,
               c.translation_language_id AS dst_lang,
               l1.name || ' to ' || l2.name AS language,
               to_char(date_trunc(%s, c.translate_date), %s) AS study_date,
@@ -107,7 +108,7 @@ class TranslationDailyReport(models.Model):
             FROM correspondence c
             JOIN res_lang_compassion l1 ON c.src_translation_lang_id = l1.id
             JOIN res_lang_compassion l2 ON c.translation_language_id = l2.id
-            WHERE translator_id IS NOT NULL
+            WHERE new_translator_id IS NOT NULL
         """
             ),
             date_format,
