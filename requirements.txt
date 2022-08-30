@@ -20,7 +20,6 @@ pyquery
 python-coveralls
 python-magic
 pysftp
-pysmb
 pytz
 pyzbar
 pypng
