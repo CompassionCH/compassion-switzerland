@@ -417,7 +417,10 @@ class ResPartner(models.Model):
     @api.depends("name")
     def _compute_address_name(self):
         for partner in self:
-            partner.address_name = (partner.short_address or '').split("<br/>")[0]
+            if partner.title:
+                partner.address_name = (partner.short_address or '').split("<br/>")[0]
+            else:
+                partner.address_name = partner.name
 
     ##########################################################################
     #                              ORM METHODS                               #
