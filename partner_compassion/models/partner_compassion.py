@@ -417,7 +417,7 @@ class ResPartner(models.Model):
     @api.depends("name")
     def _compute_address_name(self):
         for partner in self:
-            if partner.title:
+            if partner.title and not partner.is_company:
                 partner.address_name = (partner.short_address or '').split("<br/>")[0]
             else:
                 partner.address_name = partner.name
