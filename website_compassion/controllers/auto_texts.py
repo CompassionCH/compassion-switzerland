@@ -4,45 +4,53 @@ CHRISTMAS_TEXTS = {
 
 Je te souhaite de belles fêtes de Noël! 
 
-Noël nous rappelle la venue de Jésus parmi nous, signe de l’amour de Dieu pour nous et pour le monde entier.
+A Noël, tout commence avec un enfant! Nous fêtons la venue de Jésus parmi nous, signe de l’amour de Dieu pour nous et pour le monde entier.
 
-Quelle bonne nouvelle: il a aussi promis d’être avec nous tous les jours de notre vie et de prendre soin de nous! Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
+Quelle bonne nouvelle: il a aussi promis d’être avec nous tous les jours de notre vie et de prendre soin de nous! C’est vrai quand tout va bien. C’est vrai aussi en temps de crise, de défi. 
 
-
-%s
-""",
-    "eng": """Dear %s,
-
-
-I wish you a Merry Christmas and beautiful holidays!
-
-Christmas reminds us that Jesus came among us, as a sign of God's love for us and for the whole world.
-
-What a good news: He also promised to be with us everyday of our life and to take care of us! I wish you, as well as your loved ones, all the best for the New Year.
+Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
 
 
 %s
 """,
-    "por": """Oi %s, tudo bem?
+    "eng": """Hello %s,
 
 
-Desejo-lhe um Feliz Natal e belos dias de feriado!
+Merry Christmas!
 
-O Natal nos lembra que Jesus veio entre nós, como um sinal do amor de Deus por nós e pelo mundo inteiro.
+At Christmas, everything begins with a child! We celebrate the coming of Jesus among us, a sign of God's love for us and for the whole world.
 
-Que boa notícia: Ele também prometeu estar conosco todos os dias da nossa vida e cuidar de nós! Desejo-lhe, assim como a seus entes queridos, tudo de bom para o Ano Novo.
+What good news: He promises to be with us all the days of our life and to take care of us! This is true when everything is going well. It is also true in times of crisis and challenge.
+
+I wish you and your loved ones all the best for the New Year.
 
 
 %s
 """,
-    "spa": """Hola %s,
+    "por": """Olá %s,
 
 
-¡ Te deseo unas muy felices fiestas de Navidad !
+Votos sinceros de um Feliz Natal!
 
-Navidad nos recuerda que Jesús vino a este mundo para mostrarnos el amor de Dios para con nosotros y con todos.
+No Natal, tudo começa com uma criança! Celebramos a vinda de Jesus, um sinal do amor de Deus por todos nós e o mundo inteiro.
 
-Es una buena noticia que también haya prometido estar con nosotros y cuidarnos todos los días de nuestra vida. Les deseo lo mejor para el nuevo año a ti y a todos tus seres queridos.
+Que óptimas notícias: Deus prometeu estar connosco todos os dias da nossa vida e tomar conta de nós quando tudo corre bem, mas também em tempos dificeis de crise e desafios.
+
+A ti e aos teus entes queridos desejo-vos tudo de bom para o Ano Novo.
+
+
+%s
+""",
+    "spa": """Hola %s
+
+
+¡Te deseo unas muy felices fiestas de Navidad!
+
+En Navidad, ¡todo empieza con un niño! Celebramos la venida de Jesús entre nosotros, signo del amor de Dios por nosotros y por el mundo entero.
+
+Qué buena noticia: también ha prometido estar con nosotros todos los días de nuestra vida y cuidarnos. Esto es cierto cuando todo va bien. También es cierto en tiempos de crisis y desafíos.
+
+Te deseo a ti y a tus seres queridos todo lo mejor para el Año Nuevo.
 
 
 %s
