@@ -692,6 +692,7 @@ class RecurringContract(models.Model):
             if self.total_amount >= 42:
                 # The sponsorship will transform to regular sponsorship.
                 config = self.env.ref("partner_communication_switzerland.wrpr_transformation_confirmation_config")
+                # TODO CP-134 update communication preferences to remove SMS
         self.send_communication(config, correspondent=False)
         return True
 

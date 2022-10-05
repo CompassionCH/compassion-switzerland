@@ -104,7 +104,7 @@ class ZoomAttendee(models.Model):
         # avoid sending this twice communication
         if config_name == ZoomCommunication.LINK:
             if self.link_received:
-                return
+                return self.env["partner.communication.job"]
             else:
                 self.link_received = True
 
