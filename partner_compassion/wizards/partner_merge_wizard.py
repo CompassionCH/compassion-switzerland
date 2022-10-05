@@ -44,10 +44,9 @@ class PartnerMergeWizard(models.TransientModel):
         # check onboarding_new_donor_start_date for non-dst partner. If set,
         # and dst partner is sponsor, clear the onboarding_new_donor_start_date.
         if removing.onboarding_new_donor_start_date:
-            for obj in self.dst_partner_id.category_id:
-                if obj.display_name == 'Sponsor':
-                    removing.onboarding_new_donor_start_date = ''
-                    break
+            sponsor_category = self.env.ref("partner_compassion.res_partner_category_sponsor")
+            if sponsor_category in self.dst_partner_id.category_id:
+                removing.onboarding_new_donor_start_date = False
 
         old_emails = removing.filtered("email").mapped("email")
         new_email = self.dst_partner_id.email
