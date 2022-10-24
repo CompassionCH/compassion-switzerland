@@ -29,7 +29,7 @@ requests
 reportlab==3.6.*
 Shapely
 simplejson
-sphinx
+sphinx==4.5.0
 sphinx_bootstrap_theme
 sphinx-intl
 timezonefinder
