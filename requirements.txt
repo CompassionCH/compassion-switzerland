@@ -26,6 +26,7 @@ pypng
 pyqrcode
 regex
 requests
+reportlab==3.6.*
 Shapely
 simplejson
 sphinx
