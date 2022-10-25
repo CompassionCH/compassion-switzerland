@@ -17,6 +17,7 @@ pdf2image
 pdfminer
 phonenumbers
 py-Asterisk
+pycups==1.9.*
 pyminizip
 PyMuPDF
 PyPDF2
