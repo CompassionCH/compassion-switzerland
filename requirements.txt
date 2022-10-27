@@ -1,5 +1,6 @@
 Babel
 bs4
+fintech
 firebase_admin
 geojson
 git+https://github.com/OCA/openupgradelib
@@ -42,4 +43,4 @@ sphinx-intl
 timezonefinder
 unidecode
 wand
-fintech
+zxcvbn
