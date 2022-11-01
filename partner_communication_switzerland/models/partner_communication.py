@@ -756,7 +756,10 @@ class PartnerCommunication(models.Model):
 
         return attachments
 
-    def get_sponsorship_payment_slip_attachments(self):
+    def get_contract_payment_slip_a4(self):
+        return self.get_sponsorship_payment_slip_attachments(force_a4=True)
+
+    def get_sponsorship_payment_slip_attachments(self, force_a4=False):
         self.ensure_one()
         account_payment_mode_obj = self.env["account.payment.mode"].with_context(
             lang="en_US"
@@ -797,7 +800,7 @@ class PartnerCommunication(models.Model):
         if bv_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
-            if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
+            if bv_sponsorships.mapped("payment_mode_id") == permanent_order and not force_a4:
                 # One single slip is enough for permanent order.
                 report_name = "report_compassion.single_bvr_sponsorship"
                 report_ref = self.env.ref(
