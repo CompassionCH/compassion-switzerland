@@ -757,7 +757,8 @@ class PartnerCommunication(models.Model):
         return attachments
 
     def get_contract_payment_slip_a4(self):
-        return self.get_sponsorship_payment_slip_attachments(force_a4=True)
+        self.ensure_one()
+        return self.get_sponsorship_payment_slip_attachments(force_a4=self.send_mode == "physical")
 
     def get_sponsorship_payment_slip_attachments(self, force_a4=False):
         self.ensure_one()
