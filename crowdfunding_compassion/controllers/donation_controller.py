@@ -88,17 +88,5 @@ class DonationController(PaymentFormController, FormControllerMixin):
         if transaction.state != "done":
             return request.render("crowdfunding_compassion.donation_failure")
 
-        elif invoice.communication_id.state != "done":
-            comm_obj = request.env["partner.communication.job"].sudo()
-
-            # Send confirmation email
-            config = request.env.ref(
-                "crowdfunding_compassion.config_donation_successful_email_template"
-            )
-            comm_obj.create({
-                "config_id": config.id,
-                "partner_id": invoice.partner_id.id,
-                "object_ids": invoice.ids
-            })
-
+        invoice.with_delay().generate_crowdfunding_receipt()
         return request.render("crowdfunding_compassion.donation_successful")
