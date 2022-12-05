@@ -74,6 +74,7 @@ class AccountInvoice(models.Model):
             lambda p: p.thankyou_preference != "none"
         )
         gift_category = self.env.ref("sponsorship_compassion.product_category_gift")
+        delay = datetime.now() + relativedelta(seconds=10)
         for partner in partners:
             invoice_lines = self.mapped("invoice_line_ids").filtered(
                 lambda l: l.partner_id == partner
@@ -82,9 +83,9 @@ class AccountInvoice(models.Model):
             other_thank = invoice_lines - event_thank
             for event in event_thank.mapped("event_id"):
                 event_thank.filtered(
-                    lambda l: l.event_id == event).with_delay().generate_thank_you()
+                    lambda l: l.event_id == event).with_delay(eta=delay).generate_thank_you()
             if other_thank:
-                other_thank.with_delay().generate_thank_you()
+                other_thank.with_delay(eta=delay).generate_thank_you()
 
         # Send confirmation to ambassadors
         ambassadors = self.mapped("invoice_line_ids.user_id")
@@ -97,7 +98,7 @@ class AccountInvoice(models.Model):
                 and l.product_id.categ_id != gift_category
             )
             if ambassador_lines:
-                ambassador_lines.with_delay().send_receipt_to_ambassador()
+                ambassador_lines.with_delay(eta=delay).send_receipt_to_ambassador()
 
     @api.multi
     def _filter_invoice_to_thank(self):
