@@ -199,8 +199,8 @@ class AccountInvoice(models.Model):
             sponsorship = sponsorship.search(
                 [
                     "|",
-                    ("partner_id", "=", partner_id),
-                    ("correspondent_id", "=", partner_id),
+                    ("partner_id", "=", self.partner_id.id),
+                    ("correspondent_id", "=", self.partner_id.id),
                     ("child_code", "=", child_code),
                 ],
                 order="id desc",
