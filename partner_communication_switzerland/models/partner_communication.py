@@ -402,14 +402,11 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         sponsorships = self.get_objects()
         payment_mode_bvr = self.env.ref("sponsorship_switzerland.payment_mode_bvr")
-        pm_permanent = self.env.ref(
-            "sponsorship_switzerland.payment_mode_permanent_order")
         attachments = dict()
         # IF payment mode is BVR and partner is paying
         # attach sponsorship payment slips
-        # Year 2022 only: we send Permanent Orders again for QR-update!
         pay_bvr = sponsorships.filtered(
-            lambda s: s.payment_mode_id in (payment_mode_bvr, pm_permanent)
+            lambda s: s.payment_mode_id == payment_mode_bvr
             and s.partner_id == self.partner_id
         )
         if pay_bvr and pay_bvr.must_pay_next_year():
