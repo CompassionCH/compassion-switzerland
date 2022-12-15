@@ -176,7 +176,7 @@
         <t t-set="sponsorships" t-value="docs.browse(ids)"/>
         <t t-set="partner_address" t-value="partner.short_address"/>
         <t t-set="bank_account" t-value="partner.env['recurring.contract.group'].get_company_qrr_account()"/>
-        <t t-set="swissqr_position_top" t-value="192"/>
+        <t t-set="disable_scissors" t-value="True"/>
         <t t-set="contract_groups" t-value="sponsorships.mapped('group_id')"/>
         <t t-set="o" t-value="contract_groups[0]"/>
         <t t-set="reference" t-value="o.bvr_reference"/>
