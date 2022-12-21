@@ -35,6 +35,14 @@ class ResPartnerBank(models.Model):
         qr_code_vals[18] = ""
         return qr_code_vals
 
+    def validate_swiss_code_arguments(self, currency, debtor_partner, reference_to_check=''):
+        """Override this function to let the creation of QR invoices without partner's information
+           As we can have partners without an address set we get rid of the inner function _partner_fields_set.
+        """
+        return (reference_to_check == '' or not self._is_qr_iban()
+                or self._is_qr_reference(reference_to_check))
+
+
     @api.model
     def create(self, data):
         """Override function to notify creation in a message
