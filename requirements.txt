@@ -1,4 +1,5 @@
 Babel
+boxdetect
 bs4
 fintech
 firebase_admin
