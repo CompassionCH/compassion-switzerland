@@ -36,7 +36,7 @@ pytesseract
 regex
 requests
 reportlab==3.6.*
-Shapely
+Shapely==1.8.5
 simplejson
 sphinx==4.5.0
 sphinx_bootstrap_theme
