@@ -54,6 +54,12 @@ class ResPartnerBank(models.Model):
         return (reference_to_check == '' or not self._is_qr_iban()
                 or self._is_qr_reference(reference_to_check))
 
+    def _get_partner_address_lines(self, partner):
+        """ Override to allow empty zip or city.
+        """
+        line_1 = (partner and partner.street or '') + ' ' + (partner and partner.street2 or '')
+        line_2 = (partner and partner.zip or '') + ' ' + (partner and partner.city or '')
+        return line_1[:70], line_2[:70]
 
     @api.model
     def create(self, data):
