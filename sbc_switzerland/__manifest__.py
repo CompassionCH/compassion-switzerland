@@ -53,8 +53,6 @@
         "data/nas_parameters.xml",
         "data/translator_email.xml",
         "data/communication_config.xml",
-        "data/translator_action_rules.xml",
-        "data/communication_config.xml",
         "data/res.lang.compassion.csv",
         "views/import_config_view.xml",
         "views/import_letters_history_view.xml",

@@ -10,4 +10,3 @@
 from . import correspondence
 from . import import_config
 from . import import_letters_history
-from . import advocate_details
