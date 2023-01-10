@@ -49,8 +49,11 @@ class HomepageController(Controller):
         year = datetime.now().year
         project_obj = request.env["crowdfunding.project"].sudo()
         current_year_projects = project_obj.get_active_projects(year=year)
+        if len(current_year_projects) < 10 and sum(current_year_projects.mapped("product_number_reached")) < 100:
+            current_year_projects += project_obj.get_active_projects(year=year - 1)
+            year = f"{year-1}/{year}"
         funds_used = current_year_projects.mapped("product_id")
-        active_funds = funds_used.search([("activate_for_crowdfunding", "=", True)])
+        active_funds = funds_used.filtered("activate_for_crowdfunding")
         active_funds_data = []
         impact = {
             "sponsorship": sponsorship_card_content()

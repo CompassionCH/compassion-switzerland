@@ -146,7 +146,7 @@ class AccountInvoice(models.Model):
         account = self.env["account.account"].search([("code", "=", "1050")])
         date_invoice = fields.Datetime.from_string(time)
         invoice = self.search([
-            ("reference", "=", reference),
+            ("reference", "=", str(pf_payid)),
             ("partner_id", "=", partner_id)
         ], limit=1)
         if invoice:
@@ -199,8 +199,8 @@ class AccountInvoice(models.Model):
             sponsorship = sponsorship.search(
                 [
                     "|",
-                    ("partner_id", "=", partner_id),
-                    ("correspondent_id", "=", partner_id),
+                    ("partner_id", "=", self.partner_id.id),
+                    ("correspondent_id", "=", self.partner_id.id),
                     ("child_code", "=", child_code),
                 ],
                 order="id desc",

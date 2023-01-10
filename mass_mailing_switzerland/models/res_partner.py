@@ -74,13 +74,13 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get("opt_out"):
-            vals["date_opt_out"] = fields.Date.today()
+        if "opt_out" in vals and "email" in vals:
+            vals["date_opt_out"] = fields.Date.today() if vals["opt_out"] else False
             contact_rel_to_opt_out = self.env["mail.mass_mailing.list_contact_rel"].search(
-                [("contact_id.email", "in", self.mapped("email"))]
+                [("contact_id.email", "=", vals["email"])]
             )
             contact_rel_to_opt_out.with_context({"opt_out_from_partner": True}).write({
-                "opt_out": True
+                "opt_out": vals["opt_out"]
             })
         return super().create(vals)
 
@@ -92,16 +92,14 @@ class ResPartner(models.Model):
         - Push tags into mailing contacts
         - Remove mailing contact if email address is removed
         """
-        if vals.get("opt_out"):
-            vals["date_opt_out"] = fields.Date.today()
+        if "opt_out" in vals:
+            vals["date_opt_out"] = fields.Date.today() if vals["opt_out"] else False
             contact_rel_to_opt_out = self.env["mail.mass_mailing.list_contact_rel"].search(
                 [("contact_id.email", "in", self.mapped("email"))]
             )
             contact_rel_to_opt_out.with_context({"opt_out_from_partner": True}).write({
-                "opt_out": True
+                "opt_out": vals["opt_out"]
             })
-        elif "opt_out" in vals:
-            vals["date_opt_out"] = False
         for partner in self.filtered(lambda c: c.mass_mailing_contact_ids):
             mailing_contacts = partner.mass_mailing_contact_ids
             mailing_contact_vals = {}

@@ -276,7 +276,8 @@ class MassMailingContact(models.Model):
         mailchimp_channel = self.env.ref("mass_mailing_switzerland.channel_mailchimp")
         queue_job = self.env["queue.job"].sudo().search([
             ("job_function_id.channel_id", "=", mailchimp_channel.id),
-            ("state", "!=", "done")
+            ("state", "not in", ["done", "failed"]),
+            ("model_name", "=", self._name)
         ])
         to_update = self
         if queue_job:
