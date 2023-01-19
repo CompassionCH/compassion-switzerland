@@ -62,7 +62,7 @@ class EventRegistrationForm(models.AbstractModel):
 
     @property
     def form_description(self):
-        user = self.event_id.sudo().user_id
+        user = self.event_id.user_id.sudo() or self.env["res.users"].browse(16).sudo()  # Roma by default
         user_name = user.lastname
         user_mail = user.email
         if user.preferred_name:
