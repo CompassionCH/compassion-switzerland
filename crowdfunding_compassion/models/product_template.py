@@ -1,7 +1,7 @@
 #    Copyright (C) 2020 Compassion CH
 #    @author: Quentin Gigon
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class ProductTemplate(models.Model):
@@ -16,6 +16,10 @@ class ProductTemplate(models.Model):
              "of percentage.",
         default="standard"
     )
+    # Criteria to make the fund appear on the homepage of together
+    show_fund_together_homepage = fields.Boolean(default=False, help="Show the fund on the homepage of together.")
+    # Amount of the all time impact of a product
+    total_fund_impact = fields.Integer(readonly=True, default=0)
     crowdfunding_description = fields.Text(
         translate=True,
         help="Description of the fund visible on Homepage"
@@ -50,3 +54,21 @@ class ProductTemplate(models.Model):
     image_large = fields.Binary(
         "Large image", help="Image for header", attachment=True
     )
+
+    @api.model
+    def _auto_init(self):
+        super()._auto_init()
+        self.env['product.template'].search([]).recompute_amount()
+
+    @api.multi
+    def recompute_amount(self):
+        """
+        This function is used to calculate the total amount of funds impacted by all the campaigns
+        that used a specific product template by summing up the number of invoices paid for each campaign
+        that used this product template.
+        """
+        for template in self:
+            # Sum the number of invoices paid for each campaign that used this product template
+            template.total_fund_impact = sum(
+                self.env['crowdfunding.project'].sudo().search([('product_id.product_tmpl_id', '=', template.id)]).mapped(
+                    "product_number_reached"))
