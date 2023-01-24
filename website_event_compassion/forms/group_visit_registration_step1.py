@@ -58,11 +58,11 @@ class EventRegistrationForm(models.AbstractModel):
 
     @property
     def form_title(self):
-        return _("4 steps to register")
+        return _("5 steps to register")
 
     @property
     def form_description(self):
-        user = self.event_id.sudo().user_id
+        user = self.event_id.user_id.sudo() or self.env["res.users"].browse(16).sudo()  # Roma by default
         user_name = user.lastname
         user_mail = user.email
         if user.preferred_name:
@@ -74,11 +74,12 @@ class EventRegistrationForm(models.AbstractModel):
             "<p>Thank you for your interest in the work of Compassion, "
             "to free more children from extreme poverty every day. "
             "To live this unique experience of discovery, you just have"
-            " to complete the following 4 steps:</p>"
+            " to complete the following 5 steps:</p>"
             "<ol>"
             "<li>Register with your coordinates</li>"
             "<li>Accept the travel agreements</li>"
             "<li>Pay a down payment, then the invoice</li>"
+            "<li>Your impact</li>"
             "<li>Prepare the trip</li>"
             "</ol>"
             "<p>Your registration will be validated and a place will be "
