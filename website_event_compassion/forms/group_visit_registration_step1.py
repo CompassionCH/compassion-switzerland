@@ -78,7 +78,7 @@ class EventRegistrationForm(models.AbstractModel):
             "<ol>"
             "<li>Register with your coordinates</li>"
             "<li>Accept the travel agreements</li>"
-            "<li>Pay a down payment, then the invoice</li>"
+            "<li>Trip payment and impact setup</li>"
             "<li>Prepare the trip</li>"
             "</ol>"
             "<p>Your registration will be validated and a place will be "
