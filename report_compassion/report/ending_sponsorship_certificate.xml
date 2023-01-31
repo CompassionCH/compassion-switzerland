@@ -106,7 +106,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="report_compassion.style"/>
                 <t t-set="pictures" t-value="o.child_id.pictures_ids"/>
-                <t t-set="first_pic_available" t-value="len(pictures) &gt; 1 and pictures[-1].date.year &gt;= o.start_date.year and pictures[-1].date.year &lt; pictures[0].date.year"/>
+                <t t-set="first_pic_available" t-value="len(pictures) &gt; 1 and pictures[-1].date.year &lt;= o.start_date.year and pictures[-1].date.year &lt; pictures[0].date.year"/>
                 <div class="background" t-if="digital">
                     <img t-attf-src="#{base_url}/report_compassion/static/img/report_compassion.ending_sponsorship_certificate/ending_sponsor_card_#{lang[:2]}.jpg"/>
                 </div>

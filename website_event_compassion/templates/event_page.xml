@@ -20,9 +20,8 @@
             <ol class="breadcrumb">
                 <li t-att-class="'active' if event_step == 1 else ('done' if event_step > 1 else '')">1. Registration</li>
                 <li t-att-class="'active' if event_step == 2 else ('done' if event_step > 2 else '')">2. Agreements</li>
-                <li t-att-class="'active' if event_step == 3 else ('done' if event_step > 3 else '')">3. Down payment</li>
-                <li t-att-class="'active' if event_step == 4 else ('done' if event_step > 4 else '')">4. Your impact</li>
-                <li t-att-class="'active' if event_step == 4 else ('done' if event_step > 5 else '')">5. Trip preparation</li>
+                <li t-att-class="'active' if event_step == 3 else ('done' if event_step > 3 else '')">3. Trip payment and impact setup</li>
+                <li t-att-class="'active' if event_step == 4 else ('done' if event_step > 4 else '')">4. Trip preparation</li>
             </ol>
         </div>
     </template>
