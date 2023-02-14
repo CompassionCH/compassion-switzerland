@@ -88,13 +88,6 @@ class RecurringContract(models.Model):
         else:
             self.send_introduction_letter = True
 
-    @api.multi
-    def _on_change_correspondant(self, correspondent_id):
-        # Don't send introduction letter when correspondent is changed
-        cancelled_sponsorships = super()._on_change_correspondant(correspondent_id)
-        cancelled_sponsorships.write({"send_introduction_letter": False})
-        return cancelled_sponsorships
-
     def get_payment_type_attachment_string(self):
         payment_mode = self.with_context(lang="en_US").mapped(
             "payment_mode_id")[:1].name
@@ -747,7 +740,7 @@ class RecurringContract(models.Model):
         if self.end_reason_id == subreject:
             return False
 
-        return self.hold_id and not datetime.now() > self.hold_id.expiration_date
+        return self.hold_id and datetime.now() <= self.hold_id.expiration_date
 
     def _new_dossier(self):
         """
