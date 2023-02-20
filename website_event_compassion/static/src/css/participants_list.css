@@ -43,7 +43,7 @@
     position: relative;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: center;
 }
 
 #compassion_event_participants .participant_details_link {
@@ -91,8 +91,8 @@
     flex-direction:column;
     position: absolute;
     width: 100%;
-    top: -10px;
-    left: 0px;
+    top: 0;
+    left: 0;
     opacity: 0;
     height: 125px;
     animation-duration: 0.5s;

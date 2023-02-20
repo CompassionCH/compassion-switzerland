@@ -20,6 +20,10 @@ class AccountInvoice(models.Model):
         config = self.env.ref(
             "crowdfunding_compassion.config_donation_successful_email_template"
         )
+        # update the all time impact
+        for product_tmpl in self.mapped("invoice_line_ids.product_id.product_tmpl_id"):
+            product_tmpl.recompute_amount()
+
         return comm_obj.create({
             "config_id": config.id,
             "partner_id": self.partner_id.id,

@@ -62,7 +62,7 @@ class EventRegistrationForm(models.AbstractModel):
 
     @property
     def form_description(self):
-        user = self.event_id.sudo().user_id
+        user = self.event_id.user_id.sudo() or self.env["res.users"].browse(16).sudo()  # Roma by default
         user_name = user.lastname
         user_mail = user.email
         if user.preferred_name:
@@ -78,7 +78,7 @@ class EventRegistrationForm(models.AbstractModel):
             "<ol>"
             "<li>Register with your coordinates</li>"
             "<li>Accept the travel agreements</li>"
-            "<li>Pay a down payment, then the invoice</li>"
+            "<li>Trip payment and impact setup</li>"
             "<li>Prepare the trip</li>"
             "</ol>"
             "<p>Your registration will be validated and a place will be "

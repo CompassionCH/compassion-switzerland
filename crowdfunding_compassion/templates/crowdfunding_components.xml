@@ -327,7 +327,7 @@
             <!-- Compute value -->
             <t t-set="product" t-value="project.product_id"/>
             <t t-set="current_value" t-value="product.standard_price * current_default_quantity"/>
-            <t t-set="plural" t-values="current_default_quantity > 1 if product.impact_type == 'standard' else current_default_quantity > 100"/>
+            <t t-set="plural" t-value="current_default_quantity > 1 if product.impact_type == 'standard' else current_default_quantity > 100"/>
             <div class="col-6 col-lg-6 mb-3">
                 <label class="h-100 w-100">
                     <input type="radio" name="amount" t-att-value="current_value" class="card-input-element d-none" />
