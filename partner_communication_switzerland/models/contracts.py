@@ -79,6 +79,11 @@ class RecurringContract(models.Model):
                 }
             }
 
+    @api.onchange("correspondent_id")
+    def onchange_correspondent(self):
+        if self.is_active:
+            self.send_introduction_letter = False
+
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
