@@ -6,3 +6,4 @@ from . import account_invoice_line
 from . import res_partner
 from . import staff_notification_settings
 from . import account_invoice
+from . import product_product
