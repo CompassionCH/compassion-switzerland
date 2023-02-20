@@ -48,10 +48,10 @@ class HomepageController(Controller):
     @staticmethod
     def _compute_homepage_context():
         # Retrieve all projects open (deadline in the future)
-        current_year_projects = request.env["crowdfunding.project"].sudo().get_active_projects(status='active')
+        active_projects = request.env["crowdfunding.project"].sudo().get_active_projects(status='active')
         active_funds_data = []
 
-        for fund in current_year_projects.mapped("product_id").filtered("activate_for_crowdfunding"):
+        for fund in active_projects.mapped("product_id").filtered("activate_for_crowdfunding"):
             active_funds_data.append({
                 "name": fund.crowdfunding_impact_text_active,
                 "description": fund.crowdfunding_description,
@@ -82,16 +82,14 @@ class HomepageController(Controller):
             impact[fund.name] = {
                 "type": "fund",
                 "value": impact_val,
-                # "name": fund.crowdfunding_impact_text_active,
                 "text": fund_text,
                 "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or SPONSOR_ICON,
             }
 
         subheading = _("What we achieved so far")
-
         return {
-            "projects": current_year_projects[:8],
+            "projects": active_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
             "active_funds": active_funds_data,
             "base_url": request.website.domain,
