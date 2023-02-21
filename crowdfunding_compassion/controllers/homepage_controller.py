@@ -64,24 +64,20 @@ class HomepageController(Controller):
                     ) if fund.image_large else SPONSOR_HEADER,
             })
 
-        # populate the fund information depending of the impact type and the number of impact
+        # populate the fund information depending on the impact type and the number of impact
         impact = {
             "sponsorship": sponsorship_card_content()
         }
         for fund in request.env['product.product'].sudo().search(
-                [('product_tmpl_id.show_fund_together_homepage', '=', True)]):
+                [('product_tmpl_id.show_fund_together_homepage', '=', True)], order="total_fund_impact DESC"):
             impact_val = fund.product_tmpl_id.total_fund_impact
-            large_impact = fund.impact_type == "large"
-            if large_impact and impact_val > 100:
-                fund_text = fund.crowdfunding_impact_text_passive_plural
-                impact_val = int(impact_val / 100)
-            elif not large_impact and impact_val > 1:
+            if impact_val > 1:
                 fund_text = fund.crowdfunding_impact_text_passive_plural
             else:
                 fund_text = fund.crowdfunding_impact_text_passive_singular
             impact[fund.name] = {
                 "type": "fund",
-                "value": impact_val,
+                "value": f"{impact_val:,}",
                 "text": fund_text,
                 "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or SPONSOR_ICON,
