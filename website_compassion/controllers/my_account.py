@@ -177,7 +177,7 @@ def _download_image(child_id, obj_id):
 
     # A single image from a child
     if child and obj_id > 0:
-        image = child.pictures_ids.filtered(lambda p: p.id == obj_id)
+        image = child.sudo().pictures_ids.filtered(lambda p: p.id == obj_id)
         return _single_image_response(image)
 
     return False
