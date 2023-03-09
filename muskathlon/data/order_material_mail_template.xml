@@ -10,7 +10,7 @@
                 Hello ${object.user_id.partner_id.preferred_name}
                 <br/>
                 <br/>
-                ${object.partner_id.name} ordered :
+                ${object.partner_id.name} &lt;${object.partner_id.email}&gt; ordered :
                 <br/>
                 ${object.description|safe}
                 <br/>

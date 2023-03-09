@@ -305,7 +305,7 @@ class PartnerCommunication(models.Model):
 
         # In other cases, attach the payment slip.
         report_name = "report_compassion.bvr_due"
-        data = {"background": True, "doc_ids": sponsorships.ids}
+        data = {"background": True, "doc_ids": sponsorships.ids, "disable_scissors": True}
         pdf = self._get_pdf_from_data(
             data, self.env.ref("report_compassion.report_bvr_due")
         )
@@ -402,14 +402,11 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         sponsorships = self.get_objects()
         payment_mode_bvr = self.env.ref("sponsorship_switzerland.payment_mode_bvr")
-        pm_permanent = self.env.ref(
-            "sponsorship_switzerland.payment_mode_permanent_order")
         attachments = dict()
         # IF payment mode is BVR and partner is paying
         # attach sponsorship payment slips
-        # Year 2022 only: we send Permanent Orders again for QR-update!
         pay_bvr = sponsorships.filtered(
-            lambda s: s.payment_mode_id in (payment_mode_bvr, pm_permanent)
+            lambda s: s.payment_mode_id == payment_mode_bvr
             and s.partner_id == self.partner_id
         )
         if pay_bvr and pay_bvr.must_pay_next_year():
@@ -756,7 +753,11 @@ class PartnerCommunication(models.Model):
 
         return attachments
 
-    def get_sponsorship_payment_slip_attachments(self):
+    def get_contract_payment_slip_a4(self):
+        self.ensure_one()
+        return self.get_sponsorship_payment_slip_attachments(force_a4=self.send_mode == "physical")
+
+    def get_sponsorship_payment_slip_attachments(self, force_a4=False):
         self.ensure_one()
         account_payment_mode_obj = self.env["account.payment.mode"].with_context(
             lang="en_US"
@@ -797,7 +798,7 @@ class PartnerCommunication(models.Model):
         if bv_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
-            if bv_sponsorships.mapped("payment_mode_id") == permanent_order:
+            if bv_sponsorships.mapped("payment_mode_id") == permanent_order and not force_a4:
                 # One single slip is enough for permanent order.
                 report_name = "report_compassion.single_bvr_sponsorship"
                 report_ref = self.env.ref(

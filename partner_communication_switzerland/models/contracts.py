@@ -79,6 +79,11 @@ class RecurringContract(models.Model):
                 }
             }
 
+    @api.onchange("correspondent_id")
+    def onchange_correspondent(self):
+        if self.is_active:
+            self.send_introduction_letter = False
+
     @api.onchange("origin_id")
     def _do_not_send_letter_to_transfer(self):
         if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
@@ -87,13 +92,6 @@ class RecurringContract(models.Model):
         # field should be reset to default
         else:
             self.send_introduction_letter = True
-
-    @api.multi
-    def _on_change_correspondant(self, correspondent_id):
-        # Don't send introduction letter when correspondent is changed
-        cancelled_sponsorships = super()._on_change_correspondant(correspondent_id)
-        cancelled_sponsorships.write({"send_introduction_letter": False})
-        return cancelled_sponsorships
 
     def get_payment_type_attachment_string(self):
         payment_mode = self.with_context(lang="en_US").mapped(
@@ -692,6 +690,7 @@ class RecurringContract(models.Model):
             if self.total_amount >= 42:
                 # The sponsorship will transform to regular sponsorship.
                 config = self.env.ref("partner_communication_switzerland.wrpr_transformation_confirmation_config")
+                # TODO CP-134 update communication preferences to remove SMS
         self.send_communication(config, correspondent=False)
         return True
 
@@ -746,7 +745,7 @@ class RecurringContract(models.Model):
         if self.end_reason_id == subreject:
             return False
 
-        return self.hold_id and not datetime.now() > self.hold_id.expiration_date
+        return self.hold_id and datetime.now() <= self.hold_id.expiration_date
 
     def _new_dossier(self):
         """

@@ -19,11 +19,16 @@ SPONSOR_ICON = base64.b64encode(file_open(
 _logger = logging.getLogger(__name__)
 
 
+def fund_impact_val_formatting(value):
+    return format(value, ",d").replace(',', ' ') if value > 9999 else value
+
+
 def sponsorship_card_content():
+    value = sum(request.env["crowdfunding.project"].sudo().search([]).mapped("number_sponsorships_reached"))
     return {"type": "sponsorship",
-            "value": 0,
+            "value": fund_impact_val_formatting(value),
             "name": _("Sponsor children"),
-            "text": _("sponsored child"),
+            "text": _("sponsored children") if value > 1 else _("sponsored child"),
             "description": _("""
 For 42 francs a month, you're opening the way out of poverty for a child. Sponsorship
  ensures that the child is known, loved and protected. In particular, it gives the child
@@ -46,25 +51,11 @@ class HomepageController(Controller):
 
     @staticmethod
     def _compute_homepage_context():
-        year = datetime.now().year
-        project_obj = request.env["crowdfunding.project"].sudo()
-        current_year_projects = project_obj.get_active_projects(year=year)
-        funds_used = current_year_projects.mapped("product_id")
-        active_funds = funds_used.search([("activate_for_crowdfunding", "=", True)])
+        # Retrieve all projects open (deadline in the future)
+        active_projects = request.env["crowdfunding.project"].sudo().get_active_projects(status='active')
         active_funds_data = []
-        impact = {
-            "sponsorship": sponsorship_card_content()
-        }
-        for fund in funds_used:
-            impact[fund.name] = {
-                "type": "fund",
-                "value": 0,
-                # "name": fund.crowdfunding_impact_text_active,
-                "text": fund.crowdfunding_impact_text_passive_singular,
-                "description": fund.crowdfunding_description,
-                "icon_image": fund.image_medium or SPONSOR_ICON,
-            }
-        for fund in active_funds:
+
+        for fund in active_projects.mapped("product_id").filtered("activate_for_crowdfunding"):
             active_funds_data.append({
                 "name": fund.crowdfunding_impact_text_active,
                 "description": fund.crowdfunding_description,
@@ -77,28 +68,28 @@ class HomepageController(Controller):
                     ) if fund.image_large else SPONSOR_HEADER,
             })
 
-        for project in current_year_projects:
-            impact["sponsorship"]["value"] += project.number_sponsorships_reached
-            project_fund = project.product_id.name
-            if project_fund in impact:
-                impact[project_fund]["value"] += project.product_number_reached
+        # populate the fund information depending on the impact type and the number of impact
+        impact = {
+            "sponsorship": sponsorship_card_content()
+        }
+        for fund in request.env['product.product'].sudo().search(
+                [('product_tmpl_id.show_fund_together_homepage', '=', True)], order="total_fund_impact DESC"):
+            impact_val = fund.product_tmpl_id.total_fund_impact
+            if impact_val > 1:
+                fund_text = fund.crowdfunding_impact_text_passive_plural
+            else:
+                fund_text = fund.crowdfunding_impact_text_passive_singular
+            impact[fund.name] = {
+                "type": "fund",
+                "value": fund_impact_val_formatting(impact_val),
+                "text": fund_text,
+                "description": fund.crowdfunding_description,
+                "icon_image": fund.image_medium or SPONSOR_ICON,
+            }
 
-        for fund in funds_used:
-            impact_val = impact[fund.name]["value"]
-            large_impact = fund.impact_type == "large"
-            if large_impact and impact_val > 100:
-                impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
-                impact[fund.name]["value"] = int(impact_val / 100)
-            elif not large_impact and impact_val > 1:
-                impact[fund.name]["text"] = fund.crowdfunding_impact_text_passive_plural
-
-        if impact["sponsorship"]["value"] > 1:
-            impact["sponsorship"]["text"] = _("sponsored children")
-
-        subheading = _("What we achieved so far in {year}").format(year=year)
-
+        subheading = _("What we achieved so far")
         return {
-            "projects": current_year_projects[:8],
+            "projects": active_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
             "active_funds": active_funds_data,
             "base_url": request.website.domain,

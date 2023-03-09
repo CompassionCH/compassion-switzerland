@@ -11,6 +11,14 @@
                         <field name="activate_for_crowdfunding"/>
                     </group>
                     <group attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
+                        <field name="show_fund_together_homepage"/>
+                        <label for="total_fund_impact"/>
+                        <div class="o_row">
+                            <field name="total_fund_impact"/>
+                            <button id="problematic_button" name="recompute_amount" string="Refresh impact" type="object"
+                                    icon="fa-refresh" class="oe_link oe_read_only pt-0"
+                                    help="This button can't be used from the product view but should be used from the product.template"/>
+                        </div>
                         <field name="impact_type"/>
                         <field name="crowdfunding_description"/>
                         <field name="crowdfunding_quantity_singular"/>

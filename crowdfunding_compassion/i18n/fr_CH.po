@@ -2665,8 +2665,8 @@ msgstr "Que se passe-t-il quand j’atteins mon objectif?"
 #. module: crowdfunding_compassion
 #: code:addons/crowdfunding_compassion/controllers/homepage_controller.py:86
 #, python-format
-msgid "What we achieved so far in {year}"
-msgstr "Ensemble, voici ce que nous avons déjà réalisé en {year}"
+msgid "What we achieved so far"
+msgstr "Ensemble, voici ce que nous avons déjà réalisé"
 
 #. module: crowdfunding_compassion
 #: model_terms:ir.ui.view,arch_db:crowdfunding_compassion.about_page_ir_ui_view

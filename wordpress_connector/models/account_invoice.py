@@ -24,7 +24,7 @@ class AccountInvoice(models.Model):
     @api.model
     def process_wp_confirmed_donation(self, donnation_infos):
         """
-        Utility to process the donation done via wordpress.
+        Utility to process the donation done via WordPress.
         :return:
         """
         for key in donnation_infos:
@@ -95,20 +95,20 @@ class AccountInvoice(models.Model):
         """
          Utility for invoice donation creation.
         :param partner_id: odoo partner_id
-        :param wp_origin: the fund code in wordpress
+        :param wp_origin: the fund code in WordPress
         :param amount: amount of donation
-        :param fund: the fund code in wordpress
+        :param fund: the fund code in WordPress
         :param child_code: child local_id
         :param pf_payid: postfinance transaction number
         :param payment_mode_name: the payment_mode identifier from postfinance
-        :param utm_source: the utm identifier in wordpress
-        :param utm_medium: the utm identifier in wordpress
-        :param utm_campaign: the utm identifier in wordpress
+        :param utm_source: the utm identifier in WordPress
+        :param utm_medium: the utm identifier in WordPress
+        :param utm_campaign: the utm identifier in WordPress
         :param time: datetime of donation
         :return: invoice_id
         """
         _logger.info(
-            "New donation of CHF %s from Wordpress for partner %s and child %s",
+            "New donation of CHF %s from WordPress for partner %s and child %s",
             amount,
             partner_id,
             child_code,
@@ -122,21 +122,6 @@ class AccountInvoice(models.Model):
             else:
                 # We unarchive the partner to make it visible
                 partner.write({"active": True, "contact_id": False})
-        product = self.env["product.product"]
-        if fund:
-            product = product.search([("default_code", "ilike", fund)])
-        sponsorship = self.env["recurring.contract"]
-        if child_code:
-            sponsorship = sponsorship.search(
-                [
-                    "|",
-                    ("partner_id", "=", partner_id),
-                    ("correspondent_id", "=", partner_id),
-                    ("child_code", "=", child_code),
-                ],
-                order="id desc",
-                limit=1,
-            )
         payment_mode = self.env["account.payment.mode"].search(
             [("name", "=", payment_mode_name), ("active", "=", True)]
         )
@@ -157,11 +142,17 @@ class AccountInvoice(models.Model):
                 }
             )
         origin = "WP " + wp_origin + " " + str(pf_payid)
-        utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
-        internet_id = self.env.ref("utm.utm_medium_website").id
         payment_term_id = self.env.ref("account.account_payment_term_immediate").id
         account = self.env["account.account"].search([("code", "=", "1050")])
         date_invoice = fields.Datetime.from_string(time)
+        invoice = self.search([
+            ("reference", "=", str(pf_payid)),
+            ("partner_id", "=", partner_id)
+        ], limit=1)
+        if invoice:
+            # Normally we should only have one invoice with a given PF_reference. In that case we return this
+            # invoice without doing anything, because probably another process is dealing with it.
+            return invoice.id
         invoice = self.create(
             {
                 "partner_id": partner_id,
@@ -176,6 +167,25 @@ class AccountInvoice(models.Model):
                 "payment_term_id": payment_term_id,
             }
         )
+        invoice.with_delay().pay_wordpress_invoice(
+            fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign)
+        return invoice.id
+    
+    def pay_wordpress_invoice(self, fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign):
+        """ Create invoice lines and payment for a WordPress donation.
+        :param fund: the fund code in WordPress 
+        :param child_code: the child reference (local_id)
+        :param wp_origin: the fund code in WordPress
+        :param amount: the donation amount
+        :param utm_source: tracking utm from WordPress
+        :param utm_medium: tracking utm from WordPress
+        :param utm_campaign: tracking utm from WordPress
+        :return: True
+        """
+        self.ensure_one()
+        product = self.env["product.product"]
+        if fund:
+            product = product.search([("default_code", "ilike", fund)])
         analytic_id = (
             self.env["account.analytic.default"].account_get(product.id).analytic_id.id
         )
@@ -184,9 +194,23 @@ class AccountInvoice(models.Model):
                                                              ).analytic_tag_ids.ids
         )
         gift_account = self.env["account.account"].search([("code", "=", "6003")])
+        sponsorship = self.env["recurring.contract"]
+        if child_code:
+            sponsorship = sponsorship.search(
+                [
+                    "|",
+                    ("partner_id", "=", self.partner_id.id),
+                    ("correspondent_id", "=", self.partner_id.id),
+                    ("child_code", "=", child_code),
+                ],
+                order="id desc",
+                limit=1,
+            )
+        utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
+        internet_id = self.env.ref("utm.utm_medium_website").id
         self.env["account.invoice.line"].create(
             {
-                "invoice_id": invoice.id,
+                "invoice_id": self.id,
                 "product_id": product.id,
                 "account_id": product.property_account_income_id.id or gift_account.id,
                 "contract_id": sponsorship.id,
@@ -200,28 +224,28 @@ class AccountInvoice(models.Model):
                 "campaign_id": utms["campaign"],
             }
         )
-        partner.set_privacy_statement(origin="new_gift")
-        invoice.action_invoice_open()
+        self.partner_id.set_privacy_statement(origin="new_gift")
+        self.action_invoice_open()
         payment_vals = {
             "journal_id": self.env["account.journal"]
             .search(
-                [("name", "=", "Web"), ("company_id", "=", partner.company_id.id)]
+                [("name", "=", "Web"), ("company_id", "=", self.partner_id.company_id.id)]
             )
             .id,
             "payment_method_id": self.env["account.payment.method"]
             .search([("code", "=", "sepa_direct_debit")])
             .id,
-            "payment_date": invoice.date,
-            "communication": invoice.reference,
-            "invoice_ids": [(6, 0, invoice.ids)],
+            "payment_date": self.date,
+            "communication": self.reference,
+            "invoice_ids": [(6, 0, self.ids)],
             "payment_type": "inbound",
-            "amount": invoice.amount_total,
-            "currency_id": invoice.currency_id.id,
-            "partner_id": invoice.partner_id.id,
+            "amount": self.amount_total,
+            "currency_id": self.currency_id.id,
+            "partner_id": self.partner_id.id,
             "partner_type": "customer",
             "payment_difference_handling": "reconcile",
-            "payment_difference": invoice.amount_total,
+            "payment_difference": self.amount_total,
         }
         account_payment = self.env["account.payment"].create(payment_vals)
         account_payment.post()
-        return invoice.id
+        return True

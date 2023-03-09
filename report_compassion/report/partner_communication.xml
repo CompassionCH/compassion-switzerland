@@ -228,9 +228,6 @@
                     <br/>
                     <span class="blue">WWW</span>
                     <span>.compassion.ch</span>
-                    <br/>
-                    <span class="blue">CCP/PC</span>
-                    <span> 17-312562-0</span>
                 </div>
             </t>
             <div id="address" class="right">
@@ -289,6 +286,7 @@
                 <t t-call="report_compassion.report_bvr_due_document">
                     <t t-set="docs" t-value="o.get_objects()"/>
                     <t t-set="o" t-value="partner"/>
+                    <t t-set="swissqr_position_top" t-value="192"/>
                 </t>
             </t>
         </t>
