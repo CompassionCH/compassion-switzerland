@@ -43,7 +43,7 @@ class CrmWordpressRequest(models.Model):
                 defaults["front_matter"] = parts[0]
                 desc = parts[1]
                 try:
-                    front_matter = yaml.load(parts[0])
+                    front_matter = yaml.safe_load(parts[0])
                 except yaml.YAMLError:
                     _logger.warning("Could not parse the front matter.", exc_info=True)
                 else:

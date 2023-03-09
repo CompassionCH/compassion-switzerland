@@ -28,6 +28,7 @@ python-magic
 pysftp
 pysmb
 pytz
+PyYAML
 pyzbar
 pypng
 pyqrcode
