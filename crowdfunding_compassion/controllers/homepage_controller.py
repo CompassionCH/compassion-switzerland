@@ -19,10 +19,14 @@ SPONSOR_ICON = base64.b64encode(file_open(
 _logger = logging.getLogger(__name__)
 
 
+def fund_impact_val_formatting(value):
+    return format(value, ",d").replace(',', ' ') if value > 9999 else value
+
+
 def sponsorship_card_content():
     value = sum(request.env["crowdfunding.project"].sudo().search([]).mapped("number_sponsorships_reached"))
     return {"type": "sponsorship",
-            "value": value,
+            "value": fund_impact_val_formatting(value),
             "name": _("Sponsor children"),
             "text": _("sponsored children") if value > 1 else _("sponsored child"),
             "description": _("""
@@ -77,7 +81,7 @@ class HomepageController(Controller):
                 fund_text = fund.crowdfunding_impact_text_passive_singular
             impact[fund.name] = {
                 "type": "fund",
-                "value": f"{impact_val:,}",
+                "value": fund_impact_val_formatting(impact_val),
                 "text": fund_text,
                 "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or SPONSOR_ICON,
