@@ -17,8 +17,7 @@ def migrate(env, version):
             ("active", "in", [True, False])
         ], limit=1)
         if not user:
-            # TODO Create a specific communication to warn the translator about the new account
-            user = env["res.users"].create({
+            user = env["res.users"].with_context(no_reset_password=True).create({
                 "partner_id": partner.id,
                 "login": partner.email or partner.ref
             })
