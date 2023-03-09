@@ -37,3 +37,4 @@ unidecode
 wand
 PyMuPDF
 fintech
+PyYAML

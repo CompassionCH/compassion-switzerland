@@ -47,7 +47,7 @@
         "crm_compassion",
         "crm_request",
     ],
-    "external_dependencies": {"python": ["pysftp"]},
+    "external_dependencies": {"python": ["pysftp", "pyyaml"]},
     "demo": [],
     "installable": True,
     "auto_install": True,
