@@ -9,7 +9,7 @@ def migrate(env, version):
     translators = env["advocate.details"].search([
         ("engagement_ids", "=", 2),
     ])
-    ts_user_obj = env["translation.user"]
+    ts_user_obj = env["translation.user"].with_context(no_translator_invitation=True)
     for translator in translators:
         partner = translator.partner_id
         user = env["res.users"].search([

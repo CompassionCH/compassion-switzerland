@@ -10,3 +10,5 @@
 from . import correspondence
 from . import import_config
 from . import import_letters_history
+from . import res_partner
+from . import translation_user
