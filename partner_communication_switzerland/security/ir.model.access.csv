@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-read_access_zoom_session,Read access on zoom sessions,model_res_partner_zoom_session,base.group_public,1,0,0,0
-full_access_zoom_session,Full access on zoom sessions,model_res_partner_zoom_session,child_compassion.group_sponsorship,1,1,1,1
-create_access_zoom_attendee,Create access on zoom attendees,model_res_partner_zoom_attendee,base.group_portal,1,1,1,0
-full_access_zoom_attendee,Full access on zoom attendees,model_res_partner_zoom_attendee,child_compassion.group_sponsorship,1,1,1,1

@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_payment_slip,Read access on payment.slip,l10n_ch_payment_slip.model_l10n_ch_payment_slip,child_compassion.group_sponsorship,1,0,0,0
-access_payment_order,Full access on payment.order,account_payment_order.model_account_payment_order,child_compassion.group_sponsorship,1,1,1,1
-access_end_sponsorships_month_report,Full access on end.sponsorships.month.report,model_end_sponsorships_month_report,child_compassion.group_sponsorship,1,0,0,0
-access_sponsorships_evolution_months_report,Full access on sponsorships.evolution_months.report.report,model_sponsorships_evolution_months_report,child_compassion.group_sponsorship,1,0,0,0
-access_sponsorships_evolution_years_report,Full access on sponsorships.evolution_years.report,model_sponsorships_evolution_years_report,child_compassion.group_sponsorship,1,0,0,0
-access_sponsorships_line_report,Full access on sponsorship.line.report,model_sponsorship_line_report,child_compassion.group_sponsorship,1,0,0,0

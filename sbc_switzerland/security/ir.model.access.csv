@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_daily_translation_report,Read access on translation.daily.report,model_translation_daily_report,child_compassion.group_sponsorship,1,0,0,0
-access_weekly_translation_report,Read access on translation.weekly.report,model_translation_weekly_report,child_compassion.group_sponsorship,1,0,0,0
-access_monthly_translation_report,Read access on translation.monthly.report,model_translation_monthly_report,child_compassion.group_sponsorship,1,0,0,0
-access_yearly_translation_report,Read access on translation.yearly.report,model_translation_yearly_report,child_compassion.group_sponsorship,1,0,0,0

@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_monitor_correct_errors,access_monitor_correct_errors,model_monitor_correct_errors,base.group_system,1,1,1,1
-access_error_log,access_error_log,model_error_log,base.group_system,1,1,1,1

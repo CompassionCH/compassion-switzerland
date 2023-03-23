@@ -1,8 +1,0 @@
-<odoo>
-    <data>
-        <record id="utm_medium_crowdfunding" model="utm.medium">
-            <field name="name">Crowdfunding</field>
-            <field name="type">manual</field>
-        </record>
-    </data>
-</odoo>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <record id="event_type_formation" model="calendar.event.type">
-        <field name="name">Advocate formation</field>
-    </record>
-</odoo>

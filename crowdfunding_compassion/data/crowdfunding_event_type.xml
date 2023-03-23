@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record id="event_type_crowdfunding" model="event.type">
-            <field name="name">Crowdfunding</field>
-        </record>
-    </data>
-</odoo>
