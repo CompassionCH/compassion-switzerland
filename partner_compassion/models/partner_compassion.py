@@ -96,6 +96,9 @@ class ResPartner(models.Model):
         compute="_compute_prim_sec_segments",
         store=True
     )
+    primary_segment_name = fields.Char(
+        related="primary_segment_id.name"
+    )
 
     segments_affinity_ids = fields.Many2many(
         "res.partner.segment.affinity",
