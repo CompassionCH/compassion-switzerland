@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2016 Compassion (http://www.compassion.ch)
+    @author Emanuel Cino <ecino@compassion.ch>
+    The licence is in the file __manifest__.py
+-->
+<odoo>
+    <!-- Configuration View -->
+    <record id="view_notification_settings_website_form" model="ir.ui.view">
+        <field name="name">staff.notification.website.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="message_center_compassion.notification_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']">
+                <h3>Sponsorships made from the website</h3>
+                <div name="sponsorship_notifications1">
+                    <label for="sponsorship_fr_id" class="o_light_label"/>
+                    <field name="sponsorship_fr_id"/>
+                </div>
+                <div name="sponsorship_notifications2">
+                    <label for="sponsorship_de_id" class="o_light_label"/>
+                    <field name="sponsorship_de_id"/>
+                </div>
+                <div name="sponsorship_notifications3">
+                    <label for="sponsorship_it_id" class="o_light_label"/>
+                    <field name="sponsorship_it_id"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

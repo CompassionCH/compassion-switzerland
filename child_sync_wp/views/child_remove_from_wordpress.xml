@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="child_remove_from_typo3_view" model="ir.ui.view">
+        <field name="name">compassion.child.remove.from.wordpress.wizard</field>
+        <field name="model">child.remove.from.wordpress.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Remove child from Wordpress">
+                <field name="child_ids"/>
+                <p>Validate this to remove the selected child from the website.</p>
+                <footer>
+                    <button name="remove_child_from_internet" string="Validate" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <act_window id="action_child_remove_from_wordpress_wizard"
+                multi="True"
+                name="Remove from Wordpress"
+                key2="client_action_multi"
+                src_model="compassion.child"
+                res_model="child.remove.from.wordpress.wizard"
+                view_mode="form" view_type="form" target="new"/>
+
+</odoo>
