@@ -99,6 +99,9 @@ class ResPartner(models.Model):
     primary_segment_name = fields.Char(
         related="primary_segment_id.name"
     )
+    has_segment = fields.Boolean(
+        compute="_compute_has_segment"
+    )
 
     segments_affinity_ids = fields.Many2many(
         "res.partner.segment.affinity",
@@ -424,6 +427,10 @@ class ResPartner(models.Model):
                 partner.address_name = (partner.short_address or '').split("<br/>")[0]
             else:
                 partner.address_name = partner.name
+
+    def _compute_has_segment(self):
+        for partner in self:
+            partner.has_segment = bool(partner.primary_segment_id)
 
     ##########################################################################
     #                              ORM METHODS                               #
