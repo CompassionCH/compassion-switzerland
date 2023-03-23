@@ -37,7 +37,7 @@
                                     <img t-attf-src="data:image/png;base64, #{ impact[fund]['icon_image'] }" height="100" t-if="isinstance(impact[fund]['icon_image'], bytes)"/>
                                     <img t-att-src="impact[fund]['icon_image']" height="100" t-if="isinstance(impact[fund]['icon_image'], str)"/>
 
-                                    <h4 class="display-2 count">
+                                    <h4 class="display-2 count" style="white-space: nowrap;">
                                         <t t-esc="impact[fund]['value']"/>
                                     </h4>
 

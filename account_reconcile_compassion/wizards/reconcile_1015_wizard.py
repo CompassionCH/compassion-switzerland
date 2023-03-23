@@ -123,7 +123,7 @@ class ReconcileFundWizard(models.TransientModel):
             date_length = 10
             provider = Provider.E_FINANCE
         if date_position == -1:
-            self.missing_line_ids += move_line
+            self.missing_donation_line_ids += move_line
             return False
         date_transactions = datetime.strptime(
             move_line.name[date_position:date_position + date_length],

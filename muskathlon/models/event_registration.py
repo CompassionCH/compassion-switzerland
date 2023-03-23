@@ -75,8 +75,9 @@ class MuskathlonRegistration(models.Model):
         self.env.cr.execute("""
             SELECT sum(il.price_subtotal_signed) AS amount, il.user_id, il.event_id
             FROM account_invoice_line il
+            left join product_product pp on pp.id=il.product_id 
             WHERE il.state = 'paid'
-            AND il.account_id = 2775 -- Muskathlon event
+            and pp.default_code  = 'muskathlon'
             AND il.user_id = ANY(%s)
             AND il.event_id = ANY(%s)
             GROUP BY il.user_id, il.event_id

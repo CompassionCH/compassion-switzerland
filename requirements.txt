@@ -16,7 +16,6 @@ opencv-contrib-python
 pandas
 pandas-datareader
 pdf2image
-pdfminer
 phonenumbers
 py-Asterisk
 pycups==1.9.*
@@ -28,6 +27,7 @@ python-coveralls
 python-magic
 pysftp
 pytz
+PyYAML
 pyzbar
 pypng
 pyqrcode

@@ -58,6 +58,7 @@ class ResPartner(models.Model):
     signup_token = fields.Char(groups="base.group_user")
     signup_type = fields.Char(groups="base.group_user")
     signup_expiration = fields.Datetime(groups="base.group_user")
+    plural = fields.Boolean(compute="_compute_plural", store=True)
 
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
@@ -244,6 +245,12 @@ class ResPartner(models.Model):
         res = super()._get_delivery_preference()
         res.append(("sms", "SMS"))
         return res
+
+    @api.depends("title", "is_company", "is_church")
+    def _compute_plural(self):
+        family = self.env.ref("partner_compassion.res_partner_title_family")
+        for partner in self:
+            partner.plural = any((partner.is_company, partner.is_church, partner.title.plural, partner.title == family))
 
     @api.model
     def generate_tax_receipts(self):
