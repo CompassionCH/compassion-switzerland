@@ -16,12 +16,12 @@
     </record>
 
 
-    <act_window id="action_child_remove_from_wordpress_wizard"
-                multi="True"
-                name="Remove from Wordpress"
-                key2="client_action_multi"
-                src_model="compassion.child"
-                res_model="child.remove.from.wordpress.wizard"
-                view_mode="form" view_type="form" target="new"/>
-
+    <record id="action_child_remove_from_wordpress_wizard" model="ir.actions.act_window">
+        <field name="name">Remove from Wordpress</field>
+        <field name="key2">client_action_multi</field>
+        <field name="src_model">compassion.child</field>
+        <field name="res_model">child.remove.from.wordpress.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

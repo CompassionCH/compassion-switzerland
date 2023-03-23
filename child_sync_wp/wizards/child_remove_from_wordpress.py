@@ -24,6 +24,7 @@ class ChildRemoveFromWordpress(models.TransientModel):
     )
 
     def _compute_active_ids(self):
+        self.child_ids = None
         children = self.env["compassion.child"].browse(
             self.env.context.get("active_ids")
         )
@@ -32,6 +33,5 @@ class ChildRemoveFromWordpress(models.TransientModel):
             wizard.child_ids = valid_children
         return valid_children
 
-    @api.multi
     def remove_child_from_internet(self):
         return self.child_ids.remove_from_wordpress()
