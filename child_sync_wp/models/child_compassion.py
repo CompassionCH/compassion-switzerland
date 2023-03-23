@@ -23,19 +23,18 @@ logger = logging.getLogger(__name__)
 class CompassionChild(models.Model):
     _inherit = "compassion.child"
 
-    @api.multi
     def add_to_wordpress(self, company_id=None):
         in_two_years = date.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == "N"
-            and c.desc_de
-            and c.desc_fr
-            and c.desc_it
-            and c.project_id.description_fr
-            and c.project_id.description_de
-            and c.project_id.description_it
-            and c.fullshot
-            and (not c.completion_date or c.completion_date > in_two_years)
+                      and c.desc_de
+                      and c.desc_fr
+                      and c.desc_it
+                      and c.project_id.description_fr
+                      and c.project_id.description_de
+                      and c.project_id.description_it
+                      and c.fullshot
+                      and (not c.completion_date or c.completion_date > in_two_years)
         )
 
         error = self - valid_children
@@ -49,7 +48,6 @@ class CompassionChild(models.Model):
         wp = WPSync(wp_config)
         return wp.upload_children(valid_children)
 
-    @api.multi
     def remove_from_wordpress(self):
         valid_children = self.filtered(lambda c: c.state == "I")
         if valid_children:
@@ -59,7 +57,6 @@ class CompassionChild(models.Model):
                 valid_children.write({"state": "N"})
         return True
 
-    @api.multi
     def force_remove_from_wordpress(self, company_id=None):
         wp_config = self.env["wordpress.configuration"].get_config(company_id)
         wp = WPSync(wp_config)
@@ -67,14 +64,12 @@ class CompassionChild(models.Model):
             self.write({"state": "N"})
         return True
 
-    @api.multi
     def child_sponsored(self, sponsor_id):
         """Remove children from the website when they are sponsored."""
         if self.state == "I":
             self.remove_from_wordpress()
         return super().child_sponsored(sponsor_id)
 
-    @api.multi
     def child_released(self, state="R"):
         """Remove from typo3 when child is released"""
         to_remove_from_web = self.filtered(lambda c: c.state == "I")
@@ -96,9 +91,7 @@ class CompassionChild(models.Model):
             )
             if not wp_config:
                 continue
-            global_pool = self.with_context(
-                default_company_id=company.id
-            )._create_diverse_children_pool(take)
+            global_pool = self.with_company(company.id)._create_diverse_children_pool(take)
             new_children = self._hold_children(global_pool)
             valid_new_children = self._update_information_and_filter_invalid(
                 new_children
@@ -141,9 +134,9 @@ class CompassionChild(models.Model):
                 continue
         return children.filtered(
             lambda c: c.state == "N"
-            and c.desc_it
-            and c.pictures_ids
-            and c.project_id.description_it
+                      and c.desc_it
+                      and c.pictures_ids
+                      and c.project_id.description_it
         )
 
     def _hold_children(self, global_pool):
@@ -175,7 +168,7 @@ class CompassionChild(models.Model):
                 # Put children 5 by 5 to avoid delays
                 for i in range(0, len(new_children), 5):
                     try:
-                        new_children[i : i + 5].add_to_wordpress(company_id)
+                        new_children[i: i + 5].add_to_wordpress(company_id)
                     except:
                         logger.error(
                             "Failed adding a batch of children to" " wordpress: ",

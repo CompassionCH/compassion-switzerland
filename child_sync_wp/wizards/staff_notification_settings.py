@@ -45,7 +45,7 @@ class StaffNotificationSettings(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
+    
     def get_sponsorship_fr_id(self):
         return (
             self.env["ir.config_parameter"]
@@ -53,7 +53,7 @@ class StaffNotificationSettings(models.TransientModel):
             .get_param("child_wp.sponsorship_notify_fr_id", None)
         )
 
-    @api.multi
+    
     def get_sponsorship_de_id(self):
         return (
             self.env["ir.config_parameter"]
@@ -61,7 +61,7 @@ class StaffNotificationSettings(models.TransientModel):
             .get_param("child_wp.sponsorship_notify_de_id", None)
         )
 
-    @api.multi
+    
     def get_sponsorship_it_id(self):
         return (
             self.env["ir.config_parameter"]
@@ -81,7 +81,7 @@ class StaffNotificationSettings(models.TransientModel):
         )
         return res
 
-    @api.multi
+    
     def set_values(self):
         super().set_values()
         self.env["ir.config_parameter"].sudo().set_param(

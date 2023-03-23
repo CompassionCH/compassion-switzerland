@@ -26,6 +26,7 @@ class ChildOnWorpressWizard(models.TransientModel):
     )
 
     def _compute_active_ids(self):
+        self.child_ids = None
         children = self.env["compassion.child"].browse(
             self.env.context.get("active_ids")
         )
@@ -35,7 +36,6 @@ class ChildOnWorpressWizard(models.TransientModel):
             wizard.child_ids = valid_children
         return valid_children
 
-    @api.multi
     def put_child_on_internet(self):
         res = self.child_ids.add_to_wordpress()
 
