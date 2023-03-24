@@ -1,0 +1,59 @@
+<odoo>
+    <!-- Add fields for direct translation -->
+    <record id="view_child_property_form" model="ir.ui.view">
+        <field name="name">child.property.switzerland.form</field>
+        <field name="model">child.property</field>
+        <field name="inherit_id" ref="child_compassion.view_child_property_form"/>
+        <field name="arch" type="xml">
+            <field name="value" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <field name="value" position="after">
+                <field name="value_fr"/>
+                <field name="value_it"/>
+                <field name="value_de"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="child_compassion.view_household_duty_form" model="ir.ui.view">
+        <field name="model">child.household.duty</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_child_hobby_form" model="ir.ui.view">
+        <field name="model">child.hobby</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_child_school_subject_form" model="ir.ui.view">
+        <field name="model">child.school.subject</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_child_christian_activity_form" model="ir.ui.view">
+        <field name="model">child.christian.activity</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_project_spiritual_activity_form" model="ir.ui.view">
+        <field name="model">fcp.spiritual.activity</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_project_cognitive_activity_form" model="ir.ui.view">
+        <field name="model">fcp.cognitive.activity</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_project_physical_activity_form" model="ir.ui.view">
+        <field name="model">fcp.physical.activity</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_project_sociological_activity_form" model="ir.ui.view">
+        <field name="model">fcp.sociological.activity</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_project_community_occupation_form" model="ir.ui.view">
+        <field name="model">fcp.community.occupation</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+    <record id="child_compassion.view_project_diet_form" model="ir.ui.view">
+        <field name="model">fcp.diet</field>
+        <field name="inherit_id" ref="view_child_property_form"/>
+    </record>
+</odoo>
