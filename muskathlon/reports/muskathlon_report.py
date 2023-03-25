@@ -115,6 +115,7 @@ class Muskathlon(models.Model):
                 'transfer' AS payment_method
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
+              left join product_product pp on pp.id=ail.product_id 
               FULL OUTER JOIN account_move AS am ON ai.move_id = am.id
                 AND ai.partner_id = am.partner_id
               LEFT JOIN LATERAL
@@ -130,7 +131,7 @@ class Muskathlon(models.Model):
               LEFT JOIN event_registration AS mr
                 ON mr.partner_id = rp.id AND mr.event_id = cec.odoo_event_id
               WHERE ail.state = 'paid'
-                AND ail.account_id = 2775
+                and pp.default_code = 'muskathlon'
                 AND ail.user_id IS NOT NULL
             )
         """
