@@ -13,6 +13,12 @@ from odoo import api, models
 class ProjectDescription(models.TransientModel):
     _inherit = "compassion.project.description"
 
+    SWISS_DESCRIPTIONS = {
+        "de_DE": "description_de",
+        "fr_CH": "description_fr",
+        "it_IT": "description_it",
+    }
+
     @api.model
     def _supported_languages(self):
         """
@@ -20,9 +26,6 @@ class ProjectDescription(models.TransientModel):
         descriptions.
         {lang: description_field}
         """
-        return {
-            "en_US": "description_en",
-            "de_DE": "description_de",
-            "fr_CH": "description_fr",
-            "it_IT": "description_it",
-        }
+        res = super()._supported_languages()
+        res.update(self.SWISS_DESCRIPTIONS)
+        return res

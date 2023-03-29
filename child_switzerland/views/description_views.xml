@@ -21,9 +21,9 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="description_en" position="after">
-                <field name="description_fr"/>
-                <field name="description_de"/>
-                <field name="description_it"/>
+                <field name="desc_fr"/>
+                <field name="desc_de"/>
+                <field name="desc_it"/>
             </field>
         </field>
     </record>
