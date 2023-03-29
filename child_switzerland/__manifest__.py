@@ -28,17 +28,20 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Children",
-    "version": "14.0.0.0.0",
+    "version": "14.0.1.0.0",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
-    "depends": ["child_compassion"],
+    "depends": [
+        "child_compassion",
+        "report_wkhtmltopdf_param"  # OCA/reporting-engine
+    ],
     "data": [
-        "views/description_views.xml",
-        "data/res.lang.compassion.csv",
         "data/ir.advanced.translation.csv",
-        "views/print_childpack_view.xml",
+        "data/res.lang.compassion.csv",
+        "report/childpack.xml",
+        "views/description_views.xml",
         "views/res_country_view.xml",
         "views/child_or_fcp_property_view.xml",
     ],
