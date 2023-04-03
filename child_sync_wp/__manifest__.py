@@ -30,10 +30,10 @@
 {
     "name": "Sync Compassion Children with Wordpress website",
     "version": "14.0.0.0.0",
-    "category": "Other",
+    "category": "Compassion",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "http://www.compassion.ch",
+    "website": "https://www.compassion.ch",
     "depends": [
         "sponsorship_compassion",
         "child_switzerland",
@@ -43,6 +43,7 @@
         "python": ["pysftp", "wand"],
     },
     "data": [
+        "security/ir.model.access.csv",
         "views/child_on_wordpress_wizard.xml",
         "views/child_remove_from_wordpress.xml",
         "views/staff_notification_settings_view.xml",

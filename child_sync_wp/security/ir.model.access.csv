@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_child_on_wordpress_wizard,Access Child on Wordpress Wizard,model_child_on_wordpress_wizard,base.group_user,1,0,0,0
-access_child_remove_from_wordpress_wizard,Access Child Remove from Wordpress Wizard,model_child_remove_from_wordpress_wizard,base.group_user,1,0,0,0
+access_child_on_wordpress_wizard,Access Child on Wordpress Wizard,model_child_on_wordpress_wizard,child_compassion.group_sponsorship,1,1,1,1
+access_child_remove_from_wordpress_wizard,Access Child Remove from Wordpress Wizard,model_child_remove_from_wordpress_wizard,child_compassion.group_sponsorship,1,1,1,1

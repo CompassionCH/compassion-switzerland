@@ -19,8 +19,7 @@
 
     <record id="action_child_on_wordpress_wizard" model="ir.actions.act_window">
         <field name="name">On Wordpress</field>
-        <field name="key2">client_action_multi</field>
-        <field name="src_model">compassion.child</field>
+        <field name="binding_model_id" ref="model_compassion_child"/>
         <field name="res_model">child.on.wordpress.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
