@@ -14,9 +14,9 @@ class ProjectDescription(models.TransientModel):
     _inherit = "compassion.project.description"
 
     SWISS_DESCRIPTIONS = {
-        "de_DE": "description_de",
-        "fr_CH": "description_fr",
-        "it_IT": "description_it",
+        "de_DE": "desc_de",
+        "fr_CH": "desc_fr",
+        "it_IT": "desc_it",
     }
 
     @api.model

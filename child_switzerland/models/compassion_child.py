@@ -7,6 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import pyqrcode
+
 from odoo import models, fields
 
 
@@ -16,6 +18,8 @@ class CompassionChild(models.Model):
     desc_fr = fields.Html("French description", readonly=True)
     desc_de = fields.Html("German description", readonly=True)
     desc_it = fields.Html("Italian description", readonly=True)
+    qr_code_data = fields.Binary(compute="_compute_qr_code",
+                                 help="QR code for sponsoring the child")
 
     def _compute_qr_code(self):
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")

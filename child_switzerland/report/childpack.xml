@@ -28,78 +28,83 @@
 
     <template id="childpack_mini">
         <t t-call="web.html_container">
-            <style>
-                .local_id {
-                position: absolute;
-                margin-top: 200mm;
-                margin-left: 8mm;
-                width: 25mm;
-                font-size: 8pt;
-                }
-                h6 {
-                text-transform: uppercase;
-                }
-                .photo {
-                position: absolute;
-                margin-left: 118mm;
-                margin-top: 49mm;
-                width: 88mm;
-                height: 125mm;
-                }
-                .photo img {
-                max-width: 100%;
-                max-height: 100%;
-                margin: auto;
-                }
-                .summary {
-                position: absolute;
-                margin-left: 118mm;
-                margin-top: 177mm;
-                text-transform: uppercase;
-                font-size: 15pt;
-                line-height: 1.4;
-                color: #0054a6;
-                }
-                .summary .name {
-                font-weight: bold;
-                }
-                .summary .ref {
-                color: black;
-                font-size: 8pt;
-                }
-            </style>
             <t t-set="mini" t-value="true"/>
+            <t t-set="disable_header" t-value="true"/>
+            <t t-set="disable_footer" t-value="true"/>
             <t t-foreach="docs" t-as="o">
-                <div class="article">
-                    <div class="page">
-                        <div class="local_id">
-                            <span t-field="o.local_id"/>
-                        </div>
-                        <div class="photo">
-                            <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
-                        </div>
-                        <div class="summary">
-                            <span t-field="o.preferred_name" class="name"/>,
-                            <t t-if="o.gender == 'M'">
-                                boy
-                            </t>
-                            <t t-if="o.gender == 'F'">
-                                girl
-                            </t>
-                            <br/>
-                            <span t-field="o.birthdate" class="birthdate"/>
-                            (
-                            <span t-field="o.age" class="age"/>
-                            years) <!-- keep space -->
-                            <br/>
-                            <span t-field="o.project_id.country_id.name"/>
-                            <br/>
-                            <span t-field="o.local_id" class="ref"/>
-                        </div>
-                        <p style="page-break-after:always;"/>
+                <t t-call="web.external_layout">
+                    <style>
+                        .local_id {
+                            position: absolute;
+                            top: 200mm;
+                            left: 8mm;
+                            width: 25mm;
+                            font-size: 8pt;
+                        }
+                        h6 {
+                            text-transform: uppercase;
+                        }
+                        .photo {
+                            position: absolute;
+                            left: 118mm;
+                            top: 49mm;
+                            width: 88mm;
+                            height: 125mm;
+                        }
+                        .photo img {
+                            max-width: 100%;
+                            max-height: 100%;
+                            margin: auto;
+                        }
+                        .summary {
+                            position: absolute;
+                            left: 118mm;
+                            top: 177mm;
+                            text-transform: uppercase;
+                            font-size: 15pt;
+                            line-height: 1.4;
+                            color: #0054a6;
+                        }
+                        .summary .name {
+                            font-weight: bold;
+                        }
+                        .summary .ref {
+                            color: black;
+                            font-size: 8pt;
+                        }
+                    </style>
+                    <div class="local_id">
+                        <span t-field="o.local_id"/>
                     </div>
-                </div>
+                    <div class="photo">
+                        <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
+                    </div>
+                    <div class="summary">
+                        <span t-field="o.preferred_name" class="name"/>,
+                        <t t-if="o.gender == 'M'">
+                            boy
+                        </t>
+                        <t t-if="o.gender == 'F'">
+                            girl
+                        </t>
+                        <br/>
+                        <span t-field="o.birthdate" class="birthdate"/>
+                        (
+                        <span t-field="o.age" class="age"/>
+                        years) <!-- keep space -->
+                        <br/>
+                        <span t-field="o.project_id.country_id.name"/>
+                        <br/>
+                        <span t-field="o.local_id" class="ref"/>
+                    </div>
+                </t>
             </t>
         </t>
+    </template>
+
+    <template id="childpack_swiss_with_qr" inherit_id="child_compassion.childpack_document">
+        <xpath expr="//div[@class='photo']" position="before">
+            <img class="qrcode" t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}" alt="QR Code to online sponsorship form" t-if="full"/>
+        </xpath>
     </template>
 </odoo>

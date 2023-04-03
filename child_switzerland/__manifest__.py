@@ -29,10 +29,13 @@
 {
     "name": "Compassion CH Children",
     "version": "14.0.1.0.0",
-    "category": "Other",
+    "category": "Compassion",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "http://www.compassion.ch",
+    "website": "https://www.compassion.ch",
+    "external_dependencies": {
+      "python": ["pypng", "pyqrcode"]
+    },
     "depends": [
         "child_compassion",
         "report_wkhtmltopdf_param"  # OCA/reporting-engine
