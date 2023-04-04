@@ -136,7 +136,6 @@ class UtmSource(models.Model):
     _inherit = ["utm.source", "utm.object"]
     _name = "utm.source"
 
-    name = fields.Char(translate=False)
     mailing_id = fields.Many2one(
         "mail.mass_mailing", compute="_compute_mailing_id", readonly=False
     )
@@ -167,7 +166,6 @@ class UtmCampaign(models.Model):
     _inherit = ["utm.campaign", "utm.object"]
     _name = "utm.campaign"
 
-    name = fields.Char(translate=False)
     contract_ids = fields.One2many(inverse_name="campaign_id", readonly=False)
     correspondence_ids = fields.One2many(inverse_name="campaign_id", readonly=False)
     invoice_line_ids = fields.One2many(inverse_name="campaign_id", readonly=False)
@@ -227,7 +225,6 @@ class UtmMedium(models.Model):
     _inherit = ["utm.medium", "utm.object"]
     _name = "utm.medium"
 
-    name = fields.Char(translate=False)
     contract_ids = fields.One2many(inverse_name="medium_id", readonly=False)
     correspondence_ids = fields.One2many(inverse_name="medium_id", readonly=False)
     invoice_line_ids = fields.One2many(inverse_name="medium_id", readonly=False)

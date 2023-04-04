@@ -20,7 +20,6 @@ class CrowdfundingProject(models.Model):
     name = fields.Char(translate=True)
     website_id = fields.Many2one('website', default=lambda s: s.env.ref(
         "crowdfunding_compassion.crowdfunding_website").id)
-
     description = fields.Text(
         "Project description",
         help="Aim of the project, why you want to create it, for which purpose and "
