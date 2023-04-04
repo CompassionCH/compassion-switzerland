@@ -17,7 +17,6 @@ class CrowdfundingProject(models.Model):
     _inherits = {'utm.campaign': 'campaign_id'}
     _description = "Crowd-funding project"
 
-    name = fields.Char(translate=True)
     website_id = fields.Many2one('website', default=lambda s: s.env.ref(
         "crowdfunding_compassion.crowdfunding_website").id)
 
