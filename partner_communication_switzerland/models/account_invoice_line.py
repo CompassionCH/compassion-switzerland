@@ -25,7 +25,8 @@ class AccountInvoiceLine(models.Model):
         """
         res_name = False
         total = sum(self.mapped("price_subtotal_signed"))
-        total_string = f"{int(total):,}".replace(",", "'")
+        total_string = f"{total:,.0f}.-" if total.is_integer() else f"{total:,.2f}"
+        total_string = total_string.replace(",", "'")
 
         event_names = self.mapped("event_id.name")
         product_names = self.mapped("product_id.thanks_name")
