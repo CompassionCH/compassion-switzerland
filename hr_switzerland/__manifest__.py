@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH - HR Management",
-    "version": "12.0.1.0.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
@@ -43,10 +43,10 @@
     ],
     "depends": [
         "hr_expense",  # source/addons
-        "hr_payroll_account",  # source/addons
+        "payroll_account",  # oca/payroll
+        "hr_payroll_period", # oca/payroll
         "asterisk_click2dial",  # oca_addons/connector-telephony
         "web_notify",  # oca_addons/web
-        "hr_attendance_management",  # compassion-modules
     ],
     "demo": [],
     "installable": True,
