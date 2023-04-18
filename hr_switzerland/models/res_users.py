@@ -20,12 +20,11 @@ class ResUser(models.Model):
         string="Connect the Xivo agent after check_in ", default=True
     )
 
-    @api.multi
     def asterisk_connect(self, log=True):
         for ast_user in self.filtered("connect_agent"):
             try:
                 user, ast_server, ast_manager = (
-                    self.env["asterisk.server"].sudo(ast_user.id)._connect_to_asterisk()
+                    self.env["asterisk.server"].sudo().with_user(ast_user.id)._connect_to_asterisk()
                 )
 
                 channel = "%s/%s" % (ast_user.asterisk_chan_type, user.resource)
