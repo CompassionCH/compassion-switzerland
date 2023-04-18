@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2023 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Samuel Fringeli
 #
@@ -8,4 +8,4 @@
 #
 ##############################################################################
 
-from . import models
+from . import wizards
