@@ -19,15 +19,13 @@ class GiftsPayments(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
     def do_gifts_search(self):
         results = self.env["gifts.payments.results"].create(
-            {"gifts_list": self.gifts_ids_text, "move": self.move_id.id}
+            {"gifts_list": self.mapped("gifts_ids_text"), "move": self.mapped("move_id.id")}
         )
 
         return {
             "type": "ir.actions.act_window",
-            "view_type": "form",
             "view_mode": "form",
             "res_model": "gifts.payments.results",
             "target": "new",
@@ -50,7 +48,6 @@ class GiftsPaymentsResults(models.TransientModel):
     gifts_list = fields.Text()
     move = fields.Many2one("account.move", readonly=False)
 
-    @api.multi
     def _compute_move_lines(self):
         self.ensure_one()
         accounts = self.env["account.account"]
@@ -107,6 +104,5 @@ class GiftsPaymentsResults(models.TransientModel):
 
         self.move_lines_gifts = to_reconcile
 
-    @api.multi
     def do_gifts_reconciliation(self):
-        return self.move_lines_gifts.reconcile()
+        return self.mapped("move_lines_gifts").reconcile()

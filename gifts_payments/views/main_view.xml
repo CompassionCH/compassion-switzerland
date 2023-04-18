@@ -11,13 +11,18 @@
                     <field name="move_id" required="True"/>
                  </group>
                  <footer>
-                    <button type="object" class="oe_highlight" name="do_gifts_search" string="Search"/>
-                    <button special="cancel" string="Cancel"/>
+                    <button type="object" class="oe_highlight" name="do_gifts_search" title="Search"/>
+                    <button special="cancel" title="Cancel"/>
                  </footer>
             </form>
         </field>
     </record>
 
-    <act_window id="wizard_gift_payments" name="Gifts payments" res_model="gifts.payments" view_mode="form" target="new"/>
+    <record id="wizard_gift_payments" model="ir.actions.act_window">
+        <field name="name">Gifts payments</field>
+        <field name="res_model">gifts.payments</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
     <menuitem id="menu_gift_payments" name="Gifts payments" parent="account_payment_order.payment_root" sequence="100" action="gifts_payments.wizard_gift_payments"/>
 </odoo>
