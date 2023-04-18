@@ -10,12 +10,17 @@
                         <field name="move_lines_gifts" nolabel="1"/>
                     </group>
                     <footer>
-                        <button type="object" class="oe_highlight" name="do_gifts_reconciliation" string="Reconcile"/>
-                        <button special="cancel" string="Cancel"/>
+                        <button type="object" class="oe_highlight" name="do_gifts_reconciliation" title="Reconcile"/>
+                        <button special="cancel" title="Cancel"/>
                     </footer>
                 </form>
             </field>
         </record>
-        <act_window id="result_wizard_gift_payments" name="Gifts payments results" res_model="gifts.payments.results" view_mode="form" target="new"/>
+        <record id="result_wizard_gift_payments" model="ir.actions.act_window">
+            <field name="name">Gifts payments results</field>
+            <field name="res_model">gifts.payments.results</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
     </data>
 </odoo>
