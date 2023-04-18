@@ -8,7 +8,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2023 Compassion CH (http://www.compassion.ch)
 #    @author: Samuel Fringeli
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,12 @@
     "category": "Tools",
     "depends": [
         "account_payment_order",  # OCA/bank_payment
-        "gift_compassion",  # compassion-modules/gift_compassion
+        "gift_compassion"  # compassion-modules/gift_compassion
     ],
-    "data": ["views/main_view.xml", "views/results.xml"],
+    "data": [
+        "views/gifts_payments_view.xml",
+        "views/gifts_payments_results_view.xml"
+    ],
     "installable": True,
     "auto_install": False,
 }
