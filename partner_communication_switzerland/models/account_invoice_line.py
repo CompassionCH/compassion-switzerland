@@ -24,9 +24,11 @@ class AccountInvoiceLine(models.Model):
         override thankyou_letters.get_donations()
         """
         res_name = False
-        total = sum(self.mapped("price_subtotal_signed"))
+        # TODO: check if multiple currencies (highly unlikely) and switch to signed (CHF) amount if multiple 
+        currency = self.mapped("currency_id.name")[0]
+        total = sum(self.mapped("price_subtotal"))
         total_string = f"{total:,.0f}.-" if total.is_integer() else f"{total:,.2f}"
-        total_string = total_string.replace(",", "'")
+        total_string = currency + ' ' + total_string.replace(",", "'")
 
         event_names = self.mapped("event_id.name")
         product_names = self.mapped("product_id.thanks_name")
