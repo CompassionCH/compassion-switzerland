@@ -10,10 +10,18 @@
                 Hello ${object.user_id.partner_id.preferred_name}
                 <br/>
                 <br/>
-                ${object.partner_id.name} &lt;${object.partner_id.email}&gt; ordered :
+                <a href="/web#id=${object.partner_id.id}&amp;model=res.partner&amp;view_type=form"
+                   style="text-decoration:none;background-color:transparent;color:rgb(124, 123, 173);">
+                    ${object.partner_id.name}
+                </a> &lt;${object.partner_id.email}&gt; ordered :
                 <br/>
                 ${object.description|safe}
                 <br/>
+                Adress :
+                <br/>
+                ${object.partner_id.street} <br/>
+                ${object.partner_id.zip} ${object.partner_id.city}
+                ${object.partner_id.country_id.name}
                 The profile picture of the participant is in the attachment files, in case you need it.
                 <br/>
                 <br/>
