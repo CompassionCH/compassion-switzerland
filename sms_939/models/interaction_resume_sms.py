@@ -13,13 +13,14 @@ class InteractionResume(models.TransientModel):
     _inherit = "interaction.resume"
 
     @api.model
-    def populate_resume(self, partner_id):
+    def populate_resume(self, partner_id, full=False):
         """
         Creates the rows for the resume of given partner
         :param partner_id: the partner
+        :param full: define the timebase on the interactions
         :return: True
         """
-        res = super().populate_resume(partner_id)
+        res = super().populate_resume(partner_id, full)
         self.env.cr.execute(
             f"""
               SELECT
