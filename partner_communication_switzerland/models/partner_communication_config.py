@@ -130,6 +130,10 @@ class PartnerCommunication(models.Model):
             object_ids = self.env["account.invoice"].search([
                 ("partner_id", "=", partner.id)
             ], limit=4).ids
+        elif self.model == "res.partner.zoom.session":
+            object_ids = self.env["res.partner.zoom.session"].search([
+                ("participant_ids", "=", partner.id)
+            ], limit=2).ids
         return object_ids
 
     def _find_partner(self, number_sponsorships, lang, family_case):
