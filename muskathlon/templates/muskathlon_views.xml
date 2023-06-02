@@ -162,8 +162,8 @@
                     $('#main_footer').before($('#footer_muskathlon')[0].outerHTML);
                     // and it goes on with the previous hot-fix...
                     // replace URL and title
-                    $('header .navbar-brand').first().attr('href', '/events/');
-                    $('header .navbar-brand span').attr('title', 'Compassion Events');
+                    $('header .navbar-brand').first().attr('href', window.location.href);
+                    $('header .navbar-brand span').attr('title', 'Muskathlon Home Page');
                 });
             </script>
         </template>
