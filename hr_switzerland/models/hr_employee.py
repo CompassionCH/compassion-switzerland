@@ -17,10 +17,7 @@ class HrEmployee(models.Model):
     job_title = fields.Char(translate=True)
 
     def attendance_action_change(self):
-        """Check In/Check Out action
-        Check In: create a new attendance record
-        Check Out: modify check_out field of appropriate attendance record
-        """
+        """Change the state of the employee to show if he's online or not"""
         for employee in self:
             if employee.attendance_state != "checked_in":
                 employee.env.user.asterisk_connect(True)
