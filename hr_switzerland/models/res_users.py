@@ -8,7 +8,9 @@
 ##############################################################################
 import logging
 
-from odoo import models, api, fields
+import requests
+
+from odoo import models, fields, _
 
 _logger = logging.getLogger(__name__)
 
@@ -21,33 +23,36 @@ class ResUser(models.Model):
     )
 
     def asterisk_connect(self, log=True):
-        for ast_user in self.filtered("connect_agent"):
+        for user in self.filtered("connect_agent"):
             try:
-                user, ast_server, ast_manager = (
-                    self.env["asterisk.server"].sudo().with_user(ast_user.id)._connect_to_asterisk()
-                )
-
-                channel = "%s/%s" % (ast_user.asterisk_chan_type, user.resource)
+                aso = self.env["asterisk.server"]
+                ast_server, auth, url = aso._get_connect_info("/ari/channels")
+                channel = user.asterisk_chan_name
+                if user.dial_suffix:
+                    channel += "/%s" % user.dial_suffix
 
                 _prefix = "*31" if log else "*32"
-                extension = _prefix + ast_user.internal_number
+                extension = _prefix + user.internal_number
 
-                ast_manager.Originate(
-                    channel,
-                    context="default",
-                    extension=extension,
-                    priority=1,
-                    timeout=str(ast_server.wait_time * 1000),
-                    caller_id=ast_user.internal_number,
-                    account=ast_user.cdraccount,
-                )
-                message = (
-                    "Your Xivo agent is now "
-                    f"{'connected' if log else 'disconnected'}."
-                )
-                ast_user.notify_info(message)
-                ast_manager.Logoff()
+                params = {
+                    "endpoint": channel,
+                    "extension": extension,
+                    "context": ast_server.context,
+                    "priority": str(ast_server.extension_priority),
+                    "timeout": str(ast_server.wait_time),
+                    "callerId": user.callerid,
+                }
+                res_req = requests.post(url, auth=auth, params=params, timeout=10)
+                if res_req.status_code == 200:
+                    message = (
+                        "Your Xivo agent is now "
+                        f"{'connected' if log else 'disconnected'}."
+                    )
+                    user.notify_info(message)
+                else:
+                    user.notify_warning(
+                        _("Click to dial with Asterisk failed.\nHTTP error code: %s.") % res_req.status_code)
             except Exception as e:
                 message = "Impossible to connect your Xivo agent\n"
                 message += str(e)
-                ast_user.notify_info(message)
+                user.notify_info(message)

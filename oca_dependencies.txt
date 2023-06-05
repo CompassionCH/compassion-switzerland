@@ -13,5 +13,8 @@
 #
 # To provide both the URL and a branch, use:
 
-compassion-accounting https://github.com/CompassionCH/compassion-accounting 14.0
-compassion-modules https://github.com/CompassionCH/compassion-modules 14.0
+compassion-accounting https://github.com/CompassionCH/compassion-accounting
+compassion-modules https://github.com/CompassionCH/compassion-modules
+connector-telephony
+payroll
+web

@@ -9,8 +9,6 @@
 ##############################################################################
 
 from . import hr_employee
-from . import hr_expense
-from . import hr_holidays
 from . import res_users
 from . import hr_contract
 from . import hr_payslip

@@ -24,5 +24,5 @@ class HrPayslip(models.Model):
                 move.line_ids.filtered("analytic_account_id").write(
                     {"analytic_tag_ids": [(6, 0, analytic_tag_ids)]}
                 )
-                move.post()
+                move.action_post()
         return res
