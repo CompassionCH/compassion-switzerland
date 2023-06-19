@@ -847,6 +847,22 @@ class PartnerCommunication(models.Model):
             attachments.update({_("csp payment slips.pdf"): [report_name, pdf]})
         return attachments
 
+    def get_third_party_letters(self):
+        """
+        Get the third party letters stored in Odoo's attachments table
+        """
+        self.ensure_one()
+        res = {}
+        field_offices = set(self.get_objects().mapped("child_id.field_office_id.field_office_id"))
+        lang = self.partner_id.lang[:2]
+        for fo in field_offices:
+            attachment = self.env["ir.attachment"].search([
+                ("name", "like", f"TP_{fo}_{lang}.pdf")
+            ], limit=1)
+            if attachment:
+                res[attachment.name]: ["partner_communication.a4_no_margin", attachment.datas]
+        return res
+
     def _convert_pdf(self, pdf_data):
         """
         Converts all pages of PDF in A4 format if communication is
