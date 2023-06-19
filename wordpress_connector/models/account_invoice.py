@@ -53,7 +53,7 @@ class AccountInvoice(models.Model):
         ).id
 
         # Find matching partner
-        partner = match_obj.match_partner_to_infos(partner_infos)
+        partner = match_obj.match_partner_to_infos(partner_infos, {"skip_update": True})
 
         # Insert the donation details to the database.
         pf_brand = donnation_infos["pf_brand"]

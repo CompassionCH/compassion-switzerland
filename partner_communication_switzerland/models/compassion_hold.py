@@ -168,10 +168,7 @@ class CompassionHold(models.Model):
                 except:
                     failed += hold
                     continue
-            # Cancel old invoices
             try:
-                if len(sponsorship.due_invoice_ids) > 1:
-                    sponsorship.due_invoice_ids[:-1].action_invoice_cancel()
                 super(CompassionHold, hold).postpone_no_money_hold(
                     notification_text.format(sponsor.name, sponsor.ref)
                 )

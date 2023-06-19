@@ -13,14 +13,14 @@ class InteractionResume(models.TransientModel):
     _inherit = "interaction.resume"
 
     @api.model
-    def populate_resume(self, partner_id, full=False):
+    def populate_resume(self, partner_id, full_resume=False):
         """
         Creates the rows for the resume of given partner
         :param partner_id: the partner
-        :param full: define the timebase on the interactions
+        :param full_resume: define the timebase on the interactions
         :return: True
         """
-        res = super().populate_resume(partner_id, full)
+        res = super().populate_resume(partner_id, full_resume)
         self.env.cr.execute(
             f"""
               SELECT
@@ -38,6 +38,7 @@ class InteractionResume(models.TransientModel):
                 NULL as tracking_status
                 FROM "sms_log" as sms
                 WHERE (sms.partner_id = {partner_id})
+                {"" if full_resume else "AND sms.date BETWEEN (NOW() - interval '2 year') AND NOW()"}
                 """
         )
         for row in self.env.cr.dictfetchall():

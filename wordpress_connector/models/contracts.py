@@ -163,7 +163,7 @@ class Contracts(models.Model):
                 partner_infos["birthdate"] = "%s-%s-%s" % (d[2], d[1], d[0])
 
             # Search for existing partner
-            partner = match_obj.match_partner_to_infos(partner_infos)
+            partner = match_obj.match_partner_to_infos(partner_infos, {"skip_update": True})
             if form_data.get("mithelfen", {}).get("checkbox") == "on":
                 if not partner.advocate_details_id and not \
                         partner.interested_for_volunteering:
