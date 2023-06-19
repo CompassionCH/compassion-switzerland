@@ -61,7 +61,7 @@ class ResUsers(models.Model):
                 "it_IT": "https://www.facebook.com/compassionsvizzera/",
                 "en_US": "https://www.facebook.com/compassionsuisse/"
             }
-            lang = self.env.lang or self._context.lang or "en_US"
+            lang = self.env.lang or self._context.get("lang") or self.env.user.lang
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
                 photo = employee.image_small

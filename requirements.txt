@@ -26,7 +26,6 @@ pyquery
 python-coveralls
 python-magic
 pysftp
-pysmb
 pytz
 PyYAML
 pyzbar
