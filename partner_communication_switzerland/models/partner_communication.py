@@ -856,11 +856,17 @@ class PartnerCommunication(models.Model):
         field_offices = set(self.get_objects().mapped("child_id.field_office_id.field_office_id"))
         lang = self.partner_id.lang[:2]
         for fo in field_offices:
-            attachment = self.env["ir.attachment"].search([
+            attachment = self.env["ir.attachment"].with_context(bin_size=False).search([
                 ("name", "like", f"TP_{fo}_{lang}.pdf")
             ], limit=1)
             if attachment:
-                res[attachment.name]: ["partner_communication.a4_no_margin", attachment.datas]
+                self.env["partner.communication.attachment"].create({
+                    "name": attachment.name,
+                    "communication_id": self.id,
+                    "report_id": attachment.report_id.id,
+                    "report_name": attachment.report_id.report_name,
+                    "attachment_id": attachment.id,
+                })
         return res
 
     def _convert_pdf(self, pdf_data):
