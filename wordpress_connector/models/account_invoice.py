@@ -185,7 +185,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         product = self.env["product.product"]
         if fund:
-            product = product.search([("default_code", "ilike", fund)])
+            product = product.search([("default_code", "=", fund)], limit=1)
         analytic_id = (
             self.env["account.analytic.default"].account_get(product.id).analytic_id.id
         )
