@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import datetime
 
 from odoo import http, _
 from odoo.http import request
@@ -58,7 +59,9 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
             {"partner": partner, "child_protection_form": child_protection_form, }
         )
 
-        if partner.has_agreed_child_protection_charter:
+        current_time = datetime.datetime.now()
+        date_signed = partner.date_agreed_child_protection_charter
+        if date_signed and (current_time - date_signed).days < 365:
             confirmation_message = _(
                 "We successfully received your agreement to the Child "
                 "Protection Charter."
