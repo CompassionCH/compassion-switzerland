@@ -71,11 +71,9 @@
                             <h2 t-esc="confirmation_title"/>
                             <div class="jumbotron">
                                 <p t-raw="confirmation_message"/>
-                                <t t-if="redirect">
-                                    <p>
-                                        <a class="btn btn-primary" t-attf-href="#{redirect}">Return</a>
-                                    </p>
-                                </t>
+                                <p>
+                                    <a class="btn btn-primary" t-attf-href="#{redirect}">Return</a>
+                                </p>
                             </div>
                         </div>
                     </div>
