@@ -26,17 +26,13 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
         sitemap=False
     )
     def child_protection_charter_agree(
-            self, reg_uid, form_id=None, redirect=None, redirect_message=None, **kwargs
+            self, reg_uid, redirect=None, redirect_message=None, **kwargs
     ):
         """
         This page allows a partner to sign the child protection charter.
         :param reg_uid: The uuid associated with the partner.
-        :param form_id:
         :param redirect: The redirection link for the confirmation page.
-        :param src: The source which asked to agree to the charter. The
-            following values are accepted:
-                - None : only the standard confirmation message is shown.
-                - "trad" : a message about the translation platform is shown.
+        :param redirect_message: Small text displayed on the redirect button.
         :param kwargs: The remaining query string parameters.
         :return: The rendered web page.
         """
