@@ -26,7 +26,7 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
         sitemap=False
     )
     def child_protection_charter_agree(
-            self, reg_uid, form_id=None, redirect="/", src=None, **kwargs
+            self, reg_uid, form_id=None, redirect=None, redirect_message=None, **kwargs
     ):
         """
         This page allows a partner to sign the child protection charter.
@@ -67,18 +67,12 @@ class ChildProtectionCharterController(http.Controller, FormControllerMixin):
                 "We successfully received your agreement to the Child "
                 "Protection Charter."
             )
-
-            if src == "trad":
-                confirmation_message += " " + _(
-                    "You will receive an invitation to connect to the "
-                    "translation platform in the coming day."
-                )
-
             values.update(
                 {
                     "confirmation_title": _("Thank you!"),
                     "confirmation_message": confirmation_message,
-                    "redirect": redirect,
+                    "redirect": redirect or request.httprequest.host_url,
+                    "redirect_message": redirect_message or _("Continue")
                 }
             )
             return request.render(

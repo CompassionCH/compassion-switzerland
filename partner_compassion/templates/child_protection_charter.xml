@@ -72,7 +72,7 @@
                             <div class="jumbotron">
                                 <p t-raw="confirmation_message"/>
                                 <p>
-                                    <a class="btn btn-primary" t-attf-href="#{redirect}">Return</a>
+                                    <a class="btn btn-primary" t-attf-href="#{redirect}">#{redirect_message}</a>
                                 </p>
                             </div>
                         </div>
