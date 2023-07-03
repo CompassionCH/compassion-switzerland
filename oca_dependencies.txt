@@ -15,6 +15,7 @@
 
 compassion-accounting https://github.com/CompassionCH/compassion-accounting
 compassion-modules https://github.com/CompassionCH/compassion-modules
+crm
 connector-telephony
 payroll
 web
