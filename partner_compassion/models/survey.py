@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 class Survey(models.Model):
@@ -36,7 +36,6 @@ class SurveyQuestion(models.Model):
         " This will use one column or row in the survey.",
     )
 
-    @api.multi
     def validate_multiple_choice(self, post, answer_tag):
         # call super() function to avoid missing important behaviour
         errors = super().validate_multiple_choice(post=post, answer_tag=answer_tag)

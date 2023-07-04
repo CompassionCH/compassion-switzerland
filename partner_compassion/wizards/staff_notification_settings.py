@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, models, fields
+from odoo import models, fields
 
 
 class StaffNotificationSettings(models.TransientModel):
@@ -63,7 +63,6 @@ class StaffNotificationSettings(models.TransientModel):
         "res.users", "Potential advocate IT", domain=[("share", "=", False)]
     )
 
-    @api.multi
     def set_values(self):
         super().set_values()
         self.env["ir.config_parameter"].sudo().set_param(
@@ -111,7 +110,6 @@ class StaffNotificationSettings(models.TransientModel):
             str(self.potential_advocate_it.id or 0),
         )
 
-    @api.model
     def get_values(self):
         res = super().get_values()
         param_obj = self.env["ir.config_parameter"].sudo()

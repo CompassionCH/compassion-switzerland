@@ -27,21 +27,22 @@ class CompassionChild(models.Model):
         in_two_years = date.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == "N"
-                      and c.desc_de
-                      and c.desc_fr
-                      and c.desc_it
-                      and c.project_id.desc_fr
-                      and c.project_id.desc_de
-                      and c.project_id.desc_it
-                      and c.fullshot
-                      and (not c.completion_date or c.completion_date > in_two_years)
+            and c.desc_de
+            and c.desc_fr
+            and c.desc_it
+            and c.project_id.desc_fr
+            and c.project_id.desc_de
+            and c.project_id.desc_it
+            and c.fullshot
+            and (not c.completion_date or c.completion_date > in_two_years)
         )
 
         error = self - valid_children
         if error:
             number = str(len(error))
             logger.error(
-                f"{number} children have invalid data and were not pushed to wordpress"
+                f"{number} children have invalid data and were not pushed "
+                f"to wordpress"
             )
 
         wp_config = self.env["wordpress.configuration"].get_config(company_id)
@@ -91,7 +92,9 @@ class CompassionChild(models.Model):
             )
             if not wp_config:
                 continue
-            global_pool = self.with_company(company.id)._create_diverse_children_pool(take)
+            global_pool = self.with_company(company.id)._create_diverse_children_pool(
+                take
+            )
             new_children = self._hold_children(global_pool)
             valid_new_children = self._update_information_and_filter_invalid(
                 new_children
@@ -134,9 +137,9 @@ class CompassionChild(models.Model):
                 continue
         return children.filtered(
             lambda c: c.state == "N"
-                      and c.desc_it
-                      and c.pictures_ids
-                      and c.project_id.desc_it
+            and c.desc_it
+            and c.pictures_ids
+            and c.project_id.desc_it
         )
 
     def _hold_children(self, global_pool):
@@ -168,7 +171,7 @@ class CompassionChild(models.Model):
                 # Put children 5 by 5 to avoid delays
                 for i in range(0, len(new_children), 5):
                     try:
-                        new_children[i: i + 5].add_to_wordpress(company_id)
+                        new_children[i : i + 5].add_to_wordpress(company_id)
                     except:
                         logger.error(
                             "Failed adding a batch of children to" " wordpress: ",

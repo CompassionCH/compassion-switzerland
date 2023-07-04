@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class SearchBankAddressWizard(models.TransientModel):
@@ -32,20 +32,17 @@ class SearchBankAddressWizard(models.TransientModel):
     overwriting_street = fields.Char("Street", default="")
     overwriting_zip_id = fields.Many2one("res.city.zip", "City/Location")
 
-    @api.model
     def _get_domain(self):
         partner_id = self.env.context.get("active_id")
         if partner_id:
             return [("partner_id", "=", partner_id), ("partner_address", "!=", False)]
         return []
 
-    @api.model
     def _get_default(self):
         return self.env["account.bank.statement.line"].search(
             self._get_domain(), order="date desc", limit=1
         )
 
-    @api.multi
     def change_address(self):
         self.env["res.partner"].browse(self.env.context["active_id"]).write(
             {
@@ -60,6 +57,5 @@ class SearchBankAddressWizard(models.TransientModel):
         )
         return {"type": "ir.actions.act_window_close"}
 
-    @api.multi
     def cancel_change(self):
         return {"type": "ir.actions.act_window_close"}

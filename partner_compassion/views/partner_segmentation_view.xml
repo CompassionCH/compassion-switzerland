@@ -63,7 +63,6 @@
     <record id="open_view_partner_segmentation" model="ir.actions.act_window">
         <field name="name">Partners segmentation</field>
         <field name="res_model">res.partner.segment</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 

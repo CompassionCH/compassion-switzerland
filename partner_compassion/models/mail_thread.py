@@ -9,7 +9,7 @@
 ##############################################################################
 
 
-from odoo import models, api, tools
+from odoo import models, tools
 
 
 class MailThread(models.AbstractModel):
@@ -19,21 +19,18 @@ class MailThread(models.AbstractModel):
 
     _inherit = "mail.thread"
 
-    @api.multi
     def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id").ids
         return super().message_subscribe(partner_ids, channel_ids, subtype_ids)
 
-    @api.multi
     def _message_auto_subscribe_notify(self, partner_ids, template):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id").ids
         super()._message_auto_subscribe_notify(partner_ids, template)
 
-    @api.multi
     def message_get_suggested_recipients(self):
         result = super().message_get_suggested_recipients()
         to_remove = list()
@@ -48,7 +45,6 @@ class MailThread(models.AbstractModel):
             del result[message_id]
         return result
 
-    @api.multi
     def _find_partner_from_emails(
         self,
         emails,

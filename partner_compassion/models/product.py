@@ -28,7 +28,7 @@ class ProductTemplate(models.Model):
         ("fund_id_unique", "unique(fund_id)", "The Fund already exists in database.")
     ]
 
-    fund_id = fields.Integer(size=4, readonly=False)
+    fund_id = fields.Integer(readonly=False)
 
     @api.constrains("fund_id")
     def _check_fund_id(self):

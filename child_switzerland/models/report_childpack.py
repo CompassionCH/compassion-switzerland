@@ -23,13 +23,12 @@ class ReportChildpackFull(models.AbstractModel):
     """
     Model used to generate childpack in selected language
     """
+
     _name = "report.childpack_full"
     _description = "Used to generate childpack in selected language"
 
     def _get_report(self):
-        return self.env["ir.actions.report"]._get_report_from_name(
-            "childpack_full"
-        )
+        return self.env["ir.actions.report"]._get_report_from_name("childpack_full")
 
     @api.model
     def _get_report_values(self, docids, data=None):
@@ -43,10 +42,11 @@ class ReportChildpackFull(models.AbstractModel):
 
         data.update({"doc_model": report.model, "docs": docs.with_context(lang=lang)})
         # Update project information if data is old
-        date_limit = date.today() - relativedelta(days=30*6)
+        date_limit = date.today() - relativedelta(days=30 * 6)
         for project in docs.mapped("project_id").filtered(
-                lambda p: not p.last_update_date or p.last_update_date < date_limit
-                or not p.country_id
+            lambda p: not p.last_update_date
+            or p.last_update_date < date_limit
+            or not p.country_id
         ):
             project.with_context(async_mode=False).update_informations()
 
@@ -59,9 +59,7 @@ class ReportChildpackSmall(models.AbstractModel):
     _name = "report.childpack_small"
 
     def _get_report(self):
-        return self.env["ir.actions.report"]._get_report_from_name(
-            "childpack_small"
-        )
+        return self.env["ir.actions.report"]._get_report_from_name("childpack_small")
 
 
 class ReportChildpackMini(models.AbstractModel):
@@ -69,6 +67,4 @@ class ReportChildpackMini(models.AbstractModel):
     _name = "report.childpack_mini"
 
     def _get_report(self):
-        return self.env["ir.actions.report"]._get_report_from_name(
-            "childpack_mini"
-        )
+        return self.env["ir.actions.report"]._get_report_from_name("childpack_mini")

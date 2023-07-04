@@ -8,19 +8,20 @@
 #
 ##############################################################################
 from odoo import models, fields
-from odoo.modules import module
-import os
 
 
 class PrintChildpack(models.TransientModel):
     """
     Wizard for selecting a the child dossier type and language.
     """
+
     _inherit = "print.childpack"
 
-    type = fields.Selection(selection_add=[('child_switzerland.childpack_mini', 'Mini Childpack')])
+    type = fields.Selection(
+        selection_add=[("child_switzerland.childpack_mini", "Mini Childpack")]
+    )
 
     def _compute_module_name(self):
         super()._compute_module_name()
-        if self.type == 'child_switzerland.childpack_mini':
-            self.module_name = __name__.split('.')[2]
+        if self.type == "child_switzerland.childpack_mini":
+            self.module_name = __name__.split(".")[2]

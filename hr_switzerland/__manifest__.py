@@ -45,7 +45,7 @@
         "hr_attendance",  # source/addons
         "hr_expense",  # source/addons
         "payroll_account",  # oca/payroll
-        "hr_payroll_period", # oca/payroll
+        "hr_payroll_period",  # oca/payroll
         "asterisk_click2dial",  # oca_addons/connector-telephony
         "web_notify",  # oca_addons/web
     ],

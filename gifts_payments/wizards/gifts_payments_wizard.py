@@ -19,7 +19,10 @@ class GiftsPayments(models.TransientModel):
 
     def do_gifts_search(self):
         results = self.env["gifts.payments.results"].create(
-            {"gifts_list": self.mapped("gifts_ids_text"), "move": self.mapped("move_id.id")}
+            {
+                "gifts_list": self.mapped("gifts_ids_text"),
+                "move": self.mapped("move_id.id"),
+            }
         )
 
         return {

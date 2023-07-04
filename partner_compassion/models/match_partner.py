@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, models
+from odoo import models
 
 
 class MatchPartner(models.AbstractModel):
@@ -38,7 +38,6 @@ class MatchPartner(models.AbstractModel):
                 partner.write({"active": True, "contact_id": False})
         return super().match_after_match(partner, new_partner, infos, opt)
 
-    @api.model
     def match_update(self, partner, infos, options=None):
         """
         Overload the update to create a new linked partner if the given email

@@ -23,11 +23,10 @@
         </field>
     </record>
 
-    <act_window id="tag_merge_wizard_action"
-                key2="client_action_multi"
-                src_model="res.partner.category"
-                res_model="res.partner.category.merge"
-                name="Merge Tags"
-                view_mode="form" view_type="form"
-                target="new"/>
+    <record id="tag_merge_wizard_action" model="ir.actions.act_window">
+        <field name="name">Merge Tags</field>
+        <field name="binding_model_id" ref="base.model_res_partner_category"/>
+        <field name="res_model">res.partner.category.merge</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

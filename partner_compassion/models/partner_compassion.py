@@ -12,7 +12,6 @@ import tempfile
 import uuid
 import base64
 import re
-from dateutil.relativedelta import relativedelta
 
 from odoo import api, registry, fields, models, _
 from odoo.exceptions import UserError
@@ -107,16 +106,16 @@ class ResPartner(models.Model):
     lang = fields.Selection(default=False)
     total_invoiced = fields.Monetary(groups=False)
     # Track address changes
-    street = fields.Char(track_visibility="onchange")
-    city = fields.Char(track_visibility="onchange")
-    street3 = fields.Char("Street3", size=128)
+    street = fields.Char(tracking=True)
+    city = fields.Char(tracking=True)
+    street3 = fields.Char("Street3")
     invalid_mail = fields.Char("Invalid mail")
     church_unlinked = fields.Char(
         "Church (N/A)",
         help="Use this field if the church of the partner"
         " can not correctly be determined and linked.",
     )
-    deathdate = fields.Date("Death date", track_visibility="onchange")
+    deathdate = fields.Date("Death date", tracking=True)
     nbmag = fields.Selection(
         [
             ("email", _("Email")),
@@ -163,7 +162,7 @@ class ResPartner(models.Model):
         compute="_compute_thankyou_letter",
     )
     calendar = fields.Boolean(
-        help="Indicates if the partner wants to receive the Compassion " "calendar.",
+        help="Wants to receive the Compassion calendar.",
         default=True,
     )
     birthday_reminder = fields.Boolean(
@@ -207,7 +206,10 @@ class ResPartner(models.Model):
     )
 
     email_copy = fields.Boolean(string="CC e-mails sent to main partner")
-    type = fields.Selection(selection_add=[("email_alias", "Email alias")])
+    type = fields.Selection(
+        selection_add=[("email_alias", "Email alias")],
+        ondelete={"email_alias": "set contact"},
+    )
 
     uuid = fields.Char(copy=False, index=True)
 
@@ -226,14 +228,14 @@ class ResPartner(models.Model):
     criminal_record_date = fields.Date()
 
     # add track on fields from module base
-    email = fields.Char(track_visibility="onchange")
-    title = fields.Many2one(track_visibility="onchange", readonly=False)
-    lang = fields.Selection(track_visibility="onchange")
+    email = fields.Char(tracking=True)
+    title = fields.Many2one(tracking=True, readonly=False)
+    lang = fields.Selection(tracking=True)
     # module from partner_firstname
-    firstname = fields.Char(track_visibility="onchange")
-    lastname = fields.Char(track_visibility="onchange")
+    firstname = fields.Char(tracking=True)
+    lastname = fields.Char(tracking=True)
     # module mail
-    opt_out = fields.Boolean(track_visibility="onchange")
+    opt_out = fields.Boolean(tracking=True)
     company_type = fields.Selection(
         compute="_compute_company_type", inverse="_write_company_type"
     )
@@ -260,7 +262,7 @@ class ResPartner(models.Model):
         string="MyCompassion login",
         compute="_get_user_login",
         inverse="_set_user_login",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     write_and_pray = fields.Boolean(
@@ -285,12 +287,13 @@ class ResPartner(models.Model):
         string="Parent consents",
         default="not_submitted",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     can_manage_paid_sponsorships = fields.Boolean(
         compute="_compute_can_manage_paid_sponsorships",
-        help="Sponsor has 18 years old or has parents consent for paying sponsorship",
+        help="Sponsor has 18 years old or has parents consent "
+        "for paying sponsorship",
     )
     has_majority = fields.Boolean(
         compute="_compute_has_majority",
@@ -304,7 +307,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.multi
     def _compute_has_majority(self):
         for record in self:
             record.has_majority = record.age >= self.MAJORITY_AGE
@@ -313,18 +315,15 @@ class ResPartner(models.Model):
         for partner in self:
             partner.is_young = partner.age < self.YOUNG_AGE
 
-    @api.multi
     def _compute_can_manage_paid_sponsorships(self):
         for record in self:
             record.can_manage_paid_sponsorships = (
                 record.has_majority or record.parent_consent in ["approved"]
             )
 
-    @api.multi
     def agree_to_child_protection_charter(self):
         return self.write({"has_agreed_child_protection_charter": True})
 
-    @api.multi
     def update_child_protection_charter(self, vals):
         for partner in self:
             agreed = vals.get("has_agreed_child_protection_charter")
@@ -342,7 +341,6 @@ class ResPartner(models.Model):
             )
         return True
 
-    @api.multi
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
         self.ensure_one()
@@ -360,7 +358,6 @@ class ResPartner(models.Model):
             res += move_line.credit
         return res
 
-    @api.multi
     def update_number_sponsorships(self):
         """
         Update the sponsorship number for the related church as well.
@@ -384,13 +381,13 @@ class ResPartner(models.Model):
                     partner.with_context(bin_size=False).criminal_record
                 )
                 partner.criminal_record_name = f"Criminal record {partner.name}{ftype}"
+            else:
+                partner.criminal_record_name = False
 
-    @api.multi
     def _compute_write_and_pray(self):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
 
-    @api.multi
     @api.depends("thankyou_preference")
     def _compute_thankyou_letter(self):
         """
@@ -399,7 +396,6 @@ class ResPartner(models.Model):
         for partner in self:
             partner.thankyou_letter = THANKYOU_MAPPING[partner.thankyou_preference]
 
-    @api.multi
     def _get_user_login(self):
         for partner in self:
             login = partner.mapped("user_ids.login")
@@ -408,7 +404,6 @@ class ResPartner(models.Model):
             else:
                 partner.user_login = False
 
-    @api.multi
     def _set_user_login(self):
         for partner in self:
             users = partner.user_ids
@@ -416,7 +411,6 @@ class ResPartner(models.Model):
                 user = users[0]
                 user.login = partner.user_login
 
-    @api.multi
     @api.depends("segments_affinity_ids", "segments_affinity_ids.affinity")
     def _compute_prim_sec_segments(self):
         for partner in self:
@@ -438,26 +432,27 @@ class ResPartner(models.Model):
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
-    @api.model
-    def create(self, vals):
-        duplicate_domain = self._check_duplicates_domain(vals, skip_props_check=True)
-        duplicate = self.search(duplicate_domain)
-
-        duplicate_ids = [(4, itm.id) for itm in duplicate]
-        vals.update({"partner_duplicate_ids": duplicate_ids})
-        vals["ref"] = self.env["ir.sequence"].get("partner.ref")
-        vals["uuid"] = uuid.uuid4()
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            duplicate_domain = self._check_duplicates_domain(
+                vals, skip_props_check=True
+            )
+            duplicate = self.search(duplicate_domain)
+            duplicate_ids = [(4, itm.id) for itm in duplicate]
+            vals.update({"partner_duplicate_ids": duplicate_ids})
+            vals["ref"] = self.env["ir.sequence"].get("partner.ref")
+            vals["uuid"] = uuid.uuid4()
         # Never subscribe someone to res.partner record
         partner = super(
             ResPartner, self.with_context(mail_create_nosubscribe=True)
-        ).create(vals)
+        ).create(vals_list)
         partner.compute_geopoint()
-        if partner.contact_type == "attached":
-            partner.active = False
-
+        partner.filtered(lambda p: p.contact_type == "attached").write(
+            {"active": False}
+        )
         return partner
 
-    @api.multi
     def write(self, vals):
         # Avoid cascading the name from the user
         if "name" in vals and self.env.context.get("write_from_user"):
@@ -477,7 +472,7 @@ class ResPartner(models.Model):
                     partner.activity_schedule(
                         "mail.mail_activity_data_todo",
                         summary="Potential volunteer",
-                        note="This person wants to be involved with volunteering",
+                        note="This person wants to be involved with " "volunteering",
                         user_id=notify_user,
                     )
         if "zip" in vals:
@@ -490,7 +485,6 @@ class ResPartner(models.Model):
             self.compute_geopoint()
         return res
 
-    @api.multi
     @api.returns(None, lambda value: value[0])
     def copy_data(self, default=None):
         """
@@ -510,7 +504,6 @@ class ResPartner(models.Model):
         res.remove("name")
         return res
 
-    @api.model
     def _add_missing_default_values(self, values):
         """
         Fix bug changing the firstname and lastname because of automatic name
@@ -520,7 +513,6 @@ class ResPartner(models.Model):
         res.pop("name", False)
         return res
 
-    @api.model
     def name_search(self, name, args=None, operator="ilike", limit=80):
         """Extends to use trigram search."""
         if args is None:
@@ -541,7 +533,6 @@ class ResPartner(models.Model):
             res = self.search(args, limit=limit)
         return res.name_get()
 
-    @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         """Order search results based on similarity if name search is used."""
         fuzzy_search = False
@@ -559,7 +550,6 @@ class ResPartner(models.Model):
             args, offset=offset, limit=limit, order=order, count=count
         )
 
-    @api.model
     def _generate_order_by_inner(
         self, alias, order_spec, query, reverse_direction=False, seen=None
     ):
@@ -584,9 +574,13 @@ class ResPartner(models.Model):
 
     def _check_duplicates_domain(self, vals=None, skip_props_check=False):
         """
-        Generates a search domain to find duplicates for this partner based on various filters
-        :param dict vals: a dictionnary containing values used by the filters, inferred from self if not provided
-        :param bool skip_props_checks: whether you want to skip verifying that each variable's filter are set, thus running them all anyway
+        Generates a search domain to find duplicates for this partner based
+        on various filters
+        :param dict vals: a dictionnary containing values used by the filters,
+                          inferred from self if not provided
+        :param bool skip_props_checks: whether you want to skip verifying
+                                       that each variable's filter are set,
+                                       thus running them all anyway
         """
         if not vals:
             vals = {
@@ -674,7 +668,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    @api.multi
     def compute_geopoint(self):
         """Compute geopoints."""
         self.filtered(
@@ -710,7 +703,6 @@ class ResPartner(models.Model):
         )
         return vals
 
-    @api.multi
     def generate_bvr_reference(self, product):
         """
         Generates a bvr reference for a donation to the fund given by
@@ -740,7 +732,6 @@ class ResPartner(models.Model):
     #                             VIEW CALLBACKS                             #
     ##########################################################################
 
-    @api.multi
     def ensure_company_title_consistency(self):
         for partner in self:
             if partner.is_company:
@@ -748,25 +739,21 @@ class ResPartner(models.Model):
                     "partner_compassion.res_partner_title_friends"
                 ).id
 
-    @api.multi
     @api.depends("is_company", "title")
     def _compute_company_type(self):
         super()._compute_company_type()
         self.ensure_company_title_consistency()
 
-    @api.multi
     def _write_company_type(self):
         super()._write_company_type()
         self.ensure_company_title_consistency()
 
-    @api.model
     def get_lang_from_phone_number(self, phone):
         record = self.env["phone.common"].get_record_from_phone_number(phone)
         if record:
             partner = self.browse(record[1])
         return record and partner.lang
 
-    @api.multi
     def forget_me(self):
         # Store information in CSV, inside encrypted zip file.
         self._secure_save_data()
@@ -804,7 +791,6 @@ class ResPartner(models.Model):
         self.message_ids.sudo().unlink()
         return True
 
-    @api.multi
     def open_duplicates(self):
         if not (self.partner_duplicate_ids - self):
             # No more duplicates, we just remove them
@@ -819,12 +805,10 @@ class ResPartner(models.Model):
             "type": "ir.actions.act_window",
             "res_model": "res.partner.check.double",
             "res_id": partner_wizard.id,
-            "view_type": "form",
             "view_mode": "form",
             "target": "new",
         }
 
-    @api.multi
     def search_bank_address(self):
         return {
             "name": _("Search address in banks data"),
@@ -847,7 +831,6 @@ class ResPartner(models.Model):
             if record.is_church and record.church_id:
                 raise models.ValidationError("Can not both be and have a church")
 
-    @api.model
     def _address_fields(self):
         """Returns the list of address fields that are synced from the parent
         when the `use_parent_address` flag is set."""
@@ -916,8 +899,10 @@ class ResPartner(models.Model):
             except:
                 cnopts.hostkeys = None
                 logger.warning(
-                    "No hostkeys defined in StfpConnection. Connection will be unsecured. "
-                    "Please configure parameter sbc_switzerland.nas_ssh_key with ssh_key data."
+                    "No hostkeys defined in StfpConnection. "
+                    "Connection will be unsecured. "
+                    "Please configure parameter "
+                    "sbc_switzerland.nas_ssh_key with ssh_key data."
                 )
 
             return pysftp.Connection(
@@ -940,7 +925,6 @@ class ResPartner(models.Model):
         domain.insert(6, ("correspondent_id", "in", self.mapped("member_ids").ids))
         return domain
 
-    @api.model
     def _notify_prepare_email_values(self, message):
         """
         Always put reply_to value in mail notifications.

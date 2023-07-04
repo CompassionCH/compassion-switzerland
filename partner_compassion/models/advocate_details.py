@@ -56,7 +56,7 @@ class AdvocateDetails(models.Model):
         ],
         default="new",
         required=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     break_end = fields.Date()
     advocacy_source = fields.Text(
@@ -116,7 +116,6 @@ class AdvocateDetails(models.Model):
         )
     ]
 
-    @api.multi
     def _compute_thank_you_quote(self):
         html_file = file_open(
             "partner_compassion/static/src/html/thank_you_quote_template.html"
@@ -137,7 +136,6 @@ class AdvocateDetails(models.Model):
             }
             details.thank_you_quote = template_html.format(**html_vals)
 
-    @api.multi
     def _compute_events(self):
         for details in self:
             details.event_ids = self.env["crm.event.compassion"].search(
@@ -149,8 +147,9 @@ class AdvocateDetails(models.Model):
             details.number_events = len(details.event_ids)
             if details.event_ids:
                 details.last_event = details.event_ids[:1].end_date.date()
+            else:
+                details.last_event = False
 
-    @api.multi
     def _compute_formation(self):
         formation_cated_id = self.env.ref("partner_compassion.event_type_formation").id
         for details in self:
@@ -162,42 +161,37 @@ class AdvocateDetails(models.Model):
             )
             details.event_type_formation = formation_cated_id
 
-    @api.multi
     def _inverse_formation(self):
         # Allows to create formation event from ambassador details
         return True
 
-    @api.multi
     def set_geo_point(self):
         for advocate in self:
             advocate.geo_point = advocate.partner_id.geo_point
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         # Link partner to the advocate details
-        advocate = super().create(vals)
-        advocate.partner_id.advocate_details_id = advocate
-        advocate.set_geo_point()
-        return advocate
+        advocates = super().create(vals)
+        for advocate in advocates:
+            advocate.partner_id.advocate_details_id = advocate
+        advocates.set_geo_point()
+        return advocates
 
-    @api.multi
     def open_events(self):
         return {
             "name": _("Events"),
             "type": "ir.actions.act_window",
-            "view_type": "form",
             "view_mode": "tree,form",
             "res_model": "crm.event.compassion",
             "target": "current",
             "domain": [("id", "in", self.event_ids.ids)],
         }
 
-    @api.multi
     def open_surveys(self):
         return {
             "name": _("Surveys"),
             "type": "ir.actions.act_window",
-            "view_type": "form",
             "view_mode": "tree,form",
             "res_model": "survey.user_input",
             "target": "current",
@@ -216,7 +210,6 @@ class AdvocateDetails(models.Model):
     def set_active(self):
         return self.write({"state": "active", "end_date": False, "break_end": False})
 
-    @api.model
     def advocate_cron(self):
         three_open_days = datetime.today() + BDay(3)
         birthday_advocates = self.search(

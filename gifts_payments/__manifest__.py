@@ -35,12 +35,9 @@
     "category": "Tools",
     "depends": [
         "account_payment_order",  # OCA/bank_payment
-        "gift_compassion"  # compassion-modules/gift_compassion
+        "gift_compassion",  # compassion-modules/gift_compassion
     ],
-    "data": [
-        "views/gifts_payments_view.xml",
-        "views/gifts_payments_results_view.xml"
-    ],
+    "data": ["views/gifts_payments_view.xml", "views/gifts_payments_results_view.xml"],
     "installable": True,
     "auto_install": False,
 }

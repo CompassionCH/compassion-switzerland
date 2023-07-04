@@ -410,7 +410,6 @@
         <field name="name">Supporters</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
         <field name="view_mode">list,kanban,form,map</field>
         <field name="domain">[]</field>
         <field name="context">{'default_customer':1, 'search_default_customer':1, 'search_default_sponsor': 1}</field>
@@ -443,7 +442,6 @@
     <record id="action_invoice_compassion_partner" model="ir.actions.act_window">
         <field name="name">Invoices</field>
         <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form,kanban,calendar,graph,pivot</field>
         <field name="view_id" ref="account.invoice_tree"/>
         <field name="domain">[('type','in', ['out_invoice', 'out_refund'])]</field>

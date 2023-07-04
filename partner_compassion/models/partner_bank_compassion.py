@@ -72,22 +72,19 @@ class ResPartnerBank(models.Model):
         )
         return line_1[:70], line_2[:70]
 
-    @api.model
+    @api.model_create_multi
     def create(self, data):
         """Override function to notify creation in a message"""
         result = super().create(data)
-
-        part = result.partner_id
-        if part:
-            part.message_post(
-                body=_("<b>Account number: </b>" + result.acc_number),
-                subject=_("New account created"),
-                type="comment",
-            )
-
+        for bank in result:
+            if bank.partner_id:
+                bank.message_post(
+                    body=_("<b>Account number: </b>" + bank.acc_number),
+                    subject=_("New account created"),
+                    type="comment",
+                )
         return result
 
-    @api.multi
     def unlink(self):
         """Override function to notify delte in a message"""
         for account in self:

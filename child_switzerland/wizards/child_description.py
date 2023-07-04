@@ -158,11 +158,13 @@ class ChildDescriptionCH(models.TransientModel):
         {lang: description_field}
         """
         res = super()._supported_languages()
-        res.update({
-            "de_DE": "desc_de",
-            "fr_CH": "desc_fr",
-            "it_IT": "desc_it",
-        })
+        res.update(
+            {
+                "de_DE": "desc_de",
+                "fr_CH": "desc_fr",
+                "it_IT": "desc_it",
+            }
+        )
         return res
 
     def his(self, gender, number=SINGULAR, tense=NOMINATIVE):
