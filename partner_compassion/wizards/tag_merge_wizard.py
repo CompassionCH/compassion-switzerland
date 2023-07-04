@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError
 
 
@@ -29,18 +29,15 @@ class TagMergeWizard(models.TransientModel):
         "res.partner.category", string="Tags", default=lambda s: s._default_tags()
     )
 
-    @api.model
     def _default_tags(self):
         return self.env.context.get("active_ids")
 
-    @api.model
     def _default_dest(self):
         return (
             self.env.context.get("active_id")
             or self.env.context.get("active_ids", [0])[0]
         )
 
-    @api.multi
     def action_merge(self):
         self.ensure_one()
         if len(self.tag_ids) < 2:

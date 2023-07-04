@@ -147,7 +147,6 @@
     <record id="action_advocates" model="ir.actions.act_window">
         <field name="name">Advocates</field>
         <field name="res_model">advocate.details</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form,geoengine</field>
         <field name="context">{'search_default_advocate':1}</field>
     </record>
@@ -155,7 +154,6 @@
     <record id="action_engagement_type" model="ir.actions.act_window">
         <field name="name">Engagement types</field>
         <field name="res_model">advocate.engagement</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 

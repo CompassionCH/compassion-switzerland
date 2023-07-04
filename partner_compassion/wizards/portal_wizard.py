@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, models
+from odoo import models
 from odoo.tools import email_split
 
 
@@ -19,7 +19,6 @@ class PortalWizard(models.TransientModel):
 class PortalUser(models.TransientModel):
     _inherit = "portal.wizard.user"
 
-    @api.multi
     def _create_user(self):
         """
         Override portal user creation to prevent sending e-mail to new user.
@@ -43,7 +42,6 @@ class PortalUser(models.TransientModel):
         res.notify_email = "always"
         return res
 
-    @api.multi
     def _send_email(self):
         """Never send invitation e-mails."""
         return True

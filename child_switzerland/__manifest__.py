@@ -33,12 +33,10 @@
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "https://www.compassion.ch",
-    "external_dependencies": {
-      "python": ["pypng", "pyqrcode"]
-    },
+    "external_dependencies": {"python": ["pypng", "pyqrcode"]},
     "depends": [
-        "child_compassion",
-        "report_wkhtmltopdf_param"  # OCA/reporting-engine
+        "child_compassion",  # compassion-modules
+        "report_wkhtmltopdf_param",  # OCA/reporting-engine
     ],
     "data": [
         "data/ir.advanced.translation.csv",

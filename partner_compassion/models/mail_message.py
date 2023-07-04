@@ -9,7 +9,7 @@
 ##############################################################################
 
 
-from odoo import models, api, fields
+from odoo import models, fields
 
 
 class MailMessage(models.Model):
@@ -23,7 +23,6 @@ class MailMessage(models.Model):
         "mail.message", compute="_compute_ancestor", readonly=False
     )
 
-    @api.multi
     def _compute_ancestor(self):
         for message in self:
             previous = message

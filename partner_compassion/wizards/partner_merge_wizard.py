@@ -8,14 +8,13 @@
 #
 ##############################################################################
 
-from odoo import api, models, _
+from odoo import models, _
 from odoo.exceptions import UserError
 
 
 class PartnerMergeWizard(models.TransientModel):
     _inherit = "base.partner.merge.automatic.wizard"
 
-    @api.multi
     def action_merge(self):
         """
         - Allow anybody to perform the merge of partners

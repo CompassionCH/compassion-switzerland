@@ -10,3 +10,6 @@ read_access_partner_segmentation, Read access on partner segmentation,model_res_
 full_access_partner_segmentation, Full access on partner segmentation,model_res_partner_segment,base.group_system,1,1,1,1
 read_access_partner_segmentation_affinity, Read access on partner segmentation affinity,model_res_partner_segment_affinity,,1,0,0,0
 full_access_partner_segmentation_affinity, Full access on partner segmentation affinity,model_res_partner_segment_affinity,base.group_system,1,1,1,1
+access_partner_check_double,Access check double wizard,model_res_partner_check_double,base.group_user,1,1,1,1
+access_search_bank_address,Access search bank address wizard,model_search_bank_address_wizard,base.group_user,1,1,1,1
+access_category_merge,Access partner category merge wizard,model_res_partner_category_merge,base.group_user,1,1,1,1

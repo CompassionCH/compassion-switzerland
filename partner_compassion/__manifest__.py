@@ -8,7 +8,7 @@
 #                        /_/
 #                            in Jesus' name
 #
-#    Copyright (C) 2014-2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2014-2023 Compassion CH (http://www.compassion.ch)
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -28,31 +28,32 @@
 
 # pylint: disable=C8101
 {
-    "name": "Upgrade Partners for Compassion Suisse",
-    "version": "12.0.1.2.0",
-    "category": "Partner",
+    "name": "Compassion CH Partners",
+    "summary": "Upgrade Partners for Compassion Switzerland",
+    "version": "14.0.1.0.0",
+    "development_status": "Production/Stable",
+    "category": "Partner Management",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "http://www.compassion.ch",
+    "website": "https://www.compassion.ch",
     "depends": [
         "base_location",  # oca_addons/partner-contact
-        "geoengine_base_geolocalize",  # geospatialslac
+        # "geoengine_base_geolocalize",  # geospatialslac
         "account_banking_mandate",  # oca_addons/bank-payment
-        "account_bank_statement_import_camt_details",
+        # "account_bank_statement_import_camt_details",
         "sbc_compassion",  # compassion-modules
         "thankyou_letters",  # compassion-modules
         "mail_tracking",
         "partner_contact_birthdate",  # oca_addons/partner-contact
         "web_notify",  # oca_addons/web
         "partner_contact_in_several_companies",  # oca_addons/partner-contact
-        "crm_claim",
+        "crm_compassion",
         "base_search_fuzzy",  # oca_addons/server-tools
-        "cms_form_compassion",  # compassion-modules
         "survey",  # source/addons
         "base_phone",  # oca_addons/connector-telephony
         "auditlog",
-        "l10n_ch_zip",  # oca_addon/l10n_switzerland
-        "web_view_google_map",  # oca_addon/web_view_google_map
+        # "l10n_ch_zip",  # oca_addon/l10n_switzerland
+        # "web_view_google_map",  # oca_addon/web_view_google_map
         "partner_contact_birthdate",
     ],
     "external_dependencies": {"python": ["pandas", "pyminizip", "magic", "pysftp"]},

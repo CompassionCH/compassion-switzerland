@@ -36,7 +36,6 @@
     <record id="open_view_partner_segmentation_affinity" model="ir.actions.act_window">
         <field name="name">Partners segmentation affinity</field>
         <field name="res_model">res.partner.segment.affinity</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 

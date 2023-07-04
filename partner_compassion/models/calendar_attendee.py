@@ -7,13 +7,12 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models
 
 
 class Attendee(models.Model):
     _inherit = "calendar.attendee"
 
-    @api.multi
     def _send_mail_to_attendees(self, template_xmlid):
         # Only send email to compassion staff
         compassion_staff = self.filtered(
@@ -24,7 +23,6 @@ class Attendee(models.Model):
             template_xmlid, True
         )
 
-    @api.multi
     def send_invitation_to_partner(self):
         return super()._send_mail_to_attendees(
             "calendar.calendar_template_meeting_invitation", True

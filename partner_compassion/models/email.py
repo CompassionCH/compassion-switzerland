@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, api, fields
+from odoo import models, fields
 from odoo.tools import email_split
 
 
@@ -19,7 +19,6 @@ class Email(models.Model):
         related="mail_tracking_ids.tracking_event_ids", readonly=True
     )
 
-    @api.multi
     def send(self, auto_commit=False, raise_exception=False):
         """
         Prevents deleting emails for better control.
@@ -45,7 +44,6 @@ class EmailTemplate(models.Model):
 
     _inherit = "mail.template"
 
-    @api.multi
     def generate_email(self, res_ids=None, fields=None):
         context = self.env.context.copy()
         if "tpl_partners_only" in context:

@@ -51,7 +51,12 @@ class ResUser(models.Model):
                     user.notify_info(message)
                 else:
                     user.notify_warning(
-                        _("Click to dial with Asterisk failed.\nHTTP error code: %s.") % res_req.status_code)
+                        _(
+                            "Click to dial with Asterisk failed.\n"
+                            "HTTP error code: %s."
+                        )
+                        % res_req.status_code
+                    )
             except Exception as e:
                 message = "Impossible to connect your Xivo agent\n"
                 message += str(e)

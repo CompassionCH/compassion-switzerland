@@ -101,20 +101,19 @@ class ResPartnerSegmentAffinity(models.Model):
         0,
     ]
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         """
         Create a segment_affinity instance. Update partner reference on segment affinity
         :param vals: values used for model creation
         :return: id of the newly created model
         """
-        seg_affin = super(ResPartnerSegmentAffinity, self.sudo()).create(vals)
-
+        segments = super().create(vals)
         # update partner.all_segment_affinity will trigger primary and secondary segment computation
-        seg_affin.partner_id.segments_affinity_ids = [(4, seg_affin.id)]
-        return seg_affin
+        for seg_affin in segments:
+            seg_affin.partner_id.segments_affinity_ids = [(4, seg_affin.id)]
+        return segments
 
-    @api.multi
     def unlink(self):
         """
         Unlink insance of the model. Update partner reference.
@@ -124,7 +123,6 @@ class ResPartnerSegmentAffinity(models.Model):
             seg_affin.partner_id.segments_affinity_ids = [(2, seg_affin.id)]
         return super().unlink()
 
-    @api.model
     def segment_affinity_engine(self, answer_as_array, partner_id):
         """
         Adaptation of the segmentation engine used by GMC. Output the segmentation affinity for each of the 5 segment

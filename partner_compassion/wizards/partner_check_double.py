@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class PartnerCheckDouble(models.TransientModel):
@@ -23,7 +23,6 @@ class PartnerCheckDouble(models.TransientModel):
         "res.partner", "Merge with", readonly=False
     )
 
-    @api.multi
     def merge_with(self):
         # Use base.partner.merge wizard
         self.env["base.partner.merge.automatic.wizard"].create(
@@ -39,12 +38,10 @@ class PartnerCheckDouble(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": "res.partner",
             "view_mode": "form",
-            "view_type": "form",
             "res_id": self.selected_merge_partner_id.id,
             "target": "main",
         }
 
-    @api.multi
     def keep(self):
         self.partner_id.partner_duplicate_ids = False
         return True
