@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_advocate_details_default" model="ir.ui.view">
+        <field name="name">view.advocate.details.default</field>
+        <field name="model">advocate.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="set_active" string="Set active" type="object" states="new,on_break,inactive" class="oe_highlight" groups="base.group_user"/>
+                    <button name="set_on_break" string="Put on break" type="object" states="active" groups="base.group_user"/>
+                    <button name="set_inactive" string="Set inactive" type="object" states="new,on_break,active" groups="base.group_user"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,active,inactive" groups="base.group_user"/>
+                </header>
+                <sheet>
+                    <div class="oe_right oe_button_box" name="buttons">
+                        <button name="open_events" type="object" icon="fa-calendar" class="oe_stat_button" groups="base.group_user">
+                            <field name="number_events" widget="statinfo" string="Events"/>
+                        </button>
+                        <button name="open_surveys" type="object" icon="fa-list-alt" class="oe_stat_button">
+                            <field name="number_surveys" widget="statinfo" string="Surveys"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Advocacy">
+                            <field name="partner_id" string="Partner"/>
+                            <field name="event_type_formation" invisible="1"/>
+                            <field name="active_since" groups="base.group_user"/>
+                            <label for="break_end" style="color: red;" states="on_break" groups="base.group_user"/>
+                            <field name="break_end" states="on_break" nolabel="1" groups="base.group_user"/>
+                            <field name="end_date" states="inactive" groups="base.group_user"/>
+                            <field name="last_event" groups="base.group_user"/>
+                            <field name="advocacy_source" groups="base.group_user"/>
+                            <field name="engagement_ids" widget="many2many_tags" groups="base.group_user"/>
+                            <field name="t_shirt_size"/>
+                            <field name="t_shirt_type"/>
+                            <field name="has_car"/>
+                            <field name="formation_ids" groups="base.group_user"
+                                   domain="[('categ_ids', '=', event_type_formation)]"
+                                   context="{'default_partner_ids': [(4, partner_id)], 'default_categ_ids': [(4, event_type_formation)]}">
+                                <tree order="stop_date desc">
+                                    <field name="state" invisible="1"/>
+                                    <field name="start_date"/>
+                                    <field name="name"/>
+                                    <field name="location"/>
+                                    <field name="user_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Profile page">
+                            <field name="quote"/>
+                        </group>
+                        <group string="Settings">
+                            <field name="mail_copy_when_donation"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread" groups="base.group_user"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="advocate_details_tree" model="ir.ui.view">
+        <field name="name">advocate.details.tree</field>
+        <field name="model">advocate.details</field>
+        <field name="arch" type="xml">
+            <tree decoration-primary="state == 'new'" decoration-info="state in ('inactive','on_break')" >
+                <field name="partner_id"/>
+                <field name="active_since"/>
+                <field name="end_date"/>
+                <field name="birthdate"/>
+                <field name="lang"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="email"/>
+                <field name="engagement_ids" widget="many2many_tags" options="{'not_delete': True}" groups="base.group_user"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="advocate_details_search" model="ir.ui.view">
+        <field name="name">advocate.details.search</field>
+        <field name="model">advocate.details</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="engagement_ids"/>
+                <field name="state"/>
+                <field name="birthdate"/>
+                <field name="lang"/>
+                <field name="city"/>
+                <field name="zip"/>
+                <field name="email"/>
+                <separator/>
+                <filter name="advocate" string="Active or New" domain="[('state', 'in', ['new','active'])]"/>
+                <separator/>
+                <filter name="sport" string="Sport person" domain="[('engagement_ids','like', 'Sport')]"/>
+                <filter name="event" string="Event" domain="[('engagement_ids','like', 'Events')]"/>
+                <filter name="church" string="Church" domain="[('engagement_ids','like', 'Church')]"/>
+                <filter name="translator" string="Translator" domain="[('engagement_ids','like', 'Translation')]"/>
+                <group expand="0" string="Group By...">
+                    <filter string="State" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="Language" name="language" domain="[]" context="{'group_by':'lang'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_advocate_geo" model="ir.ui.view">
+        <field name="name">Advocates map</field>
+        <field name="arch" type="xml">
+            <geoengine>
+                <field name="partner_id" select="1" string="Name"/>
+                <field name="state"/>
+                <field name="email"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="geo_point"/>
+            </geoengine>
+        </field>
+        <field eval="16" name="priority"/>
+        <field name="model">advocate.details</field>
+    </record>
+    <record id="geoengine_vector_layer_advocate" model="geoengine.vector.layer">
+        <field name="geo_field_id" ref="partner_compassion.field_advocate_details__geo_point"/>
+        <field name="name">Advocate location</field>
+        <field eval="6" name="sequence"/>
+        <field name="view_id" ref="view_advocate_geo"/>
+        <field name="geo_repr">basic</field>
+        <field eval="1" name="nb_class"/>
+        <field name="begin_color">#FF680A</field>
+    </record>
+    <!--    <record id="geoengine_vector_symbol_advocate" model="geoengine.vector.symbol">-->
+    <!--        <field name="vector_layer_id" ref="geoengine_vector_layer_advocate"/>-->
+    <!--        <field name="img" type="base64" file="base/static/img/res_partner_1-image.jpg"/>-->
+    <!--    </record>-->
+    <record id="geoengine_raster_layer_advocate_osm" model="geoengine.raster.layer">
+        <field name="raster_type">osm</field>
+        <field name="name">Advocate background</field>
+        <field name="view_id" ref="view_advocate_geo"/>
+        <field eval="0" name="overlay"/>
+    </record>
+
+    <record id="action_advocates" model="ir.actions.act_window">
+        <field name="name">Advocates</field>
+        <field name="res_model">advocate.details</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,geoengine</field>
+        <field name="context">{'search_default_advocate':1}</field>
+    </record>
+
+    <record id="action_engagement_type" model="ir.actions.act_window">
+        <field name="name">Engagement types</field>
+        <field name="res_model">advocate.engagement</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_advocates"
+              parent="child_compassion.menu_sponsorship_root"
+              name="Advocates"
+              sequence="2"/>
+
+    <menuitem id="menu_ambassadors"
+              parent="menu_advocates"
+              name="Advocates"
+              action="action_advocates"
+              sequence="1"/>
+    <menuitem id="menu_engagement_type"
+              parent="menu_advocates"
+              name="Engagement types"
+              action="action_engagement_type"
+              sequence="2"/>
+</odoo>

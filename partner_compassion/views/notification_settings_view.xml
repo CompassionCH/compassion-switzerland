@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2018 Compassion (http://www.compassion.ch)
+    @author Emanuel Cino <ecino@compassion.ch>
+    The licence is in the file __manifest__.py
+-->
+<odoo>
+    <!-- Configuration View -->
+    <record id="view_notification_settings_partner_compassion_form" model="ir.ui.view">
+        <field name="name">staff.notification.settings.muksathlon.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="message_center_compassion.notification_settings"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='left_group']">
+                <separator/>
+                <h3>Advocates</h3>
+                <div name="advocates_notification">
+                    <label for="advocate_birthday_fr_id" class="o_light_label"/>
+                    <field name="advocate_birthday_fr_id" widget="many2one"/>
+                    <label for="advocate_birthday_de_id" class="o_light_label"/>
+                    <field name="advocate_birthday_de_id" widget="many2one"/>
+                    <label for="advocate_birthday_it_id" class="o_light_label"/>
+                    <field name="advocate_birthday_it_id" widget="many2one"/>
+                    <label for="advocate_birthday_en_id" class="o_light_label"/>
+                    <field name="advocate_birthday_en_id" widget="many2one"/>
+                    <separator/>
+                    <h3>Potential advocates</h3>
+                    <div name="potential_advocates">
+                        <label for="potential_advocate_fr" class="o_light_label"/>
+                        <field name="potential_advocate_fr"/>
+                        <label for="potential_advocate_de" class="o_light_label"/>
+                        <field name="potential_advocate_de"/>
+                        <label for="potential_advocate_it" class="o_light_label"/>
+                        <field name="potential_advocate_it"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
