@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <!-- Show the subject of message in the chatter view -->
+    <t t-extend="mail.ChatThread.Message">
+        <t t-jquery="p.o_mail_info" t-operation="after">
+            <h3>
+                <t t-if="message.subject" t-esc="message.subject"/>
+            </h3>
+        </t>
+    </t>
+</templates>

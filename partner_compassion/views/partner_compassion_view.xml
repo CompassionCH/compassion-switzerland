@@ -1,0 +1,511 @@
+<odoo>
+
+    <!-- Move title before lastname -->
+    <record id="view_partner_form_compassion_firstname" model="ir.ui.view">
+        <field name="name">res.partner.form.compassion.firstname</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_firstname.view_partner_form_firstname"/>
+        <field name="arch" type="xml">
+            <!-- Move title field and add it in inner contact form -->
+            <field name="title" position="replace"/>
+            <field name="lastname" position="before">
+                <field name="title" attrs="{'required': [('is_company', '=', False)]}"/>
+            </field>
+            <field name="firstname" position="after">
+                <field name="preferred_name"/>
+                <field name="address_name"/>
+            </field>
+            <xpath expr="//field[@name='child_ids']/form//field[@name='lastname']" position="before">
+                <field name="title"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_church_unlinked" model="ir.ui.view">
+        <field name="name">res.partner.form.church.unlinked</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
+        <field name="arch" type="xml">
+            <field name="church_id" position="after">
+                <field name="church_unlinked"
+                       attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Remove birthdate duplicate -->
+    <record id="view_partner_form_compassion_birthdate" model="ir.ui.view">
+        <field name="name">res.partner.form.compassion.birthdate</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="partner_contact_personal_information_page.personal_information"/>
+        <field name="arch" type="xml">
+            <page name="personal_information_page" position="replace"/>
+        </field>
+    </record>
+
+    <!-- Redefine form view -->
+    <record id="view_partner_form_compassion_ch" model="ir.ui.view">
+        <field name="name">res.partner.form.compassion.switzerland</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sbc_compassion.view_partner_form_sbc"/>
+        <field name="arch" type="xml">
+            <!-- Add a Check double button on the top of the view-->
+            <field name="preferred_name" position="after">
+                <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
+            </field>
+            <xpath expr="//form/*[1]" position="before">
+                <header>
+                    <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
+                </header>
+            </xpath>
+            <!-- Move some fields -->
+            <field name="ref" position="replace"/>
+            <field name="lang" position="replace"/>
+            <field name="spoken_lang_ids" position="replace"/>
+
+            <!-- Make child_ids readonly to avoid creating partners from a company -->
+            <field name="child_ids" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+
+            <!-- Add street3 in the form of the partner -->
+            <field name="street2" position="after">
+                <field name="street3"/>
+            </field>
+
+            <!-- Add a optional search for address on bank data if missing-->
+            <field name="street" position="before">
+                <div attrs="{'invisible': [('street', '!=', False)]}">
+                    <button name="search_bank_address" string="search address from banks data" type="object"/>
+                </div>
+            </field>
+
+            <!-- Add invalid email fields -->
+            <field name="email" position="after">
+                <field name="invalid_mail" attrs="{'invisible': [('invalid_mail', '=', False)]}"/>
+            </field>
+
+            <!-- Add birthdate and deathdate -->
+            <xpath expr="//field[@name='website'][1]" position="after">
+                <field name="user_login" attrs="{'invisible': [('user_login', '=', False)]}"/>
+                <field name="birthdate_date" attrs="{'invisible': [('is_company','=',True)]}"/>
+                <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
+
+                <field name="has_majority" invisible="1"/>
+                <field name="age"/>
+                <field name="parent_consent" attrs="{'invisible': [('has_majority','=',True)]}"/>
+            </xpath>
+
+            <!-- Add correspondance tab -->
+            <xpath expr="//page[1]" position="after">
+                <page string="Correspondence" groups="child_compassion.group_sponsorship">
+                    <button name="open_letters" type="object" string="Letters"/>
+                    <group>
+                        <group>
+                            <field name="global_communication_delivery_preference"/>
+                            <field name="photo_delivery_preference"/>
+                        </group>
+                        <group>
+                            <field name="opt_out"/>
+                        </group>
+                        <group>
+                            <field name="nbmag"/>
+                            <field name="calendar"/>
+                            <field name="birthday_reminder"/>
+                            <field name="sponsorship_anniversary_card"/>
+                        </group>
+                        <group>
+                            <field name="tax_certificate"/>
+                            <field name="thankyou_preference"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Advocacy" name="advocate_details">
+                    <group name="advocate_details_group">
+                        <field name="interested_for_volunteering" attrs="{'invisible': [('advocate_details_id', '!=', False)]}"/>
+                        <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
+                        <field name="engagement_ids" widget="many2many_tags"/>
+                    </group>
+                </page>
+                <page string="Segmentation" name="segmentation_information">
+                    <group name="Segmentation">
+                        <field name="primary_segment_id" />
+                        <field name="secondary_segment_id" />
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- Put reference fields at top -->
+            <xpath expr="//field[@name='parent_id']/.." position="after">
+                <br/>
+                <div class="o_row">
+                    <label for="ref"/>
+                    <field name="ref" readonly="1"/>
+                </div>
+                <br/>
+                <div class="o_row">
+                    <label for="global_id"/>
+                    <field name="global_id" readonly="1"/>
+                </div>
+            </xpath>
+
+            <!-- Put lang fields at top -->
+            <label for="street" position="before">
+                <field name="lang"/>
+                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}" groups="child_compassion.group_sponsorship"/>
+            </label>
+
+<!--            &lt;!&ndash; Remove fax &ndash;&gt;-->
+<!--            <field name="fax" position="replace"/>-->
+
+            <!-- Hide elements for non-users -->
+            <field name="message_follower_ids" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <field name="message_ids" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </field>
+            <button name="toggle_active" position="attributes">
+                <attribute name="groups">base.group_user</attribute>
+            </button>
+
+            <div class="oe_button_box" position="inside">
+                <button name="%(partner_compassion.act_partner_survey_input)d"
+                        type="action"
+                        class="oe_stat_button oe_inline"
+                        icon="fa-list-alt">
+                    <field name="survey_input_count"
+                           widget="statinfo"
+                           string="Surveys"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <!-- Extends the tree view of the partners to display city and other fields -->
+    <record id="view_partner_tree_compassion" model="ir.ui.view">
+        <field name="name">res.partner.tree.compassion</field>
+        <field name="model">res.partner</field>
+        <field name="type">tree</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="lang"/>
+                <field name="zip"/>
+                <field name="city"/>
+            </field>
+            <field name="email" position="after">
+                <field name="number_sponsorships" type="char"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Redefine linked partner form popup -->
+    <record id="view_partner_form_compassion_contact" model="ir.ui.view">
+        <field name="name">res.partner.compassion.linked.contact.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="partner_contact_in_several_companies.view_partner_form_inherit"/>
+        <field name="arch" type="xml">
+            <field name="other_contact_ids" position="before">
+                <field name="contact_id" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='other_contact_ids']/.." position="attributes">
+                <attribute name="string">Linked Partners</attribute>
+            </xpath>
+            <xpath expr="//field[@name='other_contact_ids']" position="attributes">
+                <attribute name="context">
+                    {'default_contact_id': active_id,
+                    'default_name': name,
+                    'default_street': street,
+                    'default_street2': street2,
+                    'default_city': city,
+                    'default_state_id': state_id,
+                    'default_zip': zip,
+                    'default_country_id': country_id,
+                    'default_supplier': supplier,
+                    'default_lang':lang,
+                    'default_spoken_lang_ids':spoken_lang_ids,
+                    'default_opt_out':False,
+                    'default_birthday_reminder':False,
+                    'default_global_communication_delivery_preference':'none',
+                    'default_photo_delivery_preference':'none',
+                    'default_letter_delivery_preference':'none',
+                    'default_tax_certificate':'no',
+                    'default_thankyou_preference':'none',
+                    'default_nbmag':'no_mag',
+                    'default_calendar':0,
+                    'default_christmas_card':0,
+                    'default_email': email}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='other_contact_ids']/form/sheet" position="replace">  <!-- pylint: disable=dangerous-view-replace-wo-priority -->
+                <sheet>
+                    <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+                    <hr/>
+                    <group string="Alternate address" attrs="{'invisible': [('type', 'in', ['contact','email_alias'])]}">
+                        <label for="street" string="Address"/>
+                        <div>
+                            <div class="o_address_format" name="div_address">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' context="{'country_id': country_id, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                        </div>
+                        <field name="nbmag"/>
+                        <field name="calendar"/>
+                    </group>
+                    <group>
+                        <group string="Contact information">
+                            <field name="name" string="Contact Name" attrs="{'required' : [('type', '=', 'contact')], 'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="title" placeholder="e.g. Mr."
+                                   attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                            <field name="function" placeholder="e.g. Sales Director"
+                                   attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                            <field name="email"/>
+                            <field name="birthdate_date" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="phone" widget="phone" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="mobile" widget="phone" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="comment" placeholder="internal note..."/>
+                        </group>
+                        <group string="Contact correspondence">
+                            <field name="lang" attrs="{'required':[('type','!=', 'email_alias')], 'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="spoken_lang_ids" widget="many2many_tags" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="opt_out"/>
+                            <field name="global_communication_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="photo_delivery_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="tax_certificate" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="thankyou_preference" attrs="{'invisible': [('type','=', 'email_alias')]}"/>
+                            <field name="email_copy"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="supplier" invisible="True"/>
+                    <field name="customer" invisible="True"/>
+                </sheet>
+            </xpath>
+            <xpath expr="//field[@name='other_contact_ids']/kanban" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extends the search on partners -->
+    <record model="ir.ui.view" id="res_partner_compassion_search">
+        <field name="name">res.partner.compassion.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <!-- Use fuzzy search on name -->
+            <field name="name" position="replace"> <!-- pylint: disable=dangerous-view-replace-wo-priority -->
+                <field name="name" filter_domain="['|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self)]"/>
+            </field>
+            <field name="phone" position="replace">
+                <field name="phone" filter_domain="['|',('phone','ilike',self),('mobile','ilike',self)]"/>
+            </field>
+            <field name="category_id" position="after">
+                <field name="lang"/>
+                <field name="city" filter_domain="['|',('city','ilike', self),('zip','ilike',self)]"/>
+            </field>
+            <xpath expr="//group">
+                <filter string="Language" name="language" context="{'group_by': 'lang'}"/>
+                <filter string="Primary Segment" name="primary_segment_id" context="{'group_by':'primary_segment_id'}"/>
+                <filter string="Secondary Segment" name="secondary_segment_id" context="{'group_by':'secondary_segment_id'}"/>
+            </xpath>
+            <field name="name" position="after">
+                 <field name="advocate_details_id"
+                       filter_domain="[('advocate_details_id.engagement_ids', 'ilike', self)]"/>
+            </field>
+            <!-- Remove filtering of contact people on the customer filter -->
+            <filter name="customer" position="attributes">
+                <attribute name="domain">[('customer','=',1)]</attribute>
+            </filter>
+            <filter name="supplier" position="after">
+                <separator/>
+                <filter string="Sponsor" name="sponsor"
+                        domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"/>
+                <separator/>
+                <filter string="Advocate" name="advocate"
+                        domain="[('advocate_details_id.state', 'in', ['new', 'active'])]"/>
+                <separator/>
+                <filter string="EN living in DE" name="en_DE"
+                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '1')]"/>
+                <filter string="EN living in FR" name="en_FR"
+                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '2')]"/>
+                <filter string="EN living in IT" name="en_IT"
+                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '3')]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="res_partner_bvr_search">
+        <field name="name">res.partner.bvr.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail.res_partner_view_search_inherit_mail"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="after">
+                <separator/>
+                <filter string="Has e-mail" name="has_email" domain="[('email', '!=', False)]"/>
+                <separator/>
+                <filter string="BVR"
+                        name='bvr'
+                        domain="[('customer', '=', True),
+                                         ('customer_payment_mode_id.name', 'not ilike', 'LSV'),
+                                         ('customer_payment_mode_id.name', 'not ilike', 'Postfinance'),
+                                         '|', '&amp;', ('is_company', '=', True), ('child_ids', '=', False), ('is_company', '=', False)]"
+                        help="All customers without LSV or DD"/>
+                <separator/>
+                <filter string="LSV/DD"
+                        name='lsv_dd'
+                        domain="[('customer', '=', True),
+                                         '|', ('customer_payment_mode_id.name', 'ilike', 'LSV'),
+                                         ('customer_payment_mode_id.name', 'ilike', 'Postfinance'),
+                                         '|', '&amp;', ('is_company', '=', True), ('child_ids', '=', False), ('is_company', '=', False)]"
+                        help="All customers with LSV or DD payment terms"/>
+            </filter>
+        </field>
+    </record>
+
+    <!-- Map view for Partner -->
+    <record id="partner_google_map_view" model="ir.ui.view">
+        <field name="name">view.res.partner.map</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="web_view_google_map.view_res_partner_map"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='o_kanban_image']" position="replace">
+                <div class="o_kanban_image">
+                    <t t-if="record.image_small.raw_value">
+                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.raw_value)"/>
+                    </t>
+                    <t t-if="!record.image_small.raw_value">
+                        <t t-if="record.type.raw_value === 'delivery'">
+                            <img t-att-src='_s + "/base/static/img/truck.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/>
+                        </t>
+                        <t t-if="record.type.raw_value === 'invoice'">
+                            <img t-att-src='_s + "/base/static/img/money.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/>
+                        </t>
+                        <t t-if="record.type.raw_value != 'invoice' &amp;&amp; record.type.raw_value != 'delivery'">
+                            <t t-if="record.is_company.raw_value === true">
+                                <img t-att-src='_s + "/base/static/img/company_image.png"'/>
+                            </t>
+                            <t t-if="record.is_company.raw_value === false">
+                                <img t-att-src='_s + "/base/static/img/avatar.png"'/>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Redefine action of partners for sponsorship section -->
+    <record id="action_partner_supporter_form" model="ir.actions.act_window">
+        <field name="name">Supporters</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">list,kanban,form,map</field>
+        <field name="domain">[]</field>
+        <field name="context">{'default_customer':1, 'search_default_customer':1, 'search_default_sponsor': 1}</field>
+        <field name="filter" eval="True"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a contact in your address book.
+            </p>
+            <p>
+                Odoo helps you easily track all activities related to
+                a customer: discussions, history of business opportunities,
+                documents, etc.
+            </p>
+        </field>
+    </record>
+
+    <!-- Redefine action of partners for Vendors section -->
+    <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
+        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1, 'default_opt_out': 1, 'default_nbmag': 0}</field>
+    </record>
+
+    <!-- Redefine buttons -->
+    <!--<delete model="ir.ui.view" id="account.partner_view_button_contracts_count"/>-->
+    <record model="ir.ui.view" id="account.partner_view_buttons">
+        <!-- Show invoices button for everyone -->
+        <field name="groups_id" eval="[(6, 0, [ref('child_compassion.group_sponsorship')])]"/>
+    </record>
+
+    <!-- Change Invoice button behaviour -->
+    <record id="action_invoice_compassion_partner" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,kanban,calendar,graph,pivot</field>
+        <field name="view_id" ref="account.invoice_tree"/>
+        <field name="domain">[('type','in', ['out_invoice', 'out_refund'])]</field>
+        <field name="context">{
+            'search_default_partner_id': active_id,
+            'default_partner_id': active_id
+            }
+        </field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+    </record>
+
+    <!-- Add security on tracking e-mail fields -->
+    <record model="ir.ui.view" id="tracking_email_security">
+        <field name="name">res.partner.tracking.email.security</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail_tracking.view_partner_form"/>
+        <field name="arch" type="xml">
+            <button name="%(mail_tracking.action_view_mail_tracking_email)d" position="attributes">
+                <attribute name="groups">child_compassion.group_sponsorship</attribute>
+            </button>
+            <field name="email_score" position="attributes">
+                <attribute name="groups">child_compassion.group_sponsorship</attribute>
+            </field>
+            <field name="email_bounced" position="attributes">
+                <attribute name="groups">child_compassion.group_sponsorship</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!-- Add partner title fields -->
+    <record id="view_partner_title_ch_form" model="ir.ui.view">
+        <field name="name">res.partner.title.ch.form</field>
+        <field name="model">res.partner.title</field>
+        <field name="inherit_id" ref="base.view_partner_title_form"/>
+        <field name="arch" type="xml">
+            <field name="shortcut" position="after">
+                <field name="gender"/>
+                <field name="plural"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Add child protection charter agreement fields -->
+    <record id="view_res_partner_child_protection_charter_form" model="ir.ui.view">
+        <field name="name">res.partner.child_protection_charter.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
+        <field name="arch" type="xml">
+            <field name="privacy_statement_ids" position="after">
+                <group string="Child Protection Charter Agreement" name="child_protection_charter_fields">
+                    <field string="Has agreed" name="has_agreed_child_protection_charter"/>
+                    <field string="Date agreed" name="date_agreed_child_protection_charter" readonly="1"/>
+                </group>
+                <group string="Other" name="other_fields">
+                    <field name="criminal_record_name" invisible="1"/>
+                    <field name="criminal_record" filename="criminal_record_name" groups="partner_compassion.group_criminal_record"/>
+                    <field name="criminal_record_date"/>
+                </group>
+            </field>
+        </field>
+    </record>
+
+    <menuitem id="sponsorship_compassion.open_customers" action="action_partner_supporter_form"
+              parent="child_compassion.menu_sponsorship_section" sequence="0"/>
+</odoo>
