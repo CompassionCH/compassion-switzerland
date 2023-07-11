@@ -54,6 +54,12 @@ class ProductTemplate(models.Model):
     image_large = fields.Binary(
         "Large image", help="Image for header", attachment=True
     )
+    crowdfunding_donation_quantity_1 = fields.Integer(
+        default=1, help="Default quantity proposition when making a donation")
+    crowdfunding_donation_quantity_2 = fields.Integer(
+        default=3, help="Default quantity proposition when making a donation")
+    crowdfunding_donation_quantity_3 = fields.Integer(
+        default=5, help="Default quantity proposition when making a donation")
 
     @api.model
     def _auto_init(self):

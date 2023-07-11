@@ -184,7 +184,8 @@
                                 <div class="col-sm-12 col-md-8">
                                     <div class="row mt-3">
                                         <!-- Three example quantities are displayed, set the 3 default number of product for each here -->
-                                        <t t-set="fund_default_quantities" t-value="[1, 3, 5]" />
+                                        <t t-set="product" t-value="project.product_id"/>
+                                        <t t-set="fund_default_quantities" t-value="[product.crowdfunding_donation_quantity_1, product.crowdfunding_donation_quantity_2, product.crowdfunding_donation_quantity_3]" />
                                         <t t-foreach="fund_default_quantities" t-as="current_default_quantity">
                                             <t t-call="crowdfunding_compassion.fund_amount_example" />
                                         </t>
