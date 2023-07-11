@@ -12,10 +12,14 @@
 # sale-workflow https://github.com/OCA/sale-workflow
 #
 # To provide both the URL and a branch, use:
-
+bank-payment
+bank-statement-import
 compassion-accounting https://github.com/CompassionCH/compassion-accounting
 compassion-modules https://github.com/CompassionCH/compassion-modules
 crm
 connector-telephony
+geospatial
+partner-contact
 payroll
+server-tools
 web

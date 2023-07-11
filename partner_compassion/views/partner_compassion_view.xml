@@ -7,9 +7,8 @@
         <field name="inherit_id" ref="partner_firstname.view_partner_form_firstname"/>
         <field name="arch" type="xml">
             <!-- Move title field and add it in inner contact form -->
-            <field name="title" position="replace"/>
             <field name="lastname" position="before">
-                <field name="title" attrs="{'required': [('is_company', '=', False)]}"/>
+                <field name="title" attrs="{'required': [('is_company', '=', False)]}" position="move"/>
             </field>
             <field name="firstname" position="after">
                 <field name="preferred_name"/>
@@ -21,25 +20,67 @@
         </field>
     </record>
 
-    <record id="view_partner_church_unlinked" model="ir.ui.view">
-        <field name="name">res.partner.form.church.unlinked</field>
+    <!-- Remove partner assignment tab -->
+    <record id="view_partner_form_compassion_remove_partner_assignment" model="ir.ui.view">
+        <field name="name">res.partner.form.geolocation.remove</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
+        <field name="inherit_id" ref="base_geolocalize.view_crm_partner_geo_form"/>
         <field name="arch" type="xml">
-            <field name="church_id" position="after">
-                <field name="church_unlinked"
-                       attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
-            </field>
+            <page name="geo_location" position="replace"/>
         </field>
     </record>
 
-    <!-- Remove birthdate duplicate -->
+    <!-- Move all personal fields in the tab from OCA partner-birthdate -->
     <record id="view_partner_form_compassion_birthdate" model="ir.ui.view">
-        <field name="name">res.partner.form.compassion.birthdate</field>
+        <field name="name">res.partner.form.compassion.personal.info</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="partner_contact_personal_information_page.personal_information"/>
+        <field name="inherit_id" ref="partner_contact_birthdate.view_partner_form"/>
         <field name="arch" type="xml">
-            <page name="personal_information_page" position="replace"/>
+            <field name="birthdate_date" position="after">
+                <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
+            </field>
+            <field name="age" position="after">
+                <field name="has_majority" invisible="1"/>
+                <field name="parent_consent" attrs="{'invisible': [('has_majority','=',True)]}"/>
+            </field>
+            <!-- Move the personal information group into a sub-group -->
+            <group name="personal_information_group" position="attributes">
+                <attribute name="name">personal_information_birthdate</attribute>
+                <attribute name="string">Age</attribute>
+            </group>
+            <page name="personal_information_page">
+                <group name="personal_information_group"/>
+            </page>
+            <!-- Add fields in the tab -->
+            <group name="personal_information_group">
+                <group name="personal_information_birthdate" position="move"/>
+                <group string="Segmentation" name="segmentation">
+                    <field name="primary_segment_id" />
+                    <field name="secondary_segment_id" />
+                </group>
+                <group string="Child Protection" name="child_protection_charter_fields">
+                    <field string="Has agreed" name="has_agreed_child_protection_charter"/>
+                    <field string="Date agreed" name="date_agreed_child_protection_charter" readonly="1"/>
+                    <field name="criminal_record_name" invisible="1"/>
+                    <field name="criminal_record" filename="criminal_record_name" groups="partner_compassion.group_criminal_record"/>
+                    <field name="criminal_record_date"/>
+                </group>
+                <group string="Geolocation" name="geolocation">
+                    <button string="Geolocate" name="geo_localize" colspan="2" icon="fa-check" type="object"/>
+                    <field name="partner_latitude"/>
+                    <field name="partner_longitude"/>
+                </group>
+                <separator string="Data protection policy agreement" colspan="2"/>
+                <field name="privacy_statement_ids"
+                       context="{'default_partner_id': active_id}" groups="child_compassion.group_sponsorship">
+                    <tree>
+                        <field name="version"/>
+                        <field name="agreement_date"/>
+                        <field name="origin_signature"/>
+                        <button name="open_contract" type="object" icon="fa-external-link"/>
+                    </tree>
+                </field>
+            </group>
         </field>
     </record>
 
@@ -50,7 +91,7 @@
         <field name="inherit_id" ref="sbc_compassion.view_partner_form_sbc"/>
         <field name="arch" type="xml">
             <!-- Add a Check double button on the top of the view-->
-            <field name="preferred_name" position="after">
+            <field name="name" position="after">
                 <field name="partner_duplicate_ids" widget="many2many_tags" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
             </field>
             <xpath expr="//form/*[1]" position="before">
@@ -58,20 +99,6 @@
                     <button type='object' name='open_duplicates' string="Check duplicates" attrs="{'invisible': [('partner_duplicate_ids','=', [])]}" groups="child_compassion.group_sponsorship"/>
                 </header>
             </xpath>
-            <!-- Move some fields -->
-            <field name="ref" position="replace"/>
-            <field name="lang" position="replace"/>
-            <field name="spoken_lang_ids" position="replace"/>
-
-            <!-- Make child_ids readonly to avoid creating partners from a company -->
-            <field name="child_ids" position="attributes">
-                <attribute name="readonly">1</attribute>
-            </field>
-
-            <!-- Add street3 in the form of the partner -->
-            <field name="street2" position="after">
-                <field name="street3"/>
-            </field>
 
             <!-- Add a optional search for address on bank data if missing-->
             <field name="street" position="before">
@@ -85,16 +112,24 @@
                 <field name="invalid_mail" attrs="{'invisible': [('invalid_mail', '=', False)]}"/>
             </field>
 
-            <!-- Add birthdate and deathdate -->
+            <!-- Add user login info -->
             <xpath expr="//field[@name='website'][1]" position="after">
                 <field name="user_login" attrs="{'invisible': [('user_login', '=', False)]}"/>
-                <field name="birthdate_date" attrs="{'invisible': [('is_company','=',True)]}"/>
-                <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
-
-                <field name="has_majority" invisible="1"/>
-                <field name="age"/>
-                <field name="parent_consent" attrs="{'invisible': [('has_majority','=',True)]}"/>
             </xpath>
+
+            <!-- Remove contacts & addresses tab -->
+            <xpath expr="//page[@name='contact_addresses']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Move privacy statement field  -->
+            <page name="privacy_data" position="replace"/>
+
+            <!-- Church unlinked -->
+            <field name="church_id" position="after">
+                <field name="church_unlinked"
+                       attrs="{'invisible': ['|',('is_company','=',True),'|',('is_church','=',True),('church_id','>',0)]}"/>
+            </field>
 
             <!-- Add correspondance tab -->
             <xpath expr="//page[1]" position="after">
@@ -122,55 +157,20 @@
                 </page>
                 <page string="Advocacy" name="advocate_details">
                     <group name="advocate_details_group">
+                        <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',id)]" string="Advocate"/>
                         <field name="interested_for_volunteering" attrs="{'invisible': [('advocate_details_id', '!=', False)]}"/>
-                        <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
                         <field name="engagement_ids" widget="many2many_tags"/>
                     </group>
                 </page>
-                <page string="Segmentation" name="segmentation_information">
-                    <group name="Segmentation">
-                        <field name="primary_segment_id" />
-                        <field name="secondary_segment_id" />
-                    </group>
-                </page>
-            </xpath>
-
-            <!-- Put reference fields at top -->
-            <xpath expr="//field[@name='parent_id']/.." position="after">
-                <br/>
-                <div class="o_row">
-                    <label for="ref"/>
-                    <field name="ref" readonly="1"/>
-                </div>
-                <br/>
-                <div class="o_row">
-                    <label for="global_id"/>
-                    <field name="global_id" readonly="1"/>
-                </div>
             </xpath>
 
             <!-- Put lang fields at top -->
-            <label for="street" position="before">
-                <field name="lang"/>
-                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer', '=', True)]}" groups="child_compassion.group_sponsorship"/>
-            </label>
-
-<!--            &lt;!&ndash; Remove fax &ndash;&gt;-->
-<!--            <field name="fax" position="replace"/>-->
-
-            <!-- Hide elements for non-users -->
-            <field name="message_follower_ids" position="attributes">
-                <attribute name="groups">base.group_user</attribute>
+            <field name="global_id" position="after">
+                <label for="lang" position="move"/>
+                <xpath expr="//field[@name='lang']//.." position="move"/>
+                <field name="customer_rank" invisible="1"/>
+                <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer_rank', '>', 0)]}" groups="child_compassion.group_sponsorship" position="move"/>
             </field>
-            <field name="message_ids" position="attributes">
-                <attribute name="groups">base.group_user</attribute>
-            </field>
-            <field name="category_id" position="attributes">
-                <attribute name="groups">base.group_user</attribute>
-            </field>
-            <button name="toggle_active" position="attributes">
-                <attribute name="groups">base.group_user</attribute>
-            </button>
 
             <div class="oe_button_box" position="inside">
                 <button name="%(partner_compassion.act_partner_survey_input)d"
@@ -226,9 +226,7 @@
                     'default_state_id': state_id,
                     'default_zip': zip,
                     'default_country_id': country_id,
-                    'default_supplier': supplier,
                     'default_lang':lang,
-                    'default_spoken_lang_ids':spoken_lang_ids,
                     'default_opt_out':False,
                     'default_birthday_reminder':False,
                     'default_global_communication_delivery_preference':'none',
@@ -286,8 +284,6 @@
                             <field name="active" invisible="1"/>
                         </group>
                     </group>
-                    <field name="supplier" invisible="True"/>
-                    <field name="customer" invisible="True"/>
                 </sheet>
             </xpath>
             <xpath expr="//field[@name='other_contact_ids']/kanban" position="attributes">
@@ -322,10 +318,6 @@
                  <field name="advocate_details_id"
                        filter_domain="[('advocate_details_id.engagement_ids', 'ilike', self)]"/>
             </field>
-            <!-- Remove filtering of contact people on the customer filter -->
-            <filter name="customer" position="attributes">
-                <attribute name="domain">[('customer','=',1)]</attribute>
-            </filter>
             <filter name="supplier" position="after">
                 <separator/>
                 <filter string="Sponsor" name="sponsor"
@@ -333,13 +325,6 @@
                 <separator/>
                 <filter string="Advocate" name="advocate"
                         domain="[('advocate_details_id.state', 'in', ['new', 'active'])]"/>
-                <separator/>
-                <filter string="EN living in DE" name="en_DE"
-                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '1')]"/>
-                <filter string="EN living in FR" name="en_FR"
-                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '2')]"/>
-                <filter string="EN living in IT" name="en_IT"
-                        domain="[('lang', '=', 'en_US'), ('zip_id.lang', '=', '3')]"/>
                 <separator/>
             </filter>
         </field>
@@ -356,7 +341,7 @@
                 <separator/>
                 <filter string="BVR"
                         name='bvr'
-                        domain="[('customer', '=', True),
+                        domain="[('customer_rank', '>', 0),
                                          ('customer_payment_mode_id.name', 'not ilike', 'LSV'),
                                          ('customer_payment_mode_id.name', 'not ilike', 'Postfinance'),
                                          '|', '&amp;', ('is_company', '=', True), ('child_ids', '=', False), ('is_company', '=', False)]"
@@ -364,7 +349,7 @@
                 <separator/>
                 <filter string="LSV/DD"
                         name='lsv_dd'
-                        domain="[('customer', '=', True),
+                        domain="[('customer_rank', '>', 0),
                                          '|', ('customer_payment_mode_id.name', 'ilike', 'LSV'),
                                          ('customer_payment_mode_id.name', 'ilike', 'Postfinance'),
                                          '|', '&amp;', ('is_company', '=', True), ('child_ids', '=', False), ('is_company', '=', False)]"
@@ -373,46 +358,14 @@
         </field>
     </record>
 
-    <!-- Map view for Partner -->
-    <record id="partner_google_map_view" model="ir.ui.view">
-        <field name="name">view.res.partner.map</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="web_view_google_map.view_res_partner_map"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[@class='o_kanban_image']" position="replace">
-                <div class="o_kanban_image">
-                    <t t-if="record.image_small.raw_value">
-                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.raw_value)"/>
-                    </t>
-                    <t t-if="!record.image_small.raw_value">
-                        <t t-if="record.type.raw_value === 'delivery'">
-                            <img t-att-src='_s + "/base/static/img/truck.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/>
-                        </t>
-                        <t t-if="record.type.raw_value === 'invoice'">
-                            <img t-att-src='_s + "/base/static/img/money.png"' class="o_kanban_image oe_kanban_avatar_smallbox"/>
-                        </t>
-                        <t t-if="record.type.raw_value != 'invoice' &amp;&amp; record.type.raw_value != 'delivery'">
-                            <t t-if="record.is_company.raw_value === true">
-                                <img t-att-src='_s + "/base/static/img/company_image.png"'/>
-                            </t>
-                            <t t-if="record.is_company.raw_value === false">
-                                <img t-att-src='_s + "/base/static/img/avatar.png"'/>
-                            </t>
-                        </t>
-                    </t>
-                </div>
-            </xpath>
-        </field>
-    </record>
-
     <!-- Redefine action of partners for sponsorship section -->
     <record id="action_partner_supporter_form" model="ir.actions.act_window">
         <field name="name">Supporters</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">list,kanban,form,map</field>
+        <field name="view_mode">list,kanban,form,google_map</field>
         <field name="domain">[]</field>
-        <field name="context">{'default_customer':1, 'search_default_customer':1, 'search_default_sponsor': 1}</field>
+        <field name="context">{'search_default_sponsor': 1}</field>
         <field name="filter" eval="True"/>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -426,31 +379,11 @@
         </field>
     </record>
 
-    <!-- Redefine action of partners for Vendors section -->
-    <record id="base.action_partner_supplier_form" model="ir.actions.act_window">
-        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1, 'default_opt_out': 1, 'default_nbmag': 0}</field>
-    </record>
-
     <!-- Redefine buttons -->
     <!--<delete model="ir.ui.view" id="account.partner_view_button_contracts_count"/>-->
     <record model="ir.ui.view" id="account.partner_view_buttons">
         <!-- Show invoices button for everyone -->
         <field name="groups_id" eval="[(6, 0, [ref('child_compassion.group_sponsorship')])]"/>
-    </record>
-
-    <!-- Change Invoice button behaviour -->
-    <record id="action_invoice_compassion_partner" model="ir.actions.act_window">
-        <field name="name">Invoices</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_mode">tree,form,kanban,calendar,graph,pivot</field>
-        <field name="view_id" ref="account.invoice_tree"/>
-        <field name="domain">[('type','in', ['out_invoice', 'out_refund'])]</field>
-        <field name="context">{
-            'search_default_partner_id': active_id,
-            'default_partner_id': active_id
-            }
-        </field>
-        <field name="search_view_id" ref="account.view_account_invoice_filter"/>
     </record>
 
     <!-- Add security on tracking e-mail fields -->
@@ -480,26 +413,6 @@
             <field name="shortcut" position="after">
                 <field name="gender"/>
                 <field name="plural"/>
-            </field>
-        </field>
-    </record>
-
-    <!-- Add child protection charter agreement fields -->
-    <record id="view_res_partner_child_protection_charter_form" model="ir.ui.view">
-        <field name="name">res.partner.child_protection_charter.form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_res_partner_invoice_line_button_form"/>
-        <field name="arch" type="xml">
-            <field name="privacy_statement_ids" position="after">
-                <group string="Child Protection Charter Agreement" name="child_protection_charter_fields">
-                    <field string="Has agreed" name="has_agreed_child_protection_charter"/>
-                    <field string="Date agreed" name="date_agreed_child_protection_charter" readonly="1"/>
-                </group>
-                <group string="Other" name="other_fields">
-                    <field name="criminal_record_name" invisible="1"/>
-                    <field name="criminal_record" filename="criminal_record_name" groups="partner_compassion.group_criminal_record"/>
-                    <field name="criminal_record_date"/>
-                </group>
             </field>
         </field>
     </record>

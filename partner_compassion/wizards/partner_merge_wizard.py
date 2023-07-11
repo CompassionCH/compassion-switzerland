@@ -23,8 +23,6 @@ class PartnerMergeWizard(models.TransientModel):
         - Save other e-mail addresses in linked partners
         """
         removing = self.partner_ids - self.dst_partner_id
-        geo_point = self.dst_partner_id.geo_point
-        self.partner_ids.write({"geo_point": False})
         sponsorships = self.env["recurring.contract"].search(
             [
                 ("correspondent_id", "in", removing.ids),
@@ -42,12 +40,13 @@ class PartnerMergeWizard(models.TransientModel):
             )
         # check onboarding_new_donor_start_date for non-dst partner. If set,
         # and dst partner is sponsor, clear the onboarding_new_donor_start_date.
-        if removing.onboarding_new_donor_start_date:
-            sponsor_category = self.env.ref(
-                "partner_compassion.res_partner_category_sponsor"
-            )
-            if sponsor_category in self.dst_partner_id.category_id:
-                removing.onboarding_new_donor_start_date = False
+        # TODO T0182 move and activate in partner_communication_switzerland
+        # if removing.onboarding_new_donor_start_date:
+        #     sponsor_category = self.env.ref(
+        #         "partner_compassion.res_partner_category_sponsor"
+        #     )
+        #     if sponsor_category in self.dst_partner_id.category_id:
+        #         removing.onboarding_new_donor_start_date = False
 
         if self.dst_partner_id.thankyou_preference == "none":
             self.env["partner.communication.job"].search(
@@ -65,6 +64,4 @@ class PartnerMergeWizard(models.TransientModel):
                         "type": "email_alias",
                     }
                 )
-        res = super(PartnerMergeWizard, self.sudo()).action_merge()
-        self.dst_partner_id.geo_point = geo_point
-        return res
+        return super(PartnerMergeWizard, self.sudo()).action_merge()
