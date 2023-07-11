@@ -10,24 +10,20 @@
                     <group>
                         <group>
                             <field name="activate_for_crowdfunding"/>
-                            <field name="impact_type"/>
-                            <label for="total_fund_impact"  attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}"/>
-                            <div class="o_row"  attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
+                            <field name="impact_type" attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}"/>
+                            <label for="total_fund_impact"/>
+                            <div class="o_row" >
                                 <field name="total_fund_impact"/>
                                 <button id="problematic_button" name="recompute_amount" string="Refresh impact" type="object"
                                         icon="fa-refresh" class="oe_link oe_read_only pt-0"
                                         help="This button can't be used from the product view but should be used from the product.template"/>
                             </div>
                         </group>
-                        <group string="Homepage"  attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
-                            <field name="show_fund_together_homepage"/>
+                        <group attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
+                            <field name="show_fund_together_homepage" string="Show on homepage"/>
                             <field name="crowdfunding_impact_text_active" string="Fund title"/>
-                            <field name="crowdfunding_description"/>
-                            <field name="image_large" widget="attachment_image"/>
-                        </group>
-                        <group string="Barometer" attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
-                            <field name="crowdfunding_impact_text_passive_singular" string="Impact when 0 or 1"/>
-                            <field name="crowdfunding_impact_text_passive_plural" string="Impact when more than 1"/>
+                            <field name="crowdfunding_description" string="Description"/>
+                            <field name="image_large" widget="image"/>
                         </group>
                         <group string="Donation page/Project goal page"  attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
                             <field name="fund_selector_pre_description"/>
@@ -37,6 +33,10 @@
                             <field name="crowdfunding_donation_quantity_1" string="Lowest quantity proposed"/>
                             <field name="crowdfunding_donation_quantity_2" string="Medium quantity proposed"/>
                             <field name="crowdfunding_donation_quantity_3" string="High quantity proposed"/>
+                        </group>
+                        <group string="Barometer" attrs="{'invisible': [('activate_for_crowdfunding', '=', False)]}">
+                            <field name="crowdfunding_impact_text_passive_singular" string="Impact when 0 or 1"/>
+                            <field name="crowdfunding_impact_text_passive_plural" string="Impact when more than 1"/>
                         </group>
                     </group>
                 </page>
