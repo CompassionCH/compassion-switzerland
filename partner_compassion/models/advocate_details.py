@@ -29,7 +29,8 @@ class AdvocateDetails(models.Model):
     _inherit = "mail.thread"
 
     partner_id = fields.Many2one(
-        "res.partner", "Partner", required=True, ondelete="cascade", readonly=False
+        "res.partner", "Partner", required=True, ondelete="cascade",
+        readonly=False
     )
     quote = fields.Text(translate=False)
     thank_you_quote = fields.Html(
@@ -79,6 +80,7 @@ class AdvocateDetails(models.Model):
         "Engagement type",
         readonly=False,
     )
+    engagement_name = fields.Char(related="engagement_ids.name")
     t_shirt_size = fields.Selection(
         [("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL")]
     )
@@ -102,11 +104,13 @@ class AdvocateDetails(models.Model):
     birthdate = fields.Date(
         related="partner_id.birthdate_date", store=True, readonly=True
     )
-    lang = fields.Selection(related="partner_id.lang", store=True, readonly=True)
+    lang = fields.Selection(
+        related="partner_id.lang", store=True, readonly=True)
     zip = fields.Char(related="partner_id.zip", store=True, readonly=True)
     city = fields.Char(related="partner_id.city", store=True, readonly=True)
     email = fields.Char(related="partner_id.email", store=True, readonly=True)
-    geo_point = fields.GeoPoint(readonly=True)
+    partner_latitude = fields.Float(related="partner_id.partner_latitude")
+    partner_longitude = fields.Float(related="partner_id.partner_longitude")
 
     _sql_constraints = [
         (
@@ -165,17 +169,12 @@ class AdvocateDetails(models.Model):
         # Allows to create formation event from ambassador details
         return True
 
-    def set_geo_point(self):
-        for advocate in self:
-            advocate.geo_point = advocate.partner_id.geo_point
-
     @api.model_create_multi
     def create(self, vals):
         # Link partner to the advocate details
         advocates = super().create(vals)
         for advocate in advocates:
             advocate.partner_id.advocate_details_id = advocate
-        advocates.set_geo_point()
         return advocates
 
     def open_events(self):

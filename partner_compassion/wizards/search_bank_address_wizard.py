@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import fields, models
+from odoo import fields, models, _
 
 
 class SearchBankAddressWizard(models.TransientModel):
@@ -20,13 +20,13 @@ class SearchBankAddressWizard(models.TransientModel):
         domain=lambda self: self._get_domain(),
         default=lambda self: self._get_default(),
     )
-    partner_address = fields.Char(
+    partner_address = fields.Text(
         "Partner address (Maybe)",
-        related="account_bank_statement_line.partner_address",
+        related="account_bank_statement_line.narration",
         readonly=True,
     )
     date = fields.Date(
-        "Last time used", related="account_bank_statement_line.date", readonly=True
+        "Last time used", related="account_bank_statement_line.date",
     )
 
     overwriting_street = fields.Char("Street", default="")
@@ -34,8 +34,13 @@ class SearchBankAddressWizard(models.TransientModel):
 
     def _get_domain(self):
         partner_id = self.env.context.get("active_id")
+        # Check in camt_parser from OCA (puts the address read in narration)
+        narration_txt = _("Postal Address")
         if partner_id:
-            return [("partner_id", "=", partner_id), ("partner_address", "!=", False)]
+            return [
+                ("partner_id", "=", partner_id),
+                ("narration", "like", narration_txt)
+            ]
         return []
 
     def _get_default(self):

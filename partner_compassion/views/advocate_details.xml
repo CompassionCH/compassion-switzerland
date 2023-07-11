@@ -12,7 +12,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="new,active,inactive" groups="base.group_user"/>
                 </header>
                 <sheet>
-                    <div class="oe_right oe_button_box" name="buttons">
+                    <div class="oe_button_box" name="buttons">
                         <button name="open_events" type="object" icon="fa-calendar" class="oe_stat_button" groups="base.group_user">
                             <field name="number_events" widget="statinfo" string="Events"/>
                         </button>
@@ -38,7 +38,6 @@
                                    domain="[('categ_ids', '=', event_type_formation)]"
                                    context="{'default_partner_ids': [(4, partner_id)], 'default_categ_ids': [(4, event_type_formation)]}">
                                 <tree order="stop_date desc">
-                                    <field name="state" invisible="1"/>
                                     <field name="start_date"/>
                                     <field name="name"/>
                                     <field name="location"/>
@@ -109,45 +108,70 @@
         </field>
     </record>
 
-    <record id="view_advocate_geo" model="ir.ui.view">
-        <field name="name">Advocates map</field>
-        <field name="arch" type="xml">
-            <geoengine>
-                <field name="partner_id" select="1" string="Name"/>
-                <field name="state"/>
-                <field name="email"/>
-                <field name="zip"/>
-                <field name="city"/>
-                <field name="geo_point"/>
-            </geoengine>
-        </field>
-        <field eval="16" name="priority"/>
+    <record id="view_advocate_details_google_map" model="ir.ui.view">
+        <field name="name">view.res.partner.google_map</field>
         <field name="model">advocate.details</field>
-    </record>
-    <record id="geoengine_vector_layer_advocate" model="geoengine.vector.layer">
-        <field name="geo_field_id" ref="partner_compassion.field_advocate_details__geo_point"/>
-        <field name="name">Advocate location</field>
-        <field eval="6" name="sequence"/>
-        <field name="view_id" ref="view_advocate_geo"/>
-        <field name="geo_repr">basic</field>
-        <field eval="1" name="nb_class"/>
-        <field name="begin_color">#FF680A</field>
-    </record>
-    <!--    <record id="geoengine_vector_symbol_advocate" model="geoengine.vector.symbol">-->
-    <!--        <field name="vector_layer_id" ref="geoengine_vector_layer_advocate"/>-->
-    <!--        <field name="img" type="base64" file="base/static/img/res_partner_1-image.jpg"/>-->
-    <!--    </record>-->
-    <record id="geoengine_raster_layer_advocate_osm" model="geoengine.raster.layer">
-        <field name="raster_type">osm</field>
-        <field name="name">Advocate background</field>
-        <field name="view_id" ref="view_advocate_geo"/>
-        <field eval="0" name="overlay"/>
+        <field name="arch" type="xml">
+            <google_map
+                class="o_res_partner_map"
+                string="Google Map"
+                lat="partner_latitude"
+                lng="partner_longitude"
+                colors="blue:engagement_name=='Church presentation';green:engagement_name=='Events';red:engagement_name=='Sport';purple:engagement_name=='Translation';"
+            >
+                <field name="id" />
+                <field name="partner_latitude" />
+                <field name="partner_longitude" />
+                <field name="display_name" />
+                <field name="email" />
+                <field name="zip" />
+                <field name="city" />
+                <field name="lang"/>
+                <field name="engagement_name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div
+                            class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban"
+                        >
+                            <t
+                                t-set="placeholder"
+                                t-value="'/base/static/img/avatar_grey.png'"
+                            />
+                            <div class="oe_kanban_details">
+                                <strong
+                                    class="o_kanban_record_title oe_partner_heading"
+                                >
+                                    <field name="display_name" />
+                                </strong>
+                                <div
+                                    class="o_kanban_tags_section oe_kanban_partner_categories"
+                                />
+                                <ul>
+                                    <li>
+                                        <field name="city" />
+                                    </li>
+                                    <li t-esc="record.engagement_name.value">
+                                    </li>
+                                    <li>
+                                        <field name="email" />
+                                    </li>
+                                    <li>
+                                        <field name="lang" />
+                                    </li>
+                                </ul>
+                                <div class="oe_kanban_partner_links" />
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </google_map>
+        </field>
     </record>
 
     <record id="action_advocates" model="ir.actions.act_window">
         <field name="name">Advocates</field>
         <field name="res_model">advocate.details</field>
-        <field name="view_mode">tree,form,geoengine</field>
+        <field name="view_mode">tree,form,google_map</field>
         <field name="context">{'search_default_advocate':1}</field>
     </record>
 

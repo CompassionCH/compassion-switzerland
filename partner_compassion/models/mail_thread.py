@@ -19,7 +19,8 @@ class MailThread(models.AbstractModel):
 
     _inherit = "mail.thread"
 
-    def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
+    def message_subscribe(self, partner_ids=None, channel_ids=None,
+                          subtype_ids=None):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id").ids
@@ -31,52 +32,32 @@ class MailThread(models.AbstractModel):
         partner_ids = allowed.mapped("partner_id").ids
         super()._message_auto_subscribe_notify(partner_ids, template)
 
-    def message_get_suggested_recipients(self):
-        result = super().message_get_suggested_recipients()
+    def _message_get_suggested_recipients(self):
+        result = super()._message_get_suggested_recipients()
         to_remove = list()
         partner_obj = self.env["res.partner"]
         for message_id, suggestion in list(result.items()):
             if suggestion:
                 partner = partner_obj.browse(suggestion[0][0])
-                users = partner.mapped("user_ids").filtered(lambda u: not u.share)
+                users = partner.mapped("user_ids").filtered(
+                    lambda u: not u.share)
                 if not users:
                     to_remove.append(message_id)
         for message_id in to_remove:
             del result[message_id]
         return result
 
-    def _find_partner_from_emails(
+    def _mail_find_partner_from_emails(
         self,
         emails,
-        res_model=None,
-        res_id=None,
-        check_followers=True,
+        records=None,
         force_create=False,
-        exclude_aliases=True,
+        extra_domain=False,
     ):
-
-        partner_ids = super()._find_partner_from_emails(
-            emails, res_model, res_id, check_followers, force_create, exclude_aliases
+        if extra_domain is False:
+            extra_domain = []
+        # Search in archived partners for finding them
+        extra_domain.append(("active", "in", [True, False]))
+        return super()._mail_find_partner_from_emails(
+            emails, records, force_create, extra_domain
         )
-
-        respartner = self.env["res.partner"].sudo()
-        count = 0
-        for contact in emails:
-            if not partner_ids[count]:
-                partner_id = False
-                email_address = tools.email_split(contact)
-                if not email_address:
-                    partner_ids.append(partner_id)
-                    continue
-                partner_id = respartner.search(
-                    [
-                        "&",
-                        ("active", "=", False),
-                        ("email", "=ilike", email_address[0]),
-                    ],
-                    limit=1,
-                )
-                partner_ids[count] = partner_id.id
-            count += 1
-
-        return partner_ids

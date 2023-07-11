@@ -37,26 +37,36 @@
     "license": "AGPL-3",
     "website": "https://www.compassion.ch",
     "depends": [
-        "base_location",  # oca_addons/partner-contact
-        # "geoengine_base_geolocalize",  # geospatialslac
-        "account_banking_mandate",  # oca_addons/bank-payment
-        # "account_bank_statement_import_camt_details",
-        "sbc_compassion",  # compassion-modules
-        "thankyou_letters",  # compassion-modules
-        "mail_tracking",
-        "partner_contact_birthdate",  # oca_addons/partner-contact
-        "web_notify",  # oca_addons/web
-        "partner_contact_in_several_companies",  # oca_addons/partner-contact
+        "survey",
+        "mail",
+        # compassion-modules
         "crm_compassion",
-        "base_search_fuzzy",  # oca_addons/server-tools
-        "survey",  # source/addons
-        "base_phone",  # oca_addons/connector-telephony
-        "auditlog",
-        # "l10n_ch_zip",  # oca_addon/l10n_switzerland
-        # "web_view_google_map",  # oca_addon/web_view_google_map
+        "sbc_compassion",
+        "thankyou_letters",
+        # OCA/partner-contact
+        "base_location",
+        "partner_address_street3",
         "partner_contact_birthdate",
+        "partner_contact_in_several_companies",
+        # OCA/bank-payment
+        "account_banking_mandate",
+        # OCA/bank-statement-import
+        "account_statement_import_camt54",
+        # OCA/social
+        "mail_tracking",
+        # OCA/web
+        "web_notify",
+        # OCA/server-tools
+        "base_search_fuzzy",
+        "auditlog",
+        # OCA/connector-telephony
+        "base_phone",
+        # OCA/geospatial
+        "web_view_google_map",
     ],
-    "external_dependencies": {"python": ["pandas", "pyminizip", "magic", "pysftp"]},
+    "external_dependencies": {
+        "python": ["pandas", "pyminizip", "python-magic", "pysftp"]
+    },
     "data": [
         "security/ir.model.access.csv",
         "security/criminal_record_groups.xml",
@@ -65,7 +75,6 @@
         "data/advocate_engagement_data.xml",
         "data/calendar_event_type.xml",
         "data/ir_cron.xml",
-        "data/mail_channel.xml",
         "data/res_partner_actions.xml",
         "data/gist_indexes.xml",
         "data/partner_action_rules.xml",
@@ -82,10 +91,9 @@
         "views/mail_mail.xml",
         "views/partner_segmentation_view.xml",
         "views/partner_segmentation_affinity_view.xml",
-        "templates/child_protection_charter.xml",
         "templates/survey_templates.xml",
     ],
-    "qweb": ["static/src/xml/thread_custom.xml"],
+    "qweb": [],
     "installable": True,
     "auto_install": False,
     "post_init_hook": "post_init_hook",

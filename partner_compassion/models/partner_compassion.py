@@ -18,25 +18,6 @@ from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.tools.config import config
 
-# fields that are synced if 'use_parent_address' is checked
-ADDRESS_FIELDS = [
-    "street",
-    "street2",
-    "street3",
-    "zip",
-    "city",
-    "state_id",
-    "country_id",
-]
-
-THANKYOU_MAPPING = {
-    "none": "no",
-    "auto_digital": "default",
-    "auto_digital_only": "only_email",
-    "digital": "default",
-    "digital_only": "only_email",
-    "physical": "paper",
-}
 
 logger = logging.getLogger(__name__)
 MAGIC_INSTALLED = False
@@ -72,7 +53,7 @@ def get_file_type(data):
 
 class ResPartner(models.Model):
     """This class upgrade the partners to match Compassion needs.
-    It also synchronize all changes with the MySQL server of GP.
+    It also synchronizes all changes with the MySQL server of GP.
     """
 
     _inherit = "res.partner"
@@ -103,12 +84,11 @@ class ResPartner(models.Model):
         "res.partner.segment.affinity", string="Affinity for each segment"
     )
 
-    lang = fields.Selection(default=False)
+    lang = fields.Selection(default=False, tracking=True)
     total_invoiced = fields.Monetary(groups=False)
     # Track address changes
     street = fields.Char(tracking=True)
     city = fields.Char(tracking=True)
-    street3 = fields.Char("Street3")
     invalid_mail = fields.Char("Invalid mail")
     church_unlinked = fields.Char(
         "Church (N/A)",
@@ -148,18 +128,6 @@ class ResPartner(models.Model):
         ],
         required=True,
         default="default",
-    )
-
-    # Obsolete, rather use thankyou_preference kept for old template
-    thankyou_letter = fields.Selection(
-        [
-            ("no", _("No receipt")),
-            ("default", _("Default")),
-            ("only_email", _("Only email")),
-            ("paper", _("On paper")),
-        ],
-        "Thank you letter",
-        compute="_compute_thankyou_letter",
     )
     calendar = fields.Boolean(
         help="Wants to receive the Compassion calendar.",
@@ -208,7 +176,7 @@ class ResPartner(models.Model):
     email_copy = fields.Boolean(string="CC e-mails sent to main partner")
     type = fields.Selection(
         selection_add=[("email_alias", "Email alias")],
-        ondelete={"email_alias": "set contact"},
+        ondelete={"email_alias": "set default"},
     )
 
     uuid = fields.Char(copy=False, index=True)
@@ -230,7 +198,6 @@ class ResPartner(models.Model):
     # add track on fields from module base
     email = fields.Char(tracking=True)
     title = fields.Many2one(tracking=True, readonly=False)
-    lang = fields.Selection(tracking=True)
     # module from partner_firstname
     firstname = fields.Char(tracking=True)
     lastname = fields.Char(tracking=True)
@@ -242,7 +209,7 @@ class ResPartner(models.Model):
 
     # Surveys
     survey_input_lines = fields.One2many(
-        comodel_name="survey.user_input_line",
+        comodel_name="survey.user_input.line",
         inverse_name="partner_id",
         string="Surveys answers",
         readonly=False,
@@ -254,7 +221,8 @@ class ResPartner(models.Model):
         readonly=False,
     )
     survey_input_count = fields.Integer(
-        string="Survey number", compute="_compute_survey_input_count", store=True
+        string="Survey number", compute="_compute_survey_input_count",
+        store=True
     )
     city_id = fields.Many2one(related="zip_id.city_id", store=True)
 
@@ -388,14 +356,6 @@ class ResPartner(models.Model):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
 
-    @api.depends("thankyou_preference")
-    def _compute_thankyou_letter(self):
-        """
-        Keep the old way of preferences updated
-        """
-        for partner in self:
-            partner.thankyou_letter = THANKYOU_MAPPING[partner.thankyou_preference]
-
     def _get_user_login(self):
         for partner in self:
             login = partner.mapped("user_ids.login")
@@ -447,7 +407,6 @@ class ResPartner(models.Model):
         partner = super(
             ResPartner, self.with_context(mail_create_nosubscribe=True)
         ).create(vals_list)
-        partner.compute_geopoint()
         partner.filtered(lambda p: p.contact_type == "attached").write(
             {"active": False}
         )
@@ -482,7 +441,6 @@ class ResPartner(models.Model):
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
-            self.compute_geopoint()
         return res
 
     @api.returns(None, lambda value: value[0])
@@ -513,7 +471,8 @@ class ResPartner(models.Model):
         res.pop("name", False)
         return res
 
-    def name_search(self, name, args=None, operator="ilike", limit=80):
+    @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
         """Extends to use trigram search."""
         if args is None:
             args = []
@@ -647,13 +606,6 @@ class ResPartner(models.Model):
         )
         if partner_duplicates:
             self.partner_duplicate_ids = partner_duplicates
-            # Commit the found duplicates
-            with api.Environment.manage():
-                with registry(self.env.cr.dbname).cursor() as new_cr:
-                    new_env = api.Environment(new_cr, self.env.uid, {})
-                    self._origin.with_env(new_env).write(
-                        {"partner_duplicate_ids": [(6, 0, partner_duplicates.ids)]}
-                    )
             return {
                 "warning": {
                     "title": _("Possible existing partners found"),
@@ -668,22 +620,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    def compute_geopoint(self):
-        """Compute geopoints."""
-        self.filtered(
-            lambda p: not p.partner_latitude or not p.partner_longitude
-        ).geo_localize()
-        for partner in self.filtered(
-            lambda p: p.partner_latitude and p.partner_longitude
-        ):
-            geo_point = fields.GeoPoint.from_latlon(
-                self.env.cr, partner.partner_latitude, partner.partner_longitude
-            )
-            vals = {"geo_point": geo_point}
-            partner.write(vals)
-            partner.advocate_details_id.write(vals)
-        return True
-
     def update_state_from_zip(self, vals):
         zip_ = vals.get("zip")
         country_id = vals.get("country_id") or self[:1].country_id.id
@@ -767,7 +703,6 @@ class ResPartner(models.Model):
                 "street3": False,
                 "firstname": False,
                 "deathdate": False,
-                "geo_point": False,
                 "partner_latitude": False,
                 "partner_longitude": False,
                 "birthdate_date": False,
@@ -831,11 +766,6 @@ class ResPartner(models.Model):
             if record.is_church and record.church_id:
                 raise models.ValidationError("Can not both be and have a church")
 
-    def _address_fields(self):
-        """Returns the list of address fields that are synced from the parent
-        when the `use_parent_address` flag is set."""
-        return list(ADDRESS_FIELDS)
-
     def _secure_save_data(self):
         """
         Stores partner name and address in a CSV file on NAS,
@@ -893,7 +823,7 @@ class ResPartner(models.Model):
             cnopts = pysftp.CnOpts()
 
             try:
-                key_data = self.env.ref("sbc_switzerland.nas_ssh_key").value
+                key_data = SftpConfig.ssh_key
                 key = RSAKey(data=base64.decodebytes(key_data.encode("utf-8")))
                 cnopts.hostkeys.add(SftpConfig.host, "ssh-rsa", key)
             except:
@@ -925,30 +855,6 @@ class ResPartner(models.Model):
         domain.insert(6, ("correspondent_id", "in", self.mapped("member_ids").ids))
         return domain
 
-    def _notify_prepare_email_values(self, message):
-        """
-        Always put reply_to value in mail notifications.
-        :param message: the message record
-        :return: mail values
-        """
-        mail_values = super()._notify_prepare_email_values(message)
-
-        # Find reply-to in mail template.
-        base_template = None
-        if message.model and self._context.get("custom_layout", False):
-            base_template = self.env.ref(
-                self._context["custom_layout"], raise_if_not_found=False
-            )
-        if not base_template:
-            base_template = self.env.ref(
-                "mail.mail_template_data_notification_email_default"
-            )
-
-        if base_template.reply_to:
-            mail_values["reply_to"] = base_template.reply_to
-
-        return mail_values
-
 
 class SftpConfig:
     """ " Little class who contains SMB configuration"""
@@ -958,3 +864,4 @@ class SftpConfig:
     host = config.get("sftp_ip")
     port = int(config.get("sftp_port", 22))
     file_pw = config.get("partner_data_password")
+    ssh_key = config.get("sftp_ssh_key")

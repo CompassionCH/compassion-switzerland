@@ -1,2 +1,5 @@
+pyminizip
 pypng
 pyqrcode
+pysftp
+python-magic
