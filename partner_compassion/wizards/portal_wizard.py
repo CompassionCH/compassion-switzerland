@@ -36,10 +36,8 @@ class PortalUser(models.TransientModel):
             "login": email,
             "partner_id": self.partner_id.id,
             "groups_id": [(6, 0, [])],
-            "notify_email": "none",
         }
         res = res_users.create(values)
-        res.notify_email = "always"
         return res
 
     def _send_email(self):
