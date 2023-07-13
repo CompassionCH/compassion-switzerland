@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="1098" model="account.account">
+        <field name="code">1098</field>
+        <field name="name">LSV</field>
+        <field name="user_type_id" ref="account.data_account_type_liquidity"/>
+    </record>
+</odoo>
