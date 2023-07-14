@@ -73,6 +73,12 @@
                                             Sponsor a child
                                         </a>
                                     </p>
+                                    <p class="center-text">
+                                        <a t-attf-href="https://#{ registration.survival_sponsorship_url }?eventId=#{ event.id }&amp;eventName=#{ event.name }&amp;registrationId=#{ registration.id }&amp;participantId=#{ registration.partner_id_id }&amp;participantName=#{ registration.partner_name }"
+                                           class="btn btn-danger btn-muskathlon">
+                                            Sponsor a mom and baby
+                                        </a>
+                                    </p>
                                     <t t-if="env.lang == 'de_DE'">
                                     <!-- Germany donation button -->
                                         <p class="center-text">

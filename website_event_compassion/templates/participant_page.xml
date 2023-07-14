@@ -70,6 +70,9 @@
                                     <a t-attf-href="https://#{ registration.sponsorship_url }?eventId=#{ event.id }&amp;eventName=#{ event.name }&amp;registrationId=#{ registration.id }&amp;participantId=#{ registration.partner_id_id }&amp;participantName=#{ registration.partner_name }"
                                        class="btn btn-primary">Sponsor a child
                                     </a>
+                                     <a t-attf-href="https://#{ registration.survival_sponsorship_url }?eventId=#{ event.id }&amp;eventName=#{ event.name }&amp;registrationId=#{ registration.id }&amp;participantId=#{ registration.partner_id_id }&amp;participantName=#{ registration.partner_name }"
+                                       class="btn btn-primary">Sponsor a mom and baby
+                                    </a>
                                 </p>
                             </div>
                         </div>
