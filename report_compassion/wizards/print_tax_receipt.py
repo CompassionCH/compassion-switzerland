@@ -44,7 +44,6 @@ class PrintTaxReceipt(models.TransientModel):
                 }
             }
 
-    @api.multi
     def get_report(self):
         """
         Call when button 'Get Report' clicked.
@@ -74,7 +73,7 @@ class PrintTaxReceipt(models.TransientModel):
             pdf_data = (
                 report_ref.with_context(must_skip_send_to_printer=True)
                 .sudo()
-                .render_qweb_pdf(records.ids, data=data)[0]
+                ._render_qweb_pdf(records.ids, data=data)[0]
             )
             self.pdf_download = base64.encodebytes(pdf_data)
 

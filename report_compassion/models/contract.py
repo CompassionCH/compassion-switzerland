@@ -16,8 +16,8 @@ class AccountInvoice(models.Model):
     Make Invoice translatable for communications with dates.
     """
 
-    _inherit = ["account.invoice", "translatable.model"]
-    _name = "account.invoice"
+    _inherit = ["account.move", "translatable.model"]
+    _name = "account.move"
 
     # Gender field is mandatory for translatable models
     gender = fields.Char(compute="_compute_gender")
@@ -42,13 +42,13 @@ class Contract(models.Model):
                 invoice_lines = contract.invoice_line_ids.with_context(
                     lang="en_US"
                 ).filtered(
-                    lambda i: i.state == "open"
+                    lambda i: i.payment_state == "not_paid"
                     and i.due_date < this_month
-                    and i.invoice_id.invoice_category == "sponsorship"
+                    and i.move_id.invoice_category == "sponsorship"
                 )
-                contract.amount_due = int(sum(invoice_lines.mapped("price_subtotal")))
+                contract.amount_due = int(sum(
+                    invoice_lines.mapped("price_subtotal")))
 
-    @api.multi
     def get_gift_communication(self, product):
         self.ensure_one()
         lang = self.mapped(self.send_gifts_to).lang
@@ -76,7 +76,8 @@ class Contract(models.Model):
             )
         else:
             communication = (
-                f"{vals['firstname']} ({vals['local_id']})" f"<br/>{vals['product']}"
+                f"{vals['firstname']} ({vals['local_id']})"
+                f"<br/>{vals['product']}"
             )
         gift_threshold = self.env["gift.threshold.settings"].search(
             [("product_id", "=", product.id)], limit=1
@@ -93,12 +94,9 @@ class Contract(models.Model):
             communication += f"<br/>{amount_limit[lang]}"
         return communication
 
-    @api.multi
-    def generate_bvr_reference(self, product):
-        self.ensure_one()
-        return self.env["generate.gift.wizard"].generate_bvr_reference(self, product)
-
     @api.model
     def get_sponsorship_gift_products(self):
-        gift_categ_id = self.env.ref("sponsorship_compassion.product_category_gift").id
-        return self.env["product.product"].search([("categ_id", "=", gift_categ_id)])
+        gift_categ_id = self.env.ref(
+            "sponsorship_compassion.product_category_gift").id
+        return self.env["product.product"].search([
+            ("categ_id", "=", gift_categ_id)])

@@ -1,12 +1,9 @@
 <odoo>
-    <report id="report_bvr_fund"
-        model="res.partner"
-        string="Payment Slip for Fund"
-        report_type="qweb-pdf"
-        name="report_compassion.bvr_fund"
-        menu="False"
-    />
     <record id="report_bvr_fund" model="ir.actions.report">
+        <field name="name">Payment Slip for Fund</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.bvr_fund</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship"/>
     </record>
 
@@ -29,7 +26,7 @@
         <t t-set="o" t-value="doc.with_context({'lang':doc.lang})" />
         <t t-set="partner" t-value="o"/>
         <t t-set="bank_account" t-value="o.env['recurring.contract.group'].get_company_qrr_account()"/>
-        <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
+        <t t-set="reference" t-value="o.get_gift_bvr_reference(product)"/>
         <t t-set="communication" t-value="communication or product.with_context(lang=o.lang).name"/>
         <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>
         <t t-call="report_compassion.report_compassion_qr_slip"/>

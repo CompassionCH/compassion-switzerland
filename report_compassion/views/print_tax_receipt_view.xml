@@ -25,17 +25,9 @@
          <field name="name">Tax receipt</field>
          <field name="res_model">print.tax_receipt</field>
          <field name="type">ir.actions.act_window</field>
-         <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
          <field name="binding_model_id" ref="model_res_partner"/>
          <field name="binding_type">report</field>
    </record>
-
-<!--   <record model="ir.values" id="ir_values_print_tax_receipt">-->
-<!--       <field name="key2" eval="'client_print_multi'"/>-->
-<!--       <field name="model" eval="'res.partner'"/>-->
-<!--       <field name="name">Tax receipt</field>-->
-<!--       <field name="value" eval="'ir.actions.act_window,%d'%action_print_tax_receipt"/>-->
-<!--   </record>-->
 </odoo>

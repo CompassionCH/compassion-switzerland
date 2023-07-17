@@ -22,7 +22,8 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     _name = "print.sponsorship.bvr"
     _description = (
-        "Select a period and the format " "for printing payment slips of a sponsorship"
+        "Select a period and the format "
+        "for printing payment slips of a sponsorship"
     )
 
     def _compute_default_period_selection(self):
@@ -85,7 +86,6 @@ class PrintSponsorshipBvr(models.TransientModel):
         self.date_start = start
         self.date_stop = stop
 
-    @api.multi
     def get_report(self):
         """
         Prepare data for the report and call the selected report
@@ -105,7 +105,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         if self.pdf:
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
-            ).render_qweb_pdf(data["doc_ids"], data=data)[0]
+            )._render_qweb_pdf(data["doc_ids"], data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
@@ -134,7 +134,6 @@ class PrintBvrDue(models.TransientModel):
     pdf_name = fields.Char(default="sponsorship due.pdf")
     pdf_download = fields.Binary(readonly=True)
 
-    @api.multi
     def get_report(self):
         """
         Prepare data for the report
@@ -150,7 +149,7 @@ class PrintBvrDue(models.TransientModel):
         if self.pdf:
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
-            ).render_qweb_pdf(records.ids, data=data)[0]
+            )._render_qweb_pdf(records.ids, data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {

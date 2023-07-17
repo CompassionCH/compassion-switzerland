@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, api, fields
+from odoo import models, fields
 
 
 class GenerateCommunicationWizard(models.TransientModel):
@@ -17,7 +17,6 @@ class GenerateCommunicationWizard(models.TransientModel):
         "product.product", "Attach payment slip for", readonly=False
     )
 
-    @api.multi
     def generate(self):
         return super(
             GenerateCommunicationWizard,

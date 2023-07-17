@@ -19,7 +19,6 @@ class CompassionProject(models.Model):
     description_left = fields.Text(compute="_compute_description")
     description_right = fields.Text(compute="_compute_description")
 
-    @api.multi
     def _compute_description(self):
         lang_map = {
             "fr_CH": "description_fr",
@@ -32,3 +31,5 @@ class CompassionProject(models.Model):
             lang = self.env.lang or "en_US"
             description = getattr(project, lang_map.get(lang), "")
             project.description_right = description
+            project.description_left = ""
+            project.description = description

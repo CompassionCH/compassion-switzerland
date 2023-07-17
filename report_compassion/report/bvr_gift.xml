@@ -1,24 +1,17 @@
 <odoo>
     <!-- Three reports for three paperformats : single BVR page, 2BVR or 3BVR page -->
-    <report id="report_bvr_gift_sponsorship"
-            model="recurring.contract"
-            string="Gift Payment Slip 1 BVR"
-            report_type="qweb-pdf"
-            name="report_compassion.bvr_gift_sponsorship"
-            menu="False"
-    />
     <record id="report_bvr_gift_sponsorship" model="ir.actions.report">
+        <field name="name">Gift Payment Slip 1 BVR</field>
+        <field name="model">recurring.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.bvr_gift_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
-
-    <report id="report_2bvr_gift_sponsorship"
-            model="recurring.contract"
-            string="Gift Payment Slips 2 BVR"
-            report_type="qweb-pdf"
-            name="report_compassion.2bvr_gift_sponsorship"
-            menu="False"
-    />
     <record id="report_2bvr_gift_sponsorship" model="ir.actions.report">
+        <field name="name">Gift Payment Slips 2 BVR</field>
+        <field name="model">recurring.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.2bvr_gift_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
 
@@ -54,7 +47,7 @@
             <t t-foreach="products" t-as="product">
                 <t t-set="communication" t-value="o.get_gift_communication(product)"/>
                 <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>
-                <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
+                <t t-set="reference" t-value="o.get_gift_bvr_reference(product)"/>
                 <t t-if="qr_count % 2 == 0">
                     <t t-set="swissqr_position_top" t-value="page_height * (qr_count//2) + position_top_even"/>
                     <t t-call="report_compassion.report_sponsorship_2bvr_top_slip"/>
@@ -90,7 +83,7 @@
             <t t-foreach="products" t-as="product">
                 <t t-set="swissqr_position_top" t-value="(page_height * product_index) + 192"/>
                 <t t-call="report_compassion.report_compassion_qr_slip">
-                    <t t-set="reference" t-value="o.generate_bvr_reference(product)"/>
+                    <t t-set="reference" t-value="o.get_gift_bvr_reference(product)"/>
                     <t t-set="communication" t-value="o.get_gift_communication(product)"/>
                     <t t-set="comm_qr" t-value="communication.replace('&lt;br/&gt;', ', ')"/>
                     <t t-set="amount" t-value="False"/>

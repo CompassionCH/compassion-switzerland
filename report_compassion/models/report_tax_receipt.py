@@ -19,7 +19,7 @@ class ReportTaxReceipt(models.AbstractModel):
     """
 
     _name = "report.report_compassion.tax_receipt"
-    _description = "Used to generate tax receipt"
+    _description = "Tax receipt report"
 
     @api.model
     def _get_report_values(self, docids, data=None):

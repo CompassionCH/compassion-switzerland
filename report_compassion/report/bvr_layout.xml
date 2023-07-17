@@ -138,10 +138,4 @@
         <t t-call="report_compassion.report_compassion_qr_slip"/>
     </template>
 
-    <!-- Add top positioning to default invoice qr-slip -->
-    <template id="compassion_invoice_slip" inherit_id="l10n_ch.l10n_ch_swissqr_template">
-        <xpath expr="//div[@class='swissqr_content']" position="attributes">
-            <attribute name="style">top: 192mm;</attribute>
-        </xpath>
-    </template>
 </odoo>

@@ -35,7 +35,6 @@
          <field name="name">Gift Payment Slips</field>
          <field name="res_model">print.sponsorship.gift.bvr</field>
          <field name="type">ir.actions.act_window</field>
-         <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
         <field name="context">{'default_birthday_gift': True, 'default_general_gift': True, 'default_family_gift': True}</field>

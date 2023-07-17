@@ -22,7 +22,7 @@ class BvrSponsorshipGift(models.AbstractModel):
     """
 
     _name = "report.report_compassion.bvr_gift_sponsorship"
-    _description = "Used for preparing data for a 3BVR or single BVR report (gifts)"
+    _description = "QR sponsorship gift report"
 
     def _get_report(self):
         return self.env["ir.actions.report"]._get_report_from_name(
@@ -66,26 +66,9 @@ class BvrSponsorshipGift(models.AbstractModel):
 class TwoBvrGiftSponsorship(models.AbstractModel):
     _inherit = "report.report_compassion.bvr_gift_sponsorship"
     _name = "report.report_compassion.2bvr_gift_sponsorship"
+    _description = "2QR sponsorship gift report"
 
     def _get_report(self):
         return self.env["ir.actions.report"]._get_report_from_name(
             "report_compassion.2bvr_gift_sponsorship"
         )
-
-
-# pylint: disable=consider-merging-classes-inherited
-class ThreeBvrGiftSponsorship(models.AbstractModel):
-    _inherit = "report.report_compassion.bvr_gift_sponsorship"
-    _name = "report.report_compassion.3bvr_gift_sponsorship"
-
-    def _get_report(self):
-        return self.env["ir.actions.report"]._get_report_from_name(
-            "report_compassion.3bvr_gift_sponsorship"
-        )
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        if data is None:
-            data = dict()
-        data["offset"] = 1
-        return super()._get_report_values(docids, data)
