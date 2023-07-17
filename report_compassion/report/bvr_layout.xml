@@ -17,7 +17,13 @@
     - disable_scissors (default: false)
     -->
     <template id="report_compassion_qr_slip">
-        <t t-set="formatted_amount" t-value="('%.2f' % (amount)).split(' ')[0].replace(',',' ') if amount else 0"/>
+        <t t-if="amount">
+          <t t-set="formatted_amount" t-value="('%.2f' % (amount)).split(' ')[0].replace(',',' ')"/>
+        </t>
+        <t t-else="">
+          <t t-set="formatted_amount" t-value="''"/>
+          <t t-set="amount" t-value="0"/>
+        </t>
         <t t-set="is_top" t-value="not swissqr_position_top or not int(swissqr_position_top) or not (int(swissqr_position_top) % 297)"/>
         <!--
         scissors pos: 0 None
