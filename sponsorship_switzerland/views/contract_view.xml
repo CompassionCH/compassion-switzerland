@@ -23,14 +23,8 @@
             <header>
                 <button name="postpone_reminder" string="Postpone reminder" type="object" attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"/>
             </header>
-            <field name="next_invoice_date" position="before">
+            <field name="activation_date" position="after">
                 <field name="next_waiting_reminder" attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}" style="color: red;"/>
-            </field>
-            <field name="next_invoice_date" position="attributes">
-                <attribute name="states">draft,waiting,mandate,active</attribute>
-            </field>
-            <field name="state" position="attributes">
-                <attribute name="statusbar_visible">draft,waiting,active,terminated,cancelled</attribute>
             </field>
         </field>
     </record>
@@ -53,18 +47,6 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="hillsong_ref"/>
-            </field>
-        </field>
-    </record>
-
-    <!-- Add church in SDS view -->
-    <record id="view_sds_contract_form_church_compassion" model="ir.ui.view">
-        <field name="name">recurring.contract.sds.church.form</field>
-        <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="sponsorship_tracking.view_follow_contract_form_compassion"/>
-        <field name="arch" type="xml">
-            <field name="medium_id" position="after">
-                <field name="church_id"/>
             </field>
         </field>
     </record>

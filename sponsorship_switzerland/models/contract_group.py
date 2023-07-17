@@ -23,20 +23,6 @@ class ContractGroup(models.Model):
     #                                 FIELDS                                 #
     ##########################################################################
     bvr_reference = fields.Char("BVR Ref", tracking=True)
-    payment_mode_id = fields.Many2one(
-        default=lambda self: self._get_op_payment_mode(), readonly=False
-    )
-    change_method = fields.Selection(default="clean_invoices")
-
-    ##########################################################################
-    #                             FIELDS METHODS                             #
-    ##########################################################################
-    @api.model
-    def _get_op_payment_mode(self):
-        """Get Permanent Order Payment Term, to set it by default."""
-        record = self.env.ref(
-            "sponsorship_switzerland.payment_mode_permanent_order")
-        return record.id
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -210,7 +196,8 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _build_invoice_gen_data(self, invoicing_date, invoicer, gift_wizard=False):
+    def _build_invoice_gen_data(
+            self, invoicing_date, invoicer, gift_wizard=False):
         """Inherit to add BVR ref and mandate"""
         inv_data = super()._build_invoice_gen_data(
             invoicing_date, invoicer, gift_wizard)
@@ -223,7 +210,11 @@ class ContractGroup(models.Model):
                      ("name", "like", "Postfinance")])
         )
         bank = self.env["res.partner.bank"]
-        if self.bvr_reference:
+        if gift_wizard:
+            ref = gift_wizard.contract_id.get_gift_bvr_reference(
+                gift_wizard.product_id)
+            bank = bank.search([("acc_number", "=", "01444437")])
+        elif self.bvr_reference:
             ref = self.bvr_reference
             bank = bank.search([("acc_number", "=", "01444437")])
         elif self.payment_mode_id in bank_modes:
@@ -239,9 +230,6 @@ class ContractGroup(models.Model):
                 "ref": ref,
                 "mandate_id": mandate.id,
                 "partner_bank_id": bank.id,
-                "payment_term_id": self.env.ref(
-                    "account.account_payment_term_immediate"
-                ).id,
             }
         )
 

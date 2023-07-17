@@ -17,6 +17,9 @@ from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo import api, models, fields, _
 
+from odoo.addons.sponsorship_compassion.models.product_names \
+    import GIFT_PRODUCTS_REF
+
 logger = logging.getLogger(__name__)
 
 
@@ -163,6 +166,36 @@ class RecurringContracts(models.Model):
             "target": "new",
         }
 
+    def get_gift_bvr_reference(self, product):
+        product = product.with_context(lang="en_US")
+        ref = self.gift_partner_id.ref
+        bvr_reference = "0" * (9 + (7 - len(ref))) + ref
+        commitment_number = str(self.commitment_number)
+        bvr_reference += "0" * (5 - len(commitment_number)) + commitment_number
+        # Type of gift
+        bvr_reference += str(GIFT_PRODUCTS_REF.index(product.default_code) + 1)
+        bvr_reference += "0" * 4
+
+        if self.payment_mode_id and "LSV" in self.payment_mode_id.name:
+            # Get company BVR adherent number
+            user = self.env.user
+            bank_obj = self.env["res.partner.bank"]
+            company_bank = bank_obj.search(
+                [
+                    ("partner_id", "=", user.company_id.partner_id.id),
+                    ("l10n_ch_isr_subscription_chf", "!=", False),
+                    ("acc_type", "=", "iban"),
+                ],
+                limit=1,
+            )
+            if company_bank:
+                bvr_reference = \
+                    company_bank.l10n_ch_isrb_id_number + bvr_reference[9:]
+        if len(bvr_reference) == 26:
+            return mod10r(bvr_reference)
+
+        return False
+
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
@@ -170,6 +203,18 @@ class RecurringContracts(models.Model):
         """Hook for doing something when contract is activated.
         Update partner to add the 'Sponsor' category
         """
+        check_duplicate_activity_id = False
+        check_duplicate_activity_id = self.env.ref(
+            "partner_auto_match.activity_check_duplicates").id
+        if self.mapped("partner_id.activity_ids").filtered(
+                lambda l: l.activity_type_id.id == check_duplicate_activity_id
+        ) or self.mapped("correspondent_id.activity_ids").filtered(
+            lambda l: l.activity_type_id.id == check_duplicate_activity_id
+        ):
+            raise UserError(
+                _("Please verify the partner before validating the "
+                  "sponsorship")
+            )
         super().contract_active()
         sponsor_cat_id = self.env.ref(
             "partner_compassion.res_partner_category_sponsor"

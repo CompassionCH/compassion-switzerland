@@ -12,10 +12,12 @@ import re
 from odoo import models, fields
 from odoo.addons.sponsorship_compassion.models.product_names import (
     GIFT_CATEGORY,
-    GIFT_REF,
+    GIFT_PRODUCTS_REF,
 )
 
 import logging
+
+from odoo.tools.safe_eval import wrap_module
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +83,7 @@ class StatementCompletionRule(models.Model):
             if len(contract) == 1:
                 # Retrieve the birthday of child
                 birthdate = ""
-                if product.default_code == GIFT_REF[0]:
+                if product.default_code == GIFT_PRODUCTS_REF[0]:
                     birthdate = contract.child_id.birthdate
                     birthdate = birthdate.strftime("%d %b")
                 res["name"] += "[" + contract.child_code
@@ -102,7 +104,6 @@ class StatementCompletionRule(models.Model):
             "partner_id": partner.id,
             "journal_id": journal_id,
             "invoice_date": st_line["date"],
-            "payment_term_id": 1,  # Immediate payment
             "payment_mode_id": self.env["account.payment.mode"]
             .search([("name", "=", "BVR")])
             .id,
@@ -166,7 +167,7 @@ class StatementCompletionRule(models.Model):
         if payment_type in range(1, 6):
             # Sponsor Gift
             products = product_obj.search(
-                [("default_code", "=", GIFT_REF[payment_type - 1])]
+                [("default_code", "=", GIFT_PRODUCTS_REF[payment_type - 1])]
             )
             product = products[0] if products else 0
         elif payment_type in range(6, 8):
@@ -182,12 +183,11 @@ class StatementCompletionRule(models.Model):
     def _get_base_dict(self, stmts_vals, stmt_line):
         eval_context = super()._get_base_dict(stmts_vals, stmt_line)
         eval_context.update({
-            "re": re,
+            "re": wrap_module(re, ["search"]),
             "generate_invoice": self._generate_invoice,
             "search_old_invoices": False
         })
-        if self == self.env.ref(
-                "sponsorship_switzerland."
-                "bank_statement_completion_rule_bvr_ref_lsv"):
+        journal_codes = self.journal_ids.mapped("code")
+        if "DD" in journal_codes or "LSV" in journal_codes:
             eval_context["search_old_invoices"] = True
         return eval_context

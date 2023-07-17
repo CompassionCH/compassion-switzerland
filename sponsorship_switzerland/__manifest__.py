@@ -37,7 +37,9 @@
     "license": "AGPL-3",
     "website": "https://www.compassion.ch",
     "depends": [
+        "l10n_ch_isrb",  # OCA/l10n-switzerland
         "crm_compassion",  # compassion-modules
+        "partner_auto_match",  # compassion-modules
         "sponsorship_sub_management",  # compassion-modules
         "account_banking_mandate",  # oca_addons/bank-payment
         "partner_compassion",  # compassion-switzerland
@@ -50,17 +52,14 @@
     "data": [
         "data/product.xml",
         "data/completion_rules.xml",
-        "data/payment_modes.xml",
         "data/sequence.xml",
         "data/partner_category_data.xml",
         "security/ir.model.access.csv",
-        "views/account_invoice_view.xml",
         "views/res_partner_view.xml",
         "views/contract_view.xml",
         "views/postpone_waiting_reminder_wizard_view.xml",
         "views/correspondence_view.xml",
         "views/gift_compassion_view.xml",
-        "views/load_csv_wizard_view.xml",
     ],
     "installable": True,
     "auto_install": False,
