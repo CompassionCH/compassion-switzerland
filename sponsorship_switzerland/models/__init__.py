@@ -9,14 +9,10 @@
 ##############################################################################
 
 from . import contracts
-from . import account_invoice
 from . import res_partner_category
 from . import completion_rules
 from . import account_banking_mandate
 from . import contract_group
 from . import gift_compassion
-from . import ir_ui_menu
-from . import queue_job
 from . import contract_origin
 from . import correspondence
-from . import load_csv_wizard

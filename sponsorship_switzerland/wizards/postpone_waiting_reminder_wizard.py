@@ -9,7 +9,7 @@
 ##############################################################################
 from dateutil.relativedelta import relativedelta
 
-from odoo import models, api, fields
+from odoo import models, fields
 
 
 class PostponeWaitingReminderWizard(models.TransientModel):
@@ -32,11 +32,6 @@ class PostponeWaitingReminderWizard(models.TransientModel):
         "compassion.hold", related="sponsorship_id.child_id.hold_id", readonly=False
     )
 
-    @api.model
-    def _select_reminder_type(self):
-        return
-
-    @api.multi
     def postpone_reminder(self):
         self.ensure_one()
         # Cancel existing reminders
