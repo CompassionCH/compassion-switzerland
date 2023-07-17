@@ -22,7 +22,7 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    bvr_reference = fields.Char("BVR Ref", size=32, track_visibility="onchange")
+    bvr_reference = fields.Char("BVR Ref", tracking=True)
     payment_mode_id = fields.Many2one(
         default=lambda self: self._get_op_payment_mode(), readonly=False
     )
@@ -34,13 +34,13 @@ class ContractGroup(models.Model):
     @api.model
     def _get_op_payment_mode(self):
         """Get Permanent Order Payment Term, to set it by default."""
-        record = self.env.ref("sponsorship_switzerland.payment_mode_permanent_order")
+        record = self.env.ref(
+            "sponsorship_switzerland.payment_mode_permanent_order")
         return record.id
 
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
-    @api.multi
     @api.depends("payment_mode_id", "bvr_reference", "partner_id")
     def name_get(self):
         res = list()
@@ -55,7 +55,6 @@ class ContractGroup(models.Model):
             res.append((gr.id, name))
         return res
 
-    @api.multi
     def write(self, vals):
         """If sponsor changes his payment term to LSV or DD,
         change the state of related contracts so that we wait
@@ -75,7 +74,8 @@ class ContractGroup(models.Model):
             for group in self:
                 if "LSV" in payment_name or "Postfinance" in payment_name:
                     # LSV/DD Contracts need no reference
-                    if group.bvr_reference and "multi-months" not in payment_name:
+                    if group.bvr_reference and "multi-months" \
+                            not in payment_name:
                         vals["bvr_reference"] = False
         if "bvr_reference" in vals:
             inv_vals["reference"] = vals["bvr_reference"]
@@ -83,18 +83,16 @@ class ContractGroup(models.Model):
 
         if contracts:
             # Update related open invoices to reflect the changes
-            inv_lines = self.env["account.invoice.line"].search(
+            inv_lines = self.env["account.move.line"].search(
                 [
                     ("contract_id", "in", contracts.ids),
-                    ("state", "not in", ("paid", "cancel")),
+                    ("payment_state", "=", "not_paid"),
                 ]
             )
-            invoices = inv_lines.mapped("invoice_id")
-            invoices.action_invoice_cancel()
-            invoices.action_invoice_draft()
-            invoices.env.clear()
+            invoices = inv_lines.mapped("move_id")
+            invoices.button_draft()
             invoices.write(inv_vals)
-            invoices.action_invoice_open()
+            invoices.action_post()
 
         # When the payment mode changes to LSV or DD, we need to update the related open
         # invoices (block above) and raise any errors first before changing the status
@@ -212,15 +210,17 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _setup_inv_data(self, journal, invoicer, contracts):
+    def _build_invoice_gen_data(self, invoicing_date, invoicer, gift_wizard=False):
         """Inherit to add BVR ref and mandate"""
-        inv_data = super()._setup_inv_data(journal, invoicer, contracts)
+        inv_data = super()._build_invoice_gen_data(
+            invoicing_date, invoicer, gift_wizard)
 
         ref = ""
         bank_modes = (
             self.env["account.payment.mode"]
             .with_context(lang="en_US")
-            .search(["|", ("name", "like", "LSV"), ("name", "like", "Postfinance")])
+            .search(["|", ("name", "like", "LSV"),
+                     ("name", "like", "Postfinance")])
         )
         bank = self.env["res.partner.bank"]
         if self.bvr_reference:
@@ -231,11 +231,12 @@ class ContractGroup(models.Model):
             ref = mod10r(seq.next_by_code("contract.bvr.ref"))
             bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         mandate = self.env["account.banking.mandate"].search(
-            [("partner_id", "=", self.partner_id.id), ("state", "=", "valid")], limit=1
+            [("partner_id", "=", self.partner_id.id),
+             ("state", "=", "valid")], limit=1
         )
         inv_data.update(
             {
-                "reference": ref,
+                "ref": ref,
                 "mandate_id": mandate.id,
                 "partner_bank_id": bank.id,
                 "payment_term_id": self.env.ref(
@@ -245,6 +246,3 @@ class ContractGroup(models.Model):
         )
 
         return inv_data
-
-    def _get_gen_states(self):
-        return ["waiting", "active"]

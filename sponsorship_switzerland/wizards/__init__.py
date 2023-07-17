@@ -8,5 +8,4 @@
 #
 ##############################################################################
 
-from . import generate_gift_wizard
 from . import postpone_waiting_reminder_wizard

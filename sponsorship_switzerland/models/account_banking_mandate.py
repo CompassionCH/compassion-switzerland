@@ -8,13 +8,12 @@
 #
 ##############################################################################
 
-from odoo import models, api
+from odoo import models
 
 
 class AccountMandate(models.Model):
     _inherit = "account.banking.mandate"
 
-    @api.multi
     def validate(self):
         """Validate LSV/DD Contracts when mandate is validated."""
         super().validate()
@@ -22,7 +21,6 @@ class AccountMandate(models.Model):
         contracts.mandate_valid()
         return True
 
-    @api.multi
     def cancel(self):
         """Set back contracts in waiting mandate state."""
         super().cancel()
@@ -32,7 +30,6 @@ class AccountMandate(models.Model):
         contracts.contract_waiting_mandate()
         return True
 
-    @api.multi
     def _trigger_contracts(self, state):
         """Fires a given transition on contracts in selected state."""
         contracts = self.env["recurring.contract"].with_context(lang="en_US")

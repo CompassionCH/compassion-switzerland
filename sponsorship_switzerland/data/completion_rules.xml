@@ -1,39 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data noupdate="1">
+        <record id="bank_statement_completion_rule_partner_ref" model="account.statement.completion.rule">
+            <field name="name">Match from line reference (based on partner reference)</field>
+            <field name="sequence">30</field>
+            <field name="python_completion_rule">
+ref = stmt_line.get("ref", "")
+ref_index_start = 9  # position where the partner ref starts in the BVR
+ref_index_end = 16  # position where the partner ref ends in the BVR
+partner_ref = ref[ref_index_end - 7 : ref_index_end]  # get standard 7 numbers ref
+old_partner_ref = ref[ref_index_end - 6 : ref_index_end]  # get legacy 6 numbers ref
+partner_obj = env["res.partner"]
+partner = partner_obj.search(["|", ("ref", "=", partner_ref), ("ref", "=", old_partner_ref)])
+if not partner:
+    # Some bvr reference have a wrong number of leading zeros,
+    # resulting in the partner reference to be offset.
+    flexible_ref_match = re.search(r"^0{,10}([1-9]\d{4,6})0", ref)
+    if flexible_ref_match:
+    flexible_ref = flexible_ref_match.group(1)
+    if int(flexible_ref) != int(partner_ref):
+        partner = partner_obj.search([("ref", "=", str(int(flexible_ref)))])
+        ref_index_start = flexible_ref_match.start(1)
+if len(partner) > 1:
+# Take only those who have active sponsorships
+sponsor = partner.filtered(lambda p: p.sponsorship_ids.filtered(lambda s: s.state not in ("terminated", "cancelled")))
+if sponsor:
+    partner = sponsor
+else:
+    # No sponsor, try to find a contact
+    partner = partner.filtered("parent_id")
+# Test that only one partner matches.
+if partner:
+    if len(partner) == 1:
+        # If we fall under this rule of completion, it means there is
+        # no open invoice corresponding to the payment. We may need to
+        # generate one depending on the payment type.
+        line_vals, new_invoice = generate_invoice(stmts_vals, stmt_line, partner, ref_index_start )
+        result.update(line_vals)
+        # Get the accounting partner (company)
+        result["partner_id"] = partner.commercial_partner_id.id
+            </field>
+        </record>
 
-    <record id="bank_statement_completion_rule_partner_ref" model="account.statement.completion.rule">
-        <field name="name">Match from line reference (based on partner reference)</field>
-        <field name="sequence">30</field>
-        <field name="function_to_call">get_from_partner_ref</field>
-    </record>
+        <record id="bank_statement_completion_rule_bvr_ref" model="account.statement.completion.rule">
+            <field name="name">Match from line reference (based on invoice BVR reference)</field>
+            <field name="sequence">20</field>
+            <field name="python_completion_rule">
+ref = stmt_line.get("ref", "")
+partner = None
+contract_group_obj = env["recurring.contract.group"]
+contract_groups = contract_group_obj.search([("bvr_reference", "=", ref)]).filtered("contains_sponsorship")
+if contract_groups:
+    partner = contract_groups[0].partner_id
+else:
+    # Search open Customer Invoices (with field 'bvr_reference' set)
+    invoice_obj = env["account.move"]
+    invoice_search = [("ref", "=", ref), ("payment_state", "=", "not_paid")]
+    if search_old_invoices:
+        invoice_search.pop()
+    invoices = invoice_obj.search(invoice_search)
+    if invoices:
+        partner = invoices[0].partner_id
+if partner:
+    result["partner_id"] = partner.commercial_partner_id.id
+            </field>
+        </record>
+        
+        <record id="bank_statement_completion_rule_credit_lsv_dd" model="account.statement.completion.rule">
+            <field name="name">Match LSV DD Credit in 1098</field>
+            <field name="sequence">60</field>
+            <field name="python_completion_rule">
+def get_postfinance_id():
+    return (
+        env["res.partner"] .search([("name", "=", "Postfinance SA")], limit=1) .commercial_partner_id.id
+    )
 
-    <record id="bank_statement_completion_rule_bvr_ref" model="account.statement.completion.rule">
-        <field name="name">Match from line reference (based on invoice BVR reference)</field>
-        <field name="sequence">20</field>
-        <field name="function_to_call">get_from_bvr_ref</field>
-    </record>
-    
-    <record id="bank_statement_completion_rule_bvr_ref_lsv" model="account.statement.completion.rule">
-        <field name="name">[LSV/DD]: Match from line reference (based on invoice BVR reference)</field>
-        <field name="sequence">20</field>
-        <field name="function_to_call">lsv_dd_get_from_bvr_ref</field>
-    </record>
-    
-    <record id="bank_statement_completion_rule_credit_lsv_dd" model="account.statement.completion.rule">
-        <field name="name">Match LSV DD Credit in 1098</field>
-        <field name="sequence">60</field>
-        <field name="function_to_call">get_from_lsv_dd</field>
-    </record>
+def fetch_account_id_by_code(code):
+    return env["account.account"].search([("code", "=", code)], limit=1).id
 
-    <record id="bank_statement_completion_rule_recurring_contract_wire_transfer_mapping" model="account.statement.completion.rule">
-        <field name="name">Match wire transfer payment mode custom note</field>
-        <field name="sequence">20</field>
-        <field name="function_to_call">recurring_contract_wire_transfer_mapping</field>
-    </record>
+label = (
+    stmt_line["name"].replace("\n", " ")
+    if stmt_line["name"] != "/"
+    else stmt_line["ref"].replace("\n", " ")
+)
+lsv_dd_strings = [
+    "BULLETIN DE VERSEMENT ORANGE",
+    "ORDRE DEBIT DIRECT",
+    "CRÉDIT GROUPÉ BVR",
+    "Crèdit LSV",
+]
 
-    <record id="bank_statement_completion_rule_sponsor_name" model="account.statement.completion.rule">
-        <field name="name">Match sponsor name (based on label)</field>
-        <field name="sequence">90</field>
-        <field name="function_to_call">get_sponsor_name</field>
-    </record>
+if stmt_line["amount"] >= 0:
+    if "KREDITKARTEN" in label:
+        result = {
+            "account_id": fetch_account_id_by_code("2000"),
+            "partner_id": get_postfinance_id(),
+        }
+    elif "CRÉDIT TRANSACTIONS E-PAYMENT POSTFINANCE CARD" in label:
+        result = {
+            "account_id": fetch_account_id_by_code("1015"),
+            "partner_id": get_postfinance_id(),
+        }
+    else:
+        is_lsv_dd = any(s in label for s in lsv_dd_strings)
+        if is_lsv_dd:
+            account_id = fetch_account_id_by_code("1098")
+            if account_id:
+                result = {"account_id": fetch_account_id_by_code("1098")}
+            </field>
+        </record>
+
+        <record id="bank_statement_completion_rule_recurring_contract_wire_transfer_mapping" model="account.statement.completion.rule">
+            <field name="name">Match wire transfer payment mode custom note</field>
+            <field name="sequence">20</field>
+            <field name="python_completion_rule">
+name = stmt_line.get("name", "")
+result = dict()
+
+wire_transfer_mode = (
+    env["account.payment.mode"].with_context(lang="en_US").search([("name", "=", "wire transfer")])
+)
+
+if not wire_transfer_mode:
+    return
+
+recurring_contracts = env["recurring.contract"].search(
+    [
+        ("comment", "ilike", name),
+        ("payment_mode_id", "=", wire_transfer_mode.id),
+    ]
+)
+if recurring_contracts:
+    result["partner_id"] = recurring_contracts[0].partner_id
+            </field>
+        </record>
+
+        <record id="bank_statement_completion_rule_sponsor_name" model="account.statement.completion.rule">
+            <field name="name">Match sponsor name (based on label)</field>
+            <field name="sequence">90</field>
+            <field name="python_completion_rule">
+result = {}
+name = stmt_line.get("name", "")
+wire_transfer_pattern = "VIREMENT DU COMPTE "
+patterns_lookup = [" EXPÉDITEUR: ", " DONNEUR D'ORDRE: ", wire_transfer_pattern]
+
+def search_partner(criteria):
+    return env["res.partner"].search(criteria)
+
+for pattern in patterns_lookup:
+    if pattern in name:
+        sender_info = name.split(pattern)[1]
+        if pattern == wire_transfer_pattern:
+            # First the account of partner, then the name
+            # (lastname is at first)
+            name_guess = sender_info.split(" ")[1:3]
+            name_guess.reverse()
+        else:
+            # Guess the name with the two first words (following words
+            # could be part of the address (firstname is at first)
+            name_guess = sender_info.split(" ")[:2]
+        partner = (
+            search_partner(
+                [
+                    ("firstname", "ilike", name_guess[0]),
+                    ("lastname", "=ilike", name_guess[1]),
+                ]
+            )
+            if len(name_guess) >= 2
+            else []
+        )
+        if len(partner) > 1:
+            # Try to do exact search on firstname
+            partner = search_partner(
+                [
+                    ("firstname", "=ilike", name_guess[0]),
+                    ("lastname", "=ilike", name_guess[1]),
+                ]
+            )
+        if not partner:
+            # Try to find a company
+            partner = search_partner(
+                [("name", "ilike", name_guess[0]), ("is_company", "=", True)]
+            )
+        if partner and len(partner) == 1:
+            result["partner_id"] = partner.commercial_partner_id.id
+
+            </field>
+        </record>
+    </data>
 </odoo>
