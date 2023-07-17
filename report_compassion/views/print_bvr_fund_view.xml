@@ -1,0 +1,36 @@
+<odoo>
+    <!-- Add button in correspondence views -->
+    <record id="print_bvr_fund_view" model="ir.ui.view">
+        <field name="name">print.bvr.fund.form</field>
+        <field name="model">print.bvr.fund</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="state" invisible="1"/>
+                <group>
+                    <field name="product_id"/>
+                    <field name="amount"/>
+                    <field name="pdf"/>
+                </group>
+                <group states="pdf">
+                    <field name="pdf_name" invisible="1"/>
+                    <field name="pdf_download" filename="pdf_name"/>
+                </group>
+                <footer>
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_print_bvr_fund" model="ir.actions.act_window">
+         <field name="name">Payment Slip for Fund</field>
+         <field name="res_model">print.bvr.fund</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">form</field>
+         <field name="target">new</field>
+         <field name="binding_model_id" ref="model_res_partner"/>
+         <field name="binding_type">report</field>
+   </record>
+</odoo>

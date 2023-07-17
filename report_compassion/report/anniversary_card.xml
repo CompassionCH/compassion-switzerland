@@ -1,0 +1,155 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Report for printing a letter on Compassion Paper -->
+        <report id="report_anniversary_card"
+                model="partner.communication.job"
+                string="Anniversary Card"
+                report_type="qweb-pdf"
+                name="report_compassion.anniversary_card"
+                menu="False"
+        />
+        <record id="report_anniversary_card" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_anniversary_card"/>
+        </record>
+
+        <template id="anniversary_card">
+            <t t-set="custom_css">
+                .container {
+                    font-family: "millerLight";
+                    font-size: 10pt;
+                }
+                .right {
+                    position: relative;
+                    left: 135mm;
+                    max-width: 70mm;
+                }
+                #pp {
+                    position: absolute;
+                    top: 7mm;
+                    font-family: verdana;
+                }
+                #partner_address {
+                    position: absolute;
+                    top: 85mm;
+                }
+                #pp-box {
+                    display: inline-block;
+                    padding: 1mm;
+                    width: 50mm;
+                    line-height: initial;
+
+                    border-style: solid;
+                    border-width: 1pt;
+                }
+                #pp-box div:first-child{
+                    font-size: 12pt;
+                    font-weight: bold;
+                }
+                #pp-box div:last-child{
+                    font-size: 8pt;
+                }
+                #pp-post {
+                    display: inline-block;
+                    font-size: 6pt;
+                }
+                #pp hr {
+                    margin-top: 0.5mm;
+                    margin-bottom: 3mm;
+                }
+                #date {
+                    position: absolute;
+                    top: 7mm;
+                    left: 7mm;
+                    width: 95mm;
+                }
+                #title {
+                    font-family: "millerBold";
+                    position: absolute;
+                    top: 20mm;
+                    left: 7mm;
+                    width: 95mm;
+                }
+                #body {
+                    position: absolute;
+                    top: 30mm;
+                    left: 7mm;
+                    width: 110mm;
+                }
+                #signature {
+                    position: absolute;
+                    top: 118mm;
+                    left: 75mm;
+                }
+                #footer {
+                    font-size: 8pt;
+                    position: absolute;
+                    top: 130mm;
+                    left: 7mm;
+                    width: 190mm;
+                }
+                .blue {
+                    color: #0054A6;
+                    font-weight: bold;
+                }
+            </t>
+            <t t-call="web.html_container">
+            <div class="article">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <t t-call="report_compassion.style"/>
+                        <div id="address" class="right">
+                            <div id="pp">
+                                <div id="pp-box">
+                                    <div>P.P.</div>
+                                    <div>CH-1400 Yverdon-les-Bains</div>
+                                </div>
+                                <div id="pp-post">
+                                    <p>Poste CH SA</p>
+                                </div>
+                                <hr/>
+                            </div>
+                            <span t-raw="o.partner_id.short_address" id="partner_address"/>
+                        </div>
+                        <div id="date">
+                            <span t-raw="o.partner_id.date_communication"/>
+                        </div>
+
+                        <div id="title">
+                            <b><span t-raw="o.subject"/></b>
+                        </div>
+
+                        <div id="body">
+                            <span t-raw="o.body_html"/>
+                        </div>
+                        <div id="signature">
+                            <div style="position: relative; top: -15mm">
+                                <t t-set="sign_user_name">sarah maria</t>
+                                <t t-set="sign_user" t-value="o.env['res.users'].search([('name', 'ilike', sign_user_name),('share','=',False)], limit=1)"/>
+                                <img t-if="sign_user.digital_signature" t-attf-src="/web/image/res.users/#{sign_user.id}/digital_signature?width=200" style="position: relative; left: -10mm;"/>
+                                <p>
+                                    <span style="font-weight: bold">Sarah Maria Herrendorff</span>
+                                    <br/>
+                                    <span>and the team from Compassion</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div id="footer">
+                            <span class="blue">COMPASSION</span>
+                            <span>, Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>
+                            <br/>
+                            <span class="blue">TÉL</span>
+                            <span>.: 031 552 21 25    </span>
+                            <span class="blue">MAIL</span>
+                            <span>: info@compassion.ch </span>
+                            <span class="blue">WWW</span>
+                            <span>.compassion.ch </span>
+                            <span class="blue">CCP/PC</span>
+                            <span> 17-312562-0</span>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+        </template>
+    </data>
+</odoo>

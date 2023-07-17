@@ -1,0 +1,16 @@
+<odoo>
+    <!-- Add event in views -->
+    <record model="ir.ui.view" id="communication_job_form_ch">
+        <field name="name">communication.job.form.bvr</field>
+        <field name="model">partner.communication.job</field>
+        <field name="inherit_id" ref="partner_communication.communication_job_form"/>
+        <field name="arch" type="xml">
+            <field name="ir_attachment_ids" position="before">
+                <field name="product_id" domain="[('fund_id', '!=', False)]" attrs="{'invisible': [('send_mode', 'not in', ['physical','both'])]}"/>
+            </field>
+            <field name="subject" position="after">
+                <field name="display_pp" attrs="{'invisible': [('send_mode', 'not in', ['physical','both'])]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>
