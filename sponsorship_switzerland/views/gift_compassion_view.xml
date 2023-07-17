@@ -10,17 +10,4 @@
             </field>
         </field>
     </record>
-
-    <act_window id="action_load_csv_wizard"
-                name="Record CSV Files"
-                res_model="load.csv.wizard"
-                view_mode="form"
-                target="new"
-                />
-    <menuitem action="action_load_csv_wizard"
-              id="menu_load_csv"
-              parent="account.menu_finance_receivables"
-              name="Load gift-letter csv-file"
-              sequence="9"
-              />
 </odoo>

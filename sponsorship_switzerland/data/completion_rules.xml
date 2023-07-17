@@ -38,7 +38,7 @@ if partner:
         line_vals, new_invoice = generate_invoice(stmts_vals, stmt_line, partner, ref_index_start )
         result.update(line_vals)
         # Get the accounting partner (company)
-        result["partner_id"] = partner.commercial_partner_id.id
+        result = {"partner_id": partner.commercial_partner_id.id}
             </field>
         </record>
 
@@ -62,7 +62,7 @@ else:
     if invoices:
         partner = invoices[0].partner_id
 if partner:
-    result["partner_id"] = partner.commercial_partner_id.id
+    result = {"partner_id": partner.commercial_partner_id.id}
             </field>
         </record>
         
