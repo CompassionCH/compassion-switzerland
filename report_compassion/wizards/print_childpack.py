@@ -53,7 +53,6 @@ class PrintChildpack(models.TransientModel):
             return child.sponsor_id.lang
         return self.env.lang
 
-    @api.multi
     def get_report(self):
         """
         Print selected child dossier
@@ -77,7 +76,7 @@ class PrintChildpack(models.TransientModel):
             self.pdf_name = f"{name}_{self.type.split('.')[1].split('_')[1]}_{self.lang.split('_')[0]}.pdf"
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
-            ).render_qweb_pdf(children.ids, data=data)
+            )._render_qweb_pdf(children.ids, data=data)
             self.pdf_download = base64.encodebytes(pdf_data[0])
             self.state = "pdf"
             return {
@@ -91,7 +90,6 @@ class PrintChildpack(models.TransientModel):
             }
         return report_ref.report_action(children.ids, data=data, config=False)
 
-    @api.multi
     def print(self):
         """
         Print selected child dossier directly to printer
@@ -109,5 +107,5 @@ class PrintChildpack(models.TransientModel):
         }
         report_name = "report_compassion.report_" + self.type.split(".")[1]
         report_ref = self.env.ref(report_name).with_context(lang=self.lang)
-        report_ref.render_qweb_pdf(children.ids, data=data)
+        report_ref._render_qweb_pdf(children.ids, data=data)
         return True

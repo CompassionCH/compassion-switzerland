@@ -25,9 +25,7 @@ class BvrSponsorship(models.AbstractModel):
     """
 
     _name = "report.report_compassion.bvr_sponsorship"
-    _description = (
-        "Used for preparing data for a 3BVR " "or single BVR report (sponsorship)"
-    )
+    _description = "QR sponsorship report"
 
     def _get_report(self):
         return self.env["ir.actions.report"]._get_report_from_name(
@@ -95,32 +93,12 @@ class BvrSponsorship(models.AbstractModel):
 class TwoBvrSponsorship(models.AbstractModel):
     _inherit = "report.report_compassion.bvr_sponsorship"
     _name = "report.report_compassion.2bvr_sponsorship"
+    _description = "2QR sponsorship report"
 
     def _get_report(self):
         return self.env["ir.actions.report"]._get_report_from_name(
             "report_compassion.2bvr_sponsorship"
         )
-
-
-# pylint: disable=consider-merging-classes-inherited
-class ThreeBvrSponsorship(models.AbstractModel):
-    _inherit = "report.report_compassion.bvr_sponsorship"
-    _name = "report.report_compassion.3bvr_sponsorship"
-
-    def _get_report(self):
-        return self.env["ir.actions.report"]._get_report_from_name(
-            "report_compassion.3bvr_sponsorship"
-        )
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        """Include setting for telling 3bvr paper has offset between
-        payment slips.
-        """
-        if data is None:
-            data = dict()
-        data["offset"] = 1
-        return super()._get_report_values(docids, data)
 
 
 class BvrSponsorshipDue(models.AbstractModel):
@@ -129,7 +107,7 @@ class BvrSponsorshipDue(models.AbstractModel):
     """
 
     _name = "report.report_compassion.bvr_due"
-    _description = "Report BVR Sponsorship due"
+    _description = "QR Sponsorship due report"
 
     @api.model
     def _get_report_values(self, docids, data=None):
@@ -154,6 +132,7 @@ class BvrSponsorshipDue(models.AbstractModel):
 class SingleBvrSponsorship(models.AbstractModel):
     _name = "report.report_compassion.single_bvr_sponsorship"
     _inherit = "report.report_compassion.bvr_sponsorship"
+    _description = "Single QR sponsorship report"
 
     @api.model
     def _get_report_values(self, docids, data=None):

@@ -1,46 +1,35 @@
 <odoo>
-    <report id="report_bvr_sponsorship"
-            model="recurring.contract.group"
-            string="Sponsorship Payment Slip 1 BVR"
-            report_type="qweb-pdf"
-            name="report_compassion.bvr_sponsorship"
-            menu="False"
-    />
     <record id="report_bvr_sponsorship" model="ir.actions.report">
+        <field name="name">Sponsorship Payment Slip 1 BVR</field>
+        <field name="model">recurring.contract.group</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.bvr_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
-
-    <report id="report_2bvr_sponsorship"
-            model="recurring.contract.group"
-            string="Sponsorship Payment Slips 2 BVR"
-            report_type="qweb-pdf"
-            name="report_compassion.2bvr_sponsorship"
-            menu="False"
-    />
     <record id="report_2bvr_sponsorship" model="ir.actions.report">
+        <field name="name">Sponsorship Payment Slips 2 BVR</field>
+        <field name="model">recurring.contract.group</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.2bvr_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
-
-    <report id="report_single_bvr_sponsorship"
-            model="recurring.contract.group"
-            string="Sponsorship Payment Slip Single BVR"
-            report_type="qweb-pdf"
-            name="report_compassion.single_bvr_sponsorship"
-            menu="False"
-    />
     <record id="report_single_bvr_sponsorship" model="ir.actions.report">
+        <field name="name">Sponsorship Payment Slip Single BVR</field>
+        <field name="model">recurring.contract.group</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.single_bvr_sponsorship</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship"/>
     </record>
 
     <!-- Report for sponsorship due -->
-    <report id="report_bvr_due"
-            model="recurring.contract"
-            string="Sponsorship Due"
-            report_type="qweb-pdf"
-            name="report_compassion.bvr_due"
-    />
     <record id="report_bvr_due" model="ir.actions.report">
+        <field name="name">Sponsorship Due</field>
+        <field name="model">recurring.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.bvr_due</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship"/>
+        <field name="binding_model_id" ref="model_recurring_contract"/>
+        <field name="binding_type">report</field>
     </record>
 
     <template id="bvr_sponsorship">

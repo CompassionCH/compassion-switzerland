@@ -1,14 +1,11 @@
 <odoo>
     <data noupdate="1">
         <!-- Report for printing a letter on Compassion Paper -->
-        <report id="report_anniversary_card"
-                model="partner.communication.job"
-                string="Anniversary Card"
-                report_type="qweb-pdf"
-                name="report_compassion.anniversary_card"
-                menu="False"
-        />
         <record id="report_anniversary_card" model="ir.actions.report">
+            <field name="name">Anniversary Card</field>
+            <field name="model">partner.communication.job</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">report_compassion.anniversary_card</field>
             <field name="paperformat_id" ref="paperformat_anniversary_card"/>
         </record>
 

@@ -34,7 +34,6 @@
          <field name="name">Sponsorship Payment Slips</field>
          <field name="res_model">print.sponsorship.bvr</field>
          <field name="type">ir.actions.act_window</field>
-         <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
          <field name="binding_model_id" ref="model_recurring_contract"/>
@@ -67,23 +66,10 @@
          <field name="name">Sponsorship Due</field>
          <field name="res_model">print.sponsorship.bvr.due</field>
          <field name="type">ir.actions.act_window</field>
-         <field name="view_type">form</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
          <field name="binding_model_id" ref="model_recurring_contract"/>
          <field name="binding_type">report</field>
    </record>
 
-    <!-- Add print menu for sponsorship labels ! -->
-    <record id="print_sponsorship_label_action" model="ir.actions.act_window">
-        <field name="name">Labels</field>
-         <field name="res_model">label.print.wizard</field>
-         <field name="type">ir.actions.act_window</field>
-         <field name="view_type">form</field>
-         <field name="view_mode">form</field>
-         <field name="target">new</field>
-         <field name="context">{'label_print': 1}</field>
-         <field name="binding_model_id" ref="model_recurring_contract"/>
-         <field name="binding_type">report</field>
-    </record>
 </odoo>

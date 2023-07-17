@@ -1,12 +1,10 @@
 <odoo>
     <!-- Report for printing a letter on Compassion Paper -->
-    <report id="report_partner_communication"
-        model="partner.communication.job"
-        string="A4 Letterhead"
-        report_type="qweb-pdf"
-        name="report_compassion.partner_communication"
-    />
     <record id="report_partner_communication" model="ir.actions.report">
+        <field name="name">A4 Letterhead communication</field>
+        <field name="model">partner.communication.job</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.partner_communication</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
 
@@ -275,7 +273,7 @@
 
             <!-- Print BVR Fund -->
             <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
-                <t t-set="reference" t-value="partner.generate_bvr_reference(product)"/>
+                <t t-set="reference" t-value="partner.get_gift_bvr_reference(product)"/>
                 <t t-set="communication" t-value="product.name"/>
                 <t t-set="amount" t-value="False"/>
                 <t t-set="swissqr_position_top">192</t>
@@ -300,13 +298,11 @@
         </t>
     </template>
 
-    <report id="report_blank_communication"
-        model="partner.communication.job"
-        string="Blank communication"
-        report_type="qweb-pdf"
-        name="report_compassion.blank_communication"
-    />
     <record id="report_blank_communication" model="ir.actions.report">
+        <field name="name">Blank communication</field>
+        <field name="model">partner.communication.job</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.blank_communication</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
 

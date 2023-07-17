@@ -24,7 +24,6 @@ class ContractGroup(models.Model):
     _inherit = ["recurring.contract.group", "translatable.model"]
     _name = "recurring.contract.group"
 
-    @api.multi
     def get_months(self, months, sponsorships):
         """
         Given the list of months to print,
@@ -38,7 +37,8 @@ class ContractGroup(models.Model):
         freq = self.advance_billing_months
         payment_mode = self.with_context(lang="en_US").payment_mode_id
         # Take first open invoice or next_invoice_date
-        open_invoice = min([i for i in sponsorships.mapped("first_open_invoice") if i])
+        open_invoice = min([
+            i for i in sponsorships.mapped("first_open_invoice") if i])
         if open_invoice:
             first_invoice_date = open_invoice.replace(day=1)
         else:
@@ -69,6 +69,7 @@ class ContractGroup(models.Model):
             result = list()
             count = 1
             month_start = ""
+            month = ""
             for month in valid_months:
                 if not month_start:
                     month_start = month
@@ -78,11 +79,10 @@ class ContractGroup(models.Model):
                     result.append(month_start + " - " + month)
                     month_start = ""
                     count = 1
-            if not result:
+            if not result and valid_months:
                 result.append(month_start + " - " + month)
             return result
 
-    @api.multi
     def get_communication(self, start, stop, sponsorships):
         """
         Get the communication to print on the payment slip for sponsorship
@@ -107,8 +107,10 @@ class ContractGroup(models.Model):
         locale = self.partner_id.lang
         context = {"lang": locale}
         if start and stop:
-            start_date = format_date(date_start, format="MMMM yyyy", locale=locale)
-            stop_date = format_date(date_stop, format="MMMM yyyy", locale=locale)
+            start_date = format_date(
+                date_start, format="MMMM yyyy", locale=locale)
+            stop_date = format_date(
+                date_stop, format="MMMM yyyy", locale=locale)
             if start == stop:
                 vals["date"] = start_date
             else:
@@ -118,19 +120,20 @@ class ContractGroup(models.Model):
             vals["date"] = ""
         else:
             vals["payment_type"] = (
-                _("ISR") + " " + self.contract_ids[0].with_context(context).group_freq
+                _("ISR") + " "
+                + self.contract_ids[0].with_context(context).group_freq
             )
         if number_sponsorship > 1:
-            vals["subject"] += str(number_sponsorship) + " " + _("sponsorships")
+            vals["subject"] += str(number_sponsorship) + " "\
+                + _("sponsorships")
         elif number_sponsorship and valid.child_id:
             vals["subject"] = valid.child_id.preferred_name + " ({})".format(
                 valid.child_id.local_id
             )
         elif number_sponsorship and not valid.child_id and valid.display_name:
-            product_name = self.env["product.product"].search(
-                [("id", "in", valid.mapped("contract_line_ids.product_id").ids)]
-            )
-
+            product_name = self.env["product.product"].search([
+                ("id", "in", valid.mapped("contract_line_ids.product_id").ids)
+            ])
             vals["subject"] = ", ".join(product_name.mapped("thanks_name"))
 
         return (

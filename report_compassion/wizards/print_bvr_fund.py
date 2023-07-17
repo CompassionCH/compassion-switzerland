@@ -39,7 +39,6 @@ class PrintBvrFund(models.TransientModel):
     pdf_name = fields.Char(default="fund.pdf")
     pdf_download = fields.Binary(readonly=True)
 
-    @api.multi
     def get_report(self):
         """
         Prepare data for the report and call the selected report
@@ -58,7 +57,7 @@ class PrintBvrFund(models.TransientModel):
             self.pdf_name = self.product_id.name + ".pdf"
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
-            ).render_qweb_pdf(partners.ids, data=data)[0]
+            )._render_qweb_pdf(partners.ids, data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {

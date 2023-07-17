@@ -1,13 +1,10 @@
 <odoo>
-    <report id="tax_receipt_report"
-            model="res.partner"
-            string="Tax Receipt"
-            report_type="qweb-pdf"
-            name="report_compassion.tax_receipt"
-            menu="False"
-    />
     <record id="tax_receipt_report" model="ir.actions.report">
         <!-- A4 no margin -->
+        <field name="name">Tax Receipt</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.tax_receipt</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
     </record>
 
