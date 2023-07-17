@@ -74,8 +74,12 @@ class Muskathlon(models.Model):
                 NULL AS invoice_line_id,
                 rc.partner_id,
                 rc.user_id,
-                1000 AS amount,
-                100000 AS amount_cent,
+                CASE WHEN rc.type = 'S' THEN 1000
+                     WHEN rc.type = 'csp' THEN 500
+                END AS amount,
+                CASE WHEN rc.type = 'S' THEN 1000 * 100
+                     WHEN rc.type = 'csp' THEN 500 * 100
+                END AS amount_cent,
                 rc.sent_to_4m,
                 rc.payment_mode_id,
                 rco.event_id,
@@ -84,7 +88,7 @@ class Muskathlon(models.Model):
                 rc.start_date AS date,
                 rc.start_date::date AS date_display,
                 'success' AS status,
-                'sponsor' AS type,
+                rc.type AS type,
                 'transfer' AS payment_method
               FROM recurring_contract AS rc
               LEFT JOIN res_partner AS rp ON rp.id = rc.user_id
@@ -111,10 +115,11 @@ class Muskathlon(models.Model):
                 ai.date_invoice AS date,
                 ai.date_invoice AS date_display,
                 'success' AS status,
-                'sponsor' AS type,
+                rc.type AS type,
                 'transfer' AS payment_method
               FROM account_invoice_line AS ail
               LEFT JOIN account_invoice AS ai ON ail.invoice_id = ai.id
+              LEFT JOIN recurring_contract as rc on ail.contract_id = rc.id
               left join product_product pp on pp.id=ail.product_id 
               FULL OUTER JOIN account_move AS am ON ai.move_id = am.id
                 AND ai.partner_id = am.partner_id
