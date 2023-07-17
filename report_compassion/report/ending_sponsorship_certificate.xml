@@ -1,0 +1,147 @@
+<odoo>
+    <report id="report_ending_sponsorship_certificate"
+            model="recurring.contract"
+            string="Ending Sponsorship Certificate"
+            report_type="qweb-pdf"
+            name="report_compassion.ending_sponsorship_certificate"
+    />
+    <record id="report_ending_sponsorship_certificate" model="ir.actions.report">
+        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+    </record>
+
+    <template id="ending_sponsorship_certificate">
+        <t t-set="base_url" t-value="env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
+        <t t-set="custom_css">
+            @font-face {
+                font-family: montserratBold;
+                src: url(<t t-esc="base_url"/>/report_compassion/static/font/Montserrat-Bold.ttf);
+            }
+            body{
+                padding: 0;
+                margin: 0;
+                font-family: "millerLight";
+            }
+            .background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 297mm;
+                width: 210mm;
+                z-index: -1;
+            }
+            .background img {
+                width: 100%;
+                height: 100%;
+            }
+            .legend_date{
+                color: #005eb8;
+                text-transform: uppercase;
+                text-align: center;
+                font-size:13px;
+                margin-top:0;
+            }
+            .child_name{
+                color: #4a4a49;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-align: center;
+                font-size:24px;
+                margin-bottom:0;
+                padding-bottom: -10pt;
+            }
+            .yellow_line{
+                width:25mm;
+                color: #dcaa02;
+                background-color: #dcaa02;
+                height: 1pt;
+                border: none;
+                margin-top: 3mm;
+                margin-bottom: 3mm;
+                padding:0;
+            }
+            .child_picture{
+                width: 66mm;
+                height: 99mm;
+                margin-left: 25mm;
+            }
+            .multi{
+                margin-left: 25mm;
+            }
+            .single{
+                margin-left: 72mm;
+            }
+            .pictures_layout {
+                margin: 0;
+                position: absolute;
+                top: 164.5mm;
+            }
+            .info_layout {
+                font-family: "montserratBold";
+                margin: 0;
+                padding:0;
+                position: absolute;
+                top: 263mm;
+                width:100%;
+            }
+            .text_layout {
+                text-align: center;
+                color: #4a4a49;
+                font-size:16px;
+                position: absolute;
+                top: <t t-esc="'95' if digital else '46'"/>mm;
+                margin-left: 22mm;
+                margin-right: 22mm;
+            }
+            .second_paragraph {
+                font-family: "montserratBold";
+                color: #005eb8; !important
+                font-size:18px;
+                text-transform: uppercase;
+            }
+            .third_paragraph {
+                font-style: italic;
+            }
+        </t>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report_compassion.style"/>
+                <t t-set="pictures" t-value="o.child_id.pictures_ids"/>
+                <t t-set="first_pic_available" t-value="len(pictures) &gt; 1 and pictures[-1].date.year &lt;= o.start_date.year and pictures[-1].date.year &lt; pictures[0].date.year"/>
+                <div class="background" t-if="digital">
+                    <img t-attf-src="#{base_url}/report_compassion/static/img/report_compassion.ending_sponsorship_certificate/ending_sponsor_card_#{lang[:2]}.jpg"/>
+                </div>
+                <div class="text_layout" t-if="new_version or digital or lang in ('it_IT', 'en_US')">
+                    <p>We thank you from the bottom of our hearts for accompanying a child living in poverty.</p>
+                    <p class="second_paragraph">Your precious commitment has given dignity to this child, helped him to develop in a promising way and allowed him to look forward to the future with hope.</p>
+                    <p class="third_paragraph" t-if="long_lasting">Do you remember the beginning of your sponsorship?<br/>What a great journey it has been since then!</p>
+                </div>
+                <div t-if="first_pic_available" class="pictures_layout">
+                    <img t-if="pictures" class="child_picture multi"
+                         t-attf-src="data:image/jpg;base64,{{ pictures[-1].fullshot }}"/>
+                    <img t-if="pictures" class="child_picture multi"
+                         t-attf-src="data:image/jpg;base64,{{ pictures[0].fullshot }}"/>
+                </div>
+                <div t-if="not first_pic_available" class="pictures_layout">
+                    <img t-if="pictures" class="child_picture single"
+                         t-attf-src="data:image/jpg;base64,{{ pictures[0].fullshot }}"/>
+                </div>
+                <div class="info_layout">
+                    <p t-field="o.child_id.preferred_name" class="child_name"/>
+                    <t t-set="start_date"
+                       t-value="o.env['connect.month'].get_months_selection()[o.start_date.month][1]+' '+str(o.start_date.year)"/>
+                    <t t-set="end_date"
+                       t-value="o.env['connect.month'].get_months_selection()[o.end_date.month][1]+' '+str(o.end_date.year)"/>
+                    <hr class="yellow_line"/>
+                    <p class="legend_date">
+                        <t t-if="o.child_id.gender == 'M' or lang not in ('fr_CH','it_IT')">
+                            Sponsored since
+                        </t>
+                        <t t-if="o.child_id.gender == 'F' and lang in ('fr_CH','it_IT')">
+                            Sponsored since (Female)
+                        </t>
+                        <t t-raw="start_date"/> - <t t-raw="end_date"/></p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

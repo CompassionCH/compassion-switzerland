@@ -1,0 +1,45 @@
+<odoo>
+    <!-- Add button in correspondence views -->
+    <record id="print_sponsorship_gift" model="ir.ui.view">
+        <field name="name">print.sponsorship.gift.bvr.form</field>
+        <field name="model">print.sponsorship.gift.bvr</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="state" invisible="1"/>
+                <group>
+                    <field name="birthday_gift"/>
+                    <field name="general_gift"/>
+                    <field name="family_gift"/>
+                    <field name="project_gift"/>
+                    <field name="graduation_gift"/>
+                </group>
+                <group>
+                    <field name="paper_format"/>
+                </group>
+                <group>
+                    <field name="pdf"/>
+                </group>
+                <group states="pdf">
+                    <field name="pdf_name" invisible="1"/>
+                    <field name="pdf_download" filename="pdf_name"/>
+                </group>
+                <footer>
+                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_print_sponsorship_gift_bvr" model="ir.actions.act_window">
+         <field name="name">Gift Payment Slips</field>
+         <field name="res_model">print.sponsorship.gift.bvr</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">form</field>
+         <field name="target">new</field>
+        <field name="context">{'default_birthday_gift': True, 'default_general_gift': True, 'default_family_gift': True}</field>
+        <field name="binding_model_id" ref="model_recurring_contract"/>
+        <field name="binding_type">report</field>
+   </record>
+</odoo>
