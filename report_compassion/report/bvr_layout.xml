@@ -31,7 +31,7 @@
                       2 Top
         -->
         <t t-set="scissors_pos" t-value="0 if disable_scissors else 1 if is_top else 2"/>
-        <div class="swissqr_content" t-if="bank_account.validate_swiss_code_arguments(bank_account.currency_id, partner, reference)" t-attf-style="top: #{ swissqr_position_top or '0' }mm;">
+        <div class="swissqr_content" t-attf-style="top: #{ swissqr_position_top or '0' }mm;">
             <div class="swissqr_receipt" t-attf-style="border-width: #{'1' if scissors_pos==2 else '0'}pt 1pt #{'1' if scissors_pos==1 else '0'}pt 0pt">
                 <span t-att-class="{0: 'scissors_none', 1: 'scissors_bottom', 2: 'scissors_top'}[scissors_pos]" t-esc="u'\u2704'"/>
                     <span class="scissors_right" t-esc="u'\u2704'"/>
@@ -45,7 +45,7 @@
                         <span class="swissqr_text content" t-field="partner.company_id.city"/><br/>
 
                         <span class="swissqr_text title">Reference</span><br/>
-                        <span class="swissqr_text content" t-esc="o.env['account.invoice'].space_qrr_reference(reference)"/><br/>
+                        <span class="swissqr_text content" t-esc="o.env['account.move'].space_qrr_reference(reference)"/><br/>
 
                         <span class="swissqr_text title">Payable by</span><br/>
                         <span class="swissqr_text content" t-field="partner.commercial_partner_id.name"/><br/>
@@ -72,7 +72,7 @@
             <div class="swissqr_body" t-attf-style="border-width: #{'1' if scissors_pos==2 else '0'}pt 0pt #{'1' if scissors_pos==1 else '0'}pt 0pt">
                     <div>
                         <span class="swissqr_text title title_zone">Payment part</span><br/>
-                        <img class="swissqr" t-att-src="bank_account.build_swiss_code_base64(amount, bank_account.currency_id.name, None, partner, None, reference, comm_qr)"/>
+                        <img class="swissqr" t-att-src="bank_account.build_qr_code_url(amount, comm_qr, reference, bank_account.currency_id, partner)"/>
                         <img class="ch_cross" src="/l10n_ch/static/src/img/CH-Cross_7mm.png"/>
 
                         <div id="indications_zone" class="swissqr_column_right indication_zone">
@@ -86,7 +86,7 @@
 
                             <t t-if="bank_account._is_qr_iban()">
                                 <span class="swissqr_text title">Reference</span><br/>
-                                <span class="swissqr_text content" t-esc="o.env['account.invoice'].space_qrr_reference(reference)"/><br/>
+                                <span class="swissqr_text content" t-esc="o.env['account.move'].space_qrr_reference(reference)"/><br/>
                             </t>
 
                             <span class="swissqr_text title">Additional information</span><br/>
