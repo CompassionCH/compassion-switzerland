@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, models, _
+from odoo import models, _
 
 
 # pylint: disable=C8107
@@ -30,18 +30,29 @@ class ResPartnerBank(models.Model):
         )
         return line_1[:70], line_2[:70]
 
-    @api.model_create_multi
-    def create(self, data):
-        """Override function to notify creation in a message"""
-        result = super().create(data)
-        for bank in result:
-            if bank.partner_id:
-                bank.message_post(
-                    body=_("<b>Account number: </b>" + bank.acc_number),
-                    subject=_("New account created"),
-                    type="comment",
-                )
-        return result
+    def _eligible_for_qr_code(self, qr_method, debtor_partner, currency):
+        # Always allow QR-generation
+        if qr_method == 'ch_qr':
+            return True
+        return super()._eligible_for_qr_code(
+            qr_method, debtor_partner, currency)
+
+    def _check_for_qr_code_errors(
+            self, qr_method, amount, currency, debtor_partner,
+            free_communication, structured_communication):
+        # Don't check missing addresses
+        if qr_method == "ch_qr":
+            if self._is_qr_iban() and not \
+                    self._is_qr_reference(structured_communication):
+                return _("When using a QR-IBAN as the destination account of "
+                         "a QR-code, the payment reference must be a "
+                         "QR-reference.")
+            else:
+                return ""
+        return super()._check_for_qr_code_errors(
+            qr_method, amount, currency, debtor_partner, free_communication,
+            structured_communication
+        )
 
     def unlink(self):
         """Override function to notify delete in a message"""

@@ -35,12 +35,12 @@
     "license": "AGPL-3",
     "website": "http://www.compassion.ch",
     "depends": [
-        "label",  # compassion-modules
         "sponsorship_switzerland",  # compassion-switzerland
         "report_wkhtmltopdf_param",  # addons_oca
     ],
     "external_dependencies": {"python": ["pyquery", "babel"]},
     "data": [
+        "security/ir.model.access.csv",
         "report/compassion_layout.xml",
         "report/paperformats.xml",
         "report/childpack.xml",
@@ -51,6 +51,7 @@
         "report/anniversary_card.xml",
         "report/bvr_fund.xml",
         "report/tax_receipt.xml",
+        "report/sponsorship_label.xml",
         "report/ending_sponsorship_certificate.xml",
         "views/print_sponsorship_bvr_view.xml",
         "views/print_sponsorship_gift_bvr_view.xml",

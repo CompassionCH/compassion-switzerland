@@ -16,7 +16,8 @@
                     <field name="paper_format"/>
                 </group>
                 <group>
-                    <field name="include_gifts"/>
+                    <!-- Couldn't make it work on other formats, it's anyway useless -->
+                    <field name="include_gifts" attrs="{'invisible': [('paper_format', '!=', 'report_compassion.2bvr_sponsorship')]}"/>
                     <field name="pdf"/>
                 </group>
                 <group states="pdf">
