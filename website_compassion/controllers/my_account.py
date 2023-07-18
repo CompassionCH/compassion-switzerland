@@ -709,7 +709,7 @@ class MyAccountController(PaymentFormController):
         partner = request.env.user.partner_id
         picture_post = post.get("picture")
         if picture_post:
-            image_value = compress_big_images(b64encode(picture_post.stream.read()))
+            image_value = compress_big_images(b64encode(picture_post.stream.read()), None, None)
             if not image_value:
                 return "no image uploaded"
             partner.write({"image": image_value})
