@@ -175,7 +175,7 @@ class ProjectCreationFormStep1(models.AbstractModel):
         if values["deadline"] < datetime.now().date():
             raise InvalidDateException
         if values.get("cover_photo"):
-            values["cover_photo"] = compress_big_images(values["cover_photo"])
+            values["cover_photo"] = compress_big_images(values["cover_photo"], 800, 400)
         for key in ["presentation_video",
                     "facebook_url",
                     "twitter_url",
@@ -420,7 +420,7 @@ class ProjectCreationStep3(models.AbstractModel):
             partner = self.main_object.sudo().project_owner_id.sudo()
 
         if extra_values.get('partner_image'):
-            extra_values["partner_image"] = compress_big_images(extra_values["partner_image"])
+            extra_values["partner_image"] = compress_big_images(extra_values["partner_image"], 800, 800)
             partner.write({"image": extra_values["partner_image"]})
         else:
             path = "crowdfunding_compassion/static/src/img/guy.png"
