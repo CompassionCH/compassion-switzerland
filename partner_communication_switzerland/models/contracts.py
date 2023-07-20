@@ -14,6 +14,7 @@ from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields, _
+from odoo.addons.sponsorship_compassion.models.contracts import SPONSORSHIP_TYPE_LIST
 
 logger = logging.getLogger(__name__)
 
@@ -491,7 +492,7 @@ class RecurringContract(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         res = super().contract_waiting_mandate()
-        new_spons = self.filtered(lambda c: "S" in c.type and not c.is_active)
+        new_spons = self.filtered(lambda c: c.type in SPONSORSHIP_TYPE_LIST and not c.is_active)
         new_spons._new_dossier()
         csp = self.filtered(
             lambda s: "6014" in s.mapped(
@@ -542,7 +543,7 @@ class RecurringContract(models.Model):
                 self.notify_sds_new_sponsorship()
 
         self.filtered(
-            lambda c: "S" in c.type
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST
                       and not c.is_active
                       and c not in mandates_valid
         ).with_context({})._new_dossier()
