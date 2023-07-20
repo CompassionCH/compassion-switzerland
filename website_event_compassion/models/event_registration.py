@@ -108,6 +108,7 @@ class Event(models.Model):
     website_url = fields.Char(compute="_compute_website_url")
     host_url = fields.Char(compute="_compute_host_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
+    survival_sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
     event_name = fields.Char(related="event_id.name", track_visibility="onchange")
     uuid = fields.Char(default=lambda self: self._get_uuid(), copy=False)
     include_flight = fields.Boolean()
@@ -255,6 +256,7 @@ class Event(models.Model):
         wp_obj = self.env["wordpress.configuration"].get_config()
         for registration in self:
             registration.sponsorship_url = wp_obj.host + wp_obj.sponsorship_url
+            registration.survival_sponsorship_url = wp_obj.host + wp_obj.survival_sponsorship_url
 
     @api.multi
     @api.depends("state", "event_id.state")
