@@ -41,6 +41,7 @@ class CrowdfundingParticipant(models.Model):
     profile_photo = fields.Binary(related="partner_id.image")
     profile_photo_url = fields.Char(compute="_compute_profile_photo_url")
     sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
+    survival_sponsorship_url = fields.Char(compute="_compute_sponsorship_url")
     is_published = fields.Boolean(related="project_id.is_published", store=True)
     website_id = fields.Many2one("website", related="project_id.website_id", store=True)
 
@@ -72,11 +73,12 @@ class CrowdfundingParticipant(models.Model):
             utm_medium = "Crowdfunding"
             utm_campaign = participant.project_id.name
             utm_source = participant.name
-            participant.sponsorship_url = \
-                f"https://{wp.host}{wp.sponsorship_url}?" \
+            DEFAULT_URL = f"https://{wp.host}%s?"\
                 f"utm_medium={utm_medium}" \
                 f"&utm_campaign={utm_campaign}" \
                 f"&utm_source={utm_source}"
+            participant.sponsorship_url = DEFAULT_URL % wp.sponsorship_url
+            participant.survival_sponsorship_url = DEFAULT_URL % wp.survival_sponsorship_url
 
     @api.multi
     def _compute_product_number_reached(self):
