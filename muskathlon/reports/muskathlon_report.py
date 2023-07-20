@@ -75,10 +75,10 @@ class Muskathlon(models.Model):
                 rc.partner_id,
                 rc.user_id,
                 CASE WHEN rc.type = 'S' THEN 1000
-                     WHEN rc.type = 'csp' THEN 500
+                     WHEN rc.type = 'CSP' THEN 500
                 END AS amount,
                 CASE WHEN rc.type = 'S' THEN 1000 * 100
-                     WHEN rc.type = 'csp' THEN 500 * 100
+                     WHEN rc.type = 'CSP' THEN 500 * 100
                 END AS amount_cent,
                 rc.sent_to_4m,
                 rc.payment_mode_id,
