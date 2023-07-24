@@ -116,3 +116,15 @@ class Correspondence(models.Model):
         gmc_letter.kit_identifier = False
         gmc_letter.unlink()
         return our_letter.write(vals)
+
+    @api.multi
+    def assign_supervisor(self):
+        """
+        This method assigns a supervisor for a letter.
+        Can be inherited to customize by whom the letters need to be checked.
+        We assign the letter to the SDS team by default
+        """
+        translation_supervisor = self.env["res.users"].sudo().search([("email", "=", "sds@compassion.ch")])
+        for letter in self.filtered(lambda l: not l.translation_supervisor_id):
+            letter.translation_supervisor_id = translation_supervisor
+        return True
