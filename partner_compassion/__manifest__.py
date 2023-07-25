@@ -39,7 +39,7 @@
         "geoengine_base_geolocalize",  # geospatialslac
         "account_banking_mandate",  # oca_addons/bank-payment
         "account_bank_statement_import_camt_details",
-        "sbc_compassion",  # compassion-modules
+        "sbc_translation",  # compassion-modules
         "thankyou_letters",  # compassion-modules
         "mail_tracking",
         "partner_contact_birthdate",  # oca_addons/partner-contact
