@@ -222,13 +222,13 @@ class AccountReconcileModel(models.Model):
         query, params = super()._apply_conditions(query, params)
 
         # Exclude account.move.lines that have the same account as the statement_lines
-        query += """
-            AND aml.account_id NOT IN
-            (journal.default_credit_account_id, journal.default_debit_account_id)
-        """
-
-        # Keep only account.move.lines with a ref containing the statement_line ref
-        # strpos() > 0 is an efficient way to check if a substring exists
-        query += " AND strpos(aml.ref, st_line.ref)>0"
+        if "aml" in query:
+            query += """
+                AND aml.account_id NOT IN
+                (journal.default_credit_account_id, journal.default_debit_account_id)
+            """
+            # Keep only account.move.lines with a ref containing the statement_line ref
+            # strpos() > 0 is an efficient way to check if a substring exists
+            query += " AND strpos(aml.ref, st_line.ref)>0"
 
         return query, params
