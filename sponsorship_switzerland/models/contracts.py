@@ -42,9 +42,6 @@ class RecurringContracts(models.Model):
     next_waiting_reminder = fields.Datetime(
         "Next reminder", compute="_compute_next_reminder", store=True
     )
-    partner_lang = fields.Selection(
-        "res.partner", "Partner language", related="partner_id.lang", store=True
-    )
     hillsong_ref = fields.Char(related="origin_id.hillsong_ref", store=True)
     state = fields.Selection(
         selection_add=[("mandate", "Waiting Mandate")],
