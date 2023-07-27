@@ -500,9 +500,12 @@ class RecurringContract(models.Model):
         )
         if csp:
             module = "partner_communication_switzerland."
-            selected_config = self.env.ref(module + "csp_mail")
-            csp.with_context({}).send_communication(
-                selected_config, correspondent=False)
+            survival_config = self.env.ref(module + "csp_1")
+            other_csp_config = self.env.ref(module + "csp_mail")
+            (csp.filtered(lambda s: s.type == "CSP").with_context({})
+             .send_communication(survival_config, correspondent=False))
+            (csp.filtered(lambda s: s.type != "CSP").with_context({})
+             .send_communication(other_csp_config, correspondent=False))
 
         return res
 
@@ -554,9 +557,12 @@ class RecurringContract(models.Model):
         )
         if csp:
             module = "partner_communication_switzerland."
-            selected_config = self.env.ref(module + "csp_mail")
-            csp.with_context({}).send_communication(
-                selected_config, correspondent=False)
+            survival_config = self.env.ref(module + "csp_1")
+            other_csp_config = self.env.ref(module + "csp_mail")
+            (csp.filtered(lambda s: s.type == "CSP").with_context({})
+             .send_communication(survival_config, correspondent=False))
+            (csp.filtered(lambda s: s.type != "CSP").with_context({})
+             .send_communication(other_csp_config, correspondent=False))
 
         return res
 

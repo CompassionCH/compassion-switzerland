@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "12.0.1.2.0",
+    "version": "12.0.1.2.1",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -40,6 +40,7 @@
         "sms_939",  # compassion-switzerland
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
+        "survival_sponsorship_compassion",
     ],
     "external_dependencies": {
         "python": [
