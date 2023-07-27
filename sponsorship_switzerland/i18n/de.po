@@ -376,11 +376,6 @@ msgid "Active"
 msgstr "Aktiv"
 
 #. module: sponsorship_switzerland
-#: model:ir.model.fields,help:sponsorship_switzerland.field_recurring_contract__partner_lang
-msgid "All the emails and documents sent to this contact will be translated in this language."
-msgstr ""
-
-#. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_any
 msgid "Anonymous donations"
 msgstr ""
@@ -1139,11 +1134,6 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_res_partner_category
 msgid "Partner Tags"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__partner_lang
-msgid "Partner language"
 msgstr ""
 
 #. module: sponsorship_switzerland
