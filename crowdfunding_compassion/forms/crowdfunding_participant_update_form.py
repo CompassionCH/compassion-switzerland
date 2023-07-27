@@ -95,5 +95,5 @@ class CrowdfundingParticipatUpdateForm(models.AbstractModel):
         messages when multiple forms are present on same page.
         """
         if extra_values.get("profile_photo"):
-            self.main_object.partner_id.image = compress_big_images(extra_values["profile_photo"])
+            self.main_object.partner_id.image = compress_big_images(extra_values["profile_photo"], 800, 800)
         self.o_request.website.get_status_message()

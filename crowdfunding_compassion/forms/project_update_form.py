@@ -102,7 +102,7 @@ class PartnerCoordinatesForm(models.AbstractModel):
             # Notify responsible of the changes, for validation.
             settings = self.env["res.config.settings"].sudo()
             if values.get("cover_photo"):
-                values["cover_photo"] = compress_big_images(values["cover_photo"])
+                values["cover_photo"] = compress_big_images(values["cover_photo"], 800, 400)
             notify_ids = settings.get_param("new_participant_notify_ids")
             if notify_ids:
                 user = self.env["res.partner"].sudo().browse(notify_ids[0][2]) \
