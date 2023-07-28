@@ -4,6 +4,7 @@
             <field name="name">Muskathlon Medical Survey To Doctor</field>
             <field name="model_id" ref="model_survey_user_input"/>
             <field name="email_from">"${object.partner_id.user_ids[:1].company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="email_to">"Muskathlon Doctor" &lt;medic@4m-switzerland.ch&gt;</field>
             <field name="reply_to">${object.partner_id.email}</field>
             <field name="use_default_to" eval="True"/>
             <field name="subject">Muskathlon medical survey from ${object.partner_id.name}</field>

@@ -167,24 +167,14 @@ class MuskathlonRegistration(models.Model):
                 }
             )
 
-            # here we need to send a mail to the muskathlon doctor
-            muskathlon_doctor_email = (
-                self.env["ir.config_parameter"]
-                    .sudo()
-                    .get_param("muskathlon.doctor.email")
+            template = (
+                self.env.ref("muskathlon.medical_survey_to_doctor_template").sudo()
             )
-            if muskathlon_doctor_email:
-                template = (
-                    self.env.ref("muskathlon.medical_survey_to_doctor_template")
-                        .with_context(email_to=muskathlon_doctor_email)
-                        .sudo()
+            try:
+                template.send_mail(
+                    user_input.id,
+                    force_send=True,
                 )
-                try:
-                    template.send_mail(
-                        user_input.id,
-                        force_send=True,
-                        email_values={"email_to": muskathlon_doctor_email},
-                    )
-                except UserError:
-                    continue
+            except UserError:
+                continue
         return True
