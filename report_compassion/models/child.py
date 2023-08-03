@@ -20,8 +20,8 @@ class CompassionChild(models.Model):
 
     _inherit = "compassion.child"
 
-    description_left = fields.Text(compute="_compute_description")
-    description_right = fields.Text(compute="_compute_description")
+    description_left = fields.Html(compute="_compute_description")
+    description_right = fields.Html(compute="_compute_description")
     project_title = fields.Char(compute="_compute_project_title")
     childpack_expiration = fields.Datetime(
         compute="_compute_childpack_expiration")

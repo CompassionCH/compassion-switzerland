@@ -349,6 +349,8 @@ class RecurringContracts(models.Model):
             payment_name = group.payment_mode_id.name
             old_payment_name = old_payment_modes[i].with_context(
                 lang="en_US").name
+            if not old_payment_name:
+                continue
             if ("LSV" in payment_name or "Postfinance" in payment_name) and not (
                 "LSV" in old_payment_name or "Postfinance" in old_payment_name
             ):
