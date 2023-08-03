@@ -15,9 +15,9 @@ class CompassionProject(models.Model):
 
     _inherit = "compassion.project"
 
-    description = fields.Text(compute="_compute_description")
-    description_left = fields.Text(compute="_compute_description")
-    description_right = fields.Text(compute="_compute_description")
+    description = fields.Html(compute="_compute_description")
+    description_left = fields.Html(compute="_compute_description")
+    description_right = fields.Html(compute="_compute_description")
 
     def _compute_description(self):
         lang_map = {
