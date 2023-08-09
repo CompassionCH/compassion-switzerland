@@ -53,10 +53,11 @@ class HomepageController(Controller):
     def _compute_homepage_context():
         # Retrieve all projects open (deadline in the future)
         active_projects = request.env["crowdfunding.project"].sudo().get_active_projects(status='active')
-        active_funds_data = []
+        funds_data = []
 
-        for fund in active_projects.mapped("product_id").filtered("activate_for_crowdfunding"):
-            active_funds_data.append({
+        for fund in request.env['product.product'].sudo().search(
+            [('activate_for_crowdfunding', '=', True)]):
+            funds_data.append({
                 "name": fund.crowdfunding_impact_text_active,
                 "description": fund.crowdfunding_description,
                 "icon_image": fund.image_medium or SPONSOR_ICON,
@@ -73,7 +74,7 @@ class HomepageController(Controller):
             "sponsorship": sponsorship_card_content()
         }
         for fund in request.env['product.product'].sudo().search(
-                [('product_tmpl_id.show_fund_together_homepage', '=', True)], order="total_fund_impact DESC"):
+            [('product_tmpl_id.show_fund_together_homepage', '=', True)], order="total_fund_impact DESC"):
             impact_val = fund.product_tmpl_id.total_fund_impact
             if impact_val > 1:
                 fund_text = fund.crowdfunding_impact_text_passive_plural
@@ -91,7 +92,7 @@ class HomepageController(Controller):
         return {
             "projects": active_projects[:8],
             "impact": {k: v for k, v in impact.items() if v['value']},
-            "active_funds": active_funds_data,
+            "funds_description": funds_data,
             "base_url": request.website.domain,
             "subheading": subheading,
         }
