@@ -125,7 +125,8 @@
                         <field name="interested_for_volunteering" attrs="{'invisible': [('advocate_details_id', '!=', False)]}"/>
                         <field name="advocate_details_id" context="{'default_partner_id': active_id}" domain="[('partner_id','=',active_id)]"/>
                         <field name="engagement_ids" widget="many2many_tags"/>
-                        <field name="translation_user_id"/>
+                        <field name="user_ids" invisible="1"/>
+                        <field name="translation_user_id" attrs="{'invisible': [('user_login', '=', False)]}" context="{'default_user_id': user_ids[0]}" domain="[('user_id', '=', user_ids[0])]"/>
                     </group>
                 </page>
                 <page string="Segmentation" name="segmentation_information">
