@@ -142,7 +142,7 @@
 
                     <div class="container mb-5 pb-5">
                         <div class="row">
-                            <t t-foreach="active_funds" t-as="fund">
+                            <t t-foreach="funds_description" t-as="fund">
                                 <t t-set="fund_image" t-value="fund['header_image']"/>
                                 <t t-set="fund_icon" t-value="fund['icon_image']" />
                                 <t t-set="fund_name" t-value="fund['name']" />

@@ -68,7 +68,7 @@ class OrderMaterialForm(models.AbstractModel):
     def create_description(material, values, languages=["french", "german"]):
         lines = []
         for lang in languages:
-            if int(values[f'flyer_{lang}']) > 0:
+            if int(values[f'{material}_{lang}']) > 0:
                 lines.append(f"<li>{values[f'flyer_{lang}']} <b>{material}</b> in {lang}</li>")
         description = f"<ul>{''.join(lines)}</ul>"
         return description
@@ -99,7 +99,6 @@ class OrderMaterialForm(models.AbstractModel):
                 "name": f"Muskathlon flyer order - {self.partner_id.name}",
                 "description": self.create_description("flyer", extra_values),
                 "user_id": staff_id,
-                "event_ids": [(4, self.event_id.id, None)],
                 "partner_id": self.partner_id.id,
             }
         )
