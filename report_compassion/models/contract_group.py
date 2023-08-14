@@ -94,7 +94,6 @@ class ContractGroup(models.Model):
         self.ensure_one()
         payment_mode = self.with_context(lang="en_US").payment_mode_id
         amount = self.get_amount(start, stop, sponsorships)
-        valid = sponsorships
         number_sponsorship = len(sponsorships)
         date_start = fields.Date.to_date(start)
         date_stop = fields.Date.to_date(stop)
@@ -120,18 +119,19 @@ class ContractGroup(models.Model):
                 _("ISR") + " " + self.contract_ids[0].with_context(
                     context).group_freq
             )
-        if number_sponsorship > 1:
+        if number_sponsorship > 1 and sponsorships.filtered("child_id"):
             vals["subject"] += str(number_sponsorship) + " " + _("sponsorships")
-        elif number_sponsorship and valid.child_id:
-            vals["subject"] = valid.child_id.preferred_name + " ({})".format(
-                valid.child_id.local_id
+        elif number_sponsorship == 1 and sponsorships.child_id:
+            vals["subject"] = sponsorships.child_id.preferred_name + " ({})".format(
+                sponsorships.child_id.local_id
             )
-        elif number_sponsorship and not valid.child_id and valid.display_name:
-            product_name = self.env["product.product"].search(
-                [("id", "in", valid.mapped("contract_line_ids.product_id").ids)]
-            )
-
-            vals["subject"] = ", ".join(product_name.mapped("thanks_name"))
+        elif number_sponsorship:
+            products = sponsorships.mapped(
+                "contract_line_ids.product_id.product_tmpl_id")
+            if any("CSP" in c_type for c_type in sponsorships.mapped("type")):
+                # FORCE CSP product
+                products = self.env.ref("survival_sponsorship_compassion.survival_product_template")
+            vals["subject"] = ", ".join(products.mapped("thanks_name"))
 
         return (
             f"{vals['payment_type']} {vals['amount']}"
