@@ -138,6 +138,7 @@ class BankStatementLine(models.Model):
         self.with_delay()._process_reconciliation(
             counterpart_aml_dicts, payment_aml_rec, new_aml_dicts
         )
+        return self.env["account.move"]
 
     def _create_invoice_from_mv_lines(self, mv_line_dicts, invoice=None):
         # Generate a unique bvr_reference
