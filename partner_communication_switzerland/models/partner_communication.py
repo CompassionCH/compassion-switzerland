@@ -807,6 +807,30 @@ class PartnerCommunication(models.Model):
             })
         return attachments
 
+    def get_csp_picture(self):
+        self.ensure_one()
+        # Possible values : Africa, Asia, Latin America and Caribbean
+        regions = set(self.get_objects().mapped(
+            "contract_line_ids.product_id.survival_sponsorship_field_office_id"
+            ".region"))
+        attachments = {}
+        picture_link_template = \
+            "https://compassion.ch/medias/onboarding/CSP_onboarding_%s.jpg"
+        for region in regions:
+            name_split = region.split(" ")
+            r_name = (
+                # Latin America is the exception (we need "america" word)
+                name_split[1] if len(name_split) > 1 else name_split[0]
+            ).lower()
+            img_data = base64.b64encode(
+                requests.get(picture_link_template % r_name).content
+            )
+            attachments.update({
+                r_name: ("partner_communication_switzerland.child_picture",
+                         img_data)
+            })
+        return attachments
+
     def get_csp_attachment(self):
         self.ensure_one()
         attachments = OrderedDict()
