@@ -91,7 +91,9 @@ class AccountStatement(models.Model):
         """ Auto reconcile matching invoices through jobs to avoid timeouts
         Inspired by the `if model.auto_reconcile` part of _apply_rules()"""
         reconcile_model = self.env["account.reconcile.model"].search(
-            [("rule_type", "!=", "writeoff_button")]
+            [("rule_type", "=", "writeoff_suggestion"),
+             ("journal_id", "in", self.mapped("journal_id").ids)],
+            limit=1
         )
 
         for bank_statement in self.filtered("line_ids"):
