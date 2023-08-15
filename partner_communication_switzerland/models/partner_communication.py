@@ -822,7 +822,7 @@ class PartnerCommunication(models.Model):
             ).lower()
             attachments.update({
                 r_name: self._get_pdf_from_data(
-                    {"region": r_name},
+                    {"region": r_name, "doc_ids": self.ids},
                     self.env.ref("partner_communication_switzerland.report_csp_picture"))
             })
         return attachments
