@@ -1,7 +1,7 @@
 <odoo>
     <report id="report_csp_picture"
             model="compassion.child"
-            string="Child Picture"
+            string="CSP Picture"
             report_type="qweb-pdf"
             name="partner_communication_switzerland.csp_picture"
     />
@@ -12,20 +12,18 @@
     <template id="csp_picture">
         <t t-call="web.html_container">
             <div class="article">
-                <t t-foreach="docs" t-as="o">
                     <div class="page">
                         <style type="text/css">
                             img {
                                 width: 101mm;
                                 height: 101mm;
                                 position: absolute;
-                                top: 50mm;
+                                top: 25mm;
                                 object-fit: fill;
                             }
                         </style>
                         <img t-attf-src="https://compassion.ch/medias/onboarding/CSP_onboarding_#{region}.jpg"/>
                     </div>
-                </t>
             </div>
         </t>
     </template>
