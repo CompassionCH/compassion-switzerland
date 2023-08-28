@@ -809,24 +809,19 @@ class PartnerCommunication(models.Model):
 
     def get_csp_picture(self):
         self.ensure_one()
-        # Possible values : Africa, Asia, Latin America and Caribbean
-        regions = set(self.get_objects().mapped(
+        field_offices = set(self.get_objects().mapped(
             "contract_line_ids.product_id.survival_sponsorship_field_office_id"
-            ".region"))
+        ))
         attachments = {}
         report_name = "partner_communication_switzerland.report_csp_picture"
-        for region in regions:
-            name_split = region.split(" ")
-            r_name = (
-                # Latin America is the exception (we need "america" word)
-                name_split[1] if len(name_split) > 1 else name_split[0]
-            ).lower()
+        for field_office in field_offices:
             pdf_data = self._get_pdf_from_data(
-                    {"region": r_name, "doc_ids": self.ids},
+                    {"FO": field_office.field_office_id,
+                     "doc_ids": self.ids},
                     self.env.ref(report_name)
             )
             attachments.update({
-                r_name: [report_name, pdf_data]
+                field_office.name + ".pdf": [report_name, pdf_data]
         })
         return attachments
 

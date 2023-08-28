@@ -22,7 +22,7 @@
                                 object-fit: fill;
                             }
                         </style>
-                        <img t-attf-src="https://compassion.ch/medias/onboarding/CSP_onboarding_#{region}.jpg"/>
+                        <img t-attf-src="https://compassion.ch/medias/csp/#{FO}_motherpic.jpg"/>
                     </div>
             </div>
         </t>
