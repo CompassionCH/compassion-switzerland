@@ -545,7 +545,7 @@ class RecurringContract(models.Model):
                 self.notify_sds_new_sponsorship()
 
         self.filtered(
-            lambda c: c.type in SPONSORSHIP_TYPE_LIST
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
                       and not c.is_active
                       and c not in mandates_valid
         ).with_context({})._new_dossier()
