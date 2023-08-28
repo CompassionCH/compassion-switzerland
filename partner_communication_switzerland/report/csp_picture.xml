@@ -16,9 +16,8 @@
                         <style type="text/css">
                             img {
                                 width: 101mm;
-                                height: 101mm;
+                                height: 153mm;
                                 position: absolute;
-                                top: 25mm;
                                 object-fit: fill;
                             }
                         </style>
