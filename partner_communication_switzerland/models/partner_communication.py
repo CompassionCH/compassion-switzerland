@@ -813,12 +813,13 @@ class PartnerCommunication(models.Model):
             "contract_line_ids.product_id.survival_sponsorship_field_office_id"
         ))
         attachments = {}
-        report_name = "partner_communication_switzerland.report_csp_picture"
+        data_name = "partner_communication_switzerland.report_csp_picture"
+        report_name = "partner_communication_switzerland.csp_picture"
         for field_office in field_offices:
             pdf_data = self._get_pdf_from_data(
                     {"FO": field_office.field_office_id,
                      "doc_ids": self.ids},
-                    self.env.ref(report_name)
+                    self.env.ref(data_name)
             )
             attachments.update({
                 field_office.name + ".pdf": [report_name, pdf_data]
