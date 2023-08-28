@@ -492,7 +492,9 @@ class RecurringContract(models.Model):
     @api.multi
     def contract_waiting_mandate(self):
         res = super().contract_waiting_mandate()
-        new_spons = self.filtered(lambda c: c.type in SPONSORSHIP_TYPE_LIST and not c.is_active)
+        new_spons = self.filtered(
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
+            and not c.is_active)
         new_spons._new_dossier()
         csp = self.filtered(
             lambda s: "6014" in s.mapped(
@@ -500,10 +502,7 @@ class RecurringContract(models.Model):
         )
         if csp:
             module = "partner_communication_switzerland."
-            survival_config = self.env.ref(module + "csp_1")
             other_csp_config = self.env.ref(module + "csp_mail")
-            (csp.filtered(lambda s: s.type == "CSP").with_context({})
-             .send_communication(survival_config, correspondent=False))
             (csp.filtered(lambda s: s.type != "CSP").with_context({})
              .send_communication(other_csp_config, correspondent=False))
 
@@ -557,10 +556,7 @@ class RecurringContract(models.Model):
         )
         if csp:
             module = "partner_communication_switzerland."
-            survival_config = self.env.ref(module + "csp_1")
             other_csp_config = self.env.ref(module + "csp_mail")
-            (csp.filtered(lambda s: s.type == "CSP").with_context({})
-             .send_communication(survival_config, correspondent=False))
             (csp.filtered(lambda s: s.type != "CSP").with_context({})
              .send_communication(other_csp_config, correspondent=False))
 
@@ -784,6 +780,7 @@ class RecurringContract(models.Model):
         wrpr_welcome = self.env.ref(module + "config_wrpr_welcome")
         transfer = self.env.ref(module + "new_dossier_transfer")
         child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
+        survival_config = self.env.ref(module + "csp_1") + self.env.ref(module + "csp_2a")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
@@ -796,6 +793,8 @@ class RecurringContract(models.Model):
             configs = print_dossier
         elif self.type == "SWP":
             configs = wrpr_welcome + child_picture
+        elif self.type == "CSP":
+            configs = survival_config
         else:
             configs = new_dossier + child_picture
         for config in configs:
