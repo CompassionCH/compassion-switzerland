@@ -30,17 +30,18 @@
 {
     "name": "Compassion CH Partners",
     "summary": "Upgrade Partners for Compassion Switzerland",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "development_status": "Production/Stable",
     "category": "Partner Management",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "https://www.compassion.ch",
     "depends": [
-        "survey",
         "mail",
         # compassion-modules
         "crm_compassion",
+        "partner_segmentation",
+        "child_protection",
         "sbc_compassion",
         "thankyou_letters",
         # OCA/partner-contact
@@ -65,7 +66,7 @@
         "web_view_google_map",
     ],
     "external_dependencies": {
-        "python": ["pandas", "pyminizip", "python-magic", "pysftp"]
+        "python": ["pandas", "pyminizip", "pysftp"]
     },
     "data": [
         "security/ir.model.access.csv",
@@ -75,11 +76,8 @@
         "data/advocate_engagement_data.xml",
         "data/calendar_event_type.xml",
         "data/ir_cron.xml",
-        "data/res_partner_actions.xml",
         "data/gist_indexes.xml",
         "data/partner_action_rules.xml",
-        "data/partner_segmentation_data.xml",
-        "data/partner_segmentation_survey.xml",
         "views/advocate_details.xml",
         "views/search_bank_address_wizard.xml",
         "views/survey_view.xml",
@@ -89,9 +87,6 @@
         "views/notification_settings_view.xml",
         "views/tag_merge_wizard_action.xml",
         "views/mail_mail.xml",
-        "views/partner_segmentation_view.xml",
-        "views/partner_segmentation_affinity_view.xml",
-        "templates/survey_templates.xml",
     ],
     "qweb": [],
     "installable": True,
