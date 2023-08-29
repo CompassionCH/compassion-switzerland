@@ -9,46 +9,25 @@
 ##############################################################################
 import logging
 import tempfile
-import uuid
 import base64
 import re
 
-from odoo import api, registry, fields, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.tools.config import config
 
 
 logger = logging.getLogger(__name__)
-MAGIC_INSTALLED = False
 regex_order = re.compile("^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
 
 try:
-    import magic
-
-    MAGIC_INSTALLED = True
     import pyminizip
     import csv
     import pysftp
     from pysftp import RSAKey
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
-
-
-def get_file_type(data):
-    ftype = ""
-    if MAGIC_INSTALLED:
-        ftype = magic.from_buffer(base64.b64decode(data), True)
-    if "pdf" in ftype:
-        return ".pdf"
-    elif "tiff" in ftype:
-        return ".tiff"
-    elif "jpeg" in ftype:
-        return ".jpg"
-    elif "png" in ftype:
-        return ".png"
-    else:
-        return ""
 
 
 class ResPartner(models.Model):
@@ -64,26 +43,6 @@ class ResPartner(models.Model):
     ##########################################################################
     #                        NEW PARTNER FIELDS                              #
     ##########################################################################
-
-    primary_segment_id = fields.Many2one(
-        "res.partner.segment",
-        string="Primary segmentation category",
-        compute="_compute_prim_sec_segments",
-        store=True,
-    )
-    secondary_segment_id = fields.Many2one(
-        "res.partner.segment",
-        string="Secondary segmentation category",
-        compute="_compute_prim_sec_segments",
-        store=True,
-    )
-    primary_segment_name = fields.Char(related="primary_segment_id.name")
-    has_segment = fields.Boolean(compute="_compute_has_segment")
-
-    segments_affinity_ids = fields.Many2many(
-        "res.partner.segment.affinity", string="Affinity for each segment"
-    )
-
     lang = fields.Selection(default=False, tracking=True)
     total_invoiced = fields.Monetary(groups=False)
     # Track address changes
@@ -179,22 +138,6 @@ class ResPartner(models.Model):
         ondelete={"email_alias": "set default"},
     )
 
-    uuid = fields.Char(copy=False, index=True)
-
-    has_agreed_child_protection_charter = fields.Boolean(
-        help="Indicates if the partner has agreed to the child protection" "charter.",
-        default=False,
-    )
-    date_agreed_child_protection_charter = fields.Datetime(
-        help="The date and time when the partner has agreed to the child"
-        "protection charter."
-    )
-    criminal_record = fields.Binary(
-        attachment=True,
-    )
-    criminal_record_name = fields.Char(compute="_compute_criminal_record_name")
-    criminal_record_date = fields.Date()
-
     # add track on fields from module base
     email = fields.Char(tracking=True)
     title = fields.Many2one(tracking=True, readonly=False)
@@ -206,33 +149,7 @@ class ResPartner(models.Model):
     company_type = fields.Selection(
         compute="_compute_company_type", inverse="_write_company_type"
     )
-
-    # Surveys
-    survey_input_lines = fields.One2many(
-        comodel_name="survey.user_input.line",
-        inverse_name="partner_id",
-        string="Surveys answers",
-        readonly=False,
-    )
-    survey_inputs = fields.One2many(
-        comodel_name="survey.user_input",
-        inverse_name="partner_id",
-        string="Surveys",
-        readonly=False,
-    )
-    survey_input_count = fields.Integer(
-        string="Survey number", compute="_compute_survey_input_count",
-        store=True
-    )
     city_id = fields.Many2one(related="zip_id.city_id", store=True)
-
-    user_login = fields.Char(
-        string="MyCompassion login",
-        compute="_get_user_login",
-        inverse="_set_user_login",
-        tracking=True,
-    )
-
     write_and_pray = fields.Boolean(
         string="Write & Pray",
         help="Have at least one sponsorship for the W&P program",
@@ -289,26 +206,6 @@ class ResPartner(models.Model):
                 record.has_majority or record.parent_consent in ["approved"]
             )
 
-    def agree_to_child_protection_charter(self):
-        return self.write({"has_agreed_child_protection_charter": True})
-
-    def update_child_protection_charter(self, vals):
-        for partner in self:
-            agreed = vals.get("has_agreed_child_protection_charter")
-            date = fields.Datetime.now() if agreed else None
-            vals.update(
-                {
-                    "date_agreed_child_protection_charter": date,
-                }
-            )
-            agreed_message = _("Has agreed to the child protection charter.")
-            disagreed_message = _("Has disagreed to the child protection charter.")
-            partner.message_post(
-                body=agreed_message if agreed else disagreed_message,
-                subject=_("Child protection charter"),
-            )
-        return True
-
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
         self.ensure_one()
@@ -337,45 +234,9 @@ class ResPartner(models.Model):
             church_to_update.update_number_sponsorships()
         return super().update_number_sponsorships()
 
-    @api.depends("survey_inputs")
-    def _compute_survey_input_count(self):
-        for survey in self:
-            survey.survey_input_count = len(survey.survey_inputs)
-
-    def _compute_criminal_record_name(self):
-        for partner in self:
-            if partner.criminal_record:
-                ftype = get_file_type(
-                    partner.with_context(bin_size=False).criminal_record
-                )
-                partner.criminal_record_name = f"Criminal record {partner.name}{ftype}"
-            else:
-                partner.criminal_record_name = False
-
     def _compute_write_and_pray(self):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
-
-    def _get_user_login(self):
-        for partner in self:
-            login = partner.mapped("user_ids.login")
-            if len(login) > 0:
-                partner.user_login = login[0]
-            else:
-                partner.user_login = False
-
-    def _set_user_login(self):
-        for partner in self:
-            users = partner.user_ids
-            if len(users) > 0:
-                user = users[0]
-                user.login = partner.user_login
-
-    @api.depends("segments_affinity_ids", "segments_affinity_ids.affinity")
-    def _compute_prim_sec_segments(self):
-        for partner in self:
-            partner.primary_segment_id = partner.segments_affinity_ids[:1].segment_id
-            partner.secondary_segment_id = partner.segments_affinity_ids[1:2].segment_id
 
     @api.depends("name")
     def _compute_address_name(self):
@@ -386,8 +247,10 @@ class ResPartner(models.Model):
                 partner.address_name = partner.name
 
     def _compute_has_segment(self):
-        for partner in self:
-            partner.has_segment = bool(partner.primary_segment_id)
+        # Write&Pray should not be segmented
+        super()._compute_has_segment()
+        for partner in self.filtered("write_and_pray"):
+            partner.has_segment = False
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -402,7 +265,6 @@ class ResPartner(models.Model):
             duplicate_ids = [(4, itm.id) for itm in duplicate]
             vals.update({"partner_duplicate_ids": duplicate_ids})
             vals["ref"] = self.env["ir.sequence"].get("partner.ref")
-            vals["uuid"] = uuid.uuid4()
         # Never subscribe someone to res.partner record
         partner = super(
             ResPartner, self.with_context(mail_create_nosubscribe=True)
@@ -418,8 +280,6 @@ class ResPartner(models.Model):
             del vals["name"]
             if not vals:
                 return True
-        if vals.get("criminal_record"):
-            vals["criminal_record_date"] = fields.Date.today()
         if vals.get("interested_for_volunteering"):
             # Notify volunteer staff
             for partner in self.filtered(lambda p: not p.advocate_details_id):
@@ -436,8 +296,6 @@ class ResPartner(models.Model):
                     )
         if "zip" in vals:
             self.update_state_from_zip(vals)
-        if "has_agreed_child_protection_charter" in vals:
-            self.update_child_protection_charter(vals)
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()

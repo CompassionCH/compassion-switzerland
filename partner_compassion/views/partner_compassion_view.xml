@@ -34,7 +34,7 @@
     <record id="view_partner_form_compassion_birthdate" model="ir.ui.view">
         <field name="name">res.partner.form.compassion.personal.info</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="partner_contact_birthdate.view_partner_form"/>
+        <field name="inherit_id" ref="partner_personal_info.view_partner_form_compassion_birthdate"/>
         <field name="arch" type="xml">
             <field name="birthdate_date" position="after">
                 <field name="deathdate" attrs="{'invisible': [('is_company','=',True)]}"/>
@@ -43,28 +43,8 @@
                 <field name="has_majority" invisible="1"/>
                 <field name="parent_consent" attrs="{'invisible': [('has_majority','=',True)]}"/>
             </field>
-            <!-- Move the personal information group into a sub-group -->
-            <group name="personal_information_group" position="attributes">
-                <attribute name="name">personal_information_birthdate</attribute>
-                <attribute name="string">Age</attribute>
-            </group>
-            <page name="personal_information_page">
-                <group name="personal_information_group"/>
-            </page>
             <!-- Add fields in the tab -->
             <group name="personal_information_group">
-                <group name="personal_information_birthdate" position="move"/>
-                <group string="Segmentation" name="segmentation">
-                    <field name="primary_segment_id" />
-                    <field name="secondary_segment_id" />
-                </group>
-                <group string="Child Protection" name="child_protection_charter_fields">
-                    <field string="Has agreed" name="has_agreed_child_protection_charter"/>
-                    <field string="Date agreed" name="date_agreed_child_protection_charter" readonly="1"/>
-                    <field name="criminal_record_name" invisible="1"/>
-                    <field name="criminal_record" filename="criminal_record_name" groups="partner_compassion.group_criminal_record"/>
-                    <field name="criminal_record_date"/>
-                </group>
                 <group string="Geolocation" name="geolocation">
                     <button string="Geolocate" name="geo_localize" colspan="2" icon="fa-check" type="object"/>
                     <field name="partner_latitude"/>
@@ -111,11 +91,6 @@
             <field name="email" position="after">
                 <field name="invalid_mail" attrs="{'invisible': [('invalid_mail', '=', False)]}"/>
             </field>
-
-            <!-- Add user login info -->
-            <xpath expr="//field[@name='website'][1]" position="after">
-                <field name="user_login" attrs="{'invisible': [('user_login', '=', False)]}"/>
-            </xpath>
 
             <!-- Remove contacts & addresses tab -->
             <xpath expr="//page[@name='contact_addresses']" position="attributes">
@@ -171,17 +146,6 @@
                 <field name="customer_rank" invisible="1"/>
                 <field name="spoken_lang_ids" widget="many2many_tags" options="{'create':False}" attrs="{'required': [('is_company', '=', False), ('customer_rank', '>', 0)]}" groups="child_compassion.group_sponsorship" position="move"/>
             </field>
-
-            <div class="oe_button_box" position="inside">
-                <button name="%(partner_compassion.act_partner_survey_input)d"
-                        type="action"
-                        class="oe_stat_button oe_inline"
-                        icon="fa-list-alt">
-                    <field name="survey_input_count"
-                           widget="statinfo"
-                           string="Surveys"/>
-                </button>
-            </div>
         </field>
     </record>
 
@@ -311,8 +275,6 @@
             </field>
             <xpath expr="//group">
                 <filter string="Language" name="language" context="{'group_by': 'lang'}"/>
-                <filter string="Primary Segment" name="primary_segment_id" context="{'group_by':'primary_segment_id'}"/>
-                <filter string="Secondary Segment" name="secondary_segment_id" context="{'group_by':'secondary_segment_id'}"/>
             </xpath>
             <field name="name" position="after">
                  <field name="advocate_details_id"
