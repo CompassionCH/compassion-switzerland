@@ -548,11 +548,10 @@ class ResPartner(models.Model):
             partner = self.browse(record[1])
         return record and partner.lang
 
-    def forget_me(self):
+    def anonymize(self, vals=None):
         # Store information in CSV, inside encrypted zip file.
         self._secure_save_data()
 
-        super().forget_me()
         # Delete other objects and custom CH fields
         self.write(
             {
@@ -581,8 +580,7 @@ class ResPartner(models.Model):
         self.env["partner.communication.job"].sudo().search(
             [("partner_id", "=", self.id)]
         ).unlink()
-        self.message_ids.sudo().unlink()
-        return True
+        return super().anonymize(vals)
 
     def open_duplicates(self):
         if not (self.partner_duplicate_ids - self):
