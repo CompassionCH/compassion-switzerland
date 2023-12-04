@@ -556,7 +556,7 @@ class MyAccountController(PaymentFormController):
         # List of recordset of sponsorships (one recordset for each group)
         sponsorships_by_group = [
             g.mapped("contract_ids").filtered(
-                lambda c: c.state not in ["cancelled", "terminated"] and
+                lambda c: c.state not in ["cancelled", "terminated", "draft"] and
                           c.partner_id == partner
             ) for g in groups
         ]
@@ -575,7 +575,7 @@ class MyAccountController(PaymentFormController):
         ]
         paid_sponsorships = (partner.contracts_fully_managed
                              + partner.contracts_paid) \
-            .filtered(lambda a: a.state not in ["cancelled", "terminated"])
+            .filtered(lambda a: a.state not in ["cancelled", "terminated", "draft"])
         # List of recordset of write and pray sponsorships (one recordset for each group)
         wp_sponsor_count_by_group = [
             len(sponsorship.filtered(lambda s: s.type in ["SC", "SWP"]))
