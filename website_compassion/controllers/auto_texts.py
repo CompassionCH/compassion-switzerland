@@ -4,9 +4,9 @@ CHRISTMAS_TEXTS = {
 
 Je te souhaite de belles fêtes de Noël! 
 
-A Noël, tout commence avec un enfant! Nous fêtons la venue de Jésus parmi nous, signe de l’amour de Dieu pour nous et pour le monde entier.
+Le soir, vois-tu les étoiles dans le ciel? Il y a très longtemps, une étoile exceptionnelle a mis les rois mages sur la piste de la venue de Jésus parmi nous,  signe d’amour de Dieu pour nous et pour le monde entier.
 
-Quelle bonne nouvelle: il a aussi promis d’être avec nous tous les jours de notre vie et de prendre soin de nous! C’est vrai quand tout va bien. C’est vrai aussi en temps de crise, de défi. 
+Quelle bonne nouvelle: il a aussi promis d’être avec nous et de nous aimer tous les jours de notre vie et de prendre soin de nous! 
 
 Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
 
@@ -16,11 +16,11 @@ Je te souhaite, ainsi qu’à tes proches, le meilleur pour la nouvelle année.
     "eng": """Hello %s,
 
 
-Merry Christmas!
+I wish you a happy Christmas holiday!
 
-At Christmas, everything begins with a child! We celebrate the coming of Jesus among us, a sign of God's love for us and for the whole world.
+Do you see the stars in the night sky? A long time ago, a very bright star guided the three wise men to the coming of Jesus; the sign of God's love for us and the whole world.
 
-What good news: He promises to be with us all the days of our life and to take care of us! This is true when everything is going well. It is also true in times of crisis and challenge.
+What great news: he also promised to be with us and love us every day of our lives and to look after us!
 
 I wish you and your loved ones all the best for the New Year.
 
@@ -30,13 +30,11 @@ I wish you and your loved ones all the best for the New Year.
     "por": """Olá %s,
 
 
-Votos sinceros de um Feliz Natal!
+Tudo bem? Você já viu as estrelas no céu à noite? Sabia que há muito muito tempo atrás, uma estrela bem especial guiou os reis magos até o local onde nasceu o menino Jesus? Pois é, o menino Jesus continua sendo um sinal do amor de Deus por todos nós e pelo mundo inteiro. 
 
-No Natal, tudo começa com uma criança! Celebramos a vinda de Jesus, um sinal do amor de Deus por todos nós e o mundo inteiro.
+Que notícia mais legal, você não acha? Isso. Deus prometeu também para a gente estar sempre conosco, nos amar e cuidar de tudo até o fim de nossas vidas! 
 
-Que óptimas notícias: Deus prometeu estar connosco todos os dias da nossa vida e tomar conta de nós quando tudo corre bem, mas também em tempos dificeis de crise e desafios.
-
-A ti e aos teus entes queridos desejo-vos tudo de bom para o Ano Novo.
+Para você, sua família e amigos, votos sinceros de um Feliz Natal e tudo de bom no Ano Novo.
 
 
 %s
@@ -44,13 +42,13 @@ A ti e aos teus entes queridos desejo-vos tudo de bom para o Ano Novo.
     "spa": """Hola %s
 
 
-¡Te deseo unas muy felices fiestas de Navidad!
+¡Te deseo felices fiestas navideñas!
 
-En Navidad, ¡todo empieza con un niño! Celebramos la venida de Jesús entre nosotros, signo del amor de Dios por nosotros y por el mundo entero.
+¿Ves las estrellas en el cielo por la noche? Hace mucho tiempo, una estrella extraordinaria puso a tres hombres sabios sobre la pista de la venida de Jesús entre nosotros, signo del amor de Dios por nosotros y por el mundo entero.
 
-Qué buena noticia: también ha prometido estar con nosotros todos los días de nuestra vida y cuidarnos. Esto es cierto cuando todo va bien. También es cierto en tiempos de crisis y desafíos.
+¡Qué buena noticia! También prometió estar con nosotros, amarnos todos los días de nuestra vida y cuidarnos.
 
-Te deseo a ti y a tus seres queridos todo lo mejor para el Año Nuevo.
+Te deseo a ti y a tus seres queridos lo mejor para el nuevo año.
 
 
 %s
