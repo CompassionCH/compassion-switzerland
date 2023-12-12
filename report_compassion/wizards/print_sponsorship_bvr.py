@@ -55,7 +55,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         today = date.today()
         start = today.replace(day=1, month=1)
         # Exception in December, we want to print for next year.
-        if today.month == 12 and today.day >= 15:
+        if today.month == 12:
             start = start.replace(year=today.year + 1)
         return start.replace(day=1)
 
