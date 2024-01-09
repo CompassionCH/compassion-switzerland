@@ -20,17 +20,15 @@ logger = logging.getLogger(__name__)
 class ZoomSession(models.Model):
     _name = "res.partner.zoom.session"
     _inherit = ["translatable.model", "website.published.mixin"]
-    _description = "Zoom Session with partners"
+    _description = "Sponsors Visio Conference"
     _rec_name = "date_start"
     _order = "date_start desc"
 
     lang = fields.Selection("_get_lang", required=True)
-    date_start = fields.Datetime("Zoom session time", required=True)
+    date_start = fields.Datetime("Session time", required=True)
     date_stop = fields.Datetime()
     date_send_link = fields.Datetime("Reminder/link sent")
     link = fields.Char("Invitation link", required=True)
-    meeting_id = fields.Char("Meeting ID", required=True)
-    passcode = fields.Char("Passcode", required=True)
     participant_ids = fields.One2many(
         "res.partner.zoom.attendee", "zoom_session_id", "Participants"
     )

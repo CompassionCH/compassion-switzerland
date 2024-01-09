@@ -32,7 +32,7 @@ class ZoomCommunication(Enum):
 class ZoomAttendee(models.Model):
     _name = "res.partner.zoom.attendee"
     _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Zoom Attendee"
+    _description = "Visio Conference Attendee"
     _rec_name = "partner_id"
     _order = "id desc"
 
