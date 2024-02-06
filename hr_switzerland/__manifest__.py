@@ -43,6 +43,7 @@
     ],
     "depends": [
         "hr_attendance",  # source/addons
+        "hr_contract_rate",  # source/addons
         "hr_expense",  # source/addons
         "payroll_account",  # oca/payroll
         "hr_payroll_period",  # oca/payroll
