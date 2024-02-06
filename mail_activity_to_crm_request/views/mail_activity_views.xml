@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="mail_activity_to_crm_request_mail_activity_view_form_popup" model="ir.ui.view">
+        <field name="name">mail.activity.view.form.popup.inherited</field>
+        <field name="model">mail.activity</field>
+        <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='summary']" position="after">
+                <field name="convert_activity_to_sup_req"/>
+                <field name="category" attrs="{'invisible': [('convert_activity_to_sup_req', '=', False)]}"/>
+                <field name="stage" attrs="{'invisible': [('convert_activity_to_sup_req', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
