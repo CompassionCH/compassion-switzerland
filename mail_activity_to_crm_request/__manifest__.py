@@ -13,18 +13,9 @@
     "installable": True,
     "external_dependencies": {"python": ["pandas>=1.5.3"]},
     "depends": [
-        "mail",
-        "advanced_translation",
-        "hr_holidays",
-        "crm_claim_code",  # oca_addons/crm
-        "mail_quoted_reply",  # OCA/social
-        "partner_auto_match",
-        "partner_email_alias",
-        "partner_salutation",
-        "partner_communication",
+        "crm_request"
     ],
     'data': [
         'views/mail_activity_views.xml',
-        #'security/ir.model.access.csv',
     ]
 }
