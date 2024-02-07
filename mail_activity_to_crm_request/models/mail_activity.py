@@ -49,7 +49,7 @@ class MailActivity(models.Model):
                                         'user_id': activity.user_id.id,
                                         'code': new_code,
                                         'subject': activity.summary,
-                                        'name': 'some random stuff to debug',
+                                        'name': activity.summary,
                                         'categ_id': activity.request_category_id.id,
                                         'stage_id': activity.request_stage_id.id
                                           })
