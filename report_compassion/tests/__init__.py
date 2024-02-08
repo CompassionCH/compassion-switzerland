@@ -8,5 +8,4 @@
 #
 ##############################################################################
 
-from . import test_contract
-from . import test_report_bvr
+from . import test_contract, test_report_bvr

@@ -19,8 +19,7 @@ class MailThread(models.AbstractModel):
 
     _inherit = "mail.thread"
 
-    def message_subscribe(self, partner_ids=None, channel_ids=None,
-                          subtype_ids=None):
+    def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id").ids
@@ -39,8 +38,7 @@ class MailThread(models.AbstractModel):
         for message_id, suggestion in list(result.items()):
             if suggestion:
                 partner = partner_obj.browse(suggestion[0][0])
-                users = partner.mapped("user_ids").filtered(
-                    lambda u: not u.share)
+                users = partner.mapped("user_ids").filtered(lambda u: not u.share)
                 if not users:
                     to_remove.append(message_id)
         for message_id in to_remove:

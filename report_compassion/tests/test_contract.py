@@ -8,6 +8,7 @@
 #
 ##############################################################################
 import logging
+
 from odoo.addons.sponsorship_switzerland.tests.test_contracts_switzerland import (
     TestContractsSwitzerland,
 )
@@ -25,7 +26,7 @@ class TestContract(TestContractsSwitzerland):
 
         communication = sponsorship.get_gift_communication(self.product)
 
-        expected = u"Test (IO06790211)<br/>Cabinet with Doors<br/>"
+        expected = "Test (IO06790211)<br/>Cabinet with Doors<br/>"
         self.assertEqual(communication, expected)
 
     def test_group__get_months__for_frequency_one(self):
@@ -58,5 +59,5 @@ class TestContract(TestContractsSwitzerland):
         date = "2050-08-01"
         payment_slip = group.get_communication(date, date, sponsorship)
 
-        expected = u"ISR for standing order CHF 50<br/>Test (IO06790211)<br/>"
+        expected = "ISR for standing order CHF 50<br/>Test (IO06790211)<br/>"
         self.assertEqual(payment_slip, expected)

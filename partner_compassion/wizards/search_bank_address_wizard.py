@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import fields, models, _
+from odoo import _, fields, models
 
 
 class SearchBankAddressWizard(models.TransientModel):
@@ -26,7 +26,8 @@ class SearchBankAddressWizard(models.TransientModel):
         readonly=True,
     )
     date = fields.Date(
-        "Last time used", related="account_bank_statement_line.date",
+        "Last time used",
+        related="account_bank_statement_line.date",
     )
 
     overwriting_street = fields.Char("Street", default="")
@@ -39,7 +40,7 @@ class SearchBankAddressWizard(models.TransientModel):
         if partner_id:
             return [
                 ("partner_id", "=", partner_id),
-                ("narration", "like", narration_txt)
+                ("narration", "like", narration_txt),
             ]
         return []
 

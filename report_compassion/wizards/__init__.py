@@ -8,9 +8,11 @@
 #
 ##############################################################################
 
-from . import print_sponsorship_bvr
-from . import print_sponsorship_gift_bvr
-from . import print_childpack
-from . import print_bvr_fund
-from . import generate_communication_wizard
-from . import print_tax_receipt
+from . import (
+    generate_communication_wizard,
+    print_bvr_fund,
+    print_childpack,
+    print_sponsorship_bvr,
+    print_sponsorship_gift_bvr,
+    print_tax_receipt,
+)

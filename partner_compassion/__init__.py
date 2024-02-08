@@ -7,6 +7,5 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import models
-from . import wizards
+from . import models, wizards
 from .hooks import post_init_hook

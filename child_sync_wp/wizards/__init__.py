@@ -8,6 +8,8 @@
 #
 ##############################################################################
 
-from . import child_on_wordpress_wizard
-from . import child_remove_from_wordpress
-from . import staff_notification_settings
+from . import (
+    child_on_wordpress_wizard,
+    child_remove_from_wordpress,
+    staff_notification_settings,
+)

@@ -2636,4 +2636,3 @@ msgstr ""
 #: model:res.groups,comment:partner_compassion.group_criminal_record
 msgid "the user will have access to all criminal records."
 msgstr ""
-

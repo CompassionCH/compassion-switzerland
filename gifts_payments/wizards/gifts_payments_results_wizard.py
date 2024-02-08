@@ -1,5 +1,6 @@
 import re
-from odoo import models, fields, exceptions, _
+
+from odoo import _, exceptions, fields, models
 
 
 class GiftsPaymentsResults(models.TransientModel):

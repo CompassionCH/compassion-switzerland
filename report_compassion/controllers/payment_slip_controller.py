@@ -15,18 +15,18 @@ from werkzeug.exceptions import BadRequest, NotFound
 from werkzeug.wrappers import Response
 
 from odoo import http
-from odoo.http import request, Controller
+from odoo.http import Controller, request
 
-from odoo.addons.sponsorship_compassion.models.product_names import \
-    GIFT_PRODUCTS_REF
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
 _logger = logging.getLogger(__name__)
 
 
 class PaymentSlipController(Controller):
-    @http.route([
-        "/payment_slip/<string:partner_uuid>/<int:fund_id>",
-        "/payment_slip/<string:partner_uuid>/<int:fund_id>/<int:sponsorship_id>",
+    @http.route(
+        [
+            "/payment_slip/<string:partner_uuid>/<int:fund_id>",
+            "/payment_slip/<string:partner_uuid>/<int:fund_id>/<int:sponsorship_id>",
         ],
         type="http",
         auth="public",
@@ -59,8 +59,7 @@ class PaymentSlipController(Controller):
             raise NotFound()
         categ_obj = request.env["product.category"].sudo()
         if not sponsorship_id:
-            fund = categ_obj.env.ref(
-                "sponsorship_compassion.product_category_fund")
+            fund = categ_obj.env.ref("sponsorship_compassion.product_category_fund")
             if product.categ_id != fund:
                 raise BadRequest()
             wizard = (
@@ -73,19 +72,19 @@ class PaymentSlipController(Controller):
             sponsorship = categ_obj.env.ref(
                 "sponsorship_compassion.product_category_sponsorship"
             )
-            gift = categ_obj.env.ref(
-                "sponsorship_compassion.product_category_gift")
+            gift = categ_obj.env.ref("sponsorship_compassion.product_category_gift")
             if product.categ_id == sponsorship:
                 wizard = (
                     request.env["print.sponsorship.bvr"]
                     .sudo()
-                    .create({
-                        "paper_format": "report_compassion.bvr_sponsorship",
-                        "pdf": True,
-                    })
+                    .create(
+                        {
+                            "paper_format": "report_compassion.bvr_sponsorship",
+                            "pdf": True,
+                        }
+                    )
                     .with_context(
-                        active_ids=sponsorship_id,
-                        active_model="recurring.contract"
+                        active_ids=sponsorship_id, active_model="recurring.contract"
                     )
                 )
             elif product.categ_id == gift:
@@ -97,8 +96,7 @@ class PaymentSlipController(Controller):
                         "family_gift": gift_index == 2,
                         "project_gift": gift_index == 3,
                         "graduation_gift": gift_index == 4,
-                        "paper_format":
-                            "report_compassion.bvr_gift_sponsorship",
+                        "paper_format": "report_compassion.bvr_gift_sponsorship",
                         "pdf": True,
                     }
                     wizard = (
@@ -106,8 +104,7 @@ class PaymentSlipController(Controller):
                         .sudo()
                         .create(wizard_vals)
                         .with_context(
-                            active_ids=sponsorship_id,
-                            active_model="recurring.contract"
+                            active_ids=sponsorship_id, active_model="recurring.contract"
                         )
                     )
                 except ValueError:
@@ -116,7 +113,6 @@ class PaymentSlipController(Controller):
                 raise BadRequest()
         wizard.get_report()
         headers = Headers()
-        headers.add("Content-Disposition", "attachment",
-                    filename=wizard.pdf_name)
+        headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
         data = base64.b64decode(wizard.pdf_download)
         return Response(data, content_type="application/pdf", headers=headers)

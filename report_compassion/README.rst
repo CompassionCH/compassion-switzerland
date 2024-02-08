@@ -17,7 +17,7 @@ Compassion CH PDF-Qweb Reports
     :target: https://github.com/compassionCH/compassion-switzerland/tree/11.0/report_compassion
     :alt: compassionCH/compassion-switzerland
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 Add all Qweb-PDF reports used by Compassion CH for communications.
 

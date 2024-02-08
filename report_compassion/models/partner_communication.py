@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields
+from odoo import api, fields, models
 
 
 class PartnerCommunication(models.Model):
@@ -17,8 +17,7 @@ class PartnerCommunication(models.Model):
 
     _inherit = "partner.communication.job"
 
-    product_id = fields.Many2one(
-        "product.product", "QR Bill for fund", readonly=False)
+    product_id = fields.Many2one("product.product", "QR Bill for fund", readonly=False)
     display_pp = fields.Boolean(
         string="Display PP",
         help="If not set, the PP is not printed upper the address.",

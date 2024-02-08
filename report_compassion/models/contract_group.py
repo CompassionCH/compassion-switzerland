@@ -12,7 +12,7 @@ from datetime import datetime
 
 from babel.dates import format_date
 
-from odoo import api, models, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
@@ -37,8 +37,7 @@ class ContractGroup(models.Model):
         freq = self.advance_billing_months
         payment_mode = self.with_context(lang="en_US").payment_mode_id
         # Take first open invoice or next_invoice_date
-        open_invoice = min([
-            i for i in sponsorships.mapped("first_open_invoice") if i])
+        open_invoice = min(i for i in sponsorships.mapped("first_open_invoice") if i)
         if open_invoice:
             first_invoice_date = open_invoice.replace(day=1)
         else:
@@ -107,10 +106,8 @@ class ContractGroup(models.Model):
         locale = self.partner_id.lang
         context = {"lang": locale}
         if start and stop:
-            start_date = format_date(
-                date_start, format="MMMM yyyy", locale=locale)
-            stop_date = format_date(
-                date_stop, format="MMMM yyyy", locale=locale)
+            start_date = format_date(date_start, format="MMMM yyyy", locale=locale)
+            stop_date = format_date(date_stop, format="MMMM yyyy", locale=locale)
             if start == stop:
                 vals["date"] = start_date
             else:
@@ -120,20 +117,18 @@ class ContractGroup(models.Model):
             vals["date"] = ""
         else:
             vals["payment_type"] = (
-                _("ISR") + " "
-                + self.contract_ids[0].with_context(context).group_freq
+                _("ISR") + " " + self.contract_ids[0].with_context(context).group_freq
             )
         if number_sponsorship > 1:
-            vals["subject"] += str(number_sponsorship) + " "\
-                + _("sponsorships")
+            vals["subject"] += str(number_sponsorship) + " " + _("sponsorships")
         elif number_sponsorship and valid.child_id:
             vals["subject"] = valid.child_id.preferred_name + " ({})".format(
                 valid.child_id.local_id
             )
         elif number_sponsorship and not valid.child_id and valid.display_name:
-            product_name = self.env["product.product"].search([
-                ("id", "in", valid.mapped("contract_line_ids.product_id").ids)
-            ])
+            product_name = self.env["product.product"].search(
+                [("id", "in", valid.mapped("contract_line_ids.product_id").ids)]
+            )
             vals["subject"] = ", ".join(product_name.mapped("thanks_name"))
 
         return (

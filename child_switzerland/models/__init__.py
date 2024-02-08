@@ -8,8 +8,10 @@
 #
 ##############################################################################
 
-from . import compassion_child
-from . import compassion_project
-from . import res_country
-from . import child_fcp_property
-from . import report_childpack
+from . import (
+    child_fcp_property,
+    compassion_child,
+    compassion_project,
+    report_childpack,
+    res_country,
+)

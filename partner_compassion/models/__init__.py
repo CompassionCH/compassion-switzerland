@@ -7,14 +7,16 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import partner_compassion
-from . import advocate_details
-from . import account_banking_mandate_compassion
-from . import partner_bank_compassion
-from . import email
-from . import mail_message
-from . import product
-from . import mail_thread
-from . import advocate_engagement
-from . import mail_activity
-from . import res_users
+from . import (
+    account_banking_mandate_compassion,
+    advocate_details,
+    advocate_engagement,
+    email,
+    mail_activity,
+    mail_message,
+    mail_thread,
+    partner_bank_compassion,
+    partner_compassion,
+    product,
+    res_users,
+)

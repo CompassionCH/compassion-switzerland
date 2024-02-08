@@ -8,16 +8,16 @@
 #
 ##############################################################################
 
+import logging
 import re
-from odoo import models, fields
+
+from odoo import fields, models
+from odoo.tools.safe_eval import wrap_module
+
 from odoo.addons.sponsorship_compassion.models.product_names import (
     GIFT_CATEGORY,
     GIFT_PRODUCTS_REF,
 )
-
-import logging
-
-from odoo.tools.safe_eval import wrap_module
 
 logger = logging.getLogger(__name__)
 
@@ -46,18 +46,16 @@ class StatementCompletionRule(models.Model):
         # Read data in english
         res = dict()
         ref = st_line["ref"]
-        product = self.with_context(lang="en_US")._find_product_id(
-            partner.ref, ref)
+        product = self.with_context(lang="en_US")._find_product_id(partner.ref, ref)
         if not product:
             return res, False
         # Don't generate invoice if it's a Sponsor gift
         if product.categ_name == GIFT_CATEGORY:
             res["name"] = product.name
-            contract_obj = self.env["recurring.contract"].with_context(
-                lang="en_US")
+            contract_obj = self.env["recurring.contract"].with_context(lang="en_US")
             # the contract number should be found after the ref on 5 digits.
             contract_index = ref_index + 7
-            contract_number = int(ref[contract_index:contract_index + 5])
+            contract_number = int(ref[contract_index : contract_index + 5])
             search_criterias = [
                 "|",
                 ("partner_id", "=", partner.id),
@@ -72,13 +70,11 @@ class StatementCompletionRule(models.Model):
                 # Maybe the ref is misaligned. Most people have a number < 10
                 # so we try to find this digit in the ref and see if we get
                 # lucky.
-                contract_number_match = re.search(
-                    partner.ref + r"0{1,4}(\d)", ref)
+                contract_number_match = re.search(partner.ref + r"0{1,4}(\d)", ref)
                 if contract_number_match:
                     contract_number = int(contract_number_match.group(1))
                     contract = contract_obj.search(
-                        search_criterias + [
-                            ("commitment_number", "=", contract_number)]
+                        search_criterias + [("commitment_number", "=", contract_number)]
                     )
             if len(contract) == 1:
                 # Retrieve the birthday of child
@@ -94,8 +90,7 @@ class StatementCompletionRule(models.Model):
 
         # Setup invoice data
         journal_id = (
-            self.env["account.journal"].search([
-                ("type", "=", "sale")], limit=1).id
+            self.env["account.journal"].search([("type", "=", "sale")], limit=1).id
         )
 
         inv_data = {
@@ -112,12 +107,10 @@ class StatementCompletionRule(models.Model):
         }
 
         # Create invoice and generate invoice lines
-        invoice = (
-            self.env["account.move"].with_context(
-                lang="en_US").create(inv_data)
+        invoice = self.env["account.move"].with_context(lang="en_US").create(inv_data)
+        res.update(
+            self._generate_invoice_line(invoice.id, product, st_line, partner.id)
         )
-        res.update(self._generate_invoice_line(
-            invoice.id, product, st_line, partner.id))
         invoice.action_post()
         st_line.update(res)
 
@@ -140,8 +133,7 @@ class StatementCompletionRule(models.Model):
         if analytic.analytic_id:
             inv_line_data["analytic_account_id"] = analytic.analytic_id.id
         if analytic.analytic_tag_ids:
-            inv_line_data["analytic_tag_ids"] = [
-                (6, 0, analytic.analytic_tag_ids.ids)]
+            inv_line_data["analytic_tag_ids"] = [(6, 0, analytic.analytic_tag_ids.ids)]
 
         res["name"] = product.name
         self.env["account.move.line"].create(inv_line_data)
@@ -154,8 +146,7 @@ class StatementCompletionRule(models.Model):
         # Search for payment type in a flexible manner given its neighbours
         # after partner ref: 5 digits for num pole,
         # 1 digit for type, 4 digit for code spe and 1 digit for cc
-        payment_type_match = re.search(
-            partner_ref + r"[0-9]{5}([0-9]){1}[0-9]{5}", ref)
+        payment_type_match = re.search(partner_ref + r"[0-9]{5}([0-9]){1}[0-9]{5}", ref)
         if payment_type_match:
             payment_type = int(payment_type_match.group(1))
             payment_type_index = payment_type_match.start(1)
@@ -172,21 +163,28 @@ class StatementCompletionRule(models.Model):
             product = products[0] if products else 0
         elif payment_type in range(6, 8):
             # Fund donation
-            products = product_obj.search([(
-                "fund_id", "=",
-                int(ref[payment_type_index + 1 : payment_type_index + 5]),
-            )])
+            products = product_obj.search(
+                [
+                    (
+                        "fund_id",
+                        "=",
+                        int(ref[payment_type_index + 1 : payment_type_index + 5]),
+                    )
+                ]
+            )
             product = products[0] if products else 0
 
         return product
 
     def _get_base_dict(self, stmts_vals, stmt_line):
         eval_context = super()._get_base_dict(stmts_vals, stmt_line)
-        eval_context.update({
-            "re": wrap_module(re, ["search"]),
-            "generate_invoice": self._generate_invoice,
-            "search_old_invoices": False
-        })
+        eval_context.update(
+            {
+                "re": wrap_module(re, ["search"]),
+                "generate_invoice": self._generate_invoice,
+                "search_old_invoices": False,
+            }
+        )
         journal_codes = self.journal_ids.mapped("code")
         if "DD" in journal_codes or "LSV" in journal_codes:
             eval_context["search_old_invoices"] = True

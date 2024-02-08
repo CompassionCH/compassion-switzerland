@@ -8,15 +8,17 @@
 #
 ##############################################################################
 
-from . import contract_group
-from . import child
-from . import project
-from . import res_partner
-from . import report_bvr_sponsorship
-from . import contract
-from . import partner_communication
-from . import partner_communication_config
-from . import report_bvr_sponsorship_gift
-from . import report_bvr_fund
-from . import report_childpack
-from . import report_tax_receipt
+from . import (
+    child,
+    contract,
+    contract_group,
+    partner_communication,
+    partner_communication_config,
+    project,
+    report_bvr_fund,
+    report_bvr_sponsorship,
+    report_bvr_sponsorship_gift,
+    report_childpack,
+    report_tax_receipt,
+    res_partner,
+)

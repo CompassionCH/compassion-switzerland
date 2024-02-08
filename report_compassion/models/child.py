@@ -7,10 +7,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import pyqrcode
 from datetime import timedelta
 
-from odoo import models, fields
+import pyqrcode
+
+from odoo import fields, models
 
 
 class CompassionChild(models.Model):
@@ -23,8 +24,7 @@ class CompassionChild(models.Model):
     description_left = fields.Html(compute="_compute_description")
     description_right = fields.Html(compute="_compute_description")
     project_title = fields.Char(compute="_compute_project_title")
-    childpack_expiration = fields.Datetime(
-        compute="_compute_childpack_expiration")
+    childpack_expiration = fields.Datetime(compute="_compute_childpack_expiration")
     qr_code_data = fields.Binary(
         compute="_compute_qr_code", help="QR code for sponsoring the child"
     )
@@ -71,10 +71,8 @@ class CompassionChild(models.Model):
                 child.childpack_expiration = False
 
     def _compute_qr_code(self):
-        base_url = self.env["ir.config_parameter"].sudo().get_param(
-            "web.external.url")
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
         for child in self:
-            url = \
-                f"{base_url}/sponsor_this_child?source=QR&child_id={child.id}"
+            url = f"{base_url}/sponsor_this_child?source=QR&child_id={child.id}"
             qr = pyqrcode.create(url)
             child.qr_code_data = qr.png_as_base64_str(15, (0, 84, 166))

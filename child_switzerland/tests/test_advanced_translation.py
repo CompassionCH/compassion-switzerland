@@ -31,7 +31,7 @@ class AdvancedTranslationTest(SingleTransactionCase):
         ]
         for lang, arg, expected in tests:
             partner = self.partner.with_context(lang=lang)
-            self.assertEquals(partner.get_date("create_date", arg), expected)
+            self.assertEqual(partner.get_date("create_date", arg), expected)
 
     def test_multiple_get_date(self):
         partners = self.partners
@@ -41,4 +41,4 @@ class AdvancedTranslationTest(SingleTransactionCase):
         partners[3].create_date = "2020-02-02 12:34:56"  # 'and' key word
 
         res = partners.with_context(lang="fr_CH").get_date("create_date", "date_month")
-        self.assertEquals(res, "1 janvier, 2 janvier, 1 février et 2 février")
+        self.assertEqual(res, "1 janvier, 2 janvier, 1 février et 2 février")

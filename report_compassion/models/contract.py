@@ -7,8 +7,9 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields
 from datetime import date
+
+from odoo import api, fields, models
 
 
 class AccountInvoice(models.Model):
@@ -46,8 +47,7 @@ class Contract(models.Model):
                     and i.due_date < this_month
                     and i.move_id.invoice_category == "sponsorship"
                 )
-                contract.amount_due = int(sum(
-                    invoice_lines.mapped("price_subtotal")))
+                contract.amount_due = int(sum(invoice_lines.mapped("price_subtotal")))
 
     def get_gift_communication(self, product):
         self.ensure_one()
@@ -76,8 +76,7 @@ class Contract(models.Model):
             )
         else:
             communication = (
-                f"{vals['firstname']} ({vals['local_id']})"
-                f"<br/>{vals['product']}"
+                f"{vals['firstname']} ({vals['local_id']})" f"<br/>{vals['product']}"
             )
         gift_threshold = self.env["gift.threshold.settings"].search(
             [("product_id", "=", product.id)], limit=1
@@ -96,7 +95,5 @@ class Contract(models.Model):
 
     @api.model
     def get_sponsorship_gift_products(self):
-        gift_categ_id = self.env.ref(
-            "sponsorship_compassion.product_category_gift").id
-        return self.env["product.product"].search([
-            ("categ_id", "=", gift_categ_id)])
+        gift_categ_id = self.env.ref("sponsorship_compassion.product_category_gift").id
+        return self.env["product.product"].search([("categ_id", "=", gift_categ_id)])

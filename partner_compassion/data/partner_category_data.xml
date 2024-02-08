@@ -12,21 +12,21 @@
         <record id="res_partner_category_sponsor" model="res.partner.category">
             <field name="name">Sponsor</field>
         </record>
-        
+
         <record id="res_partner_category_ambassador" model="res.partner.category">
             <field name="name">Ambassador</field>
         </record>
-        
+
         <record id="res_partner_category_prog_corresp" model="res.partner.category">
             <field name="name">Correspondance Program</field>
         </record>
-        
+
         <record id="res_partner_category_corresp_compass" model="res.partner.category">
             <field name="name">Correspondance by Compassion</field>
         </record>
-        
+
         <record id="res_partner_category_old" model="res.partner.category">
             <field name="name">Old Sponsor</field>
-        </record>     
+        </record>
     </data>
 </odoo>

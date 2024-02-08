@@ -9,7 +9,7 @@
 ##############################################################################
 import pyqrcode
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class CompassionChild(models.Model):

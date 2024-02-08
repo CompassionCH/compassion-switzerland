@@ -9,7 +9,7 @@
 ##############################################################################
 
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class MailMessage(models.Model):
@@ -46,8 +46,7 @@ class MailMessage(models.Model):
             # number.
             if (
                 message.message_type != "email"
-                and message.subtype_id.with_context(lang="en_US")
-                .name != "Discussions"
+                and message.subtype_id.with_context(lang="en_US").name != "Discussions"
             ):
                 res[message.id] = []
                 continue

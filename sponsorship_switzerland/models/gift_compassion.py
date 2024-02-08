@@ -9,12 +9,10 @@
 #
 ##############################################################################
 
-from odoo import models
-from odoo import fields
+from odoo import fields, models
 
 
 class Gift(models.Model):
     _inherit = "sponsorship.gift"
 
-    letter_id = fields.Many2one(
-        "correspondence", "Thank you letter", readonly=False)
+    letter_id = fields.Many2one("correspondence", "Thank you letter", readonly=False)

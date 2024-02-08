@@ -8,6 +8,8 @@
 #
 ##############################################################################
 
-from . import test_completion_rules_switzerland
-from . import test_contract_group_switzerland
-from . import test_contracts_switzerland
+from . import (
+    test_completion_rules_switzerland,
+    test_contract_group_switzerland,
+    test_contracts_switzerland,
+)

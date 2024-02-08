@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import fields, models
 
 
 class ResUsers(models.Model):
@@ -9,5 +9,4 @@ class ResUsers(models.Model):
 
     def write(self, vals):
         # Avoid cascading the name from the user
-        return super(ResUsers, self.with_context(
-            write_from_user=True)).write(vals)
+        return super(ResUsers, self.with_context(write_from_user=True)).write(vals)

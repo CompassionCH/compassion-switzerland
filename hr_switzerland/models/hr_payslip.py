@@ -7,21 +7,21 @@
 #
 ##############################################################################
 
-from odoo import models, api, fields
-import odoo.addons.decimal_precision as dp
+from odoo import api, fields, models
 
+import odoo.addons.decimal_precision as dp
 
 
 class HrPayslip(models.Model):
     _inherit = "hr.payslip"
 
     pay_13_salary = fields.Boolean(
-        string='Pay the 13th salary this month',
-        help="Pay the provisionned 13th salary")
+        string="Pay the 13th salary this month", help="Pay the provisionned 13th salary"
+    )
 
     amount_13_salary = fields.Float(
-        string='13th salary to add',
-        digits=dp.get_precision('Account'))
+        string="13th salary to add", digits=dp.get_precision("Account")
+    )
 
     def action_payslip_done(self):
         """Add analytic tags to salary moves."""
@@ -36,6 +36,7 @@ class HrPayslip(models.Model):
                 )
                 move.action_post()
         return res
+
     def _compute_13_salary(self):
         for payslip in self:
             if payslip.pay_13_salary:

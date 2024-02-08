@@ -8,8 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models
-from odoo import fields
+from odoo import fields, models
 
 
 class Correspondence(models.Model):

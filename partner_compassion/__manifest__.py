@@ -65,9 +65,7 @@
         # OCA/geospatial
         "web_view_google_map",
     ],
-    "external_dependencies": {
-        "python": ["pandas", "pyminizip", "pysftp"]
-    },
+    "external_dependencies": {"python": ["pandas", "pyminizip", "pysftp"]},
     "data": [
         "security/ir.model.access.csv",
         "security/criminal_record_groups.xml",

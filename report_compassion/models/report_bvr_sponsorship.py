@@ -12,7 +12,7 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import fields, api, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import Warning as odooWarning
 
 logger = logging.getLogger(__name__)

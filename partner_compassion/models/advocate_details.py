@@ -8,10 +8,9 @@
 #
 ##############################################################################
 import logging
-
 from datetime import datetime
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.tools import file_open
 
 _logger = logging.getLogger(__name__)
@@ -29,8 +28,7 @@ class AdvocateDetails(models.Model):
     _inherit = "mail.thread"
 
     partner_id = fields.Many2one(
-        "res.partner", "Partner", required=True, ondelete="cascade",
-        readonly=False
+        "res.partner", "Partner", required=True, ondelete="cascade", readonly=False
     )
     quote = fields.Text(translate=False)
     thank_you_quote = fields.Html(
@@ -104,8 +102,7 @@ class AdvocateDetails(models.Model):
     birthdate = fields.Date(
         related="partner_id.birthdate_date", store=True, readonly=True
     )
-    lang = fields.Selection(
-        related="partner_id.lang", store=True, readonly=True)
+    lang = fields.Selection(related="partner_id.lang", store=True, readonly=True)
     zip = fields.Char(related="partner_id.zip", store=True, readonly=True)
     city = fields.Char(related="partner_id.city", store=True, readonly=True)
     email = fields.Char(related="partner_id.email", store=True, readonly=True)

@@ -7,11 +7,11 @@
 #
 ##############################################################################
 
+from odoo.exceptions import UserError
+
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
     BaseSponsorshipTest,
 )
-
-from odoo.exceptions import UserError
 
 
 class TestContractGroupSwitzerland(BaseSponsorshipTest):
@@ -26,7 +26,7 @@ class TestContractGroupSwitzerland(BaseSponsorshipTest):
         bvr_ref = group.compute_partner_bvr_ref()
 
         self.assertTrue(len(bvr_ref), 26)
-        self.assertEqual(bvr_ref, u"00000000refdavid00001000007")
+        self.assertEqual(bvr_ref, "00000000refdavid00001000007")
 
     def test_raise_error_if_the_bvr_becomes_invalid(self):
         group = self.create_group({"partner_id": self.michel.id})

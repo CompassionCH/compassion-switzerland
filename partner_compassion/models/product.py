@@ -7,15 +7,14 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
     _sql_constraints = [
-        ("fund_id_unique", "unique(fund_id)",
-         "The Fund already exists in database.")
+        ("fund_id_unique", "unique(fund_id)", "The Fund already exists in database.")
     ]
 
     fund_id = fields.Integer()

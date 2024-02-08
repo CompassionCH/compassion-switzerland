@@ -10,8 +10,7 @@
 import base64
 from datetime import date
 
-
-from odoo import api, models, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 

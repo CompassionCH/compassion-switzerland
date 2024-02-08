@@ -7,9 +7,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import portal_wizard
-from . import partner_check_double
-from . import partner_merge_wizard
-from . import search_bank_address_wizard
-from . import staff_notification_settings
-from . import tag_merge_wizard
+from . import (
+    partner_check_double,
+    partner_merge_wizard,
+    portal_wizard,
+    search_bank_address_wizard,
+    staff_notification_settings,
+    tag_merge_wizard,
+)

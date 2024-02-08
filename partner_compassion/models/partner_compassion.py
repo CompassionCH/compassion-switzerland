@@ -7,23 +7,23 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import logging
-import tempfile
 import base64
+import logging
 import re
+import tempfile
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.tools.config import config
 
-
 logger = logging.getLogger(__name__)
-regex_order = re.compile("^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
+regex_order = re.compile(r"^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
 
 try:
-    import pyminizip
     import csv
+
+    import pyminizip
     import pysftp
     from pysftp import RSAKey
 except ImportError:

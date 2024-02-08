@@ -8,11 +8,11 @@
 #
 ##############################################################################
 import logging
-
 from datetime import date
 
-from odoo import api, models, fields
+from odoo import api, fields, models
 from odoo.tools import relativedelta
+
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
@@ -23,9 +23,10 @@ logger = logging.getLogger(__name__)
 class CompassionChild(models.Model):
     _inherit = "compassion.child"
 
-    state = fields.Selection(selection_add=[
-        ("I", "On Wordpress")
-    ], ondelete={"I": lambda c: c.write({"state": "N"})})
+    state = fields.Selection(
+        selection_add=[("I", "On Wordpress")],
+        ondelete={"I": lambda c: c.write({"state": "N"})},
+    )
 
     def _available_states(self):
         res = super()._available_states()

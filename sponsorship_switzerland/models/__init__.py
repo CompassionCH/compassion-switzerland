@@ -8,11 +8,13 @@
 #
 ##############################################################################
 
-from . import contracts
-from . import res_partner_category
-from . import completion_rules
-from . import account_banking_mandate
-from . import contract_group
-from . import gift_compassion
-from . import contract_origin
-from . import correspondence
+from . import (
+    account_banking_mandate,
+    completion_rules,
+    contract_group,
+    contract_origin,
+    contracts,
+    correspondence,
+    gift_compassion,
+    res_partner_category,
+)

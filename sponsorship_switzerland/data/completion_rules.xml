@@ -65,7 +65,7 @@ if partner:
     result = {"partner_id": partner.commercial_partner_id.id}
             </field>
         </record>
-        
+
         <record id="bank_statement_completion_rule_credit_lsv_dd" model="account.statement.completion.rule">
             <field name="name">Match LSV DD Credit in 1098</field>
             <field name="sequence">60</field>

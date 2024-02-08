@@ -10,7 +10,7 @@
 import base64
 from datetime import date
 
-from odoo import api, models, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -22,8 +22,7 @@ class PrintSponsorshipBvr(models.TransientModel):
 
     _name = "print.sponsorship.bvr"
     _description = (
-        "Select a period and the format "
-        "for printing payment slips of a sponsorship"
+        "Select a period and the format " "for printing payment slips of a sponsorship"
     )
 
     def _compute_default_period_selection(self):

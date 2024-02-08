@@ -8,8 +8,7 @@
 #
 ##############################################################################
 import logging
-
-from xmlrpc.client import ServerProxy, SafeTransport, GzipDecodedResponse
+from xmlrpc.client import GzipDecodedResponse, SafeTransport, ServerProxy
 
 _logger = logging.getLogger(__name__)
 

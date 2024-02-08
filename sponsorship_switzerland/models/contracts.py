@@ -8,17 +8,16 @@
 #
 ##############################################################################
 
-import logging
 import datetime
+import logging
 
 from dateutil.relativedelta import relativedelta
 
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
-from odoo import api, models, fields, _
 
-from odoo.addons.sponsorship_compassion.models.product_names \
-    import GIFT_PRODUCTS_REF
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
 logger = logging.getLogger(__name__)
 
@@ -45,8 +44,7 @@ class RecurringContracts(models.Model):
     hillsong_ref = fields.Char(related="origin_id.hillsong_ref", store=True)
     state = fields.Selection(
         selection_add=[("mandate", "Waiting Mandate")],
-        ondelete={"mandate": lambda records: records.write({
-            "state": "waiting"})}
+        ondelete={"mandate": lambda records: records.write({"state": "waiting"})},
     )
 
     ##########################################################################
@@ -58,7 +56,7 @@ class RecurringContracts(models.Model):
                 lambda i: i.payment_state == "not_paid"
             )
             if invoices:
-                first_open_invoice = min([i.date_invoice for i in invoices])
+                first_open_invoice = min(i.date_invoice for i in invoices)
                 contract.first_open_invoice = first_open_invoice
             elif contract.state not in ("terminated", "cancelled"):
                 contract.first_open_invoice = contract.group_id.current_invoice_date
@@ -69,8 +67,7 @@ class RecurringContracts(models.Model):
         # Search for an existing valid mandate
         for contract in self:
             count = self.env["account.banking.mandate"].search_count(
-                [("partner_id", "=", contract.partner_id.id),
-                 ("state", "=", "valid")]
+                [("partner_id", "=", contract.partner_id.id), ("state", "=", "valid")]
             )
             if contract.partner_id.parent_id:
                 count += self.env["account.banking.mandate"].search_count(
@@ -104,8 +101,7 @@ class RecurringContracts(models.Model):
     def write(self, vals):
         """Perform various checks when a contract is modified."""
         if "group_id" in vals:
-            old_payment_modes = [
-                g.payment_mode_id for g in self.mapped("group_id")]
+            old_payment_modes = [g.payment_mode_id for g in self.mapped("group_id")]
         super().write(vals)
         if "group_id" in vals and old_payment_modes:
             self.check_mandate_needed(old_payment_modes)
@@ -128,8 +124,7 @@ class RecurringContracts(models.Model):
     @api.onchange("ambassador_id")
     def onchange_ambassador_id(self):
         """Make checks as well when ambassador is changed."""
-        warn_categories = self.ambassador_id.category_id.filtered(
-            "warn_sponsorship")
+        warn_categories = self.ambassador_id.category_id.filtered("warn_sponsorship")
         if warn_categories:
             cat_names = warn_categories.mapped("name")
             return {
@@ -184,8 +179,7 @@ class RecurringContracts(models.Model):
                 limit=1,
             )
             if company_bank:
-                bvr_reference = \
-                    company_bank.l10n_ch_isrb_id_number + bvr_reference[9:]
+                bvr_reference = company_bank.l10n_ch_isrb_id_number + bvr_reference[9:]
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
@@ -200,15 +194,15 @@ class RecurringContracts(models.Model):
         """
         check_duplicate_activity_id = False
         check_duplicate_activity_id = self.env.ref(
-            "partner_auto_match.activity_check_duplicates").id
+            "partner_auto_match.activity_check_duplicates"
+        ).id
         if self.mapped("partner_id.activity_ids").filtered(
-                lambda l: l.activity_type_id.id == check_duplicate_activity_id
+            lambda l: l.activity_type_id.id == check_duplicate_activity_id
         ) or self.mapped("correspondent_id.activity_ids").filtered(
             lambda l: l.activity_type_id.id == check_duplicate_activity_id
         ):
             raise UserError(
-                _("Please verify the partner before validating the "
-                  "sponsorship")
+                _("Please verify the partner before validating the " "sponsorship")
             )
         super().contract_active()
         sponsor_cat_id = self.env.ref(
@@ -228,8 +222,7 @@ class RecurringContracts(models.Model):
         return True
 
     def contract_waiting_mandate(self):
-        need_mandate = self.filtered(
-            lambda s: not s.partner_id.valid_mandate_id)
+        need_mandate = self.filtered(lambda s: not s.partner_id.valid_mandate_id)
         if need_mandate:
             need_mandate.write(
                 {"state": "mandate", "mandate_date": fields.Datetime.now()}
@@ -279,8 +272,7 @@ class RecurringContracts(models.Model):
                 )
             )
         # Notify for special categories
-        special_categories = partners.mapped("category_id").filtered(
-            "warn_sponsorship")
+        special_categories = partners.mapped("category_id").filtered("warn_sponsorship")
         # Since we are in workflow, the user is not set in environment.
         # We take then the last write user on the records
         if special_categories:
@@ -345,8 +337,7 @@ class RecurringContracts(models.Model):
         for i, contract in enumerate(self):
             group = contract.group_id.with_context(lang="en_US")
             payment_name = group.payment_mode_id.name
-            old_payment_name = old_payment_modes[i].with_context(
-                lang="en_US").name
+            old_payment_name = old_payment_modes[i].with_context(lang="en_US").name
             if not old_payment_name:
                 continue
             if ("LSV" in payment_name or "Postfinance" in payment_name) and not (

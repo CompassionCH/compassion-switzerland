@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 
@@ -60,8 +60,7 @@ class ContractGroup(models.Model):
             for group in self:
                 if "LSV" in payment_name or "Postfinance" in payment_name:
                     # LSV/DD Contracts need no reference
-                    if group.bvr_reference and "multi-months" \
-                            not in payment_name:
+                    if group.bvr_reference and "multi-months" not in payment_name:
                         vals["bvr_reference"] = False
         if "bvr_reference" in vals:
             inv_vals["reference"] = vals["bvr_reference"]
@@ -196,23 +195,21 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _build_invoice_gen_data(
-            self, invoicing_date, invoicer, gift_wizard=False):
+    def _build_invoice_gen_data(self, invoicing_date, invoicer, gift_wizard=False):
         """Inherit to add BVR ref and mandate"""
         inv_data = super()._build_invoice_gen_data(
-            invoicing_date, invoicer, gift_wizard)
+            invoicing_date, invoicer, gift_wizard
+        )
 
         ref = ""
         bank_modes = (
             self.env["account.payment.mode"]
             .with_context(lang="en_US")
-            .search(["|", ("name", "like", "LSV"),
-                     ("name", "like", "Postfinance")])
+            .search(["|", ("name", "like", "LSV"), ("name", "like", "Postfinance")])
         )
         bank = self.env["res.partner.bank"]
         if gift_wizard:
-            ref = gift_wizard.contract_id.get_gift_bvr_reference(
-                gift_wizard.product_id)
+            ref = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
             bank = bank.search([("acc_number", "=", "01444437")])
         elif self.bvr_reference:
             ref = self.bvr_reference
@@ -222,8 +219,7 @@ class ContractGroup(models.Model):
             ref = mod10r(seq.next_by_code("contract.bvr.ref"))
             bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         mandate = self.env["account.banking.mandate"].search(
-            [("partner_id", "=", self.partner_id.id),
-             ("state", "=", "valid")], limit=1
+            [("partner_id", "=", self.partner_id.id), ("state", "=", "valid")], limit=1
         )
         inv_data.update(
             {

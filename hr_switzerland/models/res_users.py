@@ -10,7 +10,7 @@ import logging
 
 import requests
 
-from odoo import models, fields, _
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 

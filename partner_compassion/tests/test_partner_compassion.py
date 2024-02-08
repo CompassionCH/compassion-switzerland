@@ -18,10 +18,11 @@ mock_update_hold = (
 logger = logging.getLogger(__name__)
 geo_patch = "odoo.addons.base_geolocalize.models.res_partner.geo_find"
 
+from odoo.tests import tagged
+
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
     BaseSponsorshipTest,
 )
-from odoo.tests import tagged
 
 
 @tagged("wip_test")

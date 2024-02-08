@@ -8,6 +8,4 @@
 #
 ##############################################################################
 
-from . import child_description
-from . import print_childpack
-from . import project_description
+from . import child_description, print_childpack, project_description

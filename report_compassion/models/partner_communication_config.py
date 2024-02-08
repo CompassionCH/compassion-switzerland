@@ -7,7 +7,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class PartnerCommunicationSwitzerlandConfig(models.Model):

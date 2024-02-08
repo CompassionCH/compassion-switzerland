@@ -10,8 +10,8 @@
 from odoo import api, models
 
 from odoo.addons.child_compassion.wizards.child_description import (
-    SINGULAR,
     NOMINATIVE,
+    SINGULAR,
     ChildDescription,
 )
 

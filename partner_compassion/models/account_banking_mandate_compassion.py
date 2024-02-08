@@ -8,8 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, models, _
-
+from odoo import _, api, models
 
 MANDATE_STATE = {
     "create": "created",

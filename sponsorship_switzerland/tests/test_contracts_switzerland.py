@@ -7,11 +7,13 @@
 #
 ##############################################################################
 
+import datetime
+
+import mock
+
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
     BaseSponsorshipTest,
 )
-import mock
-import datetime
 
 time_path = "odoo.addons.sponsorship_switzerland.models.contracts.datetime"
 

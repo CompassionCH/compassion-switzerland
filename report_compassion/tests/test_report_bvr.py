@@ -8,6 +8,7 @@
 #
 ##############################################################################
 import logging
+
 from odoo.addons.sponsorship_switzerland.tests.test_contracts_switzerland import (
     TestContractsSwitzerland,
 )

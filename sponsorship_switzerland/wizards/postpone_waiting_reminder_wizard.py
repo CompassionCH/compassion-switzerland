@@ -9,7 +9,7 @@
 ##############################################################################
 from dateutil.relativedelta import relativedelta
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class PostponeWaitingReminderWizard(models.TransientModel):

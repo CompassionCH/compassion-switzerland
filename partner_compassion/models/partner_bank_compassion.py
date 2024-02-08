@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import models, _
+from odoo import _, models
 
 
 # pylint: disable=C8107
@@ -25,33 +25,44 @@ class ResPartnerBank(models.Model):
             + (partner and partner.street2 or "")
         )
         line_2 = (
-            (partner and partner.zip or "") + " "
-            + (partner and partner.city or "")
+            (partner and partner.zip or "") + " " + (partner and partner.city or "")
         )
         return line_1[:70], line_2[:70]
 
     def _eligible_for_qr_code(self, qr_method, debtor_partner, currency):
         # Always allow QR-generation
-        if qr_method == 'ch_qr':
+        if qr_method == "ch_qr":
             return True
-        return super()._eligible_for_qr_code(
-            qr_method, debtor_partner, currency)
+        return super()._eligible_for_qr_code(qr_method, debtor_partner, currency)
 
     def _check_for_qr_code_errors(
-            self, qr_method, amount, currency, debtor_partner,
-            free_communication, structured_communication):
+        self,
+        qr_method,
+        amount,
+        currency,
+        debtor_partner,
+        free_communication,
+        structured_communication,
+    ):
         # Don't check missing addresses
         if qr_method == "ch_qr":
-            if self._is_qr_iban() and not \
-                    self._is_qr_reference(structured_communication):
-                return _("When using a QR-IBAN as the destination account of "
-                         "a QR-code, the payment reference must be a "
-                         "QR-reference.")
+            if self._is_qr_iban() and not self._is_qr_reference(
+                structured_communication
+            ):
+                return _(
+                    "When using a QR-IBAN as the destination account of "
+                    "a QR-code, the payment reference must be a "
+                    "QR-reference."
+                )
             else:
                 return ""
         return super()._check_for_qr_code_errors(
-            qr_method, amount, currency, debtor_partner, free_communication,
-            structured_communication
+            qr_method,
+            amount,
+            currency,
+            debtor_partner,
+            free_communication,
+            structured_communication,
         )
 
     def unlink(self):

@@ -38,7 +38,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         self.assertRegexpMatches(completion_result["name"], "Project Gift.*")
 
     def test_lookup_by_sponsor_name(self):
-        statement_line = {"name": u" EXPÉDITEUR: Kim Snyder"}
+        statement_line = {"name": " EXPÉDITEUR: Kim Snyder"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
@@ -53,7 +53,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         Two partners match flexible search by name (User Demo and User
         Portal Demo) and the exact match should take precedence
         """
-        statement_line = {"name": u" EXPÉDITEUR: marc demo"}
+        statement_line = {"name": " EXPÉDITEUR: marc demo"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
@@ -68,7 +68,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         Looking up corporate partner 'Agrolait'
         Edge case of having a single word instead of first + last name
         """
-        statement_line = {"name": u" DONNEUR D'ORDRE: Gemini"}
+        statement_line = {"name": " DONNEUR D'ORDRE: Gemini"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
@@ -82,7 +82,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         """
         The logic to split the names is slightly different
         """
-        statement_line = {"name": u"VIREMENT DU COMPTE CH01 snyder kim"}
+        statement_line = {"name": "VIREMENT DU COMPTE CH01 snyder kim"}
 
         rule = self._fetch_rule_by_function_name("get_sponsor_name")
         completion_result = rule.auto_complete([], statement_line)
@@ -93,7 +93,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
         )
 
     def test_lsv_dd_for_postfinance(self):
-        statement_line = {"name": u"anything\nKREDITKARTEN\nanything", "amount": 200}
+        statement_line = {"name": "anything\nKREDITKARTEN\nanything", "amount": 200}
 
         rule = self._fetch_rule_by_function_name("get_from_lsv_dd")
         completion_result = rule.auto_complete([], statement_line)
@@ -104,7 +104,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
 
     def test_lsv_dd(self):
         statement_line = {
-            "name": u"anything\n CRÉDIT GROUPÉ BVR\nanything",
+            "name": "anything\n CRÉDIT GROUPÉ BVR\nanything",
             "amount": 200,
         }
 

@@ -9,11 +9,10 @@
 ##############################################################################
 import base64
 
-from odoo.addons.sponsorship_compassion.models.product_names \
-    import GIFT_PRODUCTS_REF
-
-from odoo import models, fields, _
+from odoo import _, fields, models
 from odoo.exceptions import Warning as odooWarning
+
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
 
 class PrintSponsorshipBvr(models.TransientModel):

@@ -1794,4 +1794,3 @@ msgstr "Kinder ohne Paten"
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_wtp
 msgid "water for the children"
 msgstr ""
-

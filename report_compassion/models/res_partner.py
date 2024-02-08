@@ -8,9 +8,10 @@
 #
 ##############################################################################
 from datetime import date, datetime
+
 from babel.dates import format_date
 
-from odoo import models, _
+from odoo import _, models
 
 
 class ResPartner(models.Model):
@@ -20,8 +21,7 @@ class ResPartner(models.Model):
 
     def get_receipt_text(self, year):
         """Formats the donation amount for the tax receipt."""
-        return f"{self.get_receipt(year):,.2f}".replace(".00", ".-")\
-            .replace(",", "'")
+        return f"{self.get_receipt(year):,.2f}".replace(".00", ".-").replace(",", "'")
 
     def get_receipt(self, year):
         """

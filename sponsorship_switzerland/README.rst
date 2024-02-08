@@ -17,7 +17,7 @@ Tailor Sponsorships to Compassion CH needs
     :target: https://github.com/compassionCH/compassion-switzerland/tree/11.0/sponsorship_switzerland
     :alt: compassionCH/compassion-switzerland
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 This module adds specific behaviours of sponsorships for Switzerland.
 
