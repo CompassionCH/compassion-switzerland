@@ -13,9 +13,10 @@
     "installable": True,
     "external_dependencies": {"python": ["pandas>=1.5.3"]},
     "depends": [
-        "crm_request"
+        "crm_request",
     ],
     'data': [
         'views/mail_activity_views.xml',
+        'data/claim_sequence.xml',
     ]
 }

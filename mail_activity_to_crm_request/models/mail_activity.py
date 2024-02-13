@@ -32,22 +32,13 @@ class MailActivity(models.Model):
 
         # Create the schedule activity to support request if the corresponding user option is selected
         if activity.create_support_request:
-
-            # Code definition for the new request 'ACT-XXX'
-            # Retrieve last request created with an activity
-            last_instance = self.env['crm.claim'].search([('code', 'like', 'A%')], order="create_date desc", limit=1)
-            if len(last_instance) == 0:
-                # If no request found the digits of the code is defined to 1
-                new_code = 'ACT-1'
-            else:
-                # Otherwise we increase the digit of 1 unit
-                previous_code = last_instance.code
-                new_code = previous_code[0:4] + str(int(previous_code[4:]) + 1)
+            # Compute the code
+            code = self.env["ir.sequence"].next_by_code("crm.claim.activity")
 
             # Create the request
             record = self.env['crm.claim'].create({
                                         'user_id': activity.user_id.id,
-                                        'code': new_code,
+                                        'code': code,
                                         'subject': activity.summary,
                                         'name': activity.summary,
                                         'categ_id': activity.request_category_id.id,
