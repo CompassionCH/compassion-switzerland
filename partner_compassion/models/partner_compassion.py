@@ -23,6 +23,7 @@ regex_order = re.compile(r"^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
 try:
     import csv
 
+    import phonenumbers
     import pyminizip
     import pysftp
     from pysftp import RSAKey
@@ -52,7 +53,7 @@ class ResPartner(models.Model):
     church_unlinked = fields.Char(
         "Church (N/A)",
         help="Use this field if the church of the partner"
-        " can not correctly be determined and linked.",
+             " can not correctly be determined and linked.",
     )
     deathdate = fields.Date("Death date", tracking=True)
     nbmag = fields.Selection(
@@ -94,12 +95,12 @@ class ResPartner(models.Model):
     )
     birthday_reminder = fields.Boolean(
         help="Indicates if the partner wants to receive a birthday "
-        "reminder of his child.",
+             "reminder of his child.",
         default=True,
     )
     sponsorship_anniversary_card = fields.Boolean(
         help="Indicates the partner wants to receive a card when we celebrate "
-        "his or her sponsorship anniversary.",
+             "his or her sponsorship anniversary.",
         default=True,
     )
     photo_delivery_preference = fields.Selection(
@@ -175,7 +176,7 @@ class ResPartner(models.Model):
     can_manage_paid_sponsorships = fields.Boolean(
         compute="_compute_can_manage_paid_sponsorships",
         help="Sponsor has 18 years old or has parents consent "
-        "for paying sponsorship",
+             "for paying sponsorship",
     )
     has_majority = fields.Boolean(
         compute="_compute_has_majority",
@@ -200,7 +201,7 @@ class ResPartner(models.Model):
     def _compute_can_manage_paid_sponsorships(self):
         for record in self:
             record.can_manage_paid_sponsorships = (
-                record.has_majority or record.parent_consent in ["approved"]
+                    record.has_majority or record.parent_consent in ["approved"]
             )
 
     def get_unreconciled_amount(self):
@@ -256,6 +257,9 @@ class ResPartner(models.Model):
             duplicate_ids = [(4, itm.id) for itm in duplicate]
             vals.update({"partner_duplicate_ids": duplicate_ids})
             vals["ref"] = self.env["ir.sequence"].get("partner.ref")
+
+        self.check_phone_and_mobile(vals)
+
         # Never subscribe someone to res.partner record
         partner = super(
             ResPartner, self.with_context(mail_create_nosubscribe=True)
@@ -287,6 +291,9 @@ class ResPartner(models.Model):
                     )
         if "zip" in vals:
             self.update_state_from_zip(vals)
+
+        self.check_phone_and_mobile(vals)
+
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
@@ -359,7 +366,7 @@ class ResPartner(models.Model):
         )
 
     def _generate_order_by_inner(
-        self, alias, order_spec, query, reverse_direction=False, seen=None
+            self, alias, order_spec, query, reverse_direction=False, seen=None
     ):
         # Small trick to allow similarity ordering while bypassing odoo checks
         is_similarity_ordering = regex_order.match(order_spec) if order_spec else False
@@ -505,6 +512,67 @@ class ResPartner(models.Model):
         bvr_reference += "0" * (4 - len(str(product.fund_id))) + str(product.fund_id)
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
+
+    def check_phone_and_mobile(self, vals):
+
+        # Destination codes are the first two digits of a number
+        all_swiss_phone_destination_codes = [
+            21,
+            22,
+            24,
+            26,
+            27,
+            31,
+            32,
+            33,
+            34,
+            41,
+            43,
+            44,
+            51,
+            52,
+            55,
+            56,
+            58,
+            61,
+            62,
+            71,
+        ]
+
+        # Destination codes are the first two digits of a mobile phone number
+        all_swiss_mobile_destination_codes = [74, 75, 76, 77, 78, 79]
+
+        # Check if the partner country is Switzerland
+        swiss_country = self.env.ref("base.ch")
+        if vals.get(
+                'country_id') == swiss_country.id or self.country_id == swiss_country.id:
+
+            phone = vals.get("phone")
+            phone_moved_to_mobile = False
+            mobile = vals.get("mobile")
+
+            if phone:
+                parsed_phone = phonenumbers.parse(phone, "CH")
+                if not phonenumbers.is_valid_number(parsed_phone):
+                    raise UserError(_("Phone number is not valid."))
+                phone_national_destination_code = int(
+                    str(parsed_phone.national_number)[:2])
+                if phone_national_destination_code in all_swiss_mobile_destination_codes:
+                    vals["mobile"] = phone
+                    phone_moved_to_mobile = True
+                    vals["phone"] = False
+
+            if mobile:
+                parsed_mobile = phonenumbers.parse(mobile, "CH")
+                if not phonenumbers.is_valid_number(parsed_mobile):
+                    raise UserError(_("Mobile number is not valid."))
+                mobile_national_destination_code = int(
+                    str(parsed_mobile.national_number)[:2]
+                )
+                if mobile_national_destination_code in all_swiss_phone_destination_codes:
+                    vals["phone"] = mobile
+                    if not phone_moved_to_mobile:
+                        vals["mobile"] = False
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -652,10 +720,10 @@ class ResPartner(models.Model):
     def _get_sftp_connection(self):
         """ " Retrieve configuration SMB"""
         if not (
-            SftpConfig.username
-            and SftpConfig.password
-            and SftpConfig.host
-            and SftpConfig.port
+                SftpConfig.username
+                and SftpConfig.password
+                and SftpConfig.host
+                and SftpConfig.port
         ):
             return False
         else:
