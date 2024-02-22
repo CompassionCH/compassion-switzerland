@@ -75,7 +75,6 @@
         "data/calendar_event_type.xml",
         "data/ir_cron.xml",
         "data/gist_indexes.xml",
-        "data/partner_action_rules.xml",
         "views/advocate_details.xml",
         "views/search_bank_address_wizard.xml",
         "views/survey_view.xml",
