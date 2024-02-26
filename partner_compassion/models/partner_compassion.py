@@ -26,6 +26,7 @@ try:
     import pyminizip
     import pysftp
     from pysftp import RSAKey
+    import phonenumbers
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
 
@@ -265,6 +266,9 @@ class ResPartner(models.Model):
             duplicate_ids = [(4, itm.id) for itm in duplicate]
             vals.update({"partner_duplicate_ids": duplicate_ids})
             vals["ref"] = self.env["ir.sequence"].get("partner.ref")
+
+        self.check_phone_and_mobile(vals)
+
         # Never subscribe someone to res.partner record
         partner = super(
             ResPartner, self.with_context(mail_create_nosubscribe=True)
@@ -296,6 +300,9 @@ class ResPartner(models.Model):
                     )
         if "zip" in vals:
             self.update_state_from_zip(vals)
+
+        self.check_phone_and_mobile(vals)
+
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
@@ -521,6 +528,39 @@ class ResPartner(models.Model):
         action["domain"].append(("type", "in", ["out_invoice", "out_refund"]))
         action["context"] = {"search_default_partner_id": self.id}
         return action
+
+    def check_phone_and_mobile(self, vals):
+        all_phone_destination_codes = [21, 22, 24, 26, 27, 31, 32, 33, 34, 41, 43, 44,
+                                       51, 52, 55, 56, 58, 61, 62, 71]
+
+        all_mobile_destination_codes = [74, 75, 76, 77, 78, 79]
+
+        phone = vals.get('phone')
+        mobile = vals.get('mobile')
+
+        if phone:
+            parsed_phone = phonenumbers.parse(phone, "CH")
+            if not phonenumbers.is_valid_number(parsed_phone):
+                raise UserError(_('Phone number is not valid.'))
+            phone_national_destination_code = int(str(parsed_phone.national_number)[:2])
+            if phone_national_destination_code in all_mobile_destination_codes:
+                vals['mobile'] = phone
+                if not mobile:
+                    vals['phone'] = False
+
+        if mobile:
+            parsed_mobile = phonenumbers.parse(mobile, "CH")
+            if not phonenumbers.is_valid_number(parsed_mobile):
+                raise UserError(_('Mobile number is not valid.'))
+            mobile_national_destination_code = int(
+                str(parsed_mobile.national_number)[:2])
+            if mobile_national_destination_code in all_phone_destination_codes:
+                vals['phone'] = mobile
+                if not phone:
+                    vals['mobile'] = False
+
+        return vals
+
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
