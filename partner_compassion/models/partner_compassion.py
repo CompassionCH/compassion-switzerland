@@ -23,10 +23,10 @@ regex_order = re.compile(r"^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
 try:
     import csv
 
+    import phonenumbers
     import pyminizip
     import pysftp
     from pysftp import RSAKey
-    import phonenumbers
 except ImportError:
     logger.warning("Please install python dependencies.", exc_info=True)
 
@@ -530,37 +530,57 @@ class ResPartner(models.Model):
         return action
 
     def check_phone_and_mobile(self, vals):
-        all_phone_destination_codes = [21, 22, 24, 26, 27, 31, 32, 33, 34, 41, 43, 44,
-                                       51, 52, 55, 56, 58, 61, 62, 71]
+        all_phone_destination_codes = [
+            21,
+            22,
+            24,
+            26,
+            27,
+            31,
+            32,
+            33,
+            34,
+            41,
+            43,
+            44,
+            51,
+            52,
+            55,
+            56,
+            58,
+            61,
+            62,
+            71,
+        ]
 
         all_mobile_destination_codes = [74, 75, 76, 77, 78, 79]
 
-        phone = vals.get('phone')
-        mobile = vals.get('mobile')
+        phone = vals.get("phone")
+        mobile = vals.get("mobile")
 
         if phone:
             parsed_phone = phonenumbers.parse(phone, "CH")
             if not phonenumbers.is_valid_number(parsed_phone):
-                raise UserError(_('Phone number is not valid.'))
+                raise UserError(_("Phone number is not valid."))
             phone_national_destination_code = int(str(parsed_phone.national_number)[:2])
             if phone_national_destination_code in all_mobile_destination_codes:
-                vals['mobile'] = phone
+                vals["mobile"] = phone
                 if not mobile:
-                    vals['phone'] = False
+                    vals["phone"] = False
 
         if mobile:
             parsed_mobile = phonenumbers.parse(mobile, "CH")
             if not phonenumbers.is_valid_number(parsed_mobile):
-                raise UserError(_('Mobile number is not valid.'))
+                raise UserError(_("Mobile number is not valid."))
             mobile_national_destination_code = int(
-                str(parsed_mobile.national_number)[:2])
+                str(parsed_mobile.national_number)[:2]
+            )
             if mobile_national_destination_code in all_phone_destination_codes:
-                vals['phone'] = mobile
+                vals["phone"] = mobile
                 if not phone:
-                    vals['mobile'] = False
+                    vals["mobile"] = False
 
         return vals
-
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
