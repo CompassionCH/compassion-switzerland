@@ -18,7 +18,7 @@ def migrate(env, version):
     """,
     )
     # Retrieve balance product
-    balance_product = env["product.product"].search([("name", "=", "Balance")])
+    balance_product = env["product.product"].search([("name", "ilike", "Balance")])
     if len(balance_product.ids) != 1:
         _logger.warning("balance product is not unique")
         return 1
