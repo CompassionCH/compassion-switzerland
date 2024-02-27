@@ -4,7 +4,7 @@ import logging
 
 from pyquery import PyQuery
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.tools import file_open
 
 from odoo.addons.auth_signup.models.res_partner import now
@@ -65,7 +65,7 @@ class ResUsers(models.Model):
             lang = self.env.lang or self._context.get("lang") or self.env.user.lang
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
-                photo = employee.image_small
+                photo = employee.image_128
                 values = {
                     "name": f"{user.preferred_name} {user.lastname}"
                     if user.firstname

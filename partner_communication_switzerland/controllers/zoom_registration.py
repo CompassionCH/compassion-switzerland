@@ -15,12 +15,10 @@ from werkzeug.exceptions import Unauthorized
 from odoo import http
 from odoo.http import Controller, request
 
-from odoo.addons.cms_form.controllers.main import FormControllerMixin
-
 _logger = logging.getLogger(__name__)
 
 
-class ZoomRegistration(Controller, FormControllerMixin):
+class ZoomRegistration(Controller):
     @http.route(
         [
             "/zoom/<model('res.partner.zoom.session'):session>/register",
@@ -47,9 +45,7 @@ class ZoomRegistration(Controller, FormControllerMixin):
                 lambda p: p.partner_id == partner
             )
         kwargs["zoom_session_id"] = session.id
-        form = self.get_form("res.partner.zoom.attendee", participant.id, **kwargs)
-        form.form_process(**kwargs)
         return request.render(
             "partner_communication_switzerland.zoom_registration_template",
-            {"session": session, "form": form, "main_object": participant},
+            {"session": session, "main_object": participant},
         )

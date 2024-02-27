@@ -43,7 +43,7 @@ class ZoomSession(models.Model):
     @api.model
     def _get_lang(self):
         langs = self.env["res.lang"].search([])
-        return [(l.code, l.name) for l in langs]
+        return [(lang.code, lang.name) for lang in langs]
 
     def _compute_website_url(self):
         for record in self:

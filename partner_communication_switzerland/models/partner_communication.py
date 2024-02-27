@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2023 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -10,19 +10,17 @@
 import base64
 import logging
 import re
-import time
 from collections import OrderedDict
 from datetime import date, datetime
-from io import BytesIO
 from math import ceil
 
 import requests
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import MissingError, UserError
+from odoo.exceptions import UserError
 
-from odoo.addons.sponsorship_compassion.models.product_names import GIFT_REF
+from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
 from ..wizards.generate_communication_wizard import SMS_CHAR_LIMIT, SMS_COST
 
@@ -30,9 +28,8 @@ _logger = logging.getLogger(__name__)
 
 try:
     from bs4 import BeautifulSoup
-    from PyPDF2 import PdfFileReader, PdfFileWriter
 except ImportError:
-    _logger.warning("Please install pypdf and bs4 for using the module")
+    _logger.warning("Please install bs4 for using the module")
 
 
 class PartnerCommunication(models.Model):
@@ -43,14 +40,13 @@ class PartnerCommunication(models.Model):
     currency_id = fields.Many2one(
         "res.currency", compute="_compute_currency", readonly=False
     )
-    utm_campaign_id = fields.Many2one("utm.campaign", readonly=False)
     sms_cost = fields.Float()
-    sms_provider_id = fields.Many2one(
-        "sms.provider",
-        "SMS Provider",
-        default=lambda self: self.env.ref("sms_939.large_account_id", False),
-        readonly=False,
-    )
+    # sms_provider_id = fields.Many2one(
+    #     "sms.provider",
+    #     "SMS Provider",
+    #     default=lambda self: self.env.ref("sms_939.large_account_id", False),
+    #     readonly=False,
+    # )
 
     def schedule_call(self):
         self.ensure_one()
@@ -116,59 +112,6 @@ class PartnerCommunication(models.Model):
                 not_read += communication
         return not_read
 
-    def get_correspondence_attachments(self, letters=None):
-        """
-        Include PDF of letters if the send_mode is to print the letters.
-        :return: dict {attachment_name: [report_name, pdf_data]}
-        """
-        self.ensure_one()
-        attachments = dict()
-        # Report is used for print configuration
-        report = "partner_communication.a4_no_margin"
-        if letters is None:
-            letters = self.get_objects()
-        if self.send_mode == "physical":
-            for letter in letters:
-                try:
-                    attachments[letter.file_name] = [
-                        report,
-                        self._convert_pdf(letter.letter_image),
-                    ]
-                except MissingError:
-                    _logger.warning("Missing letter image", exc_info=True)
-                    self.send_mode = False
-                    self.auto_send = False
-                    self.message_post(
-                        body=_("The letter image is missing!"),
-                        subject=_("Missing letter"),
-                    )
-                    continue
-        else:
-            # Attach directly a zip in the letters
-            letters.attach_zip()
-        return attachments
-
-    def final_letter_attachment(self):
-        """Include PDF of final letter if any exists. Remove any other correspondence
-        that would send it and link the letter to the current communication."""
-        self.ensure_one()
-        sponsorships = self.get_objects()
-        attachments = dict()
-        final_type = self.env.ref("sbc_compassion.correspondence_type_final")
-        final_letters = self.env["correspondence"].search(
-            [
-                ("sponsorship_id", "in", sponsorships.ids),
-                ("communication_type_ids", "=", final_type.id),
-                ("sent_date", "=", False),
-                ("email_read", "=", False),
-            ]
-        )
-        if final_letters:
-            final_letters.mapped("communication_id").cancel()
-            final_letters.write({"communication_id": self.id})
-            attachments = self.get_correspondence_attachments(final_letters)
-        return attachments
-
     def get_birthday_bvr(self):
         """
         Attach birthday gift slip with background for sending by e-mail
@@ -181,7 +124,7 @@ class PartnerCommunication(models.Model):
         gifts_to = sponsorships[:1].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             birthday_gift = self.env["product.product"].search(
-                [("default_code", "=", GIFT_REF[0])], limit=1
+                [("default_code", "=", GIFT_PRODUCTS_REF[0])], limit=1
             )
             attachments = sponsorships.get_bvr_gift_attachment(
                 birthday_gift, background
@@ -198,7 +141,7 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
         graduation = self.env["product.product"].search(
-            [("default_code", "=", GIFT_REF[4])], limit=1
+            [("default_code", "=", GIFT_PRODUCTS_REF[4])], limit=1
         )
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
@@ -215,7 +158,7 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
         family = self.env["product.product"].search(
-            [("default_code", "=", GIFT_REF[2])], limit=1
+            [("default_code", "=", GIFT_PRODUCTS_REF[2])], limit=1
         )
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
@@ -231,7 +174,7 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
-        refs = [GIFT_REF[0], GIFT_REF[1], GIFT_REF[2]]
+        refs = [GIFT_PRODUCTS_REF[0], GIFT_PRODUCTS_REF[1], GIFT_PRODUCTS_REF[2]]
         all_gifts = self.env["product.product"].search([("default_code", "in", refs)])
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
@@ -328,67 +271,14 @@ class PartnerCommunication(models.Model):
             for child in children:
                 sponsorships += child.sponsorship_ids[0]
         attachments = dict()
-        label_print = self.env["label.print"].search(
-            [("name", "=", "Sponsorship Label")], limit=1
-        )
-        label_brand = self.env["label.brand"].search(
-            [("brand_name", "=", "Herma A4")], limit=1
-        )
-        label_format = self.env["label.config"].search(
-            [("name", "=", "4455 SuperPrint WeiB")], limit=1
-        )
-        report_context = {
-            "active_ids": sponsorships.ids,
-            "active_model": "recurring.contract",
-            "label_print": label_print.id,
-            "must_skip_send_to_printer": True,
+        report_name = "label.dynamic_label"
+        label_data = {
+            "doc_ids": sponsorships.ids,
         }
-        label_wizard = (
-            self.env["label.print.wizard"]
-            .with_context(report_context)
-            .create(
-                {
-                    "brand_id": label_brand.id,
-                    "config_id": label_format.id,
-                    "number_of_labels": 33,
-                }
-            )
-        )
-        label_data = label_wizard.get_report_data()
-        report_name = "label.report_label"
-        report = (
-            self.env["ir.actions.report"]
-            ._get_report_from_name(report_name)
-            .with_context(report_context)
-        )
+        report = self.env.ref("label.dynamic_label")
         pdf = self._get_pdf_from_data(label_data, report)
         attachments[_("sponsorship labels.pdf")] = [report_name, pdf]
         return attachments
-
-    def get_child_picture_attachment(self):
-        """
-        Attach child pictures to communication. It directly attach them
-        to the communication if sent by e-mail and therefore does
-        return an empty dictionary.
-        :return: dict {}
-        """
-        self.ensure_one()
-        res = dict()
-        biennial = self.env.ref("partner_communication_switzerland.biennial")
-        if self.config_id == biennial:
-            if self.send_mode == "physical":
-                # In this case the photo is printed from Smartphoto and manually added
-                return res
-            children = self.get_objects()
-        else:
-            children = self.get_objects().mapped("child_id")
-        pdf = self._get_pdf_from_data(
-            {"doc_ids": children.ids},
-            self.env.ref("partner_communication_switzerland.report_child_picture"),
-        )
-        name = children.get_list("local_id", 1, _("pictures")) + ".pdf"
-        res[name] = ("partner_communication_switzerland.child_picture", pdf)
-        return res
 
     def get_yearly_payment_slips(self):
         """
@@ -428,7 +318,15 @@ class PartnerCommunication(models.Model):
         if pays_gift:
             product_ids = (
                 self.env["product.product"]
-                .search([("default_code", "in", [GIFT_REF[0]] + GIFT_REF[2:4])])
+                .search(
+                    [
+                        (
+                            "default_code",
+                            "in",
+                            [GIFT_PRODUCTS_REF[0]] + GIFT_PRODUCTS_REF[2:4],
+                        )
+                    ]
+                )
                 .ids
             )
             report_name = "report_compassion.2bvr_gift_sponsorship"
@@ -511,21 +409,56 @@ class PartnerCommunication(models.Model):
 
     def send(self):
         """
+        Sends communication jobs, handling various functionalities:
+
         - Mark B2S correspondence as read when printed.
         - Postpone no money holds when reminders sent.
         - Update donor tag
-        - Sends SMS for sms send_mode
+        - Send SMS for sms send_mode
         - Add to zoom session when zoom invitation is sent
         - Set onboarding_start_date when first communication is sent
         - Start onboarding new donor after first thank you letter is sent
         - Prepare SUB validation after SUB proposal is sent
-        :return: True
+
+        Returns:
+            True
         """
+        # Filter jobs for SMS
         sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
         sms_jobs.send_by_sms()
+
+        # Filter remaining jobs and contract channel
         other_jobs = self - sms_jobs
+
+        # Handle invoice reconciliation conflicts
+        if not other_jobs._handle_invoice_reconciliation():
+            raise UserError(
+                _(
+                    "Some invoices are being reconciled. Please wait before sending "
+                    "the communication."
+                )
+            )
+
+        # Prevent sending onboarding card with unverified partners
+        if not other_jobs._check_onboarding_verification():
+            raise UserError(
+                _("Onboarding postcard cannot be sent for unverified partners.")
+            )
+
+        # Send remaining jobs
+        super(PartnerCommunication, other_jobs).send()
+
+        other_jobs._handle_no_money_holds()
+        other_jobs._start_new_donors_onboarding()
+        other_jobs._handle_zoom_and_sub_proposal()
+        self._prepare_onboarding()
+
+        return True
+
+    # Helper functions for improved readability and modularity
+    def _handle_invoice_reconciliation(self):
         contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
-        for job in other_jobs.filtered(
+        for job in self.filtered(
             lambda j: j.model in ("recurring.contract", "account.invoice")
         ):
             queue_job = self.env["queue.job"].search(
@@ -535,58 +468,42 @@ class PartnerCommunication(models.Model):
                 ],
                 limit=1,
             )
-            if queue_job:
-                invoices = self.env["account.invoice"].browse(queue_job.record_ids)
-                if job.partner_id in invoices.mapped("partner_id"):
-                    retry = 0
-                    state = queue_job.state
-                    while state != "done" and retry < 5:
-                        if queue_job.state == "failed":
-                            raise UserError(
-                                _(
-                                    "A reconcile job has failed. Please call "
-                                    "an admin for help."
-                                )
-                            )
-                        _logger.info(
-                            "Reconcile job is processing! Going in "
-                            "sleep for five seconds..."
-                        )
-                        time.sleep(5)
-                        state = queue_job.read(["state"])[0]["state"]
-                        retry += 1
-                    if queue_job.state != "done":
-                        raise UserError(
-                            _(
-                                "Some invoices of the partner are just being "
-                                "reconciled now. Please wait the process to finish"
-                                " before printing the communication."
-                            )
-                        )
+            if queue_job and job.partner_id in queue_job.record_ids.mapped(
+                "partner_id"
+            ):
+                return False
+        return True
 
-        # Prevent sending onboarding card when partner is not validated
-        onboarding_new_donor = self.env.ref(
+    def _check_onboarding_verification(self):
+        """
+        Checks if any jobs in the provided list are for sending the onboarding postcard
+        and the corresponding partner is not yet verified.
+        """
+        onboarding_card = self.env.ref(
             "partner_communication_switzerland"
             ".config_new_donors_onboarding_postcard_and_magazine"
         )
-        verify = self.env.ref("cms_form_compassion.activity_check_duplicates")
-        blocking = other_jobs.filtered(
-            lambda j: j.config_id == onboarding_new_donor
+        verify_activity = self.env.ref("partner_auto_match.activity_check_duplicates")
+
+        # Filter jobs for onboarding postcard and unverified partners
+        unverified_jobs = self.filtered(
+            lambda j: j.config_id == onboarding_card
             and j.partner_id.activity_ids.filtered(
-                lambda a: a.activity_type_id == verify
+                lambda a: a.activity_type_id == verify_activity
             )
         )
-        if blocking:
-            raise UserError(
-                _(
-                    "You cannot send the onboarding postcard when the partner is not "
-                    "verified. Please check the following partners: %s"
-                )
-                % ",".join(blocking.mapped("partner_id.name"))
-            )
-        super(PartnerCommunication, other_jobs).send()
+        return not unverified_jobs
 
-        # No money extension
+    def _handle_no_money_holds(self):
+        """
+        Extends the expiration date of no money holds based on configured settings
+        for jobs related to corresponding communication templates.
+        """
+        settings = self.env["res.config.settings"].sudo()
+        first_extension = settings.get_param("no_money_hold_duration")
+        second_extension = settings.get_param("no_money_hold_extension")
+
+        # Define template references for no money holds
         no_money_1 = self.env.ref(
             "partner_communication_switzerland.sponsorship_waiting_reminder_1"
         )
@@ -596,33 +513,64 @@ class PartnerCommunication(models.Model):
         no_money_3 = self.env.ref(
             "partner_communication_switzerland.sponsorship_waiting_reminder_3"
         )
-        settings = self.env["res.config.settings"].sudo()
-        first_extension = settings.get_param("no_money_hold_duration")
-        second_extension = settings.get_param("no_money_hold_extension")
-        for communication in other_jobs:
-            extension = False
+
+        for communication in self:
+            extension_days = 0
+
+            # Determine extension based on communication template
             if communication.config_id == no_money_1:
-                extension = first_extension + 7
+                extension_days = first_extension + 7
             elif communication.config_id == no_money_2:
-                extension = second_extension + 7
+                extension_days = second_extension + 7
             elif communication.config_id == no_money_3:
-                extension = 10
-            if extension:
+                extension_days = 10
+
+            # Apply extension if applicable
+            if extension_days:
                 holds = communication.get_objects().mapped("child_id.hold_id")
                 for hold in holds:
-                    expiration = datetime.now() + relativedelta(days=extension)
-                    hold.expiration_date = expiration
+                    hold.expiration_date = datetime.now() + relativedelta(
+                        days=extension_days
+                    )
 
-        new_donor_partners = other_jobs.filtered(
-            lambda j: j.config_id.model == "account.invoice.line"
-            and j.config_id.send_mode_pref_field == "thankyou_preference"
-        ).mapped("partner_id")
-        new_donor_partners.filter_onboarding_new_donors().start_new_donors_onboarding()
+    def _start_new_donors_onboarding(self):
+        """
+        Starts the onboarding process for new donors identified from thank you letters.
+        """
 
+        new_donor_template_field = "thankyou_preference"
+        invoice_line_model = "account.invoice.line"
+
+        # Filter jobs for thank you letters sent to new donors
+        new_donor_jobs = self.filtered(
+            lambda j: j.config_id.model == invoice_line_model
+            and j.config_id.send_mode_pref_field == new_donor_template_field
+        )
+
+        # Extract and filter partner records for new donors
+        new_donor_partners = new_donor_jobs.mapped(
+            "partner_id"
+        ).filter_onboarding_new_donors()
+
+        # Start onboarding for the identified new donors
+        new_donor_partners.start_new_donors_onboarding()
+
+    def _handle_zoom_and_sub_proposal(self):
+        """
+        Handles two functionalities:
+            - Adds partners to Zoom sessions for jobs related to the onboarding
+            invitation.
+            - Updates the SUB proposal date for jobs related to the SUB proposal
+            template.
+        """
+
+        # Zoom session reference
         zoom_invitation = self.env.ref(
             "partner_communication_switzerland.config_onboarding_step1"
         )
-        for invitation in other_jobs.filtered(
+
+        # Handle adding partners to Zoom sessions
+        for invitation in self.filtered(
             lambda j: j.config_id == zoom_invitation
             and j.get_objects().filtered("is_first_sponsorship")
         ):
@@ -634,6 +582,26 @@ class PartnerCommunication(models.Model):
             if next_zoom:
                 next_zoom.add_participant(invitation.partner_id)
 
+        # SUB proposal reference
+        sub_proposal = self.env.ref(
+            "partner_communication_switzerland.planned_sub_dossier"
+        )
+
+        # Update SUB proposal date for relevant jobs
+        subs = self.filtered(lambda j: j.config_id == sub_proposal)
+        if subs:
+            subs.get_objects().write({"sub_proposal_date": fields.Date.today()})
+
+    def _prepare_onboarding(self):
+        """
+        Prepares onboarding for new sponsors identified from communication:
+            - Sets the onboarding start date for the first communication sent.
+            - Prepares the signup URL for new sponsors.
+
+        Args:
+            jobs: List of communication jobs.
+        """
+
         welcome_onboarding = self.env.ref(
             "partner_communication_switzerland"
             ".config_onboarding_sponsorship_confirmation"
@@ -641,25 +609,21 @@ class PartnerCommunication(models.Model):
         wrpr_onboarding = self.env.ref(
             "partner_communication_switzerland.config_wrpr_welcome"
         )
+
+        # Filter relevant welcome communication jobs for new sponsors
         welcome_comms = self.filtered(
             lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding)
             and j.get_objects().filtered("is_first_sponsorship")
         )
+
         if welcome_comms:
             # Prepare MyCompassion Account
             _logger.info("Prepare signup URL for new sponsor")
             welcome_comms.mapped("partner_id").action_signup_prepare()
+            # Set onboarding start date for identified new sponsors
             welcome_comms.get_objects().write(
                 {"onboarding_start_date": datetime.today()}
             )
-        sub_proposal = self.env.ref(
-            "partner_communication_switzerland.planned_sub_dossier"
-        )
-        subs = self.filtered(lambda j: j.config_id == sub_proposal)
-        if subs:
-            subs.get_objects().write({"sub_proposal_date": fields.Date.today()})
-
-        return True
 
     def send_by_sms(self):
         """
@@ -713,7 +677,7 @@ class PartnerCommunication(models.Model):
                         "url": full_link,
                         "campaign_id": self.utm_campaign_id.id
                         or self.env.ref(
-                            "partner_communication_switzerland."
+                            "partner_communication_compassion."
                             "utm_campaign_communication"
                         ).id,
                         "medium_id": sms_medium_id,
@@ -721,14 +685,6 @@ class PartnerCommunication(models.Model):
                     }
                 )
             return short_link.short_url
-
-        def _strip_paragraph(match):
-            return (
-                match.group(1)
-                + match.group(2).strip()
-                + match.group(3)
-                + paragraph_delimiter
-            )
 
         body = self.body_html.replace("\n", " ").replace(
             "</p>", "</p>" + paragraph_delimiter
@@ -739,17 +695,6 @@ class PartnerCommunication(models.Model):
         soup = BeautifulSoup(body, "lxml")
         text = soup.get_text().replace(paragraph_delimiter, "\n\n")
         return "\n".join([t.strip() for t in text.split("\n")])
-
-    def open_related(self):
-        """Select a better view for invoice lines."""
-        res = super().open_related()
-        if self.config_id.model == "account.invoice.line":
-            res["context"] = self.with_context(
-                tree_view_ref="sponsorship_compassion"
-                ".view_invoice_line_partner_tree",
-                group_by=False,
-            ).env.context
-        return res
 
     def get_print_dossier_attachments(self):
         """
@@ -946,55 +891,3 @@ class PartnerCommunication(models.Model):
                     }
                 )
         return res
-
-    def _convert_pdf(self, pdf_data):
-        """
-        Converts all pages of PDF in A4 format if communication is
-        printed.
-        :param pdf_data: binary data of original pdf
-        :return: binary data of converted pdf
-        """
-        if self.send_mode != "physical":
-            return pdf_data
-
-        pdf = PdfFileReader(BytesIO(base64.b64decode(pdf_data)))
-        convert = PdfFileWriter()
-        a4_width = 594.48
-        a4_height = 844.32  # A4 units in PyPDF
-        for i in range(0, pdf.numPages):
-            # translation coordinates
-            tx = 0
-            ty = 0
-            page = pdf.getPage(i)
-            corner = [float(x) for x in page.mediaBox.getUpperRight()]
-            if corner[0] > a4_width or corner[1] > a4_height:
-                page.scaleBy(max(a4_width / corner[0], a4_height / corner[1]))
-            elif corner[0] < a4_width or corner[1] < a4_height:
-                tx = (a4_width - corner[0]) / 2
-                ty = (a4_height - corner[1]) / 2
-            convert.addBlankPage(a4_width, a4_height)
-            convert.getPage(i).mergeTranslatedPage(page, tx, ty)
-        output_stream = BytesIO()
-        convert.write(output_stream)
-        output_stream.seek(0)
-        return base64.b64encode(output_stream.read())
-
-    def _get_pdf_from_data(self, data, report_ref):
-        """
-        Helper to get the PDF base64 encoded given report ref and its data.
-        :param data: values for the report generation
-        :param report_ref: report xml id
-        :return: base64 encoded PDF
-        """
-        report_str = report_ref.render_qweb_pdf(data.get("doc_ids"), data)
-        if isinstance(report_str, (list, tuple)):
-            report_str = report_str[0]
-        elif isinstance(report_str, bool):
-            report_str = ""
-
-        output = None
-        if isinstance(report_str, bytes):
-            output = base64.encodebytes(report_str)
-        else:
-            base64.encodebytes(report_str.encode())
-        return output

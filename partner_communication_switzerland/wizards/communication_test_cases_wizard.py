@@ -12,6 +12,7 @@ from odoo import _, api, exceptions, fields, models
 
 class GenerateCommunicationWizard(models.TransientModel):
     _name = "partner.communication.test.cases.wizard"
+    _description = "Generate communication test cases"
 
     config_id = fields.Many2one(
         "partner.communication.config",
@@ -50,7 +51,7 @@ class GenerateCommunicationWizard(models.TransientModel):
 
     def _get_lang(self):
         langs = self.env["res.lang"].search([])
-        return [(l.code, l.name) for l in langs]
+        return [(lang.code, lang.name) for lang in langs]
 
     @api.onchange("partner")
     def onchange_partner(self):
@@ -84,7 +85,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     def generate_test_cases_partner(self):
         self.ensure_one()
         if not self.partner_selected:
-            raise exceptions.UserError("No partner selected")
+            raise exceptions.UserError(_("No partner selected"))
         case = self.config_id.generate_test_case_by_partner(
             self.partner, self.child_ids, self.send_mode
         )

@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class EndContractWizard(models.TransientModel):
@@ -20,10 +20,10 @@ class EndContractWizard(models.TransientModel):
         self.ensure_one()
         if self.generate_communication:
             exit_config = self.env.ref(
-                "partner_communication_switzerland." "lifecycle_child_unplanned_exit"
+                "partner_communication_compassion.lifecycle_child_unplanned_exit"
             )
-            self.contract_id.with_context(
-                default_object_ids=self.contract_id.id, default_auto_send=False
+            self.contract_ids.with_context(
+                default_object_ids=self.contract_ids.ids, default_auto_send=False
             ).send_communication(exit_config)
 
         return super().end_contract()

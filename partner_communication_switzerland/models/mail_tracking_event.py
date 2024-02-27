@@ -78,8 +78,8 @@ class MailTrackingEvent(models.Model):
     def _invalid_email(self, tracking_email):
         """
         Sends invalid e-mail communication.
-        In particular cases avoid sending the communciation because it will append later on
-        in an other process :
+        In particular cases avoid sending the communciation because
+        it will append later on in an other process :
         - if the invalid event came from an email linked to a correspondence (b2s)
         - if the invalid event came from an email link to the onboarding confirmation
         """

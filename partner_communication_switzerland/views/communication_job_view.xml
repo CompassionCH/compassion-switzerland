@@ -32,11 +32,6 @@
           name="attrs"
         >{'invisible': [('send_mode', '=', 'sms')]}</attribute>
             </field>
-            <field name="ir_attachment_tmp" position="attributes">
-                <attribute
-          name="attrs"
-        >{'invisible': [('send_mode', '=', 'sms')]}</attribute>
-            </field>
         </field>
     </record>
 
@@ -204,13 +199,12 @@
     name="Communication Rules"
     sequence="3"
   />
-<!--    <delete model="ir.ui.menu" id="partner_communication.menu_communication"/>-->
 
     <!-- Add event donation menu in Sales-->
     <menuitem
     id="menu_donation_event"
     name="Event Donations"
-    parent="thankyou_letters.menu_donation_sales"
+    parent="thankyou_letters.menu_donation_general"
     action="action_thank_you_event"
   />
 

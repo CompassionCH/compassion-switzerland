@@ -2,7 +2,6 @@
     <record id="child_order_picture_wizard_form" model="ir.ui.view">
         <field name="name">child.order.picture.wizard.form</field>
         <field name="model">child.order.picture.wizard</field>
-        <field name="preview" />
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -45,16 +44,14 @@
     <record id="action_order_pictures_2" model="ir.actions.act_window">
         <field name="name">Order Child Pictures</field>
         <field name="res_model">child.order.picture.wizard</field>
-        <field name="binding_model">recurring.contract</field>
+        <field name="binding_model_id" ref="model_recurring_contract" />
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="view_type">form</field>
-        <field name="key2">client_action_multi</field>
     </record>
 
     <menuitem
     id="menu_order_child_pictures"
-    parent="sponsorship_tracking.menu_tracking"
+    parent="sponsorship_sub_management.menu_tracking"
     name="Order Child Pictures"
     action="open_order_picture_wizard"
   />
