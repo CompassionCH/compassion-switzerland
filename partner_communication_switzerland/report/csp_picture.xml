@@ -1,11 +1,10 @@
 <odoo>
-    <report
-    id="report_csp_picture"
-    model="compassion.child"
-    string="CSP Picture"
-    report_type="qweb-pdf"
-    name="partner_communication_switzerland.csp_picture"
-  />
+    <record id="report_csp_picture" model="ir.actions.report">
+        <field name="model">compassion.child</field>
+        <field name="name">CSP Picture</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">partner_communication_switzerland.csp_picture</field>
+    </record>
     <record id="report_csp_picture" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_child_picture" />
     </record>

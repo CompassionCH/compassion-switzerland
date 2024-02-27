@@ -31,7 +31,6 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
     def button_create_portal_user(self):
         portal = self.env["portal.wizard"].create(
             {"invitation_config_id": self.config_id.id}
@@ -69,6 +68,5 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
             }
         return action
 
-    @api.multi
     def button_cancel(self):
         return True

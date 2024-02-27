@@ -26,7 +26,6 @@ class PartnerCommunication(models.Model):
         if self.product_id:
             self.attachments_function = "get_fund_bvr"
 
-    @api.multi
     def generate_test_cases_by_language_family_case(
         self, lang="de_DE", family_case="single", send_mode="digital"
     ):
@@ -71,7 +70,6 @@ class PartnerCommunication(models.Model):
 
         return res
 
-    @api.multi
     def generate_test_case_by_partner(self, partner, children, send_mode):
         """
         Generates example communications for our multiple cases in CH

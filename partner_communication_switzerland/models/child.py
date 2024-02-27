@@ -82,7 +82,6 @@ class CompassionChild(models.Model):
             completion = child.completion_date
             child.completion_month = format_date(completion, "MMMM", locale=lang)
 
-    @api.multi
     def new_photo(self):
         """
         Upon reception of a new child picture :
@@ -123,7 +122,6 @@ class CompassionChild(models.Model):
             return year
         return month + " " + year
 
-    @api.multi
     def get_hold_gifts(self):
         """
         :return: True if all children's gift are held.

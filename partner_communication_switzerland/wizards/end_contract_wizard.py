@@ -16,7 +16,6 @@ class EndContractWizard(models.TransientModel):
 
     generate_communication = fields.Boolean("Create depart communication")
 
-    @api.multi
     def end_contract(self):
         self.ensure_one()
         if self.generate_communication:

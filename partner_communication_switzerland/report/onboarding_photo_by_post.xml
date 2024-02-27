@@ -13,13 +13,12 @@
         <field name="dpi">96</field>
     </record>
 
-    <report
-    id="report_onboarding_photo_by_post"
-    model="partner.communication.job"
-    string="Onboarding photo by post"
-    report_type="qweb-pdf"
-    name="partner_communication_switzerland.onboarding_photo_by_post"
-  />
+    <record id="report_onboarding_photo_by_post" model="ir.actions.report">
+        <field name="model">partner.communication.job</field>
+        <field name="name">Onboarding photo by post</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">partner_communication_switzerland.onboarding_photo_by_post</field>
+    </record>
     <record id="report_child_picture" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_child_picture" />
     </record>

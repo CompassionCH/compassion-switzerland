@@ -16,7 +16,6 @@ from odoo.addons.sponsorship_compassion.models.product_names import GIFT_CATEGOR
 class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
 
-    @api.multi
     def get_donations(self):
         """
         Gets a tuple for thank_you communication
@@ -57,7 +56,6 @@ class AccountInvoiceLine(models.Model):
 
         return total_string, res_name
 
-    @api.multi
     def generate_thank_you(self):
         """
         Do not group communications which have not same event linked.
@@ -85,7 +83,6 @@ class AccountInvoiceLine(models.Model):
 
         return res
 
-    @api.multi
     def send_receipt_to_ambassador(self):
         """
         Generates a receipt for the ambassador informing him or her that he or she
@@ -105,7 +102,6 @@ class AccountInvoiceLine(models.Model):
             )
         return True
 
-    @api.multi
     def _get_ambassador_receipt_config(self):
         """
         Returns the correct receipt for ambassador given the donations.

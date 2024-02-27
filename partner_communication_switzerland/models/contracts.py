@@ -182,7 +182,6 @@ class RecurringContract(models.Model):
             else:
                 contract.months_due = 0
 
-    @api.multi
     def _compute_period_paid(self):
         for contract in self:
             advance_billing = contract.group_id.advance_billing_months
@@ -194,7 +193,6 @@ class RecurringContract(models.Model):
                 to_pay_period += advance_billing
             contract.period_paid = contract.months_paid >= to_pay_period
 
-    @api.multi
     def compute_due_invoices(self):
         self._compute_due_invoices()
         return True
@@ -487,7 +485,6 @@ class RecurringContract(models.Model):
         """Utility to tell if sponsorship must be paid next year."""
         return max(self.mapped("months_paid")) < 24
 
-    @api.multi
     def action_sub_reject(self):
         res = super().action_sub_reject()
         no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
@@ -497,7 +494,6 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                            WORKFLOW METHODS                            #
     ##########################################################################
-    @api.multi
     def contract_waiting_mandate(self):
         res = super().contract_waiting_mandate()
         new_spons = self.filtered(
@@ -545,7 +541,6 @@ class RecurringContract(models.Model):
                 user_id=sds_user.id,
             )
 
-    @api.multi
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
@@ -588,7 +583,6 @@ class RecurringContract(models.Model):
 
         return res
 
-    @api.multi
     def contract_active(self):
         """Remove waiting reminders if any"""
         self.env["partner.communication.job"].search(
@@ -605,14 +599,12 @@ class RecurringContract(models.Model):
         wp._new_dossier()
         return True
 
-    @api.multi
     def contract_terminated(self):
         super().contract_terminated()
         if self.child_id:
             self.child_id.sponsorship_ids[0].order_photo = False
         return True
 
-    @api.multi
     def contract_cancelled(self):
         # Remove pending communications
         for contract in self:
@@ -629,7 +621,6 @@ class RecurringContract(models.Model):
         super().contract_cancelled()
         return True
 
-    @api.multi
     def action_cancel_draft(self):
         """Cancel communication"""
         super().action_cancel_draft()
@@ -715,7 +706,6 @@ class RecurringContract(models.Model):
         # first_reminder.send()  (not sure if we want to send it automatically)
         return True
 
-    @api.multi
     def confirm_upgrade(self):
         """
         Called by MyCompassion when sponsors increase his contribution.
@@ -755,7 +745,6 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    @api.multi
     def _on_sponsorship_finished(self):
         super()._on_sponsorship_finished()
         cancellation = self.env.ref(

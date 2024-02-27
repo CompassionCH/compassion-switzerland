@@ -17,7 +17,6 @@ class ResUsers(models.Model):
     signature = fields.Html(compute="_compute_signature")
     short_signature = fields.Html(compute="_compute_short_signature")
 
-    @api.multi
     def action_reset_password(self):
         create_mode = bool(self.env.context.get("create_user"))
         # Only override the rest behavior, not normal signup
@@ -40,7 +39,6 @@ class ResUsers(models.Model):
                     }
                 )
 
-    @api.multi
     def _compute_signature(self):
         with file_open(
             "partner_communication_switzerland/static/html/signature.html"
@@ -100,13 +98,11 @@ class ResUsers(models.Model):
                     template.remove(".work_mobile")
                 user.signature = template.html().format(**values)
 
-    @api.multi
     def _compute_short_signature(self):
         for user in self:
             template = PyQuery(user.signature)
             user.short_signature = template("#short").html()
 
-    @api.multi
     def _compute_signature_letter(self):
         """Translate country in Signature (for Compassion Switzerland)"""
         for user in self:

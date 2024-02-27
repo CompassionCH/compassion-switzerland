@@ -112,7 +112,6 @@
     <record id="action_communication_template" model="ir.actions.act_window">
         <field name="name">Communication templates</field>
         <field name="res_model">mail.template</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field
       name="domain"
@@ -150,7 +149,6 @@
     <record id="action_thank_you_event" model="ir.actions.act_window">
         <field name="name">Event Donation Receipts</field>
         <field name="res_model">partner.communication.job</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field
       name="view_ids"

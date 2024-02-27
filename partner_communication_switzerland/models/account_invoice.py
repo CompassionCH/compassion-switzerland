@@ -62,7 +62,6 @@ class AccountInvoice(models.Model):
             )
         return True
 
-    @api.multi
     def generate_thank_you(self):
         """
         Creates a thank you letter communication separating events thank you
@@ -100,7 +99,6 @@ class AccountInvoice(models.Model):
             if ambassador_lines:
                 ambassador_lines.with_delay(eta=delay).send_receipt_to_ambassador()
 
-    @api.multi
     def _filter_invoice_to_thank(self):
         """
         Given a recordset of paid invoices, return only those that have

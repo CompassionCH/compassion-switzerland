@@ -18,7 +18,6 @@ class DemandPlanningSettings(models.TransientModel):
         "res.users", "User to notify on new donors onboarding opt out", readonly=False
     )
 
-    @api.multi
     def set_values(self):
         super().set_values()
         self.env["ir.config_parameter"].set_param(

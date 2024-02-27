@@ -42,7 +42,6 @@ class PortalWizardUser(models.TransientModel):
     )
     uid_communication_id = fields.Many2one("partner.communication.job", readonly=False)
 
-    @api.multi
     def action_apply(self):
         res = super().action_apply()
 
@@ -54,7 +53,6 @@ class PortalWizardUser(models.TransientModel):
 
         return res
 
-    @api.multi
     def create_uid_communication(self):
         """create a communication that contain a login url"""
         if not self.env.user.email:
