@@ -72,7 +72,7 @@ class PartnerCommunication(models.Model):
                 if employee.job_id.with_context(lang="en_US").name == "Church rep":
                     user_id = ambassador.id
 
-        super(PartnerCommunication, self.sudo(user_id)).schedule_call()
+        super(PartnerCommunication, self.with_user(user_id)).schedule_call()
 
     @api.model
     def send_mode_select(self):
@@ -80,7 +80,6 @@ class PartnerCommunication(models.Model):
         modes.append(("sms", _("SMS")))
         return modes
 
-    @api.multi
     def _compute_currency(self):
         chf = self.env.ref("base.CHF")
         for wizard in self:
@@ -510,7 +509,6 @@ class PartnerCommunication(models.Model):
         )
         return {_("tax receipt.pdf"): [report_name, pdf]}
 
-    @api.multi
     def send(self):
         """
         - Mark B2S correspondence as read when printed.
@@ -663,7 +661,6 @@ class PartnerCommunication(models.Model):
 
         return True
 
-    @api.multi
     def send_by_sms(self):
         """
         Sends communication jobs with SMS 939 service.
@@ -743,7 +740,6 @@ class PartnerCommunication(models.Model):
         text = soup.get_text().replace(paragraph_delimiter, "\n\n")
         return "\n".join([t.strip() for t in text.split("\n")])
 
-    @api.multi
     def open_related(self):
         """Select a better view for invoice lines."""
         res = super().open_related()

@@ -55,7 +55,7 @@ class ZoomAttendee(models.Model):
         ],
         default="invited",
         group_expand="_expand_states",
-        track_visibility="onchange",
+        tracking=True,
     )
     optional_message = fields.Text()
     color = fields.Integer(compute="_compute_color")

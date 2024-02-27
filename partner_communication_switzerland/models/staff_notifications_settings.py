@@ -29,14 +29,12 @@ class StaffNotificationSettings(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
     def set_invalid_mail_notify_ids(self):
         self.env["ir.config_parameter"].set_param(
             "partner_communication_switzerland.invalid_mail_notify_ids",
             ",".join(list(map(str, self.invalid_mail_notify_ids.ids))),
         )
 
-    @api.multi
     def set_values(self):
         super().set_values()
         self.set_invalid_mail_notify_ids()

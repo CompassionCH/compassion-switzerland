@@ -45,17 +45,14 @@ class ZoomSession(models.Model):
         langs = self.env["res.lang"].search([])
         return [(l.code, l.name) for l in langs]
 
-    @api.multi
     def _compute_website_url(self):
         for record in self:
             record.website_url = f"/zoom/{record.id}/register"
 
-    @api.multi
     def _compute_website_published(self):
         for record in self:
             record.is_published = record.state == "planned"
 
-    @api.multi
     def _compute_number_participants(self):
         for zoom in self:
             zoom.number_participants = len(zoom.participant_ids)
@@ -65,7 +62,6 @@ class ZoomSession(models.Model):
         if self.date_start:
             self.date_stop = self.date_start + timedelta(hours=1)
 
-    @api.multi
     def post_attended(self):
         participants = self.mapped("participant_ids")
         participants.filtered(lambda p: p.state == "confirmed").write(
@@ -97,7 +93,6 @@ class ZoomSession(models.Model):
             limit=1,
         )
 
-    @api.multi
     def send_reminder_or_link(self):
         communications = self.env["partner.communication.job"]
         for zoom in self.filtered(lambda z: z.state == "planned"):
@@ -115,7 +110,6 @@ class ZoomSession(models.Model):
             zoom.date_send_link = fields.Datetime.now()
         return communications
 
-    @api.multi
     def add_participant(self, partners):
         """
         Adds partners to the meeting
@@ -132,7 +126,6 @@ class ZoomSession(models.Model):
             )
         return True
 
-    @api.multi
     def cancel(self):
         return self.write({"state": "cancel"})
 

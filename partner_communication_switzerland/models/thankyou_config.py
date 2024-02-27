@@ -13,7 +13,6 @@ from odoo import api, models
 class ThankYouConfig(models.Model):
     _inherit = "thankyou.config"
 
-    @api.multi
     def for_donation(self, invoice_lines):
         # Special case for legacy donation : always treat as large donation
         if "legacy" in invoice_lines.with_context(lang="en_US").mapped(

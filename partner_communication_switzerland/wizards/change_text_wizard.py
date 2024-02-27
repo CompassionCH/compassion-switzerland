@@ -28,7 +28,6 @@ class ChangeTextWizard(models.TransientModel):
     ambassador_name = fields.Char()
     ambassador_text = fields.Html()
 
-    @api.multi
     def _compute_ambassador(self):
         communications = self._get_communications()
         ambassador = communications.mapped("ambassador_id")
@@ -36,7 +35,6 @@ class ChangeTextWizard(models.TransientModel):
             for wizard in self:
                 wizard.ambassador_id = ambassador
 
-    @api.multi
     def _inverse_ambassador(self):
         partner = self.ambassador_id
         if partner:
@@ -81,7 +79,6 @@ class ChangeTextWizard(models.TransientModel):
             self.ambassador_name = partner.full_name
             self.ambassador_text = partner.advocate_details_id.thank_you_quote
 
-    @api.multi
     def update(self):
         """Refresh the texts of communications given the new template."""
         self.ensure_one()
@@ -115,7 +112,6 @@ class ChangeTextWizard(models.TransientModel):
         else:
             return super().update()
 
-    @api.multi
     def get_preview(self):
         if self.state == "event":
             communication = self._get_communications()[0]
@@ -139,7 +135,6 @@ class ChangeTextWizard(models.TransientModel):
         else:
             return super().get_preview()
 
-    @api.multi
     def edit(self):
         event = self._get_communications().mapped("event_id")
         if event:

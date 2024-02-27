@@ -56,7 +56,6 @@ class GenerateCommunicationWizard(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
     def _compute_progress(self):
         s_wizards = self.filtered(lambda w: w.res_model == "recurring.contract")
         for wizard in s_wizards:
@@ -72,13 +71,11 @@ class GenerateCommunicationWizard(models.TransientModel):
             )
         super(GenerateCommunicationWizard, self - s_wizards)._compute_progress()
 
-    @api.multi
     @api.depends("sms_number_estimation")
     def _compute_sms_cost_estimation(self):
         for wizard in self:
             wizard.sms_cost_estimation = wizard.sms_number_estimation * SMS_COST
 
-    @api.multi
     def _compute_currency(self):
         chf = self.env.ref("base.CHF")
         for wizard in self:

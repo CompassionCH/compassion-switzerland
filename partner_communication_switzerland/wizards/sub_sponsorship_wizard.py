@@ -13,7 +13,6 @@ from odoo import api, models
 class SubSponsorshipWizard(models.TransientModel):
     _inherit = "sds.subsponsorship.wizard"
 
-    @api.multi
     def create_subsponsorship(self):
         res = super().create_subsponsorship()
         if self.child_id:
@@ -24,7 +23,6 @@ class SubSponsorshipWizard(models.TransientModel):
             res = self.send_sub_communication(sponsorship) or res
         return res
 
-    @api.multi
     def no_sub(self):
         """No SUB for the sponsorship."""
         res = super().no_sub()

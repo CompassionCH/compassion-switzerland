@@ -49,7 +49,7 @@ class Correspondence(models.Model):
         "Communication sent",
         related="communication_id.sent_date",
         store=True,
-        track_visibility="onchange",
+        tracking=True,
     )
     email_read = fields.Datetime(
         compute="_compute_email_read", inverse="_inverse_email_read", store=True
@@ -68,7 +68,6 @@ class Correspondence(models.Model):
             else:
                 super(Correspondence, letter)._compute_letter_format()
 
-    @api.multi
     @api.depends(
         "supporter_languages_ids",
         "page_ids",
@@ -95,7 +94,6 @@ class Correspondence(models.Model):
                         lang and lang in letter.supporter_languages_ids
                     )
 
-    @api.multi
     @api.depends("communication_id.email_id.mail_tracking_ids.tracking_event_ids")
     def _compute_email_read(self):
         for mail in self:
@@ -123,7 +121,6 @@ class Correspondence(models.Model):
             data = super().get_image()
         return data
 
-    @api.multi
     def attach_zip(self):
         """
         When a partner gets multiple letters, we make a zip and attach it
@@ -148,7 +145,6 @@ class Correspondence(models.Model):
             self.write({"read_url": f"{base_url}/b2s_image?id={letter_attach.uuid}"})
         return True
 
-    @api.multi
     def compose_letter_image(self):
         """
         Regenerate communication if already existing
@@ -158,7 +154,6 @@ class Correspondence(models.Model):
             self.communication_id.refresh_text()
         return res
 
-    @api.multi
     def send_communication(self):
         """
         Sends the communication to the partner. By default it won't do
@@ -209,7 +204,6 @@ class Correspondence(models.Model):
 
         return True
 
-    @api.multi
     def send_unread_b2s(self):
         """
         IR Action Rule called 3 days after correspondence is sent

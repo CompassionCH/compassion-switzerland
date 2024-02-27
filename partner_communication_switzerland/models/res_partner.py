@@ -150,7 +150,6 @@ class ResPartner(models.Model):
                     informal=True
                 )
 
-    @api.multi
     @api.depends("tax_certificate", "birthdate_date")
     def _compute_tax_receipt_preference(self):
         """
@@ -176,7 +175,6 @@ class ResPartner(models.Model):
                 partner.tax_certificate, _get_default_pref(partner)
             )
 
-    @api.multi
     def _compute_new_donor(self):
         invl_obj = self.env["account.invoice.line"].with_context(lang="en_US")
         for partner in self:
@@ -366,7 +364,6 @@ class ResPartner(models.Model):
             count += 1
         return True
 
-    @api.multi
     def sms_send_step1_confirmation(self, child_request):
         # Override to use a communication instead of message_post
         config = self.env.ref(
@@ -375,12 +372,10 @@ class ResPartner(models.Model):
         child_request.sponsorship_id.send_communication(config)
         return True
 
-    @api.multi
     def sms_send_step2_confirmation(self, child_request):
         # Override to avoid sending confirmation (handled by regular onboarding process)
         return True
 
-    @api.multi
     def create_odoo_user(self):
         # Override compassion-modules/crm_compassion method
         # add a step on the odoo user creation with a custom wizard
@@ -435,7 +430,6 @@ class ResPartner(models.Model):
             "target": "current",
         }
 
-    @api.multi
     def filter_onboarding_new_donors(self):
         return self.filtered(
             lambda p: p.is_new_donor
@@ -462,7 +456,6 @@ class ResPartner(models.Model):
             partner.onboarding_new_donor_start_date = fields.Date.today()
             partner.onboarding_new_donor_hash = uuid.uuid4()
 
-    @api.multi
     def get_base_url(self):
         """Get the base URL for the current partner."""
         self.ensure_one()
@@ -528,7 +521,6 @@ class ResPartner(models.Model):
                 wp_young.with_delay(eta=delay).transform_wp_sponsorships()
         return True
 
-    @api.multi
     def transform_wp_sponsorships(self):
         """
         Called at the end of the W&P Journey: change communication preference, cancel sponsorships that are not

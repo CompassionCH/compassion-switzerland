@@ -51,15 +51,12 @@ class CompassionHold(models.TransientModel):
             return self.env[model].search(self._needaction_domain_get())
         return False
 
-    @api.multi
     def order_pictures(self):
         return self._get_pictures()
 
-    @api.multi
     def print_pictures(self):
         return self._get_pictures(_print=True)
 
-    @api.multi
     def _get_pictures(self, _print=False):
         """
         Generate child pictures with white frame and make a downloadable
@@ -90,7 +87,6 @@ class CompassionHold(models.TransientModel):
             s.message_post("Picture ordered.")
         return res
 
-    @api.multi
     def _make_zip(self):
         """
         Create a zip file with all pictures

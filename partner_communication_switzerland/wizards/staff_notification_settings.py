@@ -42,7 +42,6 @@ class StaffNotificationSettings(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
     def set_values(self):
         super().set_values()
         self.env["ir.config_parameter"].sudo().set_param(

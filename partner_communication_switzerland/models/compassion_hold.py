@@ -21,7 +21,6 @@ class CompassionHold(models.Model):
         compute="_compute_no_money_extension_duration"
     )
 
-    @api.multi
     def _compute_no_money_extension_duration(self):
         """
         Gets the default No Money hold extension duration
@@ -58,7 +57,6 @@ class CompassionHold(models.Model):
 
         return ids
 
-    @api.multi
     def postpone_no_money_hold(self, additional_text=None):
         """
         Send a communication to sponsor for reminding the payment.

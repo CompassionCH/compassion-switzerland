@@ -58,7 +58,6 @@ class GenerateCommunicationWizard(models.TransientModel):
             self.child_ids = self.partner.mapped("sponsored_child_ids")
 
     @api.depends("partner")
-    @api.multi
     def _compute_partner_selected(self):
         for line in self:
             if len(line.partner) <= 0:
@@ -66,7 +65,6 @@ class GenerateCommunicationWizard(models.TransientModel):
             else:
                 line.partner_selected = line.partner.name != ""
 
-    @api.multi
     def generate_test_cases_single(self):
         self.ensure_one()
         cases = self.config_id.generate_test_cases_by_language_family_case(
@@ -75,7 +73,6 @@ class GenerateCommunicationWizard(models.TransientModel):
         self._apply_cases(cases)
         return True
 
-    @api.multi
     def generate_test_cases_family(self):
         self.ensure_one()
         cases = self.config_id.generate_test_cases_by_language_family_case(
@@ -84,7 +81,6 @@ class GenerateCommunicationWizard(models.TransientModel):
         self._apply_cases(cases)
         return True
 
-    @api.multi
     def generate_test_cases_partner(self):
         self.ensure_one()
         if not self.partner_selected:
