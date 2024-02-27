@@ -35,7 +35,7 @@
     "maintainers": ["ecino"],
     "development_status": "Production/Stable",
     "license": "AGPL-3",
-    "website": "https://www.compassion.ch",
+    "website": "https://github.com/CompassionCH/compassion-modules",
     "depends": [
         "l10n_ch_isrb",  # OCA/l10n-switzerland
         "crm_compassion",  # compassion-modules

@@ -2,7 +2,6 @@ from odoo import fields, models
 
 
 class ResUsers(models.Model):
-
     _inherit = "res.users"
 
     partner_id = fields.Many2one(ondelete="cascade")

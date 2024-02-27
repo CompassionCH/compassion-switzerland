@@ -4,13 +4,16 @@
         <field name="model">recurring.contract</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.sponsorship_label</field>
-        <field name="paperformat_id" ref="paperformat_a4_childpack"/>
-        <field name="binding_model_id" ref="model_recurring_contract"/>
+        <field name="paperformat_id" ref="paperformat_a4_childpack" />
+        <field name="binding_model_id" ref="model_recurring_contract" />
         <field name="binding_type">report</field>
     </record>
 
     <template id="sponsorship_label">
-        <link rel="stylesheet" href="/report_compassion/static/scss/label.css"/>
+        <link
+      rel="stylesheet"
+      href="/report_compassion/static/scss/label.css"
+    />
         <t t-call="web.basic_layout">
             <div class="page" style="margin-top:10px;margin-left:10px;">
                 <t t-foreach="docs" t-as="o">
@@ -21,13 +24,15 @@
                                 <t t-foreach="3" t-as="col">
                                     <td>
                                         <!-- One Label -->
-                                        <t t-call="report_compassion.one_label"/>
+                                        <t
+                      t-call="report_compassion.one_label"
+                    />
                                     </td>
                                 </t>
                             </tr>
                         </table>
                     </div>
-                    <p style="page-break-after:always;"/>
+                    <p style="page-break-after:always;" />
                 </t>
             </div>
         </t>
@@ -43,19 +48,29 @@
                             <table class="o_label_text_table">
                                 <t t-foreach="11" t-as="val">
                                     <tr>
-                                        <td t-attf-style="padding-right:15px;padding-left:{{0 if col == 0 else 70}}px;">
+                                        <td
+                      t-attf-style="padding-right:15px;padding-left:{{0 if col == 0 else 70}}px;"
+                    >
                                             <div class="o_label_barcode">
-                                                <img t-attf-src="/report/barcode/QR/{{o.partner_id.ref}}XX{{o.child_id.local_id}}?width=500&amp;height=500"
-                                                     t-attf-style="vertical-align: middle; width: 18mm; height: 18mm;"/>
+                                                <img
+                          t-attf-src="/report/barcode/QR/{{o.partner_id.ref}}XX{{o.child_id.local_id}}?width=500&amp;height=500"
+                          t-attf-style="vertical-align: middle; width: 18mm; height: 18mm;"
+                        />
                                             </div>
                                         </td>
-                                        <td t-attf-style="vertical-align: middle; padding-bottom:{{0 if val == 10 else 75}}px;">
+                                        <td
+                      t-attf-style="vertical-align: middle; padding-bottom:{{0 if val == 10 else 75}}px;"
+                    >
                                             <span>
-                                                <t t-esc="o.partner_id.ref"/> - <t
-                                                    t-esc="o.child_id.preferred_name"/>
-                                                <br/>
-                                                <t t-esc="o.child_id.local_id"/> - <t
-                                                    t-esc="o.child_id.field_office_id.country_id.name"/>
+                                                <t
+                          t-esc="o.partner_id.ref"
+                        /> - <t t-esc="o.child_id.preferred_name" />
+                                                <br />
+                                                <t
+                          t-esc="o.child_id.local_id"
+                        /> - <t
+                          t-esc="o.child_id.field_office_id.country_id.name"
+                        />
                                             </span>
                                         </td>
                                     </tr>

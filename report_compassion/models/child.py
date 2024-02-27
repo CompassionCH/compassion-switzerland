@@ -39,11 +39,7 @@ class CompassionChild(models.Model):
 
         for child in self:
             lang = self.env.lang or "en_US"
-            try:
-                description = getattr(child, lang_map.get(lang))
-            except:
-                description = False
-
+            description = getattr(child, lang_map.get(lang), False)
             child.description_left = description
             child.description_right = ""
 

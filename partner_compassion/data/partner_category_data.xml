@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="True">
 
@@ -13,15 +13,24 @@
             <field name="name">Sponsor</field>
         </record>
 
-        <record id="res_partner_category_ambassador" model="res.partner.category">
+        <record
+      id="res_partner_category_ambassador"
+      model="res.partner.category"
+    >
             <field name="name">Ambassador</field>
         </record>
 
-        <record id="res_partner_category_prog_corresp" model="res.partner.category">
+        <record
+      id="res_partner_category_prog_corresp"
+      model="res.partner.category"
+    >
             <field name="name">Correspondance Program</field>
         </record>
 
-        <record id="res_partner_category_corresp_compass" model="res.partner.category">
+        <record
+      id="res_partner_category_corresp_compass"
+      model="res.partner.category"
+    >
             <field name="name">Correspondance by Compassion</field>
         </record>
 

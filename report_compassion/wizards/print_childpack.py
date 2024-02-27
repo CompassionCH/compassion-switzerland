@@ -73,7 +73,10 @@ class PrintChildpack(models.TransientModel):
         report_ref = self.env.ref(report_name).with_context(lang=self.lang)
         if self.pdf:
             name = children.local_id if len(children) == 1 else "dossiers"
-            self.pdf_name = f"{name}_{self.type.split('.')[1].split('_')[1]}_{self.lang.split('_')[0]}.pdf"
+            self.pdf_name = (
+                f"{name}_{self.type.split('.')[1].split('_')[1]}_"
+                f"{self.lang.split('_')[0]}.pdf"
+            )
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
             )._render_qweb_pdf(children.ids, data=data)

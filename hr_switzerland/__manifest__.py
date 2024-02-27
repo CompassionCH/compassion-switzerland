@@ -33,7 +33,7 @@
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
-    "website": "http://www.compassion.ch",
+    "website": "https://github.com/CompassionCH/compassion-modules",
     "data": [
         "views/hr_expense_custom.xml",
         "views/res_users_view.xml",

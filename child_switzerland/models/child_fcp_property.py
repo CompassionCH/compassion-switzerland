@@ -17,28 +17,28 @@ class TranslateProperty(models.AbstractModel):
     )
 
     def _compute_value_fr(self):
-        for property in self:
-            property.value_fr = property.with_context(lang="fr_CH").value
+        for t_property in self:
+            t_property.value_fr = t_property.with_context(lang="fr_CH").value
 
     def _inverse_value_fr(self):
-        for property in self:
-            property.with_context(lang="fr_CH").value = property.value_fr
+        for t_property in self:
+            t_property.with_context(lang="fr_CH").value = t_property.value_fr
 
     def _compute_value_it(self):
-        for property in self:
-            property.value_it = property.with_context(lang="it_IT").value
+        for t_property in self:
+            t_property.value_it = t_property.with_context(lang="it_IT").value
 
     def _inverse_value_it(self):
-        for property in self:
-            property.with_context(lang="it_IT").value = property.value_it
+        for t_property in self:
+            t_property.with_context(lang="it_IT").value = t_property.value_it
 
     def _compute_value_de(self):
-        for property in self:
-            property.value_de = property.with_context(lang="de_DE").value
+        for t_property in self:
+            t_property.value_de = t_property.with_context(lang="de_DE").value
 
     def _inverse_value_de(self):
-        for property in self:
-            property.with_context(lang="de_DE").value = property.value_de
+        for t_property in self:
+            t_property.with_context(lang="de_DE").value = t_property.value_de
 
 
 class FcpProperty(models.AbstractModel):

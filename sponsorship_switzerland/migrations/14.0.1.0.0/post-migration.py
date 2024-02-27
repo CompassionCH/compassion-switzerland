@@ -44,16 +44,19 @@ def migrate(env, version):
             balance_price = contract_line.amount - expected_price
             # Try to find an existing balance line of a contract
             balance_line = contract_line.contract_id.contract_line_ids.filtered(
-                lambda l: l.product_id == balance_product
+                lambda line: line.product_id == balance_product
             )
-            # we had the balance amount if a balance line exist or we create the balance line
+            # we had the balance amount if a balance line exist or
+            # we create the balance line
             if balance_line:
                 _logger.info(
-                    f"Balance contract line found old amount: {balance_line.amount}, for contract {contract_line.contract_id}"
+                    f"Balance contract line found old amount: {balance_line.amount}, "
+                    f"for contract {contract_line.contract_id}"
                 )
                 balance_line.write({"amount": balance_line.amount + balance_price})
                 _logger.info(
-                    f"Balance contract line populated new amount: {balance_line.amount}, for contract {contract_line.contract_id}"
+                    f"Balance contract line populated new amount: {balance_line.amount}"
+                    f", for contract {contract_line.contract_id}"
                 )
             else:
                 balance_line = env["recurring.contract.line"].create(
@@ -65,7 +68,8 @@ def migrate(env, version):
                     }
                 )
                 _logger.info(
-                    f"Balance contract line created {balance_line} for contract {contract_line.contract_id}"
+                    f"Balance contract line created {balance_line} for contract "
+                    f"{contract_line.contract_id}"
                 )
             contract_line.write({"amount": expected_price})
     _logger.info("Migration done!")

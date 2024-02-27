@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record model="res.partner.bank" id="bank_partner_raiff">
         <field name="acc_number">CH2480401000004874969</field>
@@ -16,12 +16,12 @@
         <field name="name">Raiffeisen Current Account CHF</field>
         <field name="code">RCC</field>
         <field name="type">bank</field>
-        <field name="bank_account_id" ref="bank_partner_raiff"/>
+        <field name="bank_account_id" ref="bank_partner_raiff" />
     </record>
     <record id="journal_post" model="account.journal">
         <field name="name">Postfinance CHF</field>
         <field name="code">CCP</field>
         <field name="type">bank</field>
-        <field name="bank_account_id" ref="bank_partner_post"/>
+        <field name="bank_account_id" ref="bank_partner_post" />
     </record>
 </odoo>

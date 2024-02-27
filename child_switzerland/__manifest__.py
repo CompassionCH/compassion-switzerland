@@ -32,7 +32,7 @@
     "category": "Compassion",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "https://www.compassion.ch",
+    "website": "https://github.com/CompassionCH/compassion-modules",
     "external_dependencies": {"python": ["pypng", "pyqrcode"]},
     "depends": [
         "child_compassion",  # compassion-modules

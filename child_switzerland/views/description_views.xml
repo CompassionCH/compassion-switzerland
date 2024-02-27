@@ -1,15 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="child_description_view" model="ir.ui.view">
         <field name="name">compassion.child.description</field>
         <field name="model">compassion.child</field>
-        <field name="inherit_id" ref="child_compassion.view_compassion_child_form"/>
+        <field
+      name="inherit_id"
+      ref="child_compassion.view_compassion_child_form"
+    />
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="desc_en" position="after">
-                <field name="desc_fr"/>
-                <field name="desc_de"/>
-                <field name="desc_it"/>
+                <field name="desc_fr" />
+                <field name="desc_de" />
+                <field name="desc_it" />
             </field>
         </field>
     </record>
@@ -17,13 +20,16 @@
     <record id="project_description_view" model="ir.ui.view">
         <field name="name">compassion.child.description</field>
         <field name="model">compassion.project</field>
-        <field name="inherit_id" ref="child_compassion.view_compassion_project_form"/>
+        <field
+      name="inherit_id"
+      ref="child_compassion.view_compassion_project_form"
+    />
         <field name="type">form</field>
         <field name="arch" type="xml">
             <field name="description_en" position="after">
-                <field name="desc_fr"/>
-                <field name="desc_de"/>
-                <field name="desc_it"/>
+                <field name="desc_fr" />
+                <field name="desc_de" />
+                <field name="desc_it" />
             </field>
         </field>
     </record>

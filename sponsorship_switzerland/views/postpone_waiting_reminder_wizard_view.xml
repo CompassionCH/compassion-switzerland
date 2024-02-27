@@ -5,12 +5,17 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="sponsorship_id" invisible="1"/>
-                    <field name="next_reminder"/>
-                    <field name="next_reminder_type"/>
+                    <field name="sponsorship_id" invisible="1" />
+                    <field name="next_reminder" />
+                    <field name="next_reminder_type" />
                 </group>
                 <footer>
-                    <button name="postpone_reminder" string="Postpone reminder" type="object" class="oe_highlight"/>
+                    <button
+            name="postpone_reminder"
+            string="Postpone reminder"
+            type="object"
+            class="oe_highlight"
+          />
                 </footer>
             </form>
         </field>

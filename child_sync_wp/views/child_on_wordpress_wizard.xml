@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="child_on_internet_wizard_view" model="ir.ui.view">
         <field name="name">compassion.child.on.wordpress.wizard</field>
@@ -7,11 +7,17 @@
         <field name="arch" type="xml">
             <form string="Put child on internet">
                 <sheet>
-                    <field name="child_ids"/>
-                    <p>Validate this to put the selected child on the website.</p>
+                    <field name="child_ids" />
+                    <p
+          >Validate this to put the selected child on the website.</p>
                 </sheet>
                 <footer>
-                    <button name="put_child_on_internet" string="Validate" type="object" class="oe_highlight"/>
+                    <button
+            name="put_child_on_internet"
+            string="Validate"
+            type="object"
+            class="oe_highlight"
+          />
                 </footer>
             </form>
         </field>
@@ -19,7 +25,7 @@
 
     <record id="action_child_on_wordpress_wizard" model="ir.actions.act_window">
         <field name="name">On Wordpress</field>
-        <field name="binding_model_id" ref="model_compassion_child"/>
+        <field name="binding_model_id" ref="model_compassion_child" />
         <field name="res_model">child.on.wordpress.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>

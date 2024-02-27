@@ -1,8 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="1">
-        <record id="bank_statement_completion_rule_partner_ref" model="account.statement.completion.rule">
-            <field name="name">Match from line reference (based on partner reference)</field>
+        <record
+      id="bank_statement_completion_rule_partner_ref"
+      model="account.statement.completion.rule"
+    >
+            <field
+        name="name"
+      >Match from line reference (based on partner reference)</field>
             <field name="sequence">30</field>
             <field name="python_completion_rule">
 ref = stmt_line.get("ref", "")
@@ -42,8 +47,13 @@ if partner:
             </field>
         </record>
 
-        <record id="bank_statement_completion_rule_bvr_ref" model="account.statement.completion.rule">
-            <field name="name">Match from line reference (based on invoice BVR reference)</field>
+        <record
+      id="bank_statement_completion_rule_bvr_ref"
+      model="account.statement.completion.rule"
+    >
+            <field
+        name="name"
+      >Match from line reference (based on invoice BVR reference)</field>
             <field name="sequence">20</field>
             <field name="python_completion_rule">
 ref = stmt_line.get("ref", "")
@@ -66,7 +76,10 @@ if partner:
             </field>
         </record>
 
-        <record id="bank_statement_completion_rule_credit_lsv_dd" model="account.statement.completion.rule">
+        <record
+      id="bank_statement_completion_rule_credit_lsv_dd"
+      model="account.statement.completion.rule"
+    >
             <field name="name">Match LSV DD Credit in 1098</field>
             <field name="sequence">60</field>
             <field name="python_completion_rule">
@@ -110,8 +123,13 @@ if stmt_line["amount"] >= 0:
             </field>
         </record>
 
-        <record id="bank_statement_completion_rule_recurring_contract_wire_transfer_mapping" model="account.statement.completion.rule">
-            <field name="name">Match wire transfer payment mode custom note</field>
+        <record
+      id="bank_statement_completion_rule_recurring_contract_wire_transfer_mapping"
+      model="account.statement.completion.rule"
+    >
+            <field
+        name="name"
+      >Match wire transfer payment mode custom note</field>
             <field name="sequence">20</field>
             <field name="python_completion_rule">
 name = stmt_line.get("name", "")
@@ -135,7 +153,10 @@ if recurring_contracts:
             </field>
         </record>
 
-        <record id="bank_statement_completion_rule_sponsor_name" model="account.statement.completion.rule">
+        <record
+      id="bank_statement_completion_rule_sponsor_name"
+      model="account.statement.completion.rule"
+    >
             <field name="name">Match sponsor name (based on label)</field>
             <field name="sequence">90</field>
             <field name="python_completion_rule">

@@ -147,7 +147,7 @@ class ResPartner(models.Model):
     # module mail
     opt_out = fields.Boolean(tracking=True)
     company_type = fields.Selection(
-        compute="_compute_company_type", inverse="_write_company_type"
+        compute="_compute_company_type", inverse="_inverse_company_type"
     )
     city_id = fields.Many2one(related="zip_id.city_id", store=True)
     write_and_pray = fields.Boolean(
@@ -538,8 +538,8 @@ class ResPartner(models.Model):
         super()._compute_company_type()
         self.ensure_company_title_consistency()
 
-    def _write_company_type(self):
-        super()._write_company_type()
+    def _inverse_company_type(self):
+        super()._inverse_company_type()
         self.ensure_company_title_consistency()
 
     def get_lang_from_phone_number(self, phone):
@@ -620,7 +620,7 @@ class ResPartner(models.Model):
     def _check_church_id(self):
         for record in self:
             if record.is_church and record.church_id:
-                raise models.ValidationError("Can not both be and have a church")
+                raise models.ValidationError(_("Cannot both be and have a church"))
 
     def _secure_save_data(self):
         """
@@ -675,20 +675,20 @@ class ResPartner(models.Model):
         ):
             return False
         else:
-
             cnopts = pysftp.CnOpts()
 
             try:
                 key_data = SftpConfig.ssh_key
                 key = RSAKey(data=base64.decodebytes(key_data.encode("utf-8")))
                 cnopts.hostkeys.add(SftpConfig.host, "ssh-rsa", key)
-            except:
+            except Exception:
                 cnopts.hostkeys = None
                 logger.warning(
                     "No hostkeys defined in StfpConnection. "
                     "Connection will be unsecured. "
                     "Please configure parameter "
-                    "sbc_switzerland.nas_ssh_key with ssh_key data."
+                    "sbc_switzerland.nas_ssh_key with ssh_key data.",
+                    exc_info=True,
                 )
 
             return pysftp.Connection(

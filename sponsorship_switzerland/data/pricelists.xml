@@ -1,31 +1,37 @@
 <odoo>
     <data noupdate="1">
         <record id="pricelist_item_sponsorship" model="product.pricelist.item">
-            <field name="pricelist_id" ref="product.list0"/>
+            <field name="pricelist_id" ref="product.list0" />
             <field name="applied_on">1_product</field>
-            <field name="product_tmpl_id" ref="product_template_sponsorship"/>
+            <field name="product_tmpl_id" ref="product_template_sponsorship" />
             <field name="compute_price">fixed</field>
             <field name="fixed_price">42.0</field>
         </record>
         <record id="pricelist_item_gen" model="product.pricelist.item">
-            <field name="pricelist_id" ref="product.list0"/>
+            <field name="pricelist_id" ref="product.list0" />
             <field name="applied_on">1_product</field>
-            <field name="product_tmpl_id" ref="product_template_fund_gen"/>
+            <field name="product_tmpl_id" ref="product_template_fund_gen" />
             <field name="compute_price">fixed</field>
             <field name="fixed_price">8.0</field>
         </record>
        <!--   TODO T0488 update product ref     -->
         <record id="pricelist_item_csp" model="product.pricelist.item">
-            <field name="pricelist_id" ref="product.list0"/>
+            <field name="pricelist_id" ref="product.list0" />
             <field name="applied_on">1_product</field>
-            <field name="product_tmpl_id" search="[('name','=','Survival Sponsorships')]"/>
+            <field
+        name="product_tmpl_id"
+        search="[('name','=','Survival Sponsorships')]"
+      />
             <field name="compute_price">fixed</field>
             <field name="fixed_price">62.0</field>
         </record>
         <record id="pricelist_item_ldp" model="product.pricelist.item">
-            <field name="pricelist_id" ref="product.list0"/>
+            <field name="pricelist_id" ref="product.list0" />
             <field name="applied_on">1_product</field>
-            <field name="product_tmpl_id" ref="product_template_sponsorship_ldp"/>
+            <field
+        name="product_tmpl_id"
+        ref="product_template_sponsorship_ldp"
+      />
             <field name="compute_price">fixed</field>
             <field name="fixed_price">310.0</field>
         </record>

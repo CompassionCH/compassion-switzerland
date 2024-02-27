@@ -4,8 +4,10 @@
         <field name="name">A4 Letterhead communication</field>
         <field name="model">partner.communication.job</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">report_compassion.partner_communication</field>
-        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+        <field
+      name="report_name"
+    >report_compassion.partner_communication</field>
+        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
     </record>
 
     <template id="communication_style">
@@ -44,7 +46,7 @@
             #letter {
                 position: absolute;
                 font-family: "millerLight";
-                font-size: <t t-esc="font_size or '10'"/>pt;
+                font-size: <t t-esc="font_size or '10'" />pt;
                 color: black;
                 top: 40mm;
                 <t t-if="success_story">
@@ -117,7 +119,9 @@
                 <t t-if="success_story">
                     width: 62%;
                 </t>
-                <t t-if="not display_pp and not print_header and not print_subject">
+                <t
+        t-if="not display_pp and not print_header and not print_subject"
+      >
                     /* Put the text down to avoid showing in the address window */
                     margin-top: 9mm;
                 </t>
@@ -168,26 +172,41 @@
                 vertical-align: middle;
             }
         </t>
-        <t t-call="report_compassion.style"/>
+        <t t-call="report_compassion.style" />
     </template>
 
     <template id="partner_communication">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-set="success_story" t-value="docs.mapped('success_story_id')"/>
-                <t t-set="bvr" t-value="docs.mapped('product_id')"/>
-                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
-                <t t-set="print_header" t-value="o.print_header"/>
-                <t t-set="display_pp" t-value="o.display_pp"/>
-                <t t-set="partner" t-value="o.partner_id"/>
-                <t t-set="print_subject" t-value="o.print_subject"/>
-                <t t-set="subject" t-value="o.subject"/>
-                <t t-set="success_story" t-value="o.success_story_id"/>
-                <t t-set="body_html" t-value="o.body_html"/>
-                <t t-set="user" t-value="o.user_id"/>
-                <t t-set="show_signature" t-value="o.show_signature and user.digital_signature"/>
-                <t t-set="product" t-value="o.product_id.with_context(lang=partner.lang)"/>
-                <t t-call="report_compassion.partner_communication_document" t-lang="o.partner_id.lang"/>
+                <t
+          t-set="success_story"
+          t-value="docs.mapped('success_story_id')"
+        />
+                <t t-set="bvr" t-value="docs.mapped('product_id')" />
+                <t
+          t-set="o"
+          t-value="o.with_context({'lang':o.partner_id.lang})"
+        />
+                <t t-set="print_header" t-value="o.print_header" />
+                <t t-set="display_pp" t-value="o.display_pp" />
+                <t t-set="partner" t-value="o.partner_id" />
+                <t t-set="print_subject" t-value="o.print_subject" />
+                <t t-set="subject" t-value="o.subject" />
+                <t t-set="success_story" t-value="o.success_story_id" />
+                <t t-set="body_html" t-value="o.body_html" />
+                <t t-set="user" t-value="o.user_id" />
+                <t
+          t-set="show_signature"
+          t-value="o.show_signature and user.digital_signature"
+        />
+                <t
+          t-set="product"
+          t-value="o.product_id.with_context(lang=partner.lang)"
+        />
+                <t
+          t-call="report_compassion.partner_communication_document"
+          t-lang="o.partner_id.lang"
+        />
             </t>
         </t>
     </template>
@@ -196,34 +215,45 @@
         <t t-if="print_header">
             <div id="header">
                 <div id="logo">
-                    <t t-set="lang" t-value="'multilingual.jpg'"/>
+                    <t t-set="lang" t-value="'multilingual.jpg'" />
                     <t t-if="o and o.partner_id">
                         <!-- If generating communication header, partner is in o -->
-                        <t t-set="partner" t-value="o.partner_id"/>
+                        <t t-set="partner" t-value="o.partner_id" />
                     </t>
                     <!-- When generating tax_receipt, partner is defined but width is to be adapted -->
-                    <t t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']">
-                        <t t-set="lang" t-value="partner.lang.split('_')[0] + '.png'"/>
+                    <t
+            t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']"
+          >
+                        <t
+              t-set="lang"
+              t-value="partner.lang.split('_')[0] + '.png'"
+            />
                     </t>
-                    <img t-attf-style="width: 80%" t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}" />
+                    <img
+            t-attf-style="width: 80%"
+            t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}"
+          />
                 </div>
             </div>
         </t>
         <div id="letter">
             <div id="date" t-if="not print_header">
-                <span t-raw="partner.date_communication" style="float: left; margin-top: 10mm; min-width: 70mm;"/>
+                <span
+          t-raw="partner.date_communication"
+          style="float: left; margin-top: 10mm; min-width: 70mm;"
+        />
             </div>
             <t t-if="print_header">
                 <div id="compassion_address">
                     <span class="blue">COMPASSION</span>
                     <span>, Rue Galilée 3, 1400 Yverdon-les-Bains</span>
-                    <br/>
+                    <br />
                     <span class="blue">TEL</span>
                     <span>.: 031 552 21 25</span>
-                    <br/>
+                    <br />
                     <span class="blue">MAIL</span>
                     <span>: info@compassion.ch</span>
-                    <br/>
+                    <br />
                     <span class="blue">WWW</span>
                     <span>.compassion.ch</span>
                 </div>
@@ -237,54 +267,76 @@
                     <div id="pp-post">
                         <p>Poste CH SA</p>
                     </div>
-                    <hr/>
+                    <hr />
                 </div>
-                <span t-raw="partner.address_name"/>
-                <br/>
-                <span t-raw="'&lt;br/&gt;'.join((partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"/>
-                <div id="date" t-if="print_header" t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;">
-                    <span t-raw="partner.date_communication"/>
+                <span t-raw="partner.address_name" />
+                <br />
+                <span
+          t-raw="'&lt;br/&gt;'.join((partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"
+        />
+                <div
+          id="date"
+          t-if="print_header"
+          t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;"
+        >
+                    <span t-raw="partner.date_communication" />
                 </div>
             </div>
 
             <div id="title" t-if="print_subject" style="max-width: 80mm;">
-                <b><span t-raw="subject"/></b>
+                <b><span t-raw="subject" /></b>
             </div>
 
             <div id="content">
                 <div id="success-story" t-if="success_story">
-                    <t t-raw="success_story.body"/>
+                    <t t-raw="success_story.body" />
                 </div>
                 <div id="body">
-                    <div t-raw="body_html" class="body_text"/>
-                    <img t-if="show_signature" t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
-                         class="right" t-attf-style="margin-left: #{ 20 if success_story else 65 }mm"/>
-                    <div class="right"
-                         t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm; margin-left: #{ 50 if success_story else 95 }mm">
-                        <t t-raw="user.signature_letter"/>
+                    <div t-raw="body_html" class="body_text" />
+                    <img
+            t-if="show_signature"
+            t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
+            class="right"
+            t-attf-style="margin-left: #{ 20 if success_story else 65 }mm"
+          />
+                    <div
+            class="right"
+            t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm; margin-left: #{ 50 if success_story else 95 }mm"
+          >
+                        <t t-raw="user.signature_letter" />
                     </div>
                 </div>
             </div>
         </div>
 
         <t t-if="product">
-            <t t-set="bank_account" t-value="product.env['recurring.contract.group'].get_company_qrr_account()"/>
-            <t t-set="position" t-value="0"/>
+            <t
+        t-set="bank_account"
+        t-value="product.env['recurring.contract.group'].get_company_qrr_account()"
+      />
+            <t t-set="position" t-value="0" />
 
             <!-- Print BVR Fund -->
-            <t t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'">
-                <t t-set="reference" t-value="partner.get_gift_bvr_reference(product)"/>
-                <t t-set="communication" t-value="product.name"/>
-                <t t-set="amount" t-value="False"/>
+            <t
+        t-if="product.with_context(lang='en_US').categ_name != 'Sponsorship'"
+      >
+                <t
+          t-set="reference"
+          t-value="partner.get_gift_bvr_reference(product)"
+        />
+                <t t-set="communication" t-value="product.name" />
+                <t t-set="amount" t-value="False" />
                 <t t-set="swissqr_position_top">192</t>
-                <t t-call="report_compassion.report_compassion_qr_slip"/>
+                <t t-call="report_compassion.report_compassion_qr_slip" />
             </t>
             <!-- Print BVR Sponsorship Due : if product is sponsorship, use sponsorship due template -->
-            <t t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'">
+            <t
+        t-if="product.with_context(lang='en_US').categ_name == 'Sponsorship'"
+      >
                 <t t-call="report_compassion.report_bvr_due_document">
-                    <t t-set="docs" t-value="o.get_objects()"/>
-                    <t t-set="o" t-value="partner"/>
-                    <t t-set="swissqr_position_top" t-value="192"/>
+                    <t t-set="docs" t-value="o.get_objects()" />
+                    <t t-set="o" t-value="partner" />
+                    <t t-set="swissqr_position_top" t-value="192" />
                 </t>
             </t>
         </t>
@@ -293,8 +345,8 @@
     <template id="partner_communication_document">
         <t t-call="web.external_layout">
             <t t-set="report_header_style">display: none;</t>
-            <t t-call="report_compassion.communication_style"/>
-            <t t-call="report_compassion.partner_communication_document_page"/>
+            <t t-call="report_compassion.communication_style" />
+            <t t-call="report_compassion.partner_communication_document_page" />
         </t>
     </template>
 
@@ -303,15 +355,21 @@
         <field name="model">partner.communication.job</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.blank_communication</field>
-        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
     </record>
 
     <template id="blank_communication">
         <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
-                        <t t-call="report_compassion.communication_style"/>
-                            <div id="letter" style="position: absolute; left: 95mm; top: 55mm;">
+                    <t
+          t-set="o"
+          t-value="o.with_context({'lang':o.partner_id.lang})"
+        />
+                        <t t-call="report_compassion.communication_style" />
+                            <div
+          id="letter"
+          style="position: absolute; left: 95mm; top: 55mm;"
+        >
                                 <div id="pp" t-if="o.display_pp">
                                     <div id="pp-box">
                                         <div>P.P.</div>
@@ -320,9 +378,9 @@
                                     <div id="pp-post">
                                         <p>Poste CH SA</p>
                                     </div>
-                                    <hr/>
+                                    <hr />
                                 </div>
-                                <span t-raw="o.partner_id.short_address"/>
+                                <span t-raw="o.partner_id.short_address" />
                             </div>
                 </t>
         </t>

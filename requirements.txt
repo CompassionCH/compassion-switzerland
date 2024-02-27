@@ -1,5 +1,9 @@
+# generated from manifests external_dependencies
+babel
+pandas
 pyminizip
 pypng
 pyqrcode
+pyquery
 pysftp
-python-magic
+wand

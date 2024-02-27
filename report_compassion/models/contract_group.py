@@ -51,7 +51,7 @@ class ContractGroup(models.Model):
 
         # check if first invoice is after last month
         if first_invoice_date > months[-1]:
-            raise UserError(_(f"First invoice is after Date Stop"))
+            raise UserError(_("First invoice is after Date Stop"))
 
         # Only keep unpaid months
         valid_months = [

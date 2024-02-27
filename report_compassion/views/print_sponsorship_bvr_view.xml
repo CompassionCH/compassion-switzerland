@@ -6,26 +6,34 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form>
-                <field name="state" invisible="1"/>
+                <field name="state" invisible="1" />
                 <group>
-                    <field name="period_selection"/>
-                    <field name="date_start"/>
-                    <field name="date_stop"/>
+                    <field name="period_selection" />
+                    <field name="date_start" />
+                    <field name="date_stop" />
                 </group>
                 <group>
-                    <field name="paper_format"/>
+                    <field name="paper_format" />
                 </group>
                 <group>
                     <!-- Couldn't make it work on other formats, it's anyway useless -->
-                    <field name="include_gifts" attrs="{'invisible': [('paper_format', '!=', 'report_compassion.2bvr_sponsorship')]}"/>
-                    <field name="pdf"/>
+                    <field
+            name="include_gifts"
+            attrs="{'invisible': [('paper_format', '!=', 'report_compassion.2bvr_sponsorship')]}"
+          />
+                    <field name="pdf" />
                 </group>
                 <group states="pdf">
-                    <field name="pdf_name" invisible="1"/>
-                    <field name="pdf_download" filename="pdf_name"/>
+                    <field name="pdf_name" invisible="1" />
+                    <field name="pdf_download" filename="pdf_name" />
                 </group>
                 <footer>
-                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
+                    <button
+            name="get_report"
+            string="Print"
+            type="object"
+            class="oe_highlight"
+          />
                 </footer>
             </form>
         </field>
@@ -37,7 +45,7 @@
          <field name="type">ir.actions.act_window</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
-         <field name="binding_model_id" ref="model_recurring_contract"/>
+         <field name="binding_model_id" ref="model_recurring_contract" />
          <field name="binding_type">report</field>
    </record>
 
@@ -48,16 +56,21 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form>
-                <field name="state" invisible="1"/>
+                <field name="state" invisible="1" />
                 <group>
-                    <field name="pdf"/>
+                    <field name="pdf" />
                 </group>
                 <group states="pdf">
-                    <field name="pdf_name" invisible="1"/>
-                    <field name="pdf_download" filename="pdf_name"/>
+                    <field name="pdf_name" invisible="1" />
+                    <field name="pdf_download" filename="pdf_name" />
                 </group>
                 <footer>
-                    <button name="get_report" string="Print" type="object" class="oe_highlight"/>
+                    <button
+            name="get_report"
+            string="Print"
+            type="object"
+            class="oe_highlight"
+          />
                 </footer>
             </form>
         </field>
@@ -69,7 +82,7 @@
          <field name="type">ir.actions.act_window</field>
          <field name="view_mode">form</field>
          <field name="target">new</field>
-         <field name="binding_model_id" ref="model_recurring_contract"/>
+         <field name="binding_model_id" ref="model_recurring_contract" />
          <field name="binding_type">report</field>
    </record>
 

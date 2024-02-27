@@ -82,13 +82,13 @@ class Contract(models.Model):
             [("product_id", "=", product.id)], limit=1
         )
         if gift_threshold:
-            min = int(gift_threshold.min_amount)
-            max = int(gift_threshold.max_amount)
+            min_amount = int(gift_threshold.min_amount)
+            max_amount = int(gift_threshold.max_amount)
             amount_limit = {
-                "en_US": f"CHF {min}.- to max {max}.- per year",
-                "fr_CH": f"CHF {min}.- à max. {max}.- par année",
-                "de_DE": f"CHF {min}.- bis max. {max}.- pro Jahr",
-                "it_IT": f"Importo tra CHF {min}.- e {max}.- per anno",
+                "en_US": f"CHF {min_amount}.- to max {max_amount}.- per year",
+                "fr_CH": f"CHF {min_amount}.- à max. {max_amount}.- par année",
+                "de_DE": f"CHF {min_amount}.- bis max. {max_amount}.- pro Jahr",
+                "it_IT": f"Importo tra CHF {min_amount}.- e {max_amount}.- per anno",
             }
             communication += f"<br/>{amount_limit[lang]}"
         return communication

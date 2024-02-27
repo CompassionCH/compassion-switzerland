@@ -11,6 +11,7 @@ import logging
 from datetime import date
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 from odoo.tools import relativedelta
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
@@ -128,7 +129,7 @@ class CompassionChild(models.Model):
         )
         try:
             global_pool.country_mix()
-        except:
+        except UserError:
             logger.error(
                 "The country-aware children selection failed, "
                 "falling back to rich mix.",
@@ -142,7 +143,7 @@ class CompassionChild(models.Model):
             try:
                 child.get_infos()
                 child.mapped("project_id").update_informations()
-            except:
+            except UserError:
                 logger.error("Error updating child information: ", exc_info=True)
                 continue
         return children.filtered(
@@ -182,7 +183,7 @@ class CompassionChild(models.Model):
                 for i in range(0, len(new_children), 5):
                     try:
                         new_children[i : i + 5].add_to_wordpress(company_id)
-                    except:
+                    except Exception:
                         logger.error(
                             "Failed adding a batch of children to" " wordpress: ",
                             exc_info=True,
@@ -190,5 +191,5 @@ class CompassionChild(models.Model):
                         continue
 
                 old_children.mapped("hold_id").release_hold()
-        except:
+        except Exception:
             logger.error("Error when refreshing wordpress children.")

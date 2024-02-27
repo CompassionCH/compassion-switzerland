@@ -77,7 +77,7 @@ class BvrSponsorship(models.AbstractModel):
         # slip : {'recurring.contract.group': 'recurring.contract' recordset}
         docs = dict()
         for group in groups:
-            docs[group] = sponsorships.filtered(lambda s: s.group_id == group)
+            docs[group] = sponsorships.filtered(lambda s, g=group: s.group_id == g)
         final_data.update(
             {
                 "doc_model": report.model,  # recurring.contract.group

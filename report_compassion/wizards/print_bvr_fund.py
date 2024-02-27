@@ -9,7 +9,7 @@
 ##############################################################################
 import base64
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class PrintBvrFund(models.TransientModel):

@@ -32,6 +32,7 @@
     "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "Samuel Fringeli",
+    "website": "https://github.com/CompassionCH/compassion-modules",
     "category": "Tools",
     "depends": [
         "account_payment_order",  # OCA/bank_payment

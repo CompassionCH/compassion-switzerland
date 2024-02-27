@@ -1,16 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_recurring_contract_tree_compassion_switzerland" model="ir.ui.view">
+    <record
+    id="view_recurring_contract_tree_compassion_switzerland"
+    model="ir.ui.view"
+  >
         <field name="name">recurring.contract.compassion.tree</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="recurring_contract.view_recurring_contract_tree"/>
-        <field eval="18" name="priority"/>
+        <field
+      name="inherit_id"
+      ref="recurring_contract.view_recurring_contract_tree"
+    />
+        <field eval="18" name="priority" />
         <field name="arch" type="xml">
             <tree position="attributes">
-                <attribute name="decoration-danger">state == 'mandate'</attribute>
+                <attribute
+          name="decoration-danger"
+        >state == 'mandate'</attribute>
             </tree>
             <field name="origin_id" position="after">
-                <field name="previous_child_id"/>
+                <field name="previous_child_id" />
             </field>
         </field>
     </record>
@@ -18,13 +26,25 @@
     <record id="view_recurring_contract_form_compassion" model="ir.ui.view">
         <field name="name">recurring.contract.compassion.form</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_sponsorship_contract_form_compassion"/>
+        <field
+      name="inherit_id"
+      ref="sponsorship_compassion.view_sponsorship_contract_form_compassion"
+    />
         <field name="arch" type="xml">
             <header>
-                <button name="postpone_reminder" string="Postpone reminder" type="object" attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"/>
+                <button
+          name="postpone_reminder"
+          string="Postpone reminder"
+          type="object"
+          attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"
+        />
             </header>
             <field name="activation_date" position="after">
-                <field name="next_waiting_reminder" attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}" style="color: red;"/>
+                <field
+          name="next_waiting_reminder"
+          attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"
+          style="color: red;"
+        />
             </field>
         </field>
     </record>
@@ -32,10 +52,13 @@
     <record id="view_contract_group_form_bvr_compassion" model="ir.ui.view">
         <field name="name">contract.group.compassion.bvr.form</field>
         <field name="model">recurring.contract.group</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_contract_group_form_compassion"/>
+        <field
+      name="inherit_id"
+      ref="sponsorship_compassion.view_contract_group_form_compassion"
+    />
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="bvr_reference"/>
+                <field name="bvr_reference" />
             </field>
         </field>
     </record>
@@ -43,10 +66,13 @@
     <record id="view_contract_origin_hillsong" model="ir.ui.view">
         <field name="name">contract.origin.hillsong.form</field>
         <field name="model">recurring.contract.origin</field>
-        <field name="inherit_id" ref="crm_compassion.view_contract_origin_form_event"/>
+        <field
+      name="inherit_id"
+      ref="crm_compassion.view_contract_origin_form_event"
+    />
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="hillsong_ref"/>
+                <field name="hillsong_ref" />
             </field>
         </field>
     </record>
@@ -55,26 +81,56 @@
     <record id="view_recurring_contract_lang_filter" model="ir.ui.view">
         <field name="name">recurring.contract.lang.filter</field>
         <field name="model">recurring.contract</field>
-        <field name="inherit_id" ref="sponsorship_compassion.view_recurring_contract_filter_graph" />
+        <field
+      name="inherit_id"
+      ref="sponsorship_compassion.view_recurring_contract_filter_graph"
+    />
         <field name="arch" type="xml">
             <filter name="last_3_months" position="after">
-                <separator/>
-                <filter string="French" name="french" domain="[('correspondent_id.lang', '=', 'fr_CH')]"/>
-                <filter string="German" name="german" domain="[('correspondent_id.lang', '=', 'de_DE')]"/>
-                <filter string="Italian" name="italian" domain="[('correspondent_id.lang', '=', 'it_IT')]"/>
-                <filter string="English" name="english" domain="[('correspondent_id.lang', '=', 'en_US')]"/>
+                <separator />
+                <filter
+          string="French"
+          name="french"
+          domain="[('correspondent_id.lang', '=', 'fr_CH')]"
+        />
+                <filter
+          string="German"
+          name="german"
+          domain="[('correspondent_id.lang', '=', 'de_DE')]"
+        />
+                <filter
+          string="Italian"
+          name="italian"
+          domain="[('correspondent_id.lang', '=', 'it_IT')]"
+        />
+                <filter
+          string="English"
+          name="english"
+          domain="[('correspondent_id.lang', '=', 'en_US')]"
+        />
             </filter>
         </field>
     </record>
 
     <!-- Add menu for tracking Waiting Mandate sponsorships -->
-    <record id="action_view_partner_waiting_mandate" model="ir.actions.act_window">
+    <record
+    id="action_view_partner_waiting_mandate"
+    model="ir.actions.act_window"
+  >
         <field name="name">Waiting mandate</field>
         <field name="res_model">recurring.contract</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain" eval="[('state', '=', 'mandate'), ('mandate_date', '&lt;', (DateTime.now() - timedelta(days=20)).strftime('%Y-%m-%d'))]"/>
+        <field
+      name="domain"
+      eval="[('state', '=', 'mandate'), ('mandate_date', '&lt;', (DateTime.now() - timedelta(days=20)).strftime('%Y-%m-%d'))]"
+    />
     </record>
 
-    <menuitem id="menu_waiting_mandate" parent="child_compassion.menu_sponsorship_section"
-              name="Waiting mandate" action="action_view_partner_waiting_mandate" sequence="100"/>
+    <menuitem
+    id="menu_waiting_mandate"
+    parent="child_compassion.menu_sponsorship_section"
+    name="Waiting mandate"
+    action="action_view_partner_waiting_mandate"
+    sequence="100"
+  />
 </odoo>

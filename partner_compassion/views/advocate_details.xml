@@ -6,56 +6,134 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="set_active" string="Set active" type="object" states="new,on_break,inactive" class="oe_highlight" groups="base.group_user"/>
-                    <button name="set_on_break" string="Put on break" type="object" states="active" groups="base.group_user"/>
-                    <button name="set_inactive" string="Set inactive" type="object" states="new,on_break,active" groups="base.group_user"/>
-                    <field name="state" widget="statusbar" statusbar_visible="new,active,inactive" groups="base.group_user"/>
+                    <button
+            name="set_active"
+            string="Set active"
+            type="object"
+            states="new,on_break,inactive"
+            class="oe_highlight"
+            groups="base.group_user"
+          />
+                    <button
+            name="set_on_break"
+            string="Put on break"
+            type="object"
+            states="active"
+            groups="base.group_user"
+          />
+                    <button
+            name="set_inactive"
+            string="Set inactive"
+            type="object"
+            states="new,on_break,active"
+            groups="base.group_user"
+          />
+                    <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="new,active,inactive"
+            groups="base.group_user"
+          />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="buttons">
-                        <button name="open_events" type="object" icon="fa-calendar" class="oe_stat_button" groups="base.group_user">
-                            <field name="number_events" widget="statinfo" string="Events"/>
+                        <button
+              name="open_events"
+              type="object"
+              icon="fa-calendar"
+              class="oe_stat_button"
+              groups="base.group_user"
+            >
+                            <field
+                name="number_events"
+                widget="statinfo"
+                string="Events"
+              />
                         </button>
-                        <button name="open_surveys" type="object" icon="fa-list-alt" class="oe_stat_button">
-                            <field name="number_surveys" widget="statinfo" string="Surveys"/>
+                        <button
+              name="open_surveys"
+              type="object"
+              icon="fa-list-alt"
+              class="oe_stat_button"
+            >
+                            <field
+                name="number_surveys"
+                widget="statinfo"
+                string="Surveys"
+              />
                         </button>
                     </div>
                     <group>
                         <group string="Advocacy">
-                            <field name="partner_id" string="Partner"/>
-                            <field name="event_type_formation" invisible="1"/>
-                            <field name="active_since" groups="base.group_user"/>
-                            <label for="break_end" style="color: red;" states="on_break" groups="base.group_user"/>
-                            <field name="break_end" states="on_break" nolabel="1" groups="base.group_user"/>
-                            <field name="end_date" states="inactive" groups="base.group_user"/>
-                            <field name="last_event" groups="base.group_user"/>
-                            <field name="advocacy_source" groups="base.group_user"/>
-                            <field name="engagement_ids" widget="many2many_tags" groups="base.group_user"/>
-                            <field name="t_shirt_size"/>
-                            <field name="t_shirt_type"/>
-                            <field name="has_car"/>
-                            <field name="formation_ids" groups="base.group_user"
-                                   domain="[('categ_ids', '=', event_type_formation)]"
-                                   context="{'default_partner_ids': [(4, partner_id)], 'default_categ_ids': [(4, event_type_formation)]}">
+                            <field name="partner_id" string="Partner" />
+                            <field name="event_type_formation" invisible="1" />
+                            <field
+                name="active_since"
+                groups="base.group_user"
+              />
+                            <label
+                for="break_end"
+                style="color: red;"
+                states="on_break"
+                groups="base.group_user"
+              />
+                            <field
+                name="break_end"
+                states="on_break"
+                nolabel="1"
+                groups="base.group_user"
+              />
+                            <field
+                name="end_date"
+                states="inactive"
+                groups="base.group_user"
+              />
+                            <field name="last_event" groups="base.group_user" />
+                            <field
+                name="advocacy_source"
+                groups="base.group_user"
+              />
+                            <field
+                name="engagement_ids"
+                widget="many2many_tags"
+                groups="base.group_user"
+              />
+                            <field name="t_shirt_size" />
+                            <field name="t_shirt_type" />
+                            <field name="has_car" />
+                            <field
+                name="formation_ids"
+                groups="base.group_user"
+                domain="[('categ_ids', '=', event_type_formation)]"
+                context="{'default_partner_ids': [(4, partner_id)], 'default_categ_ids': [(4, event_type_formation)]}"
+              >
                                 <tree order="stop_date desc">
-                                    <field name="start_date"/>
-                                    <field name="name"/>
-                                    <field name="location"/>
-                                    <field name="user_id"/>
+                                    <field name="start_date" />
+                                    <field name="name" />
+                                    <field name="location" />
+                                    <field name="user_id" />
                                 </tree>
                             </field>
                         </group>
                         <group string="Profile page">
-                            <field name="quote"/>
+                            <field name="quote" />
                         </group>
                         <group string="Settings">
-                            <field name="mail_copy_when_donation"/>
+                            <field name="mail_copy_when_donation" />
                         </group>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                    <field name="message_ids" widget="mail_thread" groups="base.group_user"/>
+                    <field
+            name="message_follower_ids"
+            widget="mail_followers"
+            groups="base.group_user"
+          />
+                    <field
+            name="message_ids"
+            widget="mail_thread"
+            groups="base.group_user"
+          />
                 </div>
             </form>
         </field>
@@ -65,17 +143,25 @@
         <field name="name">advocate.details.tree</field>
         <field name="model">advocate.details</field>
         <field name="arch" type="xml">
-            <tree decoration-primary="state == 'new'" decoration-info="state in ('inactive','on_break')" >
-                <field name="partner_id"/>
-                <field name="active_since"/>
-                <field name="end_date"/>
-                <field name="birthdate"/>
-                <field name="lang"/>
-                <field name="zip"/>
-                <field name="city"/>
-                <field name="email"/>
-                <field name="engagement_ids" widget="many2many_tags" options="{'not_delete': True}" groups="base.group_user"/>
-                <field name="state"/>
+            <tree
+        decoration-primary="state == 'new'"
+        decoration-info="state in ('inactive','on_break')"
+      >
+                <field name="partner_id" />
+                <field name="active_since" />
+                <field name="end_date" />
+                <field name="birthdate" />
+                <field name="lang" />
+                <field name="zip" />
+                <field name="city" />
+                <field name="email" />
+                <field
+          name="engagement_ids"
+          widget="many2many_tags"
+          options="{'not_delete': True}"
+          groups="base.group_user"
+        />
+                <field name="state" />
             </tree>
         </field>
     </record>
@@ -85,24 +171,54 @@
         <field name="model">advocate.details</field>
         <field name="arch" type="xml">
             <search>
-                <field name="partner_id"/>
-                <field name="engagement_ids"/>
-                <field name="state"/>
-                <field name="birthdate"/>
-                <field name="lang"/>
-                <field name="city"/>
-                <field name="zip"/>
-                <field name="email"/>
-                <separator/>
-                <filter name="advocate" string="Active or New" domain="[('state', 'in', ['new','active'])]"/>
-                <separator/>
-                <filter name="sport" string="Sport person" domain="[('engagement_ids','like', 'Sport')]"/>
-                <filter name="event" string="Event" domain="[('engagement_ids','like', 'Events')]"/>
-                <filter name="church" string="Church" domain="[('engagement_ids','like', 'Church')]"/>
-                <filter name="translator" string="Translator" domain="[('engagement_ids','like', 'Translation')]"/>
+                <field name="partner_id" />
+                <field name="engagement_ids" />
+                <field name="state" />
+                <field name="birthdate" />
+                <field name="lang" />
+                <field name="city" />
+                <field name="zip" />
+                <field name="email" />
+                <separator />
+                <filter
+          name="advocate"
+          string="Active or New"
+          domain="[('state', 'in', ['new','active'])]"
+        />
+                <separator />
+                <filter
+          name="sport"
+          string="Sport person"
+          domain="[('engagement_ids','like', 'Sport')]"
+        />
+                <filter
+          name="event"
+          string="Event"
+          domain="[('engagement_ids','like', 'Events')]"
+        />
+                <filter
+          name="church"
+          string="Church"
+          domain="[('engagement_ids','like', 'Church')]"
+        />
+                <filter
+          name="translator"
+          string="Translator"
+          domain="[('engagement_ids','like', 'Translation')]"
+        />
                 <group expand="0" string="Group By...">
-                    <filter string="State" name="state" domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Language" name="language" domain="[]" context="{'group_by':'lang'}"/>
+                    <filter
+            string="State"
+            name="state"
+            domain="[]"
+            context="{'group_by':'state'}"
+          />
+                    <filter
+            string="Language"
+            name="language"
+            domain="[]"
+            context="{'group_by':'lang'}"
+          />
                 </group>
             </search>
         </field>
@@ -113,12 +229,12 @@
         <field name="model">advocate.details</field>
         <field name="arch" type="xml">
             <google_map
-                class="o_res_partner_map"
-                string="Google Map"
-                lat="partner_latitude"
-                lng="partner_longitude"
-                colors="blue:engagement_name=='Church presentation';green:engagement_name=='Events';red:engagement_name=='Sport';purple:engagement_name=='Translation';"
-            >
+        class="o_res_partner_map"
+        string="Google Map"
+        lat="partner_latitude"
+        lng="partner_longitude"
+        colors="blue:engagement_name=='Church presentation';green:engagement_name=='Events';red:engagement_name=='Sport';purple:engagement_name=='Translation';"
+      >
                 <field name="id" />
                 <field name="partner_latitude" />
                 <field name="partner_longitude" />
@@ -126,26 +242,26 @@
                 <field name="email" />
                 <field name="zip" />
                 <field name="city" />
-                <field name="lang"/>
-                <field name="engagement_name"/>
+                <field name="lang" />
+                <field name="engagement_name" />
                 <templates>
                     <t t-name="kanban-box">
                         <div
-                            class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban"
-                        >
+              class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban"
+            >
                             <t
-                                t-set="placeholder"
-                                t-value="'/base/static/img/avatar_grey.png'"
-                            />
+                t-set="placeholder"
+                t-value="'/base/static/img/avatar_grey.png'"
+              />
                             <div class="oe_kanban_details">
                                 <strong
-                                    class="o_kanban_record_title oe_partner_heading"
-                                >
+                  class="o_kanban_record_title oe_partner_heading"
+                >
                                     <field name="display_name" />
                                 </strong>
                                 <div
-                                    class="o_kanban_tags_section oe_kanban_partner_categories"
-                                />
+                  class="o_kanban_tags_section oe_kanban_partner_categories"
+                />
                                 <ul>
                                     <li>
                                         <field name="city" />
@@ -181,19 +297,25 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_advocates"
-              parent="child_compassion.menu_sponsorship_root"
-              name="Advocates"
-              sequence="2"/>
+    <menuitem
+    id="menu_advocates"
+    parent="child_compassion.menu_sponsorship_root"
+    name="Advocates"
+    sequence="2"
+  />
 
-    <menuitem id="menu_ambassadors"
-              parent="menu_advocates"
-              name="Advocates"
-              action="action_advocates"
-              sequence="1"/>
-    <menuitem id="menu_engagement_type"
-              parent="menu_advocates"
-              name="Engagement types"
-              action="action_engagement_type"
-              sequence="2"/>
+    <menuitem
+    id="menu_ambassadors"
+    parent="menu_advocates"
+    name="Advocates"
+    action="action_advocates"
+    sequence="1"
+  />
+    <menuitem
+    id="menu_engagement_type"
+    parent="menu_advocates"
+    name="Engagement types"
+    action="action_engagement_type"
+    sequence="2"
+  />
 </odoo>

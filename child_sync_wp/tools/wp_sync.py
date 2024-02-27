@@ -97,7 +97,7 @@ class WPSync(object):
                     count_insert += 1
                     child.state = "I"
                     children.env.cr.commit()
-            except:
+            except Exception:
                 children.env.clear()
                 _logger.error("Child Upload failed: ", exc_info=True)
 
@@ -126,7 +126,7 @@ class WPSync(object):
             )
             _logger.info("Remove from Wordpress : " + str(res))
             return res
-        except:
+        except Exception:
             _logger.error("Remove from Wordpress failed.", exc_info=True)
 
         return False

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!--
     Resource: product.template
@@ -8,31 +8,60 @@
         <record id="product_template_sponsorship" model="product.template">
             <field name="name">Sponsorship</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_sponsorship" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_sponsorship"
+      />
             <field name="list_price">42</field>
-            <field name="property_account_income_id" search="[('code','=','6000')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6000')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">sponsorship</field>
         </record>
         <record id="product_template_sponsorship_ldp" model="product.template">
             <field name="name">LDP Sponsorship</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_sponsorship"/>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_sponsorship"
+      />
             <field name="list_price">310</field>
             <field name="type">service</field>
             <field name="description">Sponsorship for LDP Students.</field>
-            <field name="property_account_income_id" search="[('code','=','6013')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6013')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">sponsorship_ldp</field>
         </record>
         <record id="product_template_fund_gen" model="product.template">
             <field name="name">General Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">42</field>
-            <field name="description">Thanks to your donation to the General Fund, through your help we can offer
+            <field
+        name="description"
+      >Thanks to your donation to the General Fund, through your help we can offer
                 a concrete help and a new future to many children on the field and restore hope in their lives.</field>
-            <field name="property_account_income_id" search="[('code','=','6004')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6004')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">fund_gen</field>
         </record>
 
@@ -40,41 +69,86 @@
         <record id="product_template_gift_birthday" model="product.template">
             <field name="name">Birthday Gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift" />
-            <field name="property_account_income_id" search="[('code','=','6003')]" />
-            <field name="property_account_expense_id" search="[('code','=','5000')]" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6003')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">gift_birthday</field>
         </record>
         <record id="product_template_gift_gen" model="product.template">
             <field name="name">General Gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift" />
-            <field name="property_account_income_id" search="[('code','=','6003')]" />
-            <field name="property_account_expense_id" search="[('code','=','5000')]" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6003')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">gift_gen</field>
         </record>
         <record id="product_template_gift_family" model="product.template">
             <field name="name">Family Gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift" />
-            <field name="property_account_income_id" search="[('code','=','6003')]" />
-            <field name="property_account_expense_id" search="[('code','=','5000')]" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6003')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">gift_family</field>
         </record>
         <record id="product_template_gift_project" model="product.template">
             <field name="name">Project Gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift" />
-            <field name="property_account_income_id" search="[('code','=','6003')]" />
-            <field name="property_account_expense_id" search="[('code','=','5000')]" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6003')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">gift_project</field>
         </record>
         <record id="product_template_gift_graduation" model="product.template">
             <field name="name">Graduation Gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift" />
-            <field name="property_account_income_id" search="[('code','=','6003')]" />
-            <field name="property_account_expense_id" search="[('code','=','5000')]" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6003')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
             <field name="default_code">gift_graduation</field>
         </record>
 
@@ -82,7 +156,10 @@
         <record id="product_template_fund_aid" model="product.template">
             <field name="name">AIDS/HIV Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to the AIDS fund we can bring the necessary lifelong care to
@@ -90,13 +167,22 @@
                 We are very grateful to you for your support to this fund and
                 for the great hope you offer to the sick children and their families.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6011')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6011')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_anl" model="product.template">
             <field name="name">Compassion Suisse</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation to Compassion Suisse we can continue to make
@@ -104,21 +190,39 @@
                 We can offer a more efficient help to many needy children through sponsorships and complementary
                 interventions in the countries supported by Compassion.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6007')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6007')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_any" model="product.template">
             <field name="name">Anonymous donations</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6010')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6010')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_bfa" model="product.template">
             <field name="name">Fund "Floods in Burkina Faso"</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation, the sponsored children and their families
@@ -128,13 +232,22 @@
                 Your support is essential and is a real sign of hope for the sponsored children, their families,
                 the staff of Compassion and the partner churches.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_bib" model="product.template">
             <field name="name">Bible Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation you support the Bible Fund, by which we can
@@ -143,21 +256,39 @@
                 Your support helps the child to grow spiritually, to strengthen his faith and to receive a
                 precious encouragement.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6006')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6006')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_bli" model="product.template">
             <field name="name">Blind Children Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6009')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5009')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6009')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5009')]"
+      />
         </record>
         <record id="product_template_fund_c13" model="product.template">
             <field name="name">CSP HA-C13 in Haiti</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 With your donation, you support the CSP (child survival program) in
@@ -167,13 +298,22 @@
                 We are very grateful to you for your interest towards mothers and their babies and for the hope you
                 are bringing to them through your help.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6014')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6014')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_c20" model="product.template">
             <field name="name">CSP EC-C20 in Ecuador</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 With your donation, you support the CSP (child survival program) in
@@ -183,21 +323,41 @@
                 We are very grateful to you for your interest towards mothers and their babies and for the hope you
                 are bringing to them through your help.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6014')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6014')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_c3b" model="product.template">
-            <field name="name">Cicerolandia BR473 project Fund - supported by C3</field>
+            <field
+        name="name"
+      >Cicerolandia BR473 project Fund - supported by C3</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6002')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6002')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_c46" model="product.template">
             <field name="name">CSP HA-C46 in Haiti</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 With your donation, you support the CSP (child survival program) in
@@ -207,13 +367,22 @@
                 We are very grateful to you for your interest towards mothers and their babies and for the hope you
                 are bringing to them through your help.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6014')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6014')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_cal" model="product.template">
             <field name="name">Calendar</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation, you help us to finance our calendar which
@@ -223,13 +392,22 @@
 
                 We thank you very much for your support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6007')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6007')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_csp" model="product.template">
             <field name="name">Child Survival Program</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 The CSP Fund  (Child Survival Program) allows us to support 3 CSP centers,
@@ -240,13 +418,22 @@
                 We are very grateful to you for your interest towards mothers and their babies and for the hope you
                 are bringing to them through your help.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6014')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6014')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_don" model="product.template">
             <field name="name">Compassion Suisse grant</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation to Compassion Suisse we can continue to make our
@@ -254,13 +441,22 @@
                 We can offer a more efficient help to many needy children through sponsorships and complementary
                 interventions in the countries supported by Compassion.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6007')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6007')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_fam" model="product.template">
             <field name="name">Famine Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation, the sponsored children and their families touched
@@ -269,13 +465,22 @@
                 We thank you so much for your generosity and for your interest towards the poorest children and their
                 families and for the hope that you give them through your support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_haf" model="product.template">
             <field name="name">Cholera in Haiti - Filter action</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to water filters and rehydratation kits, the families of
@@ -283,13 +488,22 @@
                 We are very grateful to you for your contribution to this action and for the help you
                 therefore give the children and their families.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6012')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6012')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_hai" model="product.template">
             <field name="name">Disaster Fund Haiti</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation, the families touched by the terrible earthquake in
@@ -299,13 +513,22 @@
                 Your support is essential and represents a clear sign of hope to the sponsored children, their
                 families, the staff of Compassion and the partner churches in Haiti.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_ind" model="product.template">
             <field name="name">Disaster Fund India</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation, the families touched by the recent cyclone Aila in
@@ -315,21 +538,39 @@
                 Your support is essential and brings new hope to the families of sponsored children, the staff of
                 Compassion and the partner churches.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_isc" model="product.template">
             <field name="name">International Staff Care Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_kdo" model="product.template">
             <field name="name">Child gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your gift that will be entirely allocated to them, the family of
@@ -338,26 +579,44 @@
                 We are very grateful for your complementary support to your sponsored child and his family that
                 brings more hope and great encouragement to them.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6003')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6003')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_kgs" model="product.template">
             <field name="name">Kids Games Burkina Faso</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Your support helps the organizer of the Kids Games to plan this event
                 for the first time in Burkina Faso. Your support also helps many of the children in the sponsorship
                 program to take part of this event.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6004')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6004')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_ldp" model="product.template">
             <field name="name">LDP Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to the LDP Fund, we currently support 3 LDP students, Alfredo and
@@ -368,21 +627,39 @@
                 Through your donation you are offering these students a chance for a promising future and we are very
                 grateful to you for your support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6013')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6013')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_loc" model="product.template">
             <field name="name">Local projects</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6009')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6009')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_mag" model="product.template">
             <field name="name">Compassion magazine</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation you have subscribed to our magazine and you
@@ -390,25 +667,43 @@
                 allows us to make our work known and to sensibilise many people to the cause of poor children.
                 We are very grateful for your precious support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6100')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6100')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_mds" model="product.template">
             <field name="name">Project "Marathon des Sables"</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 On behalf of of Raymond Girardet, we thank you for your donation
                 which will allow him to realize his project.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6012')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6012')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_med" model="product.template">
             <field name="name">Medical Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation to the medical fund we can offer each
@@ -417,21 +712,39 @@
                 such as a vaccination campaign for several Compassion centers, distribution of mosquito nets
                 to families that are registered in the Compassion program.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6001')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6001')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_new" model="product.template">
             <field name="name">New Building Yverdon</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6007')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6007')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_nol" model="product.template">
             <field name="name">Christmas Gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to the Christmas Gift Fund, we can offer a Christmas gift to
@@ -440,34 +753,61 @@
                 We are very grateful for your donation by which you share the joy of Christmas with each
                 child of Compassion.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6008')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6008')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_ovc" model="product.template">
             <field name="name">"Highly Vulnerable Children" Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Compassion's Highly Vulnerable Children's Fund provides food,
                 clothing and a nurturing Christian home environment to children in poverty who are orphans
                 or who have no adult caretakers.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6015')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6015')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_par" model="product.template">
             <field name="name">Sponsorship Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">42</field>
-            <field name="property_account_income_id" search="[('code','=','6000')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6000')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_phi" model="product.template">
             <field name="name">Relief Fund Philippines</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation, the families touched by the typhoon in
@@ -478,13 +818,22 @@
                 Your support is essential and brings new hope to the families of sponsored children, the staff
                 of Compassion and the partner churches.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_pro" model="product.template">
             <field name="name">Professional Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 The professional fund allows many young sponsored people to receive
@@ -492,30 +841,57 @@
                 Thanks to your support we can continue to offer this service on a long-term basis and we are
                 very grateful to you for your help.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6002')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6002')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_sgi" model="product.template">
             <field name="name">Special gift</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6016')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6016')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_sm" model="product.template">
             <field name="name">"Stop Mosquitoes" campaign</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">Malaria Fund</field>
-            <field name="property_account_income_id" search="[('code','=','6011')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6011')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_urg" model="product.template">
             <field name="name">Humanitarian Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation to the humanitarian emergency fund,
@@ -527,13 +903,22 @@
                 Your support is essential and brings new hope to the families of sponsorchildren, the staff
                 of Compassion and the partner churches.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_usp" model="product.template">
             <field name="name">Unsponsored Children Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Your donation to the "Unsponsored Children Fund" unlocks the benefits
@@ -543,13 +928,22 @@
 
                 We thank you very much for your precious support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6017')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6017')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_wol" model="product.template">
             <field name="name">"Water of Life" - Water filter fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation. It allows us to finance water filters
@@ -557,13 +951,22 @@
                 water, in the poorest regions of the world.
                 This help would not be possible without you and we are very grateful for your support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6012')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6012')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_wtp" model="product.template">
             <field name="name">"Water for the children" Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
             <field name="description">
                 Thanks to your donation. It allows us to finance water disinfection
@@ -571,64 +974,133 @@
                 drinking water, in the poorest regions of the world.
                 This help would not be possible without you and we are very grateful for your support.
             </field>
-            <field name="property_account_income_id" search="[('code','=','6012')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6012')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_4mu" model="product.template">
             <field name="name">Muskathlon</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6016')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6016')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_4mu_2" model="product.template">
             <field name="name">The 4th Musketeer Fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6016')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6016')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_sawyer" model="product.template">
             <field name="name">Sawyer Water Filters for Ndeiya</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6012')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5000')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6012')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5000')]"
+      />
         </record>
         <record id="product_template_fund_muttgen" model="product.template">
             <field name="name">Muttertagsgottesdienst - GEN</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6004')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5004')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6004')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5004')]"
+      />
         </record>
         <record id="product_template_fund_muttcsp" model="product.template">
             <field name="name">Muttertagsgottesdienst - CSP</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6014')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5014')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6014')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5014')]"
+      />
         </record>
         <record id="product_template_fund_toilets" model="product.template">
             <field name="name">Toilets for all</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6012')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5012')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6012')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5012')]"
+      />
         </record>
         <record id="product_template_covid" model="product.template">
             <field name="name">Covid-19 help fund</field>
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_fund" />
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
             <field name="list_price">8</field>
-            <field name="property_account_income_id" search="[('code','=','6005')]"/>
-            <field name="property_account_expense_id" search="[('code','=','5005')]"/>
+            <field
+        name="property_account_income_id"
+        search="[('code','=','6005')]"
+      />
+            <field
+        name="property_account_expense_id"
+        search="[('code','=','5005')]"
+      />
         </record>
     </data>
 </odoo>

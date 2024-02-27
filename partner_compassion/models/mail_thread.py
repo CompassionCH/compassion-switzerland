@@ -9,7 +9,7 @@
 ##############################################################################
 
 
-from odoo import models, tools
+from odoo import models
 
 
 class MailThread(models.AbstractModel):

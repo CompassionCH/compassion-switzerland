@@ -107,8 +107,8 @@ class PaymentSlipController(Controller):
                             active_ids=sponsorship_id, active_model="recurring.contract"
                         )
                     )
-                except ValueError:
-                    raise BadRequest()
+                except ValueError as e:
+                    raise BadRequest() from e
             else:
                 raise BadRequest()
         wizard.get_report()

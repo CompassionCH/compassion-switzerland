@@ -4,32 +4,32 @@
         <field name="model">compassion.child</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.childpack_full</field>
-        <field name="paperformat_id" ref="paperformat_childpack"/>
+        <field name="paperformat_id" ref="paperformat_childpack" />
     </record>
     <record id="report_childpack_small" model="ir.actions.report">
         <field name="name">Small Childpack</field>
         <field name="model">compassion.child</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.childpack_small</field>
-        <field name="paperformat_id" ref="paperformat_a4_childpack"/>
+        <field name="paperformat_id" ref="paperformat_a4_childpack" />
     </record>
     <record id="report_childpack_mini" model="ir.actions.report">
         <field name="name">Mini Childpack</field>
         <field name="model">compassion.child</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.childpack_mini</field>
-        <field name="paperformat_id" ref="paperformat_mini_childpack"/>
+        <field name="paperformat_id" ref="paperformat_mini_childpack" />
     </record>
 
     <template id="childpack_full">
-        <t t-set="formMargin" t-value="124"/>
-        <t t-call="report_compassion.childpack_small"/>
+        <t t-set="formMargin" t-value="124" />
+        <t t-call="report_compassion.childpack_small" />
     </template>
 
     <template id="childpack_small">
-        <t t-set="marginLeft" t-value="formMargin or 0"/>
-        <t t-set="full" t-value="marginLeft > 0"/>
-        <t t-set="small" t-value="not full"/>
+        <t t-set="marginLeft" t-value="formMargin or 0" />
+        <t t-set="full" t-value="marginLeft > 0" />
+        <t t-set="small" t-value="not full" />
         <t t-set="custom_css">
             .container {
                 font-family: "millerLight";
@@ -54,7 +54,7 @@
             }
             .desc {
                 position: absolute;
-                margin-left: <t t-esc="marginLeft+14.7"/>mm;
+                margin-left: <t t-esc="marginLeft+14.7" />mm;
                 margin-top: 29mm;
                 width: 130mm;
                 height: 116mm;
@@ -101,7 +101,7 @@
             }
             .photo {
                 position: absolute;
-                margin-left: <t t-esc="marginLeft+156"/>mm;
+                margin-left: <t t-esc="marginLeft+156" />mm;
                 margin-top: 48mm;
                 width: 88mm;
                 height: 125mm;
@@ -117,7 +117,7 @@
             }
             .summary {
                 position: absolute;
-                margin-left: <t t-esc="marginLeft+189"/>mm;
+                margin-left: <t t-esc="marginLeft+189" />mm;
                 margin-top: 182mm;
                 width: 100%;
             }
@@ -175,7 +175,7 @@
             }
             .qrcode {
               position: absolute;
-              margin-left: <t t-esc="marginLeft+269"/>mm;
+              margin-left: <t t-esc="marginLeft+269" />mm;
               margin-top: 10mm;
               width: 23mm;
               height: 23mm;
@@ -183,7 +183,10 @@
         </t>
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="report_compassion.childpack_document" t-lang="lang"/>
+                <t
+          t-call="report_compassion.childpack_document"
+          t-lang="lang"
+        />
             </t>
         </t>
     </template>
@@ -194,56 +197,76 @@
             <div class="page">
                 <t t-if="is_pdf">
                     <div id="background">
-                        <img t-attf-src="/report_compassion/static/img/#{ type }/1904_dossier_#{ lang }.jpg"/>
+                        <img
+              t-attf-src="/report_compassion/static/img/#{ type }/1904_dossier_#{ lang }.jpg"
+            />
                     </div>
                 </t>
-                <t t-call="report_compassion.style"/>
+                <t t-call="report_compassion.style" />
                 <t t-if="formMargin">
                     <div class="local_id">
-                        <span>Available until: </span><span t-raw="o.get_date('childpack_expiration')" id="due_date"/> <!-- keep space -->
-                        <span t-field="o.local_id"/>
+                        <span>Available until: </span><span
+              t-raw="o.get_date('childpack_expiration')"
+              id="due_date"
+            /> <!-- keep space -->
+                        <span t-field="o.local_id" />
                     </div>
                 </t>
-                <div t-attf-class="desc #{'boy' if o.gender == 'M' else 'girl'}">
+                <div
+          t-attf-class="desc #{'boy' if o.gender == 'M' else 'girl'}"
+        >
                     <div class="left">
-                        <t t-raw="o.description_left"/>
+                        <t t-raw="o.description_left" />
                         <h6 t-if="o.project_id.description_left">
-                            <span t-field="o.project_title"/>
+                            <span t-field="o.project_title" />
                         </h6>
-                        <t t-raw="o.project_id.description_left"/>
-                        <p t-field="o.local_id" id="child-ref"/>
+                        <t t-raw="o.project_id.description_left" />
+                        <p t-field="o.local_id" id="child-ref" />
                     </div>
                     <div class="right">
-                        <t t-raw="o.description_right"/>
+                        <t t-raw="o.description_right" />
                         <h6 t-if="not o.project_id.description_left">
-                            <span t-field="o.project_title"/>
+                            <span t-field="o.project_title" />
                         </h6>
-                        <t t-raw="o.project_id.description_right"/>
+                        <t t-raw="o.project_id.description_right" />
                     </div>
                 </div>
-                  <img class="qrcode" t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}" alt="QR Code to online sponsorship form" t-if="full"/>
+                  <img
+          class="qrcode"
+          t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}"
+          alt="QR Code to online sponsorship form"
+          t-if="full"
+        />
                 <div class="photo">
-                    <img t-if="o.fullshot" t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"/>
+                    <img
+            t-if="o.fullshot"
+            t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"
+          />
                 </div>
                 <div class="summary">
-                    <p t-field="o.preferred_name" class="summary_field name"/>
+                    <p t-field="o.preferred_name" class="summary_field name" />
                     <p class="summary_field birthday">
                         <t t-if="o.age">
-                            <span t-esc="o.age"/>
+                            <span t-esc="o.age" />
                             <span>(</span>
                         </t>
-                        <t t-if="o.gender=='F' and o.env.lang in ('fr_CH','it_IT')">
+                        <t
+              t-if="o.gender=='F' and o.env.lang in ('fr_CH','it_IT')"
+            >
                             <span>Born (F)</span>
                         </t>
                         <t t-else="">
                             <span>Born</span>
                         </t>
-                        <span t-esc="o.get_date('birthdate', 'date_short')"/>
+                        <span t-esc="o.get_date('birthdate', 'date_short')" />
                         <span t-if="o.age">)</span>
                     </p>
-                    <p t-field="o.project_id.country_id.name" class="summary_field country"/>
+                    <p
+            t-field="o.project_id.country_id.name"
+            class="summary_field country"
+          />
                 </div>
-                <p style="page-break-after:always;"/>
+                <p style="page-break-after:always;" />
             </div>
         </div>
     </template>
@@ -304,29 +327,38 @@
             <t t-foreach="docs" t-as="o">
                 <div class="article">
                     <div class="page">
-                        <t t-call="report_compassion.style"/>
+                        <t t-call="report_compassion.style" />
                         <div class="local_id">
-                            <span t-field="o.local_id"/>
+                            <span t-field="o.local_id" />
                         </div>
                         <div class="photo">
-                            <span t-field="o.fullshot" t-options='{"widget": "image"}'/>
+                            <span
+                t-field="o.fullshot"
+                t-options='{"widget": "image"}'
+              />
                         </div>
                         <div class="summary">
-                            <span t-field="o.preferred_name" class="name"/>,
+                            <span t-field="o.preferred_name" class="name" />,
                             <t t-if="o.gender == 'M'">
                                 boy
                             </t>
                             <t t-if="o.gender == 'F'">
                                 girl
                             </t>
-                            <br/>
-                            <span t-field="o.birthdate" class="birthdate"/> (<span t-field="o.age" class="age"/> years) <!-- keep space -->
-                            <br/>
-                            <span t-field="o.project_id.country_id.name"/>
-                            <br/>
-                            <span t-field="o.local_id" class="ref"/>
+                            <br />
+                            <span
+                t-field="o.birthdate"
+                class="birthdate"
+              /> (<span
+                t-field="o.age"
+                class="age"
+              /> years) <!-- keep space -->
+                            <br />
+                            <span t-field="o.project_id.country_id.name" />
+                            <br />
+                            <span t-field="o.local_id" class="ref" />
                         </div>
-                        <p style="page-break-after:always;"/>
+                        <p style="page-break-after:always;" />
                     </div>
                 </div>
             </t>

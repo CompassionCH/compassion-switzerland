@@ -11,18 +11,18 @@ import logging
 
 from mock import patch
 
-mock_update_hold = (
-    "odoo.addons.child_compassion.models.compassion_hold" ".CompassionHold.update_hold"
-)
-
-logger = logging.getLogger(__name__)
-geo_patch = "odoo.addons.base_geolocalize.models.res_partner.geo_find"
-
 from odoo.tests import tagged
 
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
     BaseSponsorshipTest,
 )
+
+mock_update_hold = (
+    "odoo.addons.child_compassion.models.compassion_hold.CompassionHold.update_hold"
+)
+
+logger = logging.getLogger(__name__)
+geo_patch = "odoo.addons.base_geolocalize.models.res_partner.geo_find"
 
 
 @tagged("wip_test")

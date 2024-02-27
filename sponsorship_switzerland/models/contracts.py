@@ -8,7 +8,6 @@
 #
 ##############################################################################
 
-import datetime
 import logging
 
 from dateutil.relativedelta import relativedelta
@@ -197,9 +196,9 @@ class RecurringContracts(models.Model):
             "partner_auto_match.activity_check_duplicates"
         ).id
         if self.mapped("partner_id.activity_ids").filtered(
-            lambda l: l.activity_type_id.id == check_duplicate_activity_id
+            lambda act: act.activity_type_id.id == check_duplicate_activity_id
         ) or self.mapped("correspondent_id.activity_ids").filtered(
-            lambda l: l.activity_type_id.id == check_duplicate_activity_id
+            lambda act: act.activity_type_id.id == check_duplicate_activity_id
         ):
             raise UserError(
                 _("Please verify the partner before validating the " "sponsorship")
