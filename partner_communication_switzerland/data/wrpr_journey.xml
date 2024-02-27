@@ -1,0 +1,509 @@
+<odoo>
+    <!-- Email templates -->
+    <record id="email_wrpr_reminder" model="mail.template">
+        <field name="name">W&amp;P Journey - Letter writing reminder</field>
+        <field name="subject">W&amp;P letter writing reminder</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set children = object.get_objects().mapped('child_id')
+    % set firstname = children.get_list('preferred_name', 3, translate=False)
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Do you have 5 minutes to write to ${children.get('your sponsored child')}? The letters are very precious for the children.
+</p>
+<p
+      >You committed to writing a letter. But we didn't receive your letter since 1.5 year.
+</p>
+<p>You can write directly from our App or on MyCompassion: <a
+          href="https://mycompassion.ch/my/letter"
+        >mycompassion</a>
+</p>
+<p>You will find here good advices from other sponsors for writing letters: <a
+          href="https://compassion.ch/de/paten-geben-richtig-gute-tipps-zum-briefeschreiben/"
+        >tips</a>.
+</p>
+<p>Thank you so much and see you soon!
+</p>
+<p>The team of Compassion</p>
+        </field>
+    </record>
+    <record id="wrpr_1_year" model="mail.template">
+        <field name="name">W&amp;P Journey - 1 year anniversary</field>
+        <field name="subject">W&amp;P 1 year anniversary</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set children = sponsorships.mapped('child_id')
+    % set firstname = children.get_list('preferred_name', 3, translate=False)
+    % set payer = sum(sponsorships.mapped('total_amount')) and partner in sponsorships.mapped('partner_id')
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Congratulations, it's been a year since you became the sponsor of ${firstname}!
+</p>
+<p
+      >A sponsorship is a long-term investment in the life of a child. To learn more, click here: <a
+          href="https://www.youtube.com/watch?v=0eB-8APGpGo"
+        >video</a>.
+</p>
+<p>
+</p>
+<p>Thank you for being a part of this mission!
+</p>
+<p>A Write&amp;Pray sponsorship is a team effort between you and a donor.
+    % if payer:
+    If you would like to increase your financial support,
+    % else:
+    If you would like to take on CHF 2/5/10 of the financial support yourself,
+    % endif
+    you can do so here: <a
+          href="https://mycompassion.ch/my/donations"
+        >mycompassion</a>
+</p>
+<p>The team of Compassion</p>
+        </field>
+    </record>
+    <record id="wrpr_transformation" model="mail.template">
+        <field name="name">W&amp;P Journey - sponsorship transformation</field>
+        <field name="subject">W&amp;P sponsorship transformation</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set children = sponsorships.mapped('child_id')
+    % set firstname = children.get_list('preferred_name', translate=False)
+    % set reminder = object.search([("config_id", "=", object.config_id.id), ("partner_id", "=", partner.id), ("state", "=", "done")])
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p>This year you will turn 25, congratulations!
+</p>
+<p
+      >Thank you for supporting ${firstname} with a Write&amp;Pray sponsorship for ${sponsorships[:1].contract_duration//365 or 1} years.
+</p>
+<p>
+</p>
+<p
+      >Our Write&amp;Pray sponsorships are for young people under the age of 25. Most sponsors have the financial means to fully resume a sponsorship after that.
+</p>
+<p
+      >It would be great if you would continue to sponsor ${firstname} for CHF 42.00 per month, so that together we can continue to free children from poverty. You can choose to do so here: <a
+          href="https://mycompassion.ch/my/donations"
+        >link</a>
+% if reminder:
+</p>
+<p
+      >If we do not receive any feedback from you within the next two weeks, we will unfortunately have to terminate the sponsorship and look for a new sponsor for ${firstname}.
+% endif
+</p>
+<p>Have a good day and see you soon!</p>
+        </field>
+    </record>
+    <record id="wrpr_transformation_fail" model="mail.template">
+        <field
+      name="name"
+    >W&amp;P Journey - sponsorship transformation NO ANSWER</field>
+        <field name="subject">W&amp;P sponsorship transformation</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set children = object.get_objects().mapped('child_id')
+    % set firstname = children.get_list('preferred_name', translate=False)
+    % set reminder = object.search([("config_id", "=", object.config_id.id), ("partner_id", "=", partner.id), ("state", "=", "done")])
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Unfortunately, we have not received any feedback from you and will have to cancel the sponsorship for ${firstname}.
+</p>
+<p>We will now look for another sponsor for ${firstname}.
+</p>
+<p>
+</p>
+<p
+      >Have you changed your mind? Then let us know as soon as possible and increase your sponsorship contribution to CHF 42:
+<a href="https://mycompassion.ch/my/donations">link</a>
+</p>
+<p>The joy of ${firstname} will be enormous!</p>
+        </field>
+    </record>
+    <record id="sponsorship_upgrade_confirmation" model="mail.template">
+        <field name="name">Sponsorship upgrade confirmation</field>
+        <field name="subject">Sponsorship upgrade confirmation</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set payer = sponsorships.filtered("last_paid_invoice_date")
+    % set amount = sponsorships.mapped("group_id")[:1].get_amount("2200-01-01","2200-02-01", sponsorships)
+    % set children = sponsorships.mapped('child_id')
+    % set firstname = children.get_list('preferred_name', 3, translate=False)
+    % set payment_mode = sponsorships.mapped('payment_mode_id.name')[0]
+    % set lsv_dd = 'LSV' in payment_mode or 'Postfinance' in payment_mode
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Wow, we are happy that you would like to take over CHF ${amount | int} of financial support for ${firstname}.
+</p>
+<div>
+% if not lsv_dd:
+<p
+        >In order for you to ${"increase" if payer else "set up"} your donation for the sponsorship,
+you can find the payment slip here: <a
+            href="https://mycompassion.ch/my/download/sponsorship_bvr"
+          >Download payment slip</a>.
+</p>
+% endif
+% if object.send_mode == "digital":
+    ${object.user_id.signature | safe}
+% endif
+</div>
+        </field>
+    </record>
+    <record id="wrpr_upgrade_confirmation" model="mail.template">
+        <field name="name">W&amp;P Journey - Transformation confirmation</field>
+        <field name="subject">Write&amp;Pray transformation confirmation</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set children = sponsorships.mapped('child_id')
+    % set firstname = children.get_list('preferred_name', translate=False)
+    % set payer = sponsorships.filtered("last_paid_invoice_date")
+    % set payment_mode = sponsorships.mapped('payment_mode_id.name')[0]
+    % set lsv_dd = 'LSV' in payment_mode or 'Postfinance' in payment_mode
+    % set survey = object.env.ref('partner_communication_switzerland.wrpr_journey_survey').public_url
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Wow, we are happy that you would like to provide financial support for ${firstname}. Thank you very much!
+</p>
+<div>
+% if not lsv_dd:
+<p
+        >In order for you to ${"increase" if payer else "set up"} your donation for the sponsorship,
+you can find the payment slip here: <a
+            href="https://mycompassion.ch/my/download/sponsorship_bvr"
+          >Download payment slip</a>.
+</p>
+% endif
+    <p
+        >Your feedback on the Write &amp; Pray sponsorship is important to us. It takes about 1 minute. Thank you for filling it out: <a
+            href="${survey}"
+          >Link to survey</a>.
+</p>
+% if object.send_mode == "sms":
+<p>We will communicate with you by email instead of SMS.
+    % if not partner.email:
+Thank you for communicating your email address as soon as possible.
+    % endif
+</p>
+% endif
+% if object.send_mode == "digital":
+    ${object.user_id.signature | safe}
+% endif
+</div>
+        </field>
+    </record>
+    <record id="wrpr_transformation_complete" model="mail.template">
+        <field name="name">W&amp;P Journey - Transformation complete</field>
+        <field
+      name="subject"
+    >Thank you for joining the contributing sponsor family</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set children = sponsorships.mapped('child_id')
+    % set firstname = children.get_list('preferred_name', translate=False)
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Thank you for deciding to support the sponsorship of ${firstname} financially.
+</p>
+<p
+      >There is one more thing you can do: Would you take a few minutes to give one or two other teens the opportunity to join the fight against extreme poverty?
+</p>
+<p
+      >Tell them about your experience as a Write &amp; Pray sponsor and encourage them to do the same.
+</p>
+<p>Together, we can accomplish much more: <a
+          href="https://compassion.ch/writeandpray/"
+        >Write&amp;Pray</a>
+</p><p>
+            Thank you so much!
+    ${object.user_id.signature | safe}
+</p>
+        </field>
+    </record>
+    <record id="wrpr_contribution_reminder_mail" model="mail.template">
+        <field
+      name="name"
+    >W&amp;P Journey - Contribution payment reminder</field>
+        <field
+      name="subject"
+    >Write &amp; Pray contribution payment reminder</field>
+        <field name="model_id" ref="model_partner_communication_job" />
+        <field
+      name="email_from"
+    >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
+<div>
+    % set partner = object.partner_id
+    % set sponsorships = object.get_objects()
+    % set children = sponsorships.mapped('child_id')
+    % set firstname = children.get_list('preferred_name', translate=False)
+    % set number_reminder = object.search_count([('config_id','=',object.config_id.id),('partner_id','=',partner.id),('state','=','done),('object_ids','like',sponsorships.ids[:1]),('id','!=',object.id)])
+</div>
+<p>
+    ${partner.salutation}
+</p>
+<p
+      >Unfortunately, we have not yet received a donation from you for the contribution of the sponsorship that you would like to pay yourself.</p>
+<p>
+% if number_reminder:
+This is already the ${"second" if number_reminder == 1 else "third"} time that we have contacted you about this. Thank you for taking care of this quickly.
+% else:
+Thank you for taking care of this quickly: <a
+          href="https://mycompassion.ch/my/donation"
+        >MyCompassion</a>.
+% endif
+</p>
+<p
+      >Can you not take care of this part yourself? Then contact us so that we can find another donor for it.
+</p>
+        </field>
+    </record>
+
+    <!-- Comm configs -->
+    <record id="sponsorship_wrpr_reminder" model="partner.communication.config">
+        <field name="name">W&amp;P Journey - Letter writing reminder</field>
+        <field name="send_mode">digital</field>
+        <field name="email_template_id" ref="email_wrpr_reminder" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record id="wrpr_1_year_config" model="partner.communication.config">
+        <field name="name">W&amp;P Journey - 1 year anniversary</field>
+        <field name="send_mode">auto_digital</field>
+        <field name="email_template_id" ref="wrpr_1_year" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record
+    id="wrpr_transformation_config"
+    model="partner.communication.config"
+  >
+        <field name="name">W&amp;P Journey - sponsorship transformation</field>
+        <field name="send_mode">auto_digital</field>
+        <field name="email_template_id" ref="wrpr_transformation" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record
+    id="wrpr_transformation_fail_config"
+    model="partner.communication.config"
+  >
+        <field
+      name="name"
+    >W&amp;P Journey - sponsorship transformation NO ANSWER</field>
+        <field name="send_mode">auto_digital</field>
+        <field name="email_template_id" ref="wrpr_transformation_fail" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record
+    id="sponsorship_upgrade_config"
+    model="partner.communication.config"
+  >
+        <field name="name">Sponsorship upgrade confirmation</field>
+        <field name="send_mode">auto_digital</field>
+        <field
+      name="email_template_id"
+      ref="sponsorship_upgrade_confirmation"
+    />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record
+    id="wrpr_transformation_confirmation_config"
+    model="partner.communication.config"
+  >
+        <field name="name">W&amp;P Journey - Transformation confirmation</field>
+        <field name="send_mode">auto_digital</field>
+        <field name="email_template_id" ref="wrpr_upgrade_confirmation" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record
+    id="wrpr_transformation_complete_config"
+    model="partner.communication.config"
+  >
+        <field name="name">W&amp;P Journey - Transformation complete</field>
+        <field name="send_mode">auto_digital</field>
+        <field name="email_template_id" ref="wrpr_transformation_complete" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+    </record>
+    <record
+    id="wrpr_contribution_reminder_config"
+    model="partner.communication.config"
+  >
+        <field
+      name="name"
+    >W&amp;P Journey - Contribution payment reminder</field>
+        <field name="send_mode">digital</field>
+        <field name="email_template_id" ref="wrpr_contribution_reminder_mail" />
+        <field
+      name="report_id"
+      ref="report_compassion.report_partner_communication"
+    />
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="attachments_function">get_reminder_bvr</field>
+        <field name="print_if_not_email" eval="True" />
+    </record>
+
+    <!-- Automations -->
+    <record id="wrpr_letter_reminder_cron" model="ir.cron">
+        <field name="name">W&amp;P Journey - Letter writing reminder</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="interval_type">months</field>
+        <field name="interval_number">1</field>
+        <field name="code">model.send_wrpr_letter_reminder()</field>
+    </record>
+    <record id="wrpr_contribution_reminder_cron" model="ir.cron">
+        <field name="name">W&amp;P Journey - Contribution reminder</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="interval_type">months</field>
+        <field name="interval_number">1</field>
+        <field name="code">model.send_wrpr_contribution_reminder()</field>
+    </record>
+    <record id="wrpr_anniversary_1_automation" model="base.automation">
+        <field name="name">W&amp;P Journey - Send SMS anniversary 1 year</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="config_id" ref="wrpr_1_year_config" />
+        <field name="state">communication</field>
+        <field name="partner_field">correspondent_id</field>
+        <field
+      name="filter_domain"
+    >[("state", "=", "active"), ("child_id", "!=", False),("correspondent_id.sponsorship_anniversary_card", "=", True), ("type", "=", "SWP"), ("correspondent_id.mobile", "!=", False), ("correspondent_id.lang", "not in", ["it_IT", "en_US"]), ("correspondent_id.global_communication_delivery_preference", "=", "sms")]</field>
+        <field name="last_run" eval="datetime.now()" />
+        <field name="trigger">on_time</field>
+        <field
+      name="trg_date_id"
+      ref="recurring_contract.field_recurring_contract__start_date"
+    />
+        <field name="trg_date_range">12</field>
+        <field name="trg_date_range_type">month</field>
+    </record>
+    <record id="wrpr_sponsorship_transformation_1" model="ir.cron">
+        <field
+      name="name"
+    >W&amp;P Journey - Sponsorship transformation first call</field>
+        <field name="model_id" ref="model_res_partner" />
+        <field name="interval_type">months</field>
+        <field name="interval_number">12</field>
+        <field name="nextcall">2023-01-02</field>
+        <field name="code">model.wp_transformation_call()</field>
+    </record>
+    <record id="wrpr_sponsorship_transformation_2" model="ir.cron">
+        <field
+      name="name"
+    >W&amp;P Journey - Sponsorship transformation 2nd call</field>
+        <field name="model_id" ref="model_res_partner" />
+        <field name="interval_type">months</field>
+        <field name="interval_number">12</field>
+        <field name="nextcall">2023-02-01</field>
+        <field name="code">model.wp_transformation_call()</field>
+    </record>
+    <record id="wrpr_sponsorship_transformation_3" model="ir.cron">
+        <field
+      name="name"
+    >W&amp;P Journey - Sponsorship transformation last call</field>
+        <field name="model_id" ref="model_res_partner" />
+        <field name="interval_type">months</field>
+        <field name="interval_number">12</field>
+        <field name="nextcall">2023-03-01</field>
+        <field name="code">model.wp_transformation_call(last_call=True)</field>
+    </record>
+</odoo>

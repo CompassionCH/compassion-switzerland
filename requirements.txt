@@ -1,7 +1,10 @@
 # generated from manifests external_dependencies
 babel
+bs4
 pandas
+pdf2image
 pyminizip
+PyPDF2
 pypng
 pyqrcode
 pyquery

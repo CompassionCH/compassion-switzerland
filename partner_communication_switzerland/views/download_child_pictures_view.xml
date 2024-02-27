@@ -1,0 +1,63 @@
+<odoo>
+    <record id="child_order_picture_wizard_form" model="ir.ui.view">
+        <field name="name">child.order.picture.wizard.form</field>
+        <field name="model">child.order.picture.wizard</field>
+        <field name="preview" />
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <p
+          >You can download an archive file of child pictures to order from here.</p>
+                    <group>
+                        <field name="sponsorship_ids" />
+                    </group>
+                    <group>
+                        <field name="filename" invisible="1" />
+                        <field name="download_data" filename="filename" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+            name="order_pictures"
+            string="Make Zip"
+            type="object"
+            class="oe_highlight"
+          />
+                    <button
+            name="print_pictures"
+            string="Print Photos"
+            type="object"
+          />
+                    <button name="close" special="cancel" string="Close" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="open_order_picture_wizard" model="ir.actions.act_window">
+        <field name="name">Order Child Pictures</field>
+        <field name="res_model">child.order.picture.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'order_menu': True}</field>
+    </record>
+
+    <act_window
+    id="action_order_pictures_2"
+    name="Order Child Pictures"
+    res_model="child.order.picture.wizard"
+    src_model="recurring.contract"
+    view_mode="form"
+    target="new"
+    view_type="form"
+    key2="client_action_multi"
+  />
+
+    <menuitem
+    id="menu_order_child_pictures"
+    parent="sponsorship_tracking.menu_tracking"
+    name="Order Child Pictures"
+    action="open_order_picture_wizard"
+  />
+</odoo>

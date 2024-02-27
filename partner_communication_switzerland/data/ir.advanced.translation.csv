@@ -1,0 +1,62 @@
+id,src,lang,group,male_singular,male_plural,female_singular,female_plural
+child_lui_leur_fr,lui_leur,fr_CH,Child,lui,leur,lui,leur
+child_lui_elle_fr,lui_elle,fr_CH,Child,lui,eux,elle,elles
+child_le_la_les_fr,le_la,fr_CH,Child,le,les,la,les
+child_has_fr,has,fr_CH,Child,a,ont,a,ont
+child_is_fr,is,fr_CH,Child,est,sont,est,sont
+child_was_fr,was,fr_CH,Child,était,étaient,était,étaient
+child_will_have_fr,will have,fr_CH,Child,aura,auront,aura,auront
+child_will_be_fr,will be,fr_CH,Child,sera,seront,sera,seront
+child_child_fr,child,fr_CH,Child,enfant,enfants,enfant,enfants
+child_your_sponsored_child_fr,your sponsored child,fr_CH,Child,votre filleul,vos filleuls,votre filleule,vos filleules
+child_accord_e_fr,accord_e,fr_CH,Child,"",s,e,es
+child_accord_x_fr,accord_x,fr_CH,Child,"",x,"",x
+child_accord_s_fr,accord_s,fr_CH,Child,"",s,"",s
+child_this_child_fr,this child,fr_CH,Child,cet enfant,ces enfants,cet enfant,ces enfants
+child_the_child_fr,the child,fr_CH,Child,l'enfant,les enfants,l'enfant,les enfants
+child_each of_fr,each of,fr_CH,Child,"",chacun de ,"",chacun de
+child_par_enfant_fr,per child,fr_CH,Child,"",par enfant ,"",par enfant
+child_ihn_de,ihn,de_DE,Child,ihn,sie,sie,sie
+child_ihm_de,ihm,de_DE,Child,ihm,ihnen,ihr,ihnen
+child_has_de,has,de_DE,Child,hat,haben,hat,haben
+child_jung_de,junger Erwachsener,de_DE,Child,junger Erwachsener,junge Erwachsene,junge Erwachsene,junge Erwachsene
+child_will_be_de,will be,de_DE,Child,wird,werden,wird,werden
+child_child_de,child,de_DE,Child,Patenkind,Patenkinder,Patenkind,Patenkinder
+child_this_child_de,dieses Kind,de_DE,Child,dieses Kind,diese Kinder,dieses Kind,diese Kinder
+child_Ihr_Patenkind_de,Ihr Patenkind,de_DE,Child,Ihr Patenkind,Ihre Patenkinder,Ihr Patenkind,Ihre Patenkind
+child_Ihrem_Patenkind_de,Ihrem Patenkind,de_DE,Child,Ihrem Patenkind,Ihren Patenkindern,Ihrem Patenkind,Ihren Patenkindern
+child_Patenschaft_de,Patenschaft,de_DE,Child,Patenschaft,Patenschaften,Patenschaft,Patenschaften
+child_is_de,is,de_DE,Child,ist,sind,ist,sind
+child_was_de,was,de_DE,Child,war,waren,war,waren
+child_per_child_de,per child,de_DE,Child,"", pro Kind,"", pro Kind
+child_lui_it,lui,it_IT,Child,lui,loro,lei,le
+child_il_it,il,it_IT,Child,il,i,la,le
+child_has_it,has,it_IT,Child,ha,hanno,ha,hanno
+child_is_it,is,it_IT,Child,è,sono,è,sono
+child_was_it,was,it_IT,Child,era,erano,era,erano
+child_accompagnarlo_it,accompagnarlo,it_IT,Child,accompagnarlo,accompagnarli,accompagnarla,accompagnarli
+child_incoraggiarlo_it,incoraggiarlo,it_IT,Child,incoraggiarlo,incoraggiarli,incoraggiarla,incoraggiarli
+child_sostenerlo_it,sostenerlo,it_IT,Child,sostenerlo,sostenerli,sostenerla,sostenerli
+child_diventato_it,diventato,it_IT,Child,diventato,diventati,diventata,diventati
+child_salutarlo_it,salutarlo,it_IT,Child,salutarlo,salutarli,salutarla,salutarli
+child_your_sponsored_child_it,your sponsored child,it_IT,Child,il vostro bambino,lei vostri bambini,la vostra bambina,lei vostri bambini
+child_accord_o_a_it,accord_o_a,it_IT,Child,o,i,a,e
+child_dal_vostro_figliolo_it,dal vostro figliolo,it_IT,Child,dal vostro figliolo,dai bostri figlioli,dalla vostra figliola,dalle vostre figliole
+child_accord_e_essa_it,accord_e_essa,it_IT,Child,e,i,essa,esse
+child_child_it,child,it_IT,Child,bambino,bambini,bambino,bambini
+child_the_child_it,the child,it_IT,Child,il bambino,i bambini,il bambino,i bambini
+child_stato_it,stato,it_IT,Child,stato,stati,stata,stati
+child_him_en,him,en_US,Child,him,them,her,them
+child_has_en,has,en_US,Child,has,have,has,have
+child_is_en,is,en_US,Child,is,are,is,are
+child_was_en,was,en_US,Child,was,were,was,were
+child_your_sponsored_child_en,your sponsored child,en_US,Child,your sponsored child,your sponsored children,your sponsored child,your sponsored children
+child_child_en,child,en_US,Child,child,children,child,children
+child_this_child_en,this child,en_US,Child,this child,these children,this child,these children
+child_the_child_en,the child,en_US,Child,the child,the children,the child,the children
+child_each_of_en,each of,en_US,Child,"",each of ,"",each of
+child_per_child_en,per child,en_US,Child,"",per child ,"",per child
+salutation_fr,salutation,fr_CH,Partner,cher,chers,chère,chères
+salutation_de,salutation,de_DE,Partner,lieber,liebe,liebe,liebe
+salutation_it,salutation,it_IT,Partner,caro,cari,cara,cari
+salutation_en,salutation,en_US,Partner,dear,dear,dear,dear

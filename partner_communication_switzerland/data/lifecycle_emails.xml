@@ -1,0 +1,116 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Child Transfer -->
+        <record id="email_child_transfer" model="mail.template">
+            <field name="name">Child Lifecycle - Transfer</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field
+        name="partner_to"
+      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field
+        name="subject"
+      >Change of reference for your child ${object.get_objects().firstname}</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set child = object.get_objects()
+                </div>
+                <p>
+                    Dear sponsor,
+                    <br />
+                    <br />
+                    We warmly thank you for your precious sponsorship of ${child.firstname}.
+                    <br />
+                    <br />
+                    Your sponsored child has moved to another project and thereby received the new reference number ${child.local_id}. We send you therefore a new label sheet that is valid as of today.
+                    <br />
+                    <br />
+                    We wish you plenty of joy and blessings in the continuing support of your sponsored child.
+                    <br />
+                    <br />
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+
+        <!-- Child Transition -->
+        <record id="email_child_transition" model="mail.template">
+            <field name="name">Child Lifecycle - Transition</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field
+        name="partner_to"
+      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field
+        name="subject"
+      >Your child ${object.get_objects().firstname} transitioned to ${object.get_objects().cdsp_type} Sponsorship</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set child = object.get_objects()
+                </div>
+                <p>
+                    Dear sponsor,
+                    <br />
+                    <br />
+                    We warmly thank you for your precious sponsorship of ${child.firstname}.
+                    <br />
+                    <br />
+                    Your sponsored child is starting now the ${child.cdsp_type} sponsorship program.
+                    <br />
+                    <br />
+                    We encourage you to send a letter to your child to encourage him participating to the program.
+                    <br />
+                    <br />
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+
+        <!-- Child Reinstatement -->
+        <record id="email_child_reinstatement" model="mail.template">
+            <field name="name">Child Lifecycle - Reinstatement</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field
+        name="partner_to"
+      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field
+        name="subject"
+      >Your child ${object.get_objects().firstname} is back in project.</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set child = object.get_objects()
+                </div>
+                <p>
+                    Dear sponsor,
+                    <br />
+                    <br />
+                    <ul>
+                        <li
+            >Reinstatement reason: ${child.lifecycle_ids[0].translate('request_reason')}</li>
+                    </ul>
+                    <br />
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

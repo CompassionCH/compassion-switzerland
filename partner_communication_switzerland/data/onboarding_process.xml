@@ -1,0 +1,596 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Mail templates -->
+        <record
+      id="mail_onboarding_sponsorship_confirmation"
+      model="mail.template"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Welcome and payment information</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record
+      id="mail_onboarding_sponsorship_confirmation_not_read"
+      model="mail.template"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Welcome and payment information by paper (email not read)</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field name="body_html" type="html">
+                <p>
+                    % set partner = object.partner_id
+                    % set child = object.get_objects().mapped('child_id')
+                    ${partner.salutation}
+                </p>
+                <p>
+                    We recently sent you an email to ${partner.email}, which doesn't seem to have reached you. Could you please let us know if you have a different email address. If our email went to the spam folder, could you please add compassion@compassion.ch to your address book? This way you will receive all the important information about ${child.get('your sponsored child')} in the future.
+                </p>
+                <p>
+                    Below is the communication we sent you:
+                </p>
+                <span>
+                    ${object.env.ref('partner_communication_switzerland.mail_onboarding_sponsorship_confirmation').generate_email(object.id, ['body_html'])['body_html'].replace(partner.salutation, '').strip().replace('&lt;p&gt;&lt;/p&gt;', '') | safe}
+                </span>
+            </field>
+        </record>
+        <record id="mail_onboarding_step1" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 1 - Child Information and Visio Conference invitation</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record id="mail_onboarding_step2" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 2 - Video and Country Information</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record id="mail_onboarding_step3" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 3 - Poverty and Child protection</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record id="mail_onboarding_step4" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 4 - Letter information</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record id="mail_onboarding_step5" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 5 - Feedback &amp; Engagement</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record id="mail_onboarding_zoom_link" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding - Visio Conference Link</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field name="body_html" type="html">
+                <p>
+                    % set session = object.get_objects()
+                    ${object.partner_id.salutation}
+                </p>
+                <p>
+                    Thank you for registering for the video conference for new sponsors. We look forward to meeting you online on ${session.get_date('date_start', 'dd. MMMM')}, showing you what your sponsorship is doing, and answering your questions.
+                </p>
+                <p>
+                    Here is the link to attend the online meeting at ${session.get_date('date_start', 'HH:mm')}: ${session.link}
+                </p>
+                <p>
+                    Meeting ID: ${session.meeting_id}
+                    <br />
+                    Passcode: ${session.passcode}
+                </p>
+                <p>
+                    We'll be happy if you turn on the camera at the beginning of the meeting so we can see your face. You can also turn it off afterwards if you prefer. The sound quality is best if all participants mute their microphone when they are not speaking.
+                </p>
+                <p>
+                    You can log in ten minutes before the meeting starts. If you have any technical questions, please feel free to contact me in advance.
+                </p>
+                <p>
+                    Best regards and see you soon!
+                </p>
+                <div>
+                    ${object.user_id.signature | safe}
+                </div>
+            </field>
+        </record>
+        <record id="mail_onboarding_zoom_reminder" model="mail.template">
+            <field
+        name="name"
+      >Sponsorship Onboarding - Visio Conference Reminder</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record
+      id="mail_onboarding_zoom_registration_confirmation"
+      model="mail.template"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Visio Conference registration confirmation</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field name="body_html" type="html">
+                <p>
+                    % set session = object.get_objects().zoom_session_id
+                    ${object.partner_id.salutation}
+                </p>
+                <p>
+                    Thank you for your interest in the informational and sharing video conference for new sponsors.
+                </p>
+                <p>
+                    The meeting will take place on ${session.get_date('date_start', 'dd. MMMM')} at ${session.get_date('date_start', 'HH:mm')} online.
+                </p>
+                <p>
+                    We will send you all the information regarding the connection to this meeting a few days before by email or will contact you in case you have chosen a later date.
+                </p>
+                <p>
+                    Sincerely.
+                </p>
+                <div>
+                    ${object.user_id.signature | safe}
+                </div>
+            </field>
+        </record>
+        <record id="mail_onboarding_photo_by_post" model="mail.template">
+            <field name="name">	Sponsorship Onboarding - Photo by post</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+        <record id="mail_onboarding_first_letter" model="mail.template">
+            <field name="name">Sponsorship Onboarding - First B2S Letter</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+        </record>
+
+        <!-- Communication Config -->
+        <record
+      id="config_onboarding_sponsorship_confirmation"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Welcome and payment information</field>
+            <field name="send_mode">digital_only</field>
+            <field
+        name="email_template_id"
+        ref="mail_onboarding_sponsorship_confirmation"
+      />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field
+        name="attachments_function"
+      >get_sponsorship_payment_slip_attachments</field>
+        </record>
+        <record
+      id="config_onboarding_sponsorship_confirmation_not_read"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Welcome and payment information by paper (email not read)</field>
+            <field name="send_mode">physical</field>
+            <field
+        name="email_template_id"
+        ref="mail_onboarding_sponsorship_confirmation_not_read"
+      />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field
+        name="attachments_function"
+      >get_sponsorship_payment_slip_attachments</field>
+        </record>
+        <record
+      id="config_onboarding_step1"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 1 - Child Information and Visio Conference invitation</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_step1" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="attachments_function">get_childpack_attachment</field>
+        </record>
+        <record
+      id="config_onboarding_step2"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 2 - Video and Country Information</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_step2" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="attachments_function" />
+        </record>
+        <record
+      id="config_onboarding_step3"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 3 - Poverty and Child protection</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_step3" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="attachments_function" />
+        </record>
+        <record
+      id="config_onboarding_step4"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 4 - Letter information</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_step4" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="attachments_function" />
+        </record>
+        <record
+      id="config_onboarding_step5"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding Step 5 - Feedback &amp; Engagement</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_step5" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="attachments_function" />
+        </record>
+        <record
+      id="config_onboarding_photo_by_post"
+      model="partner.communication.config"
+    >
+            <field name="name">Sponsorship Onboarding - Photo by post</field>
+            <field name="send_mode">physical</field>
+            <field
+        name="email_template_id"
+        ref="mail_onboarding_photo_by_post"
+      />
+            <field name="report_id" ref="report_onboarding_photo_by_post" />
+            <field name="model_id" ref="model_recurring_contract" />
+            <field
+        name="attachments_function"
+      >get_photo_by_post_attachment</field>
+        </record>
+        <record
+      id="config_onboarding_zoom_reminder"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Visio Conference Reminder</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field
+        name="email_template_id"
+        ref="mail_onboarding_zoom_reminder"
+      />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_res_partner_zoom_session" />
+        </record>
+        <record
+      id="config_onboarding_zoom_registration_confirmation"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Visio Conference registration confirmation</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field
+        name="email_template_id"
+        ref="mail_onboarding_zoom_registration_confirmation"
+      />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_res_partner_zoom_attendee" />
+        </record>
+        <record
+      id="config_onboarding_zoom_link"
+      model="partner.communication.config"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding - Visio Conference link</field>
+            <field name="send_mode">auto_digital_only</field>
+            <field name="email_template_id" ref="mail_onboarding_zoom_link" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_res_partner_zoom_session" />
+        </record>
+        <record
+      id="config_onboarding_first_letter"
+      model="partner.communication.config"
+    >
+            <field name="name">Sponsorship Onboarding - First B2S Letter</field>
+            <field name="send_mode">digital</field>
+            <field
+        name="send_mode_pref_field"
+      >letter_delivery_preference</field>
+            <field
+        name="email_template_id"
+        ref="mail_onboarding_first_letter"
+      />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="model_id" ref="model_correspondence" />
+            <field
+        name="attachments_function"
+      >get_correspondence_attachments</field>
+        </record>
+
+        <!-- Automations -->
+        <record id="onboarding_step1_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: step1</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
+      />
+            <field
+        name="filter_domain"
+        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
+      />
+            <field name="trg_date_range">5</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_onboarding_step1" />
+            <field name="partner_field">correspondent_id</field>
+        </record>
+        <record id="onboarding_step2_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: step2</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
+      />
+            <field
+        name="filter_domain"
+        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
+      />
+            <field name="trg_date_range">8</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_onboarding_step2" />
+            <field name="partner_field">correspondent_id</field>
+        </record>
+        <record id="onboarding_step3_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: step3</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
+      />
+            <field
+        name="filter_domain"
+        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
+      />
+            <field name="trg_date_range">12</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_onboarding_step3" />
+            <field name="partner_field">correspondent_id</field>
+        </record>
+        <record id="onboarding_step4_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: step4</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
+      />
+            <field
+        name="filter_domain"
+        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
+      />
+            <field name="trg_date_range">15</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_onboarding_step4" />
+            <field name="partner_field">correspondent_id</field>
+        </record>
+        <record id="onboarding_step5_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: step5</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
+      />
+            <field
+        name="filter_domain"
+        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
+      />
+            <field name="trg_date_range">18</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">communication</field>
+            <field name="config_id" ref="config_onboarding_step5" />
+            <field name="partner_field">correspondent_id</field>
+        </record>
+        <record
+      id="onboarding_confirmation_not_read_automation"
+      model="base.automation"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding: sponsorship confirmation not read</field>
+            <field name="model_id" ref="model_partner_communication_job" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="partner_communication.field_partner_communication_job__sent_date"
+      />
+            <field
+        name="filter_domain"
+        eval="[('config_id', '=', ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation')),('state', '=', 'done'), ('send_mode', '=', 'digital')]"
+      />
+            <field name="trg_date_range">2</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">code</field>
+            <field name="code">
+not_read = records.filter_not_read()
+new_comms = not_read.copy({'config_id': env.ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read').id, 'send_mode': 'physical'})
+new_comms.refresh_text()
+            </field>
+        </record>
+        <record
+      id="onboarding_zoom_reminder_automation"
+      model="base.automation"
+    >
+            <field
+        name="name"
+      >Sponsorship Onboarding: send online meeting reminder</field>
+            <field name="model_id" ref="model_res_partner_zoom_session" />
+            <field name="trigger">on_time</field>
+            <field
+        name="trg_date_id"
+        ref="field_res_partner_zoom_session__date_start"
+      />
+            <field name="filter_domain" eval="[('state', '=', 'planned')]" />
+            <field name="trg_date_range">-2</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="state">code</field>
+            <field name="code">
+records.send_reminder()
+            </field>
+        </record>
+    </data>
+</odoo>
