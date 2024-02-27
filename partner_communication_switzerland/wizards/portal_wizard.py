@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2018 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2018-2023 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -10,7 +10,7 @@
 
 import logging
 
-from odoo import api, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
 
@@ -24,14 +24,12 @@ class PortalWizard(models.TransientModel):
         "partner.communication.config", readonly=False
     )
 
-    @api.onchange("portal_id")
-    def onchange_portal_id(self):
+    def _default_user_ids(self):
         # set the values of the users created in the super method
-        # res = super().onchange_portal_id()
-
-        self.user_ids.write({"invitation_config_id": self.invitation_config_id.id})
-
-        return self
+        res = super()._default_user_ids()
+        for _x, _y, vals in res:
+            vals["invitation_config_id"] = self.invitation_config_id.id
+        return res
 
 
 class PortalWizardUser(models.TransientModel):

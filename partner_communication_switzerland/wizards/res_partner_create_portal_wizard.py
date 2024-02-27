@@ -9,7 +9,7 @@
 ##############################################################################
 
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class ResPartnerCreatePortalWizard(models.TransientModel):
@@ -17,7 +17,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
     with the identifier if the user used the checkbox"""
 
     _name = "res.partner.create.portal.wizard"
-    _description = "take a partner and make it a odoo user"
+    _description = "Take a partner and make it a odoo user"
 
     create_communication = fields.Boolean("Send an e-mail invitation", default=True)
 
@@ -26,7 +26,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
         "choose a communication",
         domain="[('model', '=', 'res.users')]",
         default=lambda self: self.env.ref(
-            "partner_communication_switzerland" ".portal_welcome_config"
+            "partner_communication_switzerland.portal_welcome_config"
         ).id,
         readonly=False,
     )
@@ -35,7 +35,6 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
         portal = self.env["portal.wizard"].create(
             {"invitation_config_id": self.config_id.id}
         )
-        portal.onchange_portal_id()
         users_portal = portal.mapped("user_ids")
         users_portal.write({"in_portal": True})
 
@@ -64,7 +63,6 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
                 "view_type": "form",
                 "view_mode": "tree,form",
                 "domain": [("id", "in", uid_communication.ids)],
-                "flags": {"action_buttons": True},
             }
         return action
 

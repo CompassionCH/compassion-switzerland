@@ -25,19 +25,12 @@ class ResPartner(models.Model):
     Add method to send all planned communication of sponsorships.
     """
 
-    _name = "res.partner"
-    _inherit = ["res.partner", "translatable.model"]
+    _inherit = "res.partner"
 
     tax_receipt_preference = fields.Selection(
         selection="_get_delivery_preference",
         compute="_compute_tax_receipt_preference",
         store=True,
-    )
-    letter_delivery_preference = fields.Selection(
-        selection="_get_delivery_preference",
-        default="auto_digital",
-        required=True,
-        help="Delivery preference for Child Letters",
     )
     no_physical_letter = fields.Boolean(
         compute="_compute_no_physical_letter",
@@ -176,12 +169,12 @@ class ResPartner(models.Model):
             )
 
     def _compute_new_donor(self):
-        invl_obj = self.env["account.invoice.line"].with_context(lang="en_US")
+        invl_obj = self.env["account.move.line"].with_context(lang="en_US")
         for partner in self:
             donation_invl = invl_obj.search(
                 [
                     ("partner_id", "=", partner.id),
-                    ("state", "=", "paid"),
+                    ("payment_state", "=", "paid"),
                     ("product_id.categ_name", "!=", "Sponsorship"),
                 ]
             )
@@ -310,11 +303,11 @@ class ResPartner(models.Model):
         today = date.today()
         start_date = today.replace(today.year - 1, 1, 1)
         end_date = today.replace(today.year - 1, 12, 31)
-        invoice_lines = self.env["account.invoice.line"].search(
+        invoice_lines = self.env["account.move.line"].search(
             [
                 ("last_payment", ">=", start_date),
                 ("last_payment", "<=", end_date),
-                ("state", "=", "paid"),
+                ("payment_state", "=", "paid"),
                 ("product_id.requires_thankyou", "=", True),
                 ("partner_id.tax_certificate", "!=", "no"),
             ]
@@ -467,7 +460,8 @@ class ResPartner(models.Model):
     @api.model
     def wp_transformation_call(self, last_call=False):
         """
-        CRON sending the communications at the beginning of the year when a W&P sponsor is turning 25.
+        CRON sending the communications at the beginning of the year when a
+        W&P sponsor is turning 25.
         - 1st communication proposing to contribute to his sponsorships
         - 2nd communication reminder (after 1 month)
         - 3rd communication last call (after 2 months)
@@ -513,7 +507,7 @@ class ResPartner(models.Model):
                     }
                 )
             if last_call:
-                # Happy birthday! Will transform or terminate sponsorships at birthday or in one month
+                # Will transform or terminate sponsorships at birthday or in one month
                 delay = max(
                     in_one_month,
                     wp_young.birthdate_date.replace(year=in_one_month.year),
@@ -523,8 +517,9 @@ class ResPartner(models.Model):
 
     def transform_wp_sponsorships(self):
         """
-        Called at the end of the W&P Journey: change communication preference, cancel sponsorships that are not
-        fully paid, and transition sponsorships that are paid. Opt-in people if possible.
+        Called at the end of the W&P Journey:
+        change communication preference, cancel sponsorships that are not fully paid,
+        and transition sponsorships that are paid. Opt-in people if possible.
         Send communication for further promoting W&P.
         """
         self.ensure_one()
@@ -542,7 +537,8 @@ class ResPartner(models.Model):
                     "partner_id": self.id,
                     "object_ids": to_tranform.ids,
                     "config_id": self.env.ref(
-                        "partner_communication_switzerland.wrpr_transformation_complete_config"
+                        "partner_communication_switzerland."
+                        "wrpr_transformation_complete_config"
                     ).id,
                 }
             )
@@ -557,10 +553,6 @@ class ResPartner(models.Model):
                     "keep_child_on_hold": True,
                 }
             ).end_contract()
-        self.env.cr.commit()
         if self.opt_out:
-            try:
-                self.opt_out = False
-            except:
-                _logger.error("Could not remove opt-out of W&P partner %s", self.ref)
+            self.opt_out = False
         return True

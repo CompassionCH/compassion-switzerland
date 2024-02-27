@@ -12,12 +12,10 @@ import logging
 from odoo import http
 from odoo.http import Controller, request
 
-from odoo.addons.cms_form.controllers.main import FormControllerMixin
-
 _logger = logging.getLogger(__name__)
 
 
-class OnboardingController(Controller, FormControllerMixin):
+class OnboardingController(Controller):
     @http.route(
         ["/onboarding/<string:onboarding_type>/unsubscribe/<string:onboarding_hash>"],
         type="http",
@@ -34,7 +32,7 @@ class OnboardingController(Controller, FormControllerMixin):
                 onboarding_hash, confirm_opt_out
             )
         else:
-            return http.request.render("website.404")
+            return http.request.render("website.page_404")
 
     def _new_donors_onboarding_unsubscribe(self, onboarding_hash, confirm_opt_out):
         partner = (
@@ -44,7 +42,7 @@ class OnboardingController(Controller, FormControllerMixin):
         )
 
         if not partner:
-            return http.request.render("website.404")
+            return http.request.render("website.page_404")
 
         if not confirm_opt_out:
             return request.render(

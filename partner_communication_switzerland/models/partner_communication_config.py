@@ -113,6 +113,7 @@ class PartnerCommunication(models.Model):
         }
 
     def _get_test_objects(self, partner, children=None):
+        object_ids = []
         if self.model == "res.partner":
             object_ids = partner.ids
         elif self.model == "recurring.contract":
@@ -123,26 +124,26 @@ class PartnerCommunication(models.Model):
         elif self.model == "correspondence":
             letters = partner.mapped("sponsorship_ids.child_letter_ids")
             if children:
-                letters = letters.filtered(lambda l: l.child_id in children)
+                letters = letters.filtered(lambda letter: letter.child_id in children)
             object_ids = letters.ids
         elif self.model == "compassion.child":
             selected_children = children or partner.sponsored_child_ids
             object_ids = selected_children.ids
-        elif self.model == "account.invoice.line":
+        elif self.model == "account.move.line":
             object_ids = (
-                self.env["account.invoice.line"]
+                self.env["account.move.line"]
                 .search(
                     [
                         ("partner_id", "=", partner.id),
-                        ("invoice_id.invoice_category", "=", "fund"),
+                        ("move_id.invoice_category", "=", "fund"),
                     ],
                     limit=4,
                 )
                 .ids
             )
-        elif self.model == "account.invoice":
+        elif self.model == "account.move":
             object_ids = (
-                self.env["account.invoice"]
+                self.env["account.move"]
                 .search([("partner_id", "=", partner.id)], limit=4)
                 .ids
             )

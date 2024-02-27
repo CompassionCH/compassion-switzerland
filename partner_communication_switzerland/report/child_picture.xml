@@ -19,9 +19,9 @@
         <field name="model">compassion.child</field>
         <field name="name">Child Picture</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">partner_communication_switzerland.child_picture</field>
-    </record>
-    <record id="report_child_picture" model="ir.actions.report">
+        <field
+      name="report_name"
+    >partner_communication_switzerland.child_picture</field>
         <field name="paperformat_id" ref="paperformat_child_picture" />
     </record>
 

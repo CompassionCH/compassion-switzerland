@@ -9,22 +9,19 @@
 ##############################################################################
 
 from . import child
-from . import lifecycle_events
-from . import compassion_hold
 from . import correspondence
 from . import mail_tracking_event
 from . import contracts
 from . import res_partner
-from . import disaster_alert
 from . import partner_communication
-from . import account_invoice
-from . import account_invoice_line
+from . import account_move
+from . import account_move_line
 from . import payment_order
 from . import staff_notifications_settings
-from . import sms_child_request
 from . import res_users
 from . import thankyou_config
 from . import res_partner_zoom_session
 from . import res_partner_zoom_attendee
 from . import field_office
 from . import partner_communication_config
+from . import res_company

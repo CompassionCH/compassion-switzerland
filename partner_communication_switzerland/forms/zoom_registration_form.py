@@ -75,9 +75,11 @@ class ZoomRegistrationForm(models.AbstractModel):
             else:
                 attendee = attendee_obj.create(values.copy())
             self.main_object = attendee
-        except IntegrityError:
+        except IntegrityError as e:
             # Make error message more friendly
-            raise IntegrityError(_("You are already registered for this session."))
+            raise IntegrityError(
+                _("You are already registered for this session.")
+            ) from e
 
     def form_after_create_or_update(self, values, extra_values):
         if extra_values.get("inform_me_for_next_zoom"):
@@ -89,5 +91,5 @@ class ZoomRegistrationForm(models.AbstractModel):
     @property
     def form_msg_success_created(self):
         return _(
-            "Thank you for your registration," "you will get a confirmation by email."
+            "Thank you for your registration, you will get a confirmation by email."
         )

@@ -43,7 +43,9 @@
             >An email will be sent to you one or two days before the conference <b
               >with the link to connect through Zoom.</b></p>
                     </div>
-                    <div t-raw="form.form_render()" class="mt-4 pt-4" />
+                    <t
+            t-call="partner_communication_switzerland.zoom_registration_form"
+          />
                 </div>
             </div>
         </t>
@@ -68,5 +70,18 @@
                 </t>
             </div>
         </t>
+    </template>
+    <record model="website.page" id="zoom_registration_done_page">
+        <field name="name">Zoom registration done</field>
+        <field name="url">/zoom/register/confirm</field>
+        <field
+      name="view_id"
+      ref="partner_communication_switzerland.zoom_registration_done_template"
+    />
+        <field name="website_published">True</field>
+    </record>
+
+    <template id="zoom_registration_form" name="Zoom registration form">
+        <div class="oe_structure mt-4 pt-4" />
     </template>
 </odoo>

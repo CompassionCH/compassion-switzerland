@@ -3,3 +3,6 @@ read_access_zoom_session,Read access on zoom sessions,model_res_partner_zoom_ses
 full_access_zoom_session,Full access on zoom sessions,model_res_partner_zoom_session,child_compassion.group_sponsorship,1,1,1,1
 create_access_zoom_attendee,Create access on zoom attendees,model_res_partner_zoom_attendee,base.group_portal,1,1,1,0
 full_access_zoom_attendee,Full access on zoom attendees,model_res_partner_zoom_attendee,child_compassion.group_sponsorship,1,1,1,1
+child_order_picture_access,Child order picture access,model_child_order_picture_wizard,child_compassion.group_sponsorship,1,1,1,1
+communication_test_cases_access,Child order picture access,model_partner_communication_test_cases_wizard,child_compassion.group_sponsorship,1,1,1,1
+create_partner_portal_access,Child order picture access,model_res_partner_create_portal_wizard,child_compassion.group_sponsorship,1,1,1,1

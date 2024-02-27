@@ -14,7 +14,7 @@ import tempfile
 from io import BytesIO
 from zipfile import ZipFile
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -30,6 +30,7 @@ except ImportError:
 class CompassionHold(models.TransientModel):
     _inherit = "mail.activity.mixin"
     _name = "child.order.picture.wizard"
+    _description = "Order child pictures"
 
     sponsorship_ids = fields.Many2many(
         "recurring.contract",
@@ -84,7 +85,7 @@ class CompassionHold(models.TransientModel):
         sponsorships.write({"order_photo": False})
         # Log a note to recover the sponsorships in case the ZIP is lost
         for s in sponsorships:
-            s.message_post("Picture ordered.")
+            s.message_post(_("Picture ordered."))
         return res
 
     def _make_zip(self):
@@ -99,7 +100,7 @@ class CompassionHold(models.TransientModel):
             report_ref = self.env.ref(
                 "partner_communication_switzerland.report_child_picture"
             ).with_context(must_skip_send_to_printer=True)
-            pdf_data = report_ref.render_qweb_pdf(
+            pdf_data = report_ref._render_qweb_pdf(
                 children.ids, data={"doc_ids": children.ids}
             )[0]
             pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()

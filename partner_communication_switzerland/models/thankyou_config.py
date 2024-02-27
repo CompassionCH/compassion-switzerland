@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import api, models
+from odoo import models
 
 
 class ThankYouConfig(models.Model):

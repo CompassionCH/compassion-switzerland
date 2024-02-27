@@ -9,7 +9,7 @@
 ##############################################################################
 import base64
 import logging
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 
@@ -25,8 +25,7 @@ class RecurringContract(models.Model):
     Add method to send all planned communication of sponsorships.
     """
 
-    _inherit = ["recurring.contract", "translatable.model"]
-    _name = "recurring.contract"
+    _inherit = "recurring.contract"
 
     ##########################################################################
     #                                 FIELDS                                 #
@@ -38,21 +37,8 @@ class RecurringContract(models.Model):
     birthday_paid = fields.Many2many(
         "sponsorship.gift", compute="_compute_birthday_paid", readonly=False
     )
-    due_invoice_ids = fields.Many2many(
-        "account.invoice", compute="_compute_due_invoices", store=True, readonly=False
-    )
-    period_paid = fields.Boolean(
-        compute="_compute_period_paid",
-        help="Tells if the advance billing period is already paid",
-    )
-    months_due = fields.Integer(compute="_compute_due_invoices", store=True)
-    send_introduction_letter = fields.Boolean(
-        string="Send B2S intro letter to sponsor", default=True
-    )
     origin_type = fields.Selection(related="origin_id.type")
     origin_name = fields.Char(related="origin_id.name")
-    is_first_sponsorship = fields.Boolean(readonly=True)
-
     onboarding_start_date = fields.Date(
         help="Indicates when the first email of " "the onboarding process was sent.",
         copy=False,
@@ -82,20 +68,6 @@ class RecurringContract(models.Model):
                     "Write&Pray, or use the 'Correspondence' type otherwise.",
                 }
             }
-
-    @api.onchange("correspondent_id")
-    def onchange_correspondent(self):
-        if self.is_active:
-            self.send_introduction_letter = False
-
-    @api.onchange("origin_id")
-    def _do_not_send_letter_to_transfer(self):
-        if self.origin_id.type == "transfer" or self.origin_id.name == "Reinstatement":
-            self.send_introduction_letter = False
-        # If origin is switched back from a transer,
-        # field should be reset to default
-        else:
-            self.send_introduction_letter = True
 
     def get_payment_type_attachment_string(self):
         payment_mode = (
@@ -154,107 +126,9 @@ class RecurringContract(models.Model):
                 ]
             )
 
-    @api.depends("invoice_line_ids", "invoice_line_ids.state")
-    def _compute_due_invoices(self):
-        """
-        Useful for reminders giving open invoices in the past.
-        """
-        this_month = date.today().replace(day=1)
-        for contract in self:
-            if (
-                contract.child_id.project_id.suspension != "fund-suspended"
-                and contract.type not in ["SC", "SWP"]
-            ):
-                invoice_lines = contract.invoice_line_ids.with_context(
-                    lang="en_US"
-                ).filtered(
-                    lambda i: i.state == "open"
-                    and i.due_date < this_month
-                    and i.invoice_id.invoice_category != "gift"
-                )
-                contract.due_invoice_ids = invoice_lines.mapped("invoice_id")
-                contract.amount_due = int(sum(invoice_lines.mapped("price_subtotal")))
-                months = set()
-                for invoice in invoice_lines.mapped("invoice_id"):
-                    idate = invoice.date
-                    months.add((idate.month, idate.year))
-                contract.months_due = len(months)
-            else:
-                contract.months_due = 0
-
-    def _compute_period_paid(self):
-        for contract in self:
-            advance_billing = contract.group_id.advance_billing_months
-            this_month = date.today().month
-            # Don't consider next year in the period to pay
-            to_pay_period = min(this_month + advance_billing, 12)
-            # Exception for december, we will consider next year
-            if this_month == 12:
-                to_pay_period += advance_billing
-            contract.period_paid = contract.months_paid >= to_pay_period
-
-    def compute_due_invoices(self):
-        self._compute_due_invoices()
-        return True
-
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    def send_communication(self, communication, correspondent=True, both=False):
-        """
-        Sends a communication to selected sponsorships.
-        :param communication: the communication config to use
-        :param correspondent: put to false for sending to payer instead of
-                              correspondent.
-        :param both:          send to both correspondent and payer
-                              (overrides the previous parameter)
-        :return: communication created recordset
-        """
-        partner_field = "correspondent_id" if correspondent else "partner_id"
-        partners = self.mapped(partner_field)
-        communications = self.env["partner.communication.job"]
-        if both:
-            for contract in self:
-                communications += self.env["partner.communication.job"].create(
-                    {
-                        "config_id": communication.id,
-                        "partner_id": contract.partner_id.id,
-                        "object_ids": self.env.context.get(
-                            "default_object_ids", contract.id
-                        ),
-                        "user_id": communication.user_id.id,
-                    }
-                )
-                if contract.correspondent_id != contract.partner_id:
-                    communications += self.env["partner.communication.job"].create(
-                        {
-                            "config_id": communication.id,
-                            "partner_id": contract.correspondent_id.id,
-                            "object_ids": self.env.context.get(
-                                "default_object_ids", contract.id
-                            ),
-                            "user_id": communication.user_id.id,
-                        }
-                    )
-        else:
-            for partner in partners:
-                objects = self.filtered(
-                    lambda c: c.correspondent_id == partner
-                    if correspondent
-                    else c.partner_id == partner
-                )
-                communications += self.env["partner.communication.job"].create(
-                    {
-                        "config_id": communication.id,
-                        "partner_id": partner.id,
-                        "object_ids": self.env.context.get(
-                            "default_object_ids", objects.ids
-                        ),
-                        "user_id": communication.user_id.id,
-                    }
-                )
-        return communications
-
     @api.model
     def send_daily_communication(self):
         """
@@ -381,76 +255,6 @@ class RecurringContract(models.Model):
             )
         )
 
-    @api.model
-    def send_sponsorship_reminders(self):
-        logger.info("Creating Sponsorship Reminders")
-        today = datetime.now()
-        first_day_of_month = date(today.year, today.month, 1)
-        first_reminder_config = self.env.ref(
-            "partner_communication_switzerland.sponsorship_reminder_1"
-        )
-        second_reminder_config = self.env.ref(
-            "partner_communication_switzerland.sponsorship_reminder_2"
-        )
-        first_reminder = self.with_context(
-            default_print_subject=False,
-            default_auto_send=False,
-            default_print_header=True,
-        )
-        second_reminder = self.with_context(
-            default_print_subject=False,
-            default_auto_send=False,
-            default_print_header=True,
-        )
-        twenty_ago = today - relativedelta(days=20)
-        comm_obj = self.env["partner.communication.job"]
-        search_domain = [
-            ("state", "in", ("active", "mandate")),
-            ("global_id", "!=", False),
-            ("type", "like", "S"),
-            "|",
-            ("child_id.project_id.suspension", "!=", "fund-suspended"),
-            ("child_id.project_id.suspension", "=", False),
-        ]
-
-        for sponsorship in self.search(search_domain + [("months_due", ">", 1)]):
-            reminder_search = [
-                (
-                    "config_id",
-                    "in",
-                    [first_reminder_config.id, second_reminder_config.id],
-                ),
-                ("state", "=", "done"),
-                ("object_ids", "like", str(sponsorship.id)),
-            ]
-            # Look if first reminder was sent previous month (send second
-            # reminder in that case)
-            # avoid taking into account reminder that the partner already took care of
-            # we substract month due to the first of the month to get the older threshold
-            # this also prevent reminder_1 to be sent after an already sent reminder_2
-            older_threshold = first_day_of_month - relativedelta(
-                months=sponsorship.months_due
-            )
-
-            has_first_reminder = comm_obj.search_count(
-                reminder_search
-                + [("sent_date", ">=", older_threshold), ("sent_date", "<", twenty_ago)]
-            )
-            if has_first_reminder:
-                second_reminder += sponsorship
-            else:
-                # Send first reminder only if one was not already sent less
-                # than twenty days ago
-                has_first_reminder = comm_obj.search_count(
-                    reminder_search + [("sent_date", ">=", twenty_ago)]
-                )
-                if not has_first_reminder:
-                    first_reminder += sponsorship
-        first_reminder.send_communication(first_reminder_config, correspondent=False)
-        second_reminder.send_communication(second_reminder_config, correspondent=False)
-        logger.info("Sponsorship Reminders created!")
-        return True
-
     def get_bvr_gift_attachment(self, products, background=False):
         """
         Get a BVR communication attachment for given gift products.
@@ -535,8 +339,8 @@ class RecurringContract(models.Model):
                 date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
                 summary=_("Notify partner of new sponsorship"),
                 note=_(
-                    "A sponsorship was added to a partner with the communication settings set to \"don't "
-                    + 'inform", please notify him of it'
+                    "A sponsorship was added to a partner with the communication "
+                    'settings set to "don\'t inform", please notify him of it'
                 ),
                 user_id=sds_user.id,
             )
@@ -547,9 +351,9 @@ class RecurringContract(models.Model):
 
         for contract in self:
             old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
-                lambda c: c.state != "cancelled"
+                lambda c, ref=contract: c.state != "cancelled"
                 and c.start_date
-                and c.start_date < contract.start_date
+                and c.start_date < ref.start_date
             )
             contract.is_first_sponsorship = not old_sponsorships
 
@@ -558,8 +362,8 @@ class RecurringContract(models.Model):
                 contract.correspondent_id.global_communication_delivery_preference
                 == "none"
             ):
-                # Notify the same SDS partner as the one notified when a sponsorship is created from the website
-                # so that we can manage partner language
+                # Notify the same SDS partner as the one notified when a sponsorship
+                # is created from the website so that we can manage partner language
                 self.notify_sds_new_sponsorship()
 
         self.filtered(
@@ -599,46 +403,9 @@ class RecurringContract(models.Model):
         wp._new_dossier()
         return True
 
-    def contract_terminated(self):
-        super().contract_terminated()
-        if self.child_id:
-            self.child_id.sponsorship_ids[0].order_photo = False
-        return True
-
-    def contract_cancelled(self):
-        # Remove pending communications
-        for contract in self:
-            self.env["partner.communication.job"].search(
-                [
-                    ("config_id.model_id.model", "=", self._name),
-                    "|",
-                    ("partner_id", "=", contract.partner_id.id),
-                    ("partner_id", "=", contract.correspondent_id.id),
-                    ("object_ids", "like", contract.id),
-                    ("state", "=", "pending"),
-                ]
-            ).unlink()
-        super().contract_cancelled()
-        return True
-
-    def action_cancel_draft(self):
-        """Cancel communication"""
-        super().action_cancel_draft()
-        cancel_config = self.env.ref(
-            "partner_communication_switzerland.sponsorship_cancellation"
-        )
-        for contract in self:
-            self.env["partner.communication.job"].search(
-                [
-                    ("config_id", "=", cancel_config.id),
-                    "|",
-                    ("partner_id", "=", contract.partner_id.id),
-                    ("partner_id", "=", contract.correspondent_id.id),
-                    ("object_ids", "like", contract.id),
-                    ("state", "=", "pending"),
-                ]
-            ).unlink()
-        return True
+    def _contract_terminated(self, vals):
+        vals["order_photo"] = False
+        return super()._contract_terminated(vals)
 
     def cancel_sub_validation(self):
         return self.write({"sub_proposal_date": False})
@@ -675,7 +442,7 @@ class RecurringContract(models.Model):
                 ("correspondent_id.mobile", "!=", False),
                 ("correspondent_id.lang", "not in", ["it_IT", "en_US"]),
                 ("total_amount", ">", 0),
-                ("invoice_line_ids.state", "!=", "paid"),
+                ("invoice_line_ids.payment_state", "!=", "paid"),
             ]
         )
         contribution_reminder = self.env.ref(
@@ -706,94 +473,9 @@ class RecurringContract(models.Model):
         # first_reminder.send()  (not sure if we want to send it automatically)
         return True
 
-    def confirm_upgrade(self):
-        """
-        Called by MyCompassion when sponsors increase his contribution.
-        - Change partner if it's Donors of Compassion (in case of Write and Pray) and setup payment options
-        - Send communication for confirmation
-        """
-        self.ensure_one()
-        config = self.env.ref(
-            "partner_communication_switzerland.sponsorship_upgrade_config"
-        )
-        if self.type == "SWP":
-            donors = self.env["res.partner"].search(
-                [("name", "=", "Donors of Compassion")], limit=1
-            )
-            if donors and self.partner_id == donors:
-                self.partner_id = self.correspondent_id
-                self.on_change_partner_id()
-                if not self.group_id:
-                    self.group_id = self.env["recurring.contract.group"].create(
-                        {
-                            "partner_id": self.partner_id.id,
-                            "payment_mode_id": self.env.ref(
-                                "sponsorship_switzerland.payment_mode_permanent_order"
-                            ).id,
-                        }
-                    )
-                    self.group_id.on_change_payment_mode()
-            if self.total_amount >= 42:
-                # The sponsorship will transform to regular sponsorship.
-                config = self.env.ref(
-                    "partner_communication_switzerland.wrpr_transformation_confirmation_config"
-                )
-                # TODO CP-134 update communication preferences to remove SMS
-        self.send_communication(config, correspondent=False)
-        return True
-
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _on_sponsorship_finished(self):
-        super()._on_sponsorship_finished()
-        cancellation = self.env.ref(
-            "partner_communication_switzerland.sponsorship_cancellation"
-        )
-        no_sub = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        depart = self.env.ref("sponsorship_compassion.end_reason_depart")
-
-        # prevent normal communication on unexpected hold end. in this particular case
-        # a special communication will be send.
-        s_to_notify = self.filtered(lambda s: not s._is_unexpected_end())
-
-        # Send cancellation for regular sponsorships
-        s_to_notify.filtered(
-            lambda s: s.end_reason_id != depart and not s.parent_id
-        ).with_context({}).send_communication(cancellation, both=True)
-        # Send NO SUB letter if activation is less than two weeks ago
-        # otherwise send Cancellation letter for SUB sponsorships
-        activation_limit = date.today() - relativedelta(days=15)
-        s_to_notify.filtered(
-            lambda s: s.end_reason_id != depart
-            and s.parent_id
-            and (
-                s.activation_date
-                and fields.Date.from_string(s.activation_date) < activation_limit
-            )
-        ).with_context({}).send_communication(cancellation, both=True)
-        s_to_notify.filtered(
-            lambda s: s.end_reason_id != depart
-            and s.parent_id
-            and (
-                not s.activation_date
-                or fields.Date.from_string(s.activation_date) >= activation_limit
-            )
-        ).with_context({}).send_communication(no_sub, both=True)
-
-    def _is_unexpected_end(self):
-        """Check if sponsorship hold had an unexpected end or not."""
-        self.ensure_one()
-
-        # subreject could happened before hold expiration and should not be considered
-        # as unexpected
-        subreject = self.env.ref("sponsorship_compassion.end_reason_subreject")
-
-        if self.end_reason_id == subreject:
-            return False
-
-        return self.hold_id and datetime.now() <= self.hold_id.expiration_date
-
     def _new_dossier(self):
         """
         Sends the dossier of the new sponsorship to both payer and
@@ -817,17 +499,14 @@ class RecurringContract(models.Model):
         :return: None
         """
         self.ensure_one()
-        module = "partner_communication_switzerland."
-        new_dossier = self.env.ref(
-            module + "config_onboarding_sponsorship_confirmation"
-        )
-        print_dossier = self.env.ref(module + "planned_dossier")
-        wrpr_welcome = self.env.ref(module + "config_wrpr_welcome")
-        transfer = self.env.ref(module + "new_dossier_transfer")
-        child_picture = self.env.ref(module + "config_onboarding_photo_by_post")
-        survival_config = self.env.ref(module + "csp_1") + self.env.ref(
-            module + "csp_2a"
-        )
+        swiss = "partner_communication_switzerland."
+        common = "partner_communication_compassion."
+        new_dossier = self.env.ref(swiss + "config_onboarding_sponsorship_confirmation")
+        print_dossier = self.env.ref(common + "planned_dossier")
+        wrpr_welcome = self.env.ref(swiss + "config_wrpr_welcome")
+        transfer = self.env.ref(swiss + "new_dossier_transfer")
+        child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
+        survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send

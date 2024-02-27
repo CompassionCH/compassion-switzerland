@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2023 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+    _inherit = "account.move"
 
     @api.model
     def thankyou_summary_cron(self):
@@ -44,9 +44,9 @@ class AccountInvoice(models.Model):
         )
         invoices = self.search(
             [
-                ("type", "=", "out_invoice"),
+                ("move_type", "=", "out_invoice"),
                 ("invoice_category", "!=", "sponsorship"),
-                ("state", "=", "paid"),
+                ("payment_state", "=", "paid"),
                 ("last_payment", ">=", last_month),
                 ("last_payment", "<", first),
             ]
@@ -62,43 +62,6 @@ class AccountInvoice(models.Model):
             )
         return True
 
-    def generate_thank_you(self):
-        """
-        Creates a thank you letter communication separating events thank you
-        and regular thank you.
-        override thankyou_letters.generate_thank_you()
-        """
-        partners = self.mapped("partner_id").filtered(
-            lambda p: p.thankyou_preference != "none"
-        )
-        gift_category = self.env.ref("sponsorship_compassion.product_category_gift")
-        delay = datetime.now() + relativedelta(seconds=10)
-        for partner in partners:
-            invoice_lines = self.mapped("invoice_line_ids").filtered(
-                lambda l: l.partner_id == partner
-            )
-            event_thank = invoice_lines.filtered("event_id")
-            other_thank = invoice_lines - event_thank
-            for event in event_thank.mapped("event_id"):
-                event_thank.filtered(lambda l: l.event_id == event).with_delay(
-                    eta=delay
-                ).generate_thank_you()
-            if other_thank:
-                other_thank.with_delay(eta=delay).generate_thank_you()
-
-        # Send confirmation to ambassadors
-        ambassadors = self.mapped("invoice_line_ids.user_id")
-        for ambassador in ambassadors:
-            # Filter only donations not for made for himself and filter
-            # gifts that are thanked but not directly for ambassador.
-            ambassador_lines = self.mapped("invoice_line_ids").filtered(
-                lambda l: l.user_id == ambassador
-                and l.partner_id != ambassador
-                and l.product_id.categ_id != gift_category
-            )
-            if ambassador_lines:
-                ambassador_lines.with_delay(eta=delay).send_receipt_to_ambassador()
-
     def _filter_invoice_to_thank(self):
         """
         Given a recordset of paid invoices, return only those that have
@@ -107,7 +70,7 @@ class AccountInvoice(models.Model):
         override thankyou_letters._filter_invoice_to_thanks()
         """
         return self.filtered(
-            lambda i: i.type == "out_invoice"
+            lambda i: i.move_type == "out_invoice"
             and not i.avoid_thankyou_letter
             and (
                 not i.communication_id
@@ -120,7 +83,12 @@ class AccountInvoice(models.Model):
                 # But, can be thanked if it's a spontaneous gift
                 or (
                     i.invoice_category == "gift"
-                    and i.origin != "Automatic birthday gift"
+                    and not any(
+                        [
+                            "Automatic" in name
+                            for name in i.mapped("invoice_line_ids.name")
+                        ]
+                    )
                     and not self.env["recurring.contract.line"].search_count(
                         [
                             ("contract_id.type", "=", "G"),
@@ -135,17 +103,3 @@ class AccountInvoice(models.Model):
                 )
             )
         )
-
-    def _group_or_split_reconcile(self):
-        """Reconcile given invoices with partner open payments."""
-        super()._group_or_split_reconcile()
-        # Find if a communication with payment slips is pending and
-        # regenerate it.
-        jobs = self.env["partner.communication.job"].search(
-            [
-                ("model", "in", ["recurring.contract", "account.invoice"]),
-                ("state", "!=", "done"),
-                ("partner_id", "in", self.mapped("partner_id").ids),
-            ]
-        )
-        jobs.refresh_text()

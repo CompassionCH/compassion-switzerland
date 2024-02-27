@@ -7,31 +7,6 @@
       ref="partner_communication.generate_communication_wizard_form"
     />
         <field name="arch" type="xml">
-            <field name="selection_domain" position="before">
-                <field name="res_model" widget="radio" />
-            </field>
-            <field name="selection_domain" position="attributes">
-                <attribute name="options">{'model': 'res_model'}</attribute>
-                <attribute name="string">Selection</attribute>
-            </field>
-            <field name="partner_ids" position="after">
-                <field
-          name="sponsorship_ids"
-          widget="many2many_tags"
-          invisible="1"
-        />
-                <field
-          name="partner_source"
-          attrs="{'invisible': [('res_model', '!=', 'recurring.contract')]}"
-          widget="radio"
-        />
-            </field>
-            <field name="model_id" position="attributes">
-                <attribute
-          name="attrs"
-        >{'required': [('res_model', '=', 'recurring.contract')]}</attribute>
-                <attribute name="domain">[('model', '=', res_model)]</attribute>
-            </field>
             <field name="force_language" position="after">
                 <field
           name="sms_provider_id"
@@ -59,17 +34,4 @@
             </field>
         </field>
     </record>
-
-    <!-- Add action in sponsorships to generate communications -->
-    <act_window
-    id="action_generate_communication"
-    key2="client_action_multi"
-    name="Generate Communications"
-    res_model="partner.communication.generate.wizard"
-    binding_model="recurring.contract"
-    view_mode="form"
-    target="new"
-    view_type="form"
-    context="{'default_res_model': 'recurring.contract', 'default_selection_domain': [('id', 'in', active_ids)]}"
-  />
 </odoo>

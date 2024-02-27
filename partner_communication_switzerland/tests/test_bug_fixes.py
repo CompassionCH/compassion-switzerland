@@ -240,7 +240,7 @@ class TestSponsorship(BaseSponsorshipTest):
         }
         letter = self.env["correspondence"].create(correspondence_data)
 
-        config = self.env.ref("partner_communication_switzerland.child_letter_config")
+        config = self.env.ref("partner_communication_compassion.child_letter_config")
         job = self.env["partner.communication.job"].create(
             {
                 "partner_id": self.michel.id,
