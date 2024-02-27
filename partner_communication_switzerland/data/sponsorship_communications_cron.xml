@@ -1,0 +1,152 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Reccuring CRONs that cannot be replaced by automated actions -->
+        <record id="sponsorship_daily_communication_cron" model="ir.cron">
+            <field name="name">Send daily sponsorship communication</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="state">code</field>
+            <field name="code">model.send_daily_communication()</field>
+            <field name="active" eval="False" />
+        </record>
+        <record id="sponsorship_reminders_cron" model="ir.cron">
+            <field name="name">Send sponsorship reminders</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="state">code</field>
+            <field name="code">model.send_sponsorship_reminders()</field>
+            <field name="active" eval="False" />
+        </record>
+        <record id="yearly_tax_receipt_cron" model="ir.cron">
+            <field name="name">Generate tax receipts</field>
+            <field name="interval_number">12</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="model_id" ref="model_res_partner" />
+            <field name="state">code</field>
+            <field name="code">model.generate_tax_receipts()</field>
+            <field name="active" eval="False" />
+        </record>
+    </data>
+
+    <!-- Sponsorship anniversaries (1, 3, 5, 10 and 15 years) -->
+    <record
+    id="sponsorship_anniversary_1_communication"
+    model="base.automation"
+  >
+        <field
+      name="name"
+    >Send sponsorship anniversary 1 year communication</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="config_id" ref="planned_anniversary_1" />
+        <field name="state">communication</field>
+        <field name="partner_field">correspondent_id</field>
+        <field
+      name="filter_domain"
+    >[("state", "=", "active"), ("child_id", "!=", False),("correspondent_id.sponsorship_anniversary_card", "=", True)]</field>
+        <field name="last_run" eval="datetime.now()" />
+        <field name="trigger">on_time</field>
+        <field
+      name="trg_date_id"
+      ref="recurring_contract.field_recurring_contract__start_date"
+    />
+        <field name="trg_date_range">12</field>
+        <field name="trg_date_range_type">month</field>
+    </record>
+    <record
+    id="sponsorship_anniversary_3_communication"
+    model="base.automation"
+  >
+        <field
+      name="name"
+    >Send sponsorship anniversary 3 years communication</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="config_id" ref="planned_anniversary_3" />
+        <field name="state">communication</field>
+        <field name="partner_field">correspondent_id</field>
+        <field
+      name="filter_domain"
+    >[("state", "=", "active"), ("child_id", "!=", False),("correspondent_id.sponsorship_anniversary_card", "=", True)]</field>
+        <field name="last_run" eval="datetime.now()" />
+        <field name="trigger">on_time</field>
+        <field
+      name="trg_date_id"
+      ref="recurring_contract.field_recurring_contract__start_date"
+    />
+        <field name="trg_date_range">36</field>
+        <field name="trg_date_range_type">month</field>
+    </record>
+    <record
+    id="sponsorship_anniversary_5_communication"
+    model="base.automation"
+  >
+        <field
+      name="name"
+    >Send sponsorship anniversary 5 years communication</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="config_id" ref="planned_anniversary_5" />
+        <field name="state">communication</field>
+        <field name="partner_field">correspondent_id</field>
+        <field
+      name="filter_domain"
+    >[("state", "=", "active"), ("child_id", "!=", False),("correspondent_id.sponsorship_anniversary_card", "=", True)]</field>
+        <field name="last_run" eval="datetime.now()" />
+        <field name="trigger">on_time</field>
+        <field
+      name="trg_date_id"
+      ref="recurring_contract.field_recurring_contract__start_date"
+    />
+        <field name="trg_date_range">60</field>
+        <field name="trg_date_range_type">month</field>
+    </record>
+    <record
+    id="sponsorship_anniversary_10_communication"
+    model="base.automation"
+  >
+        <field
+      name="name"
+    >Send sponsorship anniversary 10 years communication</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="config_id" ref="planned_anniversary_10" />
+        <field name="state">communication</field>
+        <field name="partner_field">correspondent_id</field>
+        <field
+      name="filter_domain"
+    >[("state", "=", "active"), ("child_id", "!=", False),("correspondent_id.sponsorship_anniversary_card", "=", True)]</field>
+        <field name="last_run" eval="datetime.now()" />
+        <field name="trigger">on_time</field>
+        <field
+      name="trg_date_id"
+      ref="recurring_contract.field_recurring_contract__start_date"
+    />
+        <field name="trg_date_range">120</field>
+        <field name="trg_date_range_type">month</field>
+    </record>
+    <record
+    id="sponsorship_anniversary_15_communication"
+    model="base.automation"
+  >
+        <field
+      name="name"
+    >Send sponsorship anniversary 15 years communication</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="config_id" ref="planned_anniversary_15" />
+        <field name="state">communication</field>
+        <field name="partner_field">correspondent_id</field>
+        <field
+      name="filter_domain"
+    >[("state", "=", "active"), ("child_id", "!=", False),("correspondent_id.sponsorship_anniversary_card", "=", True)]</field>
+        <field name="last_run" eval="datetime.now()" />
+        <field name="trigger">on_time</field>
+        <field
+      name="trg_date_id"
+      ref="recurring_contract.field_recurring_contract__start_date"
+    />
+        <field name="trg_date_range">180</field>
+        <field name="trg_date_range_type">month</field>
+    </record>
+</odoo>

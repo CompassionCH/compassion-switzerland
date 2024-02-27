@@ -1,0 +1,32 @@
+<odoo>
+    <report
+    id="report_csp_picture"
+    model="compassion.child"
+    string="CSP Picture"
+    report_type="qweb-pdf"
+    name="partner_communication_switzerland.csp_picture"
+  />
+    <record id="report_csp_picture" model="ir.actions.report">
+        <field name="paperformat_id" ref="paperformat_child_picture" />
+    </record>
+
+    <template id="csp_picture">
+        <t t-call="web.html_container">
+            <div class="article">
+                    <div class="page">
+                        <style type="text/css">
+img {
+  width: 101mm;
+  height: 153mm;
+  position: absolute;
+  object-fit: fill;
+}
+          </style>
+                        <img
+            t-attf-src="https://compassion.ch/medias/csp/#{FO}_motherpic.jpg"
+          />
+                    </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,43 @@
+<odoo>
+    <data noupdate="1">
+        <record id="label_print_sponsorship" model="label.print">
+            <field name="name">Sponsorship Label</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="padding_top">3.0</field>
+            <field name="padding_left">3.0</field>
+            <field name="padding_bottom">1.0</field>
+            <field name="padding_right">1.0</field>
+            <field name="barcode_width">20.0</field>
+            <field name="barcode_height">20.0</field>
+        </record>
+
+        <record id="label_print_field_ref" model="label.print.field">
+            <field name="report_id" ref="label_print_sponsorship" />
+            <field name="field_id" search="[('name', '=', 'partner_codega')]" />
+            <field name="type">barcode</field>
+            <field name="python_expression" eval="True" />
+            <field name="fontsize">12.0</field>
+            <field
+        name="python_field"
+      >obj.partner_codega + 'XX' + obj.child_code</field>
+        </record>
+        <record id="label_print_field_sponsor_name" model="label.print.field">
+            <field name="report_id" ref="label_print_sponsorship" />
+            <field name="type">normal</field>
+            <field name="python_expression" eval="True" />
+            <field name="fontsize">12.0</field>
+            <field
+        name="python_field"
+      >obj.partner_codega + ' - ' + obj.correspondent_id.preferred_name</field>
+        </record>
+        <record id="label_print_field_child_name" model="label.print.field">
+            <field name="report_id" ref="label_print_sponsorship" />
+            <field name="type">normal</field>
+            <field name="python_expression" eval="True" />
+            <field name="fontsize">12.0</field>
+            <field
+        name="python_field"
+      >obj.child_code + ' - ' + obj.child_id.preferred_name</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,79 @@
+<odoo>
+    <record id="paperformat_photo_by_post" model="report.paperformat">
+        <field name="name">Onboarding photo by post</field>
+        <field name="default" eval="True" />
+        <field name="format">A5</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">7</field>
+        <field name="margin_bottom">7</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <report
+    id="report_onboarding_photo_by_post"
+    model="partner.communication.job"
+    string="Onboarding photo by post"
+    report_type="qweb-pdf"
+    name="partner_communication_switzerland.onboarding_photo_by_post"
+  />
+    <record id="report_child_picture" model="ir.actions.report">
+        <field name="paperformat_id" ref="paperformat_child_picture" />
+    </record>
+
+    <template id="onboarding_photo_by_post">
+        <t t-call="web.html_container">
+            <div class="article">
+                <t t-set="custom_css">
+                .container {
+                    font-family: "millerLight";
+                    font-size: 10pt;
+                }
+                #body {
+                    width: 100%;
+                    height: 100%;
+                    margin-top: 10mm;
+                }
+                #map {
+                    position: absolute;
+                    top: 64mm;
+                    left: 127mm;
+                    width: 70mm;
+                    height: 70mm;
+                }
+                .blue {
+                    color: #0054A6;
+                }
+                .grey {
+                    color: #505050;
+                }
+            </t>
+                <t t-foreach="docs" t-as="o">
+                    <t
+            t-set="country"
+            t-value="o.get_objects().mapped('child_id.field_office_id.country_code')"
+          />
+                    <div class="page">
+                        <t t-call="report_compassion.style" />
+                        <div id="body" class="grey">
+                            <span t-raw="o.body_html" />
+                        </div>
+                        <div
+              id="map"
+              t-if="len(country) == 1 and o.partner_id.lang != 'en_US'"
+            >
+                            <img
+                t-attf-src="/partner_communication_switzerland/static/src/img/{{country[0]}}_{{o.partner_id.lang[:2]}}.png"
+                width="100%"
+                height="100%"
+              />
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

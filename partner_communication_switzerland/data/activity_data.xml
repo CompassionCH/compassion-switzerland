@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Activity to inform partners with no communications settings of new sponsorships -->
+    <record
+    id="activity_check_partner_no_communication"
+    model="mail.activity.type"
+  >
+        <field name="name">Notify sponsor of new sponsorship</field>
+        <field name="icon">fa-tasks</field>
+        <field name="res_model_id" ref="base.model_res_partner" />
+    </record>
+</odoo>

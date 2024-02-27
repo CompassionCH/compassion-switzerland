@@ -1,0 +1,142 @@
+<odoo>
+    <data noupdate="1">
+        <record id="event_letter_template" model="mail.template">
+            <field name="name">Event Donation - Thank You Letter</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field name="subject">Donation Receipt</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set invoice_lines = object.get_objects()
+                    % set donations = invoice_lines.get_donations()
+                    % set partner = object.partner_id
+                    % set ambassadors = invoice_lines.mapped('user_id').filtered('thank_you_quote')
+                </div>
+                <div>
+                    ${partner.salutation},
+                    <br />
+                    <br />
+                    Compassion Switzerland thank you so much for your generous donation of CHF ${donations[0]}.- you made
+                    % if donations[1]:
+                        % if len(ambassadors) == 1:
+                            <!-- space --> for ${ambassadors.firstname} ${ambassadors.lastname}
+                        % else:
+                            <!-- space --> (${donations[1]}).
+                        % endif
+                    % else
+                        .
+                    % endif
+                    <br />
+                    <br />
+                    % if len(ambassadors) == 1:
+                        <div id="thank_you_quote">
+                            ${ambassadors.thank_you_quote |safe}
+                        </div>
+                    % endif
+                    % if object.event_id.thank_you_text:
+                        ${object.event_id.thank_you_text |safe}
+                    % endif
+                    % if partner.number_sponsorships:
+                        Did you write to your child recently? Our new website allows you to write a letter online.
+                        Why not take advantage of this and write a letter this week?
+                    % else:
+                        % if partner.is_new_donor:
+                            Since 1952, Compassion has one goal: free as much as possible children from extreme poverty.
+                            In partnership with 7'000 local churches, we can support and help 1.8 million children in 25 countries from the South.
+                            <br />
+                            <br />
+                        % endif
+                            Do you have a heart for children in need? Compassion offers you various ways to contribute.
+                            One is through the sponsorship. You can find information in French, German and Italian on our website www.compassion.ch
+                            or call us at 031 552 21 25.
+                    % endif
+                    <br />
+                    <br />
+                    Thanks again for your generosity towards the children in need.
+                    <br />
+                    <br />
+                    Yours sincerely
+                </div>
+            </field>
+        </record>
+
+        <record id="tax_receipt_letter_template" model="mail.template">
+            <field name="name">Tax Receipt cover letter</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field
+        name="subject"
+      >Donation Receipt ${ctx.get('year', datetime.date.today().year-1)}</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set year = ctx.get('year', datetime.date.today().year-1)
+                    % set donation_amount = partner.get_receipt_text(year)
+                    % set partner = object.partner_id
+                </div>
+                <div>
+                    ${partner.salutation},
+                    <br />
+                    <br />
+                    At the beginning of this year, Compassion Switzerland thank you for your support towards children living in extreme poverty.
+                    <b
+          >Nous vous faisons parvenir votre récapitulatif de dons pour l'année 2017, que vous pouvez joindre à votre déclaration d'impôts
+                        % if object.send_mode == 'digital':
+                            <!-- space --> (fichier annexé)
+                        % endif
+                        .
+                    </b>
+                    <br />
+                    <br />
+                    Nous sommes des témoins privilégiés de ce qu’un parrainage peut changer dans la vie d’un enfant. Prenez l’exemple de Michelle. Cette jeune femme de Philippines, née dans un bidonville, abusée par un membre de sa famille lorsqu'elle était enfant, parrainée depuis l'âge de six ans, dirige aujourd'hui dans son pays natal l'ONG qu'elle a lancée en faveur des femmes victimes d'esclavage moderne.
+                    <br />
+                    <br />
+                    <b>Compassion sur le plan international en 2017</b>
+                    <ul>
+                        <li
+            >1'860'000 enfants parrainés dont près de 8000 depuis la Suisse</li>
+                        <li
+            >6950 centres d'accueil engagés au profit des enfants dans 25 pays</li>
+                        <li
+            >3.5 millions de lettres acheminées (après avoir été traduites pour certaines) entre parrains et filleuls</li>
+                        <li
+            >CHF 43 millions pour les fonds d'aide spécifiques (eau, frais médicaux, aide d'urgence, etc. hors parrainage)</li>
+                        <li
+            >Il reste 400 millions d'enfants vivant dans l'extrême pauvreté dans le monde aujourd'hui</li>
+                    </ul>
+                    <br />
+                    <br />
+                    % if object.send_mode == 'physical':
+                        <h2>Your donations in ${year} add up to CHF <span
+              style="font-family: 'miller';"
+            >${donation_amount}</span></h2>
+                        <p
+          >The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the association is recognized as a registered non profit organisation.
+                        </p>
+                    % endif
+                    Encore une fois, merci de votre générosité. Nous vous prions de recevoir, ${partner.salutation[0].lower() + partner.salutation[1:]}, nos chaleureuses salutations.
+                    % if object.send_mode == 'digital':
+                        <br />
+                        <br />
+                        <i
+          >PS: En cas de problème de lecture de l'attestation, merci d'essayer de la lire avec le logiciel Adobe Reader (http://get.adobe.com/fr/reader)</i>
+                    % endif
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
