@@ -18,7 +18,7 @@ import requests
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, MissingError
 
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
@@ -469,7 +469,10 @@ class PartnerCommunication(models.Model):
                 limit=1,
             )
             if queue_job:
-                invoices = self.env["account.move"].browse(queue_job.record_ids)
+                try:
+                    invoices = self.env["account.move"].browse(queue_job.record_ids)
+                except MissingError:
+                    continue
                 if communication.partner_id in invoices.mapped("partner_id"):
                     return False
         return True
