@@ -16,6 +16,7 @@ class ResUsers(models.Model):
     _inherit = "res.users"
     signature = fields.Html(compute="_compute_signature")
     short_signature = fields.Html(compute="_compute_short_signature")
+    signature_letter = fields.Html(compute="_compute_signature_letter")
 
     def action_reset_password(self):
         create_mode = bool(self.env.context.get("create_user"))
