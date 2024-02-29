@@ -66,7 +66,7 @@ class AccountInvoice(models.Model):
         """
         Given a recordset of paid invoices, return only those that have
         to be thanked.
-        :return: account.invoice recordset
+        :return: account.move recordset
         override thankyou_letters._filter_invoice_to_thanks()
         """
         return self.filtered(

@@ -542,7 +542,7 @@ class PartnerCommunication(models.Model):
         """
 
         new_donor_template_field = "thankyou_preference"
-        invoice_line_model = "account.invoice.line"
+        invoice_line_model = "account.move.line"
 
         # Filter jobs for thank you letters sent to new donors
         new_donor_jobs = self.filtered(
