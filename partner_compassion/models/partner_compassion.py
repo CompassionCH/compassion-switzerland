@@ -515,13 +515,6 @@ class ResPartner(models.Model):
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
-    def action_view_partner_invoices(self):
-        action = super().action_view_partner_invoices()
-        action["domain"].clear()
-        action["domain"].append(("type", "in", ["out_invoice", "out_refund"]))
-        action["context"] = {"search_default_partner_id": self.id}
-        return action
-
     ##########################################################################
     #                             VIEW CALLBACKS                             #
     ##########################################################################
