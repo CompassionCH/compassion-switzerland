@@ -504,7 +504,7 @@ class RecurringContract(models.Model):
         new_dossier = self.env.ref(swiss + "config_onboarding_sponsorship_confirmation")
         print_dossier = self.env.ref(common + "planned_dossier")
         wrpr_welcome = self.env.ref(swiss + "config_wrpr_welcome")
-        transfer = self.env.ref(swiss + "new_dossier_transfer")
+        transfer = self.env.ref(common + "new_dossier_transfer")
         child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
         partner = self.correspondent_id if correspondent else self.partner_id
