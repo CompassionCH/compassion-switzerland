@@ -458,8 +458,8 @@ class PartnerCommunication(models.Model):
     # Helper functions for improved readability and modularity
     def _handle_invoice_reconciliation(self):
         contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
-        for job in self.filtered(
-            lambda j: j.model in ("recurring.contract", "account.invoice")
+        for communication in self.filtered(
+            lambda j: j.model in ("recurring.contract", "account.move")
         ):
             queue_job = self.env["queue.job"].search(
                 [
@@ -468,10 +468,10 @@ class PartnerCommunication(models.Model):
                 ],
                 limit=1,
             )
-            if queue_job and job.partner_id in queue_job.record_ids.mapped(
-                "partner_id"
-            ):
-                return False
+            if queue_job:
+                invoices = self.env["account.move"].browse(queue_job.record_ids)
+                if communication.partner_id in invoices.mapped("partner_id"):
+                    return False
         return True
 
     def _check_onboarding_verification(self):
