@@ -85,7 +85,7 @@ class CompassionHold(models.TransientModel):
         sponsorships.write({"order_photo": False})
         # Log a note to recover the sponsorships in case the ZIP is lost
         for s in sponsorships:
-            s.message_post(_("Picture ordered."))
+            s.message_post(body=_("Picture ordered."))
         return res
 
     def _make_zip(self):
