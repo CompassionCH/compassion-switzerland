@@ -430,15 +430,6 @@ class PartnerCommunication(models.Model):
         # Filter remaining jobs and contract channel
         other_jobs = self - sms_jobs
 
-        # Handle invoice reconciliation conflicts
-        if not other_jobs._handle_invoice_reconciliation():
-            raise UserError(
-                _(
-                    "Some invoices are being reconciled. Please wait before sending "
-                    "the communication."
-                )
-            )
-
         # Prevent sending onboarding card with unverified partners
         if not other_jobs._check_onboarding_verification():
             raise UserError(
@@ -456,27 +447,6 @@ class PartnerCommunication(models.Model):
         return True
 
     # Helper functions for improved readability and modularity
-    def _handle_invoice_reconciliation(self):
-        contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
-        for communication in self.filtered(
-            lambda j: j.model in ("recurring.contract", "account.move")
-        ):
-            queue_job = self.env["queue.job"].search(
-                [
-                    ("job_function_id.channel_id", "=", contract_channel.id),
-                    ("state", "!=", "done"),
-                ],
-                limit=1,
-            )
-            if queue_job:
-                try:
-                    invoices = self.env["account.move"].browse(queue_job.record_ids)
-                except MissingError:
-                    continue
-                if communication.partner_id in invoices.mapped("partner_id"):
-                    return False
-        return True
-
     def _check_onboarding_verification(self):
         """
         Checks if any jobs in the provided list are for sending the onboarding postcard
