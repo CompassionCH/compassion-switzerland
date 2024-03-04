@@ -55,7 +55,7 @@ class RecurringContracts(models.Model):
                 lambda i: i.payment_state == "not_paid"
             )
             if invoices:
-                first_open_invoice = min(i.date_invoice for i in invoices)
+                first_open_invoice = min(i.invoice_date for i in invoices)
                 contract.first_open_invoice = first_open_invoice
             elif contract.state not in ("terminated", "cancelled"):
                 contract.first_open_invoice = contract.group_id.current_invoice_date
