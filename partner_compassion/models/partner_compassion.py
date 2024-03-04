@@ -146,9 +146,6 @@ class ResPartner(models.Model):
     lastname = fields.Char(tracking=True)
     # module mail
     opt_out = fields.Boolean(tracking=True)
-    company_type = fields.Selection(
-        compute="_compute_company_type", inverse="_inverse_company_type"
-    )
     city_id = fields.Many2one(related="zip_id.city_id", store=True)
     write_and_pray = fields.Boolean(
         string="Write & Pray",
@@ -531,8 +528,8 @@ class ResPartner(models.Model):
         super()._compute_company_type()
         self.ensure_company_title_consistency()
 
-    def _inverse_company_type(self):
-        super()._inverse_company_type()
+    def _write_company_type(self):
+        super()._write_company_type()
         self.ensure_company_title_consistency()
 
     def get_lang_from_phone_number(self, phone):
