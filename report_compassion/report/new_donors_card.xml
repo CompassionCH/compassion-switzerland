@@ -75,7 +75,7 @@
     </div>
     </template>
     <record model="ir.actions.report" id="new_donors_card_report">
-        <field name="name">New Donor Card</field>
+        <field name="name">New Donors Card</field>
         <field name="model">partner.communication.job</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.new_donor_card</field>
