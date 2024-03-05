@@ -22,7 +22,7 @@ from odoo.exceptions import MissingError, UserError
 
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
-from ..wizards.generate_communication_wizard import SMS_CHAR_LIMIT, SMS_COST
+# from ..wizards.generate_communication_wizard import SMS_CHAR_LIMIT, SMS_COST
 
 _logger = logging.getLogger(__name__)
 
