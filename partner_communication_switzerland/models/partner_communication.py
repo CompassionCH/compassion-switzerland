@@ -18,7 +18,7 @@ import requests
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import MissingError, UserError
+from odoo.exceptions import UserError
 
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 

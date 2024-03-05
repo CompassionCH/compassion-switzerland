@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link
+          rel="stylesheet"
+          href="/partner_communication_switzerland/static/scss/html_fields.scss"
+        />
+            </xpath>
+        </template>
+    </data>
+</odoo>

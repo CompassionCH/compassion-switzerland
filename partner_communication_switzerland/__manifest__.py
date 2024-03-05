@@ -73,6 +73,7 @@
         "data/end_reasons.xml",
         "report/child_picture.xml",
         "report/csp_picture.xml",
+        "views/assets.xml",
         "views/communication_job_view.xml",
         "views/download_child_pictures_view.xml",
         "views/end_contract_wizard_view.xml",

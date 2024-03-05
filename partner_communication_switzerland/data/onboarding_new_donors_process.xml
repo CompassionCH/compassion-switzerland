@@ -183,6 +183,10 @@
             <field
         name="attachments_function"
       >get_blank_communication_attachment</field>
+            <field
+        name="report_id"
+        ref="report_compassion.new_donors_card_report"
+      />
         </record>
 
         <record
