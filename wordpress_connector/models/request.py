@@ -28,7 +28,6 @@ class CrmWordpressRequest(models.Model):
 
     # Parse the new message to check if it comes from Wordpress and if so parse
     # it and fill the new object.
-    @api.multi
     def message_new(self, msg, custom_values=None):
         if custom_values is None:
             custom_values = {}
