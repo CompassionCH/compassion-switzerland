@@ -10,3 +10,4 @@ pyqrcode
 pyquery
 pysftp
 wand
+yaml
