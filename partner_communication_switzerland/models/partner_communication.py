@@ -56,14 +56,18 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         user_id = self.user_id.id
         sponsorship_reminder_2 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_2")
+            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
+        )
 
         if self.config_id == sponsorship_reminder_2:
             related_contracts = self.get_objects()
             for contract in related_contracts:
                 ambassador = contract.origin_id.event_id.user_id
-                employee = self.env["hr.employee"].sudo().search([
-                    ("user_id", "=", ambassador.id)], limit=1)
+                employee = (
+                    self.env["hr.employee"]
+                    .sudo()
+                    .search([("user_id", "=", ambassador.id)], limit=1)
+                )
                 # Event ambassador is a church rep
                 if employee.job_id.with_context(lang="en_US").name == "Church rep":
                     user_id = ambassador.id
@@ -109,7 +113,7 @@ class PartnerCommunication(models.Model):
                 self.env.cr.execute(query_sql, [communication.email_id.id])
                 if self.env.cr.rowcount:
                     not_read += communication
-            elif communication.state == 'done' and communication.send_mode == 'digital':
+            elif communication.state == "done" and communication.send_mode == "digital":
                 not_read += communication
         return not_read
 
@@ -137,7 +141,7 @@ class PartnerCommunication(models.Model):
                     self.auto_send = False
                     self.message_post(
                         body=_("The letter image is missing!"),
-                        subject=_("Missing letter")
+                        subject=_("Missing letter"),
                     )
                     continue
         else:
@@ -146,18 +150,20 @@ class PartnerCommunication(models.Model):
         return attachments
 
     def final_letter_attachment(self):
-        """ Include PDF of final letter if any exists. Remove any other correspondence
-        that would send it and link the letter to the current communication. """
+        """Include PDF of final letter if any exists. Remove any other correspondence
+        that would send it and link the letter to the current communication."""
         self.ensure_one()
         sponsorships = self.get_objects()
         attachments = dict()
         final_type = self.env.ref("sbc_compassion.correspondence_type_final")
-        final_letters = self.env["correspondence"].search([
-            ("sponsorship_id", "in", sponsorships.ids),
-            ("communication_type_ids", "=", final_type.id),
-            ("sent_date", "=", False),
-            ("email_read", "=", False)
-        ])
+        final_letters = self.env["correspondence"].search(
+            [
+                ("sponsorship_id", "in", sponsorships.ids),
+                ("communication_type_ids", "=", final_type.id),
+                ("sent_date", "=", False),
+                ("email_read", "=", False),
+            ]
+        )
         if final_letters:
             final_letters.mapped("communication_id").cancel()
             final_letters.write({"communication_id": self.id})
@@ -227,9 +233,7 @@ class PartnerCommunication(models.Model):
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
         refs = [GIFT_REF[0], GIFT_REF[1], GIFT_REF[2]]
-        all_gifts = self.env["product.product"].search(
-            [("default_code", "in", refs)]
-        )
+        all_gifts = self.env["product.product"].search([("default_code", "in", refs)])
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.filtered(
@@ -249,7 +253,7 @@ class PartnerCommunication(models.Model):
             "product_id": product.id,
             "product_ids": product.ids,
             "background": background,
-            "doc_ids": self.partner_id.ids
+            "doc_ids": self.partner_id.ids,
         }
         report_name = "report_compassion.bvr_fund"
         pdf = self._get_pdf_from_data(
@@ -271,14 +275,23 @@ class PartnerCommunication(models.Model):
         )[0]
         # LSV-DD Waiting reminders special case
         if "Waiting Reminder" in self.config_id.name and (
-                "LSV" in payment_mode or "Postfinance" in payment_mode
+            "LSV" in payment_mode or "Postfinance" in payment_mode
         ):
             if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
-                pm = self.env['account.payment.mode'].search([
-                    ('name', '=', payment_mode)])
-                return {"lsv_form.pdf": ["partner_communication.a4_no_margin",
-                                         pm.payment_method_id.lsv_form_pdf]}
+                lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
+                pdf_form = base64.b64encode(
+                    requests.get(
+                        f"https://compassion.ch/wp-content/uploads/documents_compassion/"
+                        f"Formulaire_LSV_DD_{lang}.pdf"
+                    ).content
+                )
+                return {
+                    _("bank authorization form.pdf"): [
+                        "partner_communication.a4_no_margin",
+                        pdf_form,
+                    ]
+                }
 
         # Put product sponsorship to print the payment slip for physical print.
         if self.send_mode and "physical" in self.send_mode:
@@ -289,7 +302,11 @@ class PartnerCommunication(models.Model):
 
         # In other cases, attach the payment slip.
         report_name = "report_compassion.bvr_due"
-        data = {"background": True, "doc_ids": sponsorships.ids, "disable_scissors": True}
+        data = {
+            "background": True,
+            "doc_ids": sponsorships.ids,
+            "disable_scissors": True,
+        }
         pdf = self._get_pdf_from_data(
             data, self.env.ref("report_compassion.report_bvr_due")
         )
@@ -333,8 +350,8 @@ class PartnerCommunication(models.Model):
         }
         label_wizard = (
             self.env["label.print.wizard"]
-                .with_context(report_context)
-                .create(
+            .with_context(report_context)
+            .create(
                 {
                     "brand_id": label_brand.id,
                     "config_id": label_format.id,
@@ -346,8 +363,8 @@ class PartnerCommunication(models.Model):
         report_name = "label.report_label"
         report = (
             self.env["ir.actions.report"]
-                ._get_report_from_name(report_name)
-                .with_context(report_context)
+            ._get_report_from_name(report_name)
+            .with_context(report_context)
         )
         pdf = self._get_pdf_from_data(label_data, report)
         attachments[_("sponsorship labels.pdf")] = [report_name, pdf]
@@ -371,8 +388,8 @@ class PartnerCommunication(models.Model):
         else:
             children = self.get_objects().mapped("child_id")
         pdf = self._get_pdf_from_data(
-            {"doc_ids": children.ids}, self.env.ref(
-                "partner_communication_switzerland.report_child_picture")
+            {"doc_ids": children.ids},
+            self.env.ref("partner_communication_switzerland.report_child_picture"),
         )
         name = children.get_list("local_id", 1, _("pictures")) + ".pdf"
         res[name] = ("partner_communication_switzerland.child_picture", pdf)
@@ -405,8 +422,7 @@ class PartnerCommunication(models.Model):
                 "background": self.send_mode != "physical",
             }
             pdf = self._get_pdf_from_data(
-                data, self.env.ref(
-                    f"report_compassion.report_2bvr_sponsorship")
+                data, self.env.ref(f"report_compassion.report_2bvr_sponsorship")
             )
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
         # Attach gifts for correspondents
@@ -415,17 +431,16 @@ class PartnerCommunication(models.Model):
             if sponsorship.mapped(sponsorship.send_gifts_to) == self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
-            product_ids = self.env['product.product'].search([
-                ('default_code', 'in', [GIFT_REF[0]] + GIFT_REF[2:4])
-            ]).ids
+            product_ids = (
+                self.env["product.product"]
+                .search([("default_code", "in", [GIFT_REF[0]] + GIFT_REF[2:4])])
+                .ids
+            )
             report_name = f"report_compassion.2bvr_gift_sponsorship"
-            data = {
-                "doc_ids": pays_gift.ids,
-                "product_ids": product_ids
-            }
+            data = {"doc_ids": pays_gift.ids, "product_ids": product_ids}
             pdf = self._get_pdf_from_data(
-                data, self.env.ref(
-                    f"report_compassion.report_2bvr_gift_sponsorship"),
+                data,
+                self.env.ref(f"report_compassion.report_2bvr_gift_sponsorship"),
             )
             attachments.update({_("sponsorship gifts.pdf"): [report_name, pdf]})
         return attachments
@@ -438,9 +453,10 @@ class PartnerCommunication(models.Model):
         return attachments
 
     def get_blank_communication_attachment(self):
-        blank_communication = self._get_pdf_from_data({
-            "doc_ids": self.ids
-        }, self.env.ref("report_compassion.report_blank_communication"))
+        blank_communication = self._get_pdf_from_data(
+            {"doc_ids": self.ids},
+            self.env.ref("report_compassion.report_blank_communication"),
+        )
         return {
             "cover.pdf": ["report_compassion.blank_communication", blank_communication]
         }
@@ -474,12 +490,14 @@ class PartnerCommunication(models.Model):
             "lang": lang,
             "digital": self.send_mode != "physical",
             "doc_ids": sponsorships.ids,
-            "long_lasting": max(sponsorships.mapped('contract_duration')) >= 730,
-            "new_version": new_version
+            "long_lasting": max(sponsorships.mapped("contract_duration")) >= 730,
+            "new_version": new_version,
         }
         pdf = self._get_pdf_from_data(
-            data, self.sudo().env.ref(
-                "report_compassion.report_ending_sponsorship_certificate")
+            data,
+            self.sudo().env.ref(
+                "report_compassion.report_ending_sponsorship_certificate"
+            ),
         )
         return {_("ending sponsorship certificate.pdf"): [report_name, pdf]}
 
@@ -514,12 +532,15 @@ class PartnerCommunication(models.Model):
         other_jobs = self - sms_jobs
         contract_channel = self.env.ref("recurring_contract.channel_recurring_contract")
         for job in other_jobs.filtered(
-                lambda j: j.model in ("recurring.contract", "account.invoice")
+            lambda j: j.model in ("recurring.contract", "account.invoice")
         ):
-            queue_job = self.env["queue.job"].search([
-                ("job_function_id.channel_id", "=", contract_channel.id),
-                ("state", "!=", "done")
-            ], limit=1)
+            queue_job = self.env["queue.job"].search(
+                [
+                    ("job_function_id.channel_id", "=", contract_channel.id),
+                    ("state", "!=", "done"),
+                ],
+                limit=1,
+            )
             if queue_job:
                 invoices = self.env["account.invoice"].browse(queue_job.record_ids)
                 if job.partner_id in invoices.mapped("partner_id"):
@@ -552,17 +573,23 @@ class PartnerCommunication(models.Model):
         # Prevent sending onboarding card when partner is not validated
         onboarding_new_donor = self.env.ref(
             "partner_communication_switzerland"
-            ".config_new_donors_onboarding_postcard_and_magazine")
+            ".config_new_donors_onboarding_postcard_and_magazine"
+        )
         verify = self.env.ref("cms_form_compassion.activity_check_duplicates")
         blocking = other_jobs.filtered(
             lambda j: j.config_id == onboarding_new_donor
             and j.partner_id.activity_ids.filtered(
-                lambda a: a.activity_type_id == verify))
+                lambda a: a.activity_type_id == verify
+            )
+        )
         if blocking:
-            raise UserError(_(
-                "You cannot send the onboarding postcard when the partner is not "
-                "verified. Please check the following partners: %s"
-            ) % ",".join(blocking.mapped("partner_id.name")))
+            raise UserError(
+                _(
+                    "You cannot send the onboarding postcard when the partner is not "
+                    "verified. Please check the following partners: %s"
+                )
+                % ",".join(blocking.mapped("partner_id.name"))
+            )
         super(PartnerCommunication, other_jobs).send()
 
         # No money extension
@@ -602,10 +629,14 @@ class PartnerCommunication(models.Model):
             "partner_communication_switzerland.config_onboarding_step1"
         )
         for invitation in other_jobs.filtered(
-                lambda j: j.config_id == zoom_invitation and
-                j.get_objects().filtered("is_first_sponsorship")):
-            next_zoom = self.env["res.partner.zoom.session"].with_context(
-                lang=invitation.partner_id.lang).get_next_session()
+            lambda j: j.config_id == zoom_invitation
+            and j.get_objects().filtered("is_first_sponsorship")
+        ):
+            next_zoom = (
+                self.env["res.partner.zoom.session"]
+                .with_context(lang=invitation.partner_id.lang)
+                .get_next_session()
+            )
             if next_zoom:
                 next_zoom.add_participant(invitation.partner_id)
 
@@ -614,18 +645,22 @@ class PartnerCommunication(models.Model):
             ".config_onboarding_sponsorship_confirmation"
         )
         wrpr_onboarding = self.env.ref(
-            "partner_communication_switzerland.config_wrpr_welcome")
+            "partner_communication_switzerland.config_wrpr_welcome"
+        )
         welcome_comms = self.filtered(
-            lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding) and
-            j.get_objects().filtered("is_first_sponsorship"))
+            lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding)
+            and j.get_objects().filtered("is_first_sponsorship")
+        )
         if welcome_comms:
             # Prepare MyCompassion Account
             _logger.info("Prepare signup URL for new sponsor")
             welcome_comms.mapped("partner_id").action_signup_prepare()
-            welcome_comms.get_objects().write({
-                "onboarding_start_date": datetime.today()
-            })
-        sub_proposal = self.env.ref("partner_communication_switzerland.planned_sub_dossier")
+            welcome_comms.get_objects().write(
+                {"onboarding_start_date": datetime.today()}
+            )
+        sub_proposal = self.env.ref(
+            "partner_communication_switzerland.planned_sub_dossier"
+        )
         subs = self.filtered(lambda j: j.config_id == sub_proposal)
         if subs:
             subs.get_objects().write({"sub_proposal_date": fields.Date.today()})
@@ -672,17 +707,19 @@ class PartnerCommunication(models.Model):
 
         def _replace_link(match):
             full_link = match.group(1).replace("&amp;", "&")
-            short_link = self.env["link.tracker"].search([
-                ("url", "=", full_link),
-                ("source_id", "=", source_id),
-                ("medium_id", "=", sms_medium_id)
-            ])
+            short_link = self.env["link.tracker"].search(
+                [
+                    ("url", "=", full_link),
+                    ("source_id", "=", source_id),
+                    ("medium_id", "=", sms_medium_id),
+                ]
+            )
             if not short_link:
                 short_link = self.env["link.tracker"].create(
                     {
                         "url": full_link,
                         "campaign_id": self.utm_campaign_id.id
-                                       or self.env.ref(
+                        or self.env.ref(
                             "partner_communication_switzerland."
                             "utm_campaign_communication"
                         ).id,
@@ -693,9 +730,16 @@ class PartnerCommunication(models.Model):
             return short_link.short_url
 
         def _strip_paragraph(match):
-            return match.group(1) + match.group(2).strip() + match.group(3) + paragraph_delimiter
+            return (
+                match.group(1)
+                + match.group(2).strip()
+                + match.group(3)
+                + paragraph_delimiter
+            )
 
-        body = self.body_html.replace("\n", " ").replace("</p>", "</p>" + paragraph_delimiter)
+        body = self.body_html.replace("\n", " ").replace(
+            "</p>", "</p>" + paragraph_delimiter
+        )
         body = link_pattern.sub(_replace_link, body)
         body = re.sub(r"[ \t\r\f\v]+", " ", body)
         body = re.sub(r"<br>|<br/>", "\n", body)
@@ -705,12 +749,12 @@ class PartnerCommunication(models.Model):
 
     @api.multi
     def open_related(self):
-        """ Select a better view for invoice lines. """
+        """Select a better view for invoice lines."""
         res = super().open_related()
         if self.config_id.model == "account.invoice.line":
             res["context"] = self.with_context(
                 tree_view_ref="sponsorship_compassion"
-                              ".view_invoice_line_partner_tree",
+                ".view_invoice_line_partner_tree",
                 group_by=False,
             ).env.context
         return res
@@ -728,7 +772,8 @@ class PartnerCommunication(models.Model):
         attachments = self.get_sponsorship_payment_slip_attachments()
         attachments.update(self.get_childpack_attachment())
         write_sponsorships = self.get_objects().filtered(
-            lambda s: s.correspondent_id == self.partner_id)
+            lambda s: s.correspondent_id == self.partner_id
+        )
         if write_sponsorships and self.send_mode == "physical":
             attachments.update(self.get_label_attachment(write_sponsorships))
 
@@ -739,7 +784,9 @@ class PartnerCommunication(models.Model):
 
     def get_contract_payment_slip_a4(self):
         self.ensure_one()
-        return self.get_sponsorship_payment_slip_attachments(force_a4=self.send_mode == "physical")
+        return self.get_sponsorship_payment_slip_attachments(
+            force_a4=self.send_mode == "physical"
+        )
 
     def get_sponsorship_payment_slip_attachments(self, force_a4=False):
         self.ensure_one()
@@ -759,20 +806,23 @@ class PartnerCommunication(models.Model):
         bv_sponsorships = sponsorships.filtered(
             # 1. Needs to be payer
             lambda s: s.partner_id == self.partner_id
-                      and
-                      # 2. Permanent Order/BVR are always included
-                      s.payment_mode_id in (permanent_order, bvr)
-                      # The sponsorship amount must be set
-                      and s.total_amount
-                      # 3. LSV/DD are never included
-                      and s.payment_mode_id not in lsv_dd_modes
-                      # 4. If already paid they are not included
-                      and not s.period_paid
+            and
+            # 2. Permanent Order/BVR are always included
+            s.payment_mode_id in (permanent_order, bvr)
+            # The sponsorship amount must be set
+            and s.total_amount
+            # 3. LSV/DD are never included
+            and s.payment_mode_id not in lsv_dd_modes
+            # 4. If already paid they are not included
+            and not s.period_paid
         )
 
         # Include all active sponsorships for Permanent Order
         bv_sponsorships |= (
-            sponsorships.filtered(lambda s: s.partner_id == self.partner_id and s.payment_mode_id == permanent_order)
+            sponsorships.filtered(
+                lambda s: s.partner_id == self.partner_id
+                and s.payment_mode_id == permanent_order
+            )
             .mapped("group_id.contract_ids")
             .filtered(lambda s: s.state in ("active", "waiting"))
         )
@@ -782,11 +832,15 @@ class PartnerCommunication(models.Model):
         if bv_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
-            if bv_sponsorships.mapped("payment_mode_id") == permanent_order and not force_a4:
+            if (
+                bv_sponsorships.mapped("payment_mode_id") == permanent_order
+                and not force_a4
+            ):
                 # One single slip is enough for permanent order.
                 report_name = "report_compassion.single_bvr_sponsorship"
                 report_ref = self.env.ref(
-                    "report_compassion.report_single_bvr_sponsorship")
+                    "report_compassion.report_single_bvr_sponsorship"
+                )
             data = {
                 "doc_ids": bv_sponsorships.ids,
                 "background": self.send_mode != "physical",
@@ -795,35 +849,42 @@ class PartnerCommunication(models.Model):
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
 
         lsv_dd_sponsorships = sponsorships.filtered(
-            lambda s: s.payment_mode_id in lsv_dd_modes)
+            lambda s: s.payment_mode_id in lsv_dd_modes
+        )
         if lsv_dd_sponsorships and not self.partner_id.valid_mandate_id:
             lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
-            pdf_form = base64.b64encode(requests.get(
-                f"https://compassion.ch/wp-content/uploads/documents_compassion/"
-                f"Formulaire_LSV_DD_{lang}.pdf"
-            ).content)
-            attachments.update({_("bank authorization form.pdf"): [
-                "partner_communication.a4_no_margin", pdf_form]
-            })
+            pdf_form = base64.b64encode(
+                requests.get(
+                    f"https://compassion.ch/wp-content/uploads/documents_compassion/"
+                    f"Formulaire_LSV_DD_{lang}.pdf"
+                ).content
+            )
+            attachments.update(
+                {
+                    _("bank authorization form.pdf"): [
+                        "partner_communication.a4_no_margin",
+                        pdf_form,
+                    ]
+                }
+            )
         return attachments
 
     def get_csp_picture(self):
         self.ensure_one()
-        field_offices = set(self.get_objects().mapped(
-            "contract_line_ids.product_id.survival_sponsorship_field_office_id"
-        ))
+        field_offices = set(
+            self.get_objects().mapped(
+                "contract_line_ids.product_id.survival_sponsorship_field_office_id"
+            )
+        )
         attachments = {}
         data_name = "partner_communication_switzerland.report_csp_picture"
         report_name = "partner_communication_switzerland.csp_picture"
         for field_office in field_offices:
             pdf_data = self._get_pdf_from_data(
-                    {"FO": field_office.field_office_id,
-                     "doc_ids": self.ids},
-                    self.env.ref(data_name)
+                {"FO": field_office.field_office_id, "doc_ids": self.ids},
+                self.env.ref(data_name),
             )
-            attachments.update({
-                field_office.name + ".pdf": [report_name, pdf_data]
-        })
+            attachments.update({field_office.name + ".pdf": [report_name, pdf_data]})
         return attachments
 
     def get_csp_attachment(self):
@@ -834,7 +895,7 @@ class PartnerCommunication(models.Model):
 
         # Include all active csp for Permanent Order
         if "Permanent Order" in csp.with_context(lang="en_US").mapped(
-                "payment_mode_id.name"
+            "payment_mode_id.name"
         ):
             csp += csp.mapped("group_id.contract_ids").filtered(
                 lambda s: s.state == "active"
@@ -872,20 +933,26 @@ class PartnerCommunication(models.Model):
         """
         self.ensure_one()
         res = {}
-        field_offices = set(self.get_objects().mapped("child_id.field_office_id.field_office_id"))
+        field_offices = set(
+            self.get_objects().mapped("child_id.field_office_id.field_office_id")
+        )
         lang = self.partner_id.lang[:2]
         for fo in field_offices:
-            attachment = self.env["ir.attachment"].with_context(bin_size=False).search([
-                ("name", "like", f"TP_{fo}_{lang}.pdf")
-            ], limit=1)
+            attachment = (
+                self.env["ir.attachment"]
+                .with_context(bin_size=False)
+                .search([("name", "like", f"TP_{fo}_{lang}.pdf")], limit=1)
+            )
             if attachment:
-                self.env["partner.communication.attachment"].create({
-                    "name": attachment.name,
-                    "communication_id": self.id,
-                    "report_id": attachment.report_id.id,
-                    "report_name": attachment.report_id.report_name,
-                    "attachment_id": attachment.id,
-                })
+                self.env["partner.communication.attachment"].create(
+                    {
+                        "name": attachment.name,
+                        "communication_id": self.id,
+                        "report_id": attachment.report_id.id,
+                        "report_name": attachment.report_id.report_name,
+                        "attachment_id": attachment.id,
+                    }
+                )
         return res
 
     def _convert_pdf(self, pdf_data):
