@@ -530,7 +530,9 @@ class ResPartner(models.Model):
         return action
 
     def check_phone_and_mobile(self, vals):
-        all_phone_destination_codes = [
+
+        # Destination codes are the first two digits of a number
+        all_swiss_phone_destination_codes = [
             21,
             22,
             24,
@@ -553,34 +555,39 @@ class ResPartner(models.Model):
             71,
         ]
 
-        all_mobile_destination_codes = [74, 75, 76, 77, 78, 79]
+        # Destination codes are the first two digits of a mobile phone number
+        all_swiss_mobile_destination_codes = [74, 75, 76, 77, 78, 79]
 
-        phone = vals.get("phone")
-        mobile = vals.get("mobile")
+        # Check if the partner country is Switzerland
+        if vals.get('country_id') == 43 or self.country_id == 43:
 
-        if phone:
-            parsed_phone = phonenumbers.parse(phone, "CH")
-            if not phonenumbers.is_valid_number(parsed_phone):
-                raise UserError(_("Phone number is not valid."))
-            phone_national_destination_code = int(str(parsed_phone.national_number)[:2])
-            if phone_national_destination_code in all_mobile_destination_codes:
-                vals["mobile"] = phone
-                if not mobile:
+            phone = vals.get("phone")
+            phone_moved_to_mobile = False
+            mobile = vals.get("mobile")
+
+            if phone:
+                parsed_phone = phonenumbers.parse(phone, "CH")
+                if not phonenumbers.is_valid_number(parsed_phone):
+                    raise UserError(_("Phone number is not valid."))
+                phone_national_destination_code = int(str(parsed_phone.national_number)[:2])
+                if phone_national_destination_code in all_swiss_mobile_destination_codes:
+                    vals["mobile"] = phone
+                    phone_moved_to_mobile = True
+                    # if not mobile:
                     vals["phone"] = False
 
-        if mobile:
-            parsed_mobile = phonenumbers.parse(mobile, "CH")
-            if not phonenumbers.is_valid_number(parsed_mobile):
-                raise UserError(_("Mobile number is not valid."))
-            mobile_national_destination_code = int(
-                str(parsed_mobile.national_number)[:2]
-            )
-            if mobile_national_destination_code in all_phone_destination_codes:
-                vals["phone"] = mobile
-                if not phone:
-                    vals["mobile"] = False
+            if mobile:
+                parsed_mobile = phonenumbers.parse(mobile, "CH")
+                if not phonenumbers.is_valid_number(parsed_mobile):
+                    raise UserError(_("Mobile number is not valid."))
+                mobile_national_destination_code = int(
+                    str(parsed_mobile.national_number)[:2]
+                )
+                if mobile_national_destination_code in all_swiss_phone_destination_codes:
+                    vals["phone"] = mobile
+                    if not phone_moved_to_mobile:
+                        vals["mobile"] = False
 
-        return vals
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
