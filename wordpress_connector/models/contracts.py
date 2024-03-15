@@ -191,6 +191,8 @@ class Contracts(models.Model):
             if not form_data.get("patenschaftplus"):
                 lines = lines[:-1]
             sponsorship_type = "S"
+            # TODO to improve when switching to REST (with at least filter the company)
+            pricelist_id = self.env['product.pricelist'].search([]).id
             partner_id = partner.id
             if utm_source == "wrpr":
                 # Special case Write&Pray sponsorship
@@ -218,6 +220,7 @@ class Contracts(models.Model):
                 "correspondent_id": partner.id,
                 "child_id": child.id,
                 "type": sponsorship_type,
+                "pricelist_id": pricelist_id,
                 "contract_line_ids": lines,
                 "source_id": utms["source"],
                 "medium_id": utms.get("medium", internet_id),
@@ -231,8 +234,10 @@ class Contracts(models.Model):
             child = self.env["compassion.child"].search(
                 [("local_id", "=", child_local_id)], limit=1
             )
+            pricelist_id = self.env['product.pricelist'].search([]).id
             sponsorship_vals = {
                 "type": "S" if utm_source != "wrpr" else "SC",
+                "pricelist_id": pricelist_id,
                 "child_id": child.id,
             }
             self.env.clear()
