@@ -20,7 +20,7 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     """Add mailing origin in invoice objects."""
 
-    _inherit = "account.invoice"
+    _inherit = "account.move"
 
     @api.model
     def process_wp_confirmed_donation(self, donnation_infos):
@@ -163,7 +163,7 @@ class AccountInvoice(models.Model):
                 "payment_mode_id": payment_mode.id,
                 "origin": origin,
                 "reference": str(pf_payid),
-                "date_invoice": date_invoice.date(),
+                "invoice_date": date_invoice.date(),
                 "auto_cancel_date": date_invoice + timedelta(minutes=30),
                 "currency_id": 6,  # Always in CHF
                 "account_id": account.id,
@@ -216,16 +216,16 @@ class AccountInvoice(models.Model):
             )
         utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
-        self.env["account.invoice.line"].create(
+        self.env["account.move.line"].create(
             {
-                "invoice_id": self.id,
+                "move_id": self.id,
                 "product_id": product.id,
                 "account_id": product.property_account_income_id.id or gift_account.id,
                 "contract_id": sponsorship.id,
                 "name": product.name or "Online donation for " + wp_origin,
                 "quantity": 1,
                 "price_unit": amount,
-                "account_analytic_id": analytic_id,
+                "analytic_account_id": analytic_id,
                 "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
                 "source_id": utms["source"],
                 "medium_id": utms.get("medium", internet_id),
@@ -233,7 +233,7 @@ class AccountInvoice(models.Model):
             }
         )
         self.partner_id.set_privacy_statement(origin="new_gift")
-        self.action_invoice_open()
+        self.action_post()
         payment_vals = {
             "journal_id": self.env["account.journal"]
             .search(
@@ -248,7 +248,7 @@ class AccountInvoice(models.Model):
             .id,
             "payment_date": self.date,
             "communication": self.reference,
-            "invoice_ids": [(6, 0, self.ids)],
+            "move_ids": [(6, 0, self.ids)],
             "payment_type": "inbound",
             "amount": self.amount_total,
             "currency_id": self.currency_id.id,
