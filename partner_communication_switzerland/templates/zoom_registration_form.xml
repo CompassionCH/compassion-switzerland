@@ -79,6 +79,7 @@
       ref="partner_communication_switzerland.zoom_registration_done_template"
     />
         <field name="website_published">True</field>
+        <field name="website_indexed">False</field>
     </record>
 
     <template id="zoom_registration_form" name="Zoom registration form">
