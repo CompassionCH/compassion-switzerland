@@ -53,7 +53,7 @@ class ResPartner(models.Model):
     church_unlinked = fields.Char(
         "Church (N/A)",
         help="Use this field if the church of the partner"
-        " can not correctly be determined and linked.",
+             " can not correctly be determined and linked.",
     )
     deathdate = fields.Date("Death date", tracking=True)
     nbmag = fields.Selection(
@@ -95,12 +95,12 @@ class ResPartner(models.Model):
     )
     birthday_reminder = fields.Boolean(
         help="Indicates if the partner wants to receive a birthday "
-        "reminder of his child.",
+             "reminder of his child.",
         default=True,
     )
     sponsorship_anniversary_card = fields.Boolean(
         help="Indicates the partner wants to receive a card when we celebrate "
-        "his or her sponsorship anniversary.",
+             "his or her sponsorship anniversary.",
         default=True,
     )
     photo_delivery_preference = fields.Selection(
@@ -179,7 +179,7 @@ class ResPartner(models.Model):
     can_manage_paid_sponsorships = fields.Boolean(
         compute="_compute_can_manage_paid_sponsorships",
         help="Sponsor has 18 years old or has parents consent "
-        "for paying sponsorship",
+             "for paying sponsorship",
     )
     has_majority = fields.Boolean(
         compute="_compute_has_majority",
@@ -204,7 +204,7 @@ class ResPartner(models.Model):
     def _compute_can_manage_paid_sponsorships(self):
         for record in self:
             record.can_manage_paid_sponsorships = (
-                record.has_majority or record.parent_consent in ["approved"]
+                    record.has_majority or record.parent_consent in ["approved"]
             )
 
     def get_unreconciled_amount(self):
@@ -375,7 +375,7 @@ class ResPartner(models.Model):
         )
 
     def _generate_order_by_inner(
-        self, alias, order_spec, query, reverse_direction=False, seen=None
+            self, alias, order_spec, query, reverse_direction=False, seen=None
     ):
         # Small trick to allow similarity ordering while bypassing odoo checks
         is_similarity_ordering = regex_order.match(order_spec) if order_spec else False
@@ -559,7 +559,9 @@ class ResPartner(models.Model):
         all_swiss_mobile_destination_codes = [74, 75, 76, 77, 78, 79]
 
         # Check if the partner country is Switzerland
-        if vals.get('country_id') == 43 or self.country_id == 43:
+        swiss_country = self.env.ref("base.ch")
+        if vals.get(
+                'country_id') == swiss_country.id or self.country_id == swiss_country.id:
 
             phone = vals.get("phone")
             phone_moved_to_mobile = False
@@ -569,11 +571,11 @@ class ResPartner(models.Model):
                 parsed_phone = phonenumbers.parse(phone, "CH")
                 if not phonenumbers.is_valid_number(parsed_phone):
                     raise UserError(_("Phone number is not valid."))
-                phone_national_destination_code = int(str(parsed_phone.national_number)[:2])
+                phone_national_destination_code = int(
+                    str(parsed_phone.national_number)[:2])
                 if phone_national_destination_code in all_swiss_mobile_destination_codes:
                     vals["mobile"] = phone
                     phone_moved_to_mobile = True
-                    # if not mobile:
                     vals["phone"] = False
 
             if mobile:
@@ -587,7 +589,6 @@ class ResPartner(models.Model):
                     vals["phone"] = mobile
                     if not phone_moved_to_mobile:
                         vals["mobile"] = False
-
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #
@@ -735,10 +736,10 @@ class ResPartner(models.Model):
     def _get_sftp_connection(self):
         """ " Retrieve configuration SMB"""
         if not (
-            SftpConfig.username
-            and SftpConfig.password
-            and SftpConfig.host
-            and SftpConfig.port
+                SftpConfig.username
+                and SftpConfig.password
+                and SftpConfig.host
+                and SftpConfig.port
         ):
             return False
         else:
