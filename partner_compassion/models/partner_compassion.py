@@ -243,12 +243,6 @@ class ResPartner(models.Model):
             else:
                 partner.address_name = partner.name
 
-    def _compute_has_segment(self):
-        # Write&Pray should not be segmented
-        super()._compute_has_segment()
-        for partner in self.filtered("write_and_pray"):
-            partner.has_segment = False
-
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################

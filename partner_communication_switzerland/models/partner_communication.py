@@ -221,13 +221,17 @@ class PartnerCommunication(models.Model):
         ):
             if not self.partner_id.bank_ids or not self.partner_id.valid_mandate_id:
                 # Don't put payment slip if we just wait the authorization form
-                pm = self.env["account.payment.mode"].search(
-                    [("name", "=", payment_mode)]
+                lang = self.env.lang[:2].upper() if self.env.lang != "en_US" else "DE"
+                pdf_form = base64.b64encode(
+                    requests.get(
+                        f"https://compassion.ch/wp-content/uploads/documents_compassion/"
+                        f"Formulaire_LSV_DD_{lang}.pdf"
+                    ).content
                 )
                 return {
-                    "lsv_form.pdf": [
+                    _("bank authorization form.pdf"): [
                         "partner_communication.a4_no_margin",
-                        pm.payment_method_id.lsv_form_pdf,
+                        pdf_form,
                     ]
                 }
 

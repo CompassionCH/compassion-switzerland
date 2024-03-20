@@ -54,7 +54,7 @@ class AccountInvoice(models.Model):
         ).id
 
         # Find matching partner
-        partner = match_obj.match_partner_to_infos(partner_infos, {"skip_update": True})
+        partner = match_obj.match_values_to_partner(partner_infos)
 
         # Insert the donation details to the database.
         pf_brand = donnation_infos["pf_brand"]
@@ -145,12 +145,12 @@ class AccountInvoice(models.Model):
                     "active": True,
                 }
             )
-        origin = "WP " + wp_origin + " " + str(pf_payid)
+        ref = "WP " + wp_origin + " " + str(pf_payid)
         payment_term_id = self.env.ref("account.account_payment_term_immediate").id
         account = self.env["account.account"].search([("code", "=", "1050")])
         date_invoice = fields.Datetime.from_string(time)
         invoice = self.search(
-            [("reference", "=", str(pf_payid)), ("partner_id", "=", partner_id)],
+            [("payment_reference", "=", str(pf_payid)), ("partner_id", "=", partner_id)],
             limit=1,
         )
         if invoice:
@@ -161,14 +161,15 @@ class AccountInvoice(models.Model):
             {
                 "partner_id": partner_id,
                 "payment_mode_id": payment_mode.id,
-                "origin": origin,
-                "reference": str(pf_payid),
+                "ref": ref,
+                "payment_reference": str(pf_payid),
                 "invoice_date": date_invoice.date(),
-                "auto_cancel_date": date_invoice + timedelta(minutes=30),
+                #"auto_cancel_date": date_invoice + timedelta(minutes=30),
                 "currency_id": 6,  # Always in CHF
-                "account_id": account.id,
+                "move_type": "out_invoice",
+                #"account_id": account.id,
                 "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,
-                "payment_term_id": payment_term_id,
+                "invoice_payment_term_id": payment_term_id,
             }
         )
         invoice.with_delay().pay_wordpress_invoice(
@@ -214,7 +215,7 @@ class AccountInvoice(models.Model):
                 order="id desc",
                 limit=1,
             )
-        utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
+        #utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
         self.env["account.move.line"].create(
             {
@@ -227,12 +228,12 @@ class AccountInvoice(models.Model):
                 "price_unit": amount,
                 "analytic_account_id": analytic_id,
                 "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
-                "source_id": utms["source"],
-                "medium_id": utms.get("medium", internet_id),
-                "campaign_id": utms["campaign"],
+         #       "source_id": utms["source"],
+          #      "medium_id": utms.get("medium", internet_id),
+           #     "campaign_id": utms["campaign"],
             }
         )
-        self.partner_id.set_privacy_statement(origin="new_gift")
+#        self.partner_id.set_privacy_statement(origin="new_gift")
         self.action_post()
         payment_vals = {
             "journal_id": self.env["account.journal"]
@@ -246,16 +247,14 @@ class AccountInvoice(models.Model):
             "payment_method_id": self.env["account.payment.method"]
             .search([("code", "=", "sepa_direct_debit")])
             .id,
-            "payment_date": self.date,
-            "communication": self.reference,
-            "move_ids": [(6, 0, self.ids)],
+            "date": self.date,
+            "payment_reference": self.payment_reference,
+            "move_id": self.id,
             "payment_type": "inbound",
             "amount": self.amount_total,
             "currency_id": self.currency_id.id,
             "partner_id": self.partner_id.id,
             "partner_type": "customer",
-            "payment_difference_handling": "reconcile",
-            "payment_difference": self.amount_total,
         }
         account_payment = self.env["account.payment"].create(payment_vals)
         account_payment.post()
