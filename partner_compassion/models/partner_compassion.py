@@ -544,7 +544,6 @@ class ResPartner(models.Model):
 
         # Check if the partner country is Switzerland
         swiss_country = self.env.ref("base.ch")
-
         if vals.get(
                 'country_id.id') == swiss_country.id or self.country_id.id == swiss_country.id:
 
