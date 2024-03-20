@@ -217,7 +217,7 @@ class AccountInvoice(models.Model):
             )
         #utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
-        self.env["account.move.line"].create(
+        inv_line_ids=self.env["account.move.line"].with_context(check_move_validity=False,).create(
             {
                 "move_id": self.id,
                 "product_id": product.id,
@@ -225,7 +225,8 @@ class AccountInvoice(models.Model):
                 "contract_id": sponsorship.id,
                 "name": product.name or "Online donation for " + wp_origin,
                 "quantity": 1,
-                "price_unit": amount,
+                "price_unit": float(amount),
+                "price_subtotal": float(amount),
                 "analytic_account_id": analytic_id,
                 "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
          #       "source_id": utms["source"],
@@ -233,23 +234,17 @@ class AccountInvoice(models.Model):
            #     "campaign_id": utms["campaign"],
             }
         )
+        self.invoice_line_ids=inv_line_ids
 #        self.partner_id.set_privacy_statement(origin="new_gift")
         self.action_post()
         payment_vals = {
             "journal_id": self.env["account.journal"]
-            .search(
-                [
-                    ("name", "=", "Web"),
-                    ("company_id", "=", self.partner_id.company_id.id),
-                ]
-            )
-            .id,
+            .search([("name", "=", "Web"),("company_id", "=", self.company_id.id),]).id,
             "payment_method_id": self.env["account.payment.method"]
             .search([("code", "=", "sepa_direct_debit")])
             .id,
             "date": self.date,
             "payment_reference": self.payment_reference,
-            "move_id": self.id,
             "payment_type": "inbound",
             "amount": self.amount_total,
             "currency_id": self.currency_id.id,
@@ -257,5 +252,10 @@ class AccountInvoice(models.Model):
             "partner_type": "customer",
         }
         account_payment = self.env["account.payment"].create(payment_vals)
-        account_payment.post()
+        account_payment.action_post()
+        for account in account_payment.line_ids.account_id:
+            (account_payment.line_ids + self.line_ids) \
+                .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)]) \
+                .reconcile()
+
         return True
