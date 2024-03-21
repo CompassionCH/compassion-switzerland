@@ -4,7 +4,7 @@
         <field name="model">recurring.contract</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.sponsorship_label</field>
-        <field name="paperformat_id" ref="paperformat_a4_childpack" />
+        <field name="paperformat_id" ref="paperformat_a4" />
         <field name="binding_model_id" ref="model_recurring_contract" />
         <field name="binding_type">report</field>
     </record>

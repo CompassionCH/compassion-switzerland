@@ -21,10 +21,10 @@ class CompassionProject(models.Model):
 
     def _compute_description(self):
         lang_map = {
-            "fr_CH": "description_fr",
-            "de_DE": "description_de",
+            "fr_CH": "desc_fr",
+            "de_DE": "desc_de",
             "en_US": "description_en",
-            "it_IT": "description_it",
+            "it_IT": "desc_it",
         }
 
         for project in self:

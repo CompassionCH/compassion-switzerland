@@ -18,7 +18,6 @@ from . import (
     report_bvr_fund,
     report_bvr_sponsorship,
     report_bvr_sponsorship_gift,
-    report_childpack,
     report_tax_receipt,
     res_partner,
 )
