@@ -20,7 +20,7 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     """Add mailing origin in invoice objects."""
 
-    _inherit = "account.move"
+    _inherit = ["account.move"]
 
     @api.model
     def process_wp_confirmed_donation(self, donnation_infos):
@@ -147,7 +147,6 @@ class AccountInvoice(models.Model):
             )
         ref = "WP " + wp_origin + " " + str(pf_payid)
         payment_term_id = self.env.ref("account.account_payment_term_immediate").id
-        account = self.env["account.account"].search([("code", "=", "1050")])
         date_invoice = fields.Datetime.from_string(time)
         invoice = self.search(
             [("payment_reference", "=", str(pf_payid)), ("partner_id", "=", partner_id)],
@@ -167,7 +166,6 @@ class AccountInvoice(models.Model):
                 #"auto_cancel_date": date_invoice + timedelta(minutes=30),
                 "currency_id": 6,  # Always in CHF
                 "move_type": "out_invoice",
-                #"account_id": account.id,
                 "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,
                 "invoice_payment_term_id": payment_term_id,
             }
@@ -215,7 +213,6 @@ class AccountInvoice(models.Model):
                 order="id desc",
                 limit=1,
             )
-        #utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
         inv_line_ids=self.env["account.move.line"].with_context(check_move_validity=False,).create(
             {
@@ -229,13 +226,14 @@ class AccountInvoice(models.Model):
                 "price_subtotal": float(amount),
                 "analytic_account_id": analytic_id,
                 "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
-         #       "source_id": utms["source"],
-          #      "medium_id": utms.get("medium", internet_id),
-           #     "campaign_id": utms["campaign"],
             }
         )
-        self.invoice_line_ids=inv_line_ids
-#        self.partner_id.set_privacy_statement(origin="new_gift")
+        self.invoice_line_ids = inv_line_ids
+        self.source_id = self.env["utm.source"].search([('name','=',utm_source)],limit=1).id
+        self.medium_id = self.env["utm.medium"].search([('name','=',utm_medium)],limit=1).id or internet_id
+        self.campaign_id = self.env["utm.campaign"].search([('name','=',utm_campaign)],limit=1).id
+        if not self.partner_id.legal_agreement_date:
+            self.partner_id.legal_agreement_date = self.invoice_date
         self.action_post()
         payment_vals = {
             "journal_id": self.env["account.journal"]
