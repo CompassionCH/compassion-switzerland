@@ -1,4 +1,18 @@
 <odoo>
+    <record id="paperformat_a4" model="report.paperformat">
+        <field name="name">Compassion A4 Childpack</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">96</field>
+    </record>
+
     <!-- Compassion Anniversary Card -->
     <record id="paperformat_anniversary_card" model="report.paperformat">
         <field name="name">Sponsorship Anniversary Card</field>
