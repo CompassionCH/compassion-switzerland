@@ -11,7 +11,7 @@ import logging
 
 import yaml
 
-from odoo import api, fields, models
+from odoo import fields, models
 from odoo.tools import html2plaintext
 
 _logger = logging.getLogger(__name__)

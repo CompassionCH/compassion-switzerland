@@ -2,6 +2,7 @@
 babel
 bs4
 pandas
+pandas>=1.5.3
 pdf2image
 pyminizip
 PyPDF2

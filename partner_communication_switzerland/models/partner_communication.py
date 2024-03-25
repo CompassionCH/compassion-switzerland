@@ -12,7 +12,6 @@ import logging
 import re
 from collections import OrderedDict
 from datetime import date, datetime
-from math import ceil
 
 import requests
 from dateutil.relativedelta import relativedelta
@@ -620,7 +619,8 @@ class PartnerCommunication(models.Model):
                 {
                     "state": "done",
                     "sent_date": fields.Datetime.now(),
-                    "sms_cost": ceil(float(len(sms_text)) // SMS_CHAR_LIMIT) * SMS_COST,
+                    # "sms_cost": ceil(float(len(sms_text))
+                    # // SMS_CHAR_LIMIT) * SMS_COST,
                 }
             )
             _logger.debug("SMS length: %s", len(sms_text))

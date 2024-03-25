@@ -1,14 +1,23 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <odoo>
-    <record id="mail_activity_to_crm_request_mail_activity_view_form_popup" model="ir.ui.view">
+    <record
+    id="mail_activity_to_crm_request_mail_activity_view_form_popup"
+    model="ir.ui.view"
+  >
         <field name="name">mail.activity.view.form.popup.inherited</field>
         <field name="model">mail.activity</field>
-        <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+        <field name="inherit_id" ref="mail.mail_activity_view_form_popup" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='summary']" position="after">
-                <field name="create_support_request"/>
-                <field name="request_category_id" attrs="{'invisible': [('create_support_request', '=', False)]}"/>
-                <field name="request_stage_id" attrs="{'invisible': [('create_support_request', '=', False)]}"/>
+                <field name="create_support_request" />
+                <field
+          name="request_category_id"
+          attrs="{'invisible': [('create_support_request', '=', False)]}"
+        />
+                <field
+          name="request_stage_id"
+          attrs="{'invisible': [('create_support_request', '=', False)]}"
+        />
             </xpath>
         </field>
     </record>

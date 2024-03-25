@@ -192,7 +192,7 @@ class Contracts(models.Model):
                 lines = lines[:-1]
             sponsorship_type = "S"
             # TODO to improve when switching to REST (with at least filter the company)
-            pricelist_id = self.env['product.pricelist'].search([]).id
+            pricelist_id = self.env["product.pricelist"].search([]).id
             partner_id = partner.id
             if utm_source == "wrpr":
                 # Special case Write&Pray sponsorship
@@ -226,7 +226,7 @@ class Contracts(models.Model):
                 "medium_id": utms.get("medium", internet_id),
                 "campaign_id": utms["campaign"],
             }
-        except:
+        except Exception:
             # We catch any exception to make sure we don't lose any
             # sponsorship made from the website
             self.env.clear()
@@ -234,7 +234,7 @@ class Contracts(models.Model):
             child = self.env["compassion.child"].search(
                 [("local_id", "=", child_local_id)], limit=1
             )
-            pricelist_id = self.env['product.pricelist'].search([]).id
+            pricelist_id = self.env["product.pricelist"].search([]).id
             sponsorship_vals = {
                 "type": "S" if utm_source != "wrpr" else "SC",
                 "pricelist_id": pricelist_id,
@@ -251,13 +251,10 @@ class Contracts(models.Model):
                 f"campaign: {utm_campaign}",
                 user_id=21,  # EMA
             )
-        finally:
-            if not test_mode:
-                return self.with_delay().create_sponsorship_job(
-                    sponsorship_vals, form_data
-                )
-            else:
-                return self.create_sponsorship_job(sponsorship_vals, form_data)
+        if not test_mode:
+            return self.with_delay().create_sponsorship_job(sponsorship_vals, form_data)
+        else:
+            return self.create_sponsorship_job(sponsorship_vals, form_data)
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
@@ -347,7 +344,7 @@ class Contracts(models.Model):
             sponsorship.correspondent_id.set_privacy_statement(origin="new_sponsorship")
             return sponsorship
         except BaseException as err:
-            """Log the error and send a mail stating that it failed running"""
+            # Log the error and send a mail stating that it failed running
             _logger.error("Wordpress create sponsorship job failed", exc_info=True)
             child.activity_schedule(
                 "mail.mail_activity_data_warning",
