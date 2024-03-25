@@ -131,14 +131,6 @@
         />
             </field>
 
-            <!-- Remove contacts & addresses tab -->
-            <xpath
-        expr="//page[@name='contact_addresses']"
-        position="attributes"
-      >
-                <attribute name="invisible">1</attribute>
-            </xpath>
-
             <!-- Church unlinked -->
             <field name="church_id" position="after">
                 <field
