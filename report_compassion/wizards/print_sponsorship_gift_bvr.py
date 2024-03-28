@@ -76,7 +76,7 @@ class PrintSponsorshipBvr(models.TransientModel):
         report_name = "report_compassion.report_" + self.paper_format.split(".")[1]
         report_ref = self.env.ref(report_name)
         if self.pdf:
-            name = records.name if len(records) == 1 else _("gift payment slips")
+            name = records.display_name if len(records) == 1 else _("gift payment slips")
             self.pdf_name = name + ".pdf"
             pdf_data = report_ref.with_context(
                 must_skip_send_to_printer=True
