@@ -83,8 +83,6 @@ class PrintSponsorshipBvr(models.TransientModel):
             )._render_qweb_pdf(data["doc_ids"], data=data)[0]
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
-
-            print(records)
             return {
                 "name": "Download report",
                 "type": "ir.actions.act_window",
