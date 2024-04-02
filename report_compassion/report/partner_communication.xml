@@ -197,7 +197,7 @@
                 <t t-set="user" t-value="o.user_id" />
                 <t
           t-set="show_signature"
-          t-value="o.show_signature and user.digital_signature"
+          t-value="o.show_signature and user.signature"
         />
                 <t
           t-set="product"
@@ -295,7 +295,7 @@
                     <div t-raw="body_html" class="body_text" />
                     <img
             t-if="show_signature"
-            t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
+            t-attf-src="data:image/jpg;base64,#{ user.signature }"
             class="right"
             t-attf-style="margin-left: #{ 20 if success_story else 65 }mm"
           />
