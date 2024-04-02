@@ -200,33 +200,53 @@ class ContractGroup(models.Model):
         inv_data = super()._build_invoice_gen_data(
             invoicing_date, invoicer, gift_wizard
         )
-
-        ref = ""
         bank_modes = (
             self.env["account.payment.mode"]
             .with_context(lang="en_US")
-            .search(["|", ("name", "like", "LSV"), ("name", "like", "Postfinance")])
+            .search([("payment_method_id.code", "=", "sepa.ch.dd")])
         )
-        bank = self.env["res.partner.bank"]
+        bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         if gift_wizard:
-            ref = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
-            bank = bank.search([("acc_number", "=", "01444437")])
+            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
         elif self.bvr_reference:
-            ref = self.bvr_reference
-            bank = bank.search([("acc_number", "=", "01444437")])
+            payment_reference = self.bvr_reference
         elif self.payment_mode_id in bank_modes:
             seq = self.env["ir.sequence"]
-            ref = mod10r(seq.next_by_code("contract.bvr.ref"))
-            bank = self.payment_mode_id.fixed_journal_id.bank_account_id
+            payment_reference = mod10r(seq.next_by_code("contract.bvr.ref"))
         mandate = self.env["account.banking.mandate"].search(
             [("partner_id", "=", self.partner_id.id), ("state", "=", "valid")], limit=1
         )
         inv_data.update(
             {
-                "ref": ref,
+                "payment_reference": payment_reference,
                 "mandate_id": mandate.id,
                 "partner_bank_id": bank.id,
+                "ref": self._prepare_ref_with_lang(invoicing_date)
             }
         )
 
         return inv_data
+
+    def _prepare_ref_with_lang(self, invoicing_date):
+        context = {"lang": self.partner_id.lang}
+        communication = False
+        active_contract = self.contract_ids.filtered(lambda l: l.state not in ("terminated","cancelled"))
+        products = active_contract.contract_line_ids.product_id
+        if len(active_contract.child_id) > 0:
+            children = active_contract.mapped("child_id")
+            if len(children) == 1:
+                if len(products) == 1:
+                    communication = products.name + " " + _("for")
+                else:
+                    communication = _("Sponsorship")
+                    # communication = _("sponsorship gifts").title() + " " + _("for")
+                communication += " " + children.preferred_name
+            else:
+                communication = str(len(children)) + " "
+                communication += _("sponsorships")
+                # communication += _("sponsorship gifts")
+        elif len(products) == 1:
+            communication = products.name
+        communication += " " + _("Period: ") + invoicing_date.strftime("%B")
+
+        return communication or ""
