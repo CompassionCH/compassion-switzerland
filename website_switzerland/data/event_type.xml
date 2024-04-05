@@ -13,8 +13,11 @@
         name="stage_ids"
         eval="[(6, 0, [ref('stage_group_unconfirmed'), ref('stage_group_pay'), ref('stage_group_medical'), ref('stage_group_documents')])]"
       />
-            <field name="medical_survey_id" ref="group_visit_medical_survey"/>
-            <field name="feedback_survey_id" ref="group_visit_feedback_survey"/>
+            <field name="medical_survey_id" ref="group_visit_medical_survey" />
+            <field
+        name="feedback_survey_id"
+        ref="group_visit_feedback_survey"
+      />
         </record>
     </data>
 </odoo>

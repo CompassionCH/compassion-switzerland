@@ -71,18 +71,71 @@
         <field name="description" type="html">
 <section class="s_text_block">
         <div class="container">
-            <div class="row"><div class="col-md-12 mb16 mt16"><p> Please take a few minutes to evaluate your trip with Compassion. This will allow us to improve our following trips.</p></div></div>
+            <div class="row"><div class="col-md-12 mb16 mt16"><p
+              > Please take a few minutes to evaluate your trip with Compassion. This will allow us to improve our following trips.</p></div></div>
         </div>
     </section>
         </field>
         <field name="description_done" type="html">
-<section class="s_text_block"><div class="container"><div class="row"><div class="col-md-12 mb16 mt16"><p> Did this trip strengthen your conviction of the importance and effectiveness of Compassion's work? <b>There are several ways to take one more step with Compassion.</b><br/></p></div></div></div></section>
+<section class="s_text_block"><div class="container"><div class="row"><div
+              class="col-md-12 mb16 mt16"
+            ><p
+              > Did this trip strengthen your conviction of the importance and effectiveness of Compassion's work? <b
+                >There are several ways to take one more step with Compassion.</b><br
+                /></p></div></div></div></section>
 
-<section class="s_features"><div class="container"><div class="row mt16 mb16"><div class="text-center col-md-6"><a href="https://compassion.ch/participer/"><span class="fa fa-comment fa-5x" title="" style=""></span></a><h3 class="mt8 mb0"><a href="https://compassion.ch/participer/">Become a spokesperson</a></h3><p class="text-muted">You can represent Compassion in your church and take advantage of opportunities to offer visibility for child sponsorship.<br/></p></div><div class="text-center col-md-6"><a href="mailto:events@compassion.ch"><span class="fa fa-group fa-5x" title="" style=""></span></a><h3 class="mb0 mt8"><a href="mailto:events@compassion.ch" title="">Organize a meeting</a></h3><p class="text-muted">Arrange a meeting to share your experience with others at home. Take the opportunity to promote the sponsorship of children among your loved ones.<br/></p></div></div></div></section>
+<section class="s_features"><div class="container"><div
+            class="row mt16 mb16"
+          ><div class="text-center col-md-6"><a
+                href="https://compassion.ch/participer/"
+              ><span class="fa fa-comment fa-5x" title="" style="" /></a><h3
+                class="mt8 mb0"
+              ><a
+                  href="https://compassion.ch/participer/"
+                >Become a spokesperson</a></h3><p
+                class="text-muted"
+              >You can represent Compassion in your church and take advantage of opportunities to offer visibility for child sponsorship.<br
+                /></p></div><div class="text-center col-md-6"><a
+                href="mailto:events@compassion.ch"
+              ><span class="fa fa-group fa-5x" title="" style="" /></a><h3
+                class="mb0 mt8"
+              ><a
+                  href="mailto:events@compassion.ch"
+                  title=""
+                >Organize a meeting</a></h3><p
+                class="text-muted"
+              >Arrange a meeting to share your experience with others at home. Take the opportunity to promote the sponsorship of children among your loved ones.<br
+                /></p></div></div></div></section>
 
-<section class="s_features"><div class="container"><div class="row mt16 mb16"><div class="text-center col-md-6"><a href="https://my.compassion.ch/r/i0o"><span class="fa fa-child fa-5x" title="" style=""></span></a><h3 class="mt8 mb0"><a href="https://my.compassion.ch/r/i0o">Sponsor a child</a></h3><p class="text-muted">Sponsor another child to release him from extreme poverty.<br/></p></div><div class="text-center col-md-6"><a href="https://my.compassion.ch/r/Qxd"><span class="fa fa-heart fa-5x" title="" style=""></span></a><h3 class="mt8 mb0"><a href="https://my.compassion.ch/r/Qxd">Help a mother and her child</a></h3><p class="text-muted">Get involved in the Mother and Child Support Program, through a one-time or regular donation.<br/></p></div></div></div></section>
+<section class="s_features"><div class="container"><div
+            class="row mt16 mb16"
+          ><div class="text-center col-md-6"><a
+                href="https://my.compassion.ch/r/i0o"
+              ><span class="fa fa-child fa-5x" title="" style="" /></a><h3
+                class="mt8 mb0"
+              ><a
+                  href="https://my.compassion.ch/r/i0o"
+                >Sponsor a child</a></h3><p
+                class="text-muted"
+              >Sponsor another child to release him from extreme poverty.<br
+                /></p></div><div class="text-center col-md-6"><a
+                href="https://my.compassion.ch/r/Qxd"
+              ><span class="fa fa-heart fa-5x" title="" style="" /></a><h3
+                class="mt8 mb0"
+              ><a
+                  href="https://my.compassion.ch/r/Qxd"
+                >Help a mother and her child</a></h3><p
+                class="text-muted"
+              >Get involved in the Mother and Child Support Program, through a one-time or regular donation.<br
+                /></p></div></div></div></section>
 
-<section class="s_text_block"><div class="container"><div class="row"><div class="col-md-12 mb16 mt16"><p>It is thanks to the sponsorship that Ronnie, Michelle and Margret have taken on responsibilities. They were born in extreme poverty in Uganda and the Philippines. The first one became an engineer when he grew up in a slum.</p><p>The second, born in Manila's drug and prostitution district, now runs an NGO to help victims of modern slavery. And the third was able to go to school and be elected to the Ugandan Senate. This is thanks to a sponsor and the commitment of a church that has decided to open a shelter and participate in the holistic development of children.</p><p>Changing the world, one child at a time, is possible. Indeed, hope is stronger than poverty.</p><p>Thank you for your commitment.</p></div></div></div></section>
+<section class="s_text_block"><div class="container"><div class="row"><div
+              class="col-md-12 mb16 mt16"
+            ><p
+              >It is thanks to the sponsorship that Ronnie, Michelle and Margret have taken on responsibilities. They were born in extreme poverty in Uganda and the Philippines. The first one became an engineer when he grew up in a slum.</p><p
+              >The second, born in Manila's drug and prostitution district, now runs an NGO to help victims of modern slavery. And the third was able to go to school and be elected to the Ugandan Senate. This is thanks to a sponsor and the commitment of a church that has decided to open a shelter and participate in the holistic development of children.</p><p
+              >Changing the world, one child at a time, is possible. Indeed, hope is stronger than poverty.</p><p
+              >Thank you for your commitment.</p></div></div></div></section>
         </field>
     </record>
     <record model="survey.question" id="gpfs_page1">

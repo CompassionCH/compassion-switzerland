@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_product_template_inherit" model="ir.ui.view">
+        <field name="name">product.template.inherit.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="before">
+                    <label
+          class="oe_edit_only"
+          for="plural_name"
+          string="Plural product name"
+        />
+                    <p><field
+            name="plural_name"
+            placeholder="Plural product name"
+          /></p>
+            </xpath>
+        </field>
+    </record>
+</odoo>

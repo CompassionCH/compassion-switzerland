@@ -1,19 +1,97 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-#	* sponsorship_switzerland
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-02 12:36+0000\n"
-"PO-Revision-Date: 2020-06-02 12:36+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Compassion Odoo 14\n"
+"Language: de\n"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__create_date
+msgid "Created on"
+msgstr "Angelegt am"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_banking_mandate__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_correspondence__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_template__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_origin__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner_category__display_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: child_compassion
+#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
+msgid "English"
+msgstr "Englisch"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__hold_id
+msgid "Hold"
+msgstr "Hold"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_banking_mandate__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_correspondence__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_template__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_origin__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner_category__id
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift__id
+msgid "ID"
+msgstr "ID"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_banking_mandate____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_correspondence____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_template____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_origin____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner_category____last_update
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert durch"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__sponsorship_id
+#: model:product.template,name:sponsorship_switzerland.product_template_sponsorship
+msgid "Sponsorship"
+msgstr "Patenschaft"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__state
+msgid "State"
+msgstr "Bundesland"
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_ovc
@@ -22,7 +100,11 @@ msgid "\n"
 "            clothing and a nurturing Christian home environment to children in poverty who are orphans\n"
 "            or who have no adult caretakers.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Der Compassion Highly Vulnerable Children's Fund bietet Kindern, die in Armut leben, Nahrung, Kleidung\n"
+"            Kleidung und ein behütetes christliches Zuhause für Kinder, die in Armut leben, Waisen sind\n"
+"            oder die keine erwachsenen Bezugspersonen haben.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_mds
@@ -30,7 +112,10 @@ msgid "\n"
 "            On behalf of of Raymond Girardet, we thank you for your donation\n"
 "            which will allow him to realize his project.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Im Namen von Raymond Girardet danken wir dir für deine Spende\n"
+"            die es ihm ermöglichen wird, sein Projekt zu verwirklichen.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_aid
@@ -40,7 +125,12 @@ msgid "\n"
 "            We are very grateful to you for your support to this fund and\n"
 "            for the great hope you offer to the sick children and their families.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank des AIDS-Fonds können wir die notwendige lebenslange Versorgung für\n"
+"            die HIV-infizierten Patenkinder (antiretrovirale Therapie).\n"
+"            Wir sind dir sehr dankbar für deine Unterstützung für diesen Fonds und\n"
+"            für die große Hoffnung, die du den kranken Kindern und ihren Familien gibst.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_nol
@@ -51,7 +141,13 @@ msgid "\n"
 "            We are very grateful for your donation by which you share the joy of Christmas with each\n"
 "            child of Compassion.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank des Weihnachtsgeschenkfonds können wir jedem Kind, das in einem\n"
+"            jedes Kind, das in einem Compassion-Zentrum registriert ist. Das verhindert Ungleichheiten zwischen den Kindern\n"
+"            zumindest in dieser besonderen Zeit des Jahres.\n"
+"            Wir sind sehr dankbar für deine Spende, mit der du die Freude an Weihnachten mit jedem\n"
+"            Kind von Compassion teilst.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_ldp
@@ -64,7 +160,15 @@ msgid "\n"
 "            Through your donation you are offering these students a chance for a promising future and we are very\n"
 "            grateful to you for your support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank des LDP-Fonds unterstützen wir derzeit 3 LDP-Studenten, Alfredo und\n"
+"            Hellen aus Ecuador und Tamirat aus Äthiopien. Das Leadership Development Program ermöglicht begabten jungen\n"
+"            begabte junge Christen, die am Ende ihrer Patenschaft angekommen sind, an die Universität zu gehen und sich\n"
+"            als christliche Führungskräfte. In den kommenden Jahren werden diese jungen Menschen in der Lage sein, ihr Land positiv für\n"
+"            ihr Land für Gott zu beeinflussen.\n"
+"            Mit deiner Spende gibst du diesen Schülern eine Chance auf eine vielversprechende Zukunft und wir sind dir sehr\n"
+"            sind dir sehr dankbar für deine Unterstützung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_haf
@@ -74,7 +178,12 @@ msgid "\n"
 "            We are very grateful to you for your contribution to this action and for the help you\n"
 "            therefore give the children and their families.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank der Wasserfilter und Rehydratationssets können die Familien der\n"
+"            Patenkinder diese schwere Epidemie wirksam bekämpfen.\n"
+"            Wir sind dir sehr dankbar für deinen Beitrag zu dieser Aktion und für die Hilfe, die du\n"
+"            die ihr den Kindern und ihren Familien damit gebt.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_anl
@@ -84,7 +193,12 @@ msgid "\n"
 "            We can offer a more efficient help to many needy children through sponsorships and complementary\n"
 "            interventions in the countries supported by Compassion.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende an Compassion Suisse können wir unsere Arbeit\n"
+"            unsere Arbeit in der Schweiz bekannt machen und unsere Dienstleistungen für Paten, Spender und Patenkinder verbessern.\n"
+"            Wir können vielen bedürftigen Kindern durch Patenschaften und ergänzende Maßnahmen\n"
+"            Patenschaften und ergänzende Maßnahmen in den von Compassion unterstützten Ländern.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_don
@@ -94,7 +208,12 @@ msgid "\n"
 "            We can offer a more efficient help to many needy children through sponsorships and complementary\n"
 "            interventions in the countries supported by Compassion.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende an Compassion Suisse können wir unsere Arbeit in der Schweiz weiter\n"
+"            unsere Arbeit in der Schweiz bekannt machen und unsere Dienstleistungen für Paten, Spender und Patenkinder verbessern.\n"
+"            Wir können vielen bedürftigen Kindern durch Patenschaften und ergänzende Maßnahmen\n"
+"            in den von Compassion unterstützten Ländern.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_urg
@@ -108,7 +227,16 @@ msgid "\n"
 "            Your support is essential and brings new hope to the families of sponsorchildren, the staff\n"
 "            of Compassion and the partner churches.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende an den humanitären Notfallfonds,\n"
+"            machst du es möglich, dass die Mitarbeiter von Compassion den Familien der Patenkinder\n"
+"            Familien von Patenkindern, die von einer Naturkatastrophe, Hungersnot oder\n"
+"            oder einer anderen Tragödie betroffen sind.\n"
+"            Lebensmittel, Decken, Unterkünfte und Ersatz für bestimmte Gegenstände werden in der Regel aus diesem Fonds bezahlt.\n"
+"\n"
+"            Deine Unterstützung ist unverzichtbar und gibt den Familien der Patenkinder, den Mitarbeitern von Compassion und den Partnerkirchen neue Hoffnung.\n"
+"            von Compassion und die Partnerkirchen.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_med
@@ -119,7 +247,13 @@ msgid "\n"
 "            such as a vaccination campaign for several Compassion centers, distribution of mosquito nets\n"
 "            to families that are registered in the Compassion program.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende für den medizinischen Fonds können wir jedem\n"
+"            Patenkind, das von einer schweren Krankheit betroffen ist, die notwendige medizinische Versorgung bieten und auf diese Weise\n"
+"            sowohl Gesundheit als auch Hoffnung wiederherstellen. Darüber hinaus können wir auch ergänzende Maßnahmen finanzieren\n"
+"            wie zum Beispiel eine Impfkampagne für mehrere Compassion-Zentren, die Verteilung von Moskitonetzen\n"
+"            an Familien, die im Compassion-Programm registriert sind.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_mag
@@ -129,7 +263,12 @@ msgid "\n"
 "            allows us to make our work known and to sensibilise many people to the cause of poor children.\n"
 "            We are very grateful for your precious support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende hast du unser Magazin abonniert und du\n"
+"            hilfst du uns, die Kosten für die Veröffentlichung zu decken. Unser Magazin ist ein wichtiges Kommunikationsmittel und\n"
+"            ermöglicht es uns, unsere Arbeit bekannt zu machen und viele Menschen für die Sache der armen Kinder zu sensibilisieren.\n"
+"            Wir sind sehr dankbar für deine wertvolle Unterstützung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_bib
@@ -140,7 +279,13 @@ msgid "\n"
 "            Your support helps the child to grow spiritually, to strengthen his faith and to receive a\n"
 "            precious encouragement.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Mit deiner Spende unterstützt du den Bibelfonds, mit dem wir\n"
+"            jedem Kind, das in einem Compassion-Zentrum registriert ist, eine Bibel schenken können. Die ganzheitliche Entwicklung des\n"
+"            Kindes ist einer der wichtigsten Werte von Compassion.\n"
+"            Deine Unterstützung hilft dem Kind, geistig zu wachsen, seinen Glauben zu stärken und eine\n"
+"            wertvolle Ermutigung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_ind
@@ -152,7 +297,14 @@ msgid "\n"
 "            Your support is essential and brings new hope to the families of sponsored children, the staff of\n"
 "            Compassion and the partner churches.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende können die vom jüngsten Zyklon Aila betroffenen Familien in\n"
+"            Indien und Bangladesch betroffen sind, eine wertvolle Hilfe erhalten. Compassion hat bereits damit begonnen, den betroffenen Familien Unterstützung und\n"
+"            und Lebensmittel zu den betroffenen Familien zu bringen und wird so bald wie möglich mit dem Wiederaufbau der beschädigten oder zerstörten Zentren\n"
+"            oder Häusern so schnell wie möglich beginnen.\n"
+"            Deine Unterstützung ist unverzichtbar und bringt neue Hoffnung für die Familien der Patenkinder, die Mitarbeiter von\n"
+"            Compassion und die Partnerkirchen.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_hai
@@ -164,7 +316,14 @@ msgid "\n"
 "            Your support is essential and represents a clear sign of hope to the sponsored children, their\n"
 "            families, the staff of Compassion and the partner churches in Haiti.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende können die Familien, die von dem schrecklichen Erdbeben in\n"
+"            Haiti betroffen sind, eine wertvolle Hilfe erhalten. Compassion bringt derzeit Unterstützung und Lebensmittel zu den betroffenen\n"
+"            Familien und gibt ihnen die nötige Unterstützung. Der Notfallfonds ermöglicht es Compassion außerdem, die\n"
+"            durch die Katastrophe beschädigte oder zerstörte Zentren wieder aufzubauen.\n"
+"            Deine Unterstützung ist unerlässlich und ein deutliches Zeichen der Hoffnung für die Patenkinder, ihre\n"
+"            Familien, die Mitarbeiter von Compassion und die Partnerkirchen in Haiti.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_phi
@@ -177,7 +336,15 @@ msgid "\n"
 "            Your support is essential and brings new hope to the families of sponsored children, the staff\n"
 "            of Compassion and the partner churches.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende können die Familien, die vom Taifun auf den\n"
+"            auf den Philippinen betroffen sind, eine wertvolle Hilfe erhalten. Compassion Philippines verteilt weiterhin\n"
+"            Lebensmittel und Erste-Hilfe-Materialien zu verteilen und allen Betroffenen die nötige Unterstützung zu geben.\n"
+"            von den Überschwemmungen betroffen sind.\n"
+"\n"
+"            Deine Unterstützung ist unverzichtbar und bringt den Familien der Patenkinder, den Mitarbeitern von Compassion und den Partnerkirchen neue Hoffnung.\n"
+"            von Compassion und die Partnerkirchen.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_bfa
@@ -189,7 +356,14 @@ msgid "\n"
 "            Your support is essential and is a real sign of hope for the sponsored children, their families,\n"
 "            the staff of Compassion and the partner churches.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende können die Patenkinder und ihre Familien\n"
+"            die von den jüngsten Überschwemmungen in Burkina Faso betroffen sind, eine wertvolle Hilfe erhalten. Compassion Burkina\n"
+"            Faso hat bereits damit begonnen, die betroffenen Familien mit Nahrungsmitteln zu versorgen und wird bald damit beginnen, die\n"
+"            und wird so bald wie möglich mit dem Wiederaufbau der beschädigten oder zerstörten Zentren und Häuser beginnen.\n"
+"            Deine Unterstützung ist wichtig und ein echtes Zeichen der Hoffnung für die Patenkinder und ihre Familien,\n"
+"            die Mitarbeiter von Compassion und die Partnerkirchen.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_fam
@@ -200,7 +374,13 @@ msgid "\n"
 "            We thank you so much for your generosity and for your interest towards the poorest children and their\n"
 "            families and for the hope that you give them through your support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende erhalten die Patenkinder und ihre Familien, die von\n"
+"            von der Hungersnot betroffen sind, eine wertvolle Hilfe. Compassion verteilt Lebensmittel an die betroffenen Familien, bietet aber auch\n"
+"            Ausbildung und Hilfsmittel, die den Familien helfen, den Hunger langfristig zu bekämpfen.\n"
+"            Wir danken euch sehr für eure Großzügigkeit und euer Interesse an den ärmsten Kindern und ihren Familien\n"
+"            Familien und für die Hoffnung, die ihr ihnen mit eurer Unterstützung gebt.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_cal
@@ -212,7 +392,14 @@ msgid "\n"
 "\n"
 "            We thank you very much for your support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende hilfst du uns, unseren Kalender zu finanzieren, der\n"
+"            der ein wertvolles Kommunikationsmittel ist, um unsere Arbeit im Laufe des Jahres in vielen Haushalten bekannt zu machen.\n"
+"            Außerdem können wir vielen Kindern vor Ort eine konkrete Hilfe und eine neue Zukunft bieten und ihnen wieder\n"
+"            Hoffnung in ihr Leben bringen.\n"
+"\n"
+"            Wir danken dir ganz herzlich für deine Unterstützung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_wtp
@@ -222,7 +409,12 @@ msgid "\n"
 "            drinking water, in the poorest regions of the world.\n"
 "            This help would not be possible without you and we are very grateful for your support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Danke für deine Spende. Sie ermöglicht uns die Finanzierung des Wasserdesinfektions\n"
+"            Projekt zu finanzieren, um Patenkinder, ihre Familien, ihre Gemeinden und Dörfer mit\n"
+"            in den ärmsten Regionen der Welt mit Trinkwasser zu versorgen.\n"
+"            Diese Hilfe wäre ohne dich nicht möglich und wir sind sehr dankbar für deine Unterstützung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_wol
@@ -232,7 +424,12 @@ msgid "\n"
 "            water, in the poorest regions of the world.\n"
 "            This help would not be possible without you and we are very grateful for your support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Danke für deine Spende. Sie ermöglicht es uns, Wasserfilter zu finanzieren\n"
+"            um Patenkinder, ihre Familien, ihre Gemeinden und Dörfer mit Trinkwasser zu\n"
+"            in den ärmsten Regionen der Welt zu versorgen.\n"
+"            Diese Hilfe wäre ohne dich nicht möglich und wir sind sehr dankbar für deine Unterstützung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_kdo
@@ -243,7 +440,13 @@ msgid "\n"
 "            We are very grateful for your complementary support to your sponsored child and his family that\n"
 "            brings more hope and great encouragement to them.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Dank deiner Spende, die vollständig für sie bestimmt ist, erhält die Familie deines\n"
+"            erhält die Familie deines Patenkindes eine wertvolle zusätzliche Hilfe zur Deckung ihrer besonderen Bedürfnisse und zur\n"
+"            ihre Lebensbedingungen zu verbessern.\n"
+"            Wir sind sehr dankbar für deine zusätzliche Unterstützung für dein Patenkind und seine Familie.\n"
+"            die ihnen mehr Hoffnung und große Ermutigung bringt.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_csp
@@ -256,7 +459,15 @@ msgid "\n"
 "            We are very grateful to you for your interest towards mothers and their babies and for the hope you\n"
 "            are bringing to them through your help.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Der CSP-Fonds (Child Survival Program) ermöglicht es uns, 3 CSP-Zentren zu unterstützen,\n"
+"            zwei in Haiti und eines in Ecuador. Jedes CSP-Zentrum beherbergt etwa 30 Mütter und ihre Babys und\n"
+"            schwangere Frauen. Diese Frauen erhalten Schulungen, praktische Hilfe, Lebensmittel, gründliche medizinische Untersuchungen\n"
+"            regelmäßige medizinische Untersuchungen und Bibelstunden.\n"
+"\n"
+"            Wir sind dir sehr dankbar für dein Interesse an den Müttern und ihren Babys und für die Hoffnung, die du\n"
+"            die du ihnen durch deine Hilfe gibst.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_pro
@@ -266,7 +477,12 @@ msgid "\n"
 "            Thanks to your support we can continue to offer this service on a long-term basis and we are\n"
 "            very grateful to you for your help.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Der Berufsfonds ermöglicht es vielen jungen Geförderten, eine\n"
+"            eine Berufsausbildung zu absolvieren, bevor sie das Patenschaftsprogramm beenden.\n"
+"            Dank deiner Unterstützung können wir diesen Service auch langfristig anbieten und wir sind\n"
+"            sind dir sehr dankbar für deine Hilfe.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_c20
@@ -278,12 +494,14 @@ msgid "\n"
 "            We are very grateful to you for your interest towards mothers and their babies and for the hope you\n"
 "            are bringing to them through your help.\n"
 "        "
-msgstr "With your donation, you support the CSP (child survival program) in \n"
-"tttEcuador. The center welcomes around 30 mothers and their babies and pregnant women. These women \n"
-"tttreceive training, practical assistance, food, thorough medical checks on a regular basis and Bible lessons.\n"
+msgstr "\n"
+"            Mit deiner Spende unterstützt du das CSP (Child Survival Program) in\n"
+"            Ecuador. Das Zentrum nimmt rund 30 Mütter und ihre Babys sowie schwangere Frauen auf. Diese Frauen\n"
+"            erhalten Schulungen, praktische Hilfe, Lebensmittel, regelmäßige gründliche medizinische Untersuchungen und Bibelunterricht.\n"
 "\n"
-"tttWe are very grateful to you for your interest towards mothers and their babies and for the hope you \n"
-"tttare bringing to them through your help."
+"            Wir sind dir sehr dankbar für dein Interesse an den Müttern und ihren Babys und für die Hoffnung, die du\n"
+"            die du ihnen durch deine Hilfe gibst.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_c13
@@ -296,7 +514,14 @@ msgid "\n"
 "            We are very grateful to you for your interest towards mothers and their babies and for the hope you\n"
 "            are bringing to them through your help.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Mit deiner Spende unterstützt du das CSP (Child Survival Program) in\n"
+"            Haiti. Das Zentrum nimmt etwa 30 Mütter und ihre Babys sowie schwangere Frauen auf. Diese Frauen\n"
+"            erhalten Schulungen, praktische Hilfe, Lebensmittel, regelmäßige gründliche medizinische Untersuchungen und Bibelunterricht.\n"
+"\n"
+"            Wir sind dir sehr dankbar für dein Interesse an den Müttern und ihren Babys und für die Hoffnung, die du\n"
+"            die du ihnen durch deine Hilfe gibst.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_usp
@@ -308,7 +533,14 @@ msgid "\n"
 "\n"
 "            We thank you very much for your precious support.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Mit deiner Spende an den \"Unsponsored Children Fund\" schaltest du die Vorteile\n"
+"            des Compassion-Programms für Kinder, die zwar registriert sind, aber noch keine Patenschaft erhalten haben. Deine\n"
+"            Spende an diesen Fonds ermutigt auch Eltern und Programmmitarbeiter, da sie sehen, dass Compassion\n"
+"            für die Kinder, die sie lieben, auch wenn sie auf Paten warten - und hoffen.\n"
+"\n"
+"            Wir danken dir sehr für deine wertvolle Unterstützung.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_kgs
@@ -317,175 +549,137 @@ msgid "\n"
 "            for the first time in Burkina Faso. Your support also helps many of the children in the sponsorship\n"
 "            program to take part of this event.\n"
 "        "
-msgstr ""
+msgstr "\n"
+"            Deine Unterstützung hilft dem Organisator der Kinderspiele bei der Planung dieser Veranstaltung\n"
+"            zum ersten Mal in Burkina Faso durchzuführen. Deine Unterstützung hilft auch vielen der Kinder im Patenschaftsprogramm\n"
+"            Patenschaftsprogramm an dieser Veranstaltung teilzunehmen.\n"
+"        "
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ovc
 msgid "\"Highly Vulnerable Children\" Fund"
-msgstr ""
+msgstr "Fonds \"Hochgefährdete Kinder\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sm
 msgid "\"Stop Mosquitoes\" campaign"
-msgstr ""
+msgstr "Kampagne \"Stop Mosquitos\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_wtp
 msgid "\"Water for the children\" Fund"
-msgstr ""
+msgstr "Fonds \"Wasser für die Kinder\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_wol
 msgid "\"Water of Life\" - Water filter fund"
-msgstr ""
+msgstr "\"Wasser des Lebens\" - Wasserfilter-Fonds"
 
 #. module: sponsorship_switzerland
+#: model:product.template,description:sponsorship_switzerland.product_template_fund_par
+msgid ". With this amount QTY_PRODUCT  children can be cared for and sustainably supported for MONTHS in the program of Compassion. In addition, the children are supported by young people from Switzerland through prayer and letters."
+msgstr ", mit welcher ein Kind für QTY_PRODUCT MONTHS unterstützt werden konnte."
+
+#. module: sponsorship_switzerland
+#: model:product.template,description_sale:sponsorship_switzerland.product_template_fund_toilets
+msgid "38% of the world population does not have daily access to a decent toilet. Compassion is committed to building and sanitizing toilets for children."
+msgstr "38% der Weltbevölkerung haben keinen täglichen Zugang zu sicheren Toiletten. Compassion baut und saniert Toiletten für Kinder."
+
+#. modules: sponsorship_switzerland, sponsorship_compassion, partner_compassion, account_banking_mandate, account_banking_sepa_direct_debit
 #: model:ir.model,name:sponsorship_switzerland.model_account_banking_mandate
 msgid "A generic banking mandate"
 msgstr "Ein allgemeines Bank-Mandat"
 
-#. module: sponsorship_switzerland
+#. modules: report_compassion, gift_compassion, crm_compassion, recurring_contract, sponsorship_switzerland, survival_sponsorship_compassion, sponsorship_compassion
 #: model:ir.model,name:sponsorship_switzerland.model_recurring_contract_group
 msgid "A group of contracts"
-msgstr ""
+msgstr "Eine Gruppe von Verträgen"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_aid
 msgid "AIDS/HIV Fund"
-msgstr ""
+msgstr "AIDS/HIV-Fonds"
 
-#. module: sponsorship_switzerland
+#. modules: account_statement_completion, sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_account_statement_completion_rule
 msgid "Account Statement Completion Rule"
-msgstr ""
+msgstr "Regel für das Ausfüllen von Kontoauszügen"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report__acquisition_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report_acquisition
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report_acquisition
-msgid "Acquisition"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:39
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:39
-#: selection:end.sponsorships.month.report,sds_state:0
-#: selection:recurring.contract,state:0
-#, python-format
-msgid "Active"
-msgstr "Aktiv"
+#. modules: base, partner_compassion, sponsorship_switzerland
+#: model:ir.model.fields,help:sponsorship_switzerland.field_recurring_contract_partner_lang
+msgid "All the emails and documents sent to this contact will be translated in this language."
+msgstr "Alle E-Mails und Dokumente, die an diesen Kontakt gesendet werden, werden in diese Sprache übersetzt."
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_any
 msgid "Anonymous donations"
-msgstr ""
+msgstr "Anonyme Spenden"
 
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.load_csv_wizard_views
-msgid "Apply the change"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: partner_compassion, sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_bvr
 msgid "BVR"
-msgstr ""
+msgstr "BVR"
 
-#. module: sponsorship_switzerland
+#. modules: sponsorship_compassion, sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__bvr_reference
 msgid "BVR Ref"
-msgstr ""
+msgstr "BVR Ref"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bib
 msgid "Bible Fund"
-msgstr ""
+msgstr "Bibelfonds"
+
+#. modules: report_compassion, sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_gift_birthday
+msgid "Birthday Gift"
+msgstr "Geburtstagsgeschenk"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bli
 msgid "Blind Children Fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "By months"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "By weeks"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,name:sponsorship_switzerland.product_template_fund_c20
-msgid "CSP EC-C20 in Ecuador"
-msgstr ""
+msgstr "Fonds für blinde Kinder"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c13
 msgid "CSP HA-C13 in Haiti"
-msgstr ""
+msgstr "CSP HA-C13 in Haiti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c46
 msgid "CSP HA-C46 in Haiti"
-msgstr ""
+msgstr "CSP HA-C46 in Haiti"
 
 #. module: sponsorship_switzerland
+#: model:product.template,name:sponsorship_switzerland.product_template_fund_c20
+msgid "CSP Survial"
+msgstr "CSP Survial"
+
+#. modules: hr_holidays, sponsorship_switzerland, mail, web, base, web_timeline, partner_compassion, crm_phone, web_view_google_map, calendar, google_calendar
+#. openerp-web
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_cal
 msgid "Calendar"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report__cancellation_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report_cancellation
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report_cancellation
-msgid "Cancellation"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:45
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:45
-#: selection:end.sponsorships.month.report,sds_state:0
-#: selection:recurring.contract,state:0
-#, python-format
-msgid "Cancelled"
-msgstr "Abgebrochen"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report_category
-msgid "Category"
-msgstr "Kategorie"
+msgstr "Kalender"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c46
 msgid "Centre de survie HA0271"
-msgstr ""
+msgstr "Centre de survie HA0271"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c13
 msgid "Centre de survie HA0724"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__change_method
-msgid "Change Method"
-msgstr ""
+msgstr "Centre de survie HA0724"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_csp
 msgid "Child Survival Program"
-msgstr "CSP-Fonds (Kinder-Überlebens-Programm)"
+msgstr "Überlebensprogramm für Mütter und Babys"
 
-#. module: sponsorship_switzerland
-#: selection:end.sponsorships.month.report,category:0
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Child departure"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: mobile_app_connector, sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_kdo
 msgid "Child gift"
-msgstr ""
+msgstr "Geschenk für Kinder"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_haf
@@ -497,372 +691,134 @@ msgstr "Haiti - Filter action"
 msgid "Christmas Gift"
 msgstr "Weihnachtsgeschenke"
 
-#. module: sponsorship_switzerland
+#. modules: sponsorship_switzerland, sms_939, sponsorship_compassion, partner_compassion, crm_phone
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__church_id
 msgid "Church"
-msgstr ""
+msgstr "Kirche"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c3b
 msgid "Cicerolandia BR473 project Fund - supported by C3"
-msgstr ""
+msgstr "Cicerolandia BR473 Projektfonds - unterstützt von C3"
 
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Compare fiscal years"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: crowdfunding_compassion, sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_anl
 msgid "Compassion Suisse"
-msgstr ""
+msgstr "Compassion Suisse"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_don
 msgid "Compassion Suisse grant"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion [LSV/DD]: From line reference (based on the BVR reference of the sponsor)"
-msgstr ""
+msgstr "Zuschuss von Compassion Suisse"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_mag
 msgid "Compassion magazine"
-msgstr ""
+msgstr "Compassion Magazin"
 
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion: From line amount (based on the amount of the supplier invoice)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion: From line reference (based on previous move_line references)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion: From line reference (based on the BVR reference of the sponsor)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion: From line reference (based on the partner reference)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion: Put LSV DD Credits in 1098"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "Compassion[POST]: From sponsor reference (based the sponsor name in the description)"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: report_compassion, sbc_translation, crowdfunding_compassion, website_event_compassion, muskathlon, partner_compassion, website_sale, thankyou_letters, mass_mailing_switzerland, product, project, mobile_app_connector, partner_contact_in_several_companies, auth_signup, geoengine_base_geolocalize, theme_compassion, snailmail, sbc_switzerland, account, sponsorship_switzerland, sms, sbc_compassion, portal, sale, base_address_city, partner_multi_relation, partner_contact_birthdate, bus, message_center_compassion, partner_firstname, crm_switzerland, hr, mail_bot, payment, asterisk_click2dial, crm_compassion, crm_phone_validation, mail_tracking, hr_timesheet, website_mass_mailing, sms_939, base_location, firebase_connector, geoengine_partner, sales_team, crm_phone, stock, website, partner_communication_switzerland, base_geolocalize, mail, mailchimp, sms_sponsorship, event, crm, mass_mailing, partner_communication, recurring_contract, partner_autocomplete, sponsorship_compassion, base, crm_phonecall, account_payment_partner, account_banking_mandate, base_phone, partner_email_check, calendar, crm_claim
 #: model:ir.model,name:sponsorship_switzerland.model_res_partner
 msgid "Contact"
 msgstr "Kontakt"
 
 #. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__create_uid
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__create_uid
-msgid "Created by"
-msgstr "Angelegt von"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__create_date
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__create_date
-msgid "Created on"
-msgstr "Angelegt am"
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:23
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:16
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:23
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:16
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Death of partner"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,crowdfunding_description:sponsorship_switzerland.product_template_fund_c20
-msgid "Description to do"
-msgstr "Das Kinder-Überlebens-Programm richtet sich an arme schwangere Mütter und deren Kinder. Es unterstützt sie in ihren gesundheitlichen, wirtschaftlichen und sozialen Bedürfnissen vor und nach einer Geburt."
+#: model:product.template,name:sponsorship_switzerland.product_template_covid
+msgid "Covid-19 help fund"
+msgstr "Covid-19 Nothilfe"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_hai
 msgid "Disaster Fund Haiti"
-msgstr ""
+msgstr "Katastrophenfonds Haiti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ind
 msgid "Disaster Fund India"
-msgstr ""
+msgstr "Katastrophenfonds Indien"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__display_name
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__display_name
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__display_name
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report__display_name
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report__display_name
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report__display_name
-msgid "Display Name"
-msgstr "Anzeigename"
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:26
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:19
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:26
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:19
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Doesn't pay"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:38
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:38
-#: selection:end.sponsorships.month.report,sds_state:0
-#: selection:recurring.contract,state:0
-#, python-format
-msgid "Draft"
-msgstr "Entwurf"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__end_date
-msgid "End Date"
-msgstr "Enddatum"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__end_reason_id
-msgid "End Reason"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_end_sponsorships_month_report
-msgid "End of sponsorships monthly report"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_details_pivot
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_pivot
-msgid "Ended Sponsorships"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.actions.act_window,name:sponsorship_switzerland.action_ended_sponsorships_details_report
-#: model:ir.ui.menu,name:sponsorship_switzerland.menu_ended_sponsorships_details
-msgid "Ended Sponsorships (details)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.actions.act_window,name:sponsorship_switzerland.action_ended_sponsorships_report
-#: model:ir.ui.menu,name:sponsorship_switzerland.menu_ended_sponsorships
-msgid "Ended Sponsorships (percentage)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_bar
-msgid "Ended Sponsorships percentage"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.ui.menu,name:sponsorship_switzerland.sponsorships_report_menu_ending
-msgid "Ending Analysis"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
-msgid "English"
-msgstr "Englisch"
+#. modules: report_compassion, sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_gift_family
+msgid "Family Gift"
+msgstr "Geschenk für Patenkind & Familie"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_fam
 msgid "Famine Fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__name_data_csv
-msgid "File Name"
-msgstr "Dateiname"
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.load_csv_wizard_views
-msgid "File uploading"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:29
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:22
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:29
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:22
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Financial reasons"
-msgstr ""
+msgstr "Hungersnotfonds"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__first_open_invoice
 msgid "First Open Invoice"
-msgstr ""
+msgstr "Erste offene Rechnung"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__fiscal_month_number
-msgid "Fiscal Month Number"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__fiscal_year
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Fiscal Year"
-msgstr "Geschäftsjahr"
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Fiscal Year Analysis"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: advanced_translation, sponsorship_switzerland, sms_939, website_event_compassion, partner_communication_switzerland, website_compassion, base_google_map
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
 msgid "French"
 msgstr "Französisch"
 
 #. module: sponsorship_switzerland
-#: selection:account.statement.completion.rule,function_to_call:0
-msgid "From payment line reference"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.actions.act_window,help:sponsorship_switzerland.action_sponsorships_evolution_months_report
-#: model_terms:ir.actions.act_window,help:sponsorship_switzerland.action_sponsorships_evolution_years_report
-msgid "From this report, you can have an overview of active sponsorships during time. The search tool can also be used to personalise your Sponsorships reports and so, match this analysis to your needs."
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.actions.act_window,help:sponsorship_switzerland.action_ended_sponsorships_report
-msgid "From this report, you can have an overview of the ended sponsorships."
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.actions.act_window,help:sponsorship_switzerland.action_new_sponsorships_report
-msgid "From this report, you can have an overview of the new sponsorships. The search tool can also be used to personalise your Sponsorships reports and so, match this analysis to your needs."
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.actions.act_window,help:sponsorship_switzerland.action_ended_sponsorships_details_report
-msgid "From this report, you can view the details of the ended sponsorships."
-msgstr ""
-
-#. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bfa
 msgid "Fund \"Floods in Burkina Faso\""
-msgstr ""
+msgstr "Fonds \"Überschwemmungen in Burkina Faso\""
 
-#. module: sponsorship_switzerland
+#. module: sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_fund_gen
+msgid "General Fund"
+msgstr "Hilfe für Kinder in Not"
+
+#. modules: report_compassion, sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_gift_gen
+msgid "General Gift"
+msgstr "Geschenk für Patenkind"
+
+#. modules: sponsorship_switzerland, child_switzerland, partner_communication_switzerland, website_compassion, base_google_map
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
 msgid "German"
 msgstr "Deutsch"
 
-#. module: sponsorship_switzerland
+#. modules: sponsorship_compassion, gift_compassion, sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_correspondence__gift_id
 msgid "Gift"
-msgstr ""
+msgstr "Geschenk"
 
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_generate_gift_wizard
-msgid "Gift Generation Wizard"
-msgstr ""
+#. modules: report_compassion, sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_gift_graduation
+msgid "Graduation Gift"
+msgstr "Ausbildungsabschlussgeschenk"
 
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Group By"
-msgstr "Gruppieren nach"
-
-#. module: sponsorship_switzerland
+#. modules: sponsorship_compassion, sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__has_mandate
 msgid "Has Mandate"
-msgstr ""
+msgstr "Hat Mandat"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__hillsong_ref
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_origin__hillsong_ref
 msgid "Hillsong Ref"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__hold_id
-msgid "Hold"
-msgstr ""
+msgstr "Hillsong Ref"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_urg
 msgid "Humanitarian Fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,fund_selector_pre_description:sponsorship_switzerland.product_template_fund_c20
-msgid "I want to support"
-msgstr "Ich möchte"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report_id
-msgid "ID"
-msgstr ""
+msgstr "Humanitärer Fonds"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_isc
 msgid "International Staff Care Fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_account_invoice
-msgid "Invoice"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.invoice_view_form_compassion
-msgid "Invoice Lines"
-msgstr "Rechnungszeilen"
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/queue_job.py:20
-#: code:addons/sponsorship_switzerland/models/queue_job.py:20
-#, python-format
-msgid "Invoices"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report__is_active
-msgid "Is Active"
-msgstr ""
+msgstr "Internationaler Fonds für Mitarbeiterbetreuung"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__is_already_a_sponsor
 msgid "Is Already A Sponsor"
-msgstr ""
+msgstr "Ist bereits ein Sponsor"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner__is_restricted
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_users__is_restricted
 msgid "Is Restricted"
-msgstr ""
+msgstr "Eingeschränkt ist"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,help:sponsorship_switzerland.field_end_sponsorships_month_report__valid_month
-msgid "Is the fiscal month already passed in current fiscal year?"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: sponsorship_switzerland, website_event_compassion, child_switzerland, partner_communication_switzerland, website_compassion, base_google_map
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
 msgid "Italian"
 msgstr "Italienisch"
@@ -870,670 +826,311 @@ msgstr "Italienisch"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_kgs
 msgid "Kids Games Burkina Faso"
-msgstr ""
+msgstr "Kinderspiele Burkina Faso"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ldp
 msgid "LDP Fund"
-msgstr ""
+msgstr "LDP-Fonds"
+
+#. module: sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_sponsorship_ldp
+msgid "LDP Sponsorship"
+msgstr "LDP-Sponsoring"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv
 msgid "LSV"
-msgstr ""
+msgstr "LSV"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv_25th
 msgid "LSV 25th"
-msgstr ""
+msgstr "LSV 25."
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv_multi_months
 msgid "LSV multi-months"
-msgstr ""
+msgstr "LSV mehrmonatig"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report_lang
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Lang"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "Language"
-msgstr "Sprache"
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_months_report_search
-msgid "Last 12 Months"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_months_report_search
-msgid "Last 24 Months"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Last 5 Years"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "Last 6 Months"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report____last_update
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard____last_update
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard____last_update
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report____last_update
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report____last_update
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report____last_update
-msgid "Last Modified on"
-msgstr "Zuletzt geändert am"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__write_uid
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__write_uid
-msgid "Last Updated by"
-msgstr "Zuletzt aktualisiert durch"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__write_date
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__write_date
-msgid "Last Updated on"
-msgstr "Zuletzt aktualisiert am"
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_months_report_search
-msgid "Last Year"
-msgstr "Letztes Jahr"
-
-#. module: sponsorship_switzerland
+#. modules: sbc_translation, sbc_switzerland, sponsorship_switzerland, snailmail_account, sbc_compassion, mass_mailing_switzerland, partner_communication_switzerland, mobile_app_connector
 #: model:ir.model,name:sponsorship_switzerland.model_correspondence
 msgid "Letter"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_load_csv_wizard
-msgid "Link gifts with letters"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.ui.menu,name:sponsorship_switzerland.menu_load_csv
-msgid "Load gift-letter csv-file"
-msgstr ""
+msgstr "Brief"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_loc
 msgid "Local projects"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,help:sponsorship_switzerland.field_account_statement_completion_rule__sequence
-msgid "Lower means parsed first."
-msgstr ""
+msgstr "Lokale Projekte"
 
 #. module: sponsorship_switzerland
 #: model:product.template,description:sponsorship_switzerland.product_template_fund_sm
 msgid "Malaria Fund"
-msgstr ""
+msgstr "Malaria-Fonds"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_med
 msgid "Medical Fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "Medium"
-msgstr "Mittel"
-
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_ir_ui_menu
-msgid "Menu"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule__function_to_call
-msgid "Method"
-msgstr "Methode"
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:22
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:15
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:22
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:15
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Mistake from our staff"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c20
-msgid "Mother and child"
-msgstr "Babys und Müttern"
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:24
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:17
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:24
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:17
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Moved to foreign country"
-msgstr ""
+msgstr "Krankenkasse"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_4mu
-msgid "Muskathlon"
-msgstr ""
+msgid "Muskathlon (PH24)"
+msgstr "Muskathlon"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_muttcsp
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_muttgen
 msgid "Muttertagsgottesdienst"
-msgstr ""
+msgstr "Muttertagsgottesdienst"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_muttcsp
 msgid "Muttertagsgottesdienst - CSP"
-msgstr ""
+msgstr "Muttertagsgottesdienst - CSP"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_muttgen
 msgid "Muttertagsgottesdienst - GEN"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule__name
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report_name
-msgid "Name"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:28
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:21
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:28
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:21
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Never paid"
-msgstr ""
+msgstr "Muttertagsgottesdienst - GEN"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_new
 msgid "New Building Yverdon"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_graph
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_pivot
-msgid "New Sponsorships"
-msgstr ""
+msgstr "Neues Gebäude Yverdon"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__next_reminder
 msgid "Next Reminder"
-msgstr ""
+msgstr "Nächste Mahnung"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__next_reminder_type
 msgid "Next Reminder Type"
-msgstr ""
+msgstr "Nächste Erinnerungsart"
 
-#. module: sponsorship_switzerland
+#. modules: mail_activity_reminder, sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__next_waiting_reminder
 msgid "Next reminder"
-msgstr ""
+msgstr "Nächste Erinnerung"
 
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:44
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:44
-#: selection:end.sponsorships.month.report,sds_state:0
-#: selection:end.sponsorships.month.report,sub_category:0
-#, python-format
-msgid "No sub"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:30
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:23
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:30
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:23
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Not given"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:25
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:18
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:25
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:18
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Not satisfied"
-msgstr "Nicht zufrieden"
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "Origin"
-msgstr "Herkunft"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__partner_id
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report__partner_id
-msgid "Partner"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: partner_tag_smart_assignation, sponsorship_switzerland, base, mass_mailing_switzerland, mailchimp
 #: model:ir.model,name:sponsorship_switzerland.model_res_partner_category
 msgid "Partner Tags"
-msgstr ""
+msgstr "Partner-Tags"
 
 #. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__payment_mode_id
-msgid "Payment mode"
-msgstr "Spendenmethode"
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_partner_lang
+msgid "Partner language"
+msgstr "Partnersprache"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__active_percentage
-msgid "Percentage (/active)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__total_percentage
-msgid "Percentage (/terminated)"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,help:sponsorship_switzerland.field_end_sponsorships_month_report__active_percentage
-msgid "Percentage on active sponsorships in that period"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,help:sponsorship_switzerland.field_end_sponsorships_month_report__total_percentage
-msgid "Percentage on total ended sponsorships in that period"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: website_compassion, sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_permanent_order
 msgid "Permanent Order"
 msgstr "Dauerauftrag"
 
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:27
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/gme_monthly_report.py:20
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:27
-#: code:addons/sponsorship_switzerland/reports/gme_monthly_report.py:20
-#: selection:end.sponsorships.month.report,end_reason_id:0
-#, python-format
-msgid "Personal reasons"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/account_invoice.py:50
-#: code:addons/sponsorship_switzerland/models/account_invoice.py:50
-#, python-format
-msgid "Please verify the partner before validating the invoice."
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:201
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:291
-#: code:addons/sponsorship_switzerland/models/contracts.py:201
-#: code:addons/sponsorship_switzerland/models/contracts.py:291
-#, python-format
+#. modules: sponsorship_compassion, sponsorship_switzerland
+#: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "Please verify the partner before validating the sponsorship"
-msgstr ""
+msgstr "Bitte überprüfe den Partner, bevor du die Patenschaft bestätigst"
 
 #. module: sponsorship_switzerland
 #: model:account.journal,name:sponsorship_switzerland.journal_post
 msgid "Postfinance CHF"
-msgstr ""
+msgstr "Postfinance CHF"
 
-#. module: sponsorship_switzerland
+#. modules: l10n_ch_lsv_dd, sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd
 msgid "Postfinance Direct Debit"
-msgstr ""
+msgstr "Postfinance Lastschriftverfahren"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_25th
 msgid "Postfinance Direct Debit 25th"
-msgstr ""
+msgstr "Postfinance Lastschriftverfahren 25."
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_multi_months
 msgid "Postfinance Direct Debit multi-months"
-msgstr ""
+msgstr "Postfinance Lastschriftverfahren mehrmonatig"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_postpone_waiting_reminder_wizard
 msgid "Postpone Waiting Reminder Wizard"
-msgstr ""
+msgstr "Assistent zur Erinnerung an das Aufschieben von Warteschleifen"
 
 #. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:178
-#: code:addons/sponsorship_switzerland/models/contracts.py:178
+#: code:addons/sponsorship_switzerland/models/contracts.py:0
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.generate_communication_wizard_ch_form
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_form_compassion
-#, python-format
 msgid "Postpone reminder"
-msgstr ""
+msgstr "Erinnerung aufschieben"
+
+#. module: sponsorship_switzerland
+#: model:product.template,description_sale:sponsorship_switzerland.product_template_covid
+msgid "Pour faire face aux coûts importants de cette pandémie, nos 8600 Eglises partenaires ont besoin de votre soutien. Chaque don, petit ou grand, permet de sauver des vies et nous permettra d’apporter un soutien efficace et déterminé aux enfants parrainés et à leurs familles."
+msgstr "Um die erheblichen Kosten der Auswirkungen dieser Pandemie zu tragen, brauchen unsere 8600 Partnerkirchen dringend Unterstützung. Jede Spende, ob gross oder klein, wird Leben retten und ermöglicht uns, die Patenkinder und ihre Familien effektiv und engagiert zu unterstützen."
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__previous_child_id
 msgid "Previous child"
-msgstr ""
+msgstr "Vorheriges Kind"
 
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_months_report_search
-msgid "Product"
-msgstr "Produkt"
+#. modules: crowdfunding_compassion, partner_compassion, website_sale, thankyou_letters, product, mobile_app_connector, sale_stock, account, sale, event_sale, intervention_compassion, account_analytic_default, hr_expense, account_analytic_compassion, sale_timesheet, stock_account, account_asset_management, stock, sale_expense, survival_sponsorship_compassion, sponsorship_compassion, website_sale_stock
+#: model:ir.model,name:sponsorship_switzerland.model_product_template
+msgid "Product Template"
+msgstr "Produktvorlage"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_pro
 msgid "Professional Fund"
-msgstr ""
+msgstr "Berufsfonds"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_mds
 msgid "Project \"Marathon des Sables\""
-msgstr ""
+msgstr "Projekt \"Marathon des Sables\""
 
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_queue_job
-msgid "Queue Job"
-msgstr "Aufgabe in Warteschlange einreihen"
+#. modules: report_compassion, sponsorship_compassion
+#: model:product.template,name:sponsorship_switzerland.product_template_gift_project
+msgid "Project Gift"
+msgstr "Spende für das Kinderzentrum"
 
 #. module: sponsorship_switzerland
 #: model:account.journal,name:sponsorship_switzerland.journal_raif
 msgid "Raiffeisen Current Account CHF"
-msgstr ""
+msgstr "Raiffeisen Girokonto CHF"
 
-#. module: sponsorship_switzerland
-#: model:ir.actions.act_window,name:sponsorship_switzerland.action_load_csv_wizard
-msgid "Record CSV Files"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: sponsorship_compassion, crm_compassion, mass_mailing_switzerland, sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_recurring_contract_origin
 msgid "Recurring Contract Origin"
-msgstr ""
+msgstr "Wiederkehrender Vertrag Ursprung"
 
-#. module: sponsorship_switzerland
+#. modules: report_compassion, sponsorship_tracking, gift_compassion, crm_compassion, recurring_contract, sponsorship_switzerland, sms_939, child_sync_wp, muskathlon, sponsorship_compassion, sbc_compassion, survival_sponsorship_compassion, mass_mailing_switzerland, partner_communication_switzerland, wordpress_connector, mobile_app_connector, message_center_compassion, sms_sponsorship
 #: model:ir.model,name:sponsorship_switzerland.model_recurring_contract
 msgid "Recurring contract"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule__journal_ids
-msgid "Related statement journal"
-msgstr ""
+msgstr "Wiederkehrender Vertrag"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_phi
 msgid "Relief Fund Philippines"
-msgstr ""
+msgstr "Hilfsfonds Philippinen"
 
 #. module: sponsorship_switzerland
-#: selection:postpone.waiting.reminder.wizard,next_reminder_type:0
+#: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__0
 msgid "Reminder 1"
-msgstr ""
+msgstr "Erinnerung 1"
 
 #. module: sponsorship_switzerland
-#: selection:postpone.waiting.reminder.wizard,next_reminder_type:0
+#: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__1
 msgid "Reminder 2"
-msgstr ""
+msgstr "Erinnerung 2"
 
 #. module: sponsorship_switzerland
-#: selection:postpone.waiting.reminder.wizard,next_reminder_type:0
+#: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__2
 msgid "Reminder 3"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.ui.menu,name:sponsorship_switzerland.sponsorships_report_menu_base
-msgid "Reports"
-msgstr "Berichte"
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "Reprise"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:res.partner.category,name:sponsorship_switzerland.res_partner_restricted
-msgid "Restricted"
-msgstr ""
+msgstr "Erinnerung 3"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sawyer
 msgid "Sawyer Water Filters for Ndeiya"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__sds_state
-msgid "Sds State"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_statement_completion_rule__sequence
-msgid "Sequence"
-msgstr "Reihenfolge"
+msgstr "Sawyer Wasserfilter für Ndeiya"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sgi
 msgid "Special gift"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "Sponsor cancellation"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:end.sponsorships.month.report,category:0
-msgid "Sponsor end"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_line_report__sponsor_line
-msgid "Sponsor line number"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report_sponsored
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report_sponsored
-msgid "Sponsored"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__sponsorship_id
-msgid "Sponsorship"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.ui.menu,name:sponsorship_switzerland.sponsorships_report_menu_new_sponsorships
-msgid "Sponsorship Activations"
-msgstr ""
+msgstr "Besonderes Geschenk"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_par
 msgid "Sponsorship Fund"
-msgstr ""
+msgstr "Patenschaftsfonds"
 
-#. module: sponsorship_switzerland
+#. modules: gift_compassion, sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_sponsorship_gift
 msgid "Sponsorship Gift"
-msgstr ""
+msgstr "Patenschaftsgeschenk"
 
-#. module: sponsorship_switzerland
-#: model:ir.model,name:sponsorship_switzerland.model_sponsorship_line_report
-msgid "Sponsorship Line"
-msgstr ""
+#. module: sponsorship_compassion
+#: model:product.template,description:sponsorship_switzerland.product_template_sponsorship_ldp
+msgid "Sponsorship for LDP Students."
+msgstr "Patenschaft für LDP-Studenten."
 
-#. module: sponsorship_switzerland
-#: model:ir.ui.menu,name:sponsorship_switzerland.sponsorships_report_menu_metrics
-msgid "Sponsorship Metrics"
-msgstr ""
+#. module: sponsorship_compassion
+#: model:product.template,description:sponsorship_switzerland.product_template_sponsorship
+msgid "Standard Sponsorship of type CDSP."
+msgstr "Standardpatenschaft der Art CDSP."
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report_sponsorships
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report_sponsorships
-msgid "Sponsorships"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.actions.act_window,name:sponsorship_switzerland.action_new_sponsorships_report
-msgid "Sponsorships Activations Report"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.actions.act_window,name:sponsorship_switzerland.action_sponsorships_evolution_months_report
-#: model:ir.model,name:sponsorship_switzerland.model_sponsorships_evolution_months_report
-#: model:ir.ui.menu,name:sponsorship_switzerland.sponsorships_report_menu_evolution_months
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_months_report_graph
-msgid "Sponsorships Evolution By Months"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.actions.act_window,name:sponsorship_switzerland.action_sponsorships_evolution_years_report
-#: model:ir.model,name:sponsorship_switzerland.model_sponsorships_evolution_years_report
-#: model:ir.ui.menu,name:sponsorship_switzerland.sponsorships_report_menu_evolution_year
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_years_report_graph
-msgid "Sponsorships Evolution By Years"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__state
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-msgid "State"
-msgstr "Bundesland"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__mandate_date
-msgid "State last time mandate"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_months_report__study_date
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorships_evolution_years_report__study_date
-msgid "Study Date"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:41
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:41
-#: selection:end.sponsorships.month.report,sds_state:0
-#: selection:end.sponsorships.month.report,sub_category:0
-#, python-format
-msgid "Sub"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:42
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:42
-#: selection:end.sponsorships.month.report,sds_state:0
-#, python-format
-msgid "Sub Accept"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__sub_category
-msgid "Sub Category"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:43
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:43
-#: selection:end.sponsorships.month.report,sds_state:0
-#, python-format
-msgid "Sub Reject"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__sub_sponsorship_id
-msgid "Sub Sponsorship"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/reports/end_sponsorships_report.py:40
-#: code:addons/sponsorship_switzerland/reports/end_sponsorships_report.py:40
-#: selection:end.sponsorships.month.report,sds_state:0
-#, python-format
-msgid "Sub waiting"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:recurring.contract,state:0
-msgid "Terminated"
-msgstr ""
-
-#. module: sponsorship_switzerland
+#. modules: thankyou_letters, crm_phone, partner_compassion, sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift__letter_id
 msgid "Thank you letter"
-msgstr ""
+msgstr "Dankesbrief"
+
+#. module: sponsorship_compassion
+#: model:product.template,description:sponsorship_switzerland.product_template_fund_gen
+msgid "Thanks to your donation to the General Fund, through your help we can offer\n"
+"                a concrete help and a new future to many children on the field and restore hope in their lives."
+msgstr "Dank deiner Spende für den Allgemeinen Fonds können wir mit deiner Hilfe\n"
+"                vielen Kindern vor Ort eine konkrete Hilfe und eine neue Zukunft bieten und wieder Hoffnung in ihr Leben bringen."
+
+#. module: sponsorship_switzerland
+#: model:product.template,description:sponsorship_switzerland.product_template_covid
+msgid "Thanks to your donation to the humanitarian emergency fund,\n"
+"            you make it possible for the Compassion staff to bring the needed help immediately to\n"
+"            the families of sponsored children who are touched by a natural disaster, famine or\n"
+"            any other tragedy.\n"
+"            Food, covers, shelters and replacement of certains belongings are commonly covered by this fund.\n"
+"\n"
+"            Your support is essential and brings new hope to the families of sponsorchildren, the staff\n"
+"            of Compassion and the partner churches."
+msgstr "Dank deiner Spende an den humanitären Notfallfonds,\n"
+"            machst du es möglich, dass die Mitarbeiter von Compassion den Familien der Patenkinder\n"
+"            Familien von Patenkindern, die von einer Naturkatastrophe, Hungersnot oder\n"
+"            oder einer anderen Tragödie betroffen sind.\n"
+"            Lebensmittel, Decken, Unterkünfte und Ersatz für bestimmte Gegenstände werden in der Regel aus diesem Fonds bezahlt.\n"
+"\n"
+"            Deine Unterstützung ist unerlässlich und gibt den Familien der Patenkinder, den Mitarbeitern von Compassion und den Partnerkirchen neue Hoffnung.\n"
+"            von Compassion und die Partnerkirchen."
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_4mu_2
 msgid "The 4th Musketeer Fund"
-msgstr ""
+msgstr "Der 4. Musketier-Fonds"
 
 #. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:131
-#: code:addons/sponsorship_switzerland/models/contracts.py:131
-#, python-format
+#: model:product.template,description_sale:sponsorship_switzerland.product_template_fund_c20
+msgid "The Child Survival Program is designed to support pregnant women and their newborns. This fund helps to take care of their health, economic and social needs."
+msgstr "Jeden Tag sterben 17.000 Kinder unter fünf Jahren an meist vermeidbaren Ursachen. Das Überlebensprogramm richtet sich an schwangere Mütter und deren Kinder, die in extremer Armut leben. Es unterstützt sie nachhaltig in ihren gesundheitlichen, wirtschaftlichen und sozialen Bedürfnissen vor und nach einer Geburt. Mütter erfahren dadurch: Ich bin nicht allein und mein Kind kann überleben."
+
+#. module: sponsorship_switzerland
+#: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "The ambassador has special categories"
-msgstr ""
+msgstr "Der Botschafter hat besondere Kategorien"
 
 #. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contract_group.py:148
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contract_group.py:194
-#: code:addons/sponsorship_switzerland/models/contract_group.py:148
-#: code:addons/sponsorship_switzerland/models/contract_group.py:194
-#, python-format
+#: code:addons/sponsorship_switzerland/models/contract_group.py:0
+#: code:addons/sponsorship_switzerland/models/contract_group.py:0
 msgid "The reference of the partner has not been set, or is in wrong format. Please make sure to enter a valid BVR reference for the contract."
-msgstr ""
+msgstr "Die Referenz des Partners wurde nicht festgelegt oder hat ein falsches Format. Bitte stelle sicher, dass du eine gültige BVR-Referenz für den Vertrag eingibst."
 
 #. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:117
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:308
-#: code:addons/sponsorship_switzerland/models/contracts.py:117
-#: code:addons/sponsorship_switzerland/models/contracts.py:308
-#, python-format
+#: code:addons/sponsorship_switzerland/models/contracts.py:0
+#: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "The sponsor has special categories"
-msgstr ""
+msgstr "Der Sponsor hat besondere Kategorien"
 
 #. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-msgid "This Month"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.end_sponsorships_search
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_new_sponsorships_report_search
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_sponsorships_evolution_months_report_search
-msgid "This Year"
-msgstr "Dieses Jahr"
-
-#. module: sponsorship_switzerland
-#: code:addons/addons/compassion-switzerland/sponsorship_switzerland/models/contracts.py:296
-#: code:addons/sponsorship_switzerland/models/contracts.py:296
-#, python-format
+#: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "This partner has the restricted category active. New sponsorships are not allowed."
-msgstr ""
+msgstr "Bei diesem Partner ist die eingeschränkte Kategorie aktiv. Neue Patenschaften sind nicht erlaubt."
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_toilets
 msgid "Toilets for all"
 msgstr "Toiletten für alle"
 
-#. module: sponsorship_switzerland
+#. modules: base_geoengine, uom
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_covid
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_4mu
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_4mu_2
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_aid
@@ -1550,6 +1147,7 @@ msgstr "Toiletten für alle"
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_csp
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_don
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_fam
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_gen
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_haf
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_hai
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_ind
@@ -1577,147 +1175,162 @@ msgstr "Toiletten für alle"
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_usp
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_wol
 #: model:product.template,uom_name:sponsorship_switzerland.product_template_fund_wtp
-msgid "Unit(s)"
-msgstr "Einheit(en)"
-
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_account_invoice__unrec_items
-msgid "Unrec Items"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.invoice_view_form_compassion
-msgid "Unreconciled Items"
-msgstr "Unausgeglichene Posten"
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_gift_birthday
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_gift_family
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_gift_gen
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_gift_graduation
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_gift_project
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_sponsorship
+#: model:product.template,uom_name:sponsorship_switzerland.product_template_sponsorship_ldp
+msgid "Units"
+msgstr "Einheiten"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_usp
 msgid "Unsponsored Children Fund"
-msgstr ""
+msgstr "Fonds für unbegleitete Kinder"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_end_sponsorships_month_report__valid_month
-msgid "Valid Month"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:recurring.contract,state:0
+#. modules: recurring_contract, sponsorship_switzerland
+#: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__recurring_contract__state__mandate
 msgid "Waiting Mandate"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: selection:recurring.contract,state:0
-msgid "Waiting Payment"
-msgstr ""
+msgstr "Warteschleifenmandat"
 
 #. module: sponsorship_switzerland
 #: model:ir.actions.act_window,name:sponsorship_switzerland.action_view_partner_waiting_mandate
 #: model:ir.ui.menu,name:sponsorship_switzerland.menu_waiting_mandate
 msgid "Waiting mandate"
-msgstr ""
+msgstr "Warteschleifen-Mandat"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_res_partner_category__warn_sponsorship
 msgid "Warn Sponsorship"
-msgstr ""
+msgstr "Patenschaft warnen"
 
-#. module: sponsorship_switzerland
+#. modules: survival_sponsorship_compassion, sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c20
+msgid "for Mother and child program"
+msgstr "für Babys und Mütter"
+
+#. module: sponsorship_compassion
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_gift_birthday
+msgid "for a birthday gift"
+msgstr "für ein Geburtstagsgeschenk"
+
+#. module: sponsorship_compassion
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_gift_family
+msgid "for a family gift"
+msgstr "für ein Familiengeschenk"
+
+#. modules: sponsorship_compassion, sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_kdo
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_sgi
-msgid "a gift"
-msgstr "ein Geschenk"
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_gift_gen
+msgid "for a gift"
+msgstr "für ein Geschenk"
 
-#. module: sponsorship_switzerland
-#: model:ir.model.fields,field_description:sponsorship_switzerland.field_load_csv_wizard__data_csv
-msgid "csv file"
-msgstr ""
+#. module: sponsorship_compassion
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_gift_graduation
+msgid "for a graduation gift"
+msgstr "für ein Geschenk zum Schulabschluss"
 
-#. module: sponsorship_switzerland
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_4mu
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_4mu_2
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_aid
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_anl
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_any
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_bfa
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_bib
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_bli
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_c13
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_c20
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_c3b
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_c46
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_cal
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_csp
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_don
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_fam
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_haf
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_hai
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_ind
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_isc
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_kdo
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_kgs
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_ldp
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_loc
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_mag
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_mds
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_med
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_muttcsp
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_muttgen
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_new
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_nol
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_ovc
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_par
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_phi
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_pro
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_sawyer
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_sgi
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_sm
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_toilets
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_urg
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_usp
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_wol
-#: model:product.template,weight_uom_name:sponsorship_switzerland.product_template_fund_wtp
-msgid "kg"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,crowdfunding_quantity_singular:sponsorship_switzerland.product_template_fund_c20
-#: model:product.template,crowdfunding_quantity_singular:sponsorship_switzerland.product_template_fund_csp
-msgid "mother and baby"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,crowdfunding_quantity_plural:sponsorship_switzerland.product_template_fund_c20
-#: model:product.template,crowdfunding_quantity_plural:sponsorship_switzerland.product_template_fund_csp
-#: model:product.template,fund_selector_post_description:sponsorship_switzerland.product_template_fund_c20
-msgid "mothers and babies"
-msgstr "Mütter und Babys unterstützen"
-
-#. module: sponsorship_switzerland
-#: model:product.template,crowdfunding_impact_text_passive:sponsorship_switzerland.product_template_fund_c20
-#: model:product.template,crowdfunding_impact_text_passive:sponsorship_switzerland.product_template_fund_csp
-msgid "mothers and babies supported"
-msgstr ""
+#. module: sponsorship_compassion
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_gift_project
+msgid "for a project gift"
+msgstr "für ein Geschenk für das Kinderzentrum"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_cal
-msgid "poor children"
-msgstr "die arme Kinder"
+msgid "for poor children"
+msgstr "für arme Kinder"
+
+#. module: sponsorship_compassion
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_sponsorship
+msgid "for sponsorship fund"
+msgstr "für Patenschaft fond"
 
 #. module: sponsorship_switzerland
-#: model:product.template,crowdfunding_impact_text_active:sponsorship_switzerland.product_template_fund_c20
-#: model:product.template,crowdfunding_impact_text_active:sponsorship_switzerland.product_template_fund_csp
-msgid "supporting mothers and babies"
-msgstr ""
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_mag
+msgid "for the Compassion magazine"
+msgstr "für das Compassion Magazin"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_4mu
+msgid "for the Muskathlon project (Food crisis)"
+msgstr ". Es kostet durchschnittlich CHF 40.-, um eine fünf- bis sechsköpfige Familie mit einem Monatsvorrat an Lebensmitteln zu versorgen. Die Verteilung von Lebensmitteln sichert das Überleben von Familien, welche durch steigende Preise extrem bedroht sind.\n"
+"Hier ERFAHREN mehr über die Lebensmittelverteilung und ihre Wirkung: compassion.ch/helfen"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_bib
+msgid "for the bible fund"
+msgstr "für den Bibelfonds"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_bli
+msgid "for the blind children"
+msgstr "für die blinden Kinder"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_csp
+msgid "for the child survival program"
+msgstr "für das Kinder-Überlebens-Programm"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_nol
+msgid "for the christmas gift fund"
+msgstr "für den Weihnachtsgeschenke-Fonds"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_hai
+msgid "for the disaster fund in Haiti"
+msgstr "für den Katastrophenfonds in Haiti"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_fam
+msgid "for the famine fund"
+msgstr "für die Bekämpfung der Lebensmittelkrise. Es kostet durchschnittlich CHF 40.-, um eine fünf- bis sechsköpfige Familie mit einem Monatsvorrat an Lebensmitteln zu versorgen. Die Verteilung von Lebensmitteln sichert das Überleben von Familien, welche durch steigende Preise extrem bedroht sind.\n"
+"Hier ERFAHREN mehr über die Lebensmittelverteilung und ihre Wirkung: compassion.ch/helfen"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_ovc
+msgid "for the highly vulnerable children"
+msgstr "für die besonders gefährdeten Kinder"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_covid
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_urg
+msgid "for the humanitarian fund"
+msgstr " für den Nothilfe-Fonds"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_med
+msgid "for the medical fund"
+msgstr " für den Fonds für medizinische Hilfe"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_pro
+msgid "for the professional training fund"
+msgstr "für den Berufsbildungsfonds"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_usp
+msgid "for unsponsored children"
+msgstr "für Kinder ohne Paten"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_wol
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_wtp
+msgid "for water for the children"
+msgstr "für Wasser für Kinder"
+
+#. module: sponsorship_switzerland
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_toilets
+msgid "pour le projet \"toilettes pour tous\""
+msgstr "für das Projekt \"Toiletten für alle\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_aid
 msgid "the AIDS/HIV fund"
-msgstr "den HIV/AIDS-Fonds"
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_mag
-msgid "the Compassion magazine"
-msgstr ""
+msgstr "für den HIV/AIDS-Fonds"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_kgs
@@ -1727,70 +1340,32 @@ msgstr "die Kids Games in Burkina Faso"
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_mds
 msgid "the Marathon des Sables"
-msgstr ""
+msgstr "der Marathon des Sables"
 
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_bib
-msgid "the bible fund"
-msgstr "den Bibel-Fonds"
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_bli
-msgid "the blind children"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_csp
-msgid "the child survival program"
-msgstr "das Kinder-Überlebens-Programm"
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_nol
-msgid "the christmas gift fund"
-msgstr "den Weihnachtsgeschenke-Fonds"
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_hai
-msgid "the disaster fund in Haiti"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_fam
-msgid "the famine fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_ovc
-msgid "the highly vulnerable children"
-msgstr "die besonders gefährdeten Kinder"
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_urg
-msgid "the humanitarian fund"
-msgstr "den Nothilfe-Fonds"
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_med
-msgid "the medical fund"
-msgstr ""
-
-#. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_pro
-msgid "the professional training fund"
-msgstr ""
+#. module: sponsorship_compassion
+#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_gen
+msgid "the general fund"
+msgstr "für Kinder, die in extremer Armut leben"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_phi
 msgid "the relief fund in Philippines"
-msgstr ""
+msgstr "der Hilfsfonds auf den Philippinen"
 
 #. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_usp
-msgid "unsponsored children"
-msgstr "Kinder ohne Paten"
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__mandate_date
+msgid "Mandate Date"
+msgstr "Mandat Datum"
 
 #. module: sponsorship_switzerland
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_wol
-#: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_wtp
-msgid "water for the children"
-msgstr ""
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_product__plural_name
+#: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_template__plural_name
+#: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_product_template_inherit
+msgid "Plural product name"
+msgstr "Produktname im Plural"
+
+#. module: sponsorship_switzerland
+#: model:res.partner.category,name:sponsorship_switzerland.res_partner_restricted
+msgid "Restricted"
+msgstr "Eingeschränkt"
+
