@@ -234,8 +234,6 @@ class ContractGroup(models.Model):
 
         return inv_data
 
-        return inv_data
-
     def _compute_ref(self, inv_data, gifts):
         """Compute a comprehensive reference for customer"""
         ref = ""
