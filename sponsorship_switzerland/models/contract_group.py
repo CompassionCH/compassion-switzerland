@@ -10,7 +10,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import mod10r
+from odoo.tools import mod10r, format_date
 
 
 class ContractGroup(models.Model):
@@ -192,6 +192,11 @@ class ContractGroup(models.Model):
                 )
             )
 
+    def convert_date_to_client_month(self, date_obj, lang):
+        """Convert the date_obj in month in the language of the customer"""
+        formatted_month = format_date(self.env, value=date_obj, date_format="MMMM YYYY", lang_code=lang)
+        return formatted_month.capitalize()
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
@@ -200,24 +205,21 @@ class ContractGroup(models.Model):
         inv_data = super()._build_invoice_gen_data(
             invoicing_date, invoicer, gift_wizard
         )
-
-        ref = ""
+        ref = self._compute_ref(inv_data, gift_wizard)
+        payment_reference = ""
         bank_modes = (
             self.env["account.payment.mode"]
             .with_context(lang="en_US")
-            .search(["|", ("name", "like", "LSV"), ("name", "like", "Postfinance")])
+            .search([("payment_method_id.code", "=", "sepa.ch.dd")])
         )
-        bank = self.env["res.partner.bank"]
+        bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         if gift_wizard:
-            ref = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
-            bank = bank.search([("acc_number", "=", "01444437")])
+            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
         elif self.bvr_reference:
-            ref = self.bvr_reference
-            bank = bank.search([("acc_number", "=", "01444437")])
+            payment_reference = self.bvr_reference
         elif self.payment_mode_id in bank_modes:
             seq = self.env["ir.sequence"]
-            ref = mod10r(seq.next_by_code("contract.bvr.ref"))
-            bank = self.payment_mode_id.fixed_journal_id.bank_account_id
+            payment_reference = mod10r(seq.next_by_code("contract.bvr.ref"))
         mandate = self.env["account.banking.mandate"].search(
             [("partner_id", "=", self.partner_id.id), ("state", "=", "valid")], limit=1
         )
@@ -226,7 +228,39 @@ class ContractGroup(models.Model):
                 "ref": ref,
                 "mandate_id": mandate.id,
                 "partner_bank_id": bank.id,
+                "payment_reference": payment_reference,
             }
         )
 
         return inv_data
+
+        return inv_data
+
+    def _compute_ref(self, inv_data, gifts):
+        """Compute a comprehensive reference for customer"""
+        ref = ""
+        lang = self.partner_id.lang
+        occurrences = {}
+        for line in inv_data['invoice_line_ids']:
+            product_id = line[2]['product_id']
+            product_name = self.env['product.product'].with_context(lang=lang).browse(product_id).name
+            period = self.convert_date_to_client_month(inv_data['invoice_date'], lang)
+            if product_id in occurrences:
+                occurrences[product_id]['count'] += 1
+            else:
+                occurrences[product_id] = {
+                    'count': 1,
+                    'name': product_name,
+                    'gift_for': False,
+                    'period':  period
+                }
+            if gifts and len(gifts) == 1:
+                occurrences[product_id]['gift_for'] = gifts.contract_id.child_name
+
+        for product, details in occurrences.items():
+            ref += f"{details['count']} {details['name']}"
+            if details['gift_for']:
+                ref += f" {_('for', lang=lang)} {details['gift_for']}"
+            ref += f" ({details['period']}). "
+
+        return ref[:150]
