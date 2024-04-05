@@ -2,7 +2,7 @@
 #
 #    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Cyril Sester, Emanuel Cino
+#    @author: Cyril Sester, Emanuel Cino, Jérémie Lang
 #
 #    The licence is in the file __manifest__.py
 #
