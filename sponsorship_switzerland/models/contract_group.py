@@ -11,6 +11,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r, format_date
+from collections import defaultdict
 
 
 class ContractGroup(models.Model):
@@ -197,6 +198,26 @@ class ContractGroup(models.Model):
         formatted_month = format_date(self.env, value=date_obj, date_format="MMMM YYYY", lang_code=lang)
         return formatted_month.capitalize()
 
+    def is_unique_period(self, occurrences):
+        """Checks if period is unique, returns period if so, else returns false"""
+        unique_periods = set(occurrence['period'] for occurrence in occurrences.values())
+        if len(unique_periods) == 1:
+            return next(iter(unique_periods))
+        else:
+            return False
+
+    def is_less_than_twenty_percent_of_total(self, contract_id, line_amount):
+        contract = contract_id.contract_line_ids
+        total_amount = 0
+        for line in contract:
+            total_amount += line.subtotal
+
+        twenty_percent_of_total = total_amount * 20 / 100
+        if line_amount < twenty_percent_of_total:
+            return True
+
+        return False
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
@@ -205,7 +226,7 @@ class ContractGroup(models.Model):
         inv_data = super()._build_invoice_gen_data(
             invoicing_date, invoicer, gift_wizard
         )
-        ref = self._compute_ref(inv_data, gift_wizard)
+        ref = self.with_context(lang=self.partner_id.lang)._compute_ref(invoicing_date, gift_wizard)
         payment_reference = ""
         bank_modes = (
             self.env["account.payment.mode"]
@@ -234,31 +255,46 @@ class ContractGroup(models.Model):
 
         return inv_data
 
-    def _compute_ref(self, inv_data, gifts):
+    def _compute_ref(self, invoicing_date, gift_wizard):
         """Compute a comprehensive reference for customer"""
-        ref = ""
         lang = self.partner_id.lang
-        occurrences = {}
-        for line in inv_data['invoice_line_ids']:
-            product_id = line[2]['product_id']
-            product_name = self.env['product.product'].with_context(lang=lang).browse(product_id).name
-            period = self.convert_date_to_client_month(inv_data['invoice_date'], lang)
-            if product_id in occurrences:
-                occurrences[product_id]['count'] += 1
-            else:
-                occurrences[product_id] = {
-                    'count': 1,
-                    'name': product_name,
-                    'gift_for': False,
-                    'period':  period
-                }
-            if gifts and len(gifts) == 1:
-                occurrences[product_id]['gift_for'] = gifts.contract_id.child_name
+        ref = ""
+        contract_lines = self.active_contract_ids.contract_line_ids
+        occurrences = defaultdict(lambda: {'count': 0, 'name': '', 'gift_for': False, 'period': ''})
 
-        for product, details in occurrences.items():
-            ref += f"{details['count']} {details['name']}"
+        if gift_wizard:
+            gift = gift_wizard.with_context(lang=lang)
+            product_name = gift.product_id.name
+            child_preferred_name = gift.contract_id.child_id.preferred_name
+            if gift_wizard.description != gift_wizard.product_id.display_name:
+                ref = f"{product_name} {_('for')}: {child_preferred_name}. {_('Additional comments')}: {gift.description}"
+                return ref[:150]
+            elif gift_wizard.description == gift_wizard.product_id.display_name:
+                ref = f"{product_name} {_('for')}: {child_preferred_name} "
+                return ref[:150]
+
+        for line in contract_lines:
+            product = line.product_id
+            period = self.convert_date_to_client_month(invoicing_date, lang)
+            child_preferred_name = line.sponsorship_id.child_id.preferred_name
+
+            if not self.is_less_than_twenty_percent_of_total(line.contract_id, line.subtotal):
+                occurrences[product.id]['count'] += 1
+                occurrences[product.id]['name'] = product.name
+                occurrences[product.id]['period'] = period
+
+                if product.categ_id.id == 5:
+                    occurrences[product.id]['gift_for'] = child_preferred_name
+
+        unique_period = self.is_unique_period(occurrences)
+        for details in occurrences.values():
+            ref_parts = [f"{details['count']} {details['name']}"]
             if details['gift_for']:
-                ref += f" {_('for', lang=lang)} {details['gift_for']}"
-            ref += f" ({details['period']}). "
+                ref_parts.append(f"{_('for')} {details['gift_for']}")
+            if not unique_period:
+                ref_parts.append(f"({details['period']})")
+            ref += ' '.join(ref_parts) + ". "
+        if unique_period:
+            ref += f"{_('Period')}: {unique_period}."
 
         return ref[:150]
