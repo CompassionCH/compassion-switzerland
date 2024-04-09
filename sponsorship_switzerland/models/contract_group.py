@@ -277,12 +277,10 @@ class ContractGroup(models.Model):
             product = line.product_id
             period = self.convert_date_to_client_month(invoicing_date, lang)
             child_preferred_name = line.sponsorship_id.child_id.preferred_name
-
             if not self.is_less_than_twenty_percent_of_total(line.contract_id, line.subtotal):
                 occurrences[product.id]['count'] += 1
                 occurrences[product.id]['name'] = product.name
                 occurrences[product.id]['period'] = period
-
                 if product.categ_id.id == 5:
                     occurrences[product.id]['gift_for'] = child_preferred_name
 
