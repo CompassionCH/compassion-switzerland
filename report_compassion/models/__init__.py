@@ -9,12 +9,10 @@
 ##############################################################################
 
 from . import (
-    child,
     contract,
     contract_group,
     partner_communication,
     partner_communication_config,
-    project,
     report_bvr_fund,
     report_bvr_sponsorship,
     report_bvr_sponsorship_gift,

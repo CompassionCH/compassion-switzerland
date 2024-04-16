@@ -241,8 +241,12 @@
         expr="//field[@name='other_contact_ids']/.."
         position="attributes"
       >
-                <attribute name="invisible">0</attribute> <!-- Ensure visibility -->
-                <attribute name="attrs">{'invisible': [(0, '=', 1)]}</attribute> <!-- Override any dynamic condition -->
+                <attribute
+          name="invisible"
+        >0</attribute> <!-- Ensure visibility -->
+                <attribute
+          name="attrs"
+        >{'invisible': [(0, '=', 1)]}</attribute> <!-- Override any dynamic condition -->
                 <attribute name="string">Linked Partners</attribute>
             </xpath>
             <xpath
