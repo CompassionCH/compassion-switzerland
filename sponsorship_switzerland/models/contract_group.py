@@ -194,19 +194,62 @@ class ContractGroup(models.Model):
             )
 
     def convert_date_to_client_month(self, date_obj, lang):
-        """Convert the date_obj in month in the language of the customer"""
+        """
+        Convert the given date object to a month representation in the language specified by the customer.
+        Args:
+            date_obj (datetime.date): The date object to be converted.
+            lang (str): The language code representing the language preferred by the customer.
+        Returns:
+            str: A string representing the month and year in the language specified by the customer.
+        Note:
+            This function relies on an external method 'format_date' to format the date object according to
+            the specified language. Ensure that the 'format_date' method is available and correctly configured
+            within your environment.
+        """
         formatted_month = format_date(self.env, value=date_obj, date_format="MMMM YYYY", lang_code=lang)
         return formatted_month.capitalize()
 
-    def is_unique_period(self, occurrences):
-        """Checks if period is unique, returns period if so, else returns false"""
-        unique_periods = set(occurrence['period'] for occurrence in occurrences.values())
-        if len(unique_periods) == 1:
-            return next(iter(unique_periods))
+    def get_unique_occurrence(self, data, key, multiple_result_expected=False):
+        """
+        Get unique occurrence(s) of a given key in the data dictionary.
+        Args:
+            data (dict or defaultdict): The dictionary containing the data.
+            key (hashable): The key whose occurrence(s) need to be retrieved.
+            multiple_result_expected (bool, optional): Flag indicating if multiple results are expected.
+                If True, returns a comma-separated string of unique occurrences. If False (default), returns False
+                when more than one unique occurrence is found.
+        Returns:
+            str or bool: The unique occurrence(s) of the key. If multiple_result_expected is False and there are
+                more than one unique occurrences or the key doesn't exist, it returns False. If multiple_result_expected
+                is True or there are multiple unique occurrences, it returns a comma-separated string. If there's only
+                one unique occurrence, it returns a string.
+        """
+        if not key in data:
+            occurrences = []
+            for entry in data.values():
+                occurrences.extend(entry[key])
+        else:
+            occurrences = data[key]
+
+        unique_occurrences = list(set(occurrences))
+
+        if len(unique_occurrences) == 1:
+            return str(unique_occurrences[0])
+        elif multiple_result_expected:
+            return ', '.join(map(str, unique_occurrences))
         else:
             return False
 
     def is_less_than_twenty_percent_of_total(self, contract_id, line_amount):
+        """
+        Check if a given line amount is less than twenty percent of the total amount of contract lines.
+        Args:
+            contract_id (object): The contract object containing line items.
+            line_amount (float): The amount of the line to be checked.
+        Returns:
+            bool: True if the line amount is less than twenty percent of the total contract amount,
+                otherwise False.
+        """
         contract = contract_id.contract_line_ids
         total_amount = 0
         for line in contract:
@@ -260,39 +303,45 @@ class ContractGroup(models.Model):
         lang = self.partner_id.lang
         ref = ""
         contract_lines = self.active_contract_ids.contract_line_ids
-        occurrences = defaultdict(lambda: {'count': 0, 'name': '', 'gift_for': False, 'period': ''})
+        occurrences = defaultdict(lambda: {'count': 0, 'name': '', 'child': [], 'period': []})
 
         if gift_wizard:
             gift = gift_wizard.with_context(lang=lang)
             product_name = gift.product_id.name
             child_preferred_name = gift.contract_id.child_id.preferred_name
+
             if gift_wizard.description != gift_wizard.product_id.display_name:
-                ref = f"{product_name} {_('for')}: {child_preferred_name}. {_('Additional comments')}: {gift.description}"
-                return ref[:150]
+                ref = f"{product_name} {_('for')}: {child_preferred_name}. {_('Additional comments')}: {gift.description} "
             elif gift_wizard.description == gift_wizard.product_id.display_name:
                 ref = f"{product_name} {_('for')}: {child_preferred_name} "
-                return ref[:150]
+
+            return ref[:150]
 
         for line in contract_lines:
             product = line.product_id
             period = self.convert_date_to_client_month(invoicing_date, lang)
-            child_preferred_name = line.sponsorship_id.child_id.preferred_name
-            if not self.is_less_than_twenty_percent_of_total(line.contract_id, line.subtotal):
-                occurrences[product.id]['count'] += 1
-                occurrences[product.id]['name'] = product.name
-                occurrences[product.id]['period'] = period
-                if product.categ_id.id == 5:
-                    occurrences[product.id]['gift_for'] = child_preferred_name
+            child = line.contract_id.child_id
+            child_preferred_name = child.preferred_name
 
-        unique_period = self.is_unique_period(occurrences)
+            if not self.is_less_than_twenty_percent_of_total(line.contract_id, line.subtotal):
+                details = occurrences[product.id]
+                details['count'] += 1
+                details['name'] = product.plural_name if details['count'] > 1 else product.name
+                details['period'].append(period)
+                if child:
+                    details['child'].append(child_preferred_name)
+
+        unique_period = self.get_unique_occurrence(dict(occurrences), 'period', True)
+
         for details in occurrences.values():
+            unique_children = self.get_unique_occurrence(details, 'child')
             ref_parts = [f"{details['count']} {details['name']}"]
-            if details['gift_for']:
-                ref_parts.append(f"{_('for')} {details['gift_for']}")
-            if not unique_period:
-                ref_parts.append(f"({details['period']})")
+
+            if details['child'] and unique_children:
+                ref_parts.append(f"{_('for')} {details['child']}")
+
             ref += ' '.join(ref_parts) + ". "
-        if unique_period:
-            ref += f"{_('Period')}: {unique_period}."
+
+        ref += f"{_('Period')}: {unique_period}."
 
         return ref[:150]

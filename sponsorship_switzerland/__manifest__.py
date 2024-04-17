@@ -62,6 +62,7 @@
         "views/postpone_waiting_reminder_wizard_view.xml",
         "views/correspondence_view.xml",
         "views/gift_compassion_view.xml",
+        'views/product_template_view.xml',
     ],
     "installable": True,
     "auto_install": False,
