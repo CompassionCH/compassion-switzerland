@@ -1,4 +1,6 @@
 <odoo>
+    <!-- pylint: disable=dangerous-view-replace-wo-priority-->
+    <!-- oca-hooks:disable=xml-view-dangerous-replace-low-priority -->
     <!-- Add no_physical_delivery field -->
     <record id="view_partner_no_physical_delivery" model="ir.ui.view">
         <field name="name">res.partner.physical.delivery</field>
@@ -9,8 +11,8 @@
     />
         <field name="arch" type="xml">
             <xpath
-        expr="//page[2]//button[@name='open_letters']"
-        position="after"
+        expr="//page[@name='contact_addresses']//group[1]"
+        position="before"
       >
                 <button
           class="btn-secondary ml-2"
@@ -34,9 +36,31 @@
       ref="partner_compassion.view_partner_form_compassion_ch"
     />
         <field name="arch" type="xml">
-            <field name="photo_delivery_preference" position="after">
-                <field name="letter_delivery_preference" />
-            </field>
+            <!-- Add correspondance fields -->
+            <xpath expr="//page[@name='contact_addresses']/group[1]" position="replace">
+                <group>
+                    <group>
+                        <field name="global_communication_delivery_preference" />
+                        <field name="letter_delivery_preference" />
+                        <field name="photo_delivery_preference" />
+                    </group>
+                        <group>
+                            <field name="opt_out" />
+                        </group>
+                        <group>
+                            <field name="nbmag" />
+                            <field name="calendar" />
+                            <field name="birthday_reminder" />
+                            <field name="sponsorship_anniversary_card" />
+                        </group>
+                        <group>
+                            <field name="tax_certificate" />
+                            <field name="thankyou_preference" />
+                            <field name="receive_ambassador_receipts" />
+                        </group>
+<!--                    <xpath expr="/page[@name='contact_addresses']/group[2]" position="move"/>-->
+                </group>
+            </xpath>
         </field>
     </record>
 

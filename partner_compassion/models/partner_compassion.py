@@ -103,12 +103,6 @@ class ResPartner(models.Model):
         "his or her sponsorship anniversary.",
         default=True,
     )
-    photo_delivery_preference = fields.Selection(
-        selection="_get_delivery_preference",
-        default="both",
-        required=True,
-        help="Delivery preference for Child photo",
-    )
 
     partner_duplicate_ids = fields.Many2many(
         "res.partner",
