@@ -338,7 +338,7 @@ class ContractGroup(models.Model):
             ref_parts = [f"{details['count']} {details['name']}"]
 
             if details['child'] and unique_children:
-                ref_parts.append(f"{_('for')} {details['child']}")
+                ref_parts.append(f"{_('for')} {unique_children}")
 
             ref += ' '.join(ref_parts) + ". "
 
