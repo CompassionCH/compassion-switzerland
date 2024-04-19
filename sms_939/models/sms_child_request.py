@@ -87,7 +87,7 @@ class SmsRequest(models.Model):
     @job(default_channel="root.sms_request")
     @related_action(action="related_action_sms_request")
     def get_children_from_global_pool_for_website(self, take=1):
-        company_id = self.env.user.company_id.id
+        company_id = self.env.company.id
         child_env = self.env["compassion.child"]
         global_pool = child_env.with_context(
             default_company_id=company_id
