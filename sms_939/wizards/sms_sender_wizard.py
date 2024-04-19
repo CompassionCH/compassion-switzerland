@@ -11,7 +11,6 @@ class SmsSender(models.TransientModel):
         readonly=False,
     )
 
-    @api.multi
     def action_send_sms(self):
         return super(
             SmsSender, self.with_context(sms_provider=self.sms_provider_id)

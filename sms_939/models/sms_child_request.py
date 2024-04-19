@@ -19,7 +19,6 @@ from odoo.addons.queue_job.job import job, related_action
 class SmsRequest(models.Model):
     _inherit = "sms.child.request"
 
-    @api.multi
     def send_step1_reminder(self):
         """ Sends SMS reminder using 939 API """
         self.ensure_one()

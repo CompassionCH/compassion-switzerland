@@ -13,7 +13,6 @@ from odoo import api, models
 class CompassionChild(models.Model):
     _inherit = "compassion.child"
 
-    @api.multi
     def get_sms_sponsor_child_data(self):
         """
         Returns JSON data of the child for the mobile sponsor page

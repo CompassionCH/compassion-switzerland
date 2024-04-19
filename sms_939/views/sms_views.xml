@@ -93,21 +93,18 @@
         <field name="name">SMS Requests</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sms.notification</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_sms_hook" model="ir.actions.act_window">
         <field name="name">SMS Hooks</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sms.hook</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="action_sms_provider" model="ir.actions.act_window">
         <field name="name">SMS Providers</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sms.provider</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 

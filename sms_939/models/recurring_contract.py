@@ -13,7 +13,6 @@ from odoo import api, models
 class Contract(models.Model):
     _inherit = "recurring.contract"
 
-    @api.multi
     def contract_waiting_mandate(self):
         """
         In case the sponsor paid the first month online, we want to force
