@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sms_notification_full,SMS Notification full access,model_sms_notification,base.group_system,1,1,1,1
+sms_hook_full,SMS hook full access,model_sms_hook,base.group_system,1,1,1,1
+sms_sponsorship_full,SMS sponsorship full access,model_sms_log,base.group_system,1,1,1,1
+sms_sponsorship_user,SMS sponsorship user access,model_sms_log,base.group_user,1,1,1,0
+access_sms_provider,access_sms_provider,model_sms_provider,base.group_user,1,0,0,0
+access_sms_provider_admin,access_sms_provider_admin,model_sms_provider,base.group_system,1,1,1,1
