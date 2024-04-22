@@ -13,8 +13,6 @@ import traceback
 
 from odoo import _, api, fields, models, tools
 
-from odoo.addons.queue_job.job import job
-
 logger = logging.getLogger(__name__)
 testing = tools.config.get("test_enable")
 
@@ -148,16 +146,14 @@ class SmsNotification(models.Model):
     def sponsor_service(self):
         self.ensure_one()
         # Create a sms child request
-        child_request = self.env["sms.child.request"].create(
-            {"sender": self.sender, "lang_code": self.language}
-        )
         return (
             _(
                 "Thank you for your will to help a child ! \n"
                 "You can release a child from poverty today by clicking on this link:"
                 " %s"
             )
-            % child_request.full_url
+        #TODO set the full URL
+            % '/children/'
         )
 
     def test_service(self):
@@ -167,7 +163,6 @@ class SmsNotification(models.Model):
     def test_service_error(self):
         raise Exception
 
-    @job(default_channel="root")
     def send_sms_answer(self, parameters):
         """Job for sending the SMS reply to a SMS child request.
         :param parameters: SMS parameters received from 939 API.
@@ -185,4 +180,4 @@ class SmsNotification(models.Model):
                 "text": parameters.get("text"),
             }
         )
-        sms.run_service()
+        sms.with_delay().run_service()

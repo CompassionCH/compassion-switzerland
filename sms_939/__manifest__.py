@@ -33,11 +33,11 @@
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules" "tree/10.0",
+    "website": "https://github.com/CompassionCH/compassion-modules",
     "depends": [
-        "sms_sponsorship",  # compassion-modules
         "sponsorship_switzerland",  # compassion-switzerland
         "child_sync_wp",  # compassion-switzerland
+        "queue_job",  # OCA/queue,
         "sms",  # odoo
     ],
     "data": [

@@ -2,7 +2,7 @@ from odoo import fields, models
 
 
 class SmsSender(models.TransientModel):
-    _inherit = "sms.send_sms"
+    _inherit = "sms.composer"
 
     sms_provider_id = fields.Many2one(
         "sms.provider",
