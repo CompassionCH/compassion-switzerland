@@ -8,4 +8,4 @@
 #
 ##############################################################################
 
-from .sms_939_service import *
+from .sms_939_service import SmsNotificationAnswer

@@ -8,11 +8,12 @@
 #
 ##############################################################################
 from datetime import date, datetime
+from random import randint
 
 from dateutil.relativedelta import relativedelta
 
-from random import randint
-from odoo import api, models, fields, _
+from odoo import _, fields, models
+
 from odoo.addons.queue_job.job import job, related_action
 
 
@@ -20,7 +21,7 @@ class SmsRequest(models.Model):
     _inherit = "sms.child.request"
 
     def send_step1_reminder(self):
-        """ Sends SMS reminder using 939 API """
+        """Sends SMS reminder using 939 API"""
         self.ensure_one()
         one_day_ago = date.today() - relativedelta(days=1)
         completed_requests = self.search(
@@ -31,7 +32,7 @@ class SmsRequest(models.Model):
             ]
         ).filtered(lambda r: r.sender == self.sender)
         if not completed_requests:
-            child_name = self.child_id.preferred_name or _('this child')
+            child_name = self.child_id.preferred_name or _("this child")
             sms_message = _(
                 "Thank you for your interest to sponsor a child with "
                 "Compassion. Why don't you take a moment today to change "
@@ -54,8 +55,7 @@ class SmsRequest(models.Model):
         return super().reserve_child()
 
     def _take_child_from_website(self):
-        """ Search in the website child.
-        """
+        """Search in the website child."""
         selected_children = self.env["compassion.child"].search([("state", "=", "I")])
         if self.has_filter:
             selected_children = selected_children.filtered(self.check_child_parameters)

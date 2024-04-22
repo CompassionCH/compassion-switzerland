@@ -17,4 +17,5 @@ from . import (
     correspondence,
     gift_compassion,
     res_partner_category,
+    product,
 )

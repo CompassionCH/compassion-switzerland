@@ -7,11 +7,12 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import logging
 import json
+import logging
 
 from odoo import http, tools
 from odoo.http import request
+
 from ..tools import SmsNotificationAnswer
 
 is_async = not tools.config.get("test_enable")

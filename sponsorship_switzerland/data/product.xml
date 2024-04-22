@@ -7,6 +7,7 @@
         <!-- Sponsorship templates -->
         <record id="product_template_sponsorship" model="product.template">
             <field name="name">Sponsorship</field>
+            <field name="plural_name">Sponsorships</field>
             <field name="type">service</field>
             <field
         name="categ_id"

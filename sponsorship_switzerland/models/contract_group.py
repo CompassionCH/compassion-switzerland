@@ -2,15 +2,17 @@
 #
 #    Copyright (C) 2014-2017 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author: Cyril Sester, Emanuel Cino
+#    @author: Cyril Sester, Emanuel Cino, Jérémie Lang
 #
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
 
+from collections import defaultdict
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import mod10r
+from odoo.tools import format_date, mod10r
 
 
 class ContractGroup(models.Model):
@@ -192,6 +194,87 @@ class ContractGroup(models.Model):
                 )
             )
 
+    def convert_date_to_client_month(self, date_obj, lang):
+        """
+        Convert the given date object to a month representation in the language
+        specified by the customer.
+        Args:
+            date_obj (datetime.date): The date object to be converted.
+            lang (str): The language code representing the language preferred
+            by the customer.
+        Returns:
+            str: A string representing the month and year in the language specified
+            by the customer.
+        Note:
+            This function relies on an external method 'format_date' to format the date
+            object according to
+            the specified language. Ensure that the 'format_date' method is available
+            and correctly configured within your environment.
+        """
+        formatted_month = format_date(
+            self.env, value=date_obj, date_format="MMMM YYYY", lang_code=lang
+        )
+        return formatted_month.capitalize()
+
+    def get_unique_occurrence(self, data, key, multiple_result_expected=False):
+        """
+        Get unique occurrence(s) of a given key in the data dictionary.
+        Args:
+            data (dict or defaultdict): The dictionary containing the data.
+            key (hashable): The key whose occurrence(s) need to be retrieved.
+            multiple_result_expected (bool, optional): Flag indicating if multiple
+            results are expected.
+                If True, returns a comma-separated string of unique occurrences.
+                If False (default), returns False
+                when more than one unique occurrence is found.
+        Returns:
+            str or bool: The unique occurrence(s) of the key.
+            If multiple_result_expected is False and there are
+                more than one unique occurrences or the key doesn't exist,
+                it returns False. If multiple_result_expected
+                is True or there are multiple unique occurrences,
+                it returns a comma-separated string. If there's only
+                one unique occurrence, it returns a string.
+        """
+        if key not in data:
+            occurrences = []
+            for entry in data.values():
+                occurrences.extend(entry[key])
+        else:
+            occurrences = data[key]
+
+        unique_occurrences = list(set(occurrences))
+
+        if len(unique_occurrences) == 1:
+            return str(unique_occurrences[0])
+        elif multiple_result_expected:
+            return ", ".join(map(str, unique_occurrences))
+        else:
+            return False
+
+    def is_less_than_twenty_percent_of_total(self, contract_id, line_amount):
+        """
+        Check if a given line amount is less than twenty percent of the total amount
+        of contract lines.
+        Args:
+            contract_id (object): The contract object containing line items.
+            line_amount (float): The amount of the line to be checked.
+        Returns:
+            bool: True if the line amount is less than twenty percent of the total
+            contract amount,
+                otherwise False.
+        """
+        contract = contract_id.contract_line_ids
+        total_amount = 0
+        for line in contract:
+            total_amount += line.subtotal
+
+        twenty_percent_of_total = total_amount * 20 / 100
+        if line_amount < twenty_percent_of_total:
+            return True
+
+        return False
+
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
@@ -200,6 +283,10 @@ class ContractGroup(models.Model):
         inv_data = super()._build_invoice_gen_data(
             invoicing_date, invoicer, gift_wizard
         )
+        ref = self.with_context(lang=self.partner_id.lang)._compute_ref(
+            invoicing_date, gift_wizard
+        )
+        payment_reference = ""
         bank_modes = (
             self.env["account.payment.mode"]
             .with_context(lang="en_US")
@@ -207,7 +294,9 @@ class ContractGroup(models.Model):
         )
         bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         if gift_wizard:
-            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
+            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(
+                gift_wizard.product_id
+            )
         elif self.bvr_reference:
             payment_reference = self.bvr_reference
         elif self.payment_mode_id in bank_modes:
@@ -218,35 +307,68 @@ class ContractGroup(models.Model):
         )
         inv_data.update(
             {
-                "payment_reference": payment_reference,
+                "ref": ref,
                 "mandate_id": mandate.id,
                 "partner_bank_id": bank.id,
-                "ref": self._prepare_ref_with_lang(invoicing_date)
+                "payment_reference": payment_reference,
             }
         )
 
         return inv_data
 
-    def _prepare_ref_with_lang(self, invoicing_date):
-        context = {"lang": self.partner_id.lang}
-        communication = False
-        active_contract = self.contract_ids.filtered(lambda l: l.state not in ("terminated","cancelled"))
-        products = active_contract.contract_line_ids.product_id
-        if len(active_contract.child_id) > 0:
-            children = active_contract.mapped("child_id")
-            if len(children) == 1:
-                if len(products) == 1:
-                    communication = products.name + " " + _("for")
-                else:
-                    communication = _("Sponsorship")
-                    # communication = _("sponsorship gifts").title() + " " + _("for")
-                communication += " " + children.preferred_name
-            else:
-                communication = str(len(children)) + " "
-                communication += _("sponsorships")
-                # communication += _("sponsorship gifts")
-        elif len(products) == 1:
-            communication = products.name
-        communication += " " + _("Period: ") + invoicing_date.strftime("%B")
+    def _compute_ref(self, invoicing_date, gift_wizard):
+        """Compute a comprehensive reference for customer"""
+        lang = self.partner_id.lang
+        ref = ""
+        contract_lines = self.active_contract_ids.contract_line_ids
+        occurrences = defaultdict(
+            lambda: {"count": 0, "name": "", "child": [], "period": []}
+        )
 
-        return communication or ""
+        if gift_wizard:
+            gift = gift_wizard.with_context(lang=lang)
+            product_name = gift.product_id.name
+            child_preferred_name = gift.contract_id.child_id.preferred_name
+
+            if gift_wizard.description != gift_wizard.product_id.display_name:
+                ref = (
+                    f"{product_name} {_('for')}: {child_preferred_name}. "
+                    f"{_('Additional comments')}: {gift.description} "
+                )
+            elif gift_wizard.description == gift_wizard.product_id.display_name:
+                ref = f"{product_name} {_('for')}: {child_preferred_name} "
+
+            return ref[:150]
+
+        for line in contract_lines:
+            product = line.product_id
+            period = self.convert_date_to_client_month(invoicing_date, lang)
+            child = line.contract_id.child_id
+            child_preferred_name = child.preferred_name
+
+            if not self.is_less_than_twenty_percent_of_total(
+                line.contract_id, line.subtotal
+            ):
+                details = occurrences[product.id]
+                details["count"] += 1
+                details["name"] = (
+                    product.plural_name if details["count"] > 1 else product.name
+                )
+                details["period"].append(period)
+                if child:
+                    details["child"].append(child_preferred_name)
+
+        unique_period = self.get_unique_occurrence(dict(occurrences), "period", True)
+
+        for details in occurrences.values():
+            unique_children = self.get_unique_occurrence(details, "child")
+            ref_parts = [f"{details['count']} {details['name']}"]
+
+            if details["child"] and unique_children:
+                ref_parts.append(f"{_('for')} {unique_children}")
+
+            ref += " ".join(ref_parts) + ". "
+
+        ref += f"{_('Period')}: {unique_period}."
+
+        return ref[:150]

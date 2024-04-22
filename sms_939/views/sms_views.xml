@@ -4,8 +4,8 @@
         <field name="model">sms.hook</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="name"/>
-                <field name="func_name"/>
+                <field name="name" />
+                <field name="func_name" />
             </tree>
         </field>
     </record>
@@ -14,17 +14,19 @@
         <field name="name">sms.notification.tree</field>
         <field name="model">sms.notification</field>
         <field name="arch" type="xml">
-            <tree decoration-primary="state == 'new'"
-                  decoration-danger="state == 'failed'"
-                  decoration-success="state == 'success'">
-                <field name="date"/>
-                <field name="sender"/>
-                <field name="partner_id"/>
-                <field name="service"/>
-                <field name="language"/>
-                <field name="text"/>
-                <field name="hook_id"/>
-                <field name="state"/>
+            <tree
+        decoration-primary="state == 'new'"
+        decoration-danger="state == 'failed'"
+        decoration-success="state == 'success'"
+      >
+                <field name="date" />
+                <field name="sender" />
+                <field name="partner_id" />
+                <field name="service" />
+                <field name="language" />
+                <field name="text" />
+                <field name="hook_id" />
+                <field name="state" />
             </tree>
         </field>
     </record>
@@ -35,26 +37,26 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
-                        <field name="date"/>
-                        <field name="partner_id"/>
-                        <field name="sender"/>
-                        <field name="service"/>
-                        <field name="language"/>
+                        <field name="date" />
+                        <field name="partner_id" />
+                        <field name="sender" />
+                        <field name="service" />
+                        <field name="language" />
                     </group>
                     <group>
-                        <field name="instance"/>
-                        <field name="operator"/>
-                        <field name="uuid"/>
-                        <field name="hook_id"/>
+                        <field name="instance" />
+                        <field name="operator" />
+                        <field name="uuid" />
+                        <field name="hook_id" />
                     </group>
                     <group>
-                        <field name="text"/>
-                        <field name="answer"/>
-                        <field name="failure_details" states="failed"/>
+                        <field name="text" />
+                        <field name="answer" />
+                        <field name="failure_details" states="failed" />
                     </group>
                 </sheet>
             </form>
@@ -65,11 +67,11 @@
         <field name="model">sms.notification</field>
         <field name="arch" type="xml">
             <search>
-                <field name="service"/>
-                <field name="hook_id"/>
-                <field name="partner_id"/>
-                <field name="language"/>
-                <field name="state"/>
+                <field name="service" />
+                <field name="hook_id" />
+                <field name="partner_id" />
+                <field name="language" />
+                <field name="state" />
             </search>
         </field>
     </record>
@@ -79,12 +81,12 @@
         <field name="model">sms.provider</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="server_939"/>
-                <field name="port_939"/>
-                <field name="username_939"/>
-                <field name="password_939"/>
-                <field name="endpoint_939"/>
+                <field name="name" />
+                <field name="server_939" />
+                <field name="port_939" />
+                <field name="username_939" />
+                <field name="password_939" />
+                <field name="endpoint_939" />
             </tree>
         </field>
     </record>
@@ -108,8 +110,31 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_technical_sms" name="SMS" parent="base.menu_custom" sequence="2"/>
-    <menuitem id="menu_sms_notification" name="SMS Notifications" parent="menu_technical_sms" sequence="1" action="action_sms_notification"/>
-    <menuitem id="menu_sms_hook" name="SMS Hooks" parent="menu_technical_sms" sequence="2" action="action_sms_hook"/>
-    <menuitem id="menu_sms_provider" name="SMS Providers" parent="menu_technical_sms" sequence="3" action="action_sms_provider"/>
+    <menuitem
+    id="menu_technical_sms"
+    name="SMS"
+    parent="base.menu_custom"
+    sequence="2"
+  />
+    <menuitem
+    id="menu_sms_notification"
+    name="SMS Notifications"
+    parent="menu_technical_sms"
+    sequence="1"
+    action="action_sms_notification"
+  />
+    <menuitem
+    id="menu_sms_hook"
+    name="SMS Hooks"
+    parent="menu_technical_sms"
+    sequence="2"
+    action="action_sms_hook"
+  />
+    <menuitem
+    id="menu_sms_provider"
+    name="SMS Providers"
+    parent="menu_technical_sms"
+    sequence="3"
+    action="action_sms_provider"
+  />
 </odoo>
