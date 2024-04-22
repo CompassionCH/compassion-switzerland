@@ -9,12 +9,8 @@
 ##############################################################################
 from odoo import models
 
-from odoo.addons.queue_job.job import job
-
-
 class Hold(models.Model):
     _inherit = "compassion.hold"
 
-    @job(default_channel="root.global_pool")
     def update_expiration_date(self, new_date):
-        self.write({"expiration_date": new_date})
+        self.with_delay().write({"expiration_date": new_date})
