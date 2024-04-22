@@ -11,8 +11,8 @@
 import logging
 import traceback
 
+from odoo import _, api, fields, models, tools
 
-from odoo import models, api, fields, tools, _
 from odoo.addons.queue_job.job import job
 
 logger = logging.getLogger(__name__)
@@ -96,12 +96,12 @@ class SmsNotification(models.Model):
             sms_answer = _(
                 "Sorry, we could not understand your request. "
                 "Supported services are :\n - %s"
-            ) % (n1 + '- '.join(hooks.mapped('name')))
+            ) % (n1 + "- ".join(hooks.mapped("name")))
             self.write(
                 {
                     "state": "failed",
                     "failure_details": "Service is not implemented. "
-                                       "Please configure a hook for this service.",
+                    "Please configure a hook for this service.",
                     "answer": sms_answer,
                 }
             )
@@ -151,10 +151,14 @@ class SmsNotification(models.Model):
         child_request = self.env["sms.child.request"].create(
             {"sender": self.sender, "lang_code": self.language}
         )
-        return _(
-            "Thank you for your will to help a child ! \n"
-            "You can release a child from poverty today by clicking on this link: %s"
-        ) % child_request.full_url
+        return (
+            _(
+                "Thank you for your will to help a child ! \n"
+                "You can release a child from poverty today by clicking on this link:"
+                " %s"
+            )
+            % child_request.full_url
+        )
 
     def test_service(self):
         self.ensure_one()

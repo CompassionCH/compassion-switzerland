@@ -1,0 +1,72 @@
+<odoo>
+    <data noupdate="1">
+        <record id="group_visit_step1_mail" model="event.type.mail">
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field name="communication_id" ref="group_visit_step1_config" />
+            <field name="interval_type">after_sub</field>
+            <field name="interval_unit">now</field>
+        </record>
+        <record id="group_visit_step2_mail" model="event.type.mail">
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field name="communication_id" ref="group_visit_step2_config" />
+            <field name="interval_type">after_stage</field>
+            <field name="stage_id" ref="stage_group_pay" />
+            <field name="interval_unit">now</field>
+        </record>
+        <record id="group_visit_step3_mail" model="event.type.mail">
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field name="communication_id" ref="group_visit_step3_config" />
+            <field name="interval_type">after_stage</field>
+            <field name="stage_id" ref="stage_group_medical" />
+            <field name="interval_unit">now</field>
+        </record>
+        <record id="group_visit_medical_survey_mail" model="event.type.mail">
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field
+        name="communication_id"
+        ref="group_visit_medical_survey_config"
+      />
+            <field name="interval_type">after_stage</field>
+            <field name="stage_id" ref="stage_group_medical" />
+            <field name="interval_unit">days</field>
+            <field name="interval_nbr">10</field>
+        </record>
+        <record id="group_visit_before_sharing_mail" model="event.type.mail">
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field
+        name="communication_id"
+        ref="group_visit_before_sharing_config"
+      />
+            <field name="interval_type">before_event</field>
+            <field name="interval_unit">days</field>
+            <field name="interval_nbr">75</field>
+        </record>
+        <record id="group_visit_detailed_info_mail" model="event.type.mail">
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field name="communication_id" ref="group_visit_detailed_config" />
+            <field name="interval_type">before_event</field>
+            <field name="interval_unit">months</field>
+            <field name="interval_nbr">1</field>
+        </record>
+        <record
+      id="group_visit_after_trip_feedback_mail"
+      model="event.type.mail"
+    >
+            <field name="event_type_id" ref="event_type_group_visit" />
+            <field name="notification_type">communication</field>
+            <field
+        name="communication_id"
+        ref="group_visit_after_trip_feedback_config"
+      />
+            <field name="interval_type">after_event</field>
+            <field name="interval_unit">days</field>
+            <field name="interval_nbr">3</field>
+        </record>
+    </data>
+</odoo>

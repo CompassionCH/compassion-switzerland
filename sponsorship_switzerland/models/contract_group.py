@@ -207,7 +207,9 @@ class ContractGroup(models.Model):
         )
         bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         if gift_wizard:
-            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(gift_wizard.product_id)
+            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(
+                gift_wizard.product_id
+            )
         elif self.bvr_reference:
             payment_reference = self.bvr_reference
         elif self.payment_mode_id in bank_modes:
@@ -221,16 +223,17 @@ class ContractGroup(models.Model):
                 "payment_reference": payment_reference,
                 "mandate_id": mandate.id,
                 "partner_bank_id": bank.id,
-                "ref": self._prepare_ref_with_lang(invoicing_date)
+                "ref": self._prepare_ref_with_lang(invoicing_date),
             }
         )
 
         return inv_data
 
     def _prepare_ref_with_lang(self, invoicing_date):
-        context = {"lang": self.partner_id.lang}
         communication = False
-        active_contract = self.contract_ids.filtered(lambda l: l.state not in ("terminated","cancelled"))
+        active_contract = self.contract_ids.filtered(
+            lambda contract: contract.state not in ("terminated", "cancelled")
+        )
         products = active_contract.contract_line_ids.product_id
         if len(active_contract.child_id) > 0:
             children = active_contract.mapped("child_id")

@@ -8,9 +8,10 @@
 #
 ##############################################################################
 import logging
-import urllib.request
-import urllib.parse
 import urllib.error
+import urllib.parse
+import urllib.request
+
 import mock
 
 from odoo.fields import Datetime
@@ -34,7 +35,10 @@ class TestMobileAppConnector(HttpCase):
         )
         if send_mode != "direct":
             params.update(
-                {"receptionDate": Datetime.now(), "requestUid": uuid, }
+                {
+                    "receptionDate": Datetime.now(),
+                    "requestUid": uuid,
+                }
             )
             url_params = urllib.parse.urlencode(params)
             response = self.url_open("/sms/mnc/?" + url_params)

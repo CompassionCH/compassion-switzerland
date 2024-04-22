@@ -8,8 +8,8 @@
 #
 ##############################################################################
 from io import BytesIO
-from werkzeug.wrappers import Response
 
+from werkzeug.wrappers import Response
 
 try:
     import xml.etree.cElementTree as etree

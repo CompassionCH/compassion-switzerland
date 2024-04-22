@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, api
+from odoo import api, models
 
 
 class InteractionResume(models.TransientModel):
@@ -21,7 +21,7 @@ class InteractionResume(models.TransientModel):
         """
         super().populate_resume(partner_id)
         self.env.cr.execute(
-            f"""
+            """
               SELECT
                 'SMS' as communication_type,
                 sms.date as communication_date,
@@ -36,8 +36,9 @@ class InteractionResume(models.TransientModel):
                 0 as paper_id,
                 NULL as tracking_status
                 FROM "sms_log" as sms
-                WHERE (sms.partner_id = {partner_id})
-                """
+                WHERE (sms.partner_id = %s)
+                """,
+            (partner_id,),
         )
         for row in self.env.cr.dictfetchall():
             self.create(row)

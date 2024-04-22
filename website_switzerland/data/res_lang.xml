@@ -1,0 +1,10 @@
+<odoo>
+    <!-- For Switzerland, in order to have the correct language flag   -->
+    <record id="base.lang_fr_CH" model="res.lang">
+        <field
+      name="flag_image"
+      type="base64"
+      file="base/static/img/country_flags/fr.png"
+    />
+    </record>
+</odoo>

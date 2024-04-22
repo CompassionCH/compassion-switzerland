@@ -1,9 +1,9 @@
 import base64
 import http.client
-import urllib.request
-import urllib.parse
-import urllib.error
 import logging
+import urllib.error
+import urllib.parse
+import urllib.request
 
 from odoo import api, models
 
@@ -15,8 +15,7 @@ class SmsApi(models.AbstractModel):
 
     @api.model
     def _send_sms(self, numbers, message):
-        """ Send sms using MNC 939 provider
-        """
+        """Send sms using MNC 939 provider"""
         odoo_provider = self.env.ref("sms_939.sms_odoo")
         sms_provider = self.env.context.get("sms_provider", odoo_provider)
         if sms_provider != odoo_provider:

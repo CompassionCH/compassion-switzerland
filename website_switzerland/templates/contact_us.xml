@@ -1,0 +1,260 @@
+<!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
+<odoo>
+    <template
+    name="Compassion CH Contact Form"
+    inherit_id="website.contactus"
+    customize_show="True"
+    id="contactus"
+    active="False"
+  >
+        <!-- Replace intro sentence -->
+        <xpath expr="//section[@class='s_text_block']//p[1]" position="replace">
+            <p>Contact us using the form below.<br />
+We'll do our best to get back to you as soon as possible. </p>
+        </xpath>
+        <!-- Replace Contact form with CRM Request form -->
+        <xpath expr="//div[@name='mail_button']" position="replace">
+            <span
+        class="hidden"
+        data-for="contactus_form"
+        t-att-data-values="{'email_to': res_company.email}"
+      />
+            <div id="contactus_section" class="">
+                <section
+          class="s_website_form o_colored_level"
+          data-vcss="001"
+          data-snippet="s_website_form"
+          data-name="Form"
+          style=""
+        >
+                    <div class="container">
+                        <form
+              id="contactus_form"
+              action="/website_form/"
+              method="post"
+              enctype="multipart/form-data"
+              class="o_mark_required"
+              data-mark="*"
+              data-model_name="crm.claim"
+              data-success-mode="redirect"
+              data-success-page="/contactus-thank-you"
+            >
+                            <div
+                class="s_website_form_rows row s_col_no_bgcolor"
+              >
+                                <div
+                  class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required"
+                  data-type="char"
+                  data-name="Field"
+                >
+                                    <div
+                    class="row s_col_no_resize s_col_no_bgcolor"
+                  >
+                                        <label
+                      class="col-form-label col-sm-auto s_website_form_label"
+                      style="width: 200px"
+                      for="oqb5pxe4e2wr"
+                    >
+                                            <span
+                        class="s_website_form_label_content"
+                      >Your Name</span>
+                                            <span
+                        class="s_website_form_mark"
+                      > *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input
+                        type="text"
+                        class="form-control s_website_form_input"
+                        name="Your Name"
+                        placeholder=""
+                        id="oqb5pxe4e2wr"
+                        required=""
+                      />
+                                            <div
+                        style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"
+                        data-lastpass-icon-root=""
+                      />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                  class="form-group s_website_form_field col-12  s_website_form_model_required  "
+                  data-type="email"
+                  data-name="Field"
+                >
+                                    <div
+                    class="row s_col_no_resize s_col_no_bgcolor"
+                  >
+                                        <label
+                      class="col-form-label col-sm-auto s_website_form_label "
+                      style="width: 200px"
+                      for="o4dgd9p5jo1o"
+                    >
+                                            <span
+                        class="s_website_form_label_content"
+                      >Email</span>
+                                            <span
+                        class="s_website_form_mark"
+                      > *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input
+                        type="email"
+                        class="form-control s_website_form_input"
+                        name="email_from"
+                        required="true"
+                        id="o4dgd9p5jo1o"
+                      />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                  class="form-group s_website_form_field col-12  s_website_form_model_required  "
+                  data-type="char"
+                  data-name="Field"
+                >
+                                    <div
+                    class="row s_col_no_resize s_col_no_bgcolor"
+                  >
+                                        <label
+                      class="col-form-label col-sm-auto s_website_form_label"
+                      style="width: 200px"
+                      for="o27w33hgvsay"
+                    >
+                                            <span
+                        class="s_website_form_label_content"
+                      >Subject</span>
+                                            <span
+                        class="s_website_form_mark"
+                      > *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input
+                        type="text"
+                        class="form-control s_website_form_input"
+                        name="name"
+                        required="true"
+                        id="o27w33hgvsay"
+                      />
+                                            <div
+                        style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"
+                        data-lastpass-icon-root=""
+                      />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                  class="form-group s_website_form_field col-12    "
+                  data-type="many2one"
+                  data-name="Field"
+                >
+                                    <div
+                    class="row s_col_no_resize s_col_no_bgcolor"
+                  >
+                                        <label
+                      class="col-form-label col-sm-auto s_website_form_label "
+                      style="width: 200px"
+                      for="ooxlbquh4xd"
+                    >
+                                            <span
+                        class="s_website_form_label_content"
+                      >Category</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <select
+                        class="form-control s_website_form_input"
+                        name="categ_id"
+                        id="ooxlbquh4xd"
+                      >
+                                                <option
+                          value="38"
+                        >Sponsorship</option>
+                                                <option
+                          value="7"
+                        >Donation / Finances</option>
+                                                <option
+                          value="43"
+                        >Trip / Visit</option>
+                                                <option
+                          value="9"
+                        >Translation / Volunteers</option>
+                                                <option
+                          value="53"
+                        >MyAccount</option>
+                                                <option
+                          value="27"
+                        >Gift / Payment slip</option>
+                                                <option
+                          value="28"
+                        >Website Letter Error</option>
+                                                <option
+                          value="35"
+                        >Tax receipt</option>
+                                                <option
+                          value="36"
+                        >Address change</option>
+                                                <option
+                          value="37"
+                        >Address email change</option>
+                                                <option
+                          value="75"
+                        >Sponsorship Payment Slips</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                  class="form-group s_website_form_field col-12  s_website_form_model_required  "
+                  data-type="text"
+                  data-name="Field"
+                >
+                                    <div
+                    class="row s_col_no_resize s_col_no_bgcolor"
+                  >
+                                        <label
+                      class="col-form-label col-sm-auto s_website_form_label "
+                      style="width: 200px"
+                      for="oyln2pviadn"
+                    >
+                                            <span
+                        class="s_website_form_label_content"
+                      >Message</span>
+                                            <span
+                        class="s_website_form_mark"
+                      > *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <textarea
+                        class="form-control s_website_form_input"
+                        name="description"
+                        required="true"
+                        id="oyln2pviadn"
+                        rows="3"
+                      />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                  class="form-group col-12 s_website_form_submit"
+                  data-name="Submit Button"
+                >
+                                    <div
+                    style="width: 200px;"
+                    class="s_website_form_label"
+                  />
+                                    <a
+                    href="#"
+                    role="button"
+                    class="btn btn-primary btn-lg s_website_form_send"
+                  >Submit</a>
+                                    <span id="s_website_form_result" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

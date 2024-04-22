@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, api, _
+from odoo import _, api, fields, models
 
 
 class PartnerSmsRegistrationForm(models.AbstractModel):
@@ -32,21 +32,16 @@ class PartnerSmsRegistrationForm(models.AbstractModel):
 
     @api.model
     def _get_domain(self):
-
         lsv = self.env.ref("sponsorship_switzerland.payment_mode_lsv").ids
         dd = self.env.ref("sponsorship_switzerland.payment_mode_postfinance_dd").ids
-        po = self.env.ref(
-            "sponsorship_switzerland.payment_mode_permanent_order"
-        ).ids
+        po = self.env.ref("sponsorship_switzerland.payment_mode_permanent_order").ids
 
         return [("id", "in", lsv + dd + po)]
 
     @property
     def _form_fieldsets(self):
         fieldset = super()._form_fieldsets
-        fieldset[0]["fields"].extend(
-            ["partner_function", "partner_church_unlinked"]
-        )
+        fieldset[0]["fields"].extend(["partner_function", "partner_church_unlinked"])
         fieldset.insert(
             2,
             {
@@ -56,8 +51,8 @@ class PartnerSmsRegistrationForm(models.AbstractModel):
             },
         )
         sponsor_langs = self.partner_id.sudo().spoken_lang_ids
-        child_langs = self.main_object.sudo().child_id.field_office_id \
-            .spoken_language_ids.filtered("translatable")
+        field_office = self.main_object.sudo().child_id.field_office_id
+        child_langs = field_office.spoken_language_ids.filtered("translatable")
         lang_en = self.env.ref("child_compassion.lang_compassion_english")
         if lang_en not in sponsor_langs or not (child_langs & sponsor_langs):
             lang_po = self.env.ref("child_compassion.lang_compassion_portuguese")

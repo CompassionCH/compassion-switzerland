@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Compassion Odoo 14\n"
+"Language: de\n"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:website_switzerland.field_theme_utils__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:website_switzerland.field_theme_utils__id
+msgid "ID"
+msgstr "ID"
+
+#. module: child_compassion
+#: model:ir.model.fields,field_description:website_switzerland.field_theme_utils____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Donate now"
+msgstr "Jetzt unterstützen"
+
+#. module: website
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Join us and make your company a better place."
+msgstr "Besuchen Sie uns und machen Sie Ihr eigenes Unternehmen zu einem Besonderen."
+
+#. modules: website_event_compassion, muskathlon, crowdfunding_compassion
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Sponsor a child"
+msgstr "Übernimm eine Patenschaft"
+
+#. modules: theme_compassion, theme_crowdfunding, website_theme_install
+#: model:ir.model,name:website_switzerland.model_theme_utils
+msgid "Theme Utils"
+msgstr "Werkzeuge"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Compassion care funds"
+msgstr "Die Compassion Hilfsfonds"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Get involved now"
+msgstr "Armut überwinden"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Sponsor a child now"
+msgstr "Finde ein Patenkind"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Our funds help support our sponsored children, their families and their communities."
+msgstr "Unsere Ergänzenden Hilfsfonds tragen dazu bei, dass die Kinderzentren nicht nur den Patenkindern, sondern auch deren Familien sowie dem Umfeld helfen können."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Sponsorship is the beginning of a unique bond between you and your sponsored child. With a monthly support of CHF 42, you can begin to transform his or her life."
+msgstr "Eine Patenschaft mit Compassion ist der Start einer besonderen Verbindung zwischen dir und deinem Patenkind. Mit einem monatlichen Beitrag von CHF 42.– trägst du dazu bei, dass dein Patenkind rundum versorgt ist."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<select class=\"form-control s_website_form_input\" name=\"categ_id\" id=\"ooxlbquh4xd\">\n"
+"                                                <option value=\"38\">Sponsorship</option>\n"
+"                                                <option value=\"7\">Donation / Finances</option>\n"
+"                                                <option value=\"43\">Trip / Visit</option>\n"
+"                                                <option value=\"9\">Translation / Volunteers</option>\n"
+"                                                <option value=\"53\">MyAccount</option>\n"
+"                                                <option value=\"27\">Gift / Payment slip</option>\n"
+"                                                <option value=\"28\">Website Letter Error</option>\n"
+"                                                <option value=\"35\">Tax receipt</option>\n"
+"                                                <option value=\"36\">Address change</option>\n"
+"                                                <option value=\"37\">Address email change</option>\n"
+"                                                <option value=\"75\">Sponsorship Payment Slips</option>\n"
+"                                            </select>"
+msgstr "<select class=\"form-control s_website_form_input\" name=\"categ_id\" id=\"ooxlbquh4xd\">\n"
+"                                                <option value=\"38\">Patenschaft</option>\n"
+"                                                <option value=\"7\">Spende/Finanzen</option>\n"
+"                                                <option value=\"43\"> Besuch</option>\n"
+"                                                <option value=\"9\">Übersetzung/Freiwillige</option>\n"
+"                                                <option value=\"53\">MyCompassion</option>\n"
+"                                                <option value=\"27\">Geschenk / Zahlschein</option>\n"
+"                                                <option value=\"28\">Website Brieffehler</option>\n"
+"                                                <option value=\"35\">Steuerbescheinigung</option>\n"
+"                                                <option value=\"36\">Adressänderung</option>\n"
+"                                                <option value=\"37\">Änderung der E-Mail Adresse</option>\n"
+"                                                <option value=\"75\">Sponsorenzahlscheine</option>\n"
+"                                            </select>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Category</span>"
+msgstr "<span class=\"s_website_form_label_content\">Kategorie</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Email</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr "<span class=\"s_website_form_label_content\">Email</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Message</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr "<span class=\"s_website_form_label_content\">Nachricht</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Subject</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr "<span class=\"s_website_form_label_content\">Betreff</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Your Name</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr "<span class=\"s_website_form_label_content\">Dein Name</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "Contact us using the form below.<br/>\n"
+"We'll do our best to get back to you as soon as possible."
+msgstr "Du kannst uns deine Wünsche, Fragen und Anregungen über dieses Formular mitteilen.<br/>\n"
+"Wir helfen dir gerne weiter."
+

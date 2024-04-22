@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!-- Specific stages for group visit -->
+        <record id="stage_group_unconfirmed" model="event.registration.stage">
+            <field name="name">Sign Agreements</field>
+            <field name="sequence">1</field>
+            <field name="duration">7</field>
+            <field name="requirements">
+                * Sign child protection agreement
+                * Sign travel agreement
+                * Send a passport copy
+                * Send certificate of criminal record
+            </field>
+            <field
+        name="event_type_ids"
+        eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"
+      />
+        </record>
+        <record id="stage_group_pay" model="event.registration.stage">
+            <field name="name">Down payment</field>
+            <field name="sequence">2</field>
+            <field name="duration">7</field>
+            <field name="requirements">
+                * Pay registration down payment fee
+            </field>
+            <field
+        name="event_type_ids"
+        eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"
+      />
+        </record>
+        <record id="stage_group_medical" model="event.registration.stage">
+            <field name="name">Medical survey</field>
+            <field name="sequence">3</field>
+            <field name="duration">7</field>
+            <field name="requirements">
+                * Fill medical survey
+                * Sign medical discharge if needed
+            </field>
+            <field
+        name="event_type_ids"
+        eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"
+      />
+        </record>
+        <record id="stage_group_documents" model="event.registration.stage">
+            <field name="name">Payment</field>
+            <field name="sequence">4</field>
+            <field name="duration">7</field>
+            <field name="requirements">
+                * Fill urgency contact information
+                * Pay the whole trip fees
+            </field>
+            <field
+        name="event_type_ids"
+        eval="[(6, 0, [ref('event_type_group_visit'),
+                                                        ref('event_type_youth_trip')])]"
+      />
+        </record>
+    </data>
+</odoo>

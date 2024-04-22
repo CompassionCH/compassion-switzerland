@@ -37,10 +37,15 @@
     />
         <field name="arch" type="xml">
             <!-- Add correspondance fields -->
-            <xpath expr="//page[@name='contact_addresses']/group[1]" position="replace">
+            <xpath
+        expr="//page[@name='contact_addresses']/group[1]"
+        position="replace"
+      >
                 <group>
                     <group>
-                        <field name="global_communication_delivery_preference" />
+                        <field
+              name="global_communication_delivery_preference"
+            />
                         <field name="letter_delivery_preference" />
                         <field name="photo_delivery_preference" />
                     </group>

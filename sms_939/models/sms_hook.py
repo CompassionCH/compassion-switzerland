@@ -10,16 +10,14 @@
 
 import logging
 
-
-from odoo import models, api, fields, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
 
 logger = logging.getLogger(__name__)
 
 
 class SmsHook(models.Model):
-    """ A sponsored child """
+    """A sponsored child"""
 
     _name = "sms.hook"
     _description = "SMS Keyword Hook"
@@ -27,14 +25,14 @@ class SmsHook(models.Model):
     name = fields.Char(
         "Keyword service",
         help="This hook will be called when a SMS from this registered"
-             "service is received.",
+        "service is received.",
         required=True,
     )
     func_name = fields.Char(
         "Function",
         help="Method name that will be executed at reception. The method must "
-             "exist in sms.notification object and returns a "
-             "SmsNotificationAnswer object",
+        "exist in sms.notification object and returns a "
+        "SmsNotificationAnswer object",
         required=True,
     )
 
