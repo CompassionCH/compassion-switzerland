@@ -77,7 +77,6 @@
         "data/gist_indexes.xml",
         "views/advocate_details.xml",
         "views/search_bank_address_wizard.xml",
-        "views/survey_view.xml",
         "views/partner_compassion_view.xml",
         "views/product_view.xml",
         "views/partner_check_double.xml",
