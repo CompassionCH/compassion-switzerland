@@ -103,7 +103,8 @@ class EventsController(PaymentFormController, FormControllerMixin):
         sitemap=False
     )
     def event_faq(self, event, **kwargs):
-        if not event.is_published:
+        if not event.is_published and not request.env.user.has_group(
+                "website.group_website_designer"):
             return request.redirect("/events")
 
         return request.render("website_event_compassion.event_faq", {"event": event})
