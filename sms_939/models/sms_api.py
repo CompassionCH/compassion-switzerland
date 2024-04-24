@@ -14,7 +14,7 @@ class SmsApi(models.AbstractModel):
     _inherit = "sms.api"
 
     @api.model
-    def _send_sms(self, numbers, message):
+    def _send_sms_batch(self, iap_data):
         """Send sms using MNC 939 provider"""
         odoo_provider = self.env.ref("sms_939.sms_odoo")
         sms_provider = self.env.context.get("sms_provider", odoo_provider)
@@ -30,18 +30,18 @@ class SmsApi(models.AbstractModel):
                 "port": sms_provider.port_939,
                 "endpoint": sms_provider.endpoint_939,
             }
-            for mobile in numbers:
+            for mobile in iap_data:
                 request = [
-                    ("receiver", mobile),
+                    ("receiver", mobile["number"]),
                     ("service", "compassion"),
                     ("maximumSMSAmount", 3),
                     ("cost", 0),
-                    ("text", message),
+                    ("text", mobile["content"]),
                 ]
                 self._smsbox_send(request, headers, server_config)
                 return True
         else:
-            return super()._send_sms(numbers, message)
+            return super()._send_sms(iap_data)
 
     def _smsbox_send(self, request, headers, config):
         server = config["server"]
