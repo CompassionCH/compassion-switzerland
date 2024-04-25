@@ -21,7 +21,6 @@ from odoo.exceptions import UserError
 
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
-# from ..wizards.generate_communication_wizard import SMS_CHAR_LIMIT, SMS_COST
 
 _logger = logging.getLogger(__name__)
 
@@ -39,13 +38,6 @@ class PartnerCommunication(models.Model):
     currency_id = fields.Many2one(
         "res.currency", compute="_compute_currency", readonly=False
     )
-    sms_cost = fields.Float()
-    # sms_provider_id = fields.Many2one(
-    #     "sms.provider",
-    #     "SMS Provider",
-    #     default=lambda self: self.env.ref("sms_939.large_account_id", False),
-    #     readonly=False,
-    # )
 
     def schedule_call(self):
         self.ensure_one()
@@ -68,12 +60,6 @@ class PartnerCommunication(models.Model):
                     user_id = ambassador.id
 
         super(PartnerCommunication, self.with_user(user_id)).schedule_call()
-
-    @api.model
-    def send_mode_select(self):
-        modes = super().send_mode_select()
-        modes.append(("sms", _("SMS")))
-        return modes
 
     def _compute_currency(self):
         chf = self.env.ref("base.CHF")
@@ -426,22 +412,15 @@ class PartnerCommunication(models.Model):
         Returns:
             True
         """
-        # Filter jobs for SMS
-        sms_jobs = self.filtered(lambda j: j.send_mode == "sms")
-        sms_jobs.send_by_sms()
-
-        # Filter remaining jobs and contract channel
-        other_jobs = self - sms_jobs
-
         # Prevent sending onboarding card with unverified partners
-        if not other_jobs._check_onboarding_verification():
+        if not self._check_onboarding_verification():
             raise UserError(
                 _("Onboarding postcard cannot be sent for unverified partners.")
             )
 
         # Send remaining jobs
-        super(PartnerCommunication, other_jobs).send()
-
+        super().send()
+        other_jobs = self.filtered(lambda j: j.send_mode != "sms")
         other_jobs._handle_no_money_holds()
         other_jobs._start_new_donors_onboarding()
         other_jobs._handle_zoom_and_sub_proposal()
@@ -600,78 +579,6 @@ class PartnerCommunication(models.Model):
             welcome_comms.get_objects().write(
                 {"onboarding_start_date": datetime.today()}
             )
-
-    def send_by_sms(self):
-        """
-        Sends communication jobs with SMS 939 service.
-        :return: list of sms_texts
-        """
-        link_pattern = re.compile(r'<a href="([^<>]*)">([^<]*)</a>')
-        sms_medium_id = self.env.ref("sms_sponsorship.utm_medium_sms").id
-        sms_texts = []
-        for job in self.filtered(lambda j: j.state == "pending" and j.partner_mobile):
-            sms_text = job.convert_html_for_sms(link_pattern, sms_medium_id)
-            sms_texts.append(sms_text)
-            job.partner_id.with_context(
-                sms_provider=job.sms_provider_id
-            ).message_post_send_sms(sms_text, note_msg=job.subject)
-            job.write(
-                {
-                    "state": "done",
-                    "sent_date": fields.Datetime.now(),
-                    # "sms_cost": ceil(float(len(sms_text))
-                    # // SMS_CHAR_LIMIT) * SMS_COST,
-                }
-            )
-            _logger.debug("SMS length: %s", len(sms_text))
-        return sms_texts
-
-    def convert_html_for_sms(self, link_pattern, sms_medium_id):
-        """
-        Converts HTML into simple text for SMS.
-        First replace links with short links using Link Tracker.
-        Then clean HTML using BeautifulSoup library.
-        :param link_pattern: the regex pattern for replacing links
-        :param sms_medium_id: the associated utm.medium id for generated links
-        :return: Clean text with short links for SMS use.
-        """
-        self.ensure_one()
-        source_id = self.config_id.source_id.id
-        paragraph_delimiter = "###P###"
-
-        def _replace_link(match):
-            full_link = match.group(1).replace("&amp;", "&")
-            short_link = self.env["link.tracker"].search(
-                [
-                    ("url", "=", full_link),
-                    ("source_id", "=", source_id),
-                    ("medium_id", "=", sms_medium_id),
-                ]
-            )
-            if not short_link:
-                short_link = self.env["link.tracker"].create(
-                    {
-                        "url": full_link,
-                        "campaign_id": self.utm_campaign_id.id
-                        or self.env.ref(
-                            "partner_communication_compassion."
-                            "utm_campaign_communication"
-                        ).id,
-                        "medium_id": sms_medium_id,
-                        "source_id": source_id,
-                    }
-                )
-            return short_link.short_url
-
-        body = self.body_html.replace("\n", " ").replace(
-            "</p>", "</p>" + paragraph_delimiter
-        )
-        body = link_pattern.sub(_replace_link, body)
-        body = re.sub(r"[ \t\r\f\v]+", " ", body)
-        body = re.sub(r"<br>|<br/>", "\n", body)
-        soup = BeautifulSoup(body, "lxml")
-        text = soup.get_text().replace(paragraph_delimiter, "\n\n")
-        return "\n".join([t.strip() for t in text.split("\n")])
 
     def get_print_dossier_attachments(self):
         """
