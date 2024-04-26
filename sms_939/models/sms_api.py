@@ -38,8 +38,12 @@ class SmsApi(models.AbstractModel):
                     ("cost", 0),
                     ("text", mobile["content"]),
                 ]
-                self._smsbox_send(request, headers, server_config)
-                return True
+                if self._smsbox_send(request, headers, server_config):
+                    mobile['state']='success'
+                else:
+                    mobile['state'] = 'fail'
+
+            return iap_data
         else:
             return super()._send_sms(iap_data)
 
@@ -54,3 +58,4 @@ class SmsApi(models.AbstractModel):
         response = request_server.getresponse()
         _logger.info(f"SMS response status: {response.status}")
         _logger.debug(response.read())
+        return True
