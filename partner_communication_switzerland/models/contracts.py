@@ -518,7 +518,7 @@ class RecurringContract(models.Model):
             sds_partner_id = config_settings.get_sponsorship_it_id()
         sds_user = self.env['res.users'].sudo().search([('partner_id', '=', int(sds_partner_id))])
 
-        if sds_user.id:
+        if sds_user.id and self.partner_id.id != 560:  # Demaurex
             self.correspondent_id.activity_schedule(
                 'partner_communication_switzerland.activity_check_partner_no_communication',
                 date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
