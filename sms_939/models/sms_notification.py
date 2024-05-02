@@ -152,8 +152,8 @@ class SmsNotification(models.Model):
                 "You can release a child from poverty today by clicking on this link:"
                 " %s"
             )
-        #TODO set the full URL
-            % '/children/'
+            # TODO set the full URL
+            % "/children/"
         )
 
     def test_service(self):

@@ -39,9 +39,9 @@ class SmsApi(models.AbstractModel):
                     ("text", mobile["content"]),
                 ]
                 if self._smsbox_send(request, headers, server_config):
-                    mobile['state']='success'
+                    mobile["state"] = "success"
                 else:
-                    mobile['state'] = 'fail'
+                    mobile["state"] = "fail"
 
             return iap_data
         else:

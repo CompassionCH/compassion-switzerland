@@ -9,6 +9,7 @@
 ##############################################################################
 from odoo import models
 
+
 class Hold(models.Model):
     _inherit = "compassion.hold"
 
