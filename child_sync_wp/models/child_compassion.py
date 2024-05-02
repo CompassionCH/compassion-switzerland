@@ -91,12 +91,16 @@ class CompassionChild(models.Model):
         return super().child_released(state)
 
     @api.model
-    def refresh_wordpress_cron(self, take=120):
+    def refresh_wordpress_cron(self):
         """
         Find new children on the global childpool, put them on wordpress,
         remove old children and release the holds.
         :return: True
         """
+        # Fetch the "Number Children Website" setting from the database
+        settings = self.env['res.config.settings'].sudo().search([], order='id DESC', limit=1)
+        take = settings.number_children_website if settings and settings.number_children_website else 120
+
         for company in self.env["res.company"].search([]):
             wp_config = self.env["wordpress.configuration"].get_config(
                 company.id, raise_error=False
@@ -104,7 +108,7 @@ class CompassionChild(models.Model):
             if not wp_config:
                 continue
             global_pool = self.with_company(company.id)._create_diverse_children_pool(
-                take
+                int(take)
             )
             new_children = self._hold_children(global_pool)
             valid_new_children = self._update_information_and_filter_invalid(
