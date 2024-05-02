@@ -13,19 +13,19 @@ from odoo import fields, models
 class CompassionProject(models.Model):
     _inherit = "compassion.project"
 
-    desc_fr = fields.Html("French description", readonly=True)
-    desc_de = fields.Html("German description", readonly=True)
-    desc_it = fields.Html("Italian description", readonly=True)
+    description_fr = fields.Html("French description", readonly=True)
+    description_de = fields.Html("German description", readonly=True)
+    description_it = fields.Html("Italian description", readonly=True)
     description = fields.Html(compute="_compute_description")
     description_left = fields.Html(compute="_compute_description")
     description_right = fields.Html(compute="_compute_description")
 
     def _compute_description(self):
         lang_map = {
-            "fr_CH": "desc_fr",
-            "de_DE": "desc_de",
+            "fr_CH": "description_fr",
+            "de_DE": "description_de",
             "en_US": "description_en",
-            "it_IT": "desc_it",
+            "it_IT": "description_it",
         }
 
         for project in self:

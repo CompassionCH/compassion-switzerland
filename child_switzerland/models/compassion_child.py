@@ -17,9 +17,9 @@ from odoo import fields, models
 class CompassionChild(models.Model):
     _inherit = "compassion.child"
 
-    desc_fr = fields.Html("French description", readonly=True)
-    desc_de = fields.Html("German description", readonly=True)
-    desc_it = fields.Html("Italian description", readonly=True)
+    description_fr = fields.Html("French description", readonly=True)
+    description_de = fields.Html("German description", readonly=True)
+    description_it = fields.Html("Italian description", readonly=True)
     description_left = fields.Html(compute="_compute_description")
     description_right = fields.Html(compute="_compute_description")
     project_title = fields.Char(compute="_compute_project_title")
@@ -30,10 +30,10 @@ class CompassionChild(models.Model):
 
     def _compute_description(self):
         lang_map = {
-            "fr_CH": "desc_fr",
-            "de_DE": "desc_de",
-            "en_US": "desc_en",
-            "it_IT": "desc_it",
+            "fr_CH": "description_fr",
+            "de_DE": "description_de",
+            "en_US": "description_en",
+            "it_IT": "description_it",
         }
 
         for child in self:
