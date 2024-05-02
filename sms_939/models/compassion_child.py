@@ -20,9 +20,9 @@ class CompassionChild(models.Model):
         """
         result = super().get_sms_sponsor_child_data()
         if self.env.lang == "fr_CH":
-            result["description"] = self.desc_fr
+            result["description"] = self.description_fr
         elif self.env.lang == "de_DE":
-            result["description"] = self.desc_de
+            result["description"] = self.description_de
         elif self.env.lang == "it_IT":
-            result["description"] = self.desc_it
+            result["description"] = self.description_it
         return result

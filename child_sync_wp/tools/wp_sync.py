@@ -82,13 +82,13 @@ class WPSync(object):
                     # CO-1003 in case child has no unsponsored_since date,
                     # we use allocation date
                     "start_date": child.unsponsored_since or child.date,
-                    "desc": child.desc_fr,
-                    "desc_de": child.desc_de,
-                    "desc_it": child.desc_it,
+                    "desc": child.description_fr,
+                    "desc_de": child.description_de,
+                    "desc_it": child.description_it,
                     "country": child.project_id.country_id.name,
-                    "project": child.project_id.desc_fr,
-                    "project_de": child.project_id.desc_de,
-                    "project_it": child.project_id.desc_it,
+                    "project": child.project_id.description_fr,
+                    "project_de": child.project_id.description_de,
+                    "project_it": child.project_id.description_it,
                     "cloudinary_url": child.image_url,
                 }
                 if self.xmlrpc_server.child_import.addChild(

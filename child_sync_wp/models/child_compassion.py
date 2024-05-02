@@ -38,12 +38,12 @@ class CompassionChild(models.Model):
         in_two_years = date.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == "N"
-            and c.desc_de
-            and c.desc_fr
-            and c.desc_it
-            and c.project_id.desc_fr
-            and c.project_id.desc_de
-            and c.project_id.desc_it
+            and c.description_de
+            and c.description_fr
+            and c.description_it
+            and c.project_id.description_fr
+            and c.project_id.description_de
+            and c.project_id.description_it
             and c.fullshot
             and (not c.completion_date or c.completion_date > in_two_years)
         )
@@ -148,9 +148,9 @@ class CompassionChild(models.Model):
                 continue
         return children.filtered(
             lambda c: c.state == "N"
-            and c.desc_it
+            and c.description_it
             and c.pictures_ids
-            and c.project_id.desc_it
+            and c.project_id.description_it
         )
 
     def _hold_children(self, global_pool):
