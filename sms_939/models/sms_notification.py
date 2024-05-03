@@ -48,7 +48,7 @@ class SmsNotification(models.Model):
             [
                 "|",
                 ("mobile", "like", phone),
-                ("phone", "like", phone),
+                ("phone_sanitized", "like", phone),
                 ("active", "in", [True, False]),
             ]
         )
@@ -126,9 +126,9 @@ class SmsNotification(models.Model):
                         }
                     )
         if "test" not in sms_text:
-            self.env["sms.api"].with_context(
-                sms_provider=self.env.ref("sms_939.small_account_id")
-            )._send_sms([sms_receipient], sms_answer)
+            sms_id = self.env["sms.sms"].create({"number":sms_receipient,"body":sms_answer,"partner_id":self.partner_id.id})
+            self.env["sms.api"]._send_sms_batch(
+                [{"number": sms_receipient, "content": sms_answer, "res_id": sms_id.id, "is_short_sms": True}])
         else:
             # Test mode will only print url in job return value
             logger.info(f"Test service - answer to {sms_receipient}: {sms_answer}")
@@ -145,6 +145,10 @@ class SmsNotification(models.Model):
 
     def sponsor_service(self):
         self.ensure_one()
+        config = self.env["ir.config_parameter"].sudo()
+        base_url = config.get_param(
+            "web.external.url", config.get_param("web.base.url")
+        )
         # Create a sms child request
         return (
             _(
@@ -152,8 +156,7 @@ class SmsNotification(models.Model):
                 "You can release a child from poverty today by clicking on this link:"
                 " %s"
             )
-            # TODO set the full URL
-            % "/children/"
+            % base_url+'/children/random'
         )
 
     def test_service(self):

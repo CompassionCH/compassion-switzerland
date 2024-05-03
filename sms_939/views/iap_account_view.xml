@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="iap_account_view_form" model="ir.ui.view">
+        <field name="model">iap.account</field>
+        <field name="inherit_id" ref="iap.iap_account_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='account']" position="after">
+                <group
+                    string="MNC account"
+                    name="mnc"
+                    attrs="{'invisible': [('provider', 'not in', ('sms_mnc_http','sms_mnc_shortnum'))]}"
+                >
+                    <field name="server_939" />
+                    <field name="port_939" />
+                    <field name="endpoint_939" />
+                    <field name="username_939" />
+                    <field name="password_939" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -39,13 +39,16 @@
         "child_sync_wp",  # compassion-switzerland
         "queue_job",  # OCA/queue,
         "sms",  # odoo
+        "iap_alternative_provider", # OCA/
     ],
     "data": [
         "security/ir.model.access.csv",
         "data/sms_hook.xml",
-        "data/sms_provider.xml",
+#        "data/sms_provider.xml",
         "views/sms_views.xml",
-        # "views/sms_sender_wizard.xml",
+        "views/mail_message_view.xml",
+        "views/sms_sms_view.xml",
+        "views/iap_account_view.xml",
     ],
     "demo": ["demo/sms_hook.xml"],
     "development_status": "Beta",
