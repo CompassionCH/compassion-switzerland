@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_invoice_filter_switzerland" model="ir.ui.view">
+            <field name="name">switzerland.account.invoice.select</field>
+            <field name="model">account.move</field>
+            <field
+              name="inherit_id"
+              ref="account.view_account_invoice_filter"
+            />
+            <field name="arch" type="xml">
+                <filter name="invoice_date" position="after">
+                    <filter string="Next 2 Months Invoiced" name="next_2_months"
+                    domain="[
+                        ('invoice_date', '&gt;=', (context_today()+relativedelta(months=1)).strftime('%Y-%m-01')),
+                        ('invoice_date', '&lt;', (context_today()+relativedelta(months=3)).strftime('%Y-%m-01'))
+                    ]"
+                    help="Next 2 months"
+                />
+                </filter>
+                <filter name="due_date" position="after">
+                    <filter string="Next 2 Months Due" name="next_2_months_date_due"
+                    domain="[
+                        ('invoice_date_due', '&gt;=', (context_today()+relativedelta(months=1)).strftime('%Y-%m-01')),
+                        ('invoice_date_due', '&lt;', (context_today()+relativedelta(months=3)).strftime('%Y-%m-01'))
+                    ]"
+                    help="Next 2 months due"
+                />
+                </filter>
+            </field>
+    </record>
+    <data>
+        <template id="assets_backend" name="switzerland_search_utils" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/account_switzerland/static/src/js/control_panel/switzerland_search_utils.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
