@@ -13,4 +13,4 @@ from odoo import fields, models
 
 class SmsSms(models.Model):
     _inherit = "mail.message"
-    request_uid = fields.Text("SMS Request id",readonly=True)
+    request_uid = fields.Text("SMS Request id", readonly=True)

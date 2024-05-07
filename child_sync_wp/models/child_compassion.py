@@ -38,12 +38,12 @@ class CompassionChild(models.Model):
         in_two_years = date.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == "N"
-            and c.desc_de
-            and c.desc_fr
-            and c.desc_it
-            and c.project_id.desc_fr
-            and c.project_id.desc_de
-            and c.project_id.desc_it
+            and c.description_de
+            and c.description_fr
+            and c.description_it
+            and c.project_id.description_fr
+            and c.project_id.description_de
+            and c.project_id.description_it
             and c.fullshot
             and (not c.completion_date or c.completion_date > in_two_years)
         )
@@ -91,12 +91,22 @@ class CompassionChild(models.Model):
         return super().child_released(state)
 
     @api.model
-    def refresh_wordpress_cron(self, take=120):
+    def refresh_wordpress_cron(self):
         """
         Find new children on the global childpool, put them on wordpress,
         remove old children and release the holds.
         :return: True
         """
+        # Fetch the "Number Children Website" setting from the database
+        settings = (
+            self.env["res.config.settings"].sudo().search([], order="id DESC", limit=1)
+        )
+        take = (
+            settings.number_children_website
+            if settings and settings.number_children_website
+            else 120
+        )
+
         for company in self.env["res.company"].search([]):
             wp_config = self.env["wordpress.configuration"].get_config(
                 company.id, raise_error=False
@@ -104,7 +114,7 @@ class CompassionChild(models.Model):
             if not wp_config:
                 continue
             global_pool = self.with_company(company.id)._create_diverse_children_pool(
-                take
+                int(take)
             )
             new_children = self._hold_children(global_pool)
             valid_new_children = self._update_information_and_filter_invalid(
@@ -148,9 +158,9 @@ class CompassionChild(models.Model):
                 continue
         return children.filtered(
             lambda c: c.state == "N"
-            and c.desc_it
+            and c.description_it
             and c.pictures_ids
-            and c.project_id.desc_it
+            and c.project_id.description_it
         )
 
     def _hold_children(self, global_pool):

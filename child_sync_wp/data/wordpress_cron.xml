@@ -6,7 +6,7 @@
 -->
 <odoo>
     <data noupdate="1">
-        <record id="refersh_wordpress_cron" model="ir.cron">
+        <record id="refresh_wordpress_cron" model="ir.cron">
             <field name="name">Refresh children on Wordpress</field>
             <field name="interval_number">1</field>
             <field name="interval_type">weeks</field>

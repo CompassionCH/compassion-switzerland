@@ -184,18 +184,3 @@ class PartnerCommunication(models.Model):
         # randomly select one
         answer = random.choice(answers)
         return answer
-
-    def _get_send_priority(self, partner, print_if_not_email):
-        # Tell what to do if partner has SMS set as communication preference
-        res = super()._get_send_priority(partner, print_if_not_email)
-        if partner.lang != "it_IT":
-            res["digital"]["sms"] = "sms"
-            res["digital_only"]["sms"] = "digital" if partner.email else "none"
-            res["both"]["sms"] = "sms"
-        return res
-
-    def _get_auto_mode(self, partner_mode, communication_mode):
-        if partner_mode == "sms":
-            return "auto" in communication_mode
-        else:
-            return super()._get_auto_mode(partner_mode, communication_mode)

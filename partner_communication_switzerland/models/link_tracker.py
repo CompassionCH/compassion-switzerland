@@ -7,7 +7,12 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import models
 
-from . import models
-from . import tools
-from . import controllers
+class LinkTracker(models.Model):
+    _inherit = 'link.tracker'
+
+
+    def get_base_url(self):
+        return self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+

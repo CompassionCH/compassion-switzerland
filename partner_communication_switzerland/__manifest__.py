@@ -89,6 +89,7 @@
         "views/notification_settings_view.xml",
         "views/onboarding_settings_view.xml",
         "views/res_partner_create_portal_wizard.xml",
+        "views/link_tracker.xml",
         "templates/zoom_registration_form.xml",
         "templates/onboarding_unsubscribe.xml",
     ],

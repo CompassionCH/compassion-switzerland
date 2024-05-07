@@ -25,3 +25,4 @@ from . import res_partner_zoom_attendee
 from . import field_office
 from . import partner_communication_config
 from . import res_company
+from . import link_tracker

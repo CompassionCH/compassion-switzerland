@@ -5,7 +5,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from xml.etree import ElementTree
-from odoo import api, models
+
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -27,28 +28,28 @@ class SmsApi(models.AbstractModel):
             "noStop": 1,
         }
 
-    def _get_sms_account(self,is_short_sms=False):
+    def _get_sms_account(self, is_short_sms=False):
         if is_short_sms:
             return self.env["iap.account"].get("sms_short")
         else:
             return self.env["iap.account"].get("sms")
 
-    def _send_sms_with_mnc_http(self, number, message, sms_id, is_short_sms=False, test=False):
+    def _send_sms_with_mnc_http(
+        self, number, message, sms_id, is_short_sms=False, test=False
+    ):
         # Try to return same error code like odoo
         # list is here: self.IAP_TO_SMS_STATE
         if not number:
             return "wrong_number_format"
         account = self._get_sms_account(is_short_sms)
-        params=self._prepare_mnc_http_params(account, number, message)
+        params = self._prepare_mnc_http_params(account, number, message)
         headers = {}
-        auth = base64.b64encode(
-            f"{params['login']}:{params['password']}".encode()
-        )
+        auth = base64.b64encode(f"{params['login']}:{params['password']}".encode())
         headers["Authorization"] = "Basic " + auth.decode()
         server_config = {
-            "server": params['server'],
-            "port": params['port'],
-            "endpoint": params['endpoint'],
+            "server": params["server"],
+            "port": params["port"],
+            "endpoint": params["endpoint"],
         }
         request = [
             ("receiver", number),
@@ -57,19 +58,27 @@ class SmsApi(models.AbstractModel):
             ("cost", 0),
             ("text", message),
         ]
-        req_uid = self._smsbox_send(request, headers, server_config) if not test else 'xml_req_test'
+        req_uid = (
+            self._smsbox_send(request, headers, server_config)
+            if not test
+            else "xml_req_test"
+        )
         s = self.env["sms.sms"].browse(sms_id)
         if req_uid:
             s.request_uid = req_uid
             if not s.mail_message_id:
-                mm_id = self.env['mail.message'].search([("body","=",s.body),("res_id","=",s.partner_id.id)])
+                mm_id = self.env["mail.message"].search(
+                    [("body", "=", s.body), ("res_id", "=", s.partner_id.id)]
+                )
                 if not mm_id:
-                    mm_id = self.env['mail.message'].create({
-                        "body": s.body,
-                        "res_id": s.partner_id.id,
-                        "model": "res.partner",
-                        "message_type": "sms",
-                    })
+                    mm_id = self.env["mail.message"].create(
+                        {
+                            "body": s.body,
+                            "res_id": s.partner_id.id,
+                            "model": "res.partner",
+                            "message_type": "sms",
+                        }
+                    )
                 mm_id.is_internal = False
                 s.mail_message_id = mm_id.id
             s.mail_message_id.request_uid = req_uid
@@ -79,7 +88,11 @@ class SmsApi(models.AbstractModel):
         return "server_error"
 
     def _is_sent_with_mnc(self):
-        return (self._get_sms_account().provider == "sms_mnc_http" or self._get_sms_account().provider == "sms_mnc_shortnum")
+        return (
+            self._get_sms_account().provider == "sms_mnc_http"
+            or self._get_sms_account().provider == "sms_mnc_shortnum"
+        )
+
     @api.model
     def _send_sms(self, numbers, message):
         if self._is_sent_with_mnc():
@@ -101,7 +114,11 @@ class SmsApi(models.AbstractModel):
                 # so this case should not append
                 raise UserError(_("Batch sending is not support with MNC"))
             state = self._send_sms_with_mnc_http(
-                messages[0]["number"], messages[0]["content"], messages[0]["res_id"],messages[0]["is_short_sms"],True
+                messages[0]["number"],
+                messages[0]["content"],
+                messages[0]["res_id"],
+                messages[0]["is_short_sms"],
+                True,
             )
             return [{"state": state, "credit": 0, "res_id": messages[0]["res_id"]}]
         else:
@@ -120,7 +137,7 @@ class SmsApi(models.AbstractModel):
         status = ElementTree.fromstring(xml_response)
         _logger.info(f"SMS response status: {status[1][0].attrib['status']}")
         _logger.debug(xml_response)
-        if status[1][0].attrib['status']:
+        if status[1][0].attrib["status"]:
             return status[2].text
         else:
             return False

@@ -9,8 +9,11 @@ class IapAccount(models.Model):
     _inherit = "iap.account"
 
     provider = fields.Selection(
-        selection_add=[("sms_mnc_http", "SMS MNC http"),("sms_mnc_shortnum", "SMS Short MNC")],
-        ondelete={"sms_mnc_http": "cascade","sms_mnc_shortnum": "cascade"},
+        selection_add=[
+            ("sms_mnc_http", "SMS MNC http"),
+            ("sms_mnc_shortnum", "SMS Short MNC"),
+        ],
+        ondelete={"sms_mnc_http": "cascade", "sms_mnc_shortnum": "cascade"},
     )
     server_939 = fields.Char("Provider server", required=True)
     port_939 = fields.Integer("Server port", required=True)

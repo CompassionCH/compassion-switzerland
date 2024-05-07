@@ -6,10 +6,10 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='account']" position="after">
                 <group
-                    string="MNC account"
-                    name="mnc"
-                    attrs="{'invisible': [('provider', 'not in', ('sms_mnc_http','sms_mnc_shortnum'))]}"
-                >
+          string="MNC account"
+          name="mnc"
+          attrs="{'invisible': [('provider', 'not in', ('sms_mnc_http','sms_mnc_shortnum'))]}"
+        >
                     <field name="server_939" />
                     <field name="port_939" />
                     <field name="endpoint_939" />

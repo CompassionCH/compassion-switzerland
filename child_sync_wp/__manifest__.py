@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Sync Compassion Children with Wordpress website",
-    "version": "14.0.0.0.0",
+    "version": "14.0.0.0.1",
     "category": "Compassion",
     "author": "Compassion CH",
     "license": "AGPL-3",

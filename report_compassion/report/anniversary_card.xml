@@ -129,8 +129,8 @@
                     t-value="o.env['res.users'].search([('name', 'ilike', sign_user_name),('share','=',False)], limit=1)"
                   />
                                 <img
-                    t-if="sign_user.digital_signature"
-                    t-attf-src="/web/image/res.users/#{sign_user.id}/digital_signature?width=200"
+                    t-if="sign_user.signature"
+                    t-attf-src="/web/image/res.users/#{sign_user.id}/signature?width=200"
                     style="position: relative; left: -10mm;"
                   />
                                 <p>

@@ -160,9 +160,9 @@ class ChildDescriptionCH(models.TransientModel):
         res = super()._supported_languages()
         res.update(
             {
-                "de_DE": "desc_de",
-                "fr_CH": "desc_fr",
-                "it_IT": "desc_it",
+                "de_DE": "description_de",
+                "fr_CH": "description_fr",
+                "it_IT": "description_it",
             }
         )
         return res

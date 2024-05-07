@@ -273,12 +273,6 @@ class ResPartner(models.Model):
             else:
                 partner.last_completed_tax_receipt = 1979
 
-    @api.model
-    def _get_delivery_preference(self):
-        res = super()._get_delivery_preference()
-        res.append(("sms", "SMS"))
-        return res
-
     @api.depends("title", "is_company", "is_church")
     def _compute_plural(self):
         family = self.env.ref("partner_compassion.res_partner_title_family")
@@ -355,18 +349,6 @@ class ResPartner(models.Model):
             # again in case the job failed
             self.env.cr.commit()  # pylint: disable=invalid-commit
             count += 1
-        return True
-
-    def sms_send_step1_confirmation(self, child_request):
-        # Override to use a communication instead of message_post
-        config = self.env.ref(
-            "partner_communication_switzerland.sms_registration_confirmation_1"
-        )
-        child_request.sponsorship_id.send_communication(config)
-        return True
-
-    def sms_send_step2_confirmation(self, child_request):
-        # Override to avoid sending confirmation (handled by regular onboarding process)
         return True
 
     def create_odoo_user(self):
