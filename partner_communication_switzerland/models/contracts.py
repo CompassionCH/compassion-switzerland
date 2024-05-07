@@ -292,7 +292,9 @@ class RecurringContract(models.Model):
     def action_sub_reject(self):
         res = super().action_sub_reject()
         no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        communications = self.with_context({}).send_communication(no_sub_config, both=True)
+        communications = self.with_context({}).send_communication(
+            no_sub_config, both=True
+        )
         if res:
             res = {
                 "name": communications[0].subject,

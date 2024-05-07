@@ -98,8 +98,14 @@ class CompassionChild(models.Model):
         :return: True
         """
         # Fetch the "Number Children Website" setting from the database
-        settings = self.env['res.config.settings'].sudo().search([], order='id DESC', limit=1)
-        take = settings.number_children_website if settings and settings.number_children_website else 120
+        settings = (
+            self.env["res.config.settings"].sudo().search([], order="id DESC", limit=1)
+        )
+        take = (
+            settings.number_children_website
+            if settings and settings.number_children_website
+            else 120
+        )
 
         for company in self.env["res.company"].search([]):
             wp_config = self.env["wordpress.configuration"].get_config(

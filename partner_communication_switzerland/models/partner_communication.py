@@ -9,25 +9,18 @@
 ##############################################################################
 import base64
 import logging
-import re
 from collections import OrderedDict
 from datetime import date, datetime
 
 import requests
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
 
-
 _logger = logging.getLogger(__name__)
-
-try:
-    from bs4 import BeautifulSoup
-except ImportError:
-    _logger.warning("Please install bs4 for using the module")
 
 
 class PartnerCommunication(models.Model):
@@ -356,7 +349,7 @@ class PartnerCommunication(models.Model):
             "doc_ids": children.ids,
         }
         pdf = self._get_pdf_from_data(
-            data, self.sudo().env.ref("report_compassion.report_childpack_small")
+            data, self.sudo().env.ref("child_compassion.report_childpack_small")
         )
         return {_("child dossier.pdf"): [report_name, pdf]}
 

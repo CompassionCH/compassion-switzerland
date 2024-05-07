@@ -126,9 +126,23 @@ class SmsNotification(models.Model):
                         }
                     )
         if "test" not in sms_text:
-            sms_id = self.env["sms.sms"].create({"number":sms_receipient,"body":sms_answer,"partner_id":self.partner_id.id})
+            sms_id = self.env["sms.sms"].create(
+                {
+                    "number": sms_receipient,
+                    "body": sms_answer,
+                    "partner_id": self.partner_id.id,
+                }
+            )
             self.env["sms.api"]._send_sms_batch(
-                [{"number": sms_receipient, "content": sms_answer, "res_id": sms_id.id, "is_short_sms": True}])
+                [
+                    {
+                        "number": sms_receipient,
+                        "content": sms_answer,
+                        "res_id": sms_id.id,
+                        "is_short_sms": True,
+                    }
+                ]
+            )
         else:
             # Test mode will only print url in job return value
             logger.info(f"Test service - answer to {sms_receipient}: {sms_answer}")
@@ -156,7 +170,8 @@ class SmsNotification(models.Model):
                 "You can release a child from poverty today by clicking on this link:"
                 " %s"
             )
-            % base_url+'/children/random'
+            % base_url
+            + "/children/random"
         )
 
     def test_service(self):
