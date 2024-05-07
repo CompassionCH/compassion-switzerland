@@ -7,8 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import models, fields, api
-from urllib.parse import urljoin
+from odoo import models
 
 class LinkTracker(models.Model):
     _inherit = 'link.tracker'
