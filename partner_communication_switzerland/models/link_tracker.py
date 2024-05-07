@@ -13,9 +13,6 @@ class LinkTracker(models.Model):
     _inherit = 'link.tracker'
 
 
-    @api.depends('code')
-    def _compute_short_url(self):
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.external.url')
-        for link in self:
-            link.short_url = urljoin(base_url, "/r/%s" % link.code)
+    def get_base_url(self):
+        return self.env["ir.config_parameter"].sudo().get_param("web.external.url")
 
