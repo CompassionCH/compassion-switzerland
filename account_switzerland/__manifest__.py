@@ -32,7 +32,11 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "external_dependencies": {},
-    "depends": ['base', "web", 'account'],
+    "depends": [
+        'base',
+        "web",
+        'account',
+    ],
     "data": [
         'views/account_move.xml',
     ],

@@ -3,28 +3,68 @@
     <record id="view_account_invoice_filter_switzerland" model="ir.ui.view">
             <field name="name">switzerland.account.invoice.select</field>
             <field name="model">account.move</field>
-            <field
-              name="inherit_id"
-              ref="account.view_account_invoice_filter"
-            />
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
-                <filter name="invoice_date" position="after">
-                    <filter string="Next 2 Months Invoiced" name="next_2_months"
-                    domain="[
-                        ('invoice_date', '&gt;=', (context_today()+relativedelta(months=1)).strftime('%Y-%m-01')),
-                        ('invoice_date', '&lt;', (context_today()+relativedelta(months=3)).strftime('%Y-%m-01'))
-                    ]"
-                    help="Next 2 months"
-                />
+                <filter name="invoice_date" position="before">
+                    <filter string="Current Fiscal Year"
+                            name="current_fiscal_year"
+                            domain="[
+                                (   'invoice_date', '&gt;=',
+                                    ((context_today() - relativedelta(years=1))
+                                    .replace(month=7, day=1)).strftime('%Y-%m-%d')
+                                ),
+                                (   'invoice_date', '&lt;',
+                                    (context_today().replace(month=6, day=30))
+                                    .strftime('%Y-%m-%d')
+                                )
+                            ]"
+                            help="Current fiscal year"
+                    />
+                    <filter string="Last Fiscal Year"
+                            name="last_fiscal_year"
+                            domain="[
+                                (   'invoice_date', '&gt;=',
+                                    ((context_today() - relativedelta(years=2))
+                                    .replace(month=7, day=1)).strftime('%Y-%m-%d')
+                                ),
+                                (   'invoice_date', '&lt;',
+                                    ((context_today() - relativedelta(years=1))
+                                    .replace(month=6, day=30)).strftime('%Y-%m-%d')
+                                )
+                            ]"
+                            help="Last year fiscal year"
+                    />
+                    <separator />
                 </filter>
                 <filter name="due_date" position="after">
-                    <filter string="Next 2 Months Due" name="next_2_months_date_due"
-                    domain="[
-                        ('invoice_date_due', '&gt;=', (context_today()+relativedelta(months=1)).strftime('%Y-%m-01')),
-                        ('invoice_date_due', '&lt;', (context_today()+relativedelta(months=3)).strftime('%Y-%m-01'))
-                    ]"
-                    help="Next 2 months due"
-                />
+                    <separator/>
+                    <filter string="Next 2 Months Invoiced" name="next_2_months"
+                            domain="[
+                                (   'invoice_date', '&gt;=',
+                                    (context_today()+relativedelta(months=1))
+                                    .strftime('%Y-%m-01')
+                                ),
+                                (   'invoice_date', '&lt;',
+                                    (context_today()+relativedelta(months=3))
+                                    .strftime('%Y-%m-01')
+                                )
+                            ]"
+                            help="Next 2 months"
+                    />
+                    <filter string="Next 2 Months Due"
+                            name="next_2_months_date_due"
+                            domain="[
+                                (   'invoice_date_due', '&gt;=',
+                                    (context_today()+relativedelta(months=1))
+                                    .strftime('%Y-%m-01')
+                                ),
+                                (   'invoice_date_due', '&lt;',
+                                    (context_today()+relativedelta(months=3))
+                                    .strftime('%Y-%m-01')
+                                )
+                            ]"
+                            help="Next 2 months due"
+                    />
                 </filter>
             </field>
     </record>
