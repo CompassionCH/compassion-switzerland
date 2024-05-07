@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="link_tracker.link_tracker_view_search"/>
         <field name="arch" type="xml">
             <search>
-                <field name="short_url"/>
+                <field name="link_code_ids" string="Tracked URL"/>
             </search>
         </field>
     </record>
