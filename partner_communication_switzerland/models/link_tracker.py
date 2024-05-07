@@ -13,8 +13,6 @@ from urllib.parse import urljoin
 class LinkTracker(models.Model):
     _inherit = 'link.tracker'
 
-    # Ensure this field definition matches the one in Odoo 14 link.tracker model
-    short_url = fields.Char(compute='_compute_short_url', store=True)
 
     @api.depends('code')
     def _compute_short_url(self):
