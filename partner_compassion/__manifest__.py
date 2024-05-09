@@ -44,6 +44,7 @@
         "child_protection",
         "sbc_compassion",
         "thankyou_letters",
+        "partner_communication_compassion",
         # OCA/partner-contact
         "base_location",
         "partner_address_street3",

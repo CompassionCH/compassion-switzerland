@@ -5,7 +5,7 @@ from odoo.tools.convert import convert_file
 logger = logging.getLogger(__name__)
 
 
-def migrate_data(cr):
+def migrate(cr, version):
     # Path to your XML file
     xml_file_path = "data/wordpress_cron.xml"
 
