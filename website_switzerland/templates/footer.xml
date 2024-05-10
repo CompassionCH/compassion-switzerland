@@ -4,6 +4,7 @@
     inherit_id="website.layout"
     name="Compassion CH Footer"
     active="False"
+    customize_show="True"
   >
       <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
         <xpath expr="//div[@id='footer']" position="replace">

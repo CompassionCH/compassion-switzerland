@@ -39,3 +39,5 @@ def migrate(cr, version):
             ),
         ],
     )
+    openupgrade.load_data(cr, "sponsorship_switzerland", "data/completion_rules.xml")
+    openupgrade.load_data(cr, "account_statement_completion", "data/data.xml")
