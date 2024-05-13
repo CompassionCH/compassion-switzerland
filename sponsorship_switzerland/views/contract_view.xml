@@ -88,6 +88,11 @@
         <field name="arch" type="xml">
             <filter name="last_3_months" position="after">
                 <separator />
+                <filter string="Child Sponsorship" name="Child Sponsorship" domain="[('type', '=', 'S')]"/>
+                <filter string="Moms&amp;Baby Sponsorship" name="Moms&amp;Baby Sponsorship" domain="[('type', '=','CSP')]"/>
+                <filter string="W&amp;P Sponsorship" name="W&amp;P Sponsorship" domain="[('type', '=', 'SWP')]"/>
+                <filter string="Correspondent Sponsorship" name="Correspondent Sponsorship" domain="[('type', '=', 'SC')]"/>
+                <separator />
                 <filter
           string="French"
           name="french"
