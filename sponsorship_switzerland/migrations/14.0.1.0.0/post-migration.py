@@ -72,4 +72,7 @@ def migrate(env, version):
                     f"{contract_line.contract_id}"
                 )
             contract_line.write({"amount": expected_price})
+
+    # Set the company on the pricelist
+    env.ref("product.list0").company_id = env.ref("base.main_company")
     _logger.info("Migration done!")

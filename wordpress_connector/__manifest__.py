@@ -29,13 +29,14 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Wordpress Connector",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Social",
     "author": "Emanuel Cino",
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-modules",
     "data": [
         "data/queue_job.xml",
+        "data/wordpress_configuration.xml",
         "views/request.xml",
     ],
     "depends": [

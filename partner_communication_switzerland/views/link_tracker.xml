@@ -2,10 +2,10 @@
     <record id="view_link_tracker_search" model="ir.ui.view">
         <field name="name">link.tracker.search</field>
         <field name="model">link.tracker</field>
-        <field name="inherit_id" ref="link_tracker.link_tracker_view_search"/>
+        <field name="inherit_id" ref="link_tracker.link_tracker_view_search" />
         <field name="arch" type="xml">
             <search>
-                <field name="link_code_ids" string="Tracked URL"/>
+                <field name="link_code_ids" string="Tracked URL" />
             </search>
         </field>
     </record>

@@ -1,0 +1,13 @@
+<odoo>
+    <data noupdate="1">
+        <record id="wordpress_configuration" model="wordpress.configuration">
+            <field name="company_id" ref="base.main_company" />
+            <field name="child_gift_url">/formulaire-pour-cadeau</field>
+            <field name="fund_gift_url">/donner</field>
+            <field
+        name="sponsorship_url"
+      >/parrainages/parrainer-un-enfant</field>
+            <field name="host">compassion.ch</field>
+        </record>
+    </data>
+</odoo>
