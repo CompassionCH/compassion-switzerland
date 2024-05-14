@@ -1,4 +1,5 @@
 <odoo>
+    <!-- Extend the search view to include Tracked URL field -->
     <record id="view_link_tracker_search" model="ir.ui.view">
         <field name="name">link.tracker.search</field>
         <field name="model">link.tracker</field>
@@ -7,6 +8,18 @@
             <search>
                 <field name="link_code_ids" string="Tracked URL" />
             </search>
+        </field>
+    </record>
+
+    <!-- Extend the tree view to include Tracked URL column -->
+    <record id="view_link_tracker_tree" model="ir.ui.view">
+        <field name="name">link.tracker.tree</field>
+        <field name="model">link.tracker</field>
+        <field name="inherit_id" ref="link_tracker.link_tracker_view_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree//field[@name='url']" position="after">
+                <field name="short_url" string="Tracked URL" />
+            </xpath>
         </field>
     </record>
 </odoo>
