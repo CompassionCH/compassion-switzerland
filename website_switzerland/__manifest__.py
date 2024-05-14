@@ -33,6 +33,7 @@
         "data/event_registration_task.xml",
         "data/res_lang.xml",
         "data/website_rewrite.xml",
+        "data/website_menu.xml",
         "templates/footer.xml",
         "templates/contact_us.xml",
     ],

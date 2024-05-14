@@ -1,0 +1,31 @@
+<odoo>
+    <data noupdate="1">
+        <delete model="website.menu" id="website_sale.menu_shop" />
+        <record id="my_sponsorships" model="website.menu">
+            <field name="name">My Sponsorships</field>
+            <field name="url">/my/sponsorships</field>
+            <field name="parent_id" ref="website.main_menu" />
+        </record>
+        <record id="my_children" model="website.menu">
+            <field name="name">My personal data</field>
+            <field name="url">/my/information</field>
+            <field name="parent_id" ref="website.main_menu" />
+        </record>
+        <record id="my_donations" model="website.menu">
+            <field name="name">My Donations</field>
+            <field name="url">/my/donations</field>
+            <field name="parent_id" ref="website.main_menu" />
+        </record>
+        <record id="my_letters" model="website.menu">
+            <field name="name">Write a letter</field>
+            <field name="url">/my/letters</field>
+            <field name="parent_id" ref="website.main_menu" />
+        </record>
+        <record id="faq" model="website.menu">
+            <field name="name">Frequently asked questions</field>
+            <field name="url">https://compassion.ch/questions-frequentes</field>
+            <field name="new_window" eval="True" />
+            <field name="parent_id" ref="website.main_menu" />
+        </record>
+    </data>
+</odoo>

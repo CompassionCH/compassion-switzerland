@@ -91,7 +91,7 @@
             <div class="o_colored_level col-lg-3">
             </div>
             <div class="o_colored_level col-lg-3">
-              <t t-call="website.s_share" />
+              <div class="oe_structure" />
             </div>
           </div>
         </div>
