@@ -1972,7 +1972,7 @@ msgstr "Mes dons"
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_sponsorships
 msgid "My Sponsorships"
-msgstr "My Sponsorships"
+msgstr "Mes parrainages"
 
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_children

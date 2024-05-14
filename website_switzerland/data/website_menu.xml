@@ -18,7 +18,7 @@
         </record>
         <record id="my_letters" model="website.menu">
             <field name="name">Write a letter</field>
-            <field name="url">/my/letters</field>
+            <field name="url">/my/letter</field>
             <field name="parent_id" ref="website.main_menu" />
         </record>
         <record id="faq" model="website.menu">
