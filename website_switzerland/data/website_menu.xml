@@ -3,7 +3,7 @@
         <delete model="website.menu" id="website_sale.menu_shop" />
         <record id="my_sponsorships" model="website.menu">
             <field name="name">My Sponsorships</field>
-            <field name="url">/my/sponsorships</field>
+            <field name="url">/my/children</field>
             <field name="parent_id" ref="website.main_menu" />
         </record>
         <record id="my_children" model="website.menu">
