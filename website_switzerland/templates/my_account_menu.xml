@@ -1,0 +1,8 @@
+<odoo>
+    <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
+    <template id="menu_short" inherit_id="my_compassion.my_account_menu">
+        <xpath expr="//a[@href='/my/children']" position="replace" />
+        <xpath expr="//a[@href='/my/donations']" position="replace" />
+        <xpath expr="//a[@href='/my/letter']" position="replace" />
+    </template>
+</odoo>

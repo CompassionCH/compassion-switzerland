@@ -21,11 +21,5 @@
             <field name="url">/my/letter</field>
             <field name="parent_id" ref="website.main_menu" />
         </record>
-        <record id="faq" model="website.menu">
-            <field name="name">Frequently asked questions</field>
-            <field name="url">https://compassion.ch/questions-frequentes</field>
-            <field name="new_window" eval="True" />
-            <field name="parent_id" ref="website.main_menu" />
-        </record>
     </data>
 </odoo>

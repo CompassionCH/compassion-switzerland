@@ -36,6 +36,7 @@
         "data/website_menu.xml",
         "templates/footer.xml",
         "templates/contact_us.xml",
+        "templates/my_account_menu.xml",
     ],
     "installable": True,
     "auto_install": False,
