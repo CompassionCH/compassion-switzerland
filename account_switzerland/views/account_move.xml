@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_account_invoice_filter_switzerland" model="ir.ui.view">
             <field name="name">switzerland.account.invoice.select</field>
             <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field
+      name="inherit_id"
+      ref="account.view_account_invoice_filter"
+    />
             <field name="arch" type="xml">
                 <filter name="invoice_date" position="before">
-                    <filter string="Current Fiscal Year"
-                            name="current_fiscal_year"
-                            domain="[
+                    <filter
+          string="Current Fiscal Year"
+          name="current_fiscal_year"
+          domain="[
                                 (   'invoice_date', '&gt;=',
                                     ((context_today() - relativedelta(years=1))
                                     .replace(month=7, day=1)).strftime('%Y-%m-%d')
@@ -18,11 +22,12 @@
                                     .strftime('%Y-%m-%d')
                                 )
                             ]"
-                            help="Current fiscal year"
-                    />
-                    <filter string="Last Fiscal Year"
-                            name="last_fiscal_year"
-                            domain="[
+          help="Current fiscal year"
+        />
+                    <filter
+          string="Last Fiscal Year"
+          name="last_fiscal_year"
+          domain="[
                                 (   'invoice_date', '&gt;=',
                                     ((context_today() - relativedelta(years=2))
                                     .replace(month=7, day=1)).strftime('%Y-%m-%d')
@@ -32,14 +37,16 @@
                                     .replace(month=6, day=30)).strftime('%Y-%m-%d')
                                 )
                             ]"
-                            help="Last year fiscal year"
-                    />
+          help="Last year fiscal year"
+        />
                     <separator />
                 </filter>
                 <filter name="due_date" position="after">
-                    <separator/>
-                    <filter string="Next 2 Months Invoiced" name="next_2_months"
-                            domain="[
+                    <separator />
+                    <filter
+          string="Next 2 Months Invoiced"
+          name="next_2_months"
+          domain="[
                                 (   'invoice_date', '&gt;=',
                                     (context_today()+relativedelta(months=1))
                                     .strftime('%Y-%m-01')
@@ -49,11 +56,12 @@
                                     .strftime('%Y-%m-01')
                                 )
                             ]"
-                            help="Next 2 months"
-                    />
-                    <filter string="Next 2 Months Due"
-                            name="next_2_months_date_due"
-                            domain="[
+          help="Next 2 months"
+        />
+                    <filter
+          string="Next 2 Months Due"
+          name="next_2_months_date_due"
+          domain="[
                                 (   'invoice_date_due', '&gt;=',
                                     (context_today()+relativedelta(months=1))
                                     .strftime('%Y-%m-01')
@@ -63,15 +71,22 @@
                                     .strftime('%Y-%m-01')
                                 )
                             ]"
-                            help="Next 2 months due"
-                    />
+          help="Next 2 months due"
+        />
                 </filter>
             </field>
     </record>
     <data>
-        <template id="assets_backend" name="switzerland_search_utils" inherit_id="web.assets_backend">
+        <template
+      id="assets_backend"
+      name="switzerland_search_utils"
+      inherit_id="web.assets_backend"
+    >
             <xpath expr="." position="inside">
-                <script type="text/javascript" src="/account_switzerland/static/src/js/control_panel/switzerland_search_utils.js"></script>
+                <script
+          type="text/javascript"
+          src="/account_switzerland/static/src/js/control_panel/switzerland_search_utils.js"
+        />
             </xpath>
         </template>
     </data>
