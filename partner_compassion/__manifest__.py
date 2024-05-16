@@ -35,7 +35,7 @@
     "category": "Partner Management",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "mail",
         # compassion-modules

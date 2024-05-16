@@ -30,7 +30,7 @@
     "category": "Compassion",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "external_dependencies": {},
     "depends": [
         "account",

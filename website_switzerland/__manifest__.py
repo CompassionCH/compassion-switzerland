@@ -14,7 +14,7 @@
     "author": "Compassion Switzerland",
     "development_status": "Beta",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "my_compassion_segmentation",
         "theme_compassion",

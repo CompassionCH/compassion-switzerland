@@ -33,7 +33,7 @@
     "category": "Social",
     "author": "Emanuel Cino",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "data": [
         "data/queue_job.xml",
         "data/wordpress_configuration.xml",

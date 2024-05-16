@@ -6,7 +6,7 @@
     "version": "14.0.1.0.0",
     "development_status": "Beta",
     "category": "Helpdesk",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "author": "Compassion Switzerland",
     "maintainers": ["ecino"],
     "license": "AGPL-3",

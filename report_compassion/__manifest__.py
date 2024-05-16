@@ -33,7 +33,7 @@
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "sponsorship_switzerland",  # compassion-switzerland
         "report_wkhtmltopdf_param",  # addons_oca
