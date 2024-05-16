@@ -1,0 +1,8 @@
+<odoo>
+    <data noupdate="1">
+        <record id="nas_ssh_key" model="ir.config_parameter">
+            <field name="key">sbc_switzerland.nas_ssh_key</field>
+            <field name="value">TO_CHANGE</field>
+        </record>
+    </data>
+</odoo>

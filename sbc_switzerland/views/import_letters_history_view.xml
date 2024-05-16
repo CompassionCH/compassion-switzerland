@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Form Redefinition -->
+    <record id="import_letters_history_nas_option_form" model="ir.ui.view">
+        <field
+      name="name"
+    >import.letters.history.form.compassion.switzerland</field>
+        <field name="model">import.letters.history</field>
+        <field
+      name="inherit_id"
+      ref="sbc_compassion.import_letters_history_form"
+    />
+        <field name="arch" type="xml">
+
+            <!-- add checkbox for select import from nas -->
+            <label for="data" position="before">
+                <field name="manual_import" states="draft" />
+            </label>
+
+            <!-- add attributes to show this field when checkbox select -->
+            <field name="data" position="attributes">
+                <attribute
+          name="attrs"
+        >{'invisible':[('manual_import', '==', False)]}</attribute>
+            </field>
+
+            <!-- add attributes to hide this field when checkbox select -->
+            <field name="config_id" position="attributes">
+                <attribute
+          name="attrs"
+        >{'invisible':[('manual_import', '==', True)]}</attribute>
+            </field>
+
+             <!-- add text edit for import folder path -->
+            <field name="template_id" position="after">
+                <field
+          name="import_folder_path"
+          attrs="{'invisible':[('manual_import', '==', True)]}"
+        />
+            </field>
+        </field>
+    </record>
+</odoo>

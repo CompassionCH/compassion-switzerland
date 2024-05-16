@@ -1,0 +1,41 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Translator Planned Communications -->
+        <record id="new_translator_config" model="partner.communication.config">
+            <field name="name">Translator - New Translator</field>
+            <field name="email_template_id" ref="email_new_translator" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="send_mode">digital</field>
+            <field name="model_id" ref="partner_compassion.model_res_partner" />
+            <field name="user_id" search="[('name', 'like', 'Reber')]" />
+        </record>
+        <record
+      id="new_translator_welcome"
+      model="partner.communication.config"
+    >
+            <field name="name">Translator - Welcome</field>
+            <field name="email_template_id" ref="email_welcome_translator" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="send_mode">digital</field>
+            <field name="model_id" ref="partner_compassion.model_res_partner" />
+            <field name="user_id" search="[('name', 'like', 'Reber')]" />
+        </record>
+        <record id="translator_goodbye" model="partner.communication.config">
+            <field name="name">Translator - Goodbye</field>
+            <field name="email_template_id" ref="email_goodbye_translator" />
+            <field
+        name="report_id"
+        ref="report_compassion.report_partner_communication"
+      />
+            <field name="send_mode">digital</field>
+            <field name="model_id" ref="partner_compassion.model_res_partner" />
+            <field name="user_id" search="[('name', 'like', 'Reber')]" />
+        </record>
+    </data>
+</odoo>

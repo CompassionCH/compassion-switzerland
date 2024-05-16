@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Add filter for Correspondence by Compassion -->
+    <record id="contract_search_corr_by_compassion" model="ir.ui.view">
+        <field name="name">recurring.contract.search.corr.compassion</field>
+        <field name="model">recurring.contract</field>
+        <field
+      name="inherit_id"
+      ref="sponsorship_compassion.view_recurring_contract_compassion_filter"
+    />
+        <field name="arch" type="xml">
+            <search>
+                <separator />
+                <!-- Correspondence by Compassion tag has id 23-->
+                <filter
+          name="corr_compassion"
+          string="Corr. Compassion"
+          domain="[('child_id', '!=', False), ('partner_id.category_id','=',23)]"
+        />
+            </search>
+        </field>
+    </record>
+
+    <!-- Add default search in domain selection -->
+    <record id="view_s2b_generator_correspondence" model="ir.ui.view">
+        <field name="name">correspondence.s2b.generator.switzerland</field>
+        <field name="model">correspondence.s2b.generator</field>
+        <field name="inherit_id" ref="sbc_compassion.s2b_generator_form" />
+        <field name="arch" type="xml">
+            <field name="selection_domain" position="attributes">
+                <attribute
+          name="context"
+        >{'search_default_active': 1, 'search_default_corr_compassion': 1}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

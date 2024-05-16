@@ -1,0 +1,154 @@
+<odoo>
+    <data noupdate="1">
+        <!-- New translator notification -->
+        <record id="email_new_translator" model="mail.template">
+            <field name="name">New Translator</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field
+        name="partner_to"
+      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+            <field name="subject">New translator</field>
+            <field name="body_html" type="html">
+                <div>
+                % set partner = object.partner_id
+                </div>
+                <div>
+                    <p>Dear ${partner.salutation},</p>
+                    <p>
+                        Welcome in the Compassion Translator Family.
+                % if partner.has_agreed_child_protection_charter
+                        You will receive an automatic email with your access to our translation platform.
+                % else
+                    </p>
+                    <p>
+                        Before you can start translating, you must agree to Compassion's Child Protection Charter.
+                    </p>
+                    <p>
+                        <a
+              href="/partner/${partner.uuid}/child-protection-charter?src=trad"
+              class="btn btn-primary btn-block mb24"
+              role="button"
+              data-original-title=""
+              title=""
+            >Read and agree to Compassion's Child Protection Charter</a>
+                    </p>
+                    <p>
+                        Once you have agreed, you will receive an automatic email with your access to our translation platform.
+                % endif
+                    </p>
+                    <p
+          >Here you will find some useful informations about translations:</p>
+                    <p><b>About translations</b></p>
+                    <ul>
+                        <li
+            >We doesn't use the familiar form with the sponsors</li>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+                    <p><b>About your profile</b></p>
+                    <ul>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+                    <p><b>About the translation platform</b></p>
+                    <ul>
+                        <li>xxx</li>
+                        <li>xxx</li>
+                    </ul>
+                    <p>If you have questions, do not hesitate to contact us.</p>
+                    <p>Yours sincerely</p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Translator welcome e-mail -->
+        <record id="email_welcome_translator" model="mail.template">
+            <field name="name">New Translator</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field
+        name="subject"
+      >Welcome to the translators of Compassion</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set nb_translated = object.env['correspondence'].search_count([('translator_id', '=', partner.id)])
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br />
+                    <br />
+                    Not long ago, you joined our team of translators.
+                    <br />
+                    <br />
+                    % if nb_translated:
+                        You already translated ${nb_translated} letters. Thank you so much.
+                    % else:
+                        You didn't translate any letters yet. Maybe you didn't see our last e-mail for your registration on our platform or you just had no time yet. If you face technical challenges or would like to ask us some questions regarding the translation process, don't hesitate to contact us. We thank you for your help.
+                    % endif
+                    <br />
+                    <br />
+                    Thanks to your help, we can reduce the time of letters delivery. Receiving a letter from the sponsor is always an encouragement for the sponsored child. ${object.success_sentence or ''}
+                    <br />
+                    <br />
+                    % if nb_translated:
+                        If you have questions about the translation process, don't hesitate to contact us.
+                        <br />
+                        <br />
+                    % endif
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+
+        <!-- Translator goodbye e-mail -->
+        <record id="email_goodbye_translator" model="mail.template">
+            <field name="name">Translator Goodbye</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
+            <field
+        name="email_from"
+      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="reply_to">info@compassion.ch</field>
+            <field name="use_default_to" eval="True" />
+            <field name="subject">Your request to stop translations</field>
+            <field name="body_html" type="html">
+                <div>
+                    % set partner = object.partner_id
+                    % set nb_translated = object.env['correspondence'].search_count([('translator_id', '=', partner.id)])
+                </div>
+                <p>
+                    ${partner.salutation},
+                    <br />
+                    <br />
+                    We hereby confirm your desire to stop translating for Compassion and acknowledge that we removed your account.
+                    <br />
+                    <br />
+                    We want to take this opportunity to thank you for the time you took to help us in the task of translating letters. You helped us in translating ${nb_translated} letters! Thanks to your investment, the waiting time for the letter delivery could be reduced. You contributed as well to the delivery of encouragements to the children which is so important for them. ${object.success_sentence or ''}
+                    <br />
+                    <br />
+                    Don't hesitate to contact us if in the future you want to come back as one of our translators.
+                    <br />
+                    <br />
+                    Yours sincerely
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

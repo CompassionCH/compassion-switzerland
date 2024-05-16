@@ -1,0 +1,13 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sbc_switzerland
+#
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_recurring_contract
+msgid "Contract for recurring invoicing"
+msgstr ""
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_res_partner
+msgid "Partner"
+msgstr ""
