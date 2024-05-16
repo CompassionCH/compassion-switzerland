@@ -103,16 +103,16 @@ class CompassionHold(models.TransientModel):
             pdf_data = report_ref._render_qweb_pdf(
                 children.ids, data={"doc_ids": children.ids}
             )[0]
-            pdf_temp_file, pdf_temp_file_name = tempfile.mkstemp()
-            os.write(pdf_temp_file, pdf_data)
-            pages = convert_from_path(pdf_temp_file_name)
-            for page_id, page in enumerate(pages):
-                child = self.env["compassion.child"].browse(children.ids[page_id])
-                fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
-
-                page.save(os.path.join("/tmp/", fname), "JPEG")
-                file_byte = open(os.path.join("/tmp/", fname), "br").read()
-                zip_data.writestr(fname, file_byte)
+            with tempfile.NamedTemporaryFile(delete=True) as pdf_temp_file:
+                pdf_temp_file.write(pdf_data)
+                pages = convert_from_path(pdf_temp_file.name)
+                for child, page in zip(children, pages):
+                    fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
+                    temp_img_path = os.path.join(tempfile.gettempdir(), fname)
+                    page.save(temp_img_path, "JPEG")
+                    with open(temp_img_path, "rb") as img_file:
+                        zip_data.writestr(fname, img_file.read())
+                    os.remove(temp_img_path)
 
         zip_buffer.seek(0)
         return base64.b64encode(zip_buffer.read())
