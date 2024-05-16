@@ -87,7 +87,6 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    @api.multi
     def process_letter(self):
         """Called when B2S letter is Published. Check if translation is
         needed and upload to translation platform."""
@@ -121,7 +120,6 @@ class Correspondence(models.Model):
         gmc_letter.unlink()
         return our_letter.write(vals)
 
-    @api.multi
     def assign_supervisor(self):
         """
         This method assigns a supervisor for a letter.

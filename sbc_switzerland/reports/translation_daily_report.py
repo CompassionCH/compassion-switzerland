@@ -52,7 +52,6 @@ class TranslationDailyReport(models.Model):
     )
     sponsor = fields.Char("Sponsor", related="sponsorship_id.correspondent_id.name")
 
-    @api.multi
     def _compute_translated_text(self):
         for report in self:
             report.translated_text = (
@@ -61,7 +60,6 @@ class TranslationDailyReport(models.Model):
                 or report.correspondence_id.original_text
             )
 
-    @api.multi
     def _compute_letter_image(self):
         for report in self.filtered("correspondence_id"):
             pdf = self.correspondence_id.get_image()

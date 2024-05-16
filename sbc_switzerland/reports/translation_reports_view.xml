@@ -152,7 +152,6 @@
         <field name="name">Daily translations</field>
         <field name="res_model">translation.daily.report</field>
         <field name="model_id" ref="model_translation_daily_report" />
-        <field name="view_type">form</field>
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field name="context">{"search_default_last_month":1}</field>
@@ -161,7 +160,6 @@
         <field name="name">Weekly translations</field>
         <field name="res_model">translation.weekly.report</field>
         <field name="model_id" ref="model_translation_weekly_report" />
-        <field name="view_type">form</field>
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field name="context">{"search_default_last_3_months":1}</field>
@@ -182,7 +180,6 @@
         <field name="name">Monthly translations</field>
         <field name="res_model">translation.monthly.report</field>
         <field name="model_id" ref="model_translation_monthly_report" />
-        <field name="view_type">form</field>
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field name="context">{"search_default_last_12_months":1}</field>
@@ -200,7 +197,6 @@
         <field name="name">Yearly translations</field>
         <field name="res_model">translation.yearly.report</field>
         <field name="model_id" ref="model_translation_yearly_report" />
-        <field name="view_type">form</field>
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field
