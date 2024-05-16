@@ -3,7 +3,7 @@
         <!-- Rule for notifying responsible of event registration -->
         <record id="automation_translator_welcome" model="base.automation">
             <field name="name">Translator Journey : Welcome letter</field>
-            <field name="model_id" ref="model_res_partner" />
+            <field name="model_id" ref="base.model_res_partner" />
             <field name="trigger">on_time</field>
             <field
         name="trg_date_id"
@@ -11,11 +11,12 @@
       />
             <field
         name="filter_domain"
-      >[('date_agreed_child_protection_charter', '!=', False), ('translation_user_id', '!=', False), ('nb_translated_letters', '&lt;', 10)]</field>
+      >[('date_agreed_child_protection_charter', '!=', False), ('translation_user_id', '!=', False), ('translation_user_id.nb_translated_letters', '&lt;', 10)]</field>
             <field name="trg_date_range">7</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">communication</field>
             <field name="config_id" ref="new_translator_welcome" />
+            <field name="partner_field">self</field>
         </record>
     </data>
 </odoo>
