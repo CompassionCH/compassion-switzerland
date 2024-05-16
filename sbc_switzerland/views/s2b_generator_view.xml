@@ -6,7 +6,7 @@
         <field name="model">recurring.contract</field>
         <field
       name="inherit_id"
-      ref="sponsorship_compassion.view_recurring_contract_compassion_filter"
+      ref="sponsorship_compassion.view_recurring_contract_filter_graph"
     />
         <field name="arch" type="xml">
             <search>

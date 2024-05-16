@@ -28,24 +28,23 @@
 
 # pylint: disable=C8101
 {
-    "name": "Sponsor to beneficiary email communication",
+    "name": "SBC Swizterland",
     "version": "14.0.1.0.0",
     "category": "Other",
-    "author": "Compassion CH",
+    "author": "Compassion Switzerland",
     "license": "AGPL-3",
-    "website": "https://github.com/CompassionCH/compassion-modules",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "partner_communication_switzerland",
         "child_switzerland",
         "sbc_translation",  # compassion-modules
+        "child_protection",  # compassion-modules
     ],
     "external_dependencies": {
         "python": [
             "PyPDF2",
             "pysftp",
             "wand",
-            "fitz",  # PyMuPDF
-            "boxdetect",
         ]
     },
     "data": [
@@ -56,6 +55,7 @@
         "data/translator_email.xml",
         "data/communication_config.xml",
         "data/res.lang.compassion.csv",
+        "data/partner_action_rules.xml",
         "views/import_config_view.xml",
         "views/import_letters_history_view.xml",
         "views/s2b_generator_view.xml",

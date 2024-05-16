@@ -8,7 +8,7 @@
 ##############################################################################
 import logging
 
-from odoo import api, fields, models, tools
+from odoo import fields, models, tools
 
 _logger = logging.getLogger(__name__)
 
@@ -74,7 +74,6 @@ class TranslationDailyReport(models.Model):
         """ ""
         return "day", "YYYY.MM.DD"
 
-    @api.model_cr
     def init(self):
         """
         This SQL view is returning useful statistics about sponsorships.

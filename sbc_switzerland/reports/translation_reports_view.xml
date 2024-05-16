@@ -151,7 +151,6 @@
     <record id="action_translation_daily_report" model="ir.actions.act_window">
         <field name="name">Daily translations</field>
         <field name="res_model">translation.daily.report</field>
-        <field name="model_id" ref="model_translation_daily_report" />
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field name="context">{"search_default_last_month":1}</field>
@@ -159,7 +158,6 @@
     <record id="action_translation_weekly_report" model="ir.actions.act_window">
         <field name="name">Weekly translations</field>
         <field name="res_model">translation.weekly.report</field>
-        <field name="model_id" ref="model_translation_weekly_report" />
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field name="context">{"search_default_last_3_months":1}</field>
@@ -179,7 +177,6 @@
   >
         <field name="name">Monthly translations</field>
         <field name="res_model">translation.monthly.report</field>
-        <field name="model_id" ref="model_translation_monthly_report" />
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field name="context">{"search_default_last_12_months":1}</field>
@@ -196,7 +193,6 @@
     <record id="action_translation_yearly_report" model="ir.actions.act_window">
         <field name="name">Yearly translations</field>
         <field name="res_model">translation.yearly.report</field>
-        <field name="model_id" ref="model_translation_yearly_report" />
         <field name="view_mode">pivot</field>
         <field name="search_view_id" ref="translation_daily_report_search" />
         <field
@@ -212,37 +208,32 @@
 
     <!-- Menus -->
     <menuitem
-    id="report_menu_translations"
-    name="Translations"
-    parent="sponsorship_switzerland.sponsorships_report_menu_base"
-  />
-    <menuitem
     id="report_menu_translation_daily"
     name="Daily translations"
-    parent="report_menu_translations"
+    parent="sbc_translation.menu_translation_platform"
     action="action_translation_daily_report"
-    sequence="1"
+    sequence="20"
   />
     <menuitem
     id="report_menu_translation_weekly"
     name="Weekly translations"
-    parent="report_menu_translations"
+    parent="sbc_translation.menu_translation_platform"
     action="action_translation_weekly_report"
-    sequence="1"
+    sequence="21"
   />
     <menuitem
     id="report_menu_translation_monthly"
     name="Monthly translations"
-    parent="report_menu_translations"
+    parent="sbc_translation.menu_translation_platform"
     action="action_translation_monthly_report"
-    sequence="1"
+    sequence="22"
   />
     <menuitem
     id="report_menu_translation_yearly"
     name="Yearly translations"
-    parent="report_menu_translations"
+    parent="sbc_translation.menu_translation_platform"
     action="action_translation_yearly_report"
-    sequence="1"
+    sequence="23"
   />
 
 </odoo>

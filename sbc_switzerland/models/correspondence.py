@@ -31,10 +31,6 @@ class S2BGenerator(models.Model):
 
 
 class Correspondence(models.Model):
-    """This class intercepts a letter before it is sent to GMC.
-    Letters are pushed to local translation platform if needed.
-    """
-
     _inherit = "correspondence"
 
     ##########################################################################
@@ -42,23 +38,6 @@ class Correspondence(models.Model):
     ##########################################################################
     @api.model
     def create(self, vals):
-        if vals.get("direction") == "Supporter To Beneficiary":
-            sponsorship = self.env["recurring.contract"].browse(vals["sponsorship_id"])
-
-            original_lang = self.env["res.lang.compassion"].browse(
-                vals.get("original_language_id")
-            )
-
-            # TODO Remove this fix when HAITI case is resolved
-            # For now, we switch French to Creole for avoiding translation
-            if "HA" in sponsorship.child_id.local_id:
-                french = self.env.ref("advanced_translation.lang_compassion_french")
-                creole = self.env.ref(
-                    "advanced_translation.lang_compassion_haitien_creole"
-                )
-                if original_lang == french:
-                    vals["original_language_id"] = creole.id
-
         correspondence = super().create(vals)
         # Swap pages for L3 layouts as we scan in wrong order
         if (
@@ -87,22 +66,6 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
-    def process_letter(self):
-        """Called when B2S letter is Published. Check if translation is
-        needed and upload to translation platform."""
-        intro_letter = self.env.ref("sbc_compassion.correspondence_type_new_sponsor")
-        for letter in self:
-            if (
-                intro_letter in letter.communication_type_ids
-                and not letter.sponsorship_id.send_introduction_letter
-            ):
-                continue
-            super(Correspondence, letter).process_letter()
-        self.filtered(
-            lambda l: l.state == "Published to Global Partner"
-        ).send_communication()
-        return True
-
     def merge_letters(self):
         """We have issues with letters that we send and we have an error.
         Then when we try to send it again, we have a duplicate letter because
@@ -129,6 +92,7 @@ class Correspondence(models.Model):
         translation_supervisor = (
             self.env["res.users"].sudo().search([("email", "=", "sds@compassion.ch")])
         )
-        for letter in self.filtered(lambda l: not l.translation_supervisor_id):
-            letter.translation_supervisor_id = translation_supervisor
+        (self - self.filtered("translation_supervisor_id")).write(
+            {"translation_supervisor_id": translation_supervisor.id}
+        )
         return True

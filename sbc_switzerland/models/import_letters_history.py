@@ -13,7 +13,6 @@ between the database and the mail.
 """
 import base64
 import logging
-import traceback
 from pathlib import Path
 
 from paramiko.ssh_exception import SSHException
@@ -26,10 +25,8 @@ logger = logging.getLogger(__name__)
 
 try:
     import pysftp
-    from PyPDF2 import PdfFileReader, PdfFileWriter
-    from PyPDF2.pdf import PageObject
 except ImportError:
-    logger.warning("Please install python dependencies.")
+    logger.warning("Please install pysftp.")
 
 
 class SftpConnection:
@@ -64,7 +61,7 @@ class SftpConnection:
         try:
             key = pysftp.RSAKey(data=base64.decodebytes(key_data.encode("utf-8")))
             cnopts.hostkeys.add(config.get("sftp_ip"), "ssh-rsa", key)
-        except:
+        except SSHException:
             cnopts.hostkeys = None
             logger.warning(
                 "No hostkeys defined in StfpConnection. Connection will be unsecured."
@@ -99,7 +96,7 @@ class ImportLettersHistory(models.Model):
 
     @api.onchange("data", "import_folder_path")
     def _compute_nber_letters(self):
-        to_check = self.filtered(lambda l: l.state != "done")
+        to_check = self.filtered(lambda _import: _import.state != "done")
         others = self - to_check
         for letter in to_check:
             try:
@@ -156,25 +153,22 @@ class ImportLettersHistory(models.Model):
                     import_full_path = str(import_letter_path / file)
                     imported_full_path = str(imported_letter_path / file)
 
-                    yield i + 1, len(files), import_full_path
-
                     pdf_data = sftp.open(import_full_path).read()
                     self._analyze_pdf(pdf_data, file)
 
                     try:
                         sftp.rename(import_full_path, imported_full_path)
-                    except Exception:
+                    except FileNotFoundError:
                         logger.warning(
-                            f"Failed to move a file on NAS :\n{traceback.format_exc()}"
+                            "Failed to move a file on NAS",
+                            exc_info=True,
                         )
+                    yield i + 1, len(files), import_full_path
         except (AssertionError, IOError):
             logger.error("Could not establish connection with sftp server")
             return
 
     def run_analyze(self):
-        """
-        Redefine the run_analyze function to handle both the manual import case and the sftp import case
-        """
         if not self.manual_import:
             return super().run_analyze(self.sftp_generator)
         else:
