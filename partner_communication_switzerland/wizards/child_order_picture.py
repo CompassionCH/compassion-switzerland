@@ -68,7 +68,7 @@ class CompassionHold(models.TransientModel):
         sponsorships = self.sponsorship_ids[:NUMBER_LIMIT]
         if _print:
             report = self.env.ref(
-                "partner_communication_switzerland.report_child_picture"
+                "partner_communication_compassion.report_child_picture"
             )
             res = report.report_action(sponsorships.mapped("child_id.id"), config=False)
         else:
@@ -98,7 +98,7 @@ class CompassionHold(models.TransientModel):
         children = self.mapped("sponsorship_ids.child_id")[:NUMBER_LIMIT]
         with ZipFile(zip_buffer, "w") as zip_data:
             report_ref = self.env.ref(
-                "partner_communication_switzerland.report_child_picture"
+                "partner_communication_compassion.report_child_picture"
             ).with_context(must_skip_send_to_printer=True)
             pdf_data = report_ref._render_qweb_pdf(
                 children.ids, data={"doc_ids": children.ids}

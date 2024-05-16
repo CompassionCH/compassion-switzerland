@@ -71,7 +71,6 @@
         "data/wrpr_onboarding_survey.xml",
         "data/wrpr_journey.xml",
         "data/end_reasons.xml",
-        "report/child_picture.xml",
         "report/csp_picture.xml",
         "views/assets.xml",
         "views/communication_job_view.xml",
