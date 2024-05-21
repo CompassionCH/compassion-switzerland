@@ -10,6 +10,22 @@
             <group name="phone-preferences" position="inside">
                 <field name="connect_agent" />
             </group>
+            <field name="signature" position="after">
+                <field name="digital_signature" widget="image"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="users_preference_form">
+        <field name="name">users.pref.digital.signature</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <group name="signature" position="after">
+                <group name="digital_signature">
+                    <field name="digital_signature" widget="image"/>
+                </group>
+            </group>
         </field>
     </record>
 </odoo>

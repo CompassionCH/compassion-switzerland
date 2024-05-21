@@ -21,6 +21,7 @@ class ResUser(models.Model):
     connect_agent = fields.Boolean(
         string="Connect the Xivo agent after check_in ", default=True
     )
+    digital_signature = fields.Binary("Handwritten signature")
 
     def asterisk_connect(self, log=True):
         for user in self.filtered("connect_agent"):
