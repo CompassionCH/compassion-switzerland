@@ -20,7 +20,10 @@
         <field
       name="report_name"
     >partner_communication_switzerland.onboarding_photo_by_post</field>
-        <field name="paperformat_id" ref="paperformat_child_picture" />
+        <field
+      name="paperformat_id"
+      ref="partner_communication_compassion.paperformat_child_picture"
+    />
     </record>
 
     <template id="onboarding_photo_by_post">
