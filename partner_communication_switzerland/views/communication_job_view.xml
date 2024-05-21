@@ -169,46 +169,11 @@
     >{'search_default_my_communications': 1, 'search_default_pending': True, 'default_user_id': uid}</field>
     </record>
 
-    <!-- Communication menus -->
-    <menuitem
-    id="menu_donation"
-    name="Communications"
-    parent="child_compassion.menu_sponsorship_root"
-    sequence="6"
-  />
-
      <menuitem
     id="menu_donation_success_story"
     name="Success Stories"
-    parent="menu_donation"
+    parent="partner_communication_compassion.menu_donation"
     action="thankyou_letters.action_success_story"
-  />
-
-    <!-- Move Partner Communication Section -->
-    <menuitem
-    id="partner_communication.menu_communication_jobs"
-    parent="menu_donation"
-    name="Partner Communications"
-    sequence="1"
-  />
-    <menuitem
-    id="partner_communication.menu_communication_generate"
-    parent="menu_donation"
-    name="Generate Communications"
-    sequence="2"
-  />
-    <menuitem
-    name="Templates"
-    id="menu_communication_templates"
-    parent="child_compassion.menu_communication_config"
-    sequence="4"
-    action="action_communication_template"
-  />
-    <menuitem
-    id="partner_communication.menu_communication_config"
-    parent="menu_donation"
-    name="Communication Rules"
-    sequence="3"
   />
 
     <!-- Add event donation menu in Sales-->
@@ -231,15 +196,5 @@
     parent="account.menu_finance"
     name="Communications"
     sequence="5"
-  />
-
-
-    <!-- Add Emails entry in Sponsorship Settings-->
-    <menuitem
-    name="Emails"
-    id="menu_mail_mail"
-    parent="child_compassion.menu_communication_config"
-    action="mail.action_view_mail_mail"
-    sequence="2"
   />
 </odoo>
