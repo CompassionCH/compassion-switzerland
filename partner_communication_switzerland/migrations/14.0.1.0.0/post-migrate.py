@@ -1,6 +1,17 @@
 from openupgradelib import openupgrade
 
 
+def update_object_ids(env, comms, table, old_id_field):
+    for comm in comms.filtered("object_ids"):
+        ids = map(int, comm.object_ids.split(","))
+        env.cr.execute(
+            f"SELECT id FROM {table} WHERE {old_id_field} IN %s", (tuple(ids),)
+        )
+        new_ids = [r[0] for r in env.cr.fetchall()]
+        if new_ids:
+            comm.write({"object_ids": new_ids})
+
+
 @openupgrade.migrate()
 def migrate(env, version):
     # Update existing communication rules linked to old invoice model
@@ -35,14 +46,3 @@ def migrate(env, version):
             WHERE name LIKE '%body_html' AND value LIKE '%invoice%';
         """
     )
-
-
-def update_object_ids(env, comms, table, old_id_field):
-    for comm in comms.filtered("object_ids"):
-        ids = map(int, comm.object_ids.split(","))
-        env.cr.execute(
-            f"SELECT id FROM {table} WHERE {old_id_field} IN %s", (tuple(ids),)
-        )
-        new_ids = [r[0] for r in env.cr.fetchall()]
-        if new_ids:
-            comm.write({"object_ids": new_ids})
