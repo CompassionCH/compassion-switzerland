@@ -42,5 +42,6 @@
         "account_statement_import_base",
         "account_statement_import_camt",
         "account_statement_import_camt54",
+        "account_reconciliation_widget",
     ],
 }

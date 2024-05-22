@@ -7,8 +7,13 @@
 #
 ##############################################################################
 
-from . import (
-    parser,
-    account_bank_statement_line,
-    reconciliation_widget,
-)
+from odoo import _, api, models
+
+
+class AccountReconciliation(models.AbstractModel):
+    _inherit = "account.reconciliation.widget"
+
+    def _get_statement_line(self, st_line):
+        data = super()._get_statement_line(st_line)
+        data["additional_ref"] = st_line.additional_ref
+        return data
