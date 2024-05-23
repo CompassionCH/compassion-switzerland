@@ -139,7 +139,7 @@
   >
         <field
       name="domain"
-    >[('model', '=', 'account.invoice.line'), ('event_id', '=', False)]</field>
+    >[('model', '=', 'account.move.line'), ('event_id', '=', False)]</field>
     </record>
     <record id="action_thank_you_event" model="ir.actions.act_window">
         <field name="name">Event Donation Receipts</field>
