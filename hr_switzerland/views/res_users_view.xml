@@ -11,7 +11,7 @@
                 <field name="connect_agent" />
             </group>
             <field name="signature" position="after">
-                <field name="digital_signature" widget="image"/>
+                <field name="digital_signature" widget="image" />
             </field>
         </field>
     </record>
@@ -23,7 +23,7 @@
         <field name="arch" type="xml">
             <group name="signature" position="after">
                 <group name="digital_signature">
-                    <field name="digital_signature" widget="image"/>
+                    <field name="digital_signature" widget="image" />
                 </group>
             </group>
         </field>
