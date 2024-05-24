@@ -117,8 +117,8 @@ class SmsApi(models.AbstractModel):
                 messages[0]["number"],
                 messages[0]["content"],
                 messages[0]["res_id"],
-                messages[0]["is_short_sms"],
-                True,
+                messages[0]["is_short_sms"] if ("is_short_sms" in messages[0].keys()) else False,
+                #True,
             )
             return [{"state": state, "credit": 0, "res_id": messages[0]["res_id"]}]
         else:
