@@ -267,7 +267,7 @@ class RecurringContract(models.Model):
         partner_lang = self.mapped("correspondent_id")[0].lang
         product_name = products[0].with_context(lang=partner_lang).name
         report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
-        pdf_data = report_ref.render_qweb_pdf(
+        pdf_data = report_ref.sudo()._render_qweb_pdf(
             self.ids,
             data={
                 "doc_ids": self.ids,
