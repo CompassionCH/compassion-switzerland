@@ -40,3 +40,7 @@ class IapAccount(models.Model):
             }
         )
         return res
+
+    def write(self, vals):
+        # Ensure sudo() is used for elevated permissions
+        return super(IapAccount, self.sudo()).write(vals)

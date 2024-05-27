@@ -96,7 +96,7 @@
                 <field
           name="partner_duplicate_ids"
           widget="many2many_tags"
-          attrs="{'invisible': [('partner_duplicate_ids','=', [])]}"
+          invisible="1"
           groups="child_compassion.group_sponsorship"
         />
             </field>
