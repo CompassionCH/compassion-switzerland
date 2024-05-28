@@ -41,10 +41,10 @@
         "partner_communication_compassion",
         "label",
         "child_sync_wp",
-        # "sms_939",  # compassion-switzerland  T0408
+        "sms_939",  # compassion-modules
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
-        # "survival_sponsorship_compassion",  T0488
+        "survival_sponsorship_compassion",
     ],
     "external_dependencies": {
         "python": ["wand", "bs4", "pdf2image", "babel", "PyPDF2", "pyquery"]
