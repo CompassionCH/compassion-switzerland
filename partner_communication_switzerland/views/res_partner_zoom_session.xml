@@ -120,7 +120,7 @@
     </record>
 
     <record id="action_zoom_session" model="ir.actions.act_window">
-        <field name="name">Sponsor Visio Conferences</field>
+        <field name="name">Sponsor Video Conferences</field>
         <field name="res_model">res.partner.zoom.session</field>
         <field name="view_mode">calendar,tree,form</field>
         <field name="context">{'search_default_planned':1}</field>
@@ -129,7 +129,7 @@
     <menuitem
     id="menu_zoom_session"
     parent="child_compassion.menu_sponsorship_section"
-    name="Sponsor Visio Conferences"
+    name="Sponsor Video Conferences"
     action="action_zoom_session"
   />
 
