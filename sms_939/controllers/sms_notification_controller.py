@@ -36,20 +36,18 @@ class RestController(http.Controller):
         ).send_sms_answer(parameters)
         return SmsNotificationAnswer([], costs=[]).get_answer()
 
-    @http.route(
-        "/sms/delivery/", type="http", auth="public", methods=["GET"], csrf=False
-    )
+    @http.route("/sms/delivery/", type="http", auth="public", methods=["GET"], csrf=False)
     def sms_delivery_status(self, **parameters):
         # ?requestUid=xml9677321&sentMessageUid=sms824762&receiver=%2B33612345678
         # &operator=orange&service=ULTIMATE&status=delivered
 
-        sms = request.env["sms.sms"].search(
+        sms = request.env["sms.sms"].sudo().search(
             [
                 ("number", "=", parameters.get("receiver")),
                 ("request_uid", "=", parameters.get("requestUid")),
             ]
         )
-        mm_id = request.env["mail.message"].search(
+        mm_id = request.env["mail.message"].sudo().search(
             [
                 ("message_type", "=", "sms"),
                 ("request_uid", "=", parameters.get("requestUid")),
@@ -60,7 +58,7 @@ class RestController(http.Controller):
             notification = mm_id.notification_ids
             if parameters.get("status") in ("sent", "delivered"):
                 notification.unlink()
-                request.env["mail.notification"].create(
+                request.env["mail.notification"].sudo().create(
                     {
                         "notification_type": "sms",
                         "sms_id": False,
