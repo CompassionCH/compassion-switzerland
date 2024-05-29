@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Compassion Odoo 14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-14 07:40+0000\n"
+"POT-Creation-Date: 2024-05-29 14:43+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_after_trip_party_email
@@ -18,8 +18,7 @@ msgid ""
 "${object.get_objects().compassion_event_id.name} - Invitation to an after "
 "party"
 msgstr ""
-"${object.get_objects().compassion_event_id.name} - Invitation to an after "
-"party"
+"${objet.get_objects().compassion_event_id.name} - Invitation à une rencontre"
 
 #. module: website_switzerland
 #: model:mail.template,body_html:website_switzerland.group_visit_medical_survey_email
@@ -1722,7 +1721,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_before_sharing_email
 msgid "Did you speak about your trip with Compassion?"
-msgstr "Did you speak about your trip with Compassion?"
+msgstr "Avez-vous parlé de votre voyage avec Compassion ?"
 
 #. module: website_switzerland
 #: model:ir.model.fields,field_description:website_switzerland.field_partner_communication_job__display_name
@@ -1773,6 +1772,11 @@ msgid "Fill urgency contact information"
 msgstr "Renseigner contact d'urgence"
 
 #. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
+msgid "Firstname"
+msgstr "Prénom"
+
+#. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_food
 msgid "Food:"
 msgstr "Alimentation :"
@@ -1804,22 +1808,22 @@ msgstr "Visite de groupe"
 #. module: website_switzerland
 #: model:survey.survey,title:website_switzerland.group_visit_feedback_survey
 msgid "Group visit feedback survey"
-msgstr "Group visit feedback survey"
+msgstr "Enquête sur les visites de groupe"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_after_trip_feedback_config
 msgid "Group visit: after trip feedback"
-msgstr "Group visit: after trip feedback"
+msgstr "Visite de groupe : retour d'expérience"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_after_party_config
 msgid "Group visit: after trip party invitation"
-msgstr "Group visit: after trip party invitation"
+msgstr "Visite de groupe : invitation à une fête après le voyage"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_before_sharing_config
 msgid "Group visit: before trip sharing information"
-msgstr "Group visit: before trip sharing information"
+msgstr "Visite de groupe : partage d'informations avant le voyage"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_detailed_config
@@ -1829,17 +1833,17 @@ msgstr "Visite de groupe : informations détaillées"
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_information_day_config
 msgid "Group visit: info day invitation"
-msgstr "Group visit: info day invitation"
+msgstr "Visite de groupe : invitation à une journée d'information"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_medical_discharge_config
 msgid "Group visit: medical discharge request"
-msgstr "Group visit: medical discharge request"
+msgstr "Visite de groupe : demande de décharge médicale"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_medical_survey_config
 msgid "Group visit: medical survey invitation"
-msgstr "Group visit: medical survey invitation"
+msgstr "Visite de groupe : invitation à une enquête médicale"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_step1_config
@@ -1849,12 +1853,12 @@ msgstr "Visite de groupe : étape 1 : confirmation de l'inscription"
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_step2_config
 msgid "Group visit: step2 confirmation"
-msgstr "Visite du groupe : confirmation de l'étape 2"
+msgstr "Visite de groupe : confirmation de l'étape 2"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_step3_config
 msgid "Group visit: step3 confirmation"
-msgstr "Visite du groupe : confirmation de l'étape 3"
+msgstr "Visite de groupe : confirmation de l'étape 3"
 
 #. module: website_switzerland
 #: model:partner.communication.config,name:website_switzerland.group_visit_travel_documents_config
@@ -1869,7 +1873,7 @@ msgstr "Aidez une maman et son enfant"
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_after_trip_feedback_email
 msgid "How did your trip with Compassion go?"
-msgstr "How did your trip with Compassion go?"
+msgstr "Comment s'est déroulé votre voyage avec Compassion ?"
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_diet
@@ -1932,8 +1936,8 @@ msgid ""
 "Invitation to the ${object.get_objects().compassion_event_id.name} "
 "preparation meeting"
 msgstr ""
-"Invitation to the ${object.get_objects().compassion_event_id.name} "
-"preparation meeting"
+"Invitation à la réunion de préparation ${object.get_objects()."
+"compassion_event_id.name}"
 
 #. module: website_switzerland
 #: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
@@ -1952,6 +1956,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_switzerland.field_theme_utils____last_update
 msgid "Last Modified on"
 msgstr "Dernière Modification le"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
+msgid "Lastname"
+msgstr "Nom de famille"
 
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_medical
@@ -1984,7 +1993,8 @@ msgstr "Mes Données personnelles"
 msgid ""
 "Only one step left to validate your registration to your trip with Compassion"
 msgstr ""
-"Only one step left to validate your registration to your trip with Compassion"
+"Il ne reste plus qu'une étape pour valider votre inscription à votre voyage "
+"avec Compassion"
 
 #. module: website_switzerland
 #: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
@@ -2194,7 +2204,7 @@ msgstr "Votre santé"
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_step3_email
 msgid "Your registration to the trip with Compassion is confirmed"
-msgstr "Your registration to the trip with Compassion is confirmed"
+msgstr "Votre inscription au voyage avec Compassion est confirmée"
 
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_step1_email
@@ -2202,30 +2212,30 @@ msgid ""
 "Your trip to ${object.get_objects().compassion_event_id.country_id.name} "
 "with Compassion"
 msgstr ""
-"Your trip to ${object.get_objects().compassion_event_id.country_id.name} "
-"with Compassion"
+"Votre voyage à ${object.get_objects().compassion_event_id.country_id.name} "
+"avec Compassion"
 
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_medical_discharge_email
 #: model:mail.template,subject:website_switzerland.group_visit_medical_survey_email
 msgid "Your trip with Compassion - Medical information"
-msgstr "Your trip with Compassion - Medical information"
+msgstr "Votre voyage avec Compassion - Informations médicales"
 
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_detailed_info_email
 msgid "Your trip with Compassion - practical information"
-msgstr "Your trip with Compassion - practical information"
+msgstr "Votre voyage avec Compassion - informations pratiques"
 
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_travel_documents_email
 msgid "Your trip with Compassion - travel documents and payment"
-msgstr "Your trip with Compassion - travel documents and payment"
+msgstr "Votre voyage avec Compassion - documents de voyage et paiement"
 
 #. module: website_switzerland
 #: code:addons/website_switzerland/models/partner_communication_job.py:0
 #, python-format
 msgid "down_payment.pdf"
-msgstr "down_payment.pdf"
+msgstr "acompte.pdf"
 
 #~ msgid "Join us and make your company a better place."
 #~ msgstr "Rejoignez-nous et passez à la vitesse supérieure."
