@@ -9,10 +9,13 @@
         <record id="view_bank_statement_form_inherit" model="ir.ui.view">
             <field name="name">bank.statement.form.inherit</field>
             <field name="model">account.bank.statement</field>
-            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="inherit_id" ref="account.view_bank_statement_form" />
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='statement_line_ids']/field[@name='line_ids']/tree/field[@name='payment_ref']" position="after">
-                    <field name="additional_ref"/>
+                <xpath
+          expr="//page[@name='statement_line_ids']/field[@name='line_ids']/tree/field[@name='payment_ref']"
+          position="after"
+        >
+                    <field name="additional_ref" />
                 </xpath>
             </field>
         </record>

@@ -7,7 +7,7 @@
 #
 ##############################################################################
 
-from odoo import _, api, models
+from odoo import models
 
 
 class AccountReconciliation(models.AbstractModel):

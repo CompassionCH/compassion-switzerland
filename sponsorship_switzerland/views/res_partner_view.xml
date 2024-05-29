@@ -14,11 +14,13 @@
     <record id="view_partner_form_inherit_church_id" model="ir.ui.view">
         <field name="name">res.partner.form.inherit.church_id</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='vat']" position="after">
-                <field name="church_id"
-   attrs="{'invisible': ['|',('is_company','=',True),('is_church','=',True)]}"/>
+                <field
+          name="church_id"
+          attrs="{'invisible': ['|',('is_company','=',True),('is_church','=',True)]}"
+        />
             </xpath>
         </field>
     </record>
@@ -26,8 +28,10 @@
     <record id="view_partner_restricted" model="ir.ui.view">
         <field name="name">restricted partners view</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id"
-            ref="partner_compassion.view_partner_form_compassion_ch"/>
+        <field
+      name="inherit_id"
+      ref="partner_compassion.view_partner_form_compassion_ch"
+    />
         <field name="arch" type="xml">
             <!-- Make tags readonly if restricted tag is present -->
             <field name="category_id" position="before">

@@ -1,15 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
         <record id="view_bank_statement_line_form_inherit" model="ir.ui.view">
             <field name="name">bank.statement.line.form.inherit</field>
             <field name="model">account.bank.statement.line</field>
-            <field name="inherit_id" ref="account.view_bank_statement_line_form"/>
+            <field
+        name="inherit_id"
+        ref="account.view_bank_statement_line_form"
+      />
             <field name="arch" type="xml">
                 <!-- Locate the appropriate position to add the field -->
-                <xpath expr="//form/sheet/group/field[@name='payment_ref']" position="after">
+                <xpath
+          expr="//form/sheet/group/field[@name='payment_ref']"
+          position="after"
+        >
                     <!-- Add the additional_ref field here -->
-                    <field name="additional_ref"/>
+                    <field name="additional_ref" />
                 </xpath>
             </field>
         </record>
