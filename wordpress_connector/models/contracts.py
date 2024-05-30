@@ -314,7 +314,7 @@ class Contracts(models.Model):
                 event_id = int(event_match.group(1))
                 sponsorship.update(
                     {
-                        "user_id": ambassador_id,
+                        "ambassador_id": ambassador_id,
                         "origin_id": self.env["recurring.contract.origin"]
                         .search([("event_id", "=", event_id)], limit=1)
                         .id,
@@ -339,7 +339,6 @@ class Contracts(models.Model):
                 subject=title,
                 partner_ids=[staff],
                 type="comment",
-                subtype="mail.mt_comment",
                 content_subtype="html",
             )
 
