@@ -233,7 +233,7 @@ class AdvocateDetails(models.Model):
                 % (preferred_name, date),
                 subject=_("[%s] Advocate birthday reminder") % display_name,
                 partner_ids=[notify_partner_id],
-                type="comment",
+                subtype_xmlid="mail.mt_comment",
                 content_subtype="html",
             )
         break_advocates = self.search(

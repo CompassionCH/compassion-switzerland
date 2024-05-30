@@ -338,7 +338,7 @@ class Contracts(models.Model):
                 body=notify_text,
                 subject=title,
                 partner_ids=[staff],
-                type="comment",
+                subtype_xmlid="mail.mt_comment",
                 content_subtype="html",
             )
 

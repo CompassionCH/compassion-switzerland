@@ -37,7 +37,6 @@ class AccountBankingMandate(models.Model):
                         "For account: " + (mandate.partner_bank_id.acc_number or "")
                     ),
                     subject=_("Mandate " + MANDATE_STATE[action]),
-                    type="comment",
                 )
 
     @api.model_create_multi

@@ -72,7 +72,6 @@ class ResPartnerBank(models.Model):
             part.message_post(
                 body=_("<b>Account number: </b>" + account.acc_number),
                 subject=_("Account deleted"),
-                type="comment",
             )
 
         result = super().unlink()

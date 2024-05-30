@@ -39,7 +39,7 @@ class MailTrackingEvent(models.Model):
                 body=body,
                 subject=subject,
                 partner_ids=staff_ids,
-                type="comment",
+                subtype_xmlid="mail.mt_comment",
                 content_subtype="plaintext",
             )
             partner.write(to_write)
