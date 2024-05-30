@@ -169,9 +169,7 @@ class Contracts(models.Model):
                 partner_infos["birthdate"] = "%s-%s-%s" % (d[2], d[1], d[0])
 
             # Search for existing partner
-            partner = match_obj.match_partner_to_infos(
-                partner_infos, {"skip_update": True}
-            )
+            partner = match_obj.match_values_to_partner(partner_infos)
             if form_data.get("mithelfen", {}).get("checkbox") == "on":
                 if (
                     not partner.advocate_details_id
@@ -180,8 +178,12 @@ class Contracts(models.Model):
                     partner.interested_for_volunteering = True
 
             # Check origin
-            internet_id = self.env.ref("utm.utm_medium_website").id
-            utms = self.env["utm.mixin"].get_utms(utm_source, utm_medium, utm_campaign)
+            internet = self.env.ref("utm.utm_medium_website")
+            u_source = self.env["utm.source"].search([("name", "=", utm_source)])
+            u_campaign = self.env["utm.campaign"].search([("name", "=", utm_campaign)])
+            u_medium = (
+                self.env["utm.medium"].search([("name", "=", utm_medium)]) or internet
+            )
 
             # Create sponsorship
             child = self.env["compassion.child"].search(
@@ -222,9 +224,9 @@ class Contracts(models.Model):
                 "type": sponsorship_type,
                 "pricelist_id": pricelist_id,
                 "contract_line_ids": lines,
-                "source_id": utms["source"],
-                "medium_id": utms.get("medium", internet_id),
-                "campaign_id": utms["campaign"],
+                "source_id": u_source.id,
+                "medium_id": u_medium.id,
+                "campaign_id": u_campaign.id,
             }
         except Exception:
             # We catch any exception to make sure we don't lose any

@@ -30,7 +30,7 @@
     "version": "14.0.0.1.0",
     "category": "Account",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
-    "author": "Jérémie Lang for Compassion CH",
+    "author": "Compassion Switzerland, Jérémie Lang",
     "license": "AGPL-3",
     "installable": True,
     "data": [

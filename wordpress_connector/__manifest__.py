@@ -44,6 +44,7 @@
         "child_sync_wp",
         "crm_compassion",
         "crm_request",
+        "partner_compassion",
     ],
     "external_dependencies": {"python": ["pysftp", "yaml"]},
     "demo": [],
