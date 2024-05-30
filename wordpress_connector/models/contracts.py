@@ -342,7 +342,7 @@ class Contracts(models.Model):
                 content_subtype="html",
             )
 
-            sponsorship.correspondent_id.set_privacy_statement(origin="new_sponsorship")
+            sponsorship.correspondent_id.legal_agreement_date = fields.Datetime.now()
             return sponsorship
         except BaseException as err:
             # Log the error and send a mail stating that it failed running

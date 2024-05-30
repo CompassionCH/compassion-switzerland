@@ -45,6 +45,7 @@
         "crm_compassion",
         "crm_request",
         "partner_compassion",
+        "website_sponsorship",
     ],
     "external_dependencies": {"python": ["pysftp", "yaml"]},
     "demo": [],
