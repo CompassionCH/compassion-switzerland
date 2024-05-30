@@ -33,7 +33,7 @@ class CommunicationJob(models.Model):
         report_ref = self.env.ref("report_compassion.report_bvr_fund")
 
         pdf_data = base64.encodebytes(
-            report_ref.render_qweb_pdf(registration.partner_id.ids, report_vals)[0]
+            report_ref._render_qweb_pdf(registration.partner_id.ids, report_vals)[0]
         )
 
         return {_("down_payment.pdf"): [report_name, pdf_data]}
@@ -68,7 +68,7 @@ class CommunicationJob(models.Model):
         report_name = "report_compassion.bvr_fund"
         report = self.env.ref("report_compassion.report_bvr_fund")
         pdf_data = base64.b64encode(
-            report.with_context(must_skip_send_to_printer=True).render_qweb_pdf(
+            report.with_context(must_skip_send_to_printer=True)._render_qweb_pdf(
                 registration.partner_id.ids, data=report_vals
             )[0]
         )
