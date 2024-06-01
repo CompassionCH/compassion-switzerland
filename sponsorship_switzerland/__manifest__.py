@@ -37,7 +37,6 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
-        "l10n_ch_isrb",  # OCA/l10n-switzerland
         "crm_compassion",  # compassion-modules
         "partner_auto_match",  # compassion-modules
         "sponsorship_sub_management",  # compassion-modules
