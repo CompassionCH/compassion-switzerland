@@ -12,6 +12,19 @@ class ResPartner(models.Model):
             self.env["sms.log"].create(
                 {"partner_id": partner.id, "text": sms_message, "subject": note_msg}
             )
-        return super().message_post_send_sms(
-            sms_message, numbers, partners, note_msg, log_error
+        sms_id = self.env["sms.sms"].create(
+            {
+                "number": partner.mobile,
+                "body": sms_message,
+                "partner_id": partner.id,
+            }
+        )
+        self.env["sms.api"]._send_sms_batch(
+            [
+                {
+                    "number": partner.mobile,
+                    "content": sms_message,
+                    "res_id": sms_id.id,
+                }
+            ]
         )
