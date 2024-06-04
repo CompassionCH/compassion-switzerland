@@ -178,13 +178,15 @@
     <template id="partner_communication">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-set="success_story"
-                   t-value="docs.mapped('success_story_id')"
-                />
+                <t
+          t-set="success_story"
+          t-value="docs.mapped('success_story_id')"
+        />
                 <t t-set="bvr" t-value="docs.mapped('product_id')" />
-                <t t-set="o"
-                  t-value="o.with_context({'lang':o.partner_id.lang})"
-                />
+                <t
+          t-set="o"
+          t-value="o.with_context({'lang':o.partner_id.lang})"
+        />
                 <t t-set="print_header" t-value="o.print_header" />
                 <t t-set="display_pp" t-value="o.display_pp" />
                 <t t-set="partner" t-value="o.partner_id" />
@@ -193,14 +195,18 @@
                 <t t-set="success_story" t-value="o.success_story_id" />
                 <t t-set="body_html" t-value="o.body_html" />
                 <t t-set="user" t-value="o.user_id" />
-                <t t-set="show_signature"
-                    t-value="o.show_signature and user.signature"
-                />
-                <t t-set="product"
-                    t-value="o.product_id.with_context(lang=partner.lang)" />
-                <t t-call="report_compassion.partner_communication_document"
-                    t-lang="o.partner_id.lang"
-                />
+                <t
+          t-set="show_signature"
+          t-value="o.show_signature and user.signature"
+        />
+                <t
+          t-set="product"
+          t-value="o.product_id.with_context(lang=partner.lang)"
+        />
+                <t
+          t-call="report_compassion.partner_communication_document"
+          t-lang="o.partner_id.lang"
+        />
             </t>
         </t>
     </template>
@@ -215,18 +221,27 @@
                         <t t-set="partner" t-value="o.partner_id" />
                     </t>
                     <!-- When generating tax_receipt, partner is defined but width is to be adapted -->
-                    <t t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']">
-                        <t t-set="lang"
-                           t-value="partner.lang.split('_')[0] + '.png'" />
+                    <t
+            t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']"
+          >
+                        <t
+              t-set="lang"
+              t-value="partner.lang.split('_')[0] + '.png'"
+            />
                     </t>
-                    <img t-attf-style="width: 80%" t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}" />
+                    <img
+            t-attf-style="width: 80%"
+            t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}"
+          />
                 </div>
             </div>
         </t>
         <div id="letter">
             <div id="date" t-if="not print_header">
-                <span t-raw="partner.date_communication"
-                    style="float: left; margin-top: 10mm; min-width: 70mm;" />
+                <span
+          t-raw="partner.date_communication"
+          style="float: left; margin-top: 10mm; min-width: 70mm;"
+        />
             </div>
             <t t-if="print_header">
                 <div id="compassion_address">
@@ -256,9 +271,14 @@
                 </div>
                 <span t-raw="partner.address_name" />
                 <br />
-                <span t-raw="'&lt;br/&gt;'.join((partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])" />
-                <div id="date" t-if="print_header"
-                t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;">
+                <span
+          t-raw="'&lt;br/&gt;'.join((partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"
+        />
+                <div
+          id="date"
+          t-if="print_header"
+          t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;"
+        >
                     <span t-raw="partner.date_communication" />
                 </div>
             </div>
@@ -273,10 +293,14 @@
                 </div>
                 <div id="body">
                     <div t-raw="body_html" class="body_text" />
-                    <img t-if="show_signature" class="right"
-                t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
-                t-attf-style="margin-left: #{ 20 if success_story else 65 }mm"/>
-                    <div class="right"
+                    <img
+            t-if="show_signature"
+            class="right"
+            t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
+            t-attf-style="margin-left: #{ 20 if success_story else 65 }mm"
+          />
+                    <div
+            class="right"
             t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm; margin-left: #{ 50 if success_story else 95 }mm"
           >
                         <t t-raw="user.signature_letter" />

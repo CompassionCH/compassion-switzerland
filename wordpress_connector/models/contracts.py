@@ -13,7 +13,7 @@ import re
 from werkzeug.utils import escape
 
 from odoo import _, api, fields, models
-from odoo.tools import config
+from odoo.tools import config, html2plaintext
 
 _logger = logging.getLogger(__name__)
 
@@ -356,3 +356,93 @@ class Contracts(models.Model):
                 f"with following error: {str(err)}",
                 user_id=21,  # EMA
             )
+
+    def message_new(self, msg_dict, custom_values=None):
+        """
+        Called when an email creates a sponsorship, which is the case for CSP
+        Sponsorships for instance.
+        @param msg_dict: mail message values
+        @param custom_values: alias custom values
+        @return: created record
+        """
+        if custom_values is None:
+            custom_values = {}
+        sponsorship_type = custom_values.get("type")
+        if sponsorship_type == "CSP":
+            csp_data = self._parse_csp_info(msg_dict.get("body", ""))
+            partner = self.env["res.partner"].search(
+                [("email", "=", csp_data["email"])], limit=1
+            )
+            country_code = csp_data["country"]
+            product = self.env["product.product"].search(
+                [("default_code", "=", f"csp_{country_code}")], limit=1
+            )
+            csp_name = f"CSP-{country_code}-{partner.ref}"
+            custom_values.update(
+                {
+                    "partner_id": partner.id,
+                    "contract_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "product_id": product.id,
+                                "amount": product.list_price,
+                                "quantity": 1,
+                                "subtotal": product.list_price,
+                            },
+                        )
+                    ],
+                    "reference": csp_name,
+                }
+            )
+            msg_dict["subject"] = csp_name
+        return super().message_new(msg_dict, custom_values)
+
+    def _parse_csp_info(self, data_string):
+        """
+        Parses a sponsorship application string and extracts specific information.
+
+        Args:
+            data_string: The string containing the sponsorship application data.
+
+        Returns:
+            A dictionary containing the parsed information:
+                * continent: The applicant's continent.
+                * country: The applicant's country. (without potential encoding issues)
+                * engagement_type: The desired sponsorship level.
+                * payment_method: The preferred payment method.
+        """
+        # Regular expressions for parsing
+        country_regex = r"Country:\s*(.*?)\n"  # Capture all characters
+        engagement_regex = r"Engagement type:\s*(.*?)\n"
+        email_regex = r"E-mail:\s*(.*?)\n"
+        sponsorship_length_regex = r"Sponsorship length:\s*(.*?)\n"
+
+        # Compile the regex patterns for efficiency
+        country_pattern = re.compile(country_regex)
+        engagement_pattern = re.compile(engagement_regex)
+        email_pattern = re.compile(email_regex)
+        sponsorship_length_pattern = re.compile(sponsorship_length_regex)
+
+        # Extract information using regular expressions
+        country_match = country_pattern.search(data_string)
+        engagement_match = engagement_pattern.search(data_string)
+        email_match = email_pattern.search(data_string)
+        sponsorship_length_match = sponsorship_length_pattern.search(data_string)
+
+        # Extract data from matches (handle cases where no match is found)
+        country = country_match.group(1) if country_match else ""
+        engagement_type = engagement_match.group(1) if engagement_match else ""
+        email = email_match.group(1) if email_match else ""
+        sponsorship_length = (
+            sponsorship_length_match.group(1) if sponsorship_length_match else ""
+        )
+
+        # Return a dictionary with the extracted information
+        return {
+            "country": html2plaintext(country),
+            "engagement_type": html2plaintext(engagement_type),
+            "email": html2plaintext(email),
+            "sponsorship_length": html2plaintext(sponsorship_length),
+        }
