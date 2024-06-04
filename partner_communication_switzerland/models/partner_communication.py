@@ -208,7 +208,7 @@ class PartnerCommunication(models.Model):
                 )
                 return {
                     _("bank authorization form.pdf"): [
-                        "partner_communication.a4_no_margin",
+                        "l10n_ch.paperformat_euro_no_margin",
                         pdf_form,
                     ]
                 }
@@ -676,7 +676,7 @@ class PartnerCommunication(models.Model):
             attachments.update(
                 {
                     _("bank authorization form.pdf"): [
-                        "partner_communication.a4_no_margin",
+                        "l10n_ch.paperformat_euro_no_margin",
                         pdf_form,
                     ]
                 }
