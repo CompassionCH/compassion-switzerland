@@ -7,23 +7,23 @@
         <field name="report_name">label.report_label</field>
     </record>
     <template id="report_label">
-        <link rel="stylesheet" href="/label/static/src/css/label.css" />
         <t t-call="web.basic_layout">
-            <div class="page">
+            <div class="page" style="font-size: 12px;">
                 <t t-foreach="docs" t-as="o">
                     <!-- Start page -->
                     <div
-            style="padding-left:10px;padding-top:40px;padding-right:10px;"
+            style="padding-left:20px;padding-top:50px;padding-right:20px;"
           >
-                        <table class="o_label_page_table">
-                            <tr>
-                                <t t-foreach="3" t-as="col">
-                                    <td>
-                                        <!-- One Label -->
+                        <table>
+                            <t t-foreach="3" t-as="col">
+                                <td
+                  t-attf-style="width: 250px; padding-left:{{'30px' if col==2 else '0px'}}"
+                >
+                                    <t t-foreach="11" t-as="val">
                                         <t t-call="label.one_label" />
-                                    </td>
-                                </t>
-                            </tr>
+                                    </t>
+                                </td>
+                            </t>
                         </table>
                     </div>
                     <p style="page-break-after:always;" />
