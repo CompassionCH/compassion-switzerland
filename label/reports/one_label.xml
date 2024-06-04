@@ -20,7 +20,7 @@
                                             </div>
                                         </td>
                                         <td
-                      t-attf-style="vertical-align: middle; padding-bottom:{{0 if val == 10 else 75}}px;"
+                      t-attf-style="vertical-align: middle; padding-bottom:{{0 if val == 10 else 25}}px;"
                     >
                                             <span>
                                                 <t
