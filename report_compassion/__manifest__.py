@@ -52,7 +52,6 @@
         "report/bvr_fund.xml",
         "report/new_donors_card.xml",
         "report/tax_receipt.xml",
-        "report/sponsorship_label.xml",
         "report/ending_sponsorship_certificate.xml",
         "views/print_sponsorship_bvr_view.xml",
         "views/print_sponsorship_gift_bvr_view.xml",

@@ -253,7 +253,7 @@ class PartnerCommunication(models.Model):
             for child in children:
                 sponsorships += child.sponsorship_ids[0]
         attachments = dict()
-        report_name = "label.dynamic_label"
+        report_name = "label.report_label"
         label_data = {
             "doc_ids": sponsorships.ids,
         }

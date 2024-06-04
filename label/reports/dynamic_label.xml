@@ -1,4 +1,11 @@
 <odoo>
+    <record id="dynamic_label" model="ir.actions.report">
+        <field name="paperformat_id" ref="paperformat_label" />
+        <field name="name">Sponsorship Label</field>
+        <field name="model">recurring.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">label.report_label</field>
+    </record>
     <template id="report_label">
         <link rel="stylesheet" href="/label/static/src/css/label.css" />
         <t t-call="web.basic_layout">
