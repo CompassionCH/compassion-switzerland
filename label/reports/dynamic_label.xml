@@ -12,7 +12,9 @@
             <div class="page">
                 <t t-foreach="docs" t-as="o">
                     <!-- Start page -->
-                    <div style="padding-left:10px;padding-top:40px;padding-right:10px;">
+                    <div
+            style="padding-left:10px;padding-top:40px;padding-right:10px;"
+          >
                         <table class="o_label_page_table">
                             <tr>
                                 <t t-foreach="3" t-as="col">

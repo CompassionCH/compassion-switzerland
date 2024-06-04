@@ -412,14 +412,14 @@ class PartnerCommunication(models.Model):
             )
 
         # Send remaining jobs
-        super().send()
+        res = super().send()
         other_jobs = self.filtered(lambda j: j.send_mode != "sms")
         other_jobs._handle_no_money_holds()
         other_jobs._start_new_donors_onboarding()
         other_jobs._handle_zoom_and_sub_proposal()
         self._prepare_onboarding()
 
-        return True
+        return res
 
     # Helper functions for improved readability and modularity
     def _check_onboarding_verification(self):
