@@ -69,19 +69,19 @@
           /><br />
                         <span
             class="swissqr_text content"
-            t-field="partner.company_id.name"
+            t-field="bank_account.company_id.name"
           /><br />
                         <span
             class="swissqr_text content"
-            t-field="partner.company_id.country_id.code"
+            t-field="bank_account.company_id.country_id.code"
           />
                         <span
             class="swissqr_text content"
-            t-field="partner.company_id.zip"
+            t-field="bank_account.company_id.zip"
           />
                         <span
             class="swissqr_text content"
-            t-field="partner.company_id.city"
+            t-field="bank_account.company_id.city"
           /><br />
 
                         <span class="swissqr_text title">Reference</span><br />
@@ -164,23 +164,23 @@
             /><br />
                             <span
               class="swissqr_text content"
-              t-field="partner.company_id.name"
+              t-field="bank_account.company_id.name"
             /><br />
                             <span
               class="swissqr_text content"
-              t-field="partner.company_id.street"
+              t-field="bank_account.company_id.street"
             /><br />
                             <span
               class="swissqr_text content"
-              t-field="partner.company_id.country_id.code"
+              t-field="bank_account.company_id.country_id.code"
             />
                             <span
               class="swissqr_text content"
-              t-field="partner.company_id.zip"
+              t-field="bank_account.company_id.zip"
             />
                             <span
               class="swissqr_text content"
-              t-field="partner.company_id.city"
+              t-field="bank_account.company_id.city"
             /><br />
 
                             <t t-if="bank_account._is_qr_iban()">
