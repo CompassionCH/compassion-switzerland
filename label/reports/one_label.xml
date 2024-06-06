@@ -8,7 +8,7 @@
         />
             </div>
 
-            <t t-set="partner_line" t-value="'{} - {}'.format(o.partner_id.ref, o.partner_id.preferred_name)"/>
+            <t t-set="partner_line" t-value="'{} - {}'.format(o.partner_id.ref, o.correspondent_id.preferred_name)"/>
             <t t-set="child_line" t-value="'{} - {}'.format(o.child_id.local_id, o.child_id.preferred_name)" />
             <t t-set="margin" t-value="'10px' if len(partner_line) &lt; 21 or len(child_line) &lt; 21 else '1px'" />
 
