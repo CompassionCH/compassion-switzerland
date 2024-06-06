@@ -27,6 +27,7 @@ class AccountInvoice(models.Model):
         Utility to process the donation done via WordPress.
         :return:
         """
+        _logger.info("Processing donation from WordPress %s", str(donnation_infos))
         for key in donnation_infos:
             donnation_infos[key] = escape(donnation_infos[key])
 
