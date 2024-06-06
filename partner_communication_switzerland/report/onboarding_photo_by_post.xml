@@ -22,7 +22,7 @@
     >partner_communication_switzerland.onboarding_photo_by_post</field>
         <field
       name="paperformat_id"
-      ref="partner_communication_compassion.paperformat_child_picture"
+      ref="paperformat_photo_by_post"
     />
     </record>
 
