@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_email_template_product" model="ir.ui.view">
+        <field name="name">mail.template.product.form</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_form" />
+        <field name="arch" type="xml">
+            <page name="email_configuration" position="after">
+                <page string="Mailchimp" name="mailchimp">
+                    <group>
+                        <field name="mailchimp_template_ids">
+                            <tree editable="top">
+                                <field name="lang" />
+                                <field name="mailchimp_template" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
