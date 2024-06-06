@@ -6,9 +6,12 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
-        "mail",
+        "mass_mailing",
     ],
-    "data": ["views/mail_template_view.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/mail_template_view.xml",
+    ],
     "demo": [],
     "installable": True,
     "auto_install": False,
