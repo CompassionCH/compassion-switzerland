@@ -9,11 +9,11 @@
             </div>
             <div style="margin-top: 10px;">
                 <span><t t-esc="o.partner_id.ref" /> - <t
-            t-esc="o.child_id.preferred_name"
+            t-esc="o.partner_id.preferred_name"
           />
                     <br />
                     <t t-esc="o.child_id.local_id" /> - <t
-            t-esc="o.child_id.field_office_id.country_id.name"
+            t-esc="o.child_id.preferred_name"
           />
                 </span>
             </div>
