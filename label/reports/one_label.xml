@@ -1,20 +1,22 @@
 <odoo>
     <template id="one_label">
         <div style="height: 95px; display:-webkit-box;">
-            <div style="padding-right:15px;padding-left:15px;">
+            <div style="padding-right:15px;padding-left:5px; ">
                 <img
           t-attf-src="/report/barcode/QR/{{o.partner_id.ref}}XX{{o.child_id.local_id}}?width=500&amp;height=500"
           t-attf-style="width: 15mm; height: 15mm;"
         />
             </div>
-            <div style="margin-top: 10px;">
-                <span><t t-esc="o.partner_id.ref" /> - <t
-            t-esc="o.partner_id.preferred_name"
-          />
+
+            <t t-set="partner_line" t-value="'{} - {}'.format(o.partner_id.ref, o.partner_id.preferred_name)"/>
+            <t t-set="child_line" t-value="'{} - {}'.format(o.child_id.local_id, o.child_id.preferred_name)" />
+            <t t-set="margin" t-value="'10px' if len(partner_line) &lt; 21 or len(child_line) &lt; 21 else '1px'" />
+
+            <div t-attf-style="margin-top: {{margin}}; max-width: 150px; word-break: normal;">
+                <span>
+                    <t t-esc="partner_line" />
                     <br />
-                    <t t-esc="o.child_id.local_id" /> - <t
-            t-esc="o.child_id.preferred_name"
-          />
+                    <t t-esc="child_line" />
                 </span>
             </div>
         </div>
