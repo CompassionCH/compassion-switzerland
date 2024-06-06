@@ -197,7 +197,7 @@
                 <t t-set="user" t-value="o.user_id" />
                 <t
           t-set="show_signature"
-          t-value="o.show_signature and user.signature"
+          t-value="o.show_signature and user.digital_signature"
         />
                 <t
           t-set="product"
