@@ -17,12 +17,10 @@ _logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
-    """Add mailing origin in invoice objects."""
-
-    _inherit = ["account.move"]
+    _inherit = "account.move"
 
     @api.model
-    def process_wp_confirmed_donation(self, donnation_infos):
+    def process_wp_confirmed_donation(self, donnation_infos, **kwargs):
         """
         Utility to process the donation done via WordPress.
         :return:
