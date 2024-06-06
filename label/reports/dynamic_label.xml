@@ -11,10 +11,14 @@
             <div class="page" style="font-size: 12px;">
                 <t t-foreach="docs" t-as="o">
                     <!-- Start page -->
-                    <div style="padding-left:20px;padding-top:50px;padding-right:20px;" >
+                    <div
+            style="padding-left:20px;padding-top:50px;padding-right:20px;"
+          >
                         <table>
                             <t t-foreach="3" t-as="col">
-                                <td t-attf-style="margin-top: 15px; width: 250px; padding-left:{{'30px' if col==2 else '10px' if col==1 else '0px'}}" >
+                                <td
+                  t-attf-style="margin-top: 15px; width: 250px; padding-left:{{'30px' if col==2 else '10px' if col==1 else '0px'}}"
+                >
                                     <t t-foreach="11" t-as="val">
                                         <t t-call="label.one_label" />
                                     </t>

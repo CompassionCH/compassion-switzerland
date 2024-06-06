@@ -8,5 +8,13 @@
         />
             </xpath>
         </template>
+        <template id="assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <script
+          type="text/javascript"
+          src="/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js"
+        />
+            </xpath>
+        </template>
     </data>
 </odoo>

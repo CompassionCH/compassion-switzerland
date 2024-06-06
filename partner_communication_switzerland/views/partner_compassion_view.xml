@@ -1,5 +1,4 @@
 <odoo>
-    <!-- pylint: disable=dangerous-view-replace-wo-priority-->
     <!-- oca-hooks:disable=xml-view-dangerous-replace-low-priority -->
     <!-- Add no_physical_delivery field -->
     <record id="view_partner_no_physical_delivery" model="ir.ui.view">

@@ -10,7 +10,7 @@
 from datetime import datetime
 from enum import Enum
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 COLOR_MAPPING = {
     "invited": 0,
@@ -32,7 +32,7 @@ class ZoomCommunication(Enum):
 
 class ZoomAttendee(models.Model):
     _name = "res.partner.zoom.attendee"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "cms.form.partner"]
     _description = "Visio Conference Attendee"
     _rec_name = "partner_id"
     _order = "id desc"
@@ -59,7 +59,9 @@ class ZoomAttendee(models.Model):
     )
     optional_message = fields.Text()
     color = fields.Integer(compute="_compute_color")
-
+    inform_me_for_next_zoom = fields.Boolean(
+        "I am not available", help="Please inform me for the next Zoom session"
+    )
     link_received = fields.Boolean(default=False)
 
     _sql_constraints = [
@@ -77,8 +79,19 @@ class ZoomAttendee(models.Model):
     def _expand_states(self, states, domain, order):
         return [key for key, val in type(self).state.selection]
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        for attendee in res:
+            if attendee.inform_me_for_next_zoom:
+                attendee.inform_about_next_session()
+            if attendee.optional_message:
+                attendee.notify_user()
+        return res
+
     def inform_about_next_session(self):
         for attendee in self:
+            attendee.state = "declined"
             next_zoom = attendee.zoom_session_id.get_next_session()
             if next_zoom:
                 next_zoom.add_participant(attendee.partner_id)
@@ -106,7 +119,7 @@ class ZoomAttendee(models.Model):
         if user_id:
             self.activity_schedule(
                 "mail.mail_activity_data_todo",
-                summary="Participant registered for the zoom session",
+                summary="Participant registered for the zoom session with a message",
                 note=self.optional_message,
                 user_id=user_id,
             )

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="model_res_partner_zoom_attendee" model="ir.model">
+      <field name="website_form_key">zoom_registration</field>
+      <field name="website_form_access">True</field>
+      <field name="website_form_label">Register to Video Conference</field>
+        <field
+      name="website_form_default_field_id"
+      ref="field_res_partner_zoom_attendee__optional_message"
+    />
+    </record>
+    <function model="ir.model.fields" name="formbuilder_whitelist">
+      <value>res.partner.zoom.attendee</value>
+      <value
+      eval="[
+        'partner_lastname',
+        'partner_firstname',
+        'partner_email',
+        'partner_phone',
+        'match_update',
+        'inform_me_for_next_zoom',
+        'optional_message',
+        'zoom_session_id',
+        ]"
+    />
+    </function>
+</odoo>
