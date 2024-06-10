@@ -533,8 +533,9 @@
             <field name="state">code</field>
             <field name="code">
 not_read = records.filter_not_read()
-new_comms = not_read.copy({'config_id': env.ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read').id, 'send_mode': 'physical'})
-new_comms.refresh_text()
+if not_read:
+    new_comms = not_read.copy({'config_id': env.ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation_not_read').id, 'send_mode': 'physical'})
+    new_comms.refresh_text()
             </field>
         </record>
         <record
