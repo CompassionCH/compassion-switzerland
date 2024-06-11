@@ -19,5 +19,5 @@ class ServerAction(models.Model):
         res = super().run()
         end_time = time.time()
         execution_time = timedelta(seconds=end_time - start_time)
-        self.write({"last_execution_time": str(execution_time)})
+        self.sudo().write({"last_execution_time": str(execution_time)})
         return res

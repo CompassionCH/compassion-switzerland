@@ -15,10 +15,10 @@ class BaseAutomation(models.Model):
         try:
             super()._process(records, domain_post)
         except Exception:
-            self.write({"last_exception": traceback.format_exc()})
+            self.sudo().with_delay().write({"last_exception": traceback.format_exc()})
         end_time = time.time()
         execution_time = timedelta(seconds=end_time - start_time)
-        self.write({"last_execution_time": str(execution_time)})
+        self.sudo().write({"last_execution_time": str(execution_time)})
 
     def clear_exception(self):
         return self.write({"last_exception": False})

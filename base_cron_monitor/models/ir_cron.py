@@ -14,8 +14,8 @@ class IrCron(models.Model):
         super()._handle_callback_exception(
             cron_name, server_action_id, job_id, job_exception
         )
-        my_cron = self.browse(job_id)
-        my_cron.write({"last_exception": str(job_exception)})
+        my_cron = self.browse(job_id).sudo()
+        my_cron.with_delay().write({"last_exception": str(job_exception)})
 
     def clear_exception(self):
         return self.write({"last_exception": False})
