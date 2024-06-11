@@ -65,7 +65,7 @@ class ContractGroup(models.Model):
                     if group.bvr_reference and "multi-months" not in payment_name:
                         vals["bvr_reference"] = False
         if "bvr_reference" in vals:
-            inv_vals["reference"] = vals["bvr_reference"]
+            inv_vals["payment_reference"] = vals["bvr_reference"]
             contracts |= self.mapped("contract_ids")
 
         if contracts:
