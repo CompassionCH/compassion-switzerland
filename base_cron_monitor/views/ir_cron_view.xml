@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+<record id="ir_cron_view_form" model="ir.ui.view">
+    <field name="name">ir.cron.monitor</field>
+    <field name="model">ir.cron</field>
+    <field name="inherit_id" ref="base.ir_cron_view_form" />
+    <field name="arch" type="xml">
+        <header>
+            <button
+          name="clear_exception"
+          string="Clear Last Exception"
+          type="object"
+          attrs="{'invisible': [('last_exception', '=', False)]}"
+        />
+        </header>
+        <field name="nextcall" position="before">
+            <field name="last_execution_time" />
+            <field
+          name="last_exception"
+          attrs="{'invisible': [('last_exception', '=', False)]}"
+        />
+        </field>
+    </field>
+</record>
+
+</odoo>
