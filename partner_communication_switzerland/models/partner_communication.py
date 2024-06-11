@@ -341,7 +341,7 @@ class PartnerCommunication(models.Model):
         lang = self.partner_id.lang
         sponsorships = self.get_objects()
         children = sponsorships.mapped("child_id")
-        report_name = "report_compassion.childpack_small"
+        report_name = "child_compassion.childpack_small"
         data = {
             "lang": lang,
             "is_pdf": self.send_mode != "physical",
