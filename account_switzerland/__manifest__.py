@@ -34,6 +34,7 @@
     "external_dependencies": {},
     "depends": [
         "account",
+        "sponsorship_switzerland",
     ],
     "data": [
         "views/account_move.xml",
