@@ -118,7 +118,7 @@
                 <t t-set="pictures" t-value="o.child_id.pictures_ids" />
                 <t
           t-set="first_pic_available"
-          t-value="len(pictures) &gt; 1 and pictures[-1].date.year &lt;= o.start_date.year and pictures[-1].date.year &lt; pictures[0].date.year"
+          t-value="len(pictures) &gt; 1 and pictures[-1].date.year &lt; pictures[0].date.year"
         />
                 <div class="background" t-if="digital">
                     <img
