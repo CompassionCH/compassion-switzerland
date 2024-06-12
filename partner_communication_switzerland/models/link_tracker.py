@@ -9,7 +9,7 @@
 ##############################################################################
 from werkzeug import urls
 
-from odoo import tools, models, fields, api, _
+from odoo import models
 
 
 class LinkTracker(models.Model):
