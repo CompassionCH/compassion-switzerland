@@ -21,4 +21,4 @@ class LinkTracker(models.Model):
             base_url = (
                 self.env["ir.config_parameter"].sudo().get_param("web.external.url")
             )
-            tracker.short_url_host = urls.url_join(base_url, '/r/')
+            tracker.short_url_host = urls.url_join(base_url, "/r/")
