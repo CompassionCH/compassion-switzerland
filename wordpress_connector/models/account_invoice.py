@@ -168,7 +168,6 @@ class AccountInvoice(models.Model):
                 # "auto_cancel_date": date_invoice + timedelta(minutes=30),
                 "currency_id": 6,  # Always in CHF
                 "move_type": "out_invoice",
-                "name": "Postfinance payment " + str(pf_payid) + " for " + wp_origin,
                 "invoice_payment_term_id": payment_term_id,
             }
         )
