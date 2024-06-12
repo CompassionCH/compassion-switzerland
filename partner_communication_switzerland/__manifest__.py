@@ -45,6 +45,7 @@
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
         "survival_sponsorship_compassion",
+        "link_tracker"
     ],
     "external_dependencies": {
         "python": ["wand", "bs4", "pdf2image", "babel", "PyPDF2", "pyquery"]
