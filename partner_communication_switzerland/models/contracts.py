@@ -30,10 +30,6 @@ class RecurringContract(models.Model):
     ##########################################################################
     #                                 FIELDS                                 #
     ##########################################################################
-    order_photo = fields.Boolean(
-        help="Indicates that the child has a new picture to be ordered with "
-        "Smartphoto."
-    )
     birthday_paid = fields.Many2many(
         "sponsorship.gift", compute="_compute_birthday_paid", readonly=False
     )
@@ -417,7 +413,7 @@ class RecurringContract(models.Model):
         return True
 
     def _contract_terminated(self, vals):
-        vals["order_photo"] = False
+        vals["new_picture"] = False
         return super()._contract_terminated(vals)
 
     def cancel_sub_validation(self):

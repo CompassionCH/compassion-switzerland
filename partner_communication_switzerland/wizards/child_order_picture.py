@@ -82,7 +82,7 @@ class CompassionHold(models.TransientModel):
                 "context": self.env.context,
                 "target": "new",
             }
-        sponsorships.write({"order_photo": False})
+        sponsorships.write({"new_picture": False})
         # Log a note to recover the sponsorships in case the ZIP is lost
         for s in sponsorships:
             s.message_post(body=_("Picture ordered."))
@@ -120,7 +120,7 @@ class CompassionHold(models.TransientModel):
     @api.model
     def _needaction_domain_get(self):
         return [
-            ("order_photo", "=", True),
+            ("new_picture", "=", True),
             ("state", "not in", [("terminated", "cancelled")]),
         ]
 
