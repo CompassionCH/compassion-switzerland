@@ -7,7 +7,7 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "license": "AGPL-3",
     "category": "Social Network",
-    "version": "12.0.0.0.1",
+    "version": "14.0.1.0.0",
     "depends": ["mail_tracking"],
     "data": [],
     "demo": [],
