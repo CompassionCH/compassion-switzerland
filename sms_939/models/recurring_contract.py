@@ -19,7 +19,7 @@ class Contract(models.Model):
         activation of contract and later put it in waiting mandate state.
         """
         for contract in self.filtered("invoice_line_ids"):
-            invoices = contract.invoice_line_ids.mapped("invoice_id")
+            invoices = contract.invoice_line_ids.mapped("move_id")
             payment = self.env["account.payment"].search(
                 [("invoice_ids", "in", invoices.ids), ("state", "=", "draft")]
             )
