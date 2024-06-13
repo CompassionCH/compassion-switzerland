@@ -15,9 +15,7 @@ class IrMailServer(models.Model):
         :param tracking_email_id: id of the tracking_email object in odoo
         :return: headers with added tracking metadata
         """
-        headers = super(IrMailServer, self)._tracking_headers_add(
-            tracking_email_id, headers
-        )
+        headers = super()._tracking_headers_add(tracking_email_id, headers)
         headers = headers or {}
         metadata = {
             "tracking_email_id": tracking_email_id,

@@ -3,7 +3,7 @@
 {
     "name": "Mail Tracking for Mandrill",
     "summary": "Mail tracking integration trough Mandrill webhooks",
-    "author": "Compassion CH, Odoo Community Association (OCA)",
+    "author": "Compassion Switzerland, Odoo Community Association (OCA)",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "license": "AGPL-3",
     "category": "Social Network",

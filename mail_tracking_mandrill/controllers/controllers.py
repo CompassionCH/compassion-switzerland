@@ -21,8 +21,9 @@ class MandrillTrackingController(MailTrackingController):
         Validate webhook request comes from mandrill and not from potentially
         malicious third party.
 
-        `mandrill_webhook_key` must be specified in configuration file to allow the validation
-        process to work. Without the webhook key any request will be validate.
+        `mandrill_webhook_key` must be specified in configuration file to allow
+        the validation process to work.
+        Without the webhook key any request will be validate.
 
         Validation process is described in mandrill documentation.
         "https://mandrill.zendesk.com/hc/en-us/articles/205583257-Authenticating-webhook-requests"
