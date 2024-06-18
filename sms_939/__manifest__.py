@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "939 SMS Services",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -39,12 +39,11 @@
         "child_sync_wp",  # compassion-switzerland
         "queue_job",  # OCA/queue,
         "sms",  # odoo
-        "iap_alternative_provider",  # OCA/
+        "iap_alternative_provider",  # OCA/server-tools
     ],
     "data": [
         "security/ir.model.access.csv",
         "data/sms_hook.xml",
-        #        "data/sms_provider.xml",
         "views/sms_views.xml",
         "views/mail_message_view.xml",
         "views/sms_sms_view.xml",
