@@ -7,7 +7,7 @@
 #
 ##############################################################################
 
-from odoo import fields, models
+from odoo import fields, models,api
 
 import odoo.addons.decimal_precision as dp
 
@@ -37,6 +37,7 @@ class HrPayslip(models.Model):
                 move.action_post()
         return res
 
+    @api.onchange('employee_id', 'pay_13_salary', 'contract_id')
     def _compute_13_salary(self):
         for payslip in self:
             if payslip.pay_13_salary:
