@@ -42,7 +42,7 @@ class HrContract(models.Model):
     @api.onchange("occupation_rate", "wage_fulltime")
     def _onchange_wage_rate_fulltime(self):
         for contract in self:
-            contract.amount = contract.wage_fulltime * (contract.occupation_rate / 100)
+            contract.wage = contract.wage_fulltime * (contract.occupation_rate / 100)
 
     def _compute_13_salary(self):
         account_id = self.env.ref("l10n_ch_hr_payroll.PROVISION_13").account_credit.id
