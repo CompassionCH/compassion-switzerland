@@ -36,10 +36,7 @@
         "account",
         "sponsorship_compassion",
     ],
-    "data": [
-        "views/account_move.xml",
-        "views/res_partner_view.xml"
-    ],
+    "data": ["views/account_move.xml", "views/res_partner_view.xml"],
     "demo": [],
     "installable": True,
     "application": False,
