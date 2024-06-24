@@ -35,9 +35,6 @@ class PortalWizard(models.TransientModel):
 class PortalWizardUser(models.TransientModel):
     _inherit = "portal.wizard.user"
 
-    invitation_config_id = fields.Many2one(
-        "partner.communication.config", readonly=False
-    )
     uid_communication_id = fields.Many2one("partner.communication.job", readonly=False)
 
     def action_apply(self):
@@ -66,6 +63,6 @@ class PortalWizardUser(models.TransientModel):
             {
                 "partner_id": self.user_id.partner_id.id,
                 "object_ids": self.user_id.id,
-                "config_id": self.invitation_config_id.id,
+                "config_id": self.wizard_id.invitation_config_id.id,
             }
         )
