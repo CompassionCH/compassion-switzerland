@@ -20,7 +20,8 @@ class HrPayslip(models.Model):
     )
 
     amount_13_salary = fields.Float(
-        string="13th salary to add", digits=dp.get_precision("Account"),compute="_compute_13_salary"
+        string="13th salary to add", digits=dp.get_precision("Account"),
+        compute="_compute_13_salary", store=True
     )
 
     def action_payslip_done(self):
@@ -37,7 +38,7 @@ class HrPayslip(models.Model):
                 move.action_post()
         return res
 
-    @api.depends('employee_id', 'pay_13_salary', 'contract_id')
+    @api.depends('employee_id', 'pay_13_salary', 'contract_id', 'state')
     def _compute_13_salary(self):
         for payslip in self:
             if payslip.state == 'draft':
@@ -45,3 +46,5 @@ class HrPayslip(models.Model):
                     payslip.amount_13_salary = payslip.contract_id.provision_13_salary
                 else:
                     payslip.amount_13_salary = 0
+            else:
+                payslip.amount_13_salary = payslip.amount_13_salary
