@@ -123,7 +123,7 @@ class ResPartner(models.Model):
     )
     other_contact_ids = fields.One2many(
         string="Linked Partners",
-        domain=["|", ("active", "=", False), ("active", "=", True)],
+        context={'active_test': False},
         readonly=False,
     )
 
