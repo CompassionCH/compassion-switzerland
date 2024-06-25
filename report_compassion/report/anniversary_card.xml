@@ -10,156 +10,172 @@
         </record>
 
         <template id="anniversary_card">
-            <t t-set="custom_css">
+                  <t t-set="custom_css">
                 .container {
                     font-family: "millerLight";
+                    margin-top: -5mm;
+                    margin-left: 10mm;
                     font-size: 10pt;
                 }
-                .right {
+
+                .body {
+                    width: 115mm;
+                    float: left;
+                    box-sizing: border-box;
+                }
+                #date {
+                    width: 100%;
+                }
+                #title {
+                    font-family: "millerBold";
+                    margin-top: 10mm;
+                    width: 100%;
+                }
+                #body-content {
+                    width: 100%;
+                    margin-top: 5mm;
+                }
+                #signature {
+                    display: block;
+                    float: right;
+                }
+
+                .expedition {
+                    width: 84mm;
+                    float: right;
+                    box-sizing: border-box;
                     position: relative;
-                    left: 135mm;
-                    max-width: 70mm;
                 }
                 #pp {
                     position: absolute;
-                    top: 7mm;
+                    width: 70mm;
                     font-family: verdana;
-                }
-                #partner_address {
-                    position: absolute;
-                    top: 85mm;
+                    margin-bottom: 5mm;
                 }
                 #pp-box {
-                    display: inline-block;
                     padding: 1mm;
+                    border: 1pt solid black;
+                    white-space: nowrap;
+                    display: inline-block;
                     width: 50mm;
-                    line-height: initial;
-
-                    border-style: solid;
-                    border-width: 1pt;
                 }
-                #pp-box div:first-child{
-                    font-size: 12pt;
+                #pp-box div:first-child {
+                    font-size: 10pt;
                     font-weight: bold;
+                    white-space: nowrap;
                 }
-                #pp-box div:last-child{
+                #pp-box div:last-child {
                     font-size: 8pt;
+                    white-space: nowrap;
                 }
                 #pp-post {
+                    font-size: 8pt;
                     display: inline-block;
-                    font-size: 6pt;
                 }
                 #pp hr {
                     margin-top: 0.5mm;
                     margin-bottom: 3mm;
+                    width: 100%;
                 }
-                #date {
+                #partner_address {
+                    overflow-wrap: break-word;
+                    display: block;
                     position: absolute;
-                    top: 7mm;
-                    left: 7mm;
-                    width: 95mm;
+                    top: 70mm;
+                    width: 70mm;
+                    padding:2mm;
                 }
-                #title {
-                    font-family: "millerBold";
-                    position: absolute;
-                    top: 20mm;
-                    left: 7mm;
-                    width: 95mm;
-                }
-                #body {
-                    position: absolute;
-                    top: 30mm;
-                    left: 7mm;
-                    width: 110mm;
-                }
-                #signature {
-                    position: absolute;
-                    top: 118mm;
-                    left: 75mm;
-                }
+
                 #footer {
                     font-size: 8pt;
-                    position: absolute;
-                    top: 130mm;
-                    left: 7mm;
-                    width: 190mm;
+                    width: 100%;
+                    position: fixed;
+                    margin-top: 120mm;
                 }
                 .blue {
                     color: #0054A6;
                     font-weight: bold;
                 }
+                .o_standard_footer{
+                  display: none;
+                  }
             </t>
+             <t t-set="address" t-value="False" />
+                          <t t-set="report_header_style">
+                            display: None;
+                          </t>
             <t t-call="web.html_container">
-            <div class="article">
-                <t t-foreach="docs" t-as="o">
-                    <div class="page">
-                        <t t-call="report_compassion.style" />
-                        <div id="address" class="right">
-                            <div id="pp">
-                                <div id="pp-box">
-                                    <div>P.P.</div>
-                                    <div>CH-1400 Yverdon-les-Bains</div>
-                                </div>
-                                <div id="pp-post">
-                                    <p>Poste CH SA</p>
-                                </div>
-                                <hr />
-                            </div>
-                            <span
-                  t-raw="o.partner_id.short_address"
-                  id="partner_address"
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+
+                                <t t-call="report_compassion.style" />
+                                <div class="body">
+                                    <div id="date">
+                                        <span
+                  t-raw="o.partner_id.date_communication"
                 />
-                        </div>
-                        <div id="date">
-                            <span t-raw="o.partner_id.date_communication" />
-                        </div>
-
-                        <div id="title">
-                            <b><span t-raw="o.subject" /></b>
-                        </div>
-
-                        <div id="body">
-                            <span t-raw="o.body_html" />
-                        </div>
-                        <div id="signature">
-                            <div style="position: relative; top: -15mm">
-                                <t t-set="sign_user_name">sarah maria</t>
-                                <t
+                                    </div>
+                                    <div id="title">
+                                        <b><span t-raw="o.subject" /></b>
+                                    </div>
+                                    <div id="body-content">
+                                        <span t-raw="o.body_html" />
+                                        <div id="signature">
+                                            <t
+                    t-set="sign_user_name"
+                  >sarah maria</t>
+                                            <t
                     t-set="sign_user"
                     t-value="o.env['res.users'].search([('name', 'ilike', sign_user_name),('share','=',False)], limit=1)"
                   />
-                                <img
-                    t-if="sign_user.signature"
-                    t-attf-src="/web/image/res.users/#{sign_user.id}/signature?width=200"
-                    style="position: relative; left: -10mm;"
+                                            <img
+                    t-if="sign_user.digital_signature"
+                    t-attf-src="/web/image/res.users/#{sign_user.id}/digital_signature?width=200"
                   />
-                                <p>
-                                    <span
+                                            <p>
+                                                <span
                       style="font-weight: bold"
                     >Sarah Maria Herrendorff</span>
+                                                <br />
+                                                <span
+                    >and the team from Compassion</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="expedition">
+                                    <div id="pp">
+                                        <div id="pp-box">
+                                            <div>P.P.</div>
+                                            <div>CH-1400 Yverdon-les-Bains</div>
+                                        </div>
+                                        <div id="pp-post">
+                                            <p>Poste CH SA</p>
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <span
+                t-raw="o.partner_id.short_address"
+                id="partner_address"
+              />
+                                </div>
+                                <div id="footer">
+                                    <span class="blue">COMPASSION</span>
+                                    <span
+              >, Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>
                                     <br />
-                                    <span>and the team from Compassion</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div id="footer">
-                            <span class="blue">COMPASSION</span>
-                            <span
-                >, Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>
-                            <br />
-                            <span class="blue">TÉL</span>
-                            <span>.: 031 552 21 25    </span>
-                            <span class="blue">MAIL</span>
-                            <span>: info@compassion.ch </span>
-                            <span class="blue">WWW</span>
-                            <span>.compassion.ch </span>
-                            <span class="blue">CCP/PC</span>
-                            <span> 17-312562-0</span>
-                        </div>
-                    </div>
-                </t>
-            </div>
-        </t>
+                                    <span class="blue">TÉL</span>
+                                    <span>.: 031 552 21 25 </span>
+                                    <span class="blue">MAIL</span>
+                                    <span>: info@compassion.ch </span>
+                                    <span class="blue">WWW</span>
+                                    <span>.compassion.ch </span>
+                                    <span class="blue">CCP/PC</span>
+                                    <span> 17-312562-0</span>
+                                </div>
+                        </t>
+                    </t>
+            </t>
         </template>
     </data>
 </odoo>
