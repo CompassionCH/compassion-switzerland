@@ -21,7 +21,7 @@ class Contract(models.Model):
         for contract in self.filtered("invoice_line_ids"):
             invoices = contract.invoice_line_ids.mapped("move_id")
             payment = self.env["account.payment"].search(
-                [("invoice_ids", "in", invoices.ids), ("state", "=", "draft")]
+                [("invoice_line_ids", "in", invoices.ids), ("state", "=", "draft")]
             )
             if payment:
                 # Activate contract
