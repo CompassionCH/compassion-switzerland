@@ -44,6 +44,7 @@ class Correspondence(models.Model):
             correspondence.template_id.layout == "CH-A-3S01-1"
             and correspondence.source in ("letter", "email")
             and correspondence.store_letter_image
+            and correspondence.direction == "Supporter To Beneficiary"
         ):
             input_pdf = PdfFileReader(BytesIO(correspondence.get_image()))
             output_pdf = PdfFileWriter()
