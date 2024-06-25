@@ -16,6 +16,7 @@
             <field name="name">Medical survey</field>
             <field name="sequence">3</field>
             <field name="duration">7</field>
+            <field name="registration_state">open</field>
         </record>
         <record id="stage_group_documents" model="event.registration.stage">
             <field name="name">Payment</field>
