@@ -13,7 +13,7 @@
     <record id="sms_sponsorship_reminder" model="base.automation">
         <field
       name="name"
-    >SMS Sponsorship: Remind sponsorship confirmation</field>
+    >Website Sponsorship: Remind sponsorship confirmation</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="trigger">on_time</field>
         <field
@@ -22,16 +22,13 @@
     />
         <field
       name="filter_domain"
-      eval="[('medium_id', ref('utm.utm_medium_website'))]"
+      eval="[('medium_id', ref('utm.utm_medium_website')), ('group_id.payment_mode_id', '=', False), ('state', '=', 'draft')]"
     />
-        <field name="trg_date_range">3</field>
+        <field name="trg_date_range">1</field>
         <field name="trg_date_range_type">day</field>
-        <field name="state">code</field>
-        <field name="code">
-communication_config = self.env.ref(
-            "partner_communication_switzerland.sms_registration_reminder"
-        )
-records.send_communication(communication_config)</field>
+        <field name="state">communication</field>
+        <field name="config_id" ref="partner_communication_switzerland.sms_registration_reminder" />
+        <field name="partner_field">partner_id</field>
     </record>
 
     <!-- Rule for sending unread B2S letters by post -->
