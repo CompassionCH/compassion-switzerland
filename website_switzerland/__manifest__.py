@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "Website - Compassion Switzerland custom views",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.2.0",
     "category": "Website",
     "author": "Compassion Switzerland",
     "development_status": "Beta",
@@ -22,6 +22,7 @@
         "website_crm_request",
         "muskathlon",
         "partner_segmentation",
+        "crowdfunding_compassion",
     ],
     "data": [
         "data/group_visit_emails.xml",

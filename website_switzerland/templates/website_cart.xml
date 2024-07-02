@@ -35,4 +35,34 @@
             </div>
         </xpath>
     </template>
+
+    <template
+    id="cart_participant_picture"
+    inherit_id="website_sale.cart_lines"
+  >
+        <xpath
+      expr="//span[@t-field='line.product_id.image_128']"
+      position="replace"
+    >
+            <img
+        t-att-src="image_data_uri(line.image)"
+        class="rounded o_image_64_max"
+      />
+        </xpath>
+    </template>
+
+    <template
+    id="cart_summary_participant_picture"
+    inherit_id="website_sale.cart_summary"
+  >
+        <xpath
+      expr="//span[@t-field='line.product_id.image_128']"
+      position="replace"
+    >
+            <img
+        t-att-src="image_data_uri(line.image)"
+        class="rounded o_image_64_max"
+      />
+        </xpath>
+    </template>
 </odoo>
