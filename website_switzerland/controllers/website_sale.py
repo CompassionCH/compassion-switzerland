@@ -1,5 +1,5 @@
 from odoo.exceptions import UserError
-from odoo.http import request
+from odoo.http import request, route
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -19,3 +19,12 @@ class WebsiteSaleWithoutState(WebsiteSale):
             error["phone"] = "error"
             error_message.append(exc.args[0])
         return error, error_message
+
+    @route("/legal", type="http", auth="public", website=True, sitemap=False)
+    def legal_redirect(self):
+        legal_link = "https://compassion.ch/protection-des-donnees/"
+        if request.env.lang == "de_DE":
+            legal_link = "https://compassion.ch/de/datenschutz/"
+        if request.env.lang == "it_IT":
+            legal_link = "https://compassion.ch/it/privacy-e-termini//"
+        return request.redirect(legal_link, code=301)
