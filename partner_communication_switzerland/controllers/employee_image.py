@@ -7,46 +7,41 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import base64
+
+from werkzeug.exceptions import NotFound
+
 from odoo import http
 from odoo.http import request
-from werkzeug.exceptions import NotFound
-import base64
 
 
 class EmployeeImageController(http.Controller):
-    @http.route(
-        '/employee/image/<int:employee_id>/',
-        auth='public',
-        type='http',
-        methods=["GET"],
-        website=True,
-        sitemap=False
-    )
+    @http.route("/employee/image/<int:employee_id>/", auth="public")
     def get_employee_image(self, employee_id):
         """
         Retrieves the image for a given employee ID and returns it as a PNG image.
 
         Args:
-            employee_id (int): The unique identifier of the employee whose image is requested.
+            employee_id (int)
 
         Returns:
-            werkzeug.wrappers.Response: A response object containing the binary image data,
+            werkzeug.wrappers.Response: A response object with the binary image data
 
         Raises:
             werkzeug.exceptions.NotFound
         """
-        employee = request.env['hr.employee'].sudo().browse(employee_id)
+        employee = request.env["hr.employee"].sudo().browse(employee_id)
         if not employee.image_128:
             raise NotFound()
 
         # Decode the base64 image as binary image
         image_data = base64.b64decode(employee.image_128)
 
-        # Return the binary image directly in the browser
+        # Return the binary image directly as response
         return request.make_response(
             image_data,
             headers=[
-                ('Content-Type', 'image/png'),
-                ('Content-Disposition', 'inline; filename="employee_image.png"'),
-            ]
+                ("Content-Type", "image/png"),
+                ("Content-Disposition", 'inline; filename="employee_image.png"'),
+            ],
         )

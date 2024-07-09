@@ -64,10 +64,9 @@ class ResUsers(models.Model):
                 "en_US": "https://www.facebook.com/compassionsuisse/",
             }
             lang = self.env.lang or self._context.get("lang") or self.env.user.lang
-            base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
             for user in self:
-
                 employee = user.employee_ids[:1].with_context(bin_size=False)
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
@@ -89,7 +88,7 @@ class ResUsers(models.Model):
                     .replace(" ", "")
                     .replace("(0)", ""),
                     "facebook": facebook.get(lang),
-                    "employee_image_url": employee_image_url
+                    "employee_image_url": employee_image_url,
                 }
                 if lang in ("fr_CH", "en_US"):
                     template.remove("#bern")
