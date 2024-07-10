@@ -37,6 +37,7 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
+        "l10n_ch",
         "mail",
         # compassion-modules
         "crm_compassion",

@@ -3,6 +3,7 @@
 #    Copyright (C) 2014-2015 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Steve Ferry
+#    @author: Noé Berdoz <nberdoz@compasion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
@@ -16,6 +17,30 @@ class ResPartnerBank(models.Model):
     """This class upgrade the partners.bank to match Compassion needs."""
 
     _inherit = "res.partner.bank"
+
+    def _l10n_ch_get_qr_vals(
+        self,
+        amount,
+        currency_name,
+        debtor_partner,
+        free_communication,
+        structured_communication,
+    ):
+        """
+        Returns a list of values for a Swiss QR bill.
+        Allows invoices with no amount to let the payer choose the amount to pay.
+        """
+        qr_vals = super()._l10n_ch_get_qr_vals(
+            amount,
+            currency_name,
+            debtor_partner,
+            free_communication,
+            structured_communication,
+        )
+        # Set amount to an empty string indicating that it has to be chosen by the payer
+        qr_vals[18] = "" if qr_vals[18] == "0.00" else qr_vals[18]
+
+        return qr_vals
 
     def _get_partner_address_lines(self, partner):
         """Override to allow empty zip or city."""
