@@ -12,8 +12,6 @@ from odoo import fields, models
 
 
 class ReportSettings(models.TransientModel):
-    """Settings configuration for Gift Notifications."""
-
     _inherit = "res.config.settings"
 
     compassion_qrr = fields.Char(
