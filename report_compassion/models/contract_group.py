@@ -139,17 +139,20 @@ class ContractGroup(models.Model):
 
     @api.model
     def get_company_qrr_account(self):
-        """Utility to find the bvr account of the company."""
-        return self.env["res.partner.bank"].search(
-            [
-                (
-                    "acc_number",
-                    "=",
-                    self.env["ir.config_parameter"]
-                    .sudo()
-                    .get_param("report.compassion_qrr"),
-                )
-            ]
+        """
+        Utility to find the bvr account of the company.
+
+        Assumptions:
+            - one and only one company.
+            - exists a company's bank account with `l10n_ch_qr_iban` set.
+
+        Based on the assumptions, it returns the first defined `l10n_ch_qr_iban`
+        of the first company.
+        """
+        return (
+            self.env["res.company"]
+            .search([], limit=1)
+            .bank_ids.search([("l10n_ch_qr_iban", "!=", "")], limit=1)[0]
         )
 
     def get_amount(self, start, stop, sponsorships):

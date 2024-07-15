@@ -61,7 +61,6 @@
         "views/generate_communication_wizard_view.xml",
         "views/print_tax_receipt_view.xml",
         "data/tax_receipt_email_template.xml",
-        "views/settings_view.xml",
     ],
     "demo": [],
     "installable": True,
