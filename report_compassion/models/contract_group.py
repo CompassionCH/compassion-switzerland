@@ -146,8 +146,8 @@ class ContractGroup(models.Model):
             - one and only one company.
             - exists a company's bank account with `l10n_ch_qr_iban` set.
 
-        Based on the assumptions, it returns the first defined `l10n_ch_qr_iban`
-        of the first company.
+        Based on the assumptions, it returns the first bank account with a
+        defined `l10n_ch_qr_iban`of the first company.
         """
         return (
             self.env["res.company"]
