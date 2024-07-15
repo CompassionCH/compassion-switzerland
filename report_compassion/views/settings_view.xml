@@ -8,8 +8,8 @@
         <field name="name">report.settings.form</field>
         <field name="model">res.config.settings</field>
         <field
-        name="inherit_id"
-        ref="message_center_compassion.notification_settings"
+      name="inherit_id"
+      ref="message_center_compassion.notification_settings"
     />
         <field name="arch" type="xml">
             <xpath
@@ -20,7 +20,7 @@
             for="compassion_qrr"
             class="col-md-5 o_light_label"
           />
-                    <field name="compassion_qrr"/>
+                    <field name="compassion_qrr" />
                 </div>
             </xpath>
         </field>
