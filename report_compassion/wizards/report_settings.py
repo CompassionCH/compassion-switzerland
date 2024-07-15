@@ -2,7 +2,7 @@
 #
 #    Copyright (C) 2016-2024 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
-#    @author:
+#    @author: Clement Charmillot <ccharmillot@compassion.ch>
 #
 #    The licence is in the file __manifest__.py
 #
@@ -19,4 +19,5 @@ class ReportSettings(models.TransientModel):
     compassion_qrr = fields.Char(
         "Compassion QRR",
         default="CH2430808007681434347",
-        config_parameter='report.compassion_qrr')
+        config_parameter="report.compassion_qrr",
+    )

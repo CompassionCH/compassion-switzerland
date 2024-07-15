@@ -1,6 +1,6 @@
 <!--
-    Copyright (C) 2016 Compassion (http://www.compassion.ch)
-    @author Emanuel Cino <ecino@compassion.ch>
+    Copyright (C) 2024 Compassion (http://www.compassion.ch)
+    @author Clement Charmillot <ccharmillot@compassion.ch>
     The licence is in the file __manifest__.py
 -->
 <odoo>
@@ -8,18 +8,18 @@
         <field name="name">report.settings.form</field>
         <field name="model">res.config.settings</field>
         <field
-                name="inherit_id"
-                ref="message_center_compassion.notification_settings"
-        />
+        name="inherit_id"
+        ref="message_center_compassion.notification_settings"
+    />
         <field name="arch" type="xml">
             <xpath
-                    expr="//div[@name='compassion_settings']//div[@name='accounting_configuration']//div[@name='right_group']"
-            >
+        expr="//div[@name='compassion_settings']//div[@name='accounting_configuration']//div[@name='right_group']"
+      >
                 <div class="row" name="report_settings">
                     <label
-                            for="compassion_qrr"
-                            class="col-md-5 o_light_label"
-                    />
+            for="compassion_qrr"
+            class="col-md-5 o_light_label"
+          />
                     <field name="compassion_qrr"/>
                 </div>
             </xpath>
