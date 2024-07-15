@@ -17,8 +17,6 @@ from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 
-COMPASSION_QRR = "CH2430808007681434347"
-
 
 class ContractGroup(models.Model):
     _inherit = ["recurring.contract.group", "translatable.model"]
@@ -143,7 +141,15 @@ class ContractGroup(models.Model):
     def get_company_qrr_account(self):
         """Utility to find the bvr account of the company."""
         return self.env["res.partner.bank"].search(
-            [("acc_number", "=", COMPASSION_QRR)]
+            [
+                (
+                    "acc_number",
+                    "=",
+                    self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("report.compassion_qrr"),
+                )
+            ]
         )
 
     def get_amount(self, start, stop, sponsorships):
