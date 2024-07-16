@@ -152,7 +152,7 @@ class ContractGroup(models.Model):
         return (
             self.env["res.company"]
             .search([], limit=1)
-            .bank_ids.search([("l10n_ch_qr_iban", "!=", "")], limit=1)[0]
+            .bank_ids.filtered("l10n_ch_qr_iban")[0]
         )
 
     def get_amount(self, start, stop, sponsorships):
