@@ -16,6 +16,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.tools.config import config
+import datetime
 
 logger = logging.getLogger(__name__)
 regex_order = re.compile(r"^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
@@ -664,6 +665,34 @@ class ResPartner(models.Model):
             ).id,
             "target": "new",
         }
+    @api.model
+    def cron_auto_reminder_archive_contact(self):
+        reminder_receiver = (
+            self.env["res.users"].sudo().search([("email", "=", "sds@compassion.ch")])
+        )
+
+        partners = self.search([("street", "=", False),
+                                ("email", "=", False),
+                                ("active", "=", True)])
+        for partner in partners:
+            date = []
+            diff = datetime.timedelta(days=0)
+            sponsorship_ids = partner.sponsorship_ids
+            other_contract = partner.other_contract_ids
+
+            if (sponsorship_ids or other_contract):
+                for contract in (sponsorship_ids + other_contract):
+                    if contract.last_paid_invoice_date:
+                        date.append(contract.last_paid_invoice_date)
+
+            if date:
+                diff = datetime.date.today() - max(date)
+            else:
+                diff = datetime.datetime.now() - partner.create_date
+
+            if diff > datetime.timedelta(days=720):
+                test = 100
+
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
