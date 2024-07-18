@@ -9,5 +9,5 @@ def migrate(env, version):
         UPDATE mail_template
         SET body_html = REPLACE(body_html, 'public_url', 'get_start_url()')
         WHERE body_html like '%public_url%';
-        """
+        """,
     )
