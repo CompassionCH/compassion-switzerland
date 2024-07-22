@@ -194,7 +194,7 @@ class Contracts(models.Model):
                 lines = lines[:-1]
             sponsorship_type = "S"
             # TODO to improve when switching to REST (with at least filter the company)
-            pricelist_id = self.env["product.pricelist"].search([]).id
+            pricelist_id = self.env["product.pricelist"].search([('currency_id','=',self.company_id.currency_id.id)])[:1].id
             partner_id = partner.id
             if utm_source == "wrpr":
                 # Special case Write&Pray sponsorship
