@@ -236,7 +236,7 @@ class Contracts(models.Model):
             child = self.env["compassion.child"].search(
                 [("local_id", "=", child_local_id)], limit=1
             )
-            pricelist_id = self.env["product.pricelist"].search([]).id
+            pricelist_id = self.env["product.pricelist"].search([('currency_id','=',self.company_id.currency_id.id)])[:1].id
             sponsorship_vals = {
                 "type": "S" if utm_source != "wrpr" else "SC",
                 "pricelist_id": pricelist_id,
