@@ -277,5 +277,6 @@ class AccountInvoice(models.Model):
             (account_payment.line_ids + self.line_ids).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).reconcile()
+        self.payment_mode_id = payment_mode_id
 
         return True
