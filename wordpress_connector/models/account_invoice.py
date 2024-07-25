@@ -172,12 +172,12 @@ class AccountInvoice(models.Model):
             }
         )
         invoice.with_delay().pay_wordpress_invoice(
-            fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign
+            fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign, payment_mode.id
         )
         return invoice.id
 
     def pay_wordpress_invoice(
-        self, fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign
+        self, fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign, payment_mode_id
     ):
         """Create invoice lines and payment for a WordPress donation.
         :param fund: the fund code in WordPress
@@ -260,8 +260,9 @@ class AccountInvoice(models.Model):
             )
             .id,
             "payment_method_id": self.env["account.payment.method"]
-            .search([("code", "=", "sepa_direct_debit")])
+            .search([("code", "=", "manual")])
             .id,
+            "payment_mode_id": payment_mode_id,
             "date": self.date,
             "payment_reference": self.payment_reference,
             "payment_type": "inbound",
