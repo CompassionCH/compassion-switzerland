@@ -9,8 +9,6 @@
 
 from odoo import api, fields, models
 
-import odoo.addons.decimal_precision as dp
-
 
 class HrPayslip(models.Model):
     _inherit = "hr.payslip"

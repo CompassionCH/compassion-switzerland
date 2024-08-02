@@ -9,16 +9,12 @@
 
 from odoo import api, fields, models
 
-import odoo.addons.decimal_precision as dp
-
 
 class HrContract(models.Model):
     _inherit = "hr.contract"
 
     analytic_tag_id = fields.Many2one("account.analytic.tag", "Analytic tag")
-    wage_fulltime = fields.Float(
-        string="Full-time Wage", digits="Account", default=0
-    )
+    wage_fulltime = fields.Float(string="Full-time Wage", digits="Account", default=0)
     occupation_rate = fields.Float(
         string="Occupation Rate (%)", digits="Account", default=100.0
     )
