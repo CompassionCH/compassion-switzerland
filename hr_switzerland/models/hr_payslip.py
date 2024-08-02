@@ -21,7 +21,7 @@ class HrPayslip(models.Model):
 
     amount_13_salary = fields.Float(
         string="13th salary to add",
-        digits=dp.get_precision("Account"),
+        digits="Account",
         compute="_compute_13_salary",
         store=True,
     )
