@@ -97,3 +97,10 @@ class Correspondence(models.Model):
             {"translation_supervisor_id": translation_supervisor.id}
         )
         return True
+
+    def _can_auto_send(self):
+        # T1556: Temporary fix to avoid sending letters to children without text
+        # TODO remove me after fix
+        if self.new_translator_id:
+            return False
+        return super()._can_auto_send()
