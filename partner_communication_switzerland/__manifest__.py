@@ -81,7 +81,6 @@
         "views/disaster_alert_view.xml",
         "views/partner_compassion_view.xml",
         "views/contract_view.xml",
-        "views/correspondence_view.xml",
         "views/staff_notifications_settings_view.xml",
         "views/res_partner_zoom_session.xml",
         "views/field_office_view.xml",
