@@ -98,9 +98,8 @@ class Correspondence(models.Model):
         )
         return True
 
-    def _can_auto_send(self):
-        # T1556: Temporary fix to avoid sending letters to children without text
-        # TODO remove me after fix
-        if self.new_translator_id:
-            return False
-        return super()._can_auto_send()
+    def _post_process_translation(self):
+        # We want to send the communication to the sponsor when the translation is done
+        super()._post_process_translation()
+        if self.direction == "Beneficiary To Supporter":
+            self.sudo().send_communication()
