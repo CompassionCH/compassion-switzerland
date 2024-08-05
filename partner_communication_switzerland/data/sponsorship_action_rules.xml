@@ -22,7 +22,7 @@
     />
         <field
       name="filter_domain"
-      eval="[('medium_id', ref('utm.utm_medium_website')), ('group_id.payment_mode_id', '=', False), ('state', '=', 'draft')]"
+      eval="[('medium_id', '=', ref('utm.utm_medium_website')), ('group_id.payment_mode_id', '=', False), ('state', '=', 'draft')]"
     />
         <field name="trg_date_range">1</field>
         <field name="trg_date_range_type">day</field>
