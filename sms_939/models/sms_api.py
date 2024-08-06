@@ -67,22 +67,15 @@ class SmsApi(models.AbstractModel):
         if req_uid:
             s.request_uid = req_uid
             if not s.mail_message_id:
-                mm_id = self.env["mail.message"].search(
-                    [("body", "=", s.body), ("res_id", "=", s.partner_id.id)]
+                mm_id = s.partner_id._message_sms(
+                    s.body,
+                    subtype_id=self.env.ref("mail.mt_note").id,
+                    number_field="mobile",
+                    sms_numbers=[s.number],
                 )
-                if not mm_id:
-                    mm_id = self.env["mail.message"].create(
-                        {
-                            "body": s.body,
-                            "res_id": s.partner_id.id,
-                            "model": "res.partner",
-                            "message_type": "sms",
-                        }
-                    )
-                mm_id.is_internal = False
                 s.mail_message_id = mm_id.id
             s.mail_message_id.request_uid = req_uid
-            s.error_detail = "waiting status"
+            return "success"
         else:
             s.error_detail = "not sent"
         return "server_error"
