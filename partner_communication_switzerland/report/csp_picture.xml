@@ -8,7 +8,7 @@
     >partner_communication_switzerland.csp_picture</field>
         <field
       name="paperformat_id"
-      ref="partner_communication_compassion.paperformat_child_picture"
+      ref="child_compassion.paperformat_child_picture"
     />
     </record>
 
