@@ -67,9 +67,7 @@ class CompassionHold(models.TransientModel):
         """
         sponsorships = self.sponsorship_ids[:NUMBER_LIMIT]
         if _print:
-            report = self.env.ref(
-                "child_compassion.report_child_picture"
-            )
+            report = self.env.ref("child_compassion.report_child_picture")
             res = report.report_action(sponsorships.mapped("child_id.id"), config=False)
         else:
             self.download_data = self._make_zip()

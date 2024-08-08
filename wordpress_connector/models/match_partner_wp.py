@@ -91,11 +91,11 @@ class MatchPartnerWP(models.AbstractModel):
         child_local_id = infos.pop("child_id") if infos else partner_obj.pop("child_id")
         if child_local_id:
             child = self.env["compassion.child"].search(
-                [("local_id", "like", child_local_id)]
+                [("local_id", "ilike", child_local_id)]
             )
-            sponsorship = self.env["recurring.contract"].search(
-                [("child_id", "=", child.id)], limit=1
-            )
-            return sponsorship[sponsorship.send_gifts_to]
-        else:
-            return False
+            if child:
+                sponsorship = self.env["recurring.contract"].search(
+                    [("child_id", "=", child.id)], limit=1
+                )
+                return sponsorship[sponsorship.send_gifts_to]
+        return False
