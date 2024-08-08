@@ -81,13 +81,13 @@ class MatchPartnerWP(models.AbstractModel):
     @api.model
     def _match_get_rules_order(self):
         res = super()._match_get_rules_order()
-        res.append("child_id")
+        res.append("rule_child_id")
         return res
 
     @api.model
-    def _match_rule_child_id(self, partner_obj, infos, options=None):
+    def _match_rule_child_id(self, partner_obj, infos=None, options=None):
         # if a keyerror is raise it is handled as "no child found go to next rule"
-        child_local_id = infos.pop("child_id")
+        child_local_id = infos.pop("child_id") if infos else partner_obj.pop("child_id")
         if child_local_id:
             child = self.env["compassion.child"].search(
                 [("local_id", "like", child_local_id)]
