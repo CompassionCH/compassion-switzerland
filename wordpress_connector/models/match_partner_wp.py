@@ -36,6 +36,7 @@ class MatchPartnerWP(models.AbstractModel):
 
     _name = "res.partner.match.wp"
     _inherit = "res.partner.match"
+    _description = "Match partner wordpress"
 
     @api.model
     def match_country(self, wp_country, wp_lang):
