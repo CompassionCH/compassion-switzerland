@@ -6,6 +6,10 @@
           rel="stylesheet"
           href="/partner_communication_switzerland/static/scss/html_fields.scss"
         />
+                <link
+          rel="stylesheet"
+          href="/partner_communication_switzerland/static/scss/chatter_emails.scss"
+        />
             </xpath>
         </template>
         <template id="assets_frontend" inherit_id="web.assets_frontend">
