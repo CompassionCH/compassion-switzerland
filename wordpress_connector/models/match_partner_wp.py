@@ -98,4 +98,4 @@ class MatchPartnerWP(models.AbstractModel):
                     [("child_id", "=", child.id)], limit=1
                 )
                 return sponsorship[sponsorship.send_gifts_to]
-        return False
+        return self.env["res.partner"]
