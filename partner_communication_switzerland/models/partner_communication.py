@@ -538,7 +538,10 @@ class PartnerCommunication(models.Model):
         # Update SUB proposal date for relevant jobs
         subs = self.filtered(lambda j: j.config_id == sub_proposal)
         if subs:
-            subs.get_objects().write({"sub_proposal_date": fields.Date.today()})
+            proposal_date = (fields.Date.today() + relativedelta(months=2)).replace(
+                day=1
+            )
+            subs.get_objects().write({"sub_proposal_date": proposal_date})
 
     def _prepare_onboarding(self):
         """
