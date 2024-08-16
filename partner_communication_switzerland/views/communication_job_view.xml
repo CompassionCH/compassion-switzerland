@@ -53,6 +53,7 @@
     <record model="ir.ui.view" id="communication_job_tree_general">
         <field name="name">communication.job.tree.general</field>
         <field name="model">partner.communication.job</field>
+        <field name="mode">primary</field>
         <field
       name="inherit_id"
       ref="partner_communication.communication_job_tree"
