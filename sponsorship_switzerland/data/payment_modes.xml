@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Mandatory journals -->
+    <data noupdate="1">
+        <!-- Mandatory journals -->
     <record id="journal_raif" model="account.journal">
         <field name="name">Raiffeisen Current Account CHF</field>
         <field name="code">RCC</field>
@@ -106,4 +107,5 @@
         <field name="payment_order_ok" eval="False" />
         <field name="bank_account_link">variable</field>
     </record>
+    </data>
 </odoo>
