@@ -7,6 +7,7 @@ def migrate(env, version):
         env.cr,
         """
         UPDATE recurring_contract
-        SET sub_proposal_date = (sub_proposal_date + 14);
+        SET sub_proposal_date = (sub_proposal_date + 14)
+        WHERE state='draft';
         """,
     )
