@@ -83,7 +83,7 @@ records.send_communication(env.ref('partner_communication_switzerland.config_onb
         <field
       name="filter_domain"
     >[('parent_id','!=',False),('state','=','draft')]</field>
-        <field name="trg_date_range">0</field>
+        <field name="trg_date_range">30</field>
         <field name="trg_date_range_type">day</field>
         <field name="state">code</field>
         <field name="code">
