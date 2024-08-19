@@ -8,5 +8,5 @@ def migrate(env, version):
         """
         UPDATE recurring_contract
         SET sub_proposal_date = (sub_proposal_date + 14);
-        """
+        """,
     )
