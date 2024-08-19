@@ -8,9 +8,11 @@
 #
 ##############################################################################
 import random
+import logging
 
 from odoo import api, fields, models
 
+logger = logging.getLogger(__name__)
 
 class PartnerCommunication(models.Model):
     _inherit = "partner.communication.config"
@@ -134,7 +136,8 @@ class PartnerCommunication(models.Model):
                 self.env["account.move.line"]
                 .search(
                     [
-                        ("partner_id", "=", partner.id),
+                        # Don't restrict to a specific partner as a partner
+                        # might not have any line.
                         ("move_id.invoice_category", "=", "fund"),
                     ],
                     limit=4,
@@ -153,6 +156,9 @@ class PartnerCommunication(models.Model):
                 .search([("participant_ids.partner_id", "=", partner.id)], limit=2)
                 .ids
             )
+        logger.error(self.model)
+        logger.error(object_ids)
+        logger.error(partner.id)
         return object_ids
 
     def _find_partner(self, number_sponsorships, lang, family_case):
