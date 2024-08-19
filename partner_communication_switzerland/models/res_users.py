@@ -68,6 +68,8 @@ class ResUsers(models.Model):
 
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
+                _logger.info(f"JOB TITLE ------------> {employee.job_title}")
+                _logger.info(f"JOB TITLE OTHERRRR ------------> {user.employee_ids[:1].job_title}")
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
                 values = {
