@@ -561,13 +561,14 @@ class PartnerCommunication(models.Model):
         # Filter relevant welcome communication jobs for new sponsors
         welcome_comms = self.filtered(
             lambda j: j.config_id in (welcome_onboarding + wrpr_onboarding)
-            and j.get_objects().filtered("is_first_sponsorship")
         )
 
         if welcome_comms:
             # Prepare MyCompassion Account
             _logger.info("Prepare signup URL for new sponsor")
-            welcome_comms.mapped("partner_id").action_signup_prepare()
+            welcome_comms.filtered(
+                lambda j: j.get_objects().filtered("is_first_sponsorship")
+            ).mapped("partner_id").action_signup_prepare()
             # Set onboarding start date for identified new sponsors
             welcome_comms.get_objects().write(
                 {"onboarding_start_date": datetime.today()}
