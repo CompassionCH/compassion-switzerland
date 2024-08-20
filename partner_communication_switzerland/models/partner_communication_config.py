@@ -7,9 +7,13 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 import random
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class PartnerCommunication(models.Model):
@@ -134,14 +138,20 @@ class PartnerCommunication(models.Model):
                 self.env["account.move.line"]
                 .search(
                     [
-                        # Don't restrict to a specific partner as a partner
-                        # might not have any line.
+                        ("partner_id", "=", partner.id),
                         ("move_id.invoice_category", "=", "fund"),
                     ],
                     limit=4,
                 )
                 .ids
             )
+            if len(object_ids) == 0:
+                raise UserError(
+                    _(
+                        "The selected partner has no invoice line but this test case "
+                        "requires one. Please, pick a partner with an invoice line."
+                    )
+                )
         elif self.model == "account.move":
             object_ids = (
                 self.env["account.move"]
@@ -175,6 +185,16 @@ class PartnerCommunication(models.Model):
                 .ids
             )
             query += [("id", "in", zoom_participants)]
+        if self.model == "account.move.line":
+            with_move_lines = self.env["account.move.line"].read_group(
+                [("move_id.invoice_category", "=", "fund")],
+                fields=["partner_id"],
+                groupby=["partner_id"],
+                limit=50,
+                lazy=False,
+            )
+            with_move_lines = [entry["partner_id"][0] for entry in with_move_lines]
+            query += [("id", "in", with_move_lines)]
 
         answers = self.env["res.partner"].search(query, limit=50)
 
