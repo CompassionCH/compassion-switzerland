@@ -186,15 +186,10 @@ class PartnerCommunication(models.Model):
             )
             query += [("id", "in", zoom_participants)]
         if self.model == "account.move.line":
-            with_move_lines = self.env["account.move.line"].read_group(
-                [("move_id.invoice_category", "=", "fund")],
-                fields=["partner_id"],
-                groupby=["partner_id"],
-                limit=50,
-                lazy=False,
-            )
-            with_move_lines = [entry["partner_id"][0] for entry in with_move_lines]
-            query += [("id", "in", with_move_lines)]
+            query += [
+                ("invoice_ids.invoice_line_ids", "!=", False),
+                ("invoice_ids.invoice_category", "=", "fund"),
+            ]
 
         answers = self.env["res.partner"].search(query, limit=50)
 
