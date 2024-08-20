@@ -7,13 +7,10 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import logging
 import random
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-_logger = logging.getLogger(__name__)
 
 
 class PartnerCommunication(models.Model):
