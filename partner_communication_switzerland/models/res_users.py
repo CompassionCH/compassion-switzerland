@@ -67,10 +67,18 @@ class ResUsers(models.Model):
             base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
             for user in self:
+                user.recompute()
+
                 employee = user.employee_ids[:1].with_context(bin_size=False)
-                _logger.info(f"JOB TITLE ------------> {employee.job_title}")
-                _logger.info(f"JOB TITLE OTHERRRR ------------> {user.employee_ids[:1].job_title}")
+
+                _logger.info(f"JOB TITLE EMPLOYEE ------------> {employee.job_title}")
+                _logger.info(f"JOB TITLE EMPLOYEE ------------> {user.employee_id.job_title}")
+                _logger.info(f"COMPANY NAME EMPLOYEE ------------> {employee.company_id.address_name}")
+                _logger.info(f"COMPANY NAME USER ------------> {user.company_id.address_name}")
+                _logger.info(f"COMPANY NAME USER ------------> {user.job_title}")
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
+
+
 
                 values = {
                     "name": f"{user.preferred_name} {user.lastname}"
