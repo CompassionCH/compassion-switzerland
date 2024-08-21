@@ -554,11 +554,12 @@ class RecurringContract(models.Model):
          at least two invoices have been paid."""
         if contract.sub_proposal_date:
             sub_proposal_date = contract.sub_proposal_date.replace(day=1)
-            paid_sponsorship_invoices = contract.invoice_line_ids.filtered(
-                lambda i: i.payment_state == "paid" and
-                          i.move_id.invoice_category == "sponsorship" and
-                          i.due_date.replace(day=1) >= sub_proposal_date)
+            paid_invoices = (self.env["account.move"]
+                             .search([("invoice_date_due", ">=", sub_proposal_date),
+                                      ("payment_state", "=", "paid"),
+                                      ("partner_id", "=", contract.partner_id.id),
+                                      ("line_ids.contract_id", "=", contract.id)]))
 
-            return len(paid_sponsorship_invoices) >= 2
+            return len(paid_invoices) >= 2
 
         return super()._can_activate_contract(contract)
