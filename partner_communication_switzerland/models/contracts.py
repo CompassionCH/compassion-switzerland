@@ -548,3 +548,17 @@ class RecurringContract(models.Model):
                 if config == wrpr_welcome:
                     comms.write({"send_mode": "sms"})
         return True
+
+    def _can_activate_contract(self, contract: "RecurringContract"):
+        """Activate sub proposal contract if it is waiting for payment and
+         at least two invoices have been paid."""
+        if contract.sub_proposal_date:
+            sub_proposal_date = contract.sub_proposal_date.replace(day=1)
+            paid_sponsorship_invoices = contract.invoice_line_ids.filtered(
+                lambda i: i.payment_state == "paid" and
+                          i.move_id.invoice_category == "sponsorship" and
+                          i.due_date.replace(day=1) >= sub_proposal_date)
+
+            return len(paid_sponsorship_invoices) >= 2
+
+        return super()._can_activate_contract(contract)
