@@ -551,14 +551,17 @@ class RecurringContract(models.Model):
 
     def _can_activate_contract(self, contract: "RecurringContract"):
         """Activate sub proposal contract if it is waiting for payment and
-         at least two invoices have been paid."""
+        at least two invoices have been paid."""
         if contract.sub_proposal_date:
             sub_proposal_date = contract.sub_proposal_date.replace(day=1)
-            paid_invoices = (self.env["account.move"]
-                             .search([("invoice_date_due", ">=", sub_proposal_date),
-                                      ("payment_state", "=", "paid"),
-                                      ("partner_id", "=", contract.partner_id.id),
-                                      ("line_ids.contract_id", "=", contract.id)]))
+            paid_invoices = self.env["account.move"].search(
+                [
+                    ("invoice_date_due", ">=", sub_proposal_date),
+                    ("payment_state", "=", "paid"),
+                    ("partner_id", "=", contract.partner_id.id),
+                    ("line_ids.contract_id", "=", contract.id),
+                ]
+            )
 
             return len(paid_invoices) >= 2
 
