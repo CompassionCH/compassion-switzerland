@@ -20,8 +20,8 @@ TITLE_MAPPING = {
 
 SPOKEN_LANG_MAPPING = {
     "französich": "advanced_translation.lang_compassion_french",
-    "deutsch": "child_switzerland.lang_compassion_german",
-    "italienisch": "child_switzerland.lang_compassion_italian",
+    "deutsch": "advanced_translation.lang_compassion_german",
+    "italienisch": "advanced_translation.lang_compassion_italian",
     "spanisch": "advanced_translation.lang_compassion_spanish",
     "englisch": "advanced_translation.lang_compassion_english",
     "portugiesisch": "advanced_translation.lang_compassion_portuguese",
