@@ -549,10 +549,13 @@ class RecurringContract(models.Model):
                     comms.write({"send_mode": "sms"})
         return True
 
-    def _can_activate_contract(self, contract: "RecurringContract"):
-        """Activate sub proposal contract if it is waiting for payment and
-        at least two invoices have been paid."""
-        if contract.sub_proposal_date:
+    def _activatable_contracts(self):
+        """Allow activation of sub proposal contract if it is waiting for payment and
+        at least two invoices have been paid for."""
+        activatable_contracts = super()._activatable_contracts()
+        filtered_contracts = activatable_contracts.filtered("sub_proposal_date")
+
+        for contract in filtered_contracts:
             sub_proposal_date = contract.sub_proposal_date.replace(day=1)
             paid_invoices = self.env["account.move"].search(
                 [
@@ -563,6 +566,7 @@ class RecurringContract(models.Model):
                 ]
             )
 
-            return len(paid_invoices) >= 2
+            if len(paid_invoices) < 2:
+                activatable_contracts -= contract
 
-        return super()._can_activate_contract(contract)
+        return activatable_contracts
