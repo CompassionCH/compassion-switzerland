@@ -557,7 +557,7 @@ class RecurringContract(models.Model):
 
         for contract in sub_proposal_contracts:
             sub_proposal_date = contract.sub_proposal_date.replace(day=1)
-            paid_invoices = self.env["account.move"].search(
+            paid_invoices = self.env["account.move"].search_count(
                 [
                     ("invoice_date_due", ">=", sub_proposal_date),
                     ("payment_state", "=", "paid"),
@@ -566,7 +566,7 @@ class RecurringContract(models.Model):
                 ]
             )
 
-            if len(paid_invoices) < 2:
+            if paid_invoices < 2:
                 activatable_contracts -= contract
 
         return activatable_contracts
