@@ -553,9 +553,9 @@ class RecurringContract(models.Model):
         """Allow activation of sub proposal contract if it is waiting for payment and
         at least two invoices have been paid for."""
         activatable_contracts = super()._activatable_contracts()
-        filtered_contracts = activatable_contracts.filtered("sub_proposal_date")
+        sub_proposal_contracts = activatable_contracts.filtered("sub_proposal_date")
 
-        for contract in filtered_contracts:
+        for contract in sub_proposal_contracts:
             sub_proposal_date = contract.sub_proposal_date.replace(day=1)
             paid_invoices = self.env["account.move"].search(
                 [
