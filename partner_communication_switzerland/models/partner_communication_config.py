@@ -145,8 +145,8 @@ class PartnerCommunication(models.Model):
             if len(object_ids) == 0:
                 raise UserError(
                     _(
-                        "The selected partner has no invoice line but this test case "
-                        "requires one. Please, pick a partner with an invoice line."
+                        "The selected partner is not a donor but this test case "
+                        "requires one. Please, pick a donor."
                     )
                 )
         elif self.model == "account.move":
