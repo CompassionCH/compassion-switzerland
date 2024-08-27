@@ -2,12 +2,19 @@
 
 import logging
 
+import time
+from inspect import trace
+
 from pyquery import PyQuery
 
 from odoo import _, fields, models
 from odoo.tools import file_open
 
 from odoo.addons.auth_signup.models.res_partner import now
+
+
+import traceback
+
 
 _logger = logging.getLogger(__name__)
 
@@ -67,18 +74,34 @@ class ResUsers(models.Model):
             base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
             for user in self:
-                user.recompute()
-
                 employee = user.employee_ids[:1].with_context(bin_size=False)
 
+                # welp, this seems to work...
+                translated_title = self.env["ir.translation"].search([('src', '=', employee.job_title), ('lang', '=', lang), ('res_id', '=', employee.id)]).value
+
+                #employee.ensure_one()
+                #employee.refresh()
+                #employee.clear_caches()
+                #employee.recompute(fnames=['job_title'])
+                #self.env['hr.employee'].recompute(fnames=['job_title'], records=employee)
+                #self.env['hr.employee'].invalidate_cache(['job_title'], ids=[employee.id])
+                #self.env['hr.employee'].flush(fnames=['job_title'],  records=employee)
+
                 _logger.info(f"JOB TITLE EMPLOYEE ------------> {employee.job_title}")
-                _logger.info(f"JOB TITLE EMPLOYEE ------------> {user.employee_id.job_title}")
+                _logger.info(f"I DONT KNOW BRO... ------------> {_(employee.job_title)}")
+                _logger.info(f"WHY DO I EVEN DO TRY... ------------> {translated_title}")
+                # _logger.info(f"JOB TITLE FROM ID ------------> {employee.job_id.name}") IS NEVER TRANSLATED, THE TEXT IS ALWAYS "SDS Worker"
                 _logger.info(f"COMPANY NAME EMPLOYEE ------------> {employee.company_id.address_name}")
                 _logger.info(f"COMPANY NAME USER ------------> {user.company_id.address_name}")
-                _logger.info(f"COMPANY NAME USER ------------> {user.job_title}")
+
+                _logger.info(f"IDDDDDDDDDD ------------> {id(employee)}")
+
+
+                # _logger.info(f"TOTO ------------> {user.job_title}") NOPE
+                # _logger.info(f"TATA ------------> {user.employee_id.job_title}") NOPE
+                # _logger.info(f"TITI ------------> {user.employee_id.job_id.name}") NOPE
+
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
-
-
 
                 values = {
                     "name": f"{user.preferred_name} {user.lastname}"
