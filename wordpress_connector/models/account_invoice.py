@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-import markupsafe
+from markupsafe import escape
 
 from odoo import api, fields, models
 
@@ -27,7 +27,7 @@ class AccountInvoice(models.Model):
         """
         _logger.info("Processing donation from WordPress %s", str(donnation_infos))
         for key in donnation_infos:
-            donnation_infos[key] = markupsafe.escape(donnation_infos[key])
+            donnation_infos[key] = escape(donnation_infos[key])
 
         match_obj = self.env["res.partner.match.wp"]
 
