@@ -28,3 +28,18 @@ class WebsiteSaleWithoutState(WebsiteSale):
         if request.env.lang == "it_IT":
             legal_link = "https://compassion.ch/it/privacy-e-termini//"
         return request.redirect(legal_link, code=301)
+
+    def _get_mandatory_fields_billing(self, country_id=False):
+        req = super()._get_mandatory_fields_billing(country_id)
+        self._filter_mandatory_fields(req)
+        return req
+
+    def _get_mandatory_fields_shipping(self, country_id=False):
+        req = super()._get_mandatory_fields_shipping(country_id)
+        self._filter_mandatory_fields(req)
+        return req
+
+    def _filter_mandatory_fields(self, req):
+        # Field is removed from view, we can't require it.
+        if "state_id" in req:
+            req.remove("state_id")

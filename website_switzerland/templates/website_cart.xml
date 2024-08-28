@@ -64,5 +64,16 @@
         class="rounded o_image_64_max"
       />
         </xpath>
+        <!-- Remove trailing decimal notation when quantity is an integer. -->
+        <xpath
+      expr="//table[@id='cart_products']/tbody/tr/td[hasclass('td-qty')]"
+      position="replace"
+    >
+            <td class='td-qty' align="center">
+                <div
+          t-esc="int(line.product_uom_qty) if line.product_uom_qty.is_integer() else line.product_uom_qty"
+        />
+            </td>
+        </xpath>
     </template>
 </odoo>
