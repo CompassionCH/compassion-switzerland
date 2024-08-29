@@ -76,4 +76,15 @@
             </td>
         </xpath>
     </template>
+    <!-- Convert to int when displaying if we can to avoid floating point precision issues. -->
+    <template id="cart_lines" inherit_id="website_sale.cart_lines">
+        <xpath
+      expr="//table[@id='cart_products']/tbody/t/tr/td[hasclass('td-qty')]/div/input"
+      position="attributes"
+    >
+            <attribute
+        name="t-att-value"
+      >round(line.product_uom_qty, 5) == int(line.product_uom_qty) and int(line.product_uom_qty) or line.product_uom_qty</attribute>
+        </xpath>
+    </template>
 </odoo>
