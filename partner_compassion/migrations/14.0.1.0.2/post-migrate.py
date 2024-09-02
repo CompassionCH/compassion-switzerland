@@ -22,7 +22,7 @@ def migrate(env, version):
         UPDATE res_partner rp 
         SET zip_id=rcz.id 
         FROM res_city_zip rcz
-        WHERE rp.city_id = res_city_zip.city_id 
+        WHERE rp.city_id = rcz.city_id 
             AND rp.zip = rcz.name
             AND rp.zip_id IS NULL
             AND rp.parent_id IS NULL;
@@ -34,7 +34,7 @@ def migrate(env, version):
         UPDATE res_partner rp 
         SET zip_id = rp_parent.zip_id, city_id = rp_parent.city_id
         FROM (
-            SELECT zip_id, city_id 
+            SELECT id, zip_id, city_id 
             FROM res_partner) rp_parent
         WHERE rp.parent_id = rp_parent.id;
         """,
