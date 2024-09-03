@@ -570,6 +570,20 @@
         </field>
     </record>
 
+    <!-- Make zip_id required if related fields are set -->
+    <record model="ir.ui.view" id="view_partner_form_inherit">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="zip_id" position="attributes">
+                <attribute
+          name="attrs"
+        >{'required': [('city', '!=', False), ('state_id', '!=', False), ('zip', '!=', False)], 'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}</attribute>
+            </field>
+        </field>
+    </record>
+
     <menuitem
     id="sponsorship_compassion.open_customers"
     action="action_partner_supporter_form"
