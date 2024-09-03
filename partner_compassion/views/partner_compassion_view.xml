@@ -577,7 +577,9 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <field name="zip_id" position="attributes">
-                <attribute name="attrs">{'required': [('city', '!=', False), ('state_id', '!=', False), ('zip', '!=', False)], 'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}</attribute>
+                <attribute
+          name="attrs"
+        >{'required': [('city', '!=', False), ('state_id', '!=', False), ('zip', '!=', False)], 'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}</attribute>
             </field>
         </field>
     </record>
