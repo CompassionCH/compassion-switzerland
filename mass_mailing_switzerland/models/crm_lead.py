@@ -10,7 +10,7 @@
 
 from odoo import models
 
-class Partner(models.Model):
+class Lead(models.Model):
     _inherit = "crm.lead"
 
     def _inverse_email_from(self):
