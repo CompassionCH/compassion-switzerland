@@ -10,13 +10,8 @@
 
 from odoo import models
 
-
 class Partner(models.Model):
-    _inherit = "res.partner"
+    _inherit = "crm.lead"
 
-    def write(self, vals):
-        if "email" in vals:
-            for partner in self:
-                if not vals["email"] and partner.sudo().mass_mailing_contact_ids:
-                    partner.sudo().mass_mailing_contact_ids.unlink()
-        return super(Partner, self).write(vals)
+    def _inverse_email_from(self):
+        return
