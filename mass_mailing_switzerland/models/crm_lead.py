@@ -10,16 +10,17 @@
 
 from odoo import api, models
 
+
 class Lead(models.Model):
     _inherit = "crm.lead"
 
     def _inverse_email_from(self):
         return
 
-    @api.depends('partner_id.email')
+    @api.depends("partner_id.email")
     def _compute_email_from(self):
         return
 
-    @api.onchange('partner_id')
+    @api.onchange("partner_id")
     def onchange_partner_id(self):
         self.email_from = self.partner_id.email
