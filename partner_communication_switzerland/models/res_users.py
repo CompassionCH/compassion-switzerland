@@ -76,30 +76,13 @@ class ResUsers(models.Model):
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
 
-                # welp, this seems to work...
-                translated_title = self.env["ir.translation"].search([('src', '=', employee.job_title), ('lang', '=', lang), ('res_id', '=', employee.id)]).value
-
-                #employee.ensure_one()
-                #employee.refresh()
-                #employee.clear_caches()
-                #employee.recompute(fnames=['job_title'])
-                #self.env['hr.employee'].recompute(fnames=['job_title'], records=employee)
-                #self.env['hr.employee'].invalidate_cache(['job_title'], ids=[employee.id])
-                #self.env['hr.employee'].flush(fnames=['job_title'],  records=employee)
-
-                _logger.info(f"JOB TITLE EMPLOYEE ------------> {employee.job_title}")
-                _logger.info(f"I DONT KNOW BRO... ------------> {_(employee.job_title)}")
-                _logger.info(f"WHY DO I EVEN DO TRY... ------------> {translated_title}")
-                # _logger.info(f"JOB TITLE FROM ID ------------> {employee.job_id.name}") IS NEVER TRANSLATED, THE TEXT IS ALWAYS "SDS Worker"
-                _logger.info(f"COMPANY NAME EMPLOYEE ------------> {employee.company_id.address_name}")
-                _logger.info(f"COMPANY NAME USER ------------> {user.company_id.address_name}")
-
-                _logger.info(f"IDDDDDDDDDD ------------> {id(employee)}")
-
-
-                # _logger.info(f"TOTO ------------> {user.job_title}") NOPE
-                # _logger.info(f"TATA ------------> {user.employee_id.job_title}") NOPE
-                # _logger.info(f"TITI ------------> {user.employee_id.job_id.name}") NOPE
+                # Workaround that manually gets translation from the table,
+                # see T1693 and related PR for more information.
+                job_title = self.env["ir.translation"]._get_source(None,
+                                                                   ("model",),
+                                                                   lang,
+                                                                   employee.job_title,
+                                                                   employee.id)
 
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
@@ -111,7 +94,7 @@ class ResUsers(models.Model):
                     "lang": lang,
                     "lang_short": lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
-                    "job_title": employee.job_title or "",
+                    "job_title": job_title or "",
                     "office_hours": _("mo-thu: 9am-2pm"),
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(lang),
