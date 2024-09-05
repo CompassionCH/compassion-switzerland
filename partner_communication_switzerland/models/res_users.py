@@ -2,19 +2,12 @@
 
 import logging
 
-import time
-from inspect import trace
-
 from pyquery import PyQuery
 
 from odoo import _, fields, models
 from odoo.tools import file_open
 
 from odoo.addons.auth_signup.models.res_partner import now
-
-
-import traceback
-
 
 _logger = logging.getLogger(__name__)
 
