@@ -71,11 +71,9 @@ class ResUsers(models.Model):
 
                 # Workaround that manually gets translation from the table,
                 # see T1693 and related PR for more information.
-                job_title = self.env["ir.translation"]._get_source(None,
-                                                                   ("model",),
-                                                                   lang,
-                                                                   employee.job_title,
-                                                                   employee.id)
+                job_title = self.env["ir.translation"]._get_source(
+                    None, ("model",), lang, employee.job_title, employee.id
+                )
 
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
