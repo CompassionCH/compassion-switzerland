@@ -71,7 +71,7 @@ class ResUsers(models.Model):
 
                 # Workaround that manually gets translation from the table,
                 # see T1693 and related PR for more information.
-                job_title = self.env["ir.translation"]._get_source(
+                employee_job_title = self.env["ir.translation"]._get_source(
                     None, ("model",), lang, employee.job_title, employee.id
                 )
 
@@ -85,7 +85,7 @@ class ResUsers(models.Model):
                     "lang": lang,
                     "lang_short": lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
-                    "job_title": job_title or "",
+                    "job_title": employee_job_title or "",
                     "office_hours": _("mo-thu: 9am-2pm"),
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(lang),
