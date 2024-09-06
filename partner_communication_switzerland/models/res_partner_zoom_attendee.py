@@ -81,13 +81,38 @@ class ZoomAttendee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        res = super().create(vals_list)
+        updated_models = []
+        filtered_vals_lists = vals_list
+
+        for vals in vals_list:
+            existing_attendee = self.search(
+                [('partner_id', '=', vals.get('partner_id')),
+                 ('zoom_session_id', '=', vals.get('zoom_session_id'))])
+            if existing_attendee:
+                filtered_vals_lists.remove(vals)
+                toto = {k: v for k, v in vals.items() if k not in ['partner_id', 'zoom_session_id']}
+                existing_attendee.update(toto)
+                updated_models.append(existing_attendee)
+
+        created_models = super().create(filtered_vals_lists)
+
+        res = updated_models.append(created_models)
+
         for attendee in res:
             if attendee.inform_me_for_next_zoom:
                 attendee.inform_about_next_session()
             if attendee.optional_message:
                 attendee.notify_user()
         return res
+
+    def test_dumb_stuff(self):
+        self.env['res.partner.zoom.attendee'].create([{
+            'partner_id': 43327,
+            'zoom_session_id': 44,
+            'state': 'confirmed',
+            'partner_firstname': 'Praz',
+            'partner_lastname': 'Nicolas'
+        }])
 
     def inform_about_next_session(self):
         for attendee in self:
