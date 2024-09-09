@@ -22,7 +22,8 @@ class WebsiteSponsorship(models.TransientModel):
         records = super().create(vals_list)
         for form, vals in zip(records, vals_list):
             if form.match_update:
-                # This is step2 when martch_update is True, we don't need to notify staff
+                # This is step2 when martch_update is True,
+                # we don't need to notify staff
                 continue
             web_info = ""
             for key, value in vals.items():
