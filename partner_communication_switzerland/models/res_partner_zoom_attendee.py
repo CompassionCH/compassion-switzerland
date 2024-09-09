@@ -81,8 +81,8 @@ class ZoomAttendee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        updated_models = []
-        filtered_vals_lists = vals_list
+        res = []
+        filtered_vals_lists = vals_list.copy()
 
         for vals in vals_list:
             existing_attendee = self.search(
@@ -92,11 +92,9 @@ class ZoomAttendee(models.Model):
                 filtered_vals_lists.remove(vals)
                 toto = {k: v for k, v in vals.items() if k not in ['partner_id', 'zoom_session_id']}
                 existing_attendee.update(toto)
-                updated_models.append(existing_attendee)
+                res.append(existing_attendee)
 
-        created_models = super().create(filtered_vals_lists)
-
-        res = updated_models.append(created_models)
+        res.append(super().create(filtered_vals_lists))
 
         for attendee in res:
             if attendee.inform_me_for_next_zoom:
