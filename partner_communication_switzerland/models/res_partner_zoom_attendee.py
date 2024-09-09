@@ -86,12 +86,18 @@ class ZoomAttendee(models.Model):
 
         for vals in vals_list:
             existing_attendee = self.search(
-                [('partner_id', '=', vals.get('partner_id')),
-                 ('zoom_session_id', '=', vals.get('zoom_session_id'))])
+                [
+                    ("partner_id", "=", vals.get("partner_id")),
+                    ("zoom_session_id", "=", vals.get("zoom_session_id")),
+                ]
+            )
             if existing_attendee:
                 vals_list_to_create.remove(vals)
-                filtered_vals = {k: v for k, v in vals.items() 
-                                 if k not in ['partner_id', 'zoom_session_id']}
+                filtered_vals = {
+                    k: v
+                    for k, v in vals.items()
+                    if k not in ["partner_id", "zoom_session_id"]
+                }
                 existing_attendee.update(filtered_vals)
                 res.append(existing_attendee)
 
@@ -105,13 +111,17 @@ class ZoomAttendee(models.Model):
         return res
 
     def test_dumb_stuff(self):
-        self.env['res.partner.zoom.attendee'].create([{
-            'partner_id': 43327,
-            'zoom_session_id': 44,
-            'state': 'confirmed',
-            'partner_firstname': 'Praz',
-            'partner_lastname': 'Nicolas'
-        }])
+        self.env["res.partner.zoom.attendee"].create(
+            [
+                {
+                    "partner_id": 43327,
+                    "zoom_session_id": 44,
+                    "state": "confirmed",
+                    "partner_firstname": "Praz",
+                    "partner_lastname": "Nicolas",
+                }
+            ]
+        )
 
     def inform_about_next_session(self):
         for attendee in self:
