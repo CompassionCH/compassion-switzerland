@@ -116,9 +116,16 @@ class ZoomAttendee(models.Model):
                 {
                     "partner_id": 43327,
                     "zoom_session_id": 44,
-                    "state": "confirmed",
+                    "state": "declined",
                     "partner_firstname": "Praz",
                     "partner_lastname": "Nicolas",
+                },
+                {
+                    "partner_id": 43190,
+                    "zoom_session_id": 44,
+                    "state": "invited",
+                    "partner_firstname": "Diego",
+                    "partner_lastname": "Cruz Pastor",
                 }
             ]
         )

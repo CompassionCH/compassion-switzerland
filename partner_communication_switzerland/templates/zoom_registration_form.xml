@@ -316,7 +316,7 @@
                       value="confirmed"
                       class="s_website_form_input"
                       name="state"
-                      id="toto"
+                      id="default_state"
                     />
                 </div>
               </div>
