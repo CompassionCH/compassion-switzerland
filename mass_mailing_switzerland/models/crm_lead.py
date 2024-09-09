@@ -8,15 +8,19 @@
 #
 ##############################################################################
 
-from odoo import models
+from odoo import api, models
 
 
-class Partner(models.Model):
-    _inherit = "res.partner"
+class Lead(models.Model):
+    _inherit = "crm.lead"
 
-    def write(self, vals):
-        if "email" in vals:
-            for partner in self:
-                if not vals["email"] and partner.sudo().mass_mailing_contact_ids:
-                    partner.sudo().mass_mailing_contact_ids.unlink()
-        return super(Partner, self).write(vals)
+    def _inverse_email_from(self):
+        return
+
+    @api.depends("partner_id.email")
+    def _compute_email_from(self):
+        return
+
+    @api.onchange("partner_id")
+    def onchange_partner_id(self):
+        self.email_from = self.partner_id.email
