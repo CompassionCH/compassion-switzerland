@@ -110,26 +110,6 @@ class ZoomAttendee(models.Model):
                 attendee.notify_user()
         return res
 
-    def test_dumb_stuff(self):
-        self.env["res.partner.zoom.attendee"].create(
-            [
-                {
-                    "partner_id": 43327,
-                    "zoom_session_id": 44,
-                    "state": "declined",
-                    "partner_firstname": "Praz",
-                    "partner_lastname": "Nicolas",
-                },
-                {
-                    "partner_id": 43190,
-                    "zoom_session_id": 44,
-                    "state": "invited",
-                    "partner_firstname": "Diego",
-                    "partner_lastname": "Cruz Pastor",
-                }
-            ]
-        )
-
     def inform_about_next_session(self):
         for attendee in self:
             attendee.state = "declined"
