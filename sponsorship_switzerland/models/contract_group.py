@@ -127,7 +127,7 @@ class ContractGroup(models.Model):
 
     def _should_skip_invoice_generation(self, invoicing_date, contract=None):
         # Avoids generating invoices for Donors of Compassion in CH
-        if contract.partner_id.id in (22585, 560):
+        if contract and contract.partner_id.id in (22585, 560):
             return True
         return super()._should_skip_invoice_generation(invoicing_date, contract)
 
