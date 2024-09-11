@@ -64,21 +64,22 @@ class ResUsers(models.Model):
                 "en_US": "https://www.facebook.com/compassionsuisse/",
             }
             lang = self.env.lang or self._context.get("lang") or self.env.user.lang
-            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
             for user in self:
+
                 employee = user.employee_ids[:1].with_context(bin_size=False)
 
+                base_url = (
+                    self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+                )
                 # Workaround that manually gets translation from the table,
                 # see T1693 and related PR for more information.
                 employee_job_title = self.env["ir.translation"]._get_source(
                     None, ("model",), lang, employee.job_title, employee.id
                 )
 
-                base_url = self.env["ir.config_parameter"].sudo().get_param(
-                    "web.base.url")
-
                 if employee:
+                    employee_image_url = f"{base_url}/employee/image/{employee.id}"
                     values = {
                         "name": f"{user.preferred_name} {user.lastname}"
                         if user.firstname
@@ -86,7 +87,9 @@ class ResUsers(models.Model):
                         "email": user.email if user.firstname else "info@compassion.ch",
                         "lang": lang,
                         "lang_short": lang[:2],
-                        "team": _("and the team of Compassion") if user.firstname else "",
+                        "team": _("and the team of Compassion")
+                        if user.firstname
+                        else "",
                         "job_title": employee_job_title or "",
                         "office_hours": _("mo-thu: 9am-2pm"),
                         "company_name": user.company_id.address_name,
@@ -97,9 +100,10 @@ class ResUsers(models.Model):
                         .replace(" ", "")
                         .replace("(0)", ""),
                         "facebook": facebook.get(lang),
-                        "employee_image_url": f"{base_url}/employee/image/{employee.id}",
+                        "employee_image_url": employee_image_url,
                     }
                 else:
+                    company_logo_url = f"{base_url}/company/logo/{user.company_id.id}"
                     values = {
                         "name": _("The team of Compassion"),
                         "email": "info@compassion.ch",
@@ -114,8 +118,9 @@ class ResUsers(models.Model):
                         "mobile": "",
                         "mobile_link": "",
                         "facebook": facebook.get(lang),
-                        "employee_image_url": f"{base_url}/company/logo/{user.company_id.id}",
+                        "employee_image_url": company_logo_url,
                     }
+
                 if lang in ("fr_CH", "en_US"):
                     template.remove("#bern")
                 else:
