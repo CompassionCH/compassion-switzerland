@@ -78,7 +78,7 @@ class ResUsers(models.Model):
                 base_url = self.env["ir.config_parameter"].sudo().get_param(
                     "web.base.url")
 
-                if not employee:
+                if employee:
                     values = {
                         "name": f"{user.preferred_name} {user.lastname}"
                         if user.firstname
