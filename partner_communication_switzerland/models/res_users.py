@@ -66,20 +66,18 @@ class ResUsers(models.Model):
             lang = self.env.lang or self._context.get("lang") or self.env.user.lang
 
             for user in self:
-
                 employee = user.employee_ids[:1].with_context(bin_size=False)
 
-                base_url = (
-                    self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-                )
-                # Workaround that manually gets translation from the table,
-                # see T1693 and related PR for more information.
-                employee_job_title = self.env["ir.translation"]._get_source(
-                    None, ("model",), lang, employee.job_title, employee.id
-                )
-
                 if employee:
+                    base_url = (
+                        self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+                    )
                     employee_image_url = f"{base_url}/employee/image/{employee.id}"
+                    # Workaround that manually gets translation from the table,
+                    # see T1693 and related PR for more information.
+                    employee_job_title = self.env["ir.translation"]._get_source(
+                        None, ("model",), lang, employee.job_title, employee.id
+                    )
                     values = {
                         "name": f"{user.preferred_name} {user.lastname}"
                         if user.firstname
@@ -103,7 +101,6 @@ class ResUsers(models.Model):
                         "employee_image_url": employee_image_url,
                     }
                 else:
-                    company_logo_url = f"{base_url}/company/logo/{user.company_id.id}"
                     values = {
                         "name": _("The team of Compassion"),
                         "email": "info@compassion.ch",
@@ -118,7 +115,7 @@ class ResUsers(models.Model):
                         "mobile": "",
                         "mobile_link": "",
                         "facebook": facebook.get(lang),
-                        "employee_image_url": company_logo_url,
+                        "employee_image_url": "",
                     }
 
                 if lang in ("fr_CH", "en_US"):
@@ -127,6 +124,8 @@ class ResUsers(models.Model):
                     template.remove("#yverdon")
                 if not employee.mobile_phone:
                     template.remove(".work_mobile")
+                if not employee:
+                    template.remove("#photo")
                 user.signature = template.html().format(**values)
 
     def _compute_short_signature(self):
