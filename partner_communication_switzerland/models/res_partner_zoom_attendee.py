@@ -81,7 +81,7 @@ class ZoomAttendee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        res = []
+        res = self
         vals_list_to_create = vals_list.copy()
 
         for vals in vals_list:
@@ -94,7 +94,7 @@ class ZoomAttendee(models.Model):
             if existing_attendee:
                 vals_list_to_create.remove(vals)
                 del vals["partner_id"]
-                del vals["zoom_session"]
+                del vals["zoom_session_id"]
                 existing_attendee.write(vals)
                 res += existing_attendee
 
