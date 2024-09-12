@@ -570,17 +570,26 @@
         </field>
     </record>
 
-    <!-- Make zip_id required if related fields are set -->
     <record model="ir.ui.view" id="view_partner_form_inherit">
         <field name="name">res.partner.form.inherit</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
+            <!-- Make zip_id required if related fields are set -->
             <field name="zip_id" position="attributes">
                 <attribute
           name="attrs"
         >{'required': [('city', '!=', False), ('state_id', '!=', False), ('zip', '!=', False)], 'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}</attribute>
             </field>
+            <xpath
+        expr="/form/sheet//div[hasclass('o_row')]/field[@name='parent_id']"
+        position="before"
+      >
+                <label
+          for="parent_id"
+          class="oe_edit_only"
+        >Related Company</label>
+            </xpath>
         </field>
     </record>
 
