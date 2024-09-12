@@ -93,15 +93,12 @@ class ZoomAttendee(models.Model):
             )
             if existing_attendee:
                 vals_list_to_create.remove(vals)
-                filtered_vals = {
-                    k: v
-                    for k, v in vals.items()
-                    if k not in ["partner_id", "zoom_session_id"]
-                }
-                existing_attendee.update(filtered_vals)
-                res.append(existing_attendee)
+                del vals["partner_id"]
+                del vals["zoom_session"]
+                existing_attendee.write(vals)
+                res += existing_attendee
 
-        res.append(super().create(vals_list_to_create))
+        res += super().create(vals_list_to_create)
 
         for attendee in res:
             if attendee.inform_me_for_next_zoom:
