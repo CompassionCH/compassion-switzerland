@@ -116,7 +116,7 @@ class ResUsers(models.Model):
                         "phone": phone.get(lang),
                         "mobile": "",
                         "mobile_link": "",
-                        "facebook": facebook.get(lang)
+                        "facebook": facebook.get(lang),
                     }
 
                 if lang in ("fr_CH", "en_US"):
