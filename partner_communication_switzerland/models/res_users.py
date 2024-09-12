@@ -68,7 +68,7 @@ class ResUsers(models.Model):
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
 
-                if not employee:
+                if employee:
                     base_url = (
                         self.env["ir.config_parameter"].sudo().get_param("web.base.url")
                     )
@@ -123,7 +123,7 @@ class ResUsers(models.Model):
                     template.remove("#yverdon")
                 if not employee.mobile_phone:
                     template.remove(".work_mobile")
-                if employee:
+                if not employee:
                     template.remove("#photo")
                 user.signature = template.html().format(**values)
 
