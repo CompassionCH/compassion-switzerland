@@ -73,11 +73,13 @@ class ResUsers(models.Model):
                         self.env["ir.config_parameter"].sudo().get_param("web.base.url")
                     )
                     employee_image_url = f"{base_url}/employee/image/{employee.id}"
+
                     # Workaround that manually gets translation from the table,
                     # see T1693 and related PR for more information.
                     employee_job_title = self.env["ir.translation"]._get_source(
                         None, ("model",), lang, employee.job_title, employee.id
                     )
+
                     values = {
                         "name": f"{user.preferred_name} {user.lastname}"
                         if user.firstname
