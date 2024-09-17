@@ -287,7 +287,7 @@
                 </div>
               </div>
             </div>
-              <div
+            <div
                 class="form-group s_website_form_field_hidden col-12    "
                 data-type="boolean"
                 data-name="Field"
@@ -300,6 +300,23 @@
                       class="s_website_form_input"
                       name="zoom_session_id"
                       id="ow6ngqr314yssdf"
+                    />
+                </div>
+              </div>
+            </div>
+            <div
+                class="form-group s_website_form_field_hidden col-12    "
+                data-type="char"
+                data-name="Field"
+              >
+              <div class="row s_col_no_resize s_col_no_bgcolor">
+                <div class="col-sm">
+                  <input
+                      type="text"
+                      value="confirmed"
+                      class="s_website_form_input"
+                      name="state"
+                      id="default_state"
                     />
                 </div>
               </div>
