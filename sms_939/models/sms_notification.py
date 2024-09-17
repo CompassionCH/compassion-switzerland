@@ -10,6 +10,7 @@
 
 import logging
 import traceback
+from dateutil import parser
 
 from odoo import _, api, fields, models, tools
 
@@ -193,7 +194,7 @@ class SmsNotification(models.Model):
                 "operator": parameters.get("operator"),
                 "service": parameters.get("service"),
                 "language": parameters.get("language"),
-                "date": parameters.get("receptionDate"),
+                "date": parser.parse(parameters.get("receptionDate")),
                 "uuid": parameters.get("requestUid"),
                 "text": parameters.get("text"),
             }
