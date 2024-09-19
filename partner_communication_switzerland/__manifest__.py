@@ -58,6 +58,7 @@
         "data/form_data.xml",
         "data/sponsorship_planned_emails.xml",
         "data/tax_receipt_emails.xml",
+        "data/auto_reminder_archive_contact.xml",
         "data/manual_emails.xml",
         "data/communication_config.xml",
         "data/sponsorship_communications_cron.xml",
