@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-from werkzeug.utils import escape
+from markupsafe import escape
 
 from odoo import api, fields, models
 

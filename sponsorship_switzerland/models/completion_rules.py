@@ -45,7 +45,7 @@ class StatementCompletionRule(models.Model):
         """
         # Read data in english
         res = dict()
-        ref = st_line["ref"]
+        ref = st_line["payment_ref"]
         product = self.with_context(lang="en_US")._find_product_id(partner.ref, ref)
         if not product:
             return res, False
@@ -94,7 +94,6 @@ class StatementCompletionRule(models.Model):
         )
 
         inv_data = {
-            "account_id": partner.property_account_receivable_id.id,
             "move_type": "out_invoice",
             "partner_id": partner.id,
             "journal_id": journal_id,
@@ -104,17 +103,17 @@ class StatementCompletionRule(models.Model):
             .id,
             "ref": ref,
             "invoice_origin": stmts_vals["name"],
+            "invoice_line_ids": [
+                (0, 0, self._generate_invoice_line(res, product, st_line, partner.id))
+            ],
         }
 
         # Create invoice and generate invoice lines
         invoice = self.env["account.move"].with_context(lang="en_US").create(inv_data)
-        res.update(
-            self._generate_invoice_line(invoice.id, product, st_line, partner.id)
-        )
         invoice.action_post()
         st_line.update(res)
 
-    def _generate_invoice_line(self, invoice_id, product, st_line, partner_id):
+    def _generate_invoice_line(self, res_dict, product, st_line, partner_id):
         inv_line_data = {
             "name": st_line.get("note") or product.name,
             "account_id": product.property_account_income_id.id,
@@ -122,9 +121,7 @@ class StatementCompletionRule(models.Model):
             "price_subtotal": st_line["amount"],
             "quantity": 1,
             "product_id": product.id or False,
-            "move_id": invoice_id,
         }
-        res = {}
 
         # Define analytic journal
         analytic = self.env["account.analytic.default"].account_get(
@@ -135,9 +132,8 @@ class StatementCompletionRule(models.Model):
         if analytic.analytic_tag_ids:
             inv_line_data["analytic_tag_ids"] = [(6, 0, analytic.analytic_tag_ids.ids)]
 
-        res["name"] = product.name
-        self.env["account.move.line"].create(inv_line_data)
-        return res
+        res_dict["payment_ref"] = product.name
+        return inv_line_data
 
     def _find_product_id(self, partner_ref, ref):
         """Finds what kind of payment it is,

@@ -8,7 +8,11 @@
 #
 ##############################################################################
 
+import logging
+
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 LANG_MAPPING = {"fr": "fr_CH", "de": "de_DE", "it": "it_IT"}
 
@@ -87,15 +91,22 @@ class MatchPartnerWP(models.AbstractModel):
 
     @api.model
     def _match_rule_child_id(self, partner_obj, infos=None, options=None):
-        # if a keyerror is raise it is handled as "no child found go to next rule"
+        # if a keyerror is raised it is handled as "no child found go to next rule"
         child_local_id = infos.pop("child_id") if infos else partner_obj.pop("child_id")
         if child_local_id:
             child = self.env["compassion.child"].search(
                 [("local_id", "ilike", child_local_id)]
             )
             if child:
-                sponsorship = self.env["recurring.contract"].search(
-                    [("child_id", "=", child.id)], limit=1
-                )
-                return sponsorship[sponsorship.send_gifts_to]
+                if len(child) > 1:
+                    # Too many matches, the local ID was loose.
+                    _logger.warning(
+                        "Child local_id is specified but was ignored as it matched "
+                        "multiple children."
+                    )
+                else:
+                    sponsorship = self.env["recurring.contract"].search(
+                        [("child_id", "=", child.id)], limit=1
+                    )
+                    return sponsorship[sponsorship.send_gifts_to]
         return self.env["res.partner"]

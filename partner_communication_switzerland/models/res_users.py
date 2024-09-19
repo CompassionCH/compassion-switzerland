@@ -68,6 +68,13 @@ class ResUsers(models.Model):
 
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
+
+                # Workaround that manually gets translation from the table,
+                # see T1693 and related PR for more information.
+                employee_job_title = self.env["ir.translation"]._get_source(
+                    None, ("model",), lang, employee.job_title, employee.id
+                )
+
                 employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
                 values = {
@@ -78,7 +85,7 @@ class ResUsers(models.Model):
                     "lang": lang,
                     "lang_short": lang[:2],
                     "team": _("and the team of Compassion") if user.firstname else "",
-                    "job_title": employee.job_title or "",
+                    "job_title": employee_job_title or "",
                     "office_hours": _("mo-thu: 9am-2pm"),
                     "company_name": user.company_id.address_name,
                     "phone_link": phone_link.get(lang),

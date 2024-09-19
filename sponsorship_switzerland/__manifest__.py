@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Tailor Sponsorships to Compassion CH needs",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.1.0",
     "category": "Other",
     "author": "Compassion CH",
     "maintainers": ["ecino"],
@@ -43,6 +43,7 @@
         "account_banking_mandate",  # oca_addons/bank-payment
         "partner_compassion",  # compassion-switzerland
         "account_statement_completion",  # compassion-accounting
+        "account_reconcile_compassion",
         "gift_compassion",  # compassion-modules
         "web_notify",  # oca_addons/web
         "sbc_compassion",  # compassion-modules

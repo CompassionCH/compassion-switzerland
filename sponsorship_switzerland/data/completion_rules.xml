@@ -10,40 +10,41 @@
       >Match from line reference (based on partner reference)</field>
             <field name="sequence">30</field>
             <field name="python_completion_rule">
-ref = stmt_line.get("ref", "")
+ref = stmt_line.get("payment_ref")
 ref_index_start = 9  # position where the partner ref starts in the BVR
 ref_index_end = 16  # position where the partner ref ends in the BVR
-partner_ref = ref[ref_index_end - 7 : ref_index_end]  # get standard 7 numbers ref
-old_partner_ref = ref[ref_index_end - 6 : ref_index_end]  # get legacy 6 numbers ref
-partner_obj = env["res.partner"]
-partner = partner_obj.search(["|", ("ref", "=", partner_ref), ("ref", "=", old_partner_ref)])
-if not partner:
-    # Some bvr reference have a wrong number of leading zeros,
-    # resulting in the partner reference to be offset.
-    flexible_ref_match = re.search(r"^0{,10}([1-9]\d{4,6})0", ref)
-    if flexible_ref_match:
-    flexible_ref = flexible_ref_match.group(1)
-    if int(flexible_ref) != int(partner_ref):
-        partner = partner_obj.search([("ref", "=", str(int(flexible_ref)))])
-        ref_index_start = flexible_ref_match.start(1)
-if len(partner) > 1:
-# Take only those who have active sponsorships
-sponsor = partner.filtered(lambda p: p.sponsorship_ids.filtered(lambda s: s.state not in ("terminated", "cancelled")))
-if sponsor:
-    partner = sponsor
-else:
-    # No sponsor, try to find a contact
-    partner = partner.filtered("parent_id")
-# Test that only one partner matches.
-if partner:
-    if len(partner) == 1:
-        # If we fall under this rule of completion, it means there is
-        # no open invoice corresponding to the payment. We may need to
-        # generate one depending on the payment type.
-        line_vals, new_invoice = generate_invoice(stmts_vals, stmt_line, partner, ref_index_start )
-        result.update(line_vals)
-        # Get the accounting partner (company)
-        result = {"partner_id": partner.commercial_partner_id.id}
+if ref:
+  partner_ref = ref[ref_index_end - 7 : ref_index_end]  # get standard 7 numbers ref
+  old_partner_ref = ref[ref_index_end - 6 : ref_index_end]  # get legacy 6 numbers ref
+  partner_obj = env["res.partner"]
+  partner = partner_obj.search(["|", ("ref", "=", partner_ref), ("ref", "=", old_partner_ref)])
+  if not partner:
+      # Some bvr reference have a wrong number of leading zeros,
+      # resulting in the partner reference to be offset.
+      flexible_ref_match = re.search(r"^0{,10}([1-9]\d{4,6})0", ref)
+      if flexible_ref_match:
+        flexible_ref = flexible_ref_match.group(1)
+        if int(flexible_ref) != int(partner_ref):
+            partner = partner_obj.search([("ref", "=", str(int(flexible_ref)))])
+            ref_index_start = flexible_ref_match.start(1)
+  if len(partner) > 1:
+    # Take only those who have active sponsorships
+    sponsor = partner.filtered(lambda p: p.sponsorship_ids.filtered(lambda s: s.state not in ("terminated", "cancelled")))
+    if sponsor:
+        partner = sponsor
+    else:
+        # No sponsor, try to find a contact
+        partner = partner.filtered("parent_id")
+    # Test that only one partner matches.
+  if partner:
+      if len(partner) == 1:
+          # If we fall under this rule of completion, it means there is
+          # no open invoice corresponding to the payment. We may need to
+          # generate one depending on the payment type.
+          generate_invoice(stmts_vals, stmt_line, partner, ref_index_start )
+          # Get the accounting partner (company)
+          stmt_line["partner_id"] = partner.commercial_partner_id.id
+          result = True
             </field>
         </record>
 

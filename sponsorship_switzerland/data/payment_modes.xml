@@ -20,9 +20,9 @@
         <field name="name">BVR</field>
         <field name="active" eval="True" />
         <field
-      name="payment_method_id"
-      ref="account.account_payment_method_manual_in"
-    />
+        name="payment_method_id"
+        ref="account.account_payment_method_manual_in"
+      />
         <field name="payment_type">inbound</field>
         <field name="payment_order_ok" eval="False" />
         <field name="bank_account_link">variable</field>
@@ -82,9 +82,9 @@
         <field name="group_lines" eval="True" />
     </record>
     <record
-    id="payment_mode_postfinance_dd_multi_months"
-    model="account.payment.mode"
-  >
+      id="payment_mode_postfinance_dd_multi_months"
+      model="account.payment.mode"
+    >
         <field name="name">Postfinance Direct Debit multi-months</field>
         <field name="active" eval="True" />
 <!--        <field name="payment_method_id" ref="l10n_ch_pain_direct_debit.export_sepa_dd"/>-->
@@ -100,9 +100,9 @@
         <field name="name">Permanent Order</field>
         <field name="active" eval="True" />
         <field
-      name="payment_method_id"
-      ref="account.account_payment_method_manual_in"
-    />
+        name="payment_method_id"
+        ref="account.account_payment_method_manual_in"
+      />
         <field name="payment_type">inbound</field>
         <field name="payment_order_ok" eval="False" />
         <field name="bank_account_link">variable</field>
