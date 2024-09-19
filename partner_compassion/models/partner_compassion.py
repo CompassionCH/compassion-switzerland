@@ -16,7 +16,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 from odoo.tools.config import config
-import datetime
 
 logger = logging.getLogger(__name__)
 regex_order = re.compile(r"^similarity\((.*),.*\)(\s+(desc|asc))?$", re.I)
