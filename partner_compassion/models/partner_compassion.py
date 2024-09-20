@@ -483,8 +483,6 @@ class ResPartner(models.Model):
             {
                 # check if a state was found or not for this zip
                 "state_id": state.id if len(state) == 1 else None,
-                # remove this field value since its only used for the UI
-                "zip_id": None,
             }
         )
         return vals
