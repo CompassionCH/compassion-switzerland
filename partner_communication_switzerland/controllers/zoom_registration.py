@@ -33,19 +33,16 @@ class ZoomRegistration(Controller):
     def zoom_registration(self, session=None, **kwargs):
         if session is None:
             # Allow to register in the current zoom session for 15 minutes after start
-            start = datetime.now() - timedelta(minutes=15)
+            start = datetime.now() - timedelta(days=15)
             session = request.env["res.partner.zoom.session"].get_next_session(start)
         if not session.website_published:
             raise Unauthorized()
-        participant = request.env["res.partner.zoom.attendee"]
+        partner = request.env["res.partner"]
         if request.env.user and request.env.user != request.env.ref("base.public_user"):
             partner = request.env.user.partner_id
             kwargs["partner_id"] = partner.id
-            participant = session.participant_ids.filtered(
-                lambda p: p.partner_id == partner
-            )
         kwargs["zoom_session_id"] = session.id
         return request.render(
             "partner_communication_switzerland.zoom_registration_template",
-            {"session": session, "main_object": participant},
+            {"session": session, "partner": partner},
         )
