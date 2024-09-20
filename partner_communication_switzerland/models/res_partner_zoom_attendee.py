@@ -101,7 +101,8 @@ class ZoomAttendee(models.Model):
 
             else:
                 partner_vals = self._convert_vals_for_res_partner(vals)
-                partner_id = self.env["res.partner.match"].match_values_to_partner(partner_vals, match_update=False, match_create=False).id
+                partner_id = self.env["res.partner.match"].match_values_to_partner(
+                    partner_vals, match_update=False, match_create=False).id
 
                 existing_attendee = self.search(
                     [

@@ -118,9 +118,9 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.firstname"
                       class="form-control s_website_form_input"
                       name="partner_firstname"
-                      t-att-value="partner.firstname"
                       required="true"
                       id="otfjqdxg28m9"
                     />
@@ -148,9 +148,9 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.lastname"
                       class="form-control s_website_form_input"
                       name="partner_lastname"
-                      t-att-value="partner.lastname"
                       required="true"
                       id="ozoz9llszzse"
                     />
@@ -174,9 +174,9 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.email"
                       class="form-control s_website_form_input"
                       name="partner_email"
-                      t-att-value="partner.email"
                       required="true"
                       id="o44vytmw5eep"
                     />
@@ -199,6 +199,7 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.phone"
                       class="form-control s_website_form_input"
                       name="partner_phone"
                       id="ocd0qhy3mm5"
@@ -307,7 +308,7 @@
                 </div>
               </div>
             </div>
-              <div
+            <div
                 class="form-group s_website_form_field_hidden col-12    "
                 data-type="boolean"
                 data-name="Field"
