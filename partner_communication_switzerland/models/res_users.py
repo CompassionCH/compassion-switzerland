@@ -4,7 +4,7 @@ import logging
 
 from pyquery import PyQuery
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.tools import file_open
 
 from odoo.addons.auth_signup.models.res_partner import now
@@ -40,6 +40,7 @@ class ResUsers(models.Model):
                     }
                 )
 
+    @api.depends_context("lang")
     def _compute_signature(self):
         with file_open(
             "partner_communication_switzerland/static/html/signature.html"
