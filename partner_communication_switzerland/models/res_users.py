@@ -65,45 +65,69 @@ class ResUsers(models.Model):
                 "en_US": "https://www.facebook.com/compassionsuisse/",
             }
             lang = self.env.lang or self._context.get("lang") or self.env.user.lang
-            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
 
-                # Workaround that manually gets translation from the table,
-                # see T1693 and related PR for more information.
-                employee_job_title = self.env["ir.translation"]._get_source(
-                    None, ("model",), lang, employee.job_title, employee.id
-                )
+                if employee:
+                    base_url = (
+                        self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+                    )
+                    employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
-                employee_image_url = f"{base_url}/employee/image/{employee.id}"
+                    # Workaround that manually gets translation from the table,
+                    # see T1693 and related PR for more information.
+                    employee_job_title = self.env["ir.translation"]._get_source(
+                        None, ("model",), lang, employee.job_title, employee.id
+                    )
 
-                values = {
-                    "name": f"{user.preferred_name} {user.lastname}"
-                    if user.firstname
-                    else _("The team of Compassion"),
-                    "email": user.email if user.firstname else "info@compassion.ch",
-                    "lang": lang,
-                    "lang_short": lang[:2],
-                    "team": _("and the team of Compassion") if user.firstname else "",
-                    "job_title": employee_job_title or "",
-                    "office_hours": _("mo-thu: 9am-2pm"),
-                    "company_name": user.company_id.address_name,
-                    "phone_link": phone_link.get(lang),
-                    "phone": phone.get(lang),
-                    "mobile": employee.mobile_phone,
-                    "mobile_link": (employee.mobile_phone or "")
-                    .replace(" ", "")
-                    .replace("(0)", ""),
-                    "facebook": facebook.get(lang),
-                    "employee_image_url": employee_image_url,
-                }
+                    values = {
+                        "name": f"{user.preferred_name} {user.lastname}"
+                        if user.firstname
+                        else _("The team of Compassion"),
+                        "email": user.email if user.firstname else "info@compassion.ch",
+                        "lang": lang,
+                        "lang_short": lang[:2],
+                        "team": _("and the team of Compassion")
+                        if user.firstname
+                        else "",
+                        "job_title": employee_job_title or "",
+                        "office_hours": _("mo-thu: 9am-2pm"),
+                        "company_name": user.company_id.address_name,
+                        "phone_link": phone_link.get(lang),
+                        "phone": phone.get(lang),
+                        "mobile": employee.mobile_phone,
+                        "mobile_link": (employee.mobile_phone or "")
+                        .replace(" ", "")
+                        .replace("(0)", ""),
+                        "facebook": facebook.get(lang),
+                        "employee_image_url": employee_image_url,
+                    }
+                else:
+                    values = {
+                        "name": _("The team of Compassion"),
+                        "email": "info@compassion.ch",
+                        "lang": lang,
+                        "lang_short": lang[:2],
+                        "team": "",
+                        "job_title": "",
+                        "office_hours": _("mo-thu: 9am-2pm"),
+                        "company_name": user.company_id.address_name,
+                        "phone_link": phone_link.get(lang),
+                        "phone": phone.get(lang),
+                        "mobile": "",
+                        "mobile_link": "",
+                        "facebook": facebook.get(lang),
+                    }
+
                 if lang in ("fr_CH", "en_US"):
                     template.remove("#bern")
                 else:
                     template.remove("#yverdon")
                 if not employee.mobile_phone:
                     template.remove(".work_mobile")
+                if not employee:
+                    template.remove("#photo")
                 user.signature = template.html().format(**values)
 
     def _compute_short_signature(self):
