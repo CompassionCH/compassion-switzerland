@@ -89,7 +89,7 @@ class RecurringContracts(models.Model):
             if sponsorship.child_id.hold_id:
                 hold_expiration = sponsorship.child_id.hold_id.expiration_date
                 sponsorship.next_waiting_reminder = fields.Datetime.to_string(
-                    hold_expiration + relativedelta(years=7)
+                    hold_expiration - relativedelta(days=7)
                 )
             else:
                 sponsorship.next_waiting_reminder = False
