@@ -181,6 +181,8 @@ class ResPartner(models.Model):
         help="Tells whether the partner has less than 25 years.",
     )
 
+    company_id = fields.Many2one(default=lambda self: self.env.company)
+
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
