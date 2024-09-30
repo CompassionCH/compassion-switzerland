@@ -8,26 +8,27 @@
 #
 ##############################################################################
 
-from odoo import _, fields, models
+from odoo import _, fields, models, api
+import re
 
 
 class SearchBankAddressWizard(models.TransientModel):
     _name = "search.bank.address.wizard"
     _description = "Wizard search bank address"
 
-    account_bank_statement_line = fields.Many2one(
-        "account.bank.statement.line",
+    account_move = fields.Many2one(
+        "account.move",
         domain=lambda self: self._get_domain(),
         default=lambda self: self._get_default(),
     )
     partner_address = fields.Text(
-        "Partner address (Maybe)",
-        related="account_bank_statement_line.narration",
+        _("Partner Address"),
+        compute="_compute_partner_address",
         readonly=True,
     )
     date = fields.Date(
-        "Last time used",
-        related="account_bank_statement_line.date",
+        _("Last time used"),
+        related="account_move.date",
     )
 
     overwriting_street = fields.Char("Street", default="")
@@ -45,9 +46,24 @@ class SearchBankAddressWizard(models.TransientModel):
         return []
 
     def _get_default(self):
-        return self.env["account.bank.statement.line"].search(
+        return self.env["account.move"].search(
             self._get_domain(), order="date desc", limit=1
         )
+
+    def _extract_address_from_narration(self, narration):
+        """
+        Extract Postal Address from account_move.narration field
+        """
+        match = re.search(r'Postal Address\s*\(PstlAdr\):\s*(.*)', narration)
+        if match:
+            return match.group(1).strip()
+        return ""
+
+    @api.depends('account_move.narration')
+    def _compute_partner_address(self):
+        for record in self:
+            narration = record.account_move.narration or ''
+            record.partner_address = self._extract_address_from_narration(narration)
 
     def change_address(self):
         self.env["res.partner"].browse(self.env.context["active_id"]).write(

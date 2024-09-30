@@ -848,7 +848,7 @@ msgstr "Cognome"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__date
 msgid "Last time used"
-msgstr ""
+msgstr "Ultimo utilizzo"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
@@ -1601,3 +1601,15 @@ msgstr ""
 #: model:res.groups,comment:partner_compassion.group_criminal_record
 msgid "the user will have access to all criminal records."
 msgstr ""
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.search_bank_address_wizard_form
+msgid "Existing partner info in bank data (May be unavailable)"
+msgstr "Info partner nei dati bancari (potrebbero non essere disponibili)"
+
+#. module: partner_compassion
+#: code:addons/partner_compassion/wizards/search_bank_address_wizard.py:0
+#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__partner_address
+#, python-format
+msgid "Partner Address"
+msgstr "Indirizzo del partner"

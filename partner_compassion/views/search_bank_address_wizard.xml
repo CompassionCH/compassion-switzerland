@@ -6,31 +6,31 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form>
+                <div class="oe_title">
+                    <h3>Existing Partner info in bank data (May be unavailable)</h3>
+                </div>
                 <group>
-                    <field
-            name="account_bank_statement_line"
-            invisible="True"
-          />
-                    <field name="partner_address" />
-                    <field name="date" />
+                    <field name="account_move" invisible="True"/>
+                    <field name="partner_address"/>
+                    <field name="date"/>
                 </group>
                 <group>
-                    <field name="overwriting_street" />
-                    <field name="overwriting_zip_id" />
+                    <field name="overwriting_street"/>
+                    <field name="overwriting_zip_id"/>
                 </group>
                 <footer>
                     <button
-            name="change_address"
-            type="object"
-            string="Change address"
-            class="btn-primary"
-          />
+                            name="change_address"
+                            type="object"
+                            string="Change address"
+                            class="btn-primary"
+                    />
                     <button
-            name="cancel_change"
-            type="object"
-            string="Cancel change"
-            class="btn-default"
-          />
+                            name="cancel_change"
+                            type="object"
+                            string="Cancel change"
+                            class="btn-default"
+                    />
                 </footer>
             </form>
         </field>
