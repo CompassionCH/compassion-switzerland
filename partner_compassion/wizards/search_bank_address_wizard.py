@@ -8,8 +8,9 @@
 #
 ##############################################################################
 
-from odoo import _, fields, models, api
 import re
+
+from odoo import _, api, fields, models
 
 
 class SearchBankAddressWizard(models.TransientModel):
@@ -22,12 +23,12 @@ class SearchBankAddressWizard(models.TransientModel):
         default=lambda self: self._get_default(),
     )
     partner_address = fields.Text(
-        _("Partner Address"),
+        "Partner Address",
         compute="_compute_partner_address",
         readonly=True,
     )
     date = fields.Date(
-        _("Last time used"),
+        "Last time used",
         related="account_move.date",
     )
 
@@ -54,15 +55,15 @@ class SearchBankAddressWizard(models.TransientModel):
         """
         Extract Postal Address from account_move.narration field
         """
-        match = re.search(r'Postal Address\s*\(PstlAdr\):\s*(.*)', narration)
+        match = re.search(r"Postal Address\s*\(PstlAdr\):\s*(.*)", narration)
         if match:
             return match.group(1).strip()
         return ""
 
-    @api.depends('account_move.narration')
+    @api.depends("account_move.narration")
     def _compute_partner_address(self):
         for record in self:
-            narration = record.account_move.narration or ''
+            narration = record.account_move.narration or ""
             record.partner_address = self._extract_address_from_narration(narration)
 
     def change_address(self):

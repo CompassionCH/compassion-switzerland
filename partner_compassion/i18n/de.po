@@ -849,7 +849,7 @@ msgstr "Nachname"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__date
 msgid "Last time used"
-msgstr ""
+msgstr "Letzte Nutzung"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
@@ -1608,10 +1608,6 @@ msgstr ""
 msgid "Existing partner info in bank data (May be unavailable)"
 msgstr "Partnerinformationen in Bankdaten (können nicht verfügbar sein)"
 
-#. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__date
-msgid "Last time used"
-msgstr "Letzte Nutzung"
 
 #. module: partner_compassion
 #: code:addons/partner_compassion/wizards/search_bank_address_wizard.py:0

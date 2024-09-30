@@ -848,7 +848,7 @@ msgstr "Nom de famille"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__date
 msgid "Last time used"
-msgstr ""
+msgstr "Dernière utilisation"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_ch
@@ -1613,9 +1613,3 @@ msgstr "Infos partenaire données bancaires (peut être indisponible)"
 #, python-format
 msgid "Partner Address"
 msgstr "Adresse partenaire"
-
-
-#. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__date
-msgid "Last time used"
-msgstr "Dernière utilisation"
