@@ -129,7 +129,7 @@ class AdvocateDetails(models.Model):
                 "img_alt": details.display_name,
                 "image_data": details.partner_id.with_context(
                     bin_size=False
-                ).image.decode("utf-8"),
+                ).image512.decode("utf-8"),
                 "text": details.quote.strip() or "",
                 "attribution": _("Quote from %s %s") % (firstname, lastname)
                 if details.quote.strip()
