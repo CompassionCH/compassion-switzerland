@@ -33,14 +33,12 @@
     "author": "Compassion CH",
     "license": "AGPL-3",
     "category": "Finance",
-    "website": "http://www.compassion.ch",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "account",
-        "payment_postfinance_flex"  # paid-addons
+        "payment_postfinance_flex",  # paid-addons
     ],
-    "external_dependencies": {"python": [
-        "postfinancecheckout"
-    ]},
+    "external_dependencies": {"python": ["postfinancecheckout"]},
     "data": [
         "security/ir.model.access.csv",
         "views/reconcile_outstanding_wizard_view.xml",

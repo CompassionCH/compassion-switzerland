@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="reconcile_outstanding_view" model="ir.ui.view">
         <field name="name">checkout.reconcile.outstanding.wizard</field>
@@ -7,23 +7,36 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="account_id"/>
+                        <field name="account_id" />
                     </group>
                 </sheet>
                 <footer>
-                    <button name="reconcile_outstanding" type="object" string="Reconcile" class="oe_highlight"/>
+                    <button
+            name="reconcile_outstanding"
+            type="object"
+            string="Reconcile"
+            class="oe_highlight"
+          />
                 </footer>
             </form>
         </field>
     </record>
 
     <!-- Action opening the tree view -->
-    <record id="action_reconcile_outstanding_wizard" model="ir.actions.act_window">
+    <record
+    id="action_reconcile_outstanding_wizard"
+    model="ir.actions.act_window"
+  >
         <field name="name">Reconcile outstanding receipts</field>
         <field name="res_model">reconcile.outstanding.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
 
-    <menuitem id="menu_open_reconcile_outstanding" parent="account.menu_finance_entries_actions" action="action_reconcile_outstanding_wizard" name="Reconcile outstanding receipts"/>
+    <menuitem
+    id="menu_open_reconcile_outstanding"
+    parent="account.menu_finance_entries_actions"
+    action="action_reconcile_outstanding_wizard"
+    name="Reconcile outstanding receipts"
+  />
 </odoo>
