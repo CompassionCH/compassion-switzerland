@@ -24,4 +24,5 @@ class SaleOrderLine(models.Model):
                 line.product_id.image_128
                 or line.registration_id.profile_picture
                 or line.participant_id.profile_photo
+                or ""
             )

@@ -85,18 +85,44 @@ class ZoomAttendee(models.Model):
         vals_list_to_create = vals_list.copy()
 
         for vals in vals_list:
-            existing_attendee = self.search(
-                [
-                    ("partner_id", "=", vals.get("partner_id")),
-                    ("zoom_session_id", "=", vals.get("zoom_session_id")),
-                ]
-            )
-            if existing_attendee:
-                vals_list_to_create.remove(vals)
-                del vals["partner_id"]
-                del vals["zoom_session_id"]
-                existing_attendee.write(vals)
-                res += existing_attendee
+            if vals.get("partner_id"):
+                existing_attendee = self.search(
+                    [
+                        ("partner_id", "=", vals.get("partner_id")),
+                        ("zoom_session_id", "=", vals.get("zoom_session_id")),
+                    ]
+                )
+                if existing_attendee:
+                    vals_list_to_create.remove(vals)
+                    del vals["partner_id"]
+                    del vals["zoom_session_id"]
+                    existing_attendee.write(vals)
+                    res += existing_attendee
+
+            else:
+                partner_vals = self._convert_vals_for_res_partner(vals)
+                partner_id = (
+                    self.env["res.partner.match"]
+                    .match_values_to_partner(
+                        partner_vals, match_update=False, match_create=False
+                    )
+                    .id
+                )
+
+                existing_attendee = self.search(
+                    [
+                        ("partner_id", "=", partner_id),
+                        ("zoom_session_id", "=", vals.get("zoom_session_id")),
+                    ]
+                )
+                if existing_attendee:
+                    vals_list_to_create.remove(vals)
+                    del vals["partner_firstname"]
+                    del vals["partner_lastname"]
+                    del vals["partner_email"]
+                    del vals["zoom_session_id"]
+                    existing_attendee.write(vals)
+                    res += existing_attendee
 
         res += super().create(vals_list_to_create)
 

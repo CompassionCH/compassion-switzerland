@@ -118,6 +118,7 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.firstname"
                       class="form-control s_website_form_input"
                       name="partner_firstname"
                       required="true"
@@ -147,6 +148,7 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.lastname"
                       class="form-control s_website_form_input"
                       name="partner_lastname"
                       required="true"
@@ -172,6 +174,7 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.email"
                       class="form-control s_website_form_input"
                       name="partner_email"
                       required="true"
@@ -196,6 +199,7 @@
                 <div class="col-sm">
                   <input
                       type="text"
+                      t-att-value="partner.phone"
                       class="form-control s_website_form_input"
                       name="partner_phone"
                       id="ocd0qhy3mm5"
@@ -300,6 +304,23 @@
                       class="s_website_form_input"
                       name="zoom_session_id"
                       id="ow6ngqr314yssdf"
+                    />
+                </div>
+              </div>
+            </div>
+            <div
+                class="form-group s_website_form_field_hidden col-12    "
+                data-type="boolean"
+                data-name="Field"
+              >
+              <div class="row s_col_no_resize s_col_no_bgcolor">
+                <div class="col-sm">
+                  <input
+                      type="text"
+                      t-att-value="partner.id"
+                      class="s_website_form_input"
+                      name="partner_id"
+                      id="partner_id"
                     />
                 </div>
               </div>

@@ -230,7 +230,7 @@ class ResPartner(models.Model):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
 
-    @api.depends("name")
+    @api.depends("name", "title", "lang")
     def _compute_address_name(self):
         for partner in self:
             if partner.title and not partner.is_company:
@@ -483,8 +483,6 @@ class ResPartner(models.Model):
             {
                 # check if a state was found or not for this zip
                 "state_id": state.id if len(state) == 1 else None,
-                # remove this field value since its only used for the UI
-                "zip_id": None,
             }
         )
         return vals
