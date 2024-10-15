@@ -2,20 +2,13 @@
     <data noupdate="1">
         <record id="auto_reminder_archive_partners_template" model="mail.template">
             <field name="name">Automatic reminder to archive invalid partners (T0024)</field>
-            <field
-        name="model_id"
-        ref="partner_communication.model_partner_communication_job"
-      />
-            <field
-        name="email_from"
-      >&lt;compassion@compassion.ch&gt;</field>
+            <field name="model_id"
+                ref="partner_communication.model_partner_communication_job"/>
+            <field name="email_from">&lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">sds@compassion.ch</field>
             <field name="use_default_to" eval="True" />
-            <field
-        name="subject"
-      >Reminder: Archive invalid partners</field>
+            <field name="subject">Reminder: Archive invalid partners</field>
             <field name="body_html" type="html">
-                <p hidden="true">DEBUG: 12872</p>
                 <div>
                     <b>The following partners meet the criteria (see <a href="/web#action=521&amp;active_id=895&amp;cids=1&amp;id=600&amp;menu_id=2029&amp;model=project.task&amp;view_type=form">T0024</a>) and are considered invalid : </b>
                     <span style="font-family: 'miller';">
@@ -24,7 +17,6 @@
                     % endfor
                     </span>
                 </div>
-                
             </field>
         </record>
     </data>
