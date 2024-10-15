@@ -351,6 +351,7 @@ class ResPartner(models.Model):
                 "show_signature": True,
                 "print_subject": False,
                 "auto_send": True,
+                "send_mode": "digital" # Force sending by email
             }
             self.env["partner.communication.job"].create(comm_vals)
 

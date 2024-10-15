@@ -20,7 +20,7 @@
                     % set partner_info = object.partner_id.get_archive_contact()
                     <span style="font-family: 'miller';">
                     % for partner in partner_info:
-                        <p><a href="/web#id=${partner.id}&model=res.partner&view_type=form&menu_id=1744">Ref ${partner.ref} - ${partner.name}</a></p>
+                        <p><a href="/web#id=${partner.id}&amp;model=res.partner&amp;view_type=form&amp;menu_id=1744">Ref ${partner.ref} - ${partner.name}</a></p>
                     % endfor
                     </span>
                 </div>
