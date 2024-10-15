@@ -291,7 +291,7 @@ class ResPartner(models.Model):
 
     def find_potential_partners_to_archive(self) -> List['ResPartner']:
         """Finds the list of partners which meet certain criteria and could be archived.
-        This is used to generate the `auto_reminder_archive_contact.xml` email.
+        This is used to generate the `auto_reminder_archive_partners_template` email.
 
         Returns:
             List['ResPartner']: partners which meet the criteria for potential archiving.
@@ -344,13 +344,13 @@ class ResPartner(models.Model):
         return end_result
 
     @api.model
-    def cron_auto_reminder_archive_contact(self):
-        """Function called by a cron job in order to remind SDS to archive invalid contacts.
+    def cron_auto_reminder_archive_partners(self):
+        """Function called by a cron job in order to remind SDS to archive invalid partners.
         """
         reminder_receiver = (
             self.env["res.partner"].sudo().search([("email", "=", "sds@compassion.ch")])
         )
-        config = self.env.ref("partner_communication_switzerland.auto_reminder_archive_contact_config")
+        config = self.env.ref("partner_communication_switzerland.auto_reminder_archive_partners_config")
 
         partners_to_archive = reminder_receiver.find_potential_partners_to_archive()
         if len(partners_to_archive) > 0:
@@ -362,7 +362,7 @@ class ResPartner(models.Model):
                 "auto_send": True,
                 "send_mode": "digital" # Force sending by email
             }
-            # Add the contacts to archive to the context to avoid recomputing it in the template
+            # Add the partners to archive to the context to avoid recomputing it in the template
             self = self.with_context({"extra_email_data": partners_to_archive})
             self.env["partner.communication.job"].create(comm_vals)
 

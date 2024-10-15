@@ -391,9 +391,9 @@
             <field name="model_id" ref="model_recurring_contract" />
             <field name="send_mode">physical</field>
         </record>
-        <record id="auto_reminder_archive_contact_config" model="partner.communication.config">
+        <record id="auto_reminder_archive_partners_config" model="partner.communication.config">
             <field name="name">Automatic reminder to archive invalid partners (T0024)</field>
-            <field name="email_template_id" ref="auto_reminder_archive_contact_template" />
+            <field name="email_template_id" ref="auto_reminder_archive_partners_template" />
             <field name="model_id" ref="model_res_partner" />
             <field name="send_mode">digital</field>
         </record>
