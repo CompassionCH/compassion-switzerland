@@ -16,10 +16,9 @@
       >Reminder: Archive invalid partners</field>
             <field name="body_html" type="html">
                 <div>
-                    <b>The following partners meet the criteria and are considered invalid : </b>
-                    % set partner_info = object.partner_id.get_archive_contact()
+                    <b>The following partners meet the criteria (see <a href="/web#action=521&amp;active_id=895&amp;cids=1&amp;id=600&amp;menu_id=2029&amp;model=project.task&amp;view_type=form">T0024</a>) and are considered invalid : </b>
                     <span style="font-family: 'miller';">
-                    % for partner in partner_info:
+                    % for partner in ctx.get('extra_email_data'):
                         <p><a href="/web#id=${partner.id}&amp;model=res.partner&amp;view_type=form">Ref ${partner.ref} - ${partner.name}</a></p>
                     % endfor
                     </span>

@@ -8,6 +8,7 @@
 #
 ##############################################################################
 import logging
+from typing import List
 import uuid
 from datetime import date
 from datetime import datetime
@@ -288,8 +289,13 @@ class ResPartner(models.Model):
                 )
             )
 
-    def get_archive_contact(self):
-        config = self.env.ref("partner_communication_switzerland.auto_reminder_archive_contact_config")
+    def find_potential_partners_to_archive(self) -> List['ResPartner']:
+        """Finds the list of partners which meet certain criteria and could be archived.
+        This is used to generate the `auto_reminder_archive_contact.xml` email.
+
+        Returns:
+            List['ResPartner']: partners which meet the criteria for potential archiving.
+        """
         # Search for partners who do not have a full address (missing street, city, state, zip, and country)
         # and who have invalid email addresses, no active sponsorships, but are still marked as active partners.
         partners = self.search([("street", "=", False),
@@ -339,12 +345,15 @@ class ResPartner(models.Model):
 
     @api.model
     def cron_auto_reminder_archive_contact(self):
+        """Function called by a cron job in order to remind SDS to archive invalid contacts.
+        """
         reminder_receiver = (
             self.env["res.partner"].sudo().search([("email", "=", "sds@compassion.ch")])
         )
         config = self.env.ref("partner_communication_switzerland.auto_reminder_archive_contact_config")
 
-        if reminder_receiver.get_archive_contact():
+        partners_to_archive = reminder_receiver.find_potential_partners_to_archive()
+        if len(partners_to_archive) > 0:
             comm_vals = {
                 "config_id": config.id,
                 "partner_id": reminder_receiver.id,
@@ -353,9 +362,12 @@ class ResPartner(models.Model):
                 "auto_send": True,
                 "send_mode": "digital" # Force sending by email
             }
+            # Add the contacts to archive to the context to avoid recomputing it in the template
+            self = self.with_context({"extra_email_data": partners_to_archive})
             self.env["partner.communication.job"].create(comm_vals)
 
         return True
+    
     @api.model
     def generate_tax_receipts(self):
         """
