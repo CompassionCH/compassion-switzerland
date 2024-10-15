@@ -363,8 +363,12 @@ class ResPartner(models.Model):
                 "send_mode": "digital" # Force sending by email
             }
             # Add the partners to archive to the context to avoid recomputing it in the template
-            self = self.with_context({"extra_email_data": partners_to_archive})
-            self.env["partner.communication.job"].create(comm_vals)
+            self.with_context(
+                {"extra_email_data": partners_to_archive}
+            ).env["partner.communication.job"].create(comm_vals)
+            _logger.info("Sent reminder to archive invalid partners")
+        else:
+            _logger.info("Did not send reminder to archive invalid partners because there are currently no invalid partners")
 
         return True
     
