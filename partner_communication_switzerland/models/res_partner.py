@@ -8,11 +8,9 @@
 #
 ##############################################################################
 import logging
-from typing import List
 import uuid
-from datetime import date
-from datetime import datetime
-from datetime import timedelta
+from datetime import date, datetime, timedelta
+from typing import List
 
 from dateutil.relativedelta import relativedelta
 
@@ -220,9 +218,9 @@ class ResPartner(models.Model):
         if no_physical_letters:
             vals = {
                 "nbmag": "no_mag" if self.nbmag == "no_mag" else "email",
-                "tax_certificate": "no"
-                if self.tax_certificate == "no"
-                else "only_email",
+                "tax_certificate": (
+                    "no" if self.tax_certificate == "no" else "only_email"
+                ),
                 "calendar": False,
                 "sponsorship_anniversary_card": False,
             }
@@ -289,32 +287,46 @@ class ResPartner(models.Model):
                 )
             )
 
-    def find_potential_partners_to_archive(self) -> List['ResPartner']:
+    def find_potential_partners_to_archive(self) -> List["ResPartner"]:
         """Finds the list of partners which meet certain criteria and could be archived.
         This is used to generate the `auto_reminder_archive_partners_template` email.
 
         Returns:
-            List['ResPartner']: partners which meet the criteria for potential archiving.
+            List['ResPartner']:
+                partners which meet the criteria for potential archiving.
         """
-        # Search for partners who do not have a full address (missing street, city, state, zip, and country)
-        # and who have invalid email addresses, no active sponsorships, but are still marked as active partners.
-        partners = self.search([("street", "=", False),
-                                ("city", "=", False), ("city_id", "=", False),
-                                ("state_id", "=", False),
-                                ("zip", "=", False), ("zip_id", "=", False),
-                                ("country_id", "=", False),  # No Full Address
-                                ("invalid_mail", "!=", ""),  # Invalid Email Address
-                                ("has_sponsorships", "=", False),  # No active sponsorships
-                                ("active", "=", True)])
+        # Search for partners who do not have a full address (missing street,
+        # city, state, zip, and country) and who have invalid email addresses,
+        # no active sponsorships, but are still marked as active partners.
+        partners = self.search(
+            [
+                ("street", "=", False),
+                ("city", "=", False),
+                ("city_id", "=", False),
+                ("state_id", "=", False),
+                ("zip", "=", False),
+                ("zip_id", "=", False),
+                ("country_id", "=", False),  # No Full Address
+                ("invalid_mail", "!=", ""),  # Invalid Email Address
+                ("has_sponsorships", "=", False),  # No active sponsorships
+                ("active", "=", True),
+            ]
+        )
 
         end_result = []  # List to store partners who meet the criteria
         for partner in partners:
             date_sponsorships = []  # List to store last paid sponsorship dates
             date_donations = []  # List to store last paid donation dates
-            diff_sponsorships = timedelta(days=0)  # Default time difference for sponsorships
+            diff_sponsorships = timedelta(
+                days=0
+            )  # Default time difference for sponsorships
             diff_donations = timedelta(days=0)  # Default time difference for donations
-            sponsorship_ids = partner.sponsorship_ids  # Get all sponsorship contracts for the partner
-            donations_ids = partner.other_contract_ids  # Get all other contracts (donations) for the partner
+            sponsorship_ids = (
+                partner.sponsorship_ids
+            )  # Get all sponsorship contracts for the partner
+            donations_ids = (
+                partner.other_contract_ids
+            )  # Get all other contracts (donations) for the partner
 
             # Check if the partner has sponsorship or donation contracts
             if sponsorship_ids or donations_ids:
@@ -325,32 +337,39 @@ class ResPartner(models.Model):
                     if contract.last_paid_invoice_date:
                         date_donations.append(contract.last_paid_invoice_date)
 
-            # If there are any sponsorship or donation dates, calculate the difference from today
+            # If there are any sponsorship or donation dates, calculate the
+            # difference from today
             if date_sponsorships or date_donations:
                 if date_sponsorships:
                     diff_sponsorships = date.today() - max(date_sponsorships)
                 if date_donations:
                     diff_donations = date.today() - max(date_donations)
             else:
-                # If no sponsorships or donations, calculate the difference from the partner creation date
+                # If no sponsorships or donations, calculate the difference from
+                # the partner creation date
                 diff_sponsorships = datetime.now() - partner.create_date
                 diff_donations = datetime.now() - partner.create_date
 
-            # Add partner to the result if both last sponsorship and donation were more than the specified number of days ago
-            # Sponsorship: more than 5 years (1825 days), Donations: more than 3 years (1095 days)
-            if diff_sponsorships > timedelta(days=1825) and diff_donations > timedelta(days=1095):
+            # Add partner to the result if both last sponsorship and donation
+            # were more than the specified number of days ago Sponsorship: more
+            # than 5 years (1825 days), Donations: more than 3 years (1095 days)
+            if diff_sponsorships > timedelta(days=1825) and diff_donations > timedelta(
+                days=1095
+            ):
                 end_result.append(partner)
 
         return end_result
 
     @api.model
     def cron_auto_reminder_archive_partners(self):
-        """Function called by a cron job in order to remind SDS to archive invalid partners.
-        """
+        """Function called by a cron job in order to remind SDS to archive
+        invalid partners."""
         reminder_receiver = (
             self.env["res.partner"].sudo().search([("email", "=", "sds@compassion.ch")])
         )
-        config = self.env.ref("partner_communication_switzerland.auto_reminder_archive_partners_config")
+        config = self.env.ref(
+            "partner_communication_switzerland.auto_reminder_archive_partners_config"
+        )
 
         partners_to_archive = reminder_receiver.find_potential_partners_to_archive()
         if len(partners_to_archive) > 0:
@@ -360,18 +379,22 @@ class ResPartner(models.Model):
                 "show_signature": True,
                 "print_subject": False,
                 "auto_send": True,
-                "send_mode": "digital" # Force sending by email
+                "send_mode": "digital",  # Force sending by email
             }
-            # Add the partners to archive to the context to avoid recomputing it in the template
-            self.with_context(
-                {"extra_email_data": partners_to_archive}
-            ).env["partner.communication.job"].create(comm_vals)
+            # Add the partners to archive to the context to avoid recomputing it
+            # in the template
+            self.with_context({"extra_email_data": partners_to_archive}).env[
+                "partner.communication.job"
+            ].create(comm_vals)
             _logger.info("Sent reminder to archive invalid partners")
         else:
-            _logger.info("Did not send reminder to archive invalid partners because there are currently no invalid partners")
+            _logger.info(
+                """Did not send reminder to archive invalid partners because
+                there are currently no invalid partners"""
+            )
 
         return True
-    
+
     @api.model
     def generate_tax_receipts(self):
         """

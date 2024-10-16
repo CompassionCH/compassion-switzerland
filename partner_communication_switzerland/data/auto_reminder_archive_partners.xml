@@ -1,19 +1,30 @@
 <odoo>
     <data noupdate="1">
-        <record id="auto_reminder_archive_partners_template" model="mail.template">
-            <field name="name">Automatic reminder to archive invalid partners (T0024)</field>
-            <field name="model_id"
-                ref="partner_communication.model_partner_communication_job"/>
+        <record
+      id="auto_reminder_archive_partners_template"
+      model="mail.template"
+    >
+            <field
+        name="name"
+      >Automatic reminder to archive invalid partners (T0024)</field>
+            <field
+        name="model_id"
+        ref="partner_communication.model_partner_communication_job"
+      />
             <field name="email_from">&lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">sds@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="subject">Reminder: Archive invalid partners</field>
             <field name="body_html" type="html">
                 <div>
-                    <b>The following partners meet the criteria (see <a href="/web#action=521&amp;active_id=895&amp;cids=1&amp;id=600&amp;menu_id=2029&amp;model=project.task&amp;view_type=form">T0024</a>) and are considered invalid : </b>
+                    <b>The following partners meet the criteria (see <a
+              href="/web#action=521&amp;active_id=895&amp;cids=1&amp;id=600&amp;menu_id=2029&amp;model=project.task&amp;view_type=form"
+            >T0024</a>) and are considered invalid : </b>
                     <span style="font-family: 'miller';">
                     % for partner in ctx.get('extra_email_data'):
-                        <p><a href="/web#id=${partner.id}&amp;model=res.partner&amp;view_type=form">Ref ${partner.ref} - ${partner.name}</a></p>
+                        <p><a
+                href="/web#id=${partner.id}&amp;model=res.partner&amp;view_type=form"
+              >Ref ${partner.ref} - ${partner.name}</a></p>
                     % endfor
                     </span>
                 </div>
