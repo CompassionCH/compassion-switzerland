@@ -25,7 +25,7 @@ Compassion CH Partner Communications
 This module adds all Sponsorship communications for Compassion
 Switzerland.
 
--  Adds SMS mass sending with 939 services
+- Adds SMS mass sending with 939 services
 
 **Table of contents**
 
@@ -60,7 +60,7 @@ Authors
 Contributors
 ------------
 
--  Emanuel Cino <ecino@compassion.ch>
+- Emanuel Cino <ecino@compassion.ch>
 
 Maintainers
 -----------
