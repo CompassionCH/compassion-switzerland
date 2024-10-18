@@ -7,9 +7,12 @@ from odoo.http import Controller, request, route
 _logger = logging.getLogger(__name__)
 
 
+
+AUTH_LOGIN_ROUTE = "/auth/login"
 class AuthController(Controller):
+
     @route(
-        route="/auth/login",
+        route=AUTH_LOGIN_ROUTE,
         auth="none",
         type="json",
         methods=["POST"],
@@ -17,7 +20,7 @@ class AuthController(Controller):
         cors="*",
     )
     def login(self):
-        username = request.jsonrequest["username"]
+        login = request.jsonrequest["login"]
         password = request.jsonrequest["password"]
         totp = request.jsonrequest["totp"]
 
@@ -25,7 +28,7 @@ class AuthController(Controller):
         res_users = registry(db)["res.users"]
 
         user_id = res_users.authenticate(
-            db, username, password, {"totp": totp, "interactive": False}
+            db, login, password, {"totp": totp, "interactive": False}
         )
 
         user = request.env["res.users"].browse(int(user_id))
