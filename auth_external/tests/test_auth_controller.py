@@ -2,7 +2,7 @@ import base64
 import json
 import os
 import time
-from odoo.addons.auth_totp.models.res_users import TOTP_SECRET_SIZE, hotp
+from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
 from odoo.tests.common import HttpCase
 from odoo.tests import tagged
 from ..controllers.auth import AUTH_LOGIN_ROUTE
@@ -22,7 +22,7 @@ class TestAuthController(HttpCase):
         return secret
 
     def get_current_totp(self) -> str:
-        t = int(time.time())
+        t = int(time.time() / TIMESTEP)
         secret = self.test_user_2fa.totp_secret
         key = base64.b32decode(secret)
         totp_int = hotp(key, t)
