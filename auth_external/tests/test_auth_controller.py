@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import time
+
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
 from odoo.tests.common import HttpCase
 from odoo.tests import tagged
@@ -89,6 +90,9 @@ class TestAuthController(HttpCase):
             "totp": self.get_current_totp()
         }
     
+    def user_normal_login(self) -> Response:
+        return self.login(self.user_normal_login_data())
+    
 
     def should_produce_error(self, login_data: dict, expected_error: str) -> None:
         response = self.login(login_data)
@@ -150,15 +154,25 @@ class TestAuthController(HttpCase):
         """
         data = self.user_2fa_login_data()
         data["password"] = "incorrect_password"
-        data["totp"] = None  # TODO
+        self.should_deny_access(data)
+
+    def test_no_password_bypass_with_totp_provided(self):
+        """
+        An attacker is denied access to a normal user account when providing a
+        unusual totp
+        """
+        data = self.user_normal_login_data()
+        data["password"] = "incorrect_password"
+        data["totp"] = "some very bizarre totp"
+        self.should_deny_access(data)
+
+    def test_fresh_access_token_is_accepted(self):
+        resp = self.user_normal_login()
+        # TODO: Continue : xmlrpc.client.ServerProxy(...)
 
     """
     We assume the attacker knows the username of the victim
     TO TEST:
-    - 
-    - 
-    - 
-    - An attacker is denied access to a normal user account when providing a totp
     - An attacker cannot successfully submit a forged access token
     - An attacker cannot successfully submit a forged refresh token
     - An attacker cannot successfully reuse an expired access token
