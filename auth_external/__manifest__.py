@@ -34,6 +34,9 @@
     "external_dependencies": {},
     "depends": [
         "base",
+        "auth_totp" 
+        # The main reason for this custom module is to allow 2FA authentication
+        # for xmlrpc api calls. This is why it depends on auth_totp.
     ],
     "data": [],
     "demo": [],
