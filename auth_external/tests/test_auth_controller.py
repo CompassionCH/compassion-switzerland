@@ -6,7 +6,7 @@ import string
 import time
 
 from typing import Any, Tuple
-from xmlrpc.client import ServerProxy
+from xmlrpc.client import ServerProxy, Fault
 
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
 from odoo.tests.common import HttpCase
@@ -81,8 +81,8 @@ class TestAuthController(HttpCase):
         self.assertIn("access_token", auth_tokens)
         self.assertNotEqual(auth_tokens["access_token"], "")
 
-    def login(self, login_data: dict, raw_response = False) -> Any:
-        resp =  self.json_post(AUTH_LOGIN_ROUTE, login_data)
+    def login(self, login_data: dict, raw_response=False) -> Any:
+        resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
         if raw_response:
             return resp
         data = resp.json()["result"]
@@ -110,10 +110,9 @@ class TestAuthController(HttpCase):
 
     def user_normal_login(self) -> Tuple[int, str, str]:
         return self.login(self.user_normal_login_data())
-    
+
     def user_2fa_login(self) -> Tuple[int, str, str]:
         return self.login(self.user_2fa_login_data())
-        
 
     def xmlrpc_execute_kw(
         self,
@@ -130,6 +129,34 @@ class TestAuthController(HttpCase):
         )
         return models.execute_kw(
             TEST_DB_NAME, user_id, NO_PASSWORD, model_name, method, pos_args, kw_args
+        )
+
+    def read_user_sig(
+        self, request_user_id: int, access_token: str, target_user_id: int
+    ) -> dict:
+        res = self.xmlrpc_execute_kw(
+            request_user_id,
+            access_token,
+            "res.users",
+            "read",
+            [[target_user_id]],
+            {"fields": ["signature"]},
+        )
+        return res[0]["signature"]
+
+    def write_user_sig(
+        self,
+        request_user_id: int,
+        access_token: str,
+        target_user_id: int,
+        new_signature: str,
+    ) -> dict:
+        self.xmlrpc_execute_kw(
+            request_user_id,
+            access_token,
+            "res.users",
+            "write",
+            [[target_user_id], {"signature": new_signature}],
         )
 
     def should_produce_error(self, login_data: dict, expected_error: str) -> None:
@@ -206,7 +233,7 @@ class TestAuthController(HttpCase):
 
     def rand_str(self, length: int):
         letters = string.ascii_lowercase
-        return ''.join(random.choice(letters) for _ in range(length))
+        return "".join(random.choice(letters) for _ in range(length))
 
     def test_fresh_access_token_is_accepted(self):
         """
@@ -214,25 +241,36 @@ class TestAuthController(HttpCase):
         """
         user_id, access_token, _ = self.user_normal_login()
         rand_sig = self.rand_str(8)
-        res = self.xmlrpc_execute_kw(user_id, access_token, 'res.users', 'write', [[user_id], {'signature': rand_sig}])
-        new_sig_res = self.xmlrpc_execute_kw(user_id, access_token,  'res.users', 'read', [[user_id]], {"fields": ["signature"]})
-        new_sig = new_sig_res[0]["signature"]
+        self.write_user_sig(user_id, access_token, user_id, rand_sig)
+        new_sig = self.read_user_sig(user_id, access_token, user_id)
         self.assertIn(rand_sig, new_sig)
 
     def test_access_denied_without_correct_user_id(self):
         """
-        An attacker cannot send requests without providing a valid user id
+        An attacker cannot use their access_token to modify data from another account
         """
-        # user_id_normal, access_token_normal, _ = self.user_normal_login()
-        # user_id_2fa, access_token_2fa, _ = self.user_2fa_login()
-        # res = self.xmlrpc_execute_kw(
-        #     user_id_2fa, # Attacker = normal user, victim = 2fa user
-        #     access_token_normal,
-        #     "res.users",
-        #     [""],
-        #     {}
-        # )
-        # TODO continue
+        user_id_normal, access_token_normal, _ = self.user_normal_login()
+        user_id_2fa, _, _ = self.user_2fa_login()
+        # The attacker (normal user) tries to modify the signature of the victim (2fa user)
+        # incorrect requester id and target id
+        self.assertRaises(
+            Fault,
+            lambda: self.write_user_sig(
+                user_id_2fa, access_token_normal, user_id_2fa, "Malicious signature"
+            ),
+        )
+
+        # incorrect target id
+        self.assertRaises(
+            Fault,
+            lambda: self.write_user_sig(
+                user_id_normal, access_token_normal, user_id_2fa, "Malicious signature"
+            ),
+        )
+
+    
+
+    
 
     """
     We assume the attacker knows the username of the victim
