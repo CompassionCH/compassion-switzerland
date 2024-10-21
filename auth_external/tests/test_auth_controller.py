@@ -3,12 +3,18 @@ import json
 import os
 import time
 
+from typing import Tuple
+from xmlrpc.client import ServerProxy
+
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
 from odoo.tests.common import HttpCase
 from odoo.tests import tagged
 from ..controllers.auth import AUTH_LOGIN_ROUTE
 from http import HTTPStatus
 from requests import Response
+
+TEST_DB_NAME = "t1486"
+NO_PASSWORD = "None"
 
 
 @tagged("post_install", "-at_install")
@@ -75,24 +81,48 @@ class TestAuthController(HttpCase):
 
     def login(self, login_data: dict) -> Response:
         return self.json_post(AUTH_LOGIN_ROUTE, login_data)
-    
+
     def user_normal_login_data(self) -> dict:
         return {
             "login": self.test_user_normal.login,
             "password": TestAuthController.PASSWORD,
-            "totp": ""
+            "totp": "",
         }
-    
+
     def user_2fa_login_data(self) -> dict:
         return {
             "login": self.test_user_2fa.login,
             "password": TestAuthController.PASSWORD,
-            "totp": self.get_current_totp()
+            "totp": self.get_current_totp(),
         }
-    
-    def user_normal_login(self) -> Response:
-        return self.login(self.user_normal_login_data())
-    
+
+    def user_normal_login(self) -> Tuple[int, str, str]:
+        resp = self.login(self.user_normal_login_data())
+        data = resp.json()["result"]
+
+        user_id = data["user_id"]
+
+        auth_tokens = data["auth_tokens"]
+        access_token = auth_tokens["access_token"]
+        refresh_token = auth_tokens["refresh_token"]
+        return user_id, access_token, refresh_token
+
+    def xmlrpc_execute_kw(
+        self,
+        user_id: int,
+        access_token: str,
+        model_name: str,
+        method: str,
+        pos_args: list,
+        kw_args=None,
+    ) -> dict:
+        models = ServerProxy(
+            f"{self.xmlrpc_url}object",
+            headers=[("Authorization", f"Bearer {access_token}")],
+        )
+        return models.execute_kw(
+            TEST_DB_NAME, user_id, NO_PASSWORD, model_name, method, pos_args, kw_args
+        )
 
     def should_produce_error(self, login_data: dict, expected_error: str) -> None:
         response = self.login(login_data)
@@ -167,8 +197,19 @@ class TestAuthController(HttpCase):
         self.should_deny_access(data)
 
     def test_fresh_access_token_is_accepted(self):
-        resp = self.user_normal_login()
-        # TODO: Continue : xmlrpc.client.ServerProxy(...)
+        """
+        A normal user can make rpc calls with a valid access token
+        """
+        user_id, access_token, _ = self.user_normal_login()
+        res = self.xmlrpc_execute_kw(
+            user_id,
+            access_token,
+            "res.users",
+            "check_access_rights",
+            ["read"],
+            {'raise_exception': False}
+        )
+        self.assertTrue(res) # Check that the token gives access to read res.users
 
     """
     We assume the attacker knows the username of the victim
