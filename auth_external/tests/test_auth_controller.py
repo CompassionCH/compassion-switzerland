@@ -1,9 +1,11 @@
 import base64
 import json
 import os
+import random
+import string
 import time
 
-from typing import Tuple
+from typing import Any, Tuple
 from xmlrpc.client import ServerProxy
 
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
@@ -70,7 +72,7 @@ class TestAuthController(HttpCase):
         self.assertEqual(response.json()["error"]["data"]["name"], expected_error)
 
     def assert_login_success(self, login_data: dict) -> None:
-        response = self.login(login_data)
+        response = self.login(login_data, raw_response=True)
         self.assert_status_OK(response)
         result = response.json()["result"]
         self.assertIn("user_id", result)
@@ -79,8 +81,18 @@ class TestAuthController(HttpCase):
         self.assertIn("access_token", auth_tokens)
         self.assertNotEqual(auth_tokens["access_token"], "")
 
-    def login(self, login_data: dict) -> Response:
-        return self.json_post(AUTH_LOGIN_ROUTE, login_data)
+    def login(self, login_data: dict, raw_response = False) -> Any:
+        resp =  self.json_post(AUTH_LOGIN_ROUTE, login_data)
+        if raw_response:
+            return resp
+        data = resp.json()["result"]
+
+        user_id = data["user_id"]
+
+        auth_tokens = data["auth_tokens"]
+        access_token = auth_tokens["access_token"]
+        refresh_token = auth_tokens["refresh_token"]
+        return user_id, access_token, refresh_token
 
     def user_normal_login_data(self) -> dict:
         return {
@@ -97,15 +109,11 @@ class TestAuthController(HttpCase):
         }
 
     def user_normal_login(self) -> Tuple[int, str, str]:
-        resp = self.login(self.user_normal_login_data())
-        data = resp.json()["result"]
-
-        user_id = data["user_id"]
-
-        auth_tokens = data["auth_tokens"]
-        access_token = auth_tokens["access_token"]
-        refresh_token = auth_tokens["refresh_token"]
-        return user_id, access_token, refresh_token
+        return self.login(self.user_normal_login_data())
+    
+    def user_2fa_login(self) -> Tuple[int, str, str]:
+        return self.login(self.user_2fa_login_data())
+        
 
     def xmlrpc_execute_kw(
         self,
@@ -114,7 +122,7 @@ class TestAuthController(HttpCase):
         model_name: str,
         method: str,
         pos_args: list,
-        kw_args=None,
+        kw_args={},
     ) -> dict:
         models = ServerProxy(
             f"{self.xmlrpc_url}object",
@@ -125,7 +133,7 @@ class TestAuthController(HttpCase):
         )
 
     def should_produce_error(self, login_data: dict, expected_error: str) -> None:
-        response = self.login(login_data)
+        response = self.login(login_data, raw_response=True)
         self.assert_status_OK(response)
         self.assert_error_name(response, expected_error)
 
@@ -196,20 +204,35 @@ class TestAuthController(HttpCase):
         data["totp"] = "some very bizarre totp"
         self.should_deny_access(data)
 
+    def rand_str(self, length: int):
+        letters = string.ascii_lowercase
+        return ''.join(random.choice(letters) for _ in range(length))
+
     def test_fresh_access_token_is_accepted(self):
         """
         A normal user can make rpc calls with a valid access token
         """
         user_id, access_token, _ = self.user_normal_login()
-        res = self.xmlrpc_execute_kw(
-            user_id,
-            access_token,
-            "res.users",
-            "check_access_rights",
-            ["read"],
-            {'raise_exception': False}
-        )
-        self.assertTrue(res) # Check that the token gives access to read res.users
+        rand_sig = self.rand_str(8)
+        res = self.xmlrpc_execute_kw(user_id, access_token, 'res.users', 'write', [[user_id], {'signature': rand_sig}])
+        new_sig_res = self.xmlrpc_execute_kw(user_id, access_token,  'res.users', 'read', [[user_id]], {"fields": ["signature"]})
+        new_sig = new_sig_res[0]["signature"]
+        self.assertIn(rand_sig, new_sig)
+
+    def test_access_denied_without_correct_user_id(self):
+        """
+        An attacker cannot send requests without providing a valid user id
+        """
+        # user_id_normal, access_token_normal, _ = self.user_normal_login()
+        # user_id_2fa, access_token_2fa, _ = self.user_2fa_login()
+        # res = self.xmlrpc_execute_kw(
+        #     user_id_2fa, # Attacker = normal user, victim = 2fa user
+        #     access_token_normal,
+        #     "res.users",
+        #     [""],
+        #     {}
+        # )
+        # TODO continue
 
     """
     We assume the attacker knows the username of the victim
