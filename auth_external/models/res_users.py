@@ -3,7 +3,8 @@ import logging
 import re
 import secrets
 from datetime import datetime, timedelta
-from typing import Any, override
+from typing import Any
+import uuid
 
 from jwt import JWT, AbstractJWKBase, supported_key_types
 from jwt.exceptions import JWTDecodeError
@@ -21,8 +22,8 @@ authorization_extractor = re.compile(r'(\w+)[:=] ?"?(\w+)"?')
 
 # TODO: move those to settings.
 issuer_id = "compassion.ch"
-access_token_duration = 60 * 60 * 3  # Token is only valid for this period of time.
-refresh_token_duration = 60 * 60 * 24 * 28
+access_token_duration_seconds = 60 * 60 * 3  # Token is only valid for this period of time.
+refresh_token_duration_seconds = 60 * 60 * 24 * 28
 user_access_aud = "user_auth_grant"
 user_refresh_aud = "user_refresh_grant"
 
@@ -65,7 +66,10 @@ class ExternalAuthUsers(models.Model):
             "nbf": get_int_from_datetime(datetime.now()),
             "iat": get_int_from_datetime(datetime.now()),
             "typ": "JWT",
-            "jti": "uuid",  # TODO: Generate token UID
+            # Generate a random UUID (uuid4()).
+            # This makes every token unique. Without this, two tokens generated
+            # in the same second have the same value
+            "jti": str(uuid.uuid4()),
         }
 
         token = JWT().encode(payload, key, alg=JWT_ALG)
@@ -115,9 +119,9 @@ class ExternalAuthUsers(models.Model):
 
         # Verification succeeded, we generate tokens.
 
-        access_token_exp = datetime.now() + timedelta(0, access_token_duration)
+        access_token_exp = datetime.now() + timedelta(seconds=access_token_duration_seconds)
         # TODO: this is not good, it essentially makes refresh tokens have an infinite lifetime
-        refresh_token_exp = datetime.now() + timedelta(0, refresh_token_duration)
+        refresh_token_exp = datetime.now() + timedelta(seconds=refresh_token_duration_seconds)
 
         payload, new_token = self._generate_jwt(
             issuer_id,
@@ -141,7 +145,8 @@ class ExternalAuthUsers(models.Model):
             "Access token expires in %d seconds (%s)"
             % (
                 self.login,
-                access_token_duration,
+                access_token_duration_seconds,
+                # TODO iso8601 time
                 access_token_exp.strftime("%m/%d/%Y, %H:%M:%S"),
             )
         )
@@ -149,6 +154,7 @@ class ExternalAuthUsers(models.Model):
         return {
             "access_token": new_token,
             "refresh_token": new_refresh_token,
+            # TODO iso8601 time
             "expires_at": access_token_exp.strftime("%Y-%m-%dT%H:%M:%SZ"),
         }
 
@@ -226,8 +232,18 @@ class ExternalAuthUsers(models.Model):
 
         return payload
 
-    @override
-    def _check_credentials(self, password, user_agent_env):
+    def _check_credentials(self, password: str, user_agent_env) -> None:
+        """Overrides the default method in res.users to accept authorization via a valid JWT access_token.
+        If no access_token is found, defaults to password authentication.
+
+        Args:
+            password (str): Password used as fallback if no Authorization header with a valid JWT access_token is present in the request headers.
+            user_agent_env (dict): additional credential data. This is used to provide the totp_token in 2FA.
+
+        Raises:
+            InvalidTotp: If the provided totp code is invalid.
+            AccessDenied: If the credentials are incorrect.
+        """
         # Check for Bearer *before* parent to prevent costly password check
         # when we are trying to authenticate using Bearer.
         # Consequence: Translation Platform home page loads in <2s vs <4s.
@@ -255,15 +271,14 @@ class ExternalAuthUsers(models.Model):
 
         # Username / password + TOTP login attempt.
         if "totp" in user_agent_env and self.env.user.totp_enabled:
-            res = Users._check_credentials(self, password, user_agent_env)
+            Users._check_credentials(self, password, user_agent_env)
 
             try:
                 totp = int(re.sub(r"\s", "", user_agent_env["totp"]))
                 self.env.user._totp_check(totp)
+                return # successful check
             except (AccessDenied, ValueError) as ex:
                 raise InvalidTotp from ex
-
-            return res
 
         raise AccessDenied
 
