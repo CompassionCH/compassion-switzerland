@@ -9,6 +9,7 @@ _logger = logging.getLogger(__name__)
 
 
 AUTH_LOGIN_ROUTE = "/auth/login"
+AUTH_REFRESH_ROUTE = "/auth/refresh"
 class AuthController(Controller):
 
     @route(
@@ -37,7 +38,7 @@ class AuthController(Controller):
         return {"user_id": user_id, "auth_tokens": user.generate_external_auth_token()}
 
     @route(
-        route="/auth/refresh",
+        route=AUTH_REFRESH_ROUTE,
         auth="none",
         type="json",
         methods=["POST"],

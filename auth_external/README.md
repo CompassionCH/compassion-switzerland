@@ -1,3 +1,6 @@
+# TODO security properties
+Describe what you can expect from this module in terms of security properties
+
 # Security considerations
 
 ## Absence of method for token revocation

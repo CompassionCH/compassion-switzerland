@@ -1,19 +1,24 @@
 import base64
+from datetime import datetime, timedelta
 import json
 import os
 import random
 import string
 import time
 
+from types import FunctionType
 from typing import Any, Tuple
 from xmlrpc.client import ServerProxy, Fault
+
+from jwt import AbstractJWKBase
 
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
 from odoo.tests.common import HttpCase
 from odoo.tests import tagged
-from ..controllers.auth import AUTH_LOGIN_ROUTE
+from ..controllers.auth import AUTH_LOGIN_ROUTE, AUTH_REFRESH_ROUTE
 from http import HTTPStatus
 from requests import Response
+from ..models.res_users import issuer_id, user_access_aud, access_token_signing_key
 
 TEST_DB_NAME = "t1486"
 NO_PASSWORD = "None"
@@ -32,10 +37,21 @@ class TestAuthController(HttpCase):
 
     def get_current_totp(self) -> str:
         t = int(time.time() / TIMESTEP)
-        secret = self.test_user_2fa.totp_secret
+        secret = self.user_2fa.totp_secret
         key = base64.b32decode(secret)
         totp_int = hotp(key, t)
         return f"{totp_int:06d}"
+
+    def gen_expired_JWT_access_token(self, user_id: int) -> str:
+        res_users = self.env["res.users"]
+        one_sec_ago = datetime.now() - timedelta(seconds=1)
+        return res_users._generate_jwt(
+            issuer_id,
+            user_id,
+            user_access_aud,
+            one_sec_ago,
+            access_token_signing_key,
+        )
 
     def setUp(self, *args, **kwargs):
         super(TestAuthController, self).setUp(*args, **kwargs)
@@ -44,14 +60,14 @@ class TestAuthController(HttpCase):
 
         res_users = self.env["res.users"]
 
-        self.test_user_normal = res_users.create(
+        self.user_normal = res_users.create(
             {
                 **test_user,
                 "login": "user_normal",
                 "password": TestAuthController.PASSWORD,
             }
         )
-        self.test_user_2fa = res_users.create(
+        self.user_2fa = res_users.create(
             {
                 **test_user,
                 "login": "user_2fa",
@@ -81,6 +97,11 @@ class TestAuthController(HttpCase):
         self.assertIn("access_token", auth_tokens)
         self.assertNotEqual(auth_tokens["access_token"], "")
 
+    def assert_xmlrpc_access_denied(self, func: FunctionType, expected_fault_substring: str = "Access Denied") -> None:
+        with self.assertRaises(Fault) as cm:
+            func()
+        self.assertIn(expected_fault_substring, cm.exception.faultString)
+
     def login(self, login_data: dict, raw_response=False) -> Any:
         resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
         if raw_response:
@@ -93,25 +114,51 @@ class TestAuthController(HttpCase):
         access_token = auth_tokens["access_token"]
         refresh_token = auth_tokens["refresh_token"]
         return user_id, access_token, refresh_token
+    
+    def refresh(self, refresh_token: str) -> Tuple[str, str, str]:
+        """Refresh the tokens using /auth/refresh
+
+        Args:
+            refresh_token (str): Refresh token to submit to /auth/refresh
+
+        Returns:
+            __Tuple[str, str, str]: access_token, refresh_token, expires_at
+        }
+        """
+        resp = self.json_post(AUTH_REFRESH_ROUTE, {
+            "refresh_token": refresh_token
+        })
+        data = resp.json()["result"]
+        return data["access_token"], data["refresh_token"], data["expires_at"]
 
     def user_normal_login_data(self) -> dict:
         return {
-            "login": self.test_user_normal.login,
+            "login": self.user_normal.login,
             "password": TestAuthController.PASSWORD,
             "totp": "",
         }
 
     def user_2fa_login_data(self) -> dict:
         return {
-            "login": self.test_user_2fa.login,
+            "login": self.user_2fa.login,
             "password": TestAuthController.PASSWORD,
             "totp": self.get_current_totp(),
         }
 
     def user_normal_login(self) -> Tuple[int, str, str]:
+        """Performs a login for the normal user
+    
+        Returns:
+            __Tuple[int, str, str]: user_id, access_token, refresh_token
+        """
         return self.login(self.user_normal_login_data())
 
     def user_2fa_login(self) -> Tuple[int, str, str]:
+        """Performs a login for the 2fa user
+    
+        Returns:
+            __Tuple[int, str, str]: user_id, access_token, refresh_token
+        """
         return self.login(self.user_2fa_login_data())
 
     def xmlrpc_execute_kw(
@@ -253,26 +300,53 @@ class TestAuthController(HttpCase):
         user_id_2fa, _, _ = self.user_2fa_login()
         # The attacker (normal user) tries to modify the signature of the victim (2fa user)
         # incorrect requester id and target id
-        self.assertRaises(
-            Fault,
+        self.assert_xmlrpc_access_denied(
             lambda: self.write_user_sig(
                 user_id_2fa, access_token_normal, user_id_2fa, "Malicious signature"
             ),
         )
 
         # incorrect target id
-        self.assertRaises(
-            Fault,
+        self.assert_xmlrpc_access_denied(
             lambda: self.write_user_sig(
                 user_id_normal, access_token_normal, user_id_2fa, "Malicious signature"
             ),
+            "You are not allowed to modify"
         )
+
+    def test_cannot_submit_expired_access_token(self):
+        """
+        An attacker cannot successfully reuse an expired access token
+        """
+        user_id = self.user_normal.id
+        exp_access_token = self.gen_expired_JWT_access_token(user_id)
+        self.assert_xmlrpc_access_denied(
+            lambda: self.write_user_sig(
+                user_id, exp_access_token, user_id, "Malicious signature"
+            )
+        )
+
+    def test_can_refresh_access_token_with_valid_refresh_token(self):
+        user_id, access_token, refresh_token = self.user_normal_login()
+        fresh_access_token, fresh_refresh_token, expires_at = self.refresh(refresh_token)
+        # Check fresh access token is indeed fresh
+        self.assertNotEqual(access_token, fresh_access_token)
+        self.assertNotEqual(refresh_token, fresh_refresh_token) # TODO maybe update
+        rand_sig = self.rand_str(8)
+        self.write_user_sig(user_id, fresh_access_token, user_id, rand_sig)
+        new_sig = self.read_user_sig(user_id, fresh_access_token, user_id)
+        self.assertIn(rand_sig, new_sig)
+
+
+    def test_cannot_submit_forged_access_token(self):
+        """
+        An attacker cannot successfully submit an access_token with an invalid signature
+        """
 
     """
     We assume the attacker knows the username of the victim
     TO TEST:
-    - An attacker cannot successfully submit a forged access token
-    - An attacker cannot successfully submit a forged refresh token
-    - An attacker cannot successfully reuse an expired access token
+    - 
+    - An attacker cannot successfully submit a refresh_token with an invalid signature
     - An attacker cannot successfully reuse an expired refresh token
     """
