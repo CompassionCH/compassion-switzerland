@@ -268,10 +268,6 @@ class TestAuthController(HttpCase):
             ),
         )
 
-    
-
-    
-
     """
     We assume the attacker knows the username of the victim
     TO TEST:

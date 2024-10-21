@@ -3,6 +3,7 @@ import logging
 import re
 import secrets
 from datetime import datetime, timedelta
+from typing import Any, override
 
 from jwt import JWT, AbstractJWKBase, supported_key_types
 from jwt.exceptions import JWTDecodeError
@@ -34,6 +35,7 @@ global_secret_refresh = secrets.token_bytes(256)
 access_token_signing_key = supported_key_types()["oct"](global_secret_access)
 refresh_token_signing_key = supported_key_types()["oct"](global_secret_refresh)
 
+JWT_ALG = "HS256"
 
 class InvalidTotp(AccessDenied):
     pass
@@ -66,7 +68,7 @@ class ExternalAuthUsers(models.Model):
             "jti": "uuid",  # TODO: Generate token UID
         }
 
-        token = JWT().encode(payload, key, alg="HS256")
+        token = JWT().encode(payload, key, alg=JWT_ALG)
 
         return payload, token
 
@@ -114,6 +116,7 @@ class ExternalAuthUsers(models.Model):
         # Verification succeeded, we generate tokens.
 
         access_token_exp = datetime.now() + timedelta(0, access_token_duration)
+        # TODO: this is not good, it essentially makes refresh tokens have an infinite lifetime
         refresh_token_exp = datetime.now() + timedelta(0, refresh_token_duration)
 
         payload, new_token = self._generate_jwt(
@@ -124,6 +127,7 @@ class ExternalAuthUsers(models.Model):
             access_token_signing_key,
         )
 
+        # TODO : if the refresh_token is provided, DO NOT generate a new refresh_token to allow it to expire
         refresh_payload, new_refresh_token = self._generate_jwt(
             issuer_id,
             self.env.user.id,
@@ -188,7 +192,7 @@ class ExternalAuthUsers(models.Model):
 
     @classmethod
     def _parse_jwt_token(
-        cls, token, sub: any, iss: str, aud: str, key: AbstractJWKBase
+        cls, token, sub: Any, iss: str, aud: str, key: AbstractJWKBase
     ) -> dict:
         """Verifies the validity of a JWT.
         :param token: The token to check for validity.
@@ -199,7 +203,8 @@ class ExternalAuthUsers(models.Model):
         :raises AccessDenied: if the token is invalid.
         """
         try:
-            payload = JWT().decode(token, key, algorithms={"HS256"})
+            # Check the signature and expiration time of token
+            payload = JWT().decode(token, key, algorithms={JWT_ALG}, do_verify=True, do_time_check=True)
         except JWTDecodeError as exc:
             _logger.info(
                 "JWT check failed: %s", exc.__cause__ if exc.__cause__ else exc
@@ -221,6 +226,7 @@ class ExternalAuthUsers(models.Model):
 
         return payload
 
+    @override
     def _check_credentials(self, password, user_agent_env):
         # Check for Bearer *before* parent to prevent costly password check
         # when we are trying to authenticate using Bearer.
