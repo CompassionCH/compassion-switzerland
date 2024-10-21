@@ -7,7 +7,7 @@ import string
 import time
 
 from types import FunctionType
-from typing import Any, Tuple
+from typing import Any, Tuple, Union
 from xmlrpc.client import ServerProxy, Fault
 
 from jwt import AbstractJWKBase
@@ -18,7 +18,7 @@ from odoo.tests import tagged
 from ..controllers.auth import AUTH_LOGIN_ROUTE, AUTH_REFRESH_ROUTE
 from http import HTTPStatus
 from requests import Response
-from ..models.res_users import issuer_id, user_access_aud, access_token_signing_key
+from ..models.res_users import issuer_id, user_access_aud, access_token_signing_key, user_refresh_aud, refresh_token_signing_key
 
 TEST_DB_NAME = "t1486"
 NO_PASSWORD = "None"
@@ -42,16 +42,23 @@ class TestAuthController(HttpCase):
         totp_int = hotp(key, t)
         return f"{totp_int:06d}"
 
-    def gen_expired_JWT_access_token(self, user_id: int) -> str:
+    def gen_expired_JWT_token(self, user_id: int, JWT_audience: str, signing_key: AbstractJWKBase) -> str:
         res_users = self.env["res.users"]
         one_sec_ago = datetime.now() - timedelta(seconds=1)
-        return res_users._generate_jwt(
+        _, token = res_users._generate_jwt(
             issuer_id,
             user_id,
-            user_access_aud,
+            JWT_audience,
             one_sec_ago,
-            access_token_signing_key,
+            signing_key,
         )
+        return token
+
+    def gen_expired_JWT_access_token(self, user_id: int) -> str:
+        return self.gen_expired_JWT_token(user_id, user_access_aud, access_token_signing_key)
+    
+    def gen_expired_JWT_refresh_token(self, user_id: int) -> str:
+        return self.gen_expired_JWT_token(user_id, user_refresh_aud, refresh_token_signing_key)
 
     def setUp(self, *args, **kwargs):
         super(TestAuthController, self).setUp(*args, **kwargs)
@@ -102,7 +109,7 @@ class TestAuthController(HttpCase):
             func()
         self.assertIn(expected_fault_substring, cm.exception.faultString)
 
-    def login(self, login_data: dict, raw_response=False) -> Any:
+    def login(self, login_data: dict, raw_response=False) -> Union[Tuple[str, str, str], Response]:
         resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
         if raw_response:
             return resp
@@ -115,7 +122,7 @@ class TestAuthController(HttpCase):
         refresh_token = auth_tokens["refresh_token"]
         return user_id, access_token, refresh_token
     
-    def refresh(self, refresh_token: str) -> Tuple[str, str, str]:
+    def refresh(self, refresh_token: str, raw_response=False) -> Union[Tuple[str, str, str], Response]:
         """Refresh the tokens using /auth/refresh
 
         Args:
@@ -128,6 +135,8 @@ class TestAuthController(HttpCase):
         resp = self.json_post(AUTH_REFRESH_ROUTE, {
             "refresh_token": refresh_token
         })
+        if raw_response:
+            return resp
         data = resp.json()["result"]
         return data["access_token"], data["refresh_token"], data["expires_at"]
 
@@ -206,16 +215,19 @@ class TestAuthController(HttpCase):
             [[target_user_id], {"signature": new_signature}],
         )
 
-    def should_produce_error(self, login_data: dict, expected_error: str) -> None:
+    def login_should_produce_error(self, login_data: dict, expected_error: str) -> None:
         response = self.login(login_data, raw_response=True)
         self.assert_status_OK(response)
         self.assert_error_name(response, expected_error)
 
-    def should_deny_access(self, login_data: dict) -> None:
-        self.should_produce_error(login_data, "odoo.exceptions.AccessDenied")
+    def assert_error_access_denied(self, resp: Response) -> None:
+        self.assert_error_name(resp, "odoo.exceptions.AccessDenied")
 
-    def should_produce_invalid_totp(self, login_data: dict) -> None:
-        self.should_produce_error(
+    def login_should_deny_access(self, login_data: dict) -> None:
+        self.login_should_produce_error(login_data, "odoo.exceptions.AccessDenied")
+
+    def login_should_produce_invalid_totp(self, login_data: dict) -> None:
+        self.login_should_produce_error(
             login_data, "odoo.addons.auth_external.models.res_users.InvalidTotp"
         )
 
@@ -226,7 +238,7 @@ class TestAuthController(HttpCase):
             "password": "password",
             "totp": "123456",
         }
-        self.should_deny_access(data)
+        self.login_should_deny_access(data)
 
     def test_login_should_succeed_for_normal_user(self):
         self.assert_login_success(self.user_normal_login_data())
@@ -240,7 +252,7 @@ class TestAuthController(HttpCase):
         """
         data_incorrect_password = self.user_normal_login_data()
         data_incorrect_password["password"] = "incorrect_password"
-        self.should_deny_access(data_incorrect_password)
+        self.login_should_deny_access(data_incorrect_password)
 
     def test_access_denied_2fa_correct_password_absent_totp(self):
         """
@@ -248,7 +260,7 @@ class TestAuthController(HttpCase):
         """
         data = self.user_2fa_login_data()
         del data["totp"]
-        self.should_produce_error(data, "builtins.KeyError")
+        self.login_should_produce_error(data, "builtins.KeyError")
 
     def test_access_denied_2fa_correct_password_incorrect_totp(self):
         """
@@ -258,7 +270,7 @@ class TestAuthController(HttpCase):
         data_incorrect_totp["totp"] = (
             "123456"  # 1/1'000'000 chance that this is the correct totp and that the test fails
         )
-        self.should_produce_invalid_totp(data_incorrect_totp)
+        self.login_should_produce_invalid_totp(data_incorrect_totp)
 
     def test_access_denied_2fa_incorrect_password_correct_totp(self):
         """
@@ -266,7 +278,7 @@ class TestAuthController(HttpCase):
         """
         data = self.user_2fa_login_data()
         data["password"] = "incorrect_password"
-        self.should_deny_access(data)
+        self.login_should_deny_access(data)
 
     def test_no_password_bypass_with_totp_provided(self):
         """
@@ -276,7 +288,7 @@ class TestAuthController(HttpCase):
         data = self.user_normal_login_data()
         data["password"] = "incorrect_password"
         data["totp"] = "some very bizarre totp"
-        self.should_deny_access(data)
+        self.login_should_deny_access(data)
 
     def rand_str(self, length: int):
         letters = string.ascii_lowercase
@@ -316,7 +328,7 @@ class TestAuthController(HttpCase):
 
     def test_cannot_submit_expired_access_token(self):
         """
-        An attacker cannot successfully reuse an expired access token
+        An attacker cannot successfully reuse an expired access_token
         """
         user_id = self.user_normal.id
         exp_access_token = self.gen_expired_JWT_access_token(user_id)
@@ -326,12 +338,21 @@ class TestAuthController(HttpCase):
             )
         )
 
+    def test_cannot_submit_expired_refresh_token(self):
+        """
+        An attacker cannot successfully reuse an expired refresh_token
+        """
+        expired_refresh_token = self.gen_expired_JWT_refresh_token(self.user_normal.id)
+        resp = self.refresh(expired_refresh_token, raw_response=True)
+        self.assert_error_access_denied(resp)
+
+
     def test_can_refresh_access_token_with_valid_refresh_token(self):
         user_id, access_token, refresh_token = self.user_normal_login()
         fresh_access_token, fresh_refresh_token, expires_at = self.refresh(refresh_token)
         # Check fresh access token is indeed fresh
         self.assertNotEqual(access_token, fresh_access_token)
-        self.assertNotEqual(refresh_token, fresh_refresh_token) # TODO maybe update
+        self.assertNotEqual(refresh_token, fresh_refresh_token) # TODO maybe remove
         rand_sig = self.rand_str(8)
         self.write_user_sig(user_id, fresh_access_token, user_id, rand_sig)
         new_sig = self.read_user_sig(user_id, fresh_access_token, user_id)
