@@ -448,3 +448,16 @@ class TestAuthController(HttpCase):
         forged_refresh_token = self.gen_forged_JWT_refresh_token(user_id)
         resp = self.refresh(forged_refresh_token, raw_response=True)
         self.assert_error_access_denied(resp)
+
+    def test_cannot_reuse_refresh_token(self):
+        """
+        An attacker cannot reuse a previously used refresh token.
+        """
+        user_id, access_token_1, refresh_token_1 = self.user_normal_login()
+        # first use: should work
+        access_token_2, refresh_token_2, expires_at_2 = self.refresh(refresh_token_1)
+        self.assertNotEqual(refresh_token_1, refresh_token_2) 
+        # second use: should deny access
+        self.assert_error_access_denied(self.refresh(refresh_token_1, raw_response=True))
+        
+

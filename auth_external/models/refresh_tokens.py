@@ -8,7 +8,7 @@ class RefreshTokens(models.Model):
     This allows immediate revocation of refresh tokens as well as automatic reuse detection.
     """
 
-    _name = "auth_external.refresh_token"
+    _name = "auth_external.refresh_tokens"
 
     jti = fields.Char()
     """
@@ -19,6 +19,7 @@ class RefreshTokens(models.Model):
     token = fields.Char()
     """
     String representation of the JWT refresh token
+    TODO is this necessary given that we have jti ? 
     """
     is_revoked = fields.Boolean(False)
     """
@@ -32,7 +33,7 @@ class RefreshTokens(models.Model):
     mechanism.
     """
     parent_id = fields.Many2one(
-        "auth_external.refresh_token",
+        "auth_external.refresh_tokens",
         string="Parent refresh_token",
         # if the parent token is deleted, this token becomes the root of the family
         ondelete="set null",
@@ -44,7 +45,7 @@ class RefreshTokens(models.Model):
     tokens are doubly linked lists)
     """
     child_id = fields.One2many(
-        "auth_external.refresh_token", "parent_id", string="Child refresh_token"
+        "auth_external.refresh_tokens", "parent_id", string="Child refresh_token"
     )
     """
     Child refresh_token. Should be One2one.
@@ -59,7 +60,7 @@ class RefreshTokens(models.Model):
     parent_path = fields.Char(index=True)
 
     
-    @api.constraints('parent_id') 
+    @api.constrains('parent_id') 
     def _check_hierarchy(self): 
         if not self._check_recursion(): 
             raise models.ValidationError( 

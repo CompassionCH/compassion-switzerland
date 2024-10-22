@@ -1,3 +1,8 @@
+
+# TODO add access rules
+2024-10-22 14:03:51,077 62965 WARNING t1486 odoo.modules.loading: The model auth_external.refresh_token has no access rules, consider adding one. E.g. access_auth_external_refresh_token,access_auth_external_refresh_token,model_auth_external_refresh_token,base.group_user,1,0,0,0 
+
+
 # TODO JWT library
 The library which is currently used seems to be abandoned : https://github.com/GehirnInc/python-jwt
 (No update since Apr 19, 2022). It is not clear if this library is already a dependency of odoo.

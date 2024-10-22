@@ -140,7 +140,7 @@ class ExternalAuthUsers(models.Model):
         refresh_tokens = self.env["auth_external.refresh_tokens"]
         if refresh_token is not None:
             refresh_token_payload = self._check_refresh_token(refresh_token, self.env.user.id)
-            refresh_token_model = refresh_tokens.get_by_jti(refresh_token_payload["jti"])
+            refresh_token_model = refresh_tokens.sudo().get_by_jti(refresh_token_payload["jti"])
             if refresh_token_model is None:
                 # if the jti has no corresponding token in the db (but is not
                 # expired because it passed _check_refresh_token), something has
@@ -150,7 +150,7 @@ class ExternalAuthUsers(models.Model):
             # TODO: check if already revoked -> refresh token reuse detection. If so, revoke whole family
             # revoke refresh_token as it was just used.
             refresh_token_model.ensure_one()
-            refresh_token_model.revoke()
+            refresh_token_model.sudo().revoke()
 
         # Verification succeeded, we generate tokens.
 
