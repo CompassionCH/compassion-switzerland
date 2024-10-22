@@ -230,7 +230,7 @@ class ResPartner(models.Model):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
 
-    @api.depends("name")
+    @api.depends("name", "title", "lang")
     def _compute_address_name(self):
         for partner in self:
             if partner.title and not partner.is_company:

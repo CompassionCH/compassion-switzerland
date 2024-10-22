@@ -130,11 +130,13 @@ class ResUsers(models.Model):
                     template.remove("#photo")
                 user.signature = template.html().format(**values)
 
+    @api.depends_context("lang")
     def _compute_short_signature(self):
         for user in self:
             template = PyQuery(user.signature)
             user.short_signature = template("#short").html()
 
+    @api.depends_context("lang")
     def _compute_signature_letter(self):
         """Translate country in Signature (for Compassion Switzerland)"""
         for user in self:
