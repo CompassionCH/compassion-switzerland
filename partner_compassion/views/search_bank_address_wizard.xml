@@ -11,7 +11,7 @@
           >Existing Partner info in bank data (May be unavailable)</h3>
                 </div>
                 <group>
-                    <field name="account_move" invisible="True" />
+                    <field name="move_id" invisible="True" />
                     <field name="partner_address" />
                     <field name="date" />
                 </group>

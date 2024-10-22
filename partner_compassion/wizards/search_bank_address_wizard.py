@@ -17,7 +17,7 @@ class SearchBankAddressWizard(models.TransientModel):
     _name = "search.bank.address.wizard"
     _description = "Wizard search bank address"
 
-    account_move = fields.Many2one(
+    move_id = fields.Many2one(
         "account.move",
         domain=lambda self: self._get_domain(),
         default=lambda self: self._get_default(),
@@ -29,7 +29,7 @@ class SearchBankAddressWizard(models.TransientModel):
     )
     date = fields.Date(
         "Last time used",
-        related="account_move.date",
+        related="move_id.date",
     )
 
     overwriting_street = fields.Char("Street", default="")
@@ -53,17 +53,17 @@ class SearchBankAddressWizard(models.TransientModel):
 
     def _extract_address_from_narration(self, narration):
         """
-        Extract Postal Address from account_move.narration field
+        Extract Postal Address from move_id.narration field
         """
         match = re.search(r"Postal Address\s*\(PstlAdr\):\s*(.*)", narration)
         if match:
             return match.group(1).strip()
         return ""
 
-    @api.depends("account_move.narration")
+    @api.depends("move_id.narration")
     def _compute_partner_address(self):
         for record in self:
-            narration = record.account_move.narration or ""
+            narration = record.move_id.narration or ""
             record.partner_address = self._extract_address_from_narration(narration)
 
     def change_address(self):
