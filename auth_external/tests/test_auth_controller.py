@@ -30,6 +30,11 @@ class TestAuthController(HttpCase):
     PASSWORD = "password"
 
     @staticmethod
+    def rand_str(length: int):
+        letters = string.ascii_lowercase
+        return "".join(random.choice(letters) for _ in range(length))
+
+    @staticmethod
     def gen_totp_secret() -> str:
         secret_bytes_count = TOTP_SECRET_SIZE // 8
         secret = base64.b32encode(os.urandom(secret_bytes_count)).decode()
@@ -41,10 +46,10 @@ class TestAuthController(HttpCase):
         key = base64.b32decode(secret)
         totp_int = hotp(key, t)
         return f"{totp_int:06d}"
-
-    def gen_expired_JWT_token(self, user_id: int, JWT_audience: str, signing_key: AbstractJWKBase) -> str:
+    
+    def gen_timedelta_JWT(self, user_id: int, JWT_audience: str, signing_key: AbstractJWKBase, delta: timedelta) -> str:
         res_users = self.env["res.users"]
-        one_sec_ago = datetime.now() - timedelta(seconds=1)
+        one_sec_ago = datetime.now() + delta
         _, token = res_users._generate_jwt(
             issuer_id,
             user_id,
@@ -54,11 +59,19 @@ class TestAuthController(HttpCase):
         )
         return token
 
+    def gen_expired_JWT(self, user_id: int, JWT_audience: str, signing_key: AbstractJWKBase) -> str:
+        delta = timedelta(seconds=-1) # generated token expired 1 second in the past (expired)
+        return self.gen_timedelta_JWT(user_id, JWT_audience, signing_key, delta)
+    
+    def gen_short_duration_JWT(self, user_id: int, JWT_audience: str, signing_key: AbstractJWKBase) -> str:
+        delta = timedelta(seconds=5) # generated token expires 5 seconds in the future (valid)
+        return self.gen_timedelta_JWT(user_id, JWT_audience, signing_key, delta)
+
     def gen_expired_JWT_access_token(self, user_id: int) -> str:
-        return self.gen_expired_JWT_token(user_id, user_access_aud, access_token_signing_key)
+        return self.gen_expired_JWT(user_id, user_access_aud, access_token_signing_key)
     
     def gen_expired_JWT_refresh_token(self, user_id: int) -> str:
-        return self.gen_expired_JWT_token(user_id, user_refresh_aud, refresh_token_signing_key)
+        return self.gen_expired_JWT(user_id, user_refresh_aud, refresh_token_signing_key)
 
     def setUp(self, *args, **kwargs):
         super(TestAuthController, self).setUp(*args, **kwargs)
@@ -108,6 +121,12 @@ class TestAuthController(HttpCase):
         with self.assertRaises(Fault) as cm:
             func()
         self.assertIn(expected_fault_substring, cm.exception.faultString)
+
+    def assert_can_write_user_data(self, user_id: int, access_token: str) -> None:
+        rand_sig = TestAuthController.rand_str(8)
+        self.write_user_sig(user_id, access_token, user_id, rand_sig)
+        new_sig = self.read_user_sig(user_id, access_token, user_id)
+        self.assertIn(rand_sig, new_sig)
 
     def login(self, login_data: dict, raw_response=False) -> Union[Tuple[str, str, str], Response]:
         resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
@@ -290,19 +309,14 @@ class TestAuthController(HttpCase):
         data["totp"] = "some very bizarre totp"
         self.login_should_deny_access(data)
 
-    def rand_str(self, length: int):
-        letters = string.ascii_lowercase
-        return "".join(random.choice(letters) for _ in range(length))
+    
 
     def test_fresh_access_token_is_accepted(self):
         """
         A normal user can make rpc calls with a valid access token
         """
         user_id, access_token, _ = self.user_normal_login()
-        rand_sig = self.rand_str(8)
-        self.write_user_sig(user_id, access_token, user_id, rand_sig)
-        new_sig = self.read_user_sig(user_id, access_token, user_id)
-        self.assertIn(rand_sig, new_sig)
+        self.assert_can_write_user_data(user_id, access_token)
 
     def test_access_denied_without_correct_user_id(self):
         """
@@ -325,6 +339,14 @@ class TestAuthController(HttpCase):
             ),
             "You are not allowed to modify"
         )
+
+    def test_can_submit_short_lived_access_token(self):
+        """
+        A legitimate user can submit an access token which will soon expire
+        """
+        user_id = self.user_normal.id
+        access_token = self.gen_short_duration_JWT(user_id, user_access_aud, access_token_signing_key)
+        self.assert_can_write_user_data(user_id, access_token)
 
     def test_cannot_submit_expired_access_token(self):
         """
@@ -353,7 +375,7 @@ class TestAuthController(HttpCase):
         # Check fresh access token is indeed fresh
         self.assertNotEqual(access_token, fresh_access_token)
         self.assertNotEqual(refresh_token, fresh_refresh_token) # TODO maybe remove
-        rand_sig = self.rand_str(8)
+        rand_sig = TestAuthController.rand_str(8)
         self.write_user_sig(user_id, fresh_access_token, user_id, rand_sig)
         new_sig = self.read_user_sig(user_id, fresh_access_token, user_id)
         self.assertIn(rand_sig, new_sig)
