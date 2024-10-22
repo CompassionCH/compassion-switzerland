@@ -1,3 +1,10 @@
+# TODO JWT library
+The library which is currently used seems to be abandoned : https://github.com/GehirnInc/python-jwt
+(No update since Apr 19, 2022). It is not clear if this library is already a dependency of odoo.
+
+Another possibility would be to switch to :
+https://github.com/jpadilla/pyjwt
+
 # TODO security properties
 Describe what you can expect from this module in terms of security properties
 

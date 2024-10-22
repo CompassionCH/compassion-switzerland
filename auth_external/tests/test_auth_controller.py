@@ -6,8 +6,7 @@ import random
 import string
 import time
 
-from types import FunctionType
-from typing import Any, Tuple, Union
+from typing import Callable, Tuple, Union
 from xmlrpc.client import ServerProxy, Fault
 
 from jwt import AbstractJWKBase
@@ -117,7 +116,7 @@ class TestAuthController(HttpCase):
         self.assertIn("access_token", auth_tokens)
         self.assertNotEqual(auth_tokens["access_token"], "")
 
-    def assert_xmlrpc_access_denied(self, func: FunctionType, expected_fault_substring: str = "Access Denied") -> None:
+    def assert_xmlrpc_access_denied(self, func: Callable, expected_fault_substring: str = "Access Denied") -> None:
         with self.assertRaises(Fault) as cm:
             func()
         self.assertIn(expected_fault_substring, cm.exception.faultString)
@@ -375,10 +374,7 @@ class TestAuthController(HttpCase):
         # Check fresh access token is indeed fresh
         self.assertNotEqual(access_token, fresh_access_token)
         self.assertNotEqual(refresh_token, fresh_refresh_token) # TODO maybe remove
-        rand_sig = TestAuthController.rand_str(8)
-        self.write_user_sig(user_id, fresh_access_token, user_id, rand_sig)
-        new_sig = self.read_user_sig(user_id, fresh_access_token, user_id)
-        self.assertIn(rand_sig, new_sig)
+        self.assert_can_write_user_data(user_id, fresh_access_token)
 
 
     def test_cannot_submit_forged_access_token(self):

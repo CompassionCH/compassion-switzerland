@@ -27,14 +27,39 @@ refresh_token_duration_seconds = 60 * 60 * 24 * 28
 user_access_aud = "user_auth_grant"
 user_refresh_aud = "user_refresh_grant"
 
-# Using symmetric key. Could use an asymmetric key to allow credential
-# check in external services.
-# Current implementation discards all tokens on server restart.
-global_secret_access = secrets.token_bytes(256)  # High entropic bytes as secret
-global_secret_refresh = secrets.token_bytes(256)
+def gen_signing_key() -> AbstractJWKBase:
+    """Generates a cryptographically secure random signing/verification key, which needs to
+    be used in HMAC.
+    
+    Regarding the secret size:
+    "A key of the same size as the hash output (for instance, 256 bits for
+    "HS256") or larger MUST be used with this algorithm.  (This
+    requirement is based on Section 5.3.4 (Security Effect of the HMAC
+    Key) of NIST SP 800-117 [NIST.800-107], which states that the
+    effective security strength is the minimum of the security strength
+    of the key and two times the size of the internal hash value.)"
+    https://www.rfc-editor.org/rfc/rfc7518#section-3.2
 
-access_token_signing_key = supported_key_types()["oct"](global_secret_access)
-refresh_token_signing_key = supported_key_types()["oct"](global_secret_refresh)
+    Returns:
+        AbstractJWKBase: generated signing key.
+    """
+    # As we are using HS256 as the signing algorithm, we need 512 bits of entropy.
+    # To be safe, we use 2048 bits (=256*8) which will be hashed down anyway
+    secret = secrets.token_bytes(256)
+    return supported_key_types()["oct"](secret)
+
+
+# We use symmetric signing/verification keys as only the server needs to sign and verify tokens.
+# The keys are stored in program memory to avoid the difficult problem of storing secrets.
+# *** This means that on server restart, all clients will have to login again ***
+access_token_signing_key = gen_signing_key()
+"""
+Secret key used to sign/verify access_tokens
+"""
+refresh_token_signing_key = gen_signing_key()
+"""
+Secret key used to sign/verify refresh_tokens
+"""
 
 JWT_ALG = "HS256"
 
