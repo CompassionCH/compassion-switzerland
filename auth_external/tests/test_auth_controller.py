@@ -420,6 +420,9 @@ class TestAuthController(HttpCase):
         self.assert_error_access_denied(resp)
 
     def test_can_refresh_access_token_with_valid_refresh_token(self):
+        """
+        A legitimate user can use their refresh_token to get a valid fresh access_token
+        """
         user_id, access_token, refresh_token = self.user_normal_login()
         fresh_access_token, fresh_refresh_token, expires_at = self.refresh(
             refresh_token

@@ -2,7 +2,7 @@ import contextlib
 import logging
 import re
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 import uuid
 
@@ -140,13 +140,19 @@ class ExternalAuthUsers(models.Model):
         if refresh_token is not None:
             self._check_refresh_token(refresh_token, self.env.user.id)
 
-            # TODO: repudiate refresh_token as it was just used.
+            # TODO: revoke refresh_token as it was just used.
+            # -> This cannot be done. It requires revocation list support. To impl?
 
         # Verification succeeded, we generate tokens.
 
-        access_token_exp = datetime.now() + timedelta(seconds=access_token_duration_seconds)
+        # https://stackoverflow.com/a/39079819
+        current_timezone = datetime.now(timezone.utc).astimezone().tzinfo
+        # We use a timestamp with time zone information to avoid ambiguity for
+        # the expiration time of the tokens
+        now = datetime.now(current_timezone)
+        access_token_exp = now + timedelta(seconds=access_token_duration_seconds)
         # TODO: this is not good, it essentially makes refresh tokens have an infinite lifetime
-        refresh_token_exp = datetime.now() + timedelta(seconds=refresh_token_duration_seconds)
+        refresh_token_exp = now + timedelta(seconds=refresh_token_duration_seconds)
 
         payload, new_token = self._generate_jwt(
             issuer_id,
@@ -165,22 +171,22 @@ class ExternalAuthUsers(models.Model):
             refresh_token_signing_key,
         )
 
+        access_token_exp_str = access_token_exp.isoformat()
+
         _logger.info(
             "Generated new tokens for user '%s'. "
             "Access token expires in %d seconds (%s)"
             % (
                 self.login,
                 access_token_duration_seconds,
-                # TODO iso8601 time
-                access_token_exp.strftime("%m/%d/%Y, %H:%M:%S"),
+                access_token_exp_str,
             )
         )
 
         return {
             "access_token": new_token,
             "refresh_token": new_refresh_token,
-            # TODO iso8601 time
-            "expires_at": access_token_exp.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "expires_at": access_token_exp_str,
         }
 
     @classmethod
