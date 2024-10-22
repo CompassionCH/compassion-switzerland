@@ -137,11 +137,20 @@ class ExternalAuthUsers(models.Model):
             raise AccessDenied
 
         # Verify the validity of the refresh token if one is provided.
+        refresh_tokens = self.env["auth_external.refresh_tokens"]
         if refresh_token is not None:
-            self._check_refresh_token(refresh_token, self.env.user.id)
-
-            # TODO: revoke refresh_token as it was just used.
-            # -> This cannot be done. It requires revocation list support. To impl?
+            refresh_token_payload = self._check_refresh_token(refresh_token, self.env.user.id)
+            refresh_token_model = refresh_tokens.get_by_jti(refresh_token_payload["jti"])
+            if refresh_token_model is None:
+                # if the jti has no corresponding token in the db (but is not
+                # expired because it passed _check_refresh_token), something has
+                # gone very wrong because a valid token has been deleted from
+                # the db. In this case we should deny access.
+                raise AccessDenied
+            # TODO: check if already revoked -> refresh token reuse detection. If so, revoke whole family
+            # revoke refresh_token as it was just used.
+            refresh_token_model.ensure_one()
+            refresh_token_model.revoke()
 
         # Verification succeeded, we generate tokens.
 

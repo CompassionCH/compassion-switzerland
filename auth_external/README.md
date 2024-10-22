@@ -5,6 +5,8 @@ The library which is currently used seems to be abandoned : https://github.com/G
 Another possibility would be to switch to :
 https://github.com/jpadilla/pyjwt
 
+
+
 # TODO security properties
 Describe what you can expect from this module in terms of security properties
 
@@ -30,3 +32,43 @@ The victim logs in and their browser stores the refresh_token in the browser's s
 The victim's computer is infected by malware and their (still valid) refresh_token is exfiltrated to the attacker's machine.
 The attacker monitors all the victim's actions on odoo using the stolen access_token, refreshing the stolen refresh_token when necessary.
 This can continue indefinitely in IMPL1 but not in IMPL2, as the refresh_token eventually expires.
+
+# TODO Refresh tokens
+https://www.rfc-editor.org/rfc/rfc6749#section-1.5
+https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
+https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/
+
+# Token design possibilities
+
+## 0 : odoo session id in cookie
+???
+
+## 1 : simple access_token
+After authentication, the user receives an access_token with a validity of 28 days.
+
+### Pros
+- Simple to implement, test, verify
+
+### Cons
+- No revocation mechanism
+- long lived access_token (high impact vuln if XSS)
+- cannot do Reuse detection
+
+## 2 : access_token + refresh_token without revocation (current impl)
+### Pros
+- Already implemented
+- No server state
+- short lived access_token
+
+### Cons
+- refresh_token is essentially infinitely valid
+- limited security benefit for case where Resource Server == Authorization Server
+- *** refresh_token can be reused / replayed *** !!!
+
+## 3 : access_token + Refresh Token Rotation with Reuse Detection
+### Pros
+- refresh_tokens cannot be reused / replayed
+- refresh_tokens can be revoked upon logout
+
+### Cons
+- Need to keep state on the server -> mechanism for clearing DB periodically (cron)
