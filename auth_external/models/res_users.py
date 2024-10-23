@@ -22,15 +22,18 @@ authorization_extractor = re.compile(r'(\w+)[:=] ?"?(\w+)"?')
 
 # TODO: move those to settings.
 issuer_id = "compassion.ch"
-access_token_duration_seconds = 60 * 60 * 3  # Token is only valid for this period of time.
+access_token_duration_seconds = (
+    60 * 60 * 3
+)  # Token is only valid for this period of time.
 refresh_token_duration_seconds = 60 * 60 * 24 * 28
 user_access_aud = "user_auth_grant"
 user_refresh_aud = "user_refresh_grant"
 
+
 def gen_signing_key() -> AbstractJWKBase:
     """Generates a cryptographically secure random signing/verification key, which needs to
     be used in HMAC.
-    
+
     Regarding the secret size:
     "A key of the same size as the hash output (for instance, 256 bits for
     "HS256") or larger MUST be used with this algorithm.  (This
@@ -62,6 +65,7 @@ Secret key used to sign/verify refresh_tokens
 """
 
 JWT_ALG = "HS256"
+
 
 class InvalidTotp(AccessDenied):
     pass
@@ -136,31 +140,44 @@ class ExternalAuthUsers(models.Model):
             )
             raise AccessDenied
 
-        # Verify the validity of the refresh token if one is provided.
         refresh_tokens = self.env["auth_external.refresh_tokens"]
+        # Verify the validity of the refresh token if one is provided.
         if refresh_token is not None:
-            refresh_token_payload = self._check_refresh_token(refresh_token, self.env.user.id)
-            refresh_token_model = refresh_tokens.sudo().get_by_jti(refresh_token_payload["jti"])
+            refresh_token_payload = self._check_refresh_token(
+                refresh_token, self.env.user.id
+            )
+            refresh_token_model = refresh_tokens.sudo().get_by_jti(
+                refresh_token_payload["jti"]
+            )
             if refresh_token_model is None:
                 # if the jti has no corresponding token in the db (but is not
                 # expired because it passed _check_refresh_token), something has
                 # gone very wrong because a valid token has been deleted from
                 # the db. In this case we should deny access.
                 raise AccessDenied
-            # TODO: check if already revoked -> refresh token reuse detection. If so, revoke whole family
-            # revoke refresh_token as it was just used.
+            # TODO: concurrency issues?
+            if refresh_token_model.is_revoked:
+                # if the token which was provided is already marked as revoked,
+                # this means that an attacker is trying to reuse a stolen token
+                # (or there is a client-side bug). In this case we should revoke
+                # the whole token family and emit a warning in the server logs
+                refresh_token_model.sudo().revoke_family()
+                _logger.warning(f"""Refresh Token reuse detection triggered for
+                                 {refresh_token_model.jti=}! This is either
+                                 caused by an attacker who stole a refresh token
+                                 and is trying to reuse it to obtain fresh
+                                 tokens, or by a client side bug which reused a
+                                 previously revoked token. As a fail-safe, the
+                                 whole token family has been revoked and the
+                                 client needs to re-authenticate.""")
+                raise AccessDenied
             refresh_token_model.ensure_one()
             refresh_token_model.sudo().revoke()
 
         # Verification succeeded, we generate tokens.
 
-        # https://stackoverflow.com/a/39079819
-        current_timezone = datetime.now(timezone.utc).astimezone().tzinfo
-        # We use a timestamp with time zone information to avoid ambiguity for
-        # the expiration time of the tokens
-        now = datetime.now(current_timezone)
+        now = datetime.now()
         access_token_exp = now + timedelta(seconds=access_token_duration_seconds)
-        # TODO: this is not good, it essentially makes refresh tokens have an infinite lifetime
         refresh_token_exp = now + timedelta(seconds=refresh_token_duration_seconds)
 
         payload, new_token = self._generate_jwt(
@@ -171,7 +188,6 @@ class ExternalAuthUsers(models.Model):
             access_token_signing_key,
         )
 
-        # TODO : if the refresh_token is provided, DO NOT generate a new refresh_token to allow it to expire
         refresh_payload, new_refresh_token = self._generate_jwt(
             issuer_id,
             self.env.user.id,
@@ -179,6 +195,17 @@ class ExternalAuthUsers(models.Model):
             refresh_token_exp,
             refresh_token_signing_key,
         )
+
+        # When the user logs in, they do not have a refresh_token yet. In this
+        # case, the freshly generated refresh_token is the root of a new
+        # refresh_token family, we must thus insert it into the database.
+        if refresh_token is None:
+            refresh_tokens.sudo().create(
+                {"jti": refresh_payload["jti"], "exp": refresh_token_exp}
+            )
+        else:
+            # TODO : link parent and child tokens
+            pass
 
         access_token_exp_str = access_token_exp.isoformat()
 
@@ -250,7 +277,9 @@ class ExternalAuthUsers(models.Model):
         """
         try:
             # Check the signature and expiration time of token
-            payload = JWT().decode(token, key, algorithms={JWT_ALG}, do_verify=True, do_time_check=True)
+            payload = JWT().decode(
+                token, key, algorithms={JWT_ALG}, do_verify=True, do_time_check=True
+            )
         except JWTDecodeError as exc:
             _logger.info(
                 "JWT check failed: %s", exc.__cause__ if exc.__cause__ else exc
@@ -316,7 +345,7 @@ class ExternalAuthUsers(models.Model):
             try:
                 totp = int(re.sub(r"\s", "", user_agent_env["totp"]))
                 self.env.user._totp_check(totp)
-                return # successful check
+                return  # successful check
             except (AccessDenied, ValueError) as ex:
                 raise InvalidTotp from ex
 

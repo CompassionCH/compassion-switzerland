@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Callable, Optional
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+
 
 class RefreshTokens(models.Model):
     """
@@ -12,21 +13,23 @@ class RefreshTokens(models.Model):
 
     jti = fields.Char()
     """
-    JWT ID, used to lookup a refresh token
+    JWT ID, used to lookup/identify a refresh token
     See https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7
     """
+    _sql_constraints = [
+        (
+            "jti_unique",
+            "unique(jti)",
+            "There cannot be duplicate tokens in RefreshTokens (jti must be unique)",
+        )
+    ]
 
-    token = fields.Char()
-    """
-    String representation of the JWT refresh token
-    TODO is this necessary given that we have jti ? 
-    """
     is_revoked = fields.Boolean(False)
     """
     Whether the refresh token is revoked. False by default (for newly generated
     tokens)
     """
-    expiration_datetime = fields.Datetime(required=True)
+    exp = fields.Datetime(required=True)
     """
     Expiration datetime of the token. Once this is in the past, a cron job can
     delete the token as it will not be accepted anymore by the authorization
@@ -53,26 +56,24 @@ class RefreshTokens(models.Model):
 
     # TODO One2one constraints for parent_id and child_id
 
-    # Enable special hierarchy support (speeds up lookup)
-    # See https://www.odoo.com/documentation/14.0/developer/reference/addons/orm.html?highlight=fields%20many2many#odoo.models.BaseModel._parent_store
-    _parent_store = True
-    _parent_name = "parent_id" # optional if field is 'parent_id'
-    parent_path = fields.Char(index=True)
+    @api.constrains("parent_id")
+    def _check_hierarchy(self):
+        if not self._check_recursion():
+            raise models.ValidationError(
+                "Error! You cannot create recursive refresh_token families."
+            )
 
-    
-    @api.constrains('parent_id') 
-    def _check_hierarchy(self): 
-        if not self._check_recursion(): 
-            raise models.ValidationError( 
-                'Error! You cannot create recursive refresh_token families.')
-        
     def get_by_jti(self, jti: str) -> Optional["RefreshTokens"]:
-        token = self.search([('jti', '=', jti)], limit=1)
+        token = self.search([("jti", "=", jti)], limit=1)
         # is it possible to have a 1) non-expired and 2) inexistant token in the db
         if len(token) == 1:
             return token
         else:
             return None
+        
+    def link_child(self, child: "RefreshTokens") -> None:
+        self.child_id = child
+        child.parent_id = self
 
 
     def revoke(self) -> None:
@@ -80,11 +81,23 @@ class RefreshTokens(models.Model):
 
         self.is_revoked = True
 
-    # TODO
-    # def revoke_family(self) -> None:
-    #     self.ensure_one()
+    def revoke_family(self) -> None:
+        self.ensure_one()
 
-    #     self.revoke_parents()
-    #     self.revoke_children()
+        self.revoke()
 
-    # TODO : Cron to 
+        def revoke_list(
+            start: "RefreshTokens",
+            next: Callable[["RefreshTokens"], Optional["RefreshTokens"]],
+        ) -> None:
+            curr = start
+            while len(curr) == 1:
+                curr.revoke()
+                curr = next(curr)
+
+        # revoke parents
+        revoke_list(self, lambda rt: rt.parent_id)
+        # revoke children
+        revoke_list(self, lambda rt: rt.child_id)
+
+    # TODO : Cron to clear expired tokens
