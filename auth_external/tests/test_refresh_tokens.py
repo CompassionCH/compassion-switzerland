@@ -1,3 +1,4 @@
+import random
 import uuid
 from odoo.tests.common import TransactionCase
 from datetime import datetime, timedelta
@@ -24,14 +25,17 @@ class TestRefreshTokens(TransactionCase):
 
     def test_revoke_family(self):
         root = self.create_refresh_token()
-        child = self.create_refresh_token()
-        root.link_child(child)
-        grandchild = self.create_refresh_token()
-        child.link_child(grandchild)
+        rts = [root]
+        for _ in range(23):
+            old_rt = rts[-1]
+            new_rt = self.create_refresh_token()
+            old_rt.link_child(new_rt)
+            rts.append(new_rt)
 
-        child.revoke_family()
+        random_rt = random.choice(rts)
+        random_rt.revoke_family()
 
-        self.assertTrue(root.is_revoked)
-        self.assertTrue(child.is_revoked)
-        self.assertTrue(grandchild.is_revoked)
+        # Calling revoke_family on any family member should revoke all the members
+        for rt in rts:
+            self.assertTrue(rt.is_revoked)
 

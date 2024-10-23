@@ -183,6 +183,10 @@ class TestAuthController(HttpCase):
         else:
             self.assert_xmlrpc_access_denied(write_fn, expected_fault_substring)
 
+    def assert_refresh_access_denied(self, refresh_token: str) -> None:
+        resp = self.refresh(refresh_token, raw_response=True)
+        self.assert_error_access_denied(resp)
+
     def login(
         self, login_data: dict, raw_response=False
     ) -> Union[Tuple[str, str, str], Response]:
@@ -452,18 +456,28 @@ class TestAuthController(HttpCase):
     def get_refresh_tokens(self):
         return self.env["auth_external.refresh_tokens"]
 
-    def test_cannot_reuse_refresh_token(self):
+    def test_cannot_reuse_revoked_refresh_token(self):
         """
         An attacker cannot reuse a previously used refresh token.
         """
         _, _, rt1 = self.user_normal_login()
-        # first use: should work
-        _, rt2, _ = self.refresh(rt1)
-        self.assertNotEqual(rt1, rt2) 
-        # second use: should deny access
-        self.assert_error_access_denied(self.refresh(rt1, raw_response=True))
 
-        # Now that we triggered automatic reuse detection, rt2 should also be revoked
-        self.assert_error_access_denied(self.refresh(rt2, raw_response=True))
+        rts = [rt1]
+        NB_REFRESHES = 5
+        for _ in range(NB_REFRESHES):
+            # perform a few correct refreshes
+            _, new_rt, _  = self.refresh(rts[-1])
+            rts.append(new_rt)
+
+        _, last_rt, _ = self.refresh(rts[-1])
+
+        # Oh no, an attacker intercepted a random refresh token (but no the last one which is still valid)
+        rt_intercepted = random.choice(rts)
+        # They try to use it to get fresh tokens.
+        # Haha, it doesn't work! Automatic reuse detection was triggered!
+        self.assert_refresh_access_denied(rt_intercepted)
+
+        # Automatic reuse detection also revoked the last rt (which was still valid before)
+        self.assert_refresh_access_denied(last_rt)
         
 

@@ -105,10 +105,10 @@ class ExternalAuthUsers(models.Model):
 
         return payload, token
 
-    def generate_external_auth_token(self, refresh_token=None):
+    def generate_external_auth_token(self, rt_old=None):
         """Generates a new access token and refresh token for the user.
-        :param refresh_token: the token allowing refreshing auth tokens.
-        :returns: the freshly generated tokens.
+        :param rt_old: the token allowing refreshing auth tokens. This token will get revoked.
+        :returns: the freshly generated tokens (access + refresh tokens).
         :raises AccessDenied: if the user can't generate tokens.
         """
         self.ensure_one()
@@ -132,7 +132,7 @@ class ExternalAuthUsers(models.Model):
         if (
             "Authorization" in request.httprequest.headers
             and request.httprequest.headers["Authorization"].startswith("Bearer ")
-            and refresh_token is None
+            and rt_old is None
         ):
             _logger.info(
                 "User '%s' tried to refresh their auth token while being"
@@ -142,72 +142,72 @@ class ExternalAuthUsers(models.Model):
 
         refresh_tokens = self.env["auth_external.refresh_tokens"]
         # Verify the validity of the refresh token if one is provided.
-        if refresh_token is not None:
-            refresh_token_payload = self._check_refresh_token(
-                refresh_token, self.env.user.id
-            )
-            refresh_token_model = refresh_tokens.sudo().get_by_jti(
-                refresh_token_payload["jti"]
-            )
-            if refresh_token_model is None:
+        rt_old_model = None  # Needed below
+        if rt_old is not None:
+            rt_old_payload = self._check_refresh_token(rt_old, self.env.user.id)
+            rt_old_model = refresh_tokens.sudo().get_by_jti(rt_old_payload["jti"])
+            if rt_old_model is None:
                 # if the jti has no corresponding token in the db (but is not
                 # expired because it passed _check_refresh_token), something has
                 # gone very wrong because a valid token has been deleted from
                 # the db. In this case we should deny access.
                 raise AccessDenied
             # TODO: concurrency issues?
-            if refresh_token_model.is_revoked:
+            _logger.info(f"{rt_old_model.jti}: {rt_old_model.is_revoked}")
+            if rt_old_model.is_revoked:
                 # if the token which was provided is already marked as revoked,
                 # this means that an attacker is trying to reuse a stolen token
                 # (or there is a client-side bug). In this case we should revoke
                 # the whole token family and emit a warning in the server logs
-                refresh_token_model.sudo().revoke_family()
-                _logger.warning(f"""Refresh Token reuse detection triggered for
-                                 {refresh_token_model.jti=}! This is either
+                rt_old_model.sudo().revoke_family()
+                _logger.warning(
+                    f"""Refresh Token reuse detection triggered for
+                                 {rt_old_model.jti=}! This is either
                                  caused by an attacker who stole a refresh token
                                  and is trying to reuse it to obtain fresh
                                  tokens, or by a client side bug which reused a
                                  previously revoked token. As a fail-safe, the
                                  whole token family has been revoked and the
-                                 client needs to re-authenticate.""")
+                                 client needs to re-authenticate."""
+                )
                 raise AccessDenied
-            refresh_token_model.ensure_one()
-            refresh_token_model.sudo().revoke()
+            rt_old_model.ensure_one()
+            rt_old_model.sudo().revoke()
 
         # Verification succeeded, we generate tokens.
 
         now = datetime.now()
-        access_token_exp = now + timedelta(seconds=access_token_duration_seconds)
-        refresh_token_exp = now + timedelta(seconds=refresh_token_duration_seconds)
+        at_new_exp = now + timedelta(seconds=access_token_duration_seconds)
+        rt_new_exp = now + timedelta(seconds=refresh_token_duration_seconds)
 
-        payload, new_token = self._generate_jwt(
+        at_new_payload, at_new = self._generate_jwt(
             issuer_id,
             self.env.user.id,
             user_access_aud,
-            access_token_exp,
+            at_new_exp,
             access_token_signing_key,
         )
 
-        refresh_payload, new_refresh_token = self._generate_jwt(
+        rt_new_payload, rt_new = self._generate_jwt(
             issuer_id,
             self.env.user.id,
             user_refresh_aud,
-            refresh_token_exp,
+            rt_new_exp,
             refresh_token_signing_key,
         )
 
         # When the user logs in, they do not have a refresh_token yet. In this
         # case, the freshly generated refresh_token is the root of a new
         # refresh_token family, we must thus insert it into the database.
-        if refresh_token is None:
-            refresh_tokens.sudo().create(
-                {"jti": refresh_payload["jti"], "exp": refresh_token_exp}
-            )
-        else:
-            # TODO : link parent and child tokens
-            pass
+        rt_new_model = refresh_tokens.sudo().create(
+            {"jti": rt_new_payload["jti"], "exp": rt_new_exp}
+        )
+        if rt_old is not None:
+            # If a valid rt was provided and we generated a new rt, we need to
+            # link those tokens to maintain the token family
+            rt_old_model.link_child(rt_new_model)
 
-        access_token_exp_str = access_token_exp.isoformat()
+        access_token_exp_str = at_new_exp.isoformat()
 
         _logger.info(
             "Generated new tokens for user '%s'. "
@@ -220,8 +220,8 @@ class ExternalAuthUsers(models.Model):
         )
 
         return {
-            "access_token": new_token,
-            "refresh_token": new_refresh_token,
+            "access_token": at_new,
+            "refresh_token": rt_new,
             "expires_at": access_token_exp_str,
         }
 
