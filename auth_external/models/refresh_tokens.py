@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -99,5 +99,42 @@ class RefreshTokens(models.Model):
         revoke_list(self, lambda rt: rt.parent_id)
         # revoke children
         revoke_list(self, lambda rt: rt.child_id)
+
+    def get_parents(self) -> List["RefreshTokens"]:
+        self.ensure_one()
+
+        parents = []
+        curr = self
+        while len(curr) == 1:
+            curr = curr.parent_id
+            parents.append(curr)
+        parents.reverse() # to get family in right order from root
+        return parents
+    
+    def get_children(self) -> List["RefreshTokens"]:
+        self.ensure_one()
+        children = []
+        curr = self
+        while len(curr) == 1:
+            curr = curr.child_id
+            children.append(curr)
+        return children
+
+    def get_family(self) -> List["RefreshTokens"]:
+        return [*self.get_parents(), self, *self.get_children()]
+
+    def family_str(self) -> str:
+        self.ensure_one()
+
+        family = self.get_family()
+        out = ""
+        for f in family:
+            f_str = f"{f.id}:{'r' if f.is_revoked else 'v'}"
+            if f.id == self.id:
+                f_str = f"[{f_str}]"
+            out += f"{f_str} <-> "
+        return out
+
+
 
     # TODO : Cron to clear expired tokens

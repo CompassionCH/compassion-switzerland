@@ -132,6 +132,9 @@ class TestAuthController(HttpCase):
             }
         )
 
+        import socket
+        socket.setdefaulttimeout(60) # for debugging
+
     def json_post(self, route: str, data: dict) -> Response:
         JSON_HEADERS = {"Content-Type": "application/json"}
         return self.url_open(route, data=json.dumps(data), headers=JSON_HEADERS)
@@ -463,8 +466,7 @@ class TestAuthController(HttpCase):
         _, _, rt1 = self.user_normal_login()
 
         rts = [rt1]
-        NB_REFRESHES = 5
-        for _ in range(NB_REFRESHES):
+        for _ in range(5):
             # perform a few correct refreshes
             _, new_rt, _  = self.refresh(rts[-1])
             rts.append(new_rt)
