@@ -165,7 +165,7 @@ class ExternalAuthUsers(models.Model):
                 # are not committed due to the following exception
                 self.env.cr.commit() 
                 _logger.warning(
-                    f"""Refresh Token reuse detection triggered for
+                    f"""[RTRD] Refresh Token Reuse Detection triggered for
                                  {rt_old_model.jti=}! This is either
                                  caused by an attacker who stole a refresh token
                                  and is trying to reuse it to obtain fresh

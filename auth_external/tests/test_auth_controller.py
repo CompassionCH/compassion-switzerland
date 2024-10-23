@@ -14,7 +14,7 @@ from jwt import AbstractJWKBase
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
 from odoo.tests.common import HttpCase
 from odoo.tests import tagged
-from ..controllers.auth import AUTH_LOGIN_ROUTE, AUTH_REFRESH_ROUTE
+from ..controllers.auth import AUTH_LOGIN_ROUTE, AUTH_LOGOUT_ROUTE, AUTH_REFRESH_ROUTE
 from http import HTTPStatus
 from requests import Response
 from ..models.res_users import (
@@ -222,6 +222,10 @@ class TestAuthController(HttpCase):
             return resp
         data = resp.json()["result"]
         return data["access_token"], data["refresh_token"], data["expires_at"]
+    
+    def logout(self, refresh_token: str) -> None:
+        return self.json_post(AUTH_LOGOUT_ROUTE, {"refresh_token": refresh_token})
+
 
     def user_normal_login_data(self) -> dict:
         return {
@@ -459,14 +463,16 @@ class TestAuthController(HttpCase):
     def get_refresh_tokens(self):
         return self.env["auth_external.refresh_tokens"]
 
-    def test_cannot_reuse_revoked_refresh_token(self):
+    def test_refresh_token_reuse_detection_mechanism_works(self):
         """
-        An attacker cannot reuse a previously used refresh token.
+        An attacker cannot reuse a previously used refresh token. If they try,
+        they trigger the refresh token reuse detection mechanism and all tokens
+        of the family are revoked.
         """
         _, _, rt1 = self.user_normal_login()
 
         rts = [rt1]
-        for _ in range(5):
+        for _ in range(9):
             # perform a few correct refreshes
             _, new_rt, _  = self.refresh(rts[-1])
             rts.append(new_rt)
@@ -482,4 +488,14 @@ class TestAuthController(HttpCase):
         # Automatic reuse detection also revoked the last rt (which was still valid before)
         self.assert_refresh_access_denied(last_rt)
         
+    
+    def test_refresh_token_revoked_after_logout(self):
+        """
+        An attacker cannot reuse a refresh token after it was used to logout.
+        """
+        user_id, at, rt = self.user_normal_login()
+        logout_resp = self.logout(rt)
+        self.assertTrue(logout_resp)
+        self.assert_refresh_access_denied(rt)
+
 

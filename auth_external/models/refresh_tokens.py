@@ -63,6 +63,7 @@ class RefreshTokens(models.Model):
                 "Error! You cannot create recursive refresh_token families."
             )
 
+    @api.model
     def get_by_jti(self, jti: str) -> Optional["RefreshTokens"]:
         token = self.search([("jti", "=", jti)], limit=1)
         # is it possible to have a 1) non-expired and 2) inexistant token in the db
