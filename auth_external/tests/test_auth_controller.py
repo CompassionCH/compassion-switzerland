@@ -498,4 +498,12 @@ class TestAuthController(HttpCase):
         self.assertTrue(logout_resp)
         self.assert_refresh_access_denied(rt)
 
+    def test_cannot_logout_with_expired_refresh_token(self):
+        """
+        An attacker cannot logout with an expired refresh token
+        """
+        expired_rt = self.gen_expired_JWT_refresh_token(self.user_normal.id)
+        self.assert_error_access_denied(self.logout(expired_rt))
+        
+
 

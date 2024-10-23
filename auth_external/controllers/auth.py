@@ -104,8 +104,6 @@ class AuthController(Controller):
         # is not revoked, the legitimate user might be trying to logout. In both
         # cases, the token family should be revoked as a fail-safe, so we don't
         # need to check it was revoked.
-        # db = request.env.cr.dbname
-        # refresh_tokens = registry(db)["auth_external.refresh_tokens"]
         refresh_tokens = request.env["auth_external.refresh_tokens"]
         jti = payload["jti"]
         rt_model = refresh_tokens.sudo().get_by_jti(jti)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Callable, List, Optional
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
@@ -136,6 +137,17 @@ class RefreshTokens(models.Model):
             out += f"{f_str} <-> "
         return out
 
-
+    @api.model
+    def remove_expired_tokens(self):
+        """
+        Iterates of the refresh tokens and deletes all the records whose
+        expiration date is in the past. Token expiration can still be checked by
+        verifying the exp field of the JWT, so this operation is safe.
+        """
+        now = datetime.now()
+        rts = self.sudo().search([])
+        for rt in rts:
+            if rt.exp <= now:
+                rt.sudo().unlink()
 
     # TODO : Cron to clear expired tokens
