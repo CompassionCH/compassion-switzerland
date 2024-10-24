@@ -9,7 +9,8 @@
 ##############################################################################
 import random
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class PartnerCommunication(models.Model):
@@ -141,6 +142,13 @@ class PartnerCommunication(models.Model):
                 )
                 .ids
             )
+            if len(object_ids) == 0:
+                raise UserError(
+                    _(
+                        "The selected partner is not a donor but this test case "
+                        "requires one. Please, pick a donor."
+                    )
+                )
         elif self.model == "account.move":
             object_ids = (
                 self.env["account.move"]
@@ -174,6 +182,11 @@ class PartnerCommunication(models.Model):
                 .ids
             )
             query += [("id", "in", zoom_participants)]
+        if self.model == "account.move.line":
+            query += [
+                ("invoice_ids.invoice_line_ids", "!=", False),
+                ("invoice_ids.invoice_category", "=", "fund"),
+            ]
 
         answers = self.env["res.partner"].search(query, limit=50)
 

@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "SBC Swizterland",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Other",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",

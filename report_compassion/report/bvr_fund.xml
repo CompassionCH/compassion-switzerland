@@ -32,7 +32,10 @@
       t-set="bank_account"
       t-value="o.env['recurring.contract.group'].get_company_qrr_account()"
     />
-        <t t-set="reference" t-value="o.generate_bvr_reference(product)" />
+        <t
+      t-set="reference"
+      t-value="qrr or o.generate_bvr_reference(product)"
+    />
         <t
       t-set="communication"
       t-value="communication or product.with_context(lang=o.lang).name"

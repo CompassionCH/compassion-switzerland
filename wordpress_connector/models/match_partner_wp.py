@@ -8,7 +8,11 @@
 #
 ##############################################################################
 
+import logging
+
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 LANG_MAPPING = {"fr": "fr_CH", "de": "de_DE", "it": "it_IT"}
 
@@ -20,8 +24,8 @@ TITLE_MAPPING = {
 
 SPOKEN_LANG_MAPPING = {
     "französich": "advanced_translation.lang_compassion_french",
-    "deutsch": "child_switzerland.lang_compassion_german",
-    "italienisch": "child_switzerland.lang_compassion_italian",
+    "deutsch": "advanced_translation.lang_compassion_german",
+    "italienisch": "advanced_translation.lang_compassion_italian",
     "spanisch": "advanced_translation.lang_compassion_spanish",
     "englisch": "advanced_translation.lang_compassion_english",
     "portugiesisch": "advanced_translation.lang_compassion_portuguese",
@@ -36,6 +40,7 @@ class MatchPartnerWP(models.AbstractModel):
 
     _name = "res.partner.match.wp"
     _inherit = "res.partner.match"
+    _description = "Match partner wordpress"
 
     @api.model
     def match_country(self, wp_country, wp_lang):
@@ -81,20 +86,27 @@ class MatchPartnerWP(models.AbstractModel):
     @api.model
     def _match_get_rules_order(self):
         res = super()._match_get_rules_order()
-        res.append("child_id")
+        res.append("rule_child_id")
         return res
 
     @api.model
-    def _match_rule_child_id(self, partner_obj, infos, options=None):
-        # if a keyerror is raise it is handled as "no child found go to next rule"
-        child_local_id = infos.pop("child_id")
+    def _match_rule_child_id(self, partner_obj, infos=None, options=None):
+        # if a keyerror is raised it is handled as "no child found go to next rule"
+        child_local_id = infos.pop("child_id") if infos else partner_obj.pop("child_id")
         if child_local_id:
             child = self.env["compassion.child"].search(
-                [("local_id", "like", child_local_id)]
+                [("local_id", "ilike", child_local_id)]
             )
-            sponsorship = self.env["recurring.contract"].search(
-                [("child_id", "=", child.id)], limit=1
-            )
-            return sponsorship[sponsorship.send_gifts_to]
-        else:
-            return False
+            if child:
+                if len(child) > 1:
+                    # Too many matches, the local ID was loose.
+                    _logger.warning(
+                        "Child local_id is specified but was ignored as it matched "
+                        "multiple children."
+                    )
+                else:
+                    sponsorship = self.env["recurring.contract"].search(
+                        [("child_id", "=", child.id)], limit=1
+                    )
+                    return sponsorship[sponsorship.send_gifts_to]
+        return self.env["res.partner"]

@@ -50,6 +50,20 @@
             </field>
         </field>
     </record>
+    <record model="ir.ui.view" id="communication_job_tree_general">
+        <field name="name">communication.job.tree.general</field>
+        <field name="model">partner.communication.job</field>
+        <field name="mode">primary</field>
+        <field
+      name="inherit_id"
+      ref="partner_communication.communication_job_tree"
+    />
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="amount" />
+            </field>
+        </field>
+    </record>
 
     <!-- Add language and event filters in search view -->
     <record model="ir.ui.view" id="communication_job_search">
@@ -161,6 +175,11 @@
         <field name="name">General Donation Receipts</field>
         <field name="res_model">partner.communication.job</field>
         <field name="view_mode">tree,form</field>
+        <field
+      name="view_ids"
+      eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('communication_job_tree_general')})]"
+    />
         <field
       name="domain"
     >[('model', '=', 'account.move.line'), ('event_id', '=', False)]</field>

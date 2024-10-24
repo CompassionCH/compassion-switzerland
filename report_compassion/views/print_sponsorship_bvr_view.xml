@@ -77,7 +77,7 @@
     </record>
 
     <record id="action_print_sponsorship_bvr_due" model="ir.actions.act_window">
-         <field name="name">Sponsorship Due</field>
+         <field name="name">Sponsorship Due PDF</field>
          <field name="res_model">print.sponsorship.bvr.due</field>
          <field name="type">ir.actions.act_window</field>
          <field name="view_mode">form</field>

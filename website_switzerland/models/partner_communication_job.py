@@ -24,9 +24,11 @@ class CommunicationJob(models.Model):
         report_vals = {
             "doc_ids": registration.partner_id.ids,
             "product_id": product.id,
+            "qrr": registration.down_payment_id.payment_reference,
             "background": True,
             "preprinted": False,
             "amount": registration.event_ticket_id.price,
+            "communication": registration.event_ticket_id.name,
         }
 
         report_name = "report_compassion.bvr_fund"
@@ -44,7 +46,7 @@ class CommunicationJob(models.Model):
         """
         self.ensure_one()
         registration = self.get_objects()
-        invoice = registration.group_visit_invoice_id
+        invoice = registration.trip_invoice_id
         product = self.env["product.product"].search(
             [
                 (

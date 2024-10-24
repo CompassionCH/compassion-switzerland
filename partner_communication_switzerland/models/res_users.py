@@ -4,7 +4,7 @@ import logging
 
 from pyquery import PyQuery
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.tools import file_open
 
 from odoo.addons.auth_signup.models.res_partner import now
@@ -40,6 +40,7 @@ class ResUsers(models.Model):
                     }
                 )
 
+    @api.depends_context("lang")
     def _compute_signature(self):
         with file_open(
             "partner_communication_switzerland/static/html/signature.html"
@@ -64,45 +65,78 @@ class ResUsers(models.Model):
                 "en_US": "https://www.facebook.com/compassionsuisse/",
             }
             lang = self.env.lang or self._context.get("lang") or self.env.user.lang
-            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
             for user in self:
                 employee = user.employee_ids[:1].with_context(bin_size=False)
-                employee_image_url = f"{base_url}/employee/image/{employee.id}"
 
-                values = {
-                    "name": f"{user.preferred_name} {user.lastname}"
-                    if user.firstname
-                    else _("The team of Compassion"),
-                    "email": user.email if user.firstname else "info@compassion.ch",
-                    "lang": lang,
-                    "lang_short": lang[:2],
-                    "team": _("and the team of Compassion") if user.firstname else "",
-                    "job_title": employee.job_title or "",
-                    "office_hours": _("mo-thu: 9am-2pm"),
-                    "company_name": user.company_id.address_name,
-                    "phone_link": phone_link.get(lang),
-                    "phone": phone.get(lang),
-                    "mobile": employee.mobile_phone,
-                    "mobile_link": (employee.mobile_phone or "")
-                    .replace(" ", "")
-                    .replace("(0)", ""),
-                    "facebook": facebook.get(lang),
-                    "employee_image_url": employee_image_url,
-                }
+                if employee:
+                    base_url = (
+                        self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+                    )
+                    employee_image_url = f"{base_url}/employee/image/{employee.id}"
+
+                    # Workaround that manually gets translation from the table,
+                    # see T1693 and related PR for more information.
+                    employee_job_title = self.env["ir.translation"]._get_source(
+                        None, ("model",), lang, employee.job_title, employee.id
+                    )
+
+                    values = {
+                        "name": f"{user.preferred_name} {user.lastname}"
+                        if user.firstname
+                        else _("The team of Compassion"),
+                        "email": user.email if user.firstname else "info@compassion.ch",
+                        "lang": lang,
+                        "lang_short": lang[:2],
+                        "team": _("and the team of Compassion")
+                        if user.firstname
+                        else "",
+                        "job_title": employee_job_title or "",
+                        "office_hours": _("mo-thu: 9am-2pm"),
+                        "company_name": user.company_id.address_name,
+                        "phone_link": phone_link.get(lang),
+                        "phone": phone.get(lang),
+                        "mobile": employee.mobile_phone,
+                        "mobile_link": (employee.mobile_phone or "")
+                        .replace(" ", "")
+                        .replace("(0)", ""),
+                        "facebook": facebook.get(lang),
+                        "employee_image_url": employee_image_url,
+                    }
+                else:
+                    values = {
+                        "name": _("The team of Compassion"),
+                        "email": "info@compassion.ch",
+                        "lang": lang,
+                        "lang_short": lang[:2],
+                        "team": "",
+                        "job_title": "",
+                        "office_hours": _("mo-thu: 9am-2pm"),
+                        "company_name": user.company_id.address_name,
+                        "phone_link": phone_link.get(lang),
+                        "phone": phone.get(lang),
+                        "mobile": "",
+                        "mobile_link": "",
+                        "facebook": facebook.get(lang),
+                    }
+
                 if lang in ("fr_CH", "en_US"):
                     template.remove("#bern")
                 else:
                     template.remove("#yverdon")
                 if not employee.mobile_phone:
                     template.remove(".work_mobile")
+                if not employee:
+                    template.remove("#photo")
                 user.signature = template.html().format(**values)
 
+    @api.depends_context("lang")
     def _compute_short_signature(self):
         for user in self:
             template = PyQuery(user.signature)
             user.short_signature = template("#short").html()
 
+    @api.depends_context("lang")
     def _compute_signature_letter(self):
         """Translate country in Signature (for Compassion Switzerland)"""
         for user in self:

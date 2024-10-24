@@ -9,7 +9,7 @@
 ##############################################################################
 import logging
 
-from werkzeug.utils import escape
+from markupsafe import escape
 
 from odoo import api, fields, models
 
@@ -172,12 +172,27 @@ class AccountInvoice(models.Model):
             }
         )
         invoice.with_delay().pay_wordpress_invoice(
-            fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign
+            fund,
+            child_code,
+            wp_origin,
+            amount,
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            payment_mode.id,
         )
         return invoice.id
 
     def pay_wordpress_invoice(
-        self, fund, child_code, wp_origin, amount, utm_source, utm_medium, utm_campaign
+        self,
+        fund,
+        child_code,
+        wp_origin,
+        amount,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        payment_mode_id,
     ):
         """Create invoice lines and payment for a WordPress donation.
         :param fund: the fund code in WordPress
@@ -209,11 +224,16 @@ class AccountInvoice(models.Model):
                     "|",
                     ("partner_id", "=", self.partner_id.id),
                     ("correspondent_id", "=", self.partner_id.id),
-                    ("child_code", "=", child_code),
+                    ("child_code", "ilike", child_code),
                 ],
                 order="id desc",
                 limit=1,
             )
+            if not sponsorship:
+                raise ValueError(
+                    "No sponsorship found for child %s and partner %s"
+                    % (child_code, self.partner_id.id)
+                )
         internet_id = self.env.ref("utm.utm_medium_website").id
         inv_line_ids = (
             self.env["account.move.line"]
@@ -260,8 +280,9 @@ class AccountInvoice(models.Model):
             )
             .id,
             "payment_method_id": self.env["account.payment.method"]
-            .search([("code", "=", "sepa_direct_debit")])
+            .search([("code", "=", "manual"), ("payment_type", "=", "inbound")])
             .id,
+            "payment_mode_id": payment_mode_id,
             "date": self.date,
             "payment_reference": self.payment_reference,
             "payment_type": "inbound",
@@ -276,5 +297,6 @@ class AccountInvoice(models.Model):
             (account_payment.line_ids + self.line_ids).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).reconcile()
+        self.payment_mode_id = payment_mode_id
 
         return True

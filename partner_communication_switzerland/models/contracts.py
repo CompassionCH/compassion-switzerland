@@ -342,7 +342,7 @@ class RecurringContract(models.Model):
             .search([("partner_id", "=", int(sds_partner_id))])
         )
 
-        if sds_user.id:
+        if sds_user.id and self.correspondent_id.id != 560:  # This partner is OK:
             self.correspondent_id.activity_schedule(
                 "partner_communication_switzerland.activity_check_partner_no_communication",
                 date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),

@@ -97,3 +97,9 @@ class Correspondence(models.Model):
             {"translation_supervisor_id": translation_supervisor.id}
         )
         return True
+
+    def _post_process_translation(self):
+        # We want to send the communication to the sponsor when the translation is done
+        super()._post_process_translation()
+        if self.direction == "Beneficiary To Supporter":
+            self.sudo().send_communication()

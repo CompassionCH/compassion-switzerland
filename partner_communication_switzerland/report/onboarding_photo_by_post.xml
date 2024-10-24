@@ -38,10 +38,10 @@
                 }
                 #map {
                     position: absolute;
-                    top: 64mm;
-                    left: 127mm;
-                    width: 70mm;
-                    height: 70mm;
+                    top: 74mm;
+                    left: 135mm;
+                    width: 60mm;
+                    height: 60mm;
                 }
                 .blue {
                     color: #0054A6;
@@ -65,7 +65,7 @@
               t-if="len(country) == 1 and o.partner_id.lang != 'en_US'"
             >
                             <img
-                t-attf-src="/partner_communication_switzerland/static/src/img/{{country[0]}}_{{o.partner_id.lang[:2]}}.png"
+                t-attf-src="/partner_communication_switzerland/static/src/img/{{country[0]}}_fr.png"
                 width="100%"
                 height="100%"
               />

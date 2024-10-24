@@ -9,24 +9,20 @@
 
 from odoo import api, fields, models
 
-import odoo.addons.decimal_precision as dp
-
 
 class HrContract(models.Model):
     _inherit = "hr.contract"
 
     analytic_tag_id = fields.Many2one("account.analytic.tag", "Analytic tag")
-    wage_fulltime = fields.Float(
-        string="Full-time Wage", digits=dp.get_precision("Account"), default=0
-    )
+    wage_fulltime = fields.Float(string="Full-time Wage", digits="Account", default=0)
     occupation_rate = fields.Float(
-        string="Occupation Rate (%)", digits=dp.get_precision("Account"), default=100.0
+        string="Occupation Rate (%)", digits="Account", default=100.0
     )
 
     provision_13_salary = fields.Float(
         string="Accumulated 13th salary (Bruto)",
         compute="_compute_13_salary",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     l10n_ch_thirteen_month = fields.Boolean(
@@ -35,7 +31,7 @@ class HrContract(models.Model):
 
     lpp_amount = fields.Float(
         string="Pension Amount",
-        digits=dp.get_precision("Account"),
+        digits="Account",
         help="monthly employee part (1/24 of yearly amount)",
     )
 

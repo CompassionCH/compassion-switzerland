@@ -56,6 +56,7 @@ class ReportChildpackFull(models.AbstractModel):
 class ReportChildpackSmall(models.AbstractModel):
     _inherit = "report.childpack_full"
     _name = "report.childpack_small"
+    _description = "Used to generate small childpack in selected language"
 
     def _get_report(self):
         return self.env["ir.actions.report"]._get_report_from_name("childpack_small")
@@ -64,6 +65,7 @@ class ReportChildpackSmall(models.AbstractModel):
 class ReportChildpackMini(models.AbstractModel):
     _inherit = "report.childpack_full"
     _name = "report.childpack_mini"
+    _description = "Used to generate mini childpack in selected language"
 
     def _get_report(self):
         return self.env["ir.actions.report"]._get_report_from_name("childpack_mini")

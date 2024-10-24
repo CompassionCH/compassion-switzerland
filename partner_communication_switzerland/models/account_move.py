@@ -69,7 +69,7 @@ class AccountInvoice(models.Model):
         :return: account.move recordset
         override thankyou_letters._filter_invoice_to_thanks()
         """
-        return self.filtered(
+        return self.sudo().filtered(
             lambda i: i.move_type == "out_invoice"
             and not i.avoid_thankyou_letter
             and (

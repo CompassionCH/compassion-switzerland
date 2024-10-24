@@ -10,6 +10,7 @@
 
 from . import (
     account_banking_mandate,
+    bank_statement,
     completion_rules,
     contract_group,
     contract_origin,

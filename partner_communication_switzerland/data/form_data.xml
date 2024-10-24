@@ -21,6 +21,8 @@
         'inform_me_for_next_zoom',
         'optional_message',
         'zoom_session_id',
+        'partner_id',
+        'state',
         ]"
     />
     </function>
