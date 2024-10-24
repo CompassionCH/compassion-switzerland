@@ -173,16 +173,16 @@ class ExternalAuthUsers(models.Model):
             rt_old_model.sudo().revoke()
 
         # Verification succeeded, we generate tokens.
-        token_config = self.env["auth_external.tokens_config"].get_singleton()
+        tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
 
         now = datetime.now()
-        at_new_exp = now + timedelta(seconds=token_config.access_token_duration_seconds)
+        at_new_exp = now + timedelta(seconds=tokens_config.access_token_duration_seconds)
         rt_new_exp = now + timedelta(
-            seconds=token_config.refresh_token_duration_seconds
+            seconds=tokens_config.refresh_token_duration_seconds
         )
 
         at_new_payload, at_new = self._generate_jwt(
-            token_config.issuer_id,
+            tokens_config.issuer_id,
             self.env.user.id,
             USER_ACCESS_AUD,
             at_new_exp,
@@ -190,7 +190,7 @@ class ExternalAuthUsers(models.Model):
         )
 
         rt_new_payload, rt_new = self._generate_jwt(
-            token_config.issuer_id,
+            tokens_config.issuer_id,
             self.env.user.id,
             USER_REFRESH_AUD,
             rt_new_exp,
@@ -215,7 +215,7 @@ class ExternalAuthUsers(models.Model):
             "Access token expires in %d seconds (%s)"
             % (
                 self.login,
-                token_config.access_token_duration_seconds,
+                tokens_config.access_token_duration_seconds,
                 access_token_exp_str,
             )
         )
@@ -226,19 +226,18 @@ class ExternalAuthUsers(models.Model):
             "expires_at": access_token_exp_str,
         }
 
-    @classmethod
-    def _check_refresh_token(cls, token: str, sub: any) -> dict:
+    def _check_refresh_token(self, token: str, sub: any) -> dict:
         """Verifies the validity of a JWT for access token refresh.
         :param token: The token to check for validity.
         :returns: None if the token is valid.
         :raises AccessDenied: if the token is invalid.
         """
-        token_config = cls.env["auth_external.tokens_config"].get_singleton()
+        tokens_config = request.env["auth_external.tokens_config"].sudo().get_singleton()
         try:
-            return cls._parse_jwt_token(
+            return self._parse_jwt_token(
                 token,
                 sub,
-                token_config.issuer_id,
+                tokens_config.issuer_id,
                 USER_REFRESH_AUD,
                 refresh_token_signing_key,
             )
@@ -251,12 +250,12 @@ class ExternalAuthUsers(models.Model):
         :returns: None if the token is valid.
         :raises AccessDenied: if the token is invalid.
         """
-        token_config = request.env["auth_external.tokens_config"].get_singleton()
+        tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
         try:
             self._parse_jwt_token(
                 token,
                 self.env.user.id,
-                token_config.issuer_id,
+                tokens_config.issuer_id,
                 USER_ACCESS_AUD,
                 access_token_signing_key,
             )
@@ -266,9 +265,8 @@ class ExternalAuthUsers(models.Model):
             )
             raise ex
 
-    @classmethod
     def _parse_jwt_token(
-        cls, token, sub: Any, iss: str, aud: str, key: AbstractJWKBase
+        self, token, sub: Any, iss: str, aud: str, key: AbstractJWKBase
     ) -> dict:
         """Verifies the validity of a JWT.
         :param token: The token to check for validity.

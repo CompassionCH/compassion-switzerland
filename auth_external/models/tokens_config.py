@@ -46,5 +46,6 @@ class TokensConfig(models.Model):
             conf.refresh_token_duration_seconds = int(60 * 60 * 24 * conf.refresh_token_duration_days)
 
     def get_singleton(self) -> "TokensConfig":
-        self.ensure_one()
-        return self
+        singleton = self.search([])
+        singleton.ensure_one()
+        return singleton

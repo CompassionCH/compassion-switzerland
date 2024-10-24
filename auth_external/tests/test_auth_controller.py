@@ -130,7 +130,7 @@ class TestAuthController(HttpCase):
             }
         )
         
-        self.tokens_config = self.env.ref('auth_external.tokens_config')
+        self.tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
 
     def json_post(self, route: str, data: dict) -> Response:
         JSON_HEADERS = {"Content-Type": "application/json"}
