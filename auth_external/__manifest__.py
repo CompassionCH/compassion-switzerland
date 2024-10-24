@@ -34,11 +34,16 @@
     "external_dependencies": {},
     "depends": [
         "base",
-        "auth_totp" 
+        "auth_totp",
         # The main reason for this custom module is to allow 2FA authentication
         # for xmlrpc api calls. This is why it depends on auth_totp.
     ],
-    "data": ["data/remove_expired_refresh_tokens_cron.xml"],
+    "data": [
+        "data/remove_expired_refresh_tokens_cron.xml",
+        "data/tokens_config.xml",
+        "security/res_groups.xml",
+        "security/ir.model.access.csv",
+    ],
     "demo": [],
     "installable": True,
     "application": False,

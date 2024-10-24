@@ -20,14 +20,8 @@ _logger = logging.getLogger(__name__)
 
 authorization_extractor = re.compile(r'(\w+)[:=] ?"?(\w+)"?')
 
-# TODO: move those to settings.
-issuer_id = "compassion.ch"
-access_token_duration_seconds = (
-    60 * 60 * 3
-)  # Token is only valid for this period of time.
-refresh_token_duration_seconds = 60 * 60 * 24 * 28
-user_access_aud = "user_auth_grant"
-user_refresh_aud = "user_refresh_grant"
+USER_ACCESS_AUD = "user_auth_grant"
+USER_REFRESH_AUD = "user_refresh_grant"
 
 
 def gen_signing_key() -> AbstractJWKBase:
@@ -179,23 +173,26 @@ class ExternalAuthUsers(models.Model):
             rt_old_model.sudo().revoke()
 
         # Verification succeeded, we generate tokens.
+        token_config = self.env["auth_external.tokens_config"].get_singleton()
 
         now = datetime.now()
-        at_new_exp = now + timedelta(seconds=access_token_duration_seconds)
-        rt_new_exp = now + timedelta(seconds=refresh_token_duration_seconds)
+        at_new_exp = now + timedelta(seconds=token_config.access_token_duration_seconds)
+        rt_new_exp = now + timedelta(
+            seconds=token_config.refresh_token_duration_seconds
+        )
 
         at_new_payload, at_new = self._generate_jwt(
-            issuer_id,
+            token_config.issuer_id,
             self.env.user.id,
-            user_access_aud,
+            USER_ACCESS_AUD,
             at_new_exp,
             access_token_signing_key,
         )
 
         rt_new_payload, rt_new = self._generate_jwt(
-            issuer_id,
+            token_config.issuer_id,
             self.env.user.id,
-            user_refresh_aud,
+            USER_REFRESH_AUD,
             rt_new_exp,
             refresh_token_signing_key,
         )
@@ -218,7 +215,7 @@ class ExternalAuthUsers(models.Model):
             "Access token expires in %d seconds (%s)"
             % (
                 self.login,
-                access_token_duration_seconds,
+                token_config.access_token_duration_seconds,
                 access_token_exp_str,
             )
         )
@@ -236,12 +233,13 @@ class ExternalAuthUsers(models.Model):
         :returns: None if the token is valid.
         :raises AccessDenied: if the token is invalid.
         """
+        token_config = cls.env["auth_external.tokens_config"].get_singleton()
         try:
             return cls._parse_jwt_token(
                 token,
                 sub,
-                issuer_id,
-                user_refresh_aud,
+                token_config.issuer_id,
+                USER_REFRESH_AUD,
                 refresh_token_signing_key,
             )
         except AccessDenied as ex:
@@ -253,12 +251,13 @@ class ExternalAuthUsers(models.Model):
         :returns: None if the token is valid.
         :raises AccessDenied: if the token is invalid.
         """
+        token_config = request.env["auth_external.tokens_config"].get_singleton()
         try:
             self._parse_jwt_token(
                 token,
                 self.env.user.id,
-                issuer_id,
-                user_access_aud,
+                token_config.issuer_id,
+                USER_ACCESS_AUD,
                 access_token_signing_key,
             )
         except AccessDenied as ex:

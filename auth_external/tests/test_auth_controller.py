@@ -19,10 +19,9 @@ from http import HTTPStatus
 from requests import Response
 from ..models.res_users import (
     gen_signing_key,
-    issuer_id,
-    user_access_aud,
+    USER_ACCESS_AUD,
     access_token_signing_key,
-    user_refresh_aud,
+    USER_REFRESH_AUD,
     refresh_token_signing_key,
 )
 
@@ -30,7 +29,7 @@ TEST_DB_NAME = "t1486"
 NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
-
+@tagged("post_install", "-at_install")
 class TestAuthController(HttpCase):
 
     PASSWORD = "password"
@@ -63,7 +62,7 @@ class TestAuthController(HttpCase):
         res_users = self.env["res.users"]
         one_sec_ago = datetime.now() + delta
         _, token = res_users._generate_jwt(
-            issuer_id,
+            self.tokens_config.issuer_id,
             user_id,
             JWT_audience,
             one_sec_ago,
@@ -88,11 +87,11 @@ class TestAuthController(HttpCase):
         return self.gen_timedelta_JWT(user_id, JWT_audience, signing_key, delta)
 
     def gen_expired_JWT_access_token(self, user_id: int) -> str:
-        return self.gen_expired_JWT(user_id, user_access_aud, access_token_signing_key)
+        return self.gen_expired_JWT(user_id, USER_ACCESS_AUD, access_token_signing_key)
 
     def gen_expired_JWT_refresh_token(self, user_id: int) -> str:
         return self.gen_expired_JWT(
-            user_id, user_refresh_aud, refresh_token_signing_key
+            user_id, USER_REFRESH_AUD, refresh_token_signing_key
         )
 
     def gen_forged_JWT(self, user_id: int, JWT_audience: str) -> str:
@@ -102,10 +101,10 @@ class TestAuthController(HttpCase):
         )
 
     def gen_forged_JWT_access_token(self, user_id: int) -> str:
-        return self.gen_forged_JWT(user_id, user_access_aud)
+        return self.gen_forged_JWT(user_id, USER_ACCESS_AUD)
 
     def gen_forged_JWT_refresh_token(self, user_id: int) -> str:
-        return self.gen_forged_JWT(user_id, user_refresh_aud)
+        return self.gen_forged_JWT(user_id, USER_REFRESH_AUD)
 
     def setUp(self, *args, **kwargs):
         super(TestAuthController, self).setUp(*args, **kwargs)
@@ -130,9 +129,8 @@ class TestAuthController(HttpCase):
                 "totp_enabled": True,
             }
         )
-
-        import socket
-        socket.setdefaulttimeout(60) # for debugging
+        
+        self.tokens_config = self.env.ref('auth_external.tokens_config')
 
     def json_post(self, route: str, data: dict) -> Response:
         JSON_HEADERS = {"Content-Type": "application/json"}
@@ -418,7 +416,7 @@ class TestAuthController(HttpCase):
         """
         user_id = self.user_normal.id
         access_token = self.gen_short_duration_JWT(
-            user_id, user_access_aud, access_token_signing_key
+            user_id, USER_ACCESS_AUD, access_token_signing_key
         )
         self.assert_can_write_user_data(user_id, access_token)
 
