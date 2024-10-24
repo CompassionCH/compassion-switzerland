@@ -1,0 +1,9 @@
+<odoo>
+    <data noupdate="0">
+        <record id="tokens_config" model="auth_external.tokens_config">
+            <field name="issuer_id">compassion.ch</field>
+            <field name="access_token_duration_hours">3.0</field>
+            <field name="refresh_token_duration_days">28.0</field>
+        </record>
+    </data>
+</odoo>

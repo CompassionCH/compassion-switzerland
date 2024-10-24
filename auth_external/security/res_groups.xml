@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="auth_external.group_admin" model="res.groups">
+        <field name="name">Admin group for auth_external module</field>
+        <field
+            name="users"
+            eval="[(4, ref('base.user_admin'))]"
+        />
+    </record>
+</odoo>
