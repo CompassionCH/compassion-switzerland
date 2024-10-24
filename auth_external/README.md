@@ -1,5 +1,5 @@
 # Compassion CH External Auth
-This module is intended to allow authentication and authorization to the odoo backend from various frontends (the first use-case is for the tranlsation platform, https://github.com/CompassionCH/translation-platform-web).
+This module is intended to allow authentication and authorization to the odoo backend from various frontends (the first use-case is for the translation platform, https://github.com/CompassionCH/translation-platform-web).
 This custom module was required for the following reasons:
 1. Odoo xmlrpc calls required to provide the (login, password) pair for each call, which required the storage in the user's browser. This would be a very important security risk, for example if an XSS vulnerability was discovered in the frontend.
 2. Odoo xmlrpc calls do not support users who enabled 2FA. 
@@ -16,17 +16,22 @@ A typical user session plays out as follows:
 
 To get a more precise idea of how to use this module, have a look at `tests/test_auth_controller.py:test_full_2fa_user_lifecycle`.
 
-# Security mechanisms
-## Refresh Token Reuse Detection (RTRD)
+# Security 
+## Refresh Token Reuse Detection (RTRD) mechanism
 This feature is heavily inspired by this article: https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/#Automatic-Reuse-Detection
+
 It prevents reuse of `refresh_token`s by keeping a list of the issued `refresh_token`s (see `models/refresh_tokens.py`). 
 The tokens are stored as a doubly linked list, the parent `refresh_token` being linked to a child `refresh_token` after the former was used to authorize the issuance of the latter.
 Once a token is used to authorize a refresh, it is marked as revoked.
-If a revoked token is submitted, it means that it was probably intercepted/exfiltrated by a malicious actor. In this case, we refresh all tokens of the token family, and the user has to submit their credentials again (through `/auth/login`) in order to use the platform again.
+If a revoked token is submitted, it means that it was probably intercepted/exfiltrated by a malicious actor. In this case, we revoke all tokens of the token family, and the user has to submit their credentials again (through `/auth/login`) in order to use the platform again.
+
+## Tests
+`tests/test_auth_controller.py` contains multiple unit tests which assert the security properties of this module. For example, `test_access_denied_2fa_correct_password_incorrect_totp` verifies that the login fails if a user with 2FA enabled tries to login with a correct password but an incorrect TOTP code.
 
 
 
-# TODO JWT library
+# TODO 
+## JWT library
 The library which is currently used seems to be abandoned : https://github.com/GehirnInc/python-jwt
 (No update since Apr 19, 2022). It is not clear if this library is already a dependency of odoo.
 
@@ -36,11 +41,8 @@ https://github.com/jpadilla/pyjwt
 
 
 
-
-# Security considerations
-
-# Refresh tokens
-https://www.rfc-editor.org/rfc/rfc6749#section-1.5
+# References
+Refresh tokens in OAuth 2.0: https://www.rfc-editor.org/rfc/rfc6749#section-1.5
 https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
 https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/
 

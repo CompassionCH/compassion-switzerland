@@ -146,7 +146,7 @@ class ExternalAuthUsers(models.Model):
                 # gone very wrong because a valid token has been deleted from
                 # the db. In this case we should deny access.
                 raise AccessDenied
-            # TODO: concurrency issues?
+            
             if rt_old_model.is_revoked:
                 # if the token which was provided is already marked as revoked,
                 # this means that an attacker is trying to reuse a stolen token

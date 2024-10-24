@@ -57,8 +57,6 @@ class RefreshTokens(models.Model):
     Child refresh_token. Should be One2one.
     """
 
-    # TODO One2one constraints for parent_id and child_id
-
     @api.constrains("parent_id")
     def _check_hierarchy(self):
         if not self._check_recursion():
