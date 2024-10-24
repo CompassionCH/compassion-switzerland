@@ -31,7 +31,6 @@ NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
 
-@tagged("post_install", "-at_install")
 class TestAuthController(HttpCase):
 
     PASSWORD = "password"
@@ -223,8 +222,11 @@ class TestAuthController(HttpCase):
         data = resp.json()["result"]
         return data["access_token"], data["refresh_token"], data["expires_at"]
     
-    def logout(self, refresh_token: str) -> None:
-        return self.json_post(AUTH_LOGOUT_ROUTE, {"refresh_token": refresh_token})
+    def logout(self, refresh_token: str, raw_response = False) -> Response:
+        resp = self.json_post(AUTH_LOGOUT_ROUTE, {"refresh_token": refresh_token})
+        if raw_response:
+            return resp
+        return resp.json()["result"]
 
 
     def user_normal_login_data(self) -> dict:
@@ -446,7 +448,7 @@ class TestAuthController(HttpCase):
         )
         # Check fresh access token is indeed fresh
         self.assertNotEqual(access_token, fresh_access_token)
-        self.assertNotEqual(refresh_token, fresh_refresh_token)  # TODO maybe remove
+        self.assertNotEqual(refresh_token, fresh_refresh_token)
         self.assert_can_write_user_data(user_id, fresh_access_token)
 
     def test_cannot_submit_forged_access_token(self):
@@ -509,7 +511,26 @@ class TestAuthController(HttpCase):
         An attacker cannot logout with an expired refresh token
         """
         expired_rt = self.gen_expired_JWT_refresh_token(self.user_normal.id)
-        self.assert_error_access_denied(self.logout(expired_rt))
+        self.assert_error_access_denied(self.logout(expired_rt, raw_response=True))
+
+    def test_full_2fa_user_lifecycle(self):
+        # First, they login
+        uid, at1, rt1 = self.user_2fa_login()
+
+        # Then, they make a few requests to protected resources
+        for _ in range(5):
+            self.assert_can_write_user_data(uid, at1)
+
+        # Then, they refresh their tokens
+        at2, rt2, exp2 = self.refresh(rt1)
+
+        # They make a few other requests
+        for _ in range(7):
+            self.assert_can_write_user_data(uid, at2)
+
+        # Finally, they logout
+        self.assertTrue(self.logout(rt2))
+
         
 
 
