@@ -1,8 +1,10 @@
 from datetime import datetime
+import logging
 from typing import Callable, List, Optional
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+_logger = logging.getLogger(__name__)
 
 class RefreshTokens(models.Model):
     """
@@ -12,7 +14,7 @@ class RefreshTokens(models.Model):
 
     _name = "auth_external.refresh_tokens"
 
-    jti = fields.Char()
+    jti = fields.Char(required=True)
     """
     JWT ID, used to lookup/identify a refresh token
     See https://www.rfc-editor.org/rfc/rfc7519#section-4.1.7
@@ -146,8 +148,10 @@ class RefreshTokens(models.Model):
         """
         now = datetime.now()
         rts = self.sudo().search([])
+        removed_rts = 0
         for rt in rts:
             if rt.exp <= now:
                 rt.sudo().unlink()
-
-    # TODO : Cron to clear expired tokens
+                removed_rts += 1
+        remaining_rts = len(self.sudo().search([]))
+        _logger.info(f"RefreshTokens: removed {removed_rts} expired tokens, remains {remaining_rts} in the db.")

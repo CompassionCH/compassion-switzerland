@@ -153,7 +153,6 @@ class ExternalAuthUsers(models.Model):
                 # the db. In this case we should deny access.
                 raise AccessDenied
             # TODO: concurrency issues?
-            _logger.info(f"{rt_old_model.id}: {rt_old_model.is_revoked}")
             if rt_old_model.is_revoked:
                 # if the token which was provided is already marked as revoked,
                 # this means that an attacker is trying to reuse a stolen token
@@ -163,10 +162,11 @@ class ExternalAuthUsers(models.Model):
 
                 # Absolutely necessary otherwise the changes of revoke_family()
                 # are not committed due to the following exception
-                self.env.cr.commit() 
+                self.env.cr.commit()
+                user_id = rt_old_payload["sub"]
                 _logger.warning(
                     f"""[RTRD] Refresh Token Reuse Detection triggered for
-                                 {rt_old_model.jti=}! This is either
+                                 {rt_old_model.jti=}, {user_id=}! This is either
                                  caused by an attacker who stole a refresh token
                                  and is trying to reuse it to obtain fresh
                                  tokens, or by a client side bug which reused a

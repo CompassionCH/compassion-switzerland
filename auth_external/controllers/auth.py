@@ -106,16 +106,17 @@ class AuthController(Controller):
         # need to check it was revoked.
         refresh_tokens = request.env["auth_external.refresh_tokens"]
         jti = payload["jti"]
+        user_id = payload["sub"]
         rt_model = refresh_tokens.sudo().get_by_jti(jti)
         if rt_model is None:
-            _logger.warning(f"""A user requested to logout, but the given
+            _logger.warning(f"""{user_id=} requested to logout, but the given
                              refresh token ({jti=}) was not found in the
                              database, very strange""")
             raise AccessDenied
         
         if rt_model.is_revoked:
             _logger.warning(f"""[RTRD] Refresh Token Reuse Detection triggered
-                             on logout ({jti=}). Anyway, we were going to revoke
+                             on logout ({jti=}, {user_id=}). Anyway, we were going to revoke
                              the token family, so no harm done (but still
                              worrying: is there an XSS being exploited?) """)
             
