@@ -25,11 +25,9 @@ from ..models.res_users import (
     refresh_token_signing_key,
 )
 
-TEST_DB_NAME = "t1486"
 NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
-@tagged("post_install", "-at_install")
 class TestAuthController(HttpCase):
 
     PASSWORD = "password"
@@ -271,7 +269,7 @@ class TestAuthController(HttpCase):
             headers=[("Authorization", f"Bearer {access_token}")],
         )
         return models.execute_kw(
-            TEST_DB_NAME, user_id, NO_PASSWORD, model_name, method, pos_args, kw_args
+            self.env.cr.dbname, user_id, NO_PASSWORD, model_name, method, pos_args, kw_args
         )
 
     def read_user_sig(

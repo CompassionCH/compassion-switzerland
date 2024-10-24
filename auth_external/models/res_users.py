@@ -67,6 +67,7 @@ class InvalidTotp(AccessDenied):
 
 class ExternalAuthUsers(models.Model):
     _inherit = "res.users"
+    _description = "Adds authentication for users from external platforms."
 
     def _generate_jwt(
         self, iss: str, sub: any, aud: str, exp: datetime, key: AbstractJWKBase

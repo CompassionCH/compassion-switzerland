@@ -3,6 +3,7 @@ from odoo import api, models, fields
 
 class TokensConfig(models.Model):
     _name = "auth_external.tokens_config"
+    _description = "Model used to configure the properties of issued tokens"
 
     issuer_id = fields.Char(
         required=True,

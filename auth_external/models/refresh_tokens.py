@@ -13,6 +13,7 @@ class RefreshTokens(models.Model):
     """
 
     _name = "auth_external.refresh_tokens"
+    _description = "Model used to track revocation status of issued refresh tokens"
 
     jti = fields.Char(required=True)
     """
@@ -27,7 +28,7 @@ class RefreshTokens(models.Model):
         )
     ]
 
-    is_revoked = fields.Boolean(False)
+    is_revoked = fields.Boolean(default=False, required=True)
     """
     Whether the refresh token is revoked. False by default (for newly generated
     tokens)
