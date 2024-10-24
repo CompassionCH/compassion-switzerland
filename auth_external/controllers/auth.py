@@ -1,5 +1,5 @@
 import logging
-from typing import Tuple
+from typing import List, Tuple
 
 from odoo import SUPERUSER_ID, registry
 from odoo.exceptions import AccessDenied
@@ -14,6 +14,16 @@ AUTH_REFRESH_ROUTE = "/auth/refresh"
 AUTH_LOGOUT_ROUTE = "/auth/logout"
 class AuthController(Controller):
 
+    def _validate_fields_as_expected(self, fields: List[str], data: dict) -> None:
+        for f in fields:
+            if f not in data:
+                _logger.info(f"Request failed because field '{f}' was missing from the request data")
+                raise AccessDenied
+        if len(fields) != len(data):
+            _logger.info(f"Unexpected fields provided in request, expected {fields}")
+            raise AccessDenied
+
+
     @route(
         route=AUTH_LOGIN_ROUTE,
         auth="none",
@@ -23,6 +33,7 @@ class AuthController(Controller):
         cors="*",
     )
     def login(self):
+        self._validate_fields_as_expected(["login", "password", "totp"], request.jsonrequest)
         login = request.jsonrequest["login"]
         password = request.jsonrequest["password"]
         totp = request.jsonrequest["totp"]
@@ -52,8 +63,7 @@ class AuthController(Controller):
         Returns:
             dict: Payload of the refresh token, if the token was authentic and non-expired
         """
-        if "refresh_token" not in request.jsonrequest:
-            raise AccessDenied
+        self._validate_fields_as_expected(["refresh_token"], request.jsonrequest)
 
         refresh_token = request.jsonrequest["refresh_token"]
 

@@ -333,6 +333,12 @@ class TestAuthController(HttpCase):
     def test_login_should_succeed_for_2fa_user(self):
         self.assert_login_success(self.user_2fa_login_data())
 
+    def test_access_denied_with_additional_fields(self):
+        self.login_should_deny_access({
+            **self.user_normal_login_data(),
+            "some_malicious_field": "some value"
+        })
+
     def test_access_denied_incorrect_password(self):
         """
         An attacker is denied access to a normal user account when providing an incorrect password
@@ -347,7 +353,7 @@ class TestAuthController(HttpCase):
         """
         data = self.user_2fa_login_data()
         del data["totp"]
-        self.login_should_produce_error(data, "builtins.KeyError")
+        self.login_should_deny_access(data)
 
     def test_access_denied_2fa_correct_password_incorrect_totp(self):
         """
