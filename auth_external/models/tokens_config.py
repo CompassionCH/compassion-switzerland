@@ -20,16 +20,8 @@ class TokensConfig(models.Model):
              reasonable value is a few hours (i.e. 3600 seconds or more).""",
     )
 
-    # TODO: Don't need this, use corresponding field directly!
-    access_token_duration_seconds = fields.Integer(compute="_compute_access_token_duration_seconds")
-
-    @api.depends("access_token_duration_hours")
-    def _compute_access_token_duration_seconds(self) -> None:
-        for conf in self:
-            conf.access_token_duration_seconds = int(60 * 60 * conf.access_token_duration_hours)
-
     refresh_token_duration_days = fields.Float(
-        default=28.0,
+        default=14.0,
         help="""Duration (in days) for which the refresh token remains valid
              after issuance. This define how many days the user can access the
              service without needing to re-authenticate, if they do not use the
@@ -40,13 +32,6 @@ class TokensConfig(models.Model):
              days, they need to re-authenticate with their credentials (login,
              password, [totp])""",
     )
-
-    refresh_token_duration_seconds = fields.Integer(compute="_compute_refresh_token_duration_seconds")
-
-    @api.depends("refresh_token_duration_days")
-    def _compute_refresh_token_duration_seconds(self) -> None:
-        for conf in self:
-            conf.refresh_token_duration_seconds = int(60 * 60 * 24 * conf.refresh_token_duration_days)
 
     def get_singleton(self) -> "TokensConfig":
         singleton = self.search([])

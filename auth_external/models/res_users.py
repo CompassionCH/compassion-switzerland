@@ -179,10 +179,10 @@ class ExternalAuthUsers(models.Model):
         # To avoid ambiguity, we fix all expiration dates in UTC
         now_utc = datetime.now(timezone.utc)
         at_new_exp = now_utc + timedelta(
-            seconds=tokens_config.access_token_duration_seconds
+            hours=tokens_config.access_token_duration_hours
         )
         rt_new_exp = now_utc + timedelta(
-            seconds=tokens_config.refresh_token_duration_seconds
+            days=tokens_config.refresh_token_duration_days
         )
 
         at_new_payload, at_new = self._generate_jwt(
@@ -222,10 +222,10 @@ class ExternalAuthUsers(models.Model):
 
         _logger.info(
             "Generated new tokens for user '%s'. "
-            "Access token expires in %d seconds (%s)"
+            "Access token expires in %d hours (%s)"
             % (
                 self.login,
-                tokens_config.access_token_duration_seconds,
+                tokens_config.access_token_duration_hours,
                 access_token_exp_str,
             )
         )

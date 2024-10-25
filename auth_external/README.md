@@ -31,6 +31,14 @@ If a revoked token is submitted, it means that it was probably intercepted/exfil
 
 
 # TODO 
+
+## Tokens in secure cookies
+Currently, tokens are stored in the localStorage in the frontend. This is dangerous if the frontend contains an XSS vulnerability (token extraction).
+We should use Secure, HttpOnly, Strict=..., Domain=..., Path=...
+
+https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security
+
 ## JWT library
 The library which is currently used seems to be abandoned : https://github.com/GehirnInc/python-jwt
 (No update since Apr 19, 2022). It is not clear if this library is already a dependency of odoo.

@@ -1,5 +1,5 @@
 import base64
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 import os
 import random
@@ -27,6 +27,11 @@ from ..models.res_users import (
 
 NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
+
+LoginRespData = Tuple[str, str, str, datetime]
+"""
+user_id, access_token, refresh_token, at_exp_datetime
+"""
 
 class TestAuthController(HttpCase):
 
@@ -187,7 +192,7 @@ class TestAuthController(HttpCase):
 
     def login(
         self, login_data: dict, raw_response=False
-    ) -> Union[Tuple[str, str, str], Response]:
+    ) -> Union[LoginRespData, Response]:
         resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
         if raw_response:
             return resp
@@ -198,7 +203,8 @@ class TestAuthController(HttpCase):
         auth_tokens = data["auth_tokens"]
         access_token = auth_tokens["access_token"]
         refresh_token = auth_tokens["refresh_token"]
-        return user_id, access_token, refresh_token
+        at_exp = datetime.fromisoformat(auth_tokens["expires_at"])
+        return user_id, access_token, refresh_token, at_exp
 
     def refresh(
         self, refresh_token: str, raw_response=False
@@ -239,19 +245,19 @@ class TestAuthController(HttpCase):
             "totp": self.get_current_totp(),
         }
 
-    def user_normal_login(self) -> Tuple[int, str, str]:
+    def user_normal_login(self) -> LoginRespData:
         """Performs a login for the normal user
 
         Returns:
-            __Tuple[int, str, str]: user_id, access_token, refresh_token
+            LoginRespData: 
         """
         return self.login(self.user_normal_login_data())
 
-    def user_2fa_login(self) -> Tuple[int, str, str]:
+    def user_2fa_login(self) -> LoginRespData:
         """Performs a login for the 2fa user
 
         Returns:
-            __Tuple[int, str, str]: user_id, access_token, refresh_token
+            LoginRespData: 
         """
         return self.login(self.user_2fa_login_data())
 
@@ -385,15 +391,15 @@ class TestAuthController(HttpCase):
         """
         A normal user can make rpc calls with a valid access token
         """
-        user_id, access_token, _ = self.user_normal_login()
+        user_id, access_token, _, _ = self.user_normal_login()
         self.assert_can_write_user_data(user_id, access_token)
 
     def test_access_denied_without_correct_user_id(self):
         """
         An attacker cannot use their access_token to modify data from another account
         """
-        user_id_normal, access_token_normal, _ = self.user_normal_login()
-        user_id_2fa, _, _ = self.user_2fa_login()
+        user_id_normal, access_token_normal, _, _ = self.user_normal_login()
+        user_id_2fa, _, _, _ = self.user_2fa_login()
         # The attacker (normal user) tries to modify the signature of the victim (2fa user)
         # incorrect requester id and target id
         self.assert_cannot_write_user_data(
@@ -438,7 +444,7 @@ class TestAuthController(HttpCase):
         """
         A legitimate user can use their refresh_token to get a valid fresh access_token
         """
-        user_id, access_token, refresh_token = self.user_normal_login()
+        user_id, access_token, refresh_token, _ = self.user_normal_login()
         fresh_access_token, fresh_refresh_token, expires_at = self.refresh(
             refresh_token
         )
@@ -473,7 +479,7 @@ class TestAuthController(HttpCase):
         they trigger the refresh token reuse detection mechanism and all tokens
         of the family are revoked.
         """
-        _, _, rt1 = self.user_normal_login()
+        _, _, rt1, _ = self.user_normal_login()
 
         rts = [rt1]
         for _ in range(9):
@@ -497,7 +503,7 @@ class TestAuthController(HttpCase):
         """
         An attacker cannot reuse a refresh token after it was used to logout.
         """
-        user_id, at, rt = self.user_normal_login()
+        user_id, at, rt, _ = self.user_normal_login()
         logout_resp = self.logout(rt)
         self.assertTrue(logout_resp)
         self.assert_refresh_access_denied(rt)
@@ -511,7 +517,7 @@ class TestAuthController(HttpCase):
 
     def test_full_2fa_user_lifecycle(self):
         # First, they login
-        uid, at1, rt1 = self.user_2fa_login()
+        uid, at1, rt1, _ = self.user_2fa_login()
 
         # Then, they make a few requests to protected resources
         for _ in range(5):
@@ -527,6 +533,10 @@ class TestAuthController(HttpCase):
         # Finally, they logout
         self.assertTrue(self.logout(rt2))
 
-        
+    def test_access_token_expiration_in_the_future(self):
+        _, _, _, at_exp = self.user_2fa_login()
+        # the access token should be valid at least 1 minute
+        min_exp_duration = timedelta(minutes=1) 
+        self.assertLess(datetime.now(timezone.utc) + min_exp_duration, at_exp)
 
 
