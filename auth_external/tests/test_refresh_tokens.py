@@ -47,7 +47,7 @@ class TestRefreshTokens(TransactionCase):
 
     def test_remove_expired_tokens(self):
         past_td = timedelta(seconds=-1)
-        future_td = timedelta(hours=1)
+        future_td = timedelta(minutes=1)
 
         rt1 = self.create_refresh_token(past_td)
         rt2 = self.create_refresh_token(past_td, rt1)

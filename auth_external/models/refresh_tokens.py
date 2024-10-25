@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 from typing import Callable, List, Optional
 from odoo import api, fields, models
@@ -145,12 +145,14 @@ class RefreshTokens(models.Model):
         expiration date is in the past. Token expiration can still be checked by
         verifying the exp field of the JWT, so this operation is safe.
         """
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         rts = self.sudo().search([])
         removed_rts = 0
         for rt in rts:
-            if rt.exp <= now:
+            # odoo interprets datetimes as utc
+            rt_exp_utc = rt.exp.replace(tzinfo=timezone.utc)
+            if rt_exp_utc <= now:
                 rt.sudo().unlink()
                 removed_rts += 1
-        remaining_rts = len(self.sudo().search([]))
+        remaining_rts = self.sudo().search_count([])
         _logger.info(f"RefreshTokens: removed {removed_rts} expired tokens, remains {remaining_rts} in the db.")
