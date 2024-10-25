@@ -37,6 +37,11 @@ class TokensConfig(models.Model):
         singleton = self.search([])
         singleton.ensure_one()
         return singleton
-    
-    # TODO refresh tokens should have longer duration as access tokens 
-    # _sql_constraints = []
+
+    _sql_constraints = [
+        (
+            "check_rt_longer_duration_than_at",
+            "check(access_token_duration_hours < refresh_token_duration_days * 24)",
+            "The refresh token must have longer duration than the access token.",
+        ),
+    ]
