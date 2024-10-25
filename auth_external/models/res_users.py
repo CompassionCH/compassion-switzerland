@@ -232,8 +232,8 @@ class ExternalAuthUsers(models.Model):
 
         return {
             "access_token": at_new,
+            "access_token_expires_at": access_token_exp_str,
             "refresh_token": rt_new,
-            "expires_at": access_token_exp_str,
         }
 
     def _check_refresh_token(self, token: str, sub: any) -> dict:
