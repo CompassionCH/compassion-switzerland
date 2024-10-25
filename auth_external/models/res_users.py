@@ -147,7 +147,7 @@ class ExternalAuthUsers(models.Model):
                 # gone very wrong because a valid token has been deleted from
                 # the db. In this case we should deny access.
                 raise AccessDenied
-            
+
             if rt_old_model.is_revoked:
                 # if the token which was provided is already marked as revoked,
                 # this means that an attacker is trying to reuse a stolen token
@@ -176,9 +176,12 @@ class ExternalAuthUsers(models.Model):
         # Verification succeeded, we generate tokens.
         tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
 
-        now = datetime.now()
-        at_new_exp = now + timedelta(seconds=tokens_config.access_token_duration_seconds)
-        rt_new_exp = now + timedelta(
+        # To avoid ambiguity, we fix all expiration dates in UTC
+        now_utc = datetime.now(timezone.utc)
+        at_new_exp = now_utc + timedelta(
+            seconds=tokens_config.access_token_duration_seconds
+        )
+        rt_new_exp = now_utc + timedelta(
             seconds=tokens_config.refresh_token_duration_seconds
         )
 
@@ -202,7 +205,13 @@ class ExternalAuthUsers(models.Model):
         # case, the freshly generated refresh_token is the root of a new
         # refresh_token family, we must thus insert it into the database.
         rt_new_model = refresh_tokens.sudo().create(
-            {"jti": rt_new_payload["jti"], "exp": rt_new_exp}
+            {"jti": rt_new_payload["jti"], 
+             # We transform the expiration datetime to a naive version (without
+             # timezone information) because all odoo datetimes are forced to
+             # UTC.
+             # See https://www.odoo.com/documentation/14.0/developer/reference/addons/orm.html?highlight=fields%20many2many#date-time-fields
+             "exp": rt_new_exp.replace(tzinfo=None)
+             }
         )
         if rt_old is not None:
             # If a valid rt was provided and we generated a new rt, we need to
@@ -233,7 +242,9 @@ class ExternalAuthUsers(models.Model):
         :returns: None if the token is valid.
         :raises AccessDenied: if the token is invalid.
         """
-        tokens_config = request.env["auth_external.tokens_config"].sudo().get_singleton()
+        tokens_config = (
+            request.env["auth_external.tokens_config"].sudo().get_singleton()
+        )
         try:
             return self._parse_jwt_token(
                 token,

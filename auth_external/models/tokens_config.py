@@ -19,6 +19,8 @@ class TokensConfig(models.Model):
              security risk as a stolen token can be used for longer. A
              reasonable value is a few hours (i.e. 3600 seconds or more).""",
     )
+
+    # TODO: Don't need this, use corresponding field directly!
     access_token_duration_seconds = fields.Integer(compute="_compute_access_token_duration_seconds")
 
     @api.depends("access_token_duration_hours")
@@ -50,3 +52,6 @@ class TokensConfig(models.Model):
         singleton = self.search([])
         singleton.ensure_one()
         return singleton
+    
+    # TODO refresh tokens should have longer duration as access tokens 
+    # _sql_constraints = []
