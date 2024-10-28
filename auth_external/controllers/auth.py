@@ -173,13 +173,13 @@ class AuthController(Controller):
     @route(
         route=AUTH_LOGOUT_ROUTE,
         auth="none",
-        type="json",
-        methods=["POST"],
+        type="http",
+        methods=["GET"],
         csrf=False,
         cors="*",
     )
     def logout(self):
-        _, payload = self._validate_refresh_token(request)
+        _, payload = self._validate_refresh_token()
 
         # The refresh token is authentic and non-expired but maybe revoked. If
         # it was revoked, that means an attacker might have intercepted this
@@ -208,4 +208,4 @@ class AuthController(Controller):
             )
 
         rt_model.sudo().revoke_family()
-        return True  # indicates success
+        return "Logout successful."  # indicates success
