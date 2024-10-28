@@ -33,6 +33,13 @@ LoginRespData = Tuple[int, str, str, datetime]
 user_id, access_token, refresh_token, access_token_expires_at
 """
 
+REQUEST_HEADERS = {
+            # Required to use http type in auth controller
+            "Content-Type": "text/plain",
+            # Required so that the cookie domain matches the request
+            "Host": "dev.localhost"
+        }
+
 
 class TestAuthController(HttpCase):
 
@@ -139,13 +146,14 @@ class TestAuthController(HttpCase):
         )
 
     def json_post(self, route: str, data: dict) -> Response:
+        return self.url_open(route, data=json.dumps(data), headers=REQUEST_HEADERS)
+    
+    def request_with_rt(self, route: str, refresh_token: str) -> Response:
         headers = {
-            # Required to use http type in auth controller
-            "Content-Type": "text/plain",
-            # Required so that the cookie domain matches the request
-            "Host": "dev.localhost",
+            **REQUEST_HEADERS,
+            "Cookie": f"refresh_token={refresh_token}"
         }
-        return self.url_open(route, data=json.dumps(data), headers=headers)
+        return self.url_open(route, headers=headers)
 
     def assert_status_OK(self, response) -> None:
         self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -195,7 +203,7 @@ class TestAuthController(HttpCase):
 
     def assert_refresh_access_denied(self, refresh_token: str) -> None:
         resp = self.refresh(refresh_token, raw_response=True)
-        self.assert_error_access_denied(resp)
+        self.assert_response_forbidden(resp)
 
     def login(
         self, login_data: dict, raw_response=False
@@ -233,11 +241,13 @@ class TestAuthController(HttpCase):
             __Tuple[str, str, str]: access_token, refresh_token, expires_at
         }
         """
-        resp = self.json_post(AUTH_REFRESH_ROUTE, {"refresh_token": refresh_token})
+        resp = self.request_with_rt(AUTH_REFRESH_ROUTE, refresh_token=refresh_token)
         if raw_response:
             return resp
-        data = resp.json()["result"]
-        return data["access_token"], data["refresh_token"], data["expires_at"]
+        data = resp.json()
+        access_token = resp.cookies["access_token"]
+        refresh_token = resp.cookies["refresh_token"]
+        return access_token, refresh_token, data["access_token_expires_at"]
 
     def logout(self, refresh_token: str, raw_response=False) -> Response:
         resp = self.json_post(AUTH_LOGOUT_ROUTE, {"refresh_token": refresh_token})
@@ -334,9 +344,12 @@ class TestAuthController(HttpCase):
     def assert_error_access_denied(self, resp: Response) -> None:
         self.assert_error_name(resp, "odoo.exceptions.AccessDenied")
 
+    def assert_response_forbidden(self, response: Response) -> None:
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+
     def login_should_deny_access(self, login_data: dict) -> None:
         response = self.login(login_data, raw_response=True)
-        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        self.assert_response_forbidden(response)
 
     def login_should_produce_invalid_totp(self, login_data: dict) -> None:
         self.login_should_produce_error(
@@ -458,8 +471,7 @@ class TestAuthController(HttpCase):
         An attacker cannot successfully reuse an expired refresh_token
         """
         expired_refresh_token = self.gen_expired_JWT_refresh_token(self.user_normal.id)
-        resp = self.refresh(expired_refresh_token, raw_response=True)
-        self.assert_error_access_denied(resp)
+        self.assert_refresh_access_denied(expired_refresh_token)
 
     def test_can_refresh_access_token_with_valid_refresh_token(self):
         """
@@ -488,8 +500,7 @@ class TestAuthController(HttpCase):
         """
         user_id = self.user_normal.id
         forged_refresh_token = self.gen_forged_JWT_refresh_token(user_id)
-        resp = self.refresh(forged_refresh_token, raw_response=True)
-        self.assert_error_access_denied(resp)
+        self.assert_refresh_access_denied(forged_refresh_token)
 
     def get_refresh_tokens(self):
         return self.env["auth_external.refresh_tokens"]
