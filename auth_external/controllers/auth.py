@@ -1,4 +1,5 @@
 from datetime import timedelta
+import json
 import logging
 from typing import List, Tuple
 from urllib.parse import urlparse
@@ -18,7 +19,8 @@ AUTH_LOGOUT_ROUTE = "/auth/logout"
 
 class AuthController(Controller):
 
-    def _validate_fields_as_expected(self, fields: List[str], data: dict) -> None:
+    def _validate_and_parse_fields_as_expected(self, fields: List[str]) -> dict:
+        data = json.loads(request.httprequest.data)
         for f in fields:
             if f not in data:
                 _logger.info(
@@ -28,45 +30,34 @@ class AuthController(Controller):
         if len(fields) != len(data):
             _logger.info(f"Unexpected fields provided in request, expected {fields}")
             raise AccessDenied
+        
+        return data
 
     def _get_current_hostname(self) -> str:
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        # request.httprequest.url_root.rstrip('/') ??
+        if config.get("debug", False):
+            # ValueError: Setting 'domain' for a cookie on a server running
+            # locally (ex: localhost) is not supported by complying browsers.
+            # You should have something like: '127.0.0.1 localhost
+            # dev.localhost' on your hosts file and then point your server to
+            # run on 'dev.localhost' and also set 'domain' for 'dev.localhost'
+            return "dev.localhost" 
+        base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
         return urlparse(base_url).hostname
+    
+    def _make_resp_with_tokens(self, tokens: dict, user_id: int) -> Response:
+        """Build a response which sets the access and refresh tokens as cookies.
 
-    @route(
-        route=AUTH_LOGIN_ROUTE,
-        auth="none",
-        type="json",
-        methods=["POST"],
-        csrf=False,
-        cors="*",
-    )
-    def login(self):
-        self._validate_fields_as_expected(
-            ["login", "password", "totp"], request.jsonrequest
-        )
-        login = request.jsonrequest["login"]
-        password = request.jsonrequest["password"]
-        totp = request.jsonrequest["totp"]
+        Args:
+            tokens (dict): Dict containing the access and refresh tokens and their expiration dates, produced by generate_external_auth_token
 
-        db = request.env.cr.dbname
-        res_users = registry(db)["res.users"]
-
-        user_id = res_users.authenticate(
-            db, login, password, {"totp": totp, "interactive": False}
-        )
-
-        user = request.env["res.users"].browse(int(user_id))
-        user = user.with_user(user)
-
-        tokens = user.generate_external_auth_token()
+        Returns:
+            Response: built response containing the cookies.
+        """
         access_token = tokens["access_token"]
         access_token_expires_at = tokens["access_token_expires_at"]
         refresh_token = tokens["refresh_token"]
-        # {"user_id": user_id, "auth_tokens": }
+        refresh_token_expires_at = tokens["refresh_token_expires_at"]
 
-        tokens_config = request.env["auth_external.tokens_config"].get_singleton()
         is_cookie_secure = not config.get("debug", False)
         response = Response()
 
@@ -81,9 +72,51 @@ class AuthController(Controller):
             path=xmlrpc_path,
             samesite="Strict"
         )
+        response.set_cookie(
+            "refresh_token",
+            refresh_token,
+            expires=refresh_token_expires_at,
+            httponly=True,
+            secure=is_cookie_secure,
+            domain=self._get_current_hostname(),
+            path=AUTH_REFRESH_ROUTE,
+            samesite="Strict"
+        )
+        response.set_data(json.dumps({
+            "access_token_expires_at": access_token_expires_at.isoformat(),
+            "user_id": user_id
+        }))
+        return response
 
-        # TODO Similar for refresh_token cookie
+    @route(
+        route=AUTH_LOGIN_ROUTE,
+        auth="none",
+        type="http",
+        methods=["POST"],
+        csrf=False,
+        cors="*",
+    )
+    def login(self):
+        data = self._validate_and_parse_fields_as_expected(
+            ["login", "password", "totp"]
+        )
 
+        login = data["login"]
+        password = data["password"]
+        totp = data["totp"]
+
+        db = request.env.cr.dbname
+        res_users = registry(db)["res.users"]
+
+        user_id = res_users.authenticate(
+            db, login, password, {"totp": totp, "interactive": False}
+        )
+
+        user = request.env["res.users"].browse(int(user_id))
+        user = user.with_user(user)
+
+        tokens = user.generate_external_auth_token()
+        response = self._make_resp_with_tokens(tokens, user_id)
         return response
 
     def _validate_refresh_token(self, request) -> Tuple[str, dict]:
