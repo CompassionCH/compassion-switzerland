@@ -33,8 +33,8 @@ from ..models.res_users import (
 NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
+# user_id, access_token, refresh_token, at_exp_datetime
 LoginRespData = Tuple[str, str, str, datetime]
-"user_id, access_token, refresh_token, at_exp_datetime"
 
 
 class TestAuthController(HttpCase):

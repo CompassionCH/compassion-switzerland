@@ -55,10 +55,10 @@ def gen_signing_key() -> AbstractJWKBase:
 # difficult problem of storing secrets. *** This means that on server restart,
 # all clients will have to authenticate again ***
 access_token_signing_key = gen_signing_key()
-"Secret key used to sign/verify access_tokens"
+# Secret key used to sign/verify access_tokens
 
 refresh_token_signing_key = gen_signing_key()
-"Secret key used to sign/verify refresh_tokens"
+# Secret key used to sign/verify refresh_tokens
 
 JWT_ALG = "HS256"
 

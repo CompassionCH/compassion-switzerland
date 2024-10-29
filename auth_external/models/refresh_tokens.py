@@ -100,12 +100,12 @@ class RefreshTokens(models.Model):
 
         def revoke_list(
             start: "RefreshTokens",
-            next: Callable[["RefreshTokens"], Optional["RefreshTokens"]],
+            next_token: Callable[["RefreshTokens"], Optional["RefreshTokens"]],
         ) -> None:
             curr = start
             while len(curr) == 1:
                 curr.revoke()
-                curr = next(curr)
+                curr = next_token(curr)
 
         # revoke parents
         revoke_list(self, lambda rt: rt.parent_id)
