@@ -100,10 +100,10 @@ class ExternalAuthUsers(models.Model):
 
         return payload, token
 
-    def generate_external_auth_token(self, rt_old=None) -> dict:
+    def generate_external_auth_token(self, rt_old=None):
         """Generates a new access token and refresh token for the user.
         :param rt_old: the token allowing refreshing auth tokens. This token will get revoked.
-        :returns: the freshly generated tokens and their expiration datetime, in a dict.
+        :returns: the freshly generated tokens (access + refresh tokens).
         :raises AccessDenied: if the user can't generate tokens.
         """
         self.ensure_one()
@@ -232,9 +232,8 @@ class ExternalAuthUsers(models.Model):
 
         return {
             "access_token": at_new,
-            "access_token_expires_at": at_new_exp,
+            "access_token_expires_at": access_token_exp_str,
             "refresh_token": rt_new,
-            "refresh_token_expires_at": rt_new_exp
         }
 
     def _check_refresh_token(self, token: str, sub: any) -> dict:
