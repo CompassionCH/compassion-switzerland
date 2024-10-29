@@ -120,6 +120,21 @@ class ExternalAuthUsers(models.Model):
             )
             raise AccessDenied
 
+        # Can't generate new tokens if user is authenticated using a token and
+        # no refresh token is provided.
+        # Require password authentication for token creation without refresh
+        # token.
+        if (
+            "Authorization" in request.httprequest.headers
+            and request.httprequest.headers["Authorization"].startswith("Bearer ")
+            and rt_old is None
+        ):
+            _logger.info(
+                "User '%s' tried to refresh their auth token while being"
+                " authenticated with an auth token." % self.login
+            )
+            raise AccessDenied
+
         refresh_tokens = self.env["auth_external.refresh_tokens"]
         # Verify the validity of the refresh token if one is provided.
         rt_old_model = None  # Needed below
@@ -316,14 +331,15 @@ class ExternalAuthUsers(models.Model):
         # when we are trying to authenticate using Bearer.
         # Consequence: Translation Platform home page loads in <2s vs <4s.
         try:
-            if "access_token" in request.httprequest.cookies:
-                access_token = request.httprequest.cookies["access_token"]
+            if "Authorization" in request.httprequest.headers:
+                authorization_header = request.httprequest.headers["Authorization"]
 
-                
-                self._check_access_token(access_token)
-                # If we get here, _check_access_token did not raise an
-                # exception, so the access_token was valid
-                return self.env.user.id
+                # Bearer token login attempt.
+                if authorization_header.startswith("Bearer "):
+                    token = authorization_header.split(" ")[1]
+                    self._check_access_token(token)
+
+                    return self.env.user.id
         except AccessDenied:
             # Might have caught an authorization request from another service.
             # Delegate check to parent if that is the case.

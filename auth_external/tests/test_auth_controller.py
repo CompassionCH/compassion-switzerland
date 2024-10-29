@@ -28,9 +28,9 @@ from ..models.res_users import (
 NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
-LoginRespData = Tuple[int, str, str, datetime]
+LoginRespData = Tuple[str, str, str, datetime]
 """
-user_id, access_token, refresh_token, access_token_expires_at
+user_id, access_token, refresh_token, at_exp_datetime
 """
 
 
@@ -200,26 +200,15 @@ class TestAuthController(HttpCase):
     def login(
         self, login_data: dict, raw_response=False
     ) -> Union[LoginRespData, Response]:
-        """Performs a login request with the given data and returns the raw response or the parsed response (depending on raw_response)
-
-        Args:
-            login_data (dict): Login data to submit
-            raw_response (bool, optional): Whether to return raw response.
-
-        Returns:
-            Union[LoginRespData, Response]: user_id, access_token, refresh_token, access_token_expires_at or Response
-        """
         resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
         if raw_response:
             return resp
         data = resp.json()
 
         user_id = data["user_id"]
-        at_exp = datetime.fromisoformat(data["access_token_expires_at"])
 
-        access_token = resp.cookies["access_token"]
-        refresh_token = resp.cookies["refresh_token"]
-        return user_id, access_token, refresh_token, at_exp
+        at_exp = datetime.fromisoformat(data["access_token_expires_at"])
+        return user_id, at_exp
 
     def refresh(
         self, refresh_token: str, raw_response=False
@@ -286,7 +275,7 @@ class TestAuthController(HttpCase):
     ) -> dict:
         models = ServerProxy(
             f"{self.xmlrpc_url}object",
-            headers=[("Cookie", f"access_token={access_token}")],
+            headers=[("Authorization", f"Bearer {access_token}")],
         )
         return models.execute_kw(
             self.env.cr.dbname,
@@ -337,6 +326,8 @@ class TestAuthController(HttpCase):
     def login_should_deny_access(self, login_data: dict) -> None:
         response = self.login(login_data, raw_response=True)
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+        # TODO Continue
+        # self.login_should_produce_error(login_data, "odoo.exceptions.AccessDenied")
 
     def login_should_produce_invalid_totp(self, login_data: dict) -> None:
         self.login_should_produce_error(
@@ -388,7 +379,7 @@ class TestAuthController(HttpCase):
         data_incorrect_totp["totp"] = (
             "123456"  # 1/1'000'000 chance that this is the correct totp and that the test fails
         )
-        self.login_should_deny_access(data_incorrect_totp)
+        self.login_should_produce_invalid_totp(data_incorrect_totp)
 
     def test_access_denied_2fa_incorrect_password_correct_totp(self):
         """
