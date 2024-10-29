@@ -28,6 +28,14 @@ class RefreshTokens(models.Model):
         )
     ]
 
+    user_id = fields.Many2one("res.users", ondelete="cascade", required=True)
+    """
+    User for whom the token was issued. This is not used directly for any
+    functionality, but could be useful in an emergency situation where
+    suspicious activity is detected for a user. In that case, an administrator
+    could revoke all tokens for that particular user to prevent further harm.
+    """
+
     is_revoked = fields.Boolean(default=False, required=True)
     """
     Whether the refresh token is revoked. False by default (for newly generated
@@ -137,6 +145,23 @@ class RefreshTokens(models.Model):
                 f_str = f"[{f_str}]"
             out += f"{f_str} <-> "
         return out
+    
+    def revoke_tokens_for_user(self, user_id: int) -> None:
+        """
+        Revokes all the refresh_tokens for the user with the given user_id.
+        Requires admin privileges to run. This function can be used in an
+        emergency to revoke all the tokens for a user who acts suspiciously.
+        """
+        user_tokens = self.search([("user_id", "=", user_id)])
+        nb_user_tokens = len(user_tokens)
+        nb_tokens_revoked = 0
+        for t in user_tokens:
+            if not t.is_revoked:
+                t.revoke()
+                nb_tokens_revoked += 1
+        _logger.info(f"""Revoked {nb_tokens_revoked} refresh_tokens for
+                      {user_id=} ({nb_user_tokens} total tokens in the database
+                      for this user, now all revoked).""")
 
     @api.model
     def remove_expired_tokens(self):

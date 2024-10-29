@@ -210,7 +210,8 @@ class ExternalAuthUsers(models.Model):
              # timezone information) because all odoo datetimes are forced to
              # UTC.
              # See https://www.odoo.com/documentation/14.0/developer/reference/addons/orm.html?highlight=fields%20many2many#date-time-fields
-             "exp": rt_new_exp.replace(tzinfo=None)
+             "exp": rt_new_exp.replace(tzinfo=None),
+             "user_id": self.env.user.id
              }
         )
         if rt_old is not None:
