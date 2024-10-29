@@ -197,11 +197,12 @@ class TestAuthController(HttpCase):
         resp = self.refresh(refresh_token, raw_response=True)
         self.assert_error_access_denied(resp)
 
-    def assert_refresh_token_reuse_detection_triggered(self, refresh_token: str) -> None:
+    def assert_refresh_token_reuse_detection_triggered(
+        self, refresh_token: str
+    ) -> None:
         resp = self.refresh(refresh_token, raw_response=True)
         result = resp.json()["result"]
         self.assertIn("odoo.exceptions.AccessDenied", result)
-
 
     def login(
         self, login_data: dict, raw_response=False

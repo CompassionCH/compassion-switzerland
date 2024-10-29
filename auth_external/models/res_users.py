@@ -77,9 +77,9 @@ class ExternalAuthUsers(models.Model):
         """
         Generates a new JWT,
         :param iss: the JWT issuer, e.g. example.com.
-        :param sub: the JWT subject, in our case this is the user_id of user which 
+        :param sub: the JWT subject, in our case this is the user_id of user which
             requested the token.
-        :param aud: The JWT audience. This defines the purpose of the token 
+        :param aud: The JWT audience. This defines the purpose of the token
             (e.g. access or refresh)
         :param exp: The JWT expiration date.
         :param key: The key to sign the JWT.
@@ -171,10 +171,10 @@ class ExternalAuthUsers(models.Model):
                                  whole token family has been revoked and the
                                  client needs to re-authenticate."""
                 )
-                # Here we *return* instead of *raise* AccessDenied in order to prevent 
+                # Here we *return* instead of *raise* AccessDenied in order to prevent
                 # the revoke_family transaction from being rolled back.
                 return AccessDenied
-            
+
             rt_old_model.ensure_one()
             rt_old_model.sudo().revoke()
 
