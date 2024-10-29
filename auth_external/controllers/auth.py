@@ -119,41 +119,39 @@ class AuthController(Controller):
         response = self._make_resp_with_tokens(tokens, user_id)
         return response
 
-    def _validate_refresh_token(self) -> Tuple[str, dict]:
+    def _validate_refresh_token(self, request) -> Tuple[str, dict]:
         """Validates that the request contains a valid, authentic refresh token.
+
+        Args:
+            request (odoo.http.request): The request object
 
         Raises:
             AccessDenied: if the key "refresh_token" is not in the json data
             AccessDenied: if the refresh_token is None
 
         Returns:
-            Tuple[str, dict]: Raw refresh token and refresh token payload (if authentic and valid)
+            dict: Payload of the refresh token, if the token was authentic and non-expired
         """
-        if len(request.httprequest.data) != 0:
-            raise AccessDenied("A refresh/logout request should not contain any data")
+        self._validate_fields_as_expected(["refresh_token"], request.jsonrequest)
 
-        if "refresh_token" not in request.httprequest.cookies:
-            raise AccessDenied("A refresh/logout request should contain a refresh_token in the cookies")
-
-        refresh_token = request.httprequest.cookies["refresh_token"]
+        refresh_token = request.jsonrequest["refresh_token"]
 
         if refresh_token is None:
             raise AccessDenied
 
         res_users = request.env["res.users"]
-        refresh_token_payload = res_users._check_refresh_token(refresh_token, None)
-        return refresh_token, refresh_token_payload
+        return refresh_token, res_users._check_refresh_token(refresh_token, None)
 
     @route(
         route=AUTH_REFRESH_ROUTE,
         auth="none",
-        type="http",
-        methods=["GET"],
+        type="json",
+        methods=["POST"],
         csrf=False,
         cors="*",
     )
     def refresh(self):
-        refresh_token, payload = self._validate_refresh_token()
+        refresh_token, payload = self._validate_refresh_token(request)
 
         # Token passed signature check, so its content is authentic.
         user_id = payload["sub"]
@@ -166,9 +164,7 @@ class AuthController(Controller):
         user = request.env["res.users"].sudo().browse(int(user_id))
         user = user.with_user(user)  # exit sudo
 
-        tokens = user.generate_external_auth_token(refresh_token)
-        resp = self._make_resp_with_tokens(tokens, user_id)
-        return resp
+        return user.generate_external_auth_token(refresh_token)
 
     @route(
         route=AUTH_LOGOUT_ROUTE,

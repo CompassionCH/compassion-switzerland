@@ -312,10 +312,14 @@ class ExternalAuthUsers(models.Model):
             InvalidTotp: If the provided totp code is invalid.
             AccessDenied: If the credentials are incorrect.
         """
+        # Check for Bearer *before* parent to prevent costly password check
+        # when we are trying to authenticate using Bearer.
+        # Consequence: Translation Platform home page loads in <2s vs <4s.
         try:
             if "access_token" in request.httprequest.cookies:
                 access_token = request.httprequest.cookies["access_token"]
 
+                
                 self._check_access_token(access_token)
                 # If we get here, _check_access_token did not raise an
                 # exception, so the access_token was valid
