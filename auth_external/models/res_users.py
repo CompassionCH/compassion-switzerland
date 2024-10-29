@@ -1,3 +1,8 @@
+"""
+This file defines the extension to res.users which allows to add custom logic to
+allow authentication and authorization with JWTs which we issued.
+"""
+
 import contextlib
 import logging
 import re

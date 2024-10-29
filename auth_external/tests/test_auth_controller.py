@@ -1,3 +1,8 @@
+"""
+Tests the functionality exposed in controllers/auth.py by making http requests
+to the APIs.
+"""
+
 import base64
 import json
 import os
@@ -382,7 +387,8 @@ class TestAuthController(HttpCase):
 
     def test_access_denied_2fa_incorrect_password_correct_totp(self):
         """
-        An attacker is denied access to a 2fa user account when providing an incorrect password but correct totp
+        An attacker is denied access to a 2fa user account when providing an
+        incorrect password but correct totp
         """
         data = self.user_2fa_login_data()
         data["password"] = "incorrect_password"
@@ -412,7 +418,8 @@ class TestAuthController(HttpCase):
         """
         user_id_normal, access_token_normal, _, _ = self.user_normal_login()
         user_id_2fa, _, _, _ = self.user_2fa_login()
-        # The attacker (normal user) tries to modify the signature of the victim (2fa user)
+        # The attacker (normal user) tries to modify the signature of the victim (2fa
+        # user)
         # incorrect requester id and target id
         self.assert_cannot_write_user_data(
             user_id_2fa, access_token_normal, user_id_2fa

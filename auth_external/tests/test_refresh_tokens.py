@@ -1,7 +1,7 @@
 import random
-from typing import Any
 import uuid
 from datetime import datetime, timedelta
+from typing import Any
 
 from odoo.tests.common import TransactionCase
 
