@@ -29,9 +29,7 @@ NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
 LoginRespData = Tuple[str, str, str, datetime]
-"""
-user_id, access_token, refresh_token, at_exp_datetime
-"""
+"user_id, access_token, refresh_token, at_exp_datetime"
 
 
 class TestAuthController(HttpCase):
@@ -177,12 +175,14 @@ class TestAuthController(HttpCase):
         target_user_id=None,
         expected_fault_substring=None,
     ) -> None:
-        write_fn = lambda: self.write_user_sig(
-            user_id,
-            access_token,
-            user_id if target_user_id is None else target_user_id,
-            "Malicious signature",
-        )
+        def write_fn():
+            self.write_user_sig(
+                user_id,
+                access_token,
+                user_id if target_user_id is None else target_user_id,
+                "Malicious signature",
+            )
+
         if expected_fault_substring is None:
             self.assert_xmlrpc_access_denied(write_fn)
         else:
@@ -269,8 +269,9 @@ class TestAuthController(HttpCase):
         model_name: str,
         method: str,
         pos_args: list,
-        kw_args={},
+        kw_args=None,
     ) -> dict:
+        kw_args = {} if kw_args is None else kw_args
         models = ServerProxy(
             f"{self.xmlrpc_url}object",
             headers=[("Authorization", f"Bearer {access_token}")],
@@ -351,7 +352,8 @@ class TestAuthController(HttpCase):
 
     def test_access_denied_incorrect_password(self):
         """
-        An attacker is denied access to a normal user account when providing an incorrect password
+        An attacker is denied access to a normal user account when providing an
+        incorrect password
         """
         data_incorrect_password = self.user_normal_login_data()
         data_incorrect_password["password"] = "incorrect_password"
@@ -367,11 +369,14 @@ class TestAuthController(HttpCase):
 
     def test_access_denied_2fa_correct_password_incorrect_totp(self):
         """
-        An attacker is denied access to a 2fa user account when providing a correct password but incorrect totp
+        An attacker is denied access to a 2fa user account when providing a
+        correct password but incorrect totp
         """
         data_incorrect_totp = self.user_2fa_login_data()
         data_incorrect_totp["totp"] = (
-            "123456"  # 1/1'000'000 chance that this is the correct totp and that the test fails
+            "123456"
+            # 1/1'000'000 chance that this is the correct totp and that the test
+            # fails
         )
         self.login_should_produce_invalid_totp(data_incorrect_totp)
 
@@ -402,7 +407,8 @@ class TestAuthController(HttpCase):
 
     def test_access_denied_without_correct_user_id(self):
         """
-        An attacker cannot use their access_token to modify data from another account
+        An attacker cannot use their access_token to modify data from another
+        account
         """
         user_id_normal, access_token_normal, _, _ = self.user_normal_login()
         user_id_2fa, _, _, _ = self.user_2fa_login()
@@ -495,13 +501,15 @@ class TestAuthController(HttpCase):
 
         _, last_rt, _ = self.refresh(rts[-1])
 
-        # Oh no, an attacker intercepted a random refresh token (but no the last one which is still valid)
+        # Oh no, an attacker intercepted a random refresh token (but no the last
+        # one which is still valid)
         rt_intercepted = random.choice(rts)
         # They try to use it to get fresh tokens.
         # Haha, it doesn't work! Automatic reuse detection was triggered!
         self.assert_refresh_access_denied(rt_intercepted)
 
-        # Automatic reuse detection also revoked the last rt (which was still valid before)
+        # Automatic reuse detection also revoked the last rt (which was still
+        # valid before)
         self.assert_refresh_access_denied(last_rt)
 
     def test_refresh_token_revoked_after_logout(self):

@@ -25,16 +25,15 @@ USER_REFRESH_AUD = "user_refresh_grant"
 
 
 def gen_signing_key() -> AbstractJWKBase:
-    """Generates a cryptographically secure random signing/verification key, which needs to
-    be used in HMAC.
+    """Generates a cryptographically secure random signing/verification key,
+    which needs to be used in HMAC.
 
-    Regarding the secret size:
-    "A key of the same size as the hash output (for instance, 256 bits for
-    "HS256") or larger MUST be used with this algorithm.  (This
-    requirement is based on Section 5.3.4 (Security Effect of the HMAC
-    Key) of NIST SP 800-117 [NIST.800-107], which states that the
-    effective security strength is the minimum of the security strength
-    of the key and two times the size of the internal hash value.)"
+    Regarding the secret size: "A key of the same size as the hash output (for
+    instance, 256 bits for "HS256") or larger MUST be used with this algorithm.
+    (This requirement is based on Section 5.3.4 (Security Effect of the HMAC
+    Key) of NIST SP 800-117 [NIST.800-107], which states that the effective
+    security strength is the minimum of the security strength of the key and two
+    times the size of the internal hash value.)"
     https://www.rfc-editor.org/rfc/rfc7518#section-3.2
 
     Returns:
@@ -46,17 +45,15 @@ def gen_signing_key() -> AbstractJWKBase:
     return supported_key_types()["oct"](secret)
 
 
-# We use symmetric signing/verification keys as only the server needs to sign and verify tokens.
-# The keys are stored in program memory to avoid the difficult problem of storing secrets.
-# *** This means that on server restart, all clients will have to login again ***
+# We use symmetric signing/verification keys as only the server needs to sign
+# and verify tokens. The keys are stored in program memory to avoid the
+# difficult problem of storing secrets. *** This means that on server restart,
+# all clients will have to authenticate again ***
 access_token_signing_key = gen_signing_key()
-"""
-Secret key used to sign/verify access_tokens
-"""
+"Secret key used to sign/verify access_tokens"
+
 refresh_token_signing_key = gen_signing_key()
-"""
-Secret key used to sign/verify refresh_tokens
-"""
+"Secret key used to sign/verify refresh_tokens"
 
 JWT_ALG = "HS256"
 
@@ -102,7 +99,8 @@ class ExternalAuthUsers(models.Model):
 
     def generate_external_auth_token(self, rt_old=None):
         """Generates a new access token and refresh token for the user.
-        :param rt_old: the token allowing refreshing auth tokens. This token will get revoked.
+        :param rt_old: the token allowing refreshing auth tokens. This token
+            will get revoked.
         :returns: the freshly generated tokens (access + refresh tokens).
         :raises AccessDenied: if the user can't generate tokens.
         """
@@ -155,8 +153,9 @@ class ExternalAuthUsers(models.Model):
                 # the whole token family and emit a warning in the server logs
                 rt_old_model.sudo().revoke_family()
 
-                # Absolutely necessary otherwise the changes of revoke_family()
-                # are not committed due to the following exception
+                # Absolutely necessary to commit otherwise the changes of
+                # revoke_family() are not committed due to the AccessDenied
+                # which follows
                 self.env.cr.commit()
                 user_id = rt_old_payload["sub"]
                 _logger.warning(
@@ -315,16 +314,19 @@ class ExternalAuthUsers(models.Model):
         return payload
 
     def _check_credentials(self, password: str, user_agent_env) -> None:
-        """Overrides the default method in res.users to accept authorization via a valid JWT access_token.
+        """Overrides the default method in res.users to accept authorization via
+        a valid JWT access_token.
         If no access_token is found, defaults to password authentication.
 
         Args:
-            password (str): Password used as fallback if no Authorization header with a valid JWT access_token is present in the request headers.
-            user_agent_env (dict): additional credential data. This is used to provide the totp_token in 2FA.
+            password (str): Password used as fallback if no Authorization header
+                with a valid JWT access_token is present in the request headers.
+            user_agent_env (dict): additional credential data. This is used to
+                provide the totp_token in 2FA.
 
         Raises:
-            InvalidTotp: If the provided totp code is invalid.
-            AccessDenied: If the credentials are incorrect.
+            InvalidTotp: If the provided totp code is invalid. AccessDenied: If
+                the credentials are incorrect.
         """
         # Check for Bearer *before* parent to prevent costly password check
         # when we are trying to authenticate using Bearer.

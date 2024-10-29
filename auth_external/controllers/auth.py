@@ -18,7 +18,8 @@ class AuthController(Controller):
         for f in fields:
             if f not in data:
                 _logger.info(
-                    f"Request failed because field '{f}' was missing from the request data"
+                    f"""Request failed because field '{f}' was missing from the
+                     request data"""
                 )
                 raise AccessDenied
         if len(fields) != len(data):
@@ -64,7 +65,8 @@ class AuthController(Controller):
             AccessDenied: if the refresh_token is None
 
         Returns:
-            dict: Payload of the refresh token, if the token was authentic and non-expired
+            dict: Payload of the refresh token, if the token was authentic and
+            non-expired
         """
         self._validate_fields_as_expected(["refresh_token"], request.jsonrequest)
 
@@ -132,9 +134,10 @@ class AuthController(Controller):
         if rt_model.is_revoked:
             _logger.warning(
                 f"""[RTRD] Refresh Token Reuse Detection triggered
-                             on logout ({jti=}, {user_id=}). Anyway, we were going to revoke
-                             the token family, so no harm done (but still
-                             worrying: is there an XSS being exploited?) """
+                             on logout ({jti=}, {user_id=}). Anyway, we were
+                             going to revoke the token family, so no harm done
+                             (but still worrying: is there an XSS being
+                             exploited?) """
             )
 
         rt_model.sudo().revoke_family()

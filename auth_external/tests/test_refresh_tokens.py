@@ -1,4 +1,5 @@
 import random
+from typing import Any
 import uuid
 from datetime import datetime, timedelta
 
@@ -29,7 +30,7 @@ class TestRefreshTokens(TransactionCase):
             parent.link_child(rt)
         return rt
 
-    def create_user(self) -> "res.users":
+    def create_user(self) -> Any:
         login = f"testuser_{random.randint(0, 10000)}"
         return self.env["res.users"].create({"name": f"Name {login}", "login": login})
 

@@ -2,15 +2,16 @@ import logging
 from datetime import datetime, timezone
 from typing import Callable, List, Optional
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 
 class RefreshTokens(models.Model):
     """
-    This model allows to store refresh tokens in the database for as long as they are not expired.
-    This allows immediate revocation of refresh tokens as well as automatic reuse detection.
+    This model allows to store refresh tokens in the database for as long as
+    they are not expired. This allows immediate revocation of refresh tokens as
+    well as automatic reuse detection.
     """
 
     _name = "auth_external.refresh_tokens"
@@ -71,7 +72,7 @@ class RefreshTokens(models.Model):
     def _check_hierarchy(self):
         if not self._check_recursion():
             raise models.ValidationError(
-                "Error! You cannot create recursive refresh_token families."
+                _("Error! You cannot create recursive refresh_token families.")
             )
 
     @api.model
@@ -183,5 +184,6 @@ class RefreshTokens(models.Model):
                 removed_rts += 1
         remaining_rts = self.sudo().search_count([])
         _logger.info(
-            f"RefreshTokens: removed {removed_rts} expired tokens, remains {remaining_rts} in the db."
+            f"""RefreshTokens: removed {removed_rts} expired tokens, remains
+             {remaining_rts} in the db."""
         )
