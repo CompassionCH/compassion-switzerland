@@ -1,10 +1,11 @@
-from datetime import datetime, timezone
 import logging
+from datetime import datetime, timezone
 from typing import Callable, List, Optional
+
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
+
 
 class RefreshTokens(models.Model):
     """
@@ -81,11 +82,10 @@ class RefreshTokens(models.Model):
             return token
         else:
             return None
-        
+
     def link_child(self, child: "RefreshTokens") -> None:
         self.child_id = child
         child.parent_id = self
-
 
     def revoke(self) -> None:
         self.ensure_one()
@@ -119,9 +119,9 @@ class RefreshTokens(models.Model):
         while len(curr) == 1:
             curr = curr.parent_id
             parents.append(curr)
-        parents.reverse() # to get family in right order from root
+        parents.reverse()  # to get family in right order from root
         return parents
-    
+
     def get_children(self) -> List["RefreshTokens"]:
         self.ensure_one()
         children = []
@@ -145,7 +145,7 @@ class RefreshTokens(models.Model):
                 f_str = f"[{f_str}]"
             out += f"{f_str} <-> "
         return out
-    
+
     def revoke_tokens_for_user(self, user_id: int) -> None:
         """
         Revokes all the refresh_tokens for the user with the given user_id.
@@ -159,9 +159,11 @@ class RefreshTokens(models.Model):
             if not t.is_revoked:
                 t.revoke()
                 nb_tokens_revoked += 1
-        _logger.info(f"""Revoked {nb_tokens_revoked} refresh_tokens for
+        _logger.info(
+            f"""Revoked {nb_tokens_revoked} refresh_tokens for
                       {user_id=} ({nb_user_tokens} total tokens in the database
-                      for this user, now all revoked).""")
+                      for this user, now all revoked)."""
+        )
 
     @api.model
     def remove_expired_tokens(self):
@@ -180,4 +182,6 @@ class RefreshTokens(models.Model):
                 rt.sudo().unlink()
                 removed_rts += 1
         remaining_rts = self.sudo().search_count([])
-        _logger.info(f"RefreshTokens: removed {removed_rts} expired tokens, remains {remaining_rts} in the db.")
+        _logger.info(
+            f"RefreshTokens: removed {removed_rts} expired tokens, remains {remaining_rts} in the db."
+        )

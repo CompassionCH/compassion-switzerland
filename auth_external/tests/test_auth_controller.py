@@ -1,27 +1,27 @@
 import base64
-from datetime import datetime, timedelta, timezone
 import json
 import os
 import random
 import string
 import time
-
+from datetime import datetime, timedelta, timezone
+from http import HTTPStatus
 from typing import Callable, Tuple, Union
-from xmlrpc.client import ServerProxy, Fault
+from xmlrpc.client import Fault, ServerProxy
 
 from jwt import AbstractJWKBase
+from requests import Response
+
+from odoo.tests.common import HttpCase
 
 from odoo.addons.auth_totp.models.res_users import TIMESTEP, TOTP_SECRET_SIZE, hotp
-from odoo.tests.common import HttpCase
-from odoo.tests import tagged
+
 from ..controllers.auth import AUTH_LOGIN_ROUTE, AUTH_LOGOUT_ROUTE, AUTH_REFRESH_ROUTE
-from http import HTTPStatus
-from requests import Response
 from ..models.res_users import (
-    gen_signing_key,
     USER_ACCESS_AUD,
-    access_token_signing_key,
     USER_REFRESH_AUD,
+    access_token_signing_key,
+    gen_signing_key,
     refresh_token_signing_key,
 )
 
@@ -33,8 +33,8 @@ LoginRespData = Tuple[str, str, str, datetime]
 user_id, access_token, refresh_token, at_exp_datetime
 """
 
-class TestAuthController(HttpCase):
 
+class TestAuthController(HttpCase):
     PASSWORD = "password"
 
     @staticmethod
@@ -132,8 +132,10 @@ class TestAuthController(HttpCase):
                 "totp_enabled": True,
             }
         )
-        
-        self.tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
+
+        self.tokens_config = (
+            self.env["auth_external.tokens_config"].sudo().get_singleton()
+        )
 
     def json_post(self, route: str, data: dict) -> Response:
         JSON_HEADERS = {"Content-Type": "application/json"}
@@ -223,13 +225,12 @@ class TestAuthController(HttpCase):
             return resp
         data = resp.json()["result"]
         return data["access_token"], data["refresh_token"], data["expires_at"]
-    
-    def logout(self, refresh_token: str, raw_response = False) -> Response:
+
+    def logout(self, refresh_token: str, raw_response=False) -> Response:
         resp = self.json_post(AUTH_LOGOUT_ROUTE, {"refresh_token": refresh_token})
         if raw_response:
             return resp
         return resp.json()["result"]
-
 
     def user_normal_login_data(self) -> dict:
         return {
@@ -249,7 +250,7 @@ class TestAuthController(HttpCase):
         """Performs a login for the normal user
 
         Returns:
-            LoginRespData: 
+            LoginRespData:
         """
         return self.login(self.user_normal_login_data())
 
@@ -257,7 +258,7 @@ class TestAuthController(HttpCase):
         """Performs a login for the 2fa user
 
         Returns:
-            LoginRespData: 
+            LoginRespData:
         """
         return self.login(self.user_2fa_login_data())
 
@@ -275,7 +276,13 @@ class TestAuthController(HttpCase):
             headers=[("Authorization", f"Bearer {access_token}")],
         )
         return models.execute_kw(
-            self.env.cr.dbname, user_id, NO_PASSWORD, model_name, method, pos_args, kw_args
+            self.env.cr.dbname,
+            user_id,
+            NO_PASSWORD,
+            model_name,
+            method,
+            pos_args,
+            kw_args,
         )
 
     def read_user_sig(
@@ -338,10 +345,9 @@ class TestAuthController(HttpCase):
         self.assert_login_success(self.user_2fa_login_data())
 
     def test_access_denied_with_additional_fields(self):
-        self.login_should_deny_access({
-            **self.user_normal_login_data(),
-            "some_malicious_field": "some value"
-        })
+        self.login_should_deny_access(
+            {**self.user_normal_login_data(), "some_malicious_field": "some value"}
+        )
 
     def test_access_denied_incorrect_password(self):
         """
@@ -484,7 +490,7 @@ class TestAuthController(HttpCase):
         rts = [rt1]
         for _ in range(9):
             # perform a few correct refreshes
-            _, new_rt, _  = self.refresh(rts[-1])
+            _, new_rt, _ = self.refresh(rts[-1])
             rts.append(new_rt)
 
         _, last_rt, _ = self.refresh(rts[-1])
@@ -497,8 +503,7 @@ class TestAuthController(HttpCase):
 
         # Automatic reuse detection also revoked the last rt (which was still valid before)
         self.assert_refresh_access_denied(last_rt)
-        
-    
+
     def test_refresh_token_revoked_after_logout(self):
         """
         An attacker cannot reuse a refresh token after it was used to logout.
@@ -536,7 +541,5 @@ class TestAuthController(HttpCase):
     def test_access_token_expiration_in_the_future(self):
         _, _, _, at_exp = self.user_2fa_login()
         # the access token should be valid at least 1 minute
-        min_exp_duration = timedelta(minutes=1) 
+        min_exp_duration = timedelta(minutes=1)
         self.assertLess(datetime.now(timezone.utc) + min_exp_duration, at_exp)
-
-

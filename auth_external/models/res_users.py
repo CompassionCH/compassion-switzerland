@@ -2,9 +2,9 @@ import contextlib
 import logging
 import re
 import secrets
+import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any
-import uuid
 
 from jwt import JWT, AbstractJWKBase, supported_key_types
 from jwt.exceptions import JWTDecodeError
@@ -181,9 +181,7 @@ class ExternalAuthUsers(models.Model):
         at_new_exp = now_utc + timedelta(
             hours=tokens_config.access_token_duration_hours
         )
-        rt_new_exp = now_utc + timedelta(
-            days=tokens_config.refresh_token_duration_days
-        )
+        rt_new_exp = now_utc + timedelta(days=tokens_config.refresh_token_duration_days)
 
         at_new_payload, at_new = self._generate_jwt(
             tokens_config.issuer_id,
@@ -205,14 +203,15 @@ class ExternalAuthUsers(models.Model):
         # case, the freshly generated refresh_token is the root of a new
         # refresh_token family, we must thus insert it into the database.
         rt_new_model = refresh_tokens.sudo().create(
-            {"jti": rt_new_payload["jti"], 
-             # We transform the expiration datetime to a naive version (without
-             # timezone information) because all odoo datetimes are forced to
-             # UTC.
-             # See https://www.odoo.com/documentation/14.0/developer/reference/addons/orm.html?highlight=fields%20many2many#date-time-fields
-             "exp": rt_new_exp.replace(tzinfo=None),
-             "user_id": self.env.user.id
-             }
+            {
+                "jti": rt_new_payload["jti"],
+                # We transform the expiration datetime to a naive version (without
+                # timezone information) because all odoo datetimes are forced to
+                # UTC.
+                # See https://www.odoo.com/documentation/14.0/developer/reference/addons/orm.html?highlight=fields%20many2many#date-time-fields
+                "exp": rt_new_exp.replace(tzinfo=None),
+                "user_id": self.env.user.id,
+            }
         )
         if rt_old is not None:
             # If a valid rt was provided and we generated a new rt, we need to
