@@ -34,11 +34,11 @@ user_id, access_token, refresh_token, access_token_expires_at
 """
 
 REQUEST_HEADERS = {
-    # Required to use http type in auth controller
-    "Content-Type": "text/plain",
-    # Required so that the cookie domain matches the request
-    "Host": "dev.localhost",
-}
+            # Required to use http type in auth controller
+            "Content-Type": "text/plain",
+            # Required so that the cookie domain matches the request
+            "Host": "dev.localhost"
+        }
 
 
 class TestAuthController(HttpCase):
@@ -147,9 +147,12 @@ class TestAuthController(HttpCase):
 
     def json_post(self, route: str, data: dict) -> Response:
         return self.url_open(route, data=json.dumps(data), headers=REQUEST_HEADERS)
-
+    
     def request_with_rt(self, route: str, refresh_token: str) -> Response:
-        headers = {**REQUEST_HEADERS, "Cookie": f"refresh_token={refresh_token}"}
+        headers = {
+            **REQUEST_HEADERS,
+            "Cookie": f"refresh_token={refresh_token}"
+        }
         return self.url_open(route, headers=headers)
 
     def assert_status_OK(self, response) -> None:
@@ -247,10 +250,10 @@ class TestAuthController(HttpCase):
         return access_token, refresh_token, data["access_token_expires_at"]
 
     def logout(self, refresh_token: str, raw_response=False) -> Response:
-        resp = self.request_with_rt(AUTH_LOGOUT_ROUTE, refresh_token)
+        resp = self.json_post(AUTH_LOGOUT_ROUTE, {"refresh_token": refresh_token})
         if raw_response:
             return resp
-        return resp.content
+        return resp.json()["result"]
 
     def user_normal_login_data(self) -> dict:
         return {
@@ -532,8 +535,8 @@ class TestAuthController(HttpCase):
         An attacker cannot reuse a refresh token after it was used to logout.
         """
         user_id, at, rt, _ = self.user_normal_login()
-        logout_resp = self.logout(rt, raw_response=True)
-        self.assertEqual(logout_resp.status_code, HTTPStatus.OK)
+        logout_resp = self.logout(rt)
+        self.assertTrue(logout_resp)
         self.assert_refresh_access_denied(rt)
 
     def test_cannot_logout_with_expired_refresh_token(self):
@@ -541,7 +544,7 @@ class TestAuthController(HttpCase):
         An attacker cannot logout with an expired refresh token
         """
         expired_rt = self.gen_expired_JWT_refresh_token(self.user_normal.id)
-        self.assert_response_forbidden(self.logout(expired_rt, raw_response=True))
+        self.assert_error_access_denied(self.logout(expired_rt, raw_response=True))
 
     def test_full_2fa_user_lifecycle(self):
         # First, they login
@@ -566,5 +569,3 @@ class TestAuthController(HttpCase):
         # the access token should be valid at least 1 minute
         min_exp_duration = timedelta(minutes=1)
         self.assertLess(datetime.now(timezone.utc) + min_exp_duration, at_exp)
-
-    # TODO: test the cookie properties (Secure, HttpOnly, Domain, Path)
