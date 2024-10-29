@@ -29,6 +29,10 @@ If a revoked token is submitted, it means that it was probably intercepted/exfil
 `tests/test_auth_controller.py` contains multiple unit tests which assert the security properties of this module. For example, `test_access_denied_2fa_correct_password_incorrect_totp` verifies that the login fails if a user with 2FA enabled tries to login with a correct password but an incorrect TOTP code.
 The tests must be run on an empty database to avoid interference from other modules.
 
+## Secrets used for token issuance and authenticity verification
+The secrets used to produce the MACs which prove the authenticity of the JWTs are stored in program memory (see `access_token_signing_key` and `refresh_token_signing_key` in `models/res_users.py`). Fresh secrets are generated on server startup and remain unchanged until next startup. This means that ***when the server is restarted, all the user's tokens instantly become invalid and they have to authenticate again with their credentials (login, password, totp).***
+
+
 
 # TODO 
 
