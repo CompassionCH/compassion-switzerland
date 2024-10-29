@@ -197,6 +197,12 @@ class TestAuthController(HttpCase):
         resp = self.refresh(refresh_token, raw_response=True)
         self.assert_error_access_denied(resp)
 
+    def assert_refresh_token_reuse_detection_triggered(self, refresh_token: str) -> None:
+        resp = self.refresh(refresh_token, raw_response=True)
+        result = resp.json()["result"]
+        self.assertIn("odoo.exceptions.AccessDenied", result)
+
+
     def login(
         self, login_data: dict, raw_response=False
     ) -> Union[LoginRespData, Response]:
@@ -513,11 +519,11 @@ class TestAuthController(HttpCase):
         rt_intercepted = random.choice(rts)
         # They try to use it to get fresh tokens.
         # Haha, it doesn't work! Automatic reuse detection was triggered!
-        self.assert_refresh_access_denied(rt_intercepted)
+        self.assert_refresh_token_reuse_detection_triggered(rt_intercepted)
 
         # Automatic reuse detection also revoked the last rt (which was still
         # valid before)
-        self.assert_refresh_access_denied(last_rt)
+        self.assert_refresh_token_reuse_detection_triggered(last_rt)
 
     def test_refresh_token_revoked_after_logout(self):
         """
@@ -526,7 +532,7 @@ class TestAuthController(HttpCase):
         user_id, at, rt, _ = self.user_normal_login()
         logout_resp = self.logout(rt)
         self.assertTrue(logout_resp)
-        self.assert_refresh_access_denied(rt)
+        self.assert_refresh_token_reuse_detection_triggered(rt)
 
     def test_cannot_logout_with_expired_refresh_token(self):
         """

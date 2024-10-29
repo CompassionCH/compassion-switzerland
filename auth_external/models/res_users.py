@@ -76,9 +76,11 @@ class ExternalAuthUsers(models.Model):
     ):
         """
         Generates a new JWT,
-        :param iss: the JWT issuer.
-        :param sub: the JWT subject.
-        :param aud: The JWT audience.
+        :param iss: the JWT issuer, e.g. example.com.
+        :param sub: the JWT subject, in our case this is the user_id of user which 
+            requested the token.
+        :param aud: The JWT audience. This defines the purpose of the token 
+            (e.g. access or refresh)
         :param exp: The JWT expiration date.
         :param key: The key to sign the JWT.
         :return: the JWT payload and token.
@@ -102,7 +104,7 @@ class ExternalAuthUsers(models.Model):
 
         return payload, token
 
-    def generate_external_auth_token(self, rt_old=None):
+    def generate_external_auth_tokens(self, rt_old=None):
         """Generates a new access token and refresh token for the user.
         :param rt_old: the token allowing refreshing auth tokens. This token
             will get revoked.
@@ -158,10 +160,6 @@ class ExternalAuthUsers(models.Model):
                 # the whole token family and emit a warning in the server logs
                 rt_old_model.sudo().revoke_family()
 
-                # Absolutely necessary to commit otherwise the changes of
-                # revoke_family() are not committed due to the AccessDenied
-                # which follows
-                self.env.cr.commit()
                 user_id = rt_old_payload["sub"]
                 _logger.warning(
                     f"""[RTRD] Refresh Token Reuse Detection triggered for
@@ -173,7 +171,10 @@ class ExternalAuthUsers(models.Model):
                                  whole token family has been revoked and the
                                  client needs to re-authenticate."""
                 )
-                raise AccessDenied
+                # Here we *return* instead of *raise* AccessDenied in order to prevent 
+                # the revoke_family transaction from being rolled back.
+                return AccessDenied
+            
             rt_old_model.ensure_one()
             rt_old_model.sudo().revoke()
 

@@ -52,7 +52,7 @@ class AuthController(Controller):
         user = request.env["res.users"].browse(int(user_id))
         user = user.with_user(user)
 
-        return {"user_id": user_id, "auth_tokens": user.generate_external_auth_token()}
+        return {"user_id": user_id, "auth_tokens": user.generate_external_auth_tokens()}
 
     def _validate_refresh_token(self, request) -> Tuple[str, dict]:
         """Validates that the request contains a valid, authentic refresh token.
@@ -100,7 +100,7 @@ class AuthController(Controller):
         user = request.env["res.users"].sudo().browse(int(user_id))
         user = user.with_user(user)  # exit sudo
 
-        return user.generate_external_auth_token(refresh_token)
+        return user.generate_external_auth_tokens(refresh_token)
 
     @route(
         route=AUTH_LOGOUT_ROUTE,
