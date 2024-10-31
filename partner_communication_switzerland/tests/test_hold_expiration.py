@@ -7,7 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import mock
+from unittest import mock
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (

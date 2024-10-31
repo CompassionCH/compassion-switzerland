@@ -12,7 +12,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-import mock
+from unittest import mock
 
 from odoo.fields import Datetime
 from odoo.tests import HttpCase
