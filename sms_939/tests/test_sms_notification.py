@@ -11,7 +11,6 @@ import logging
 import urllib.error
 import urllib.parse
 import urllib.request
-
 from unittest import mock
 
 from odoo.fields import Datetime

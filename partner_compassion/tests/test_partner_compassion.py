@@ -8,7 +8,6 @@
 ##############################################################################
 
 import logging
-
 from unittest.mock import patch
 
 from odoo.tests import tagged
