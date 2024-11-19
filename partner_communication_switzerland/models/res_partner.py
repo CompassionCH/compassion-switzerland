@@ -383,7 +383,7 @@ class ResPartner(models.Model):
             }
             # Add the partners to archive to the context to avoid recomputing it
             # in the template
-            self.with_context({"extra_email_data": partners_to_archive}).env[
+            self.with_context({"partners_to_archive": partners_to_archive}).env[
                 "partner.communication.job"
             ].create(comm_vals)
             _logger.info("Sent reminder to archive invalid partners")
