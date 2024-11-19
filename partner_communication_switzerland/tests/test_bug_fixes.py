@@ -10,8 +10,7 @@
 import base64
 import logging
 from base64 import b64decode
-
-import mock
+from unittest import mock
 
 from odoo import fields
 from odoo.tools import file_open
