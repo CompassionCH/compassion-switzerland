@@ -131,8 +131,6 @@ class StatementCompletionRule(models.Model):
             inv_line_data["analytic_account_id"] = analytic.analytic_id.id
         if analytic.analytic_tag_ids:
             inv_line_data["analytic_tag_ids"] = [(6, 0, analytic.analytic_tag_ids.ids)]
-
-        res_dict["payment_ref"] = product.name
         return inv_line_data
 
     def _find_product_id(self, partner_ref, ref):
