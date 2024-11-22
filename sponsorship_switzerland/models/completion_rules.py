@@ -101,7 +101,7 @@ class StatementCompletionRule(models.Model):
             "payment_mode_id": self.env["account.payment.mode"]
             .search([("name", "=", "BVR")])
             .id,
-            "ref": ref,
+            "payment_reference": ref,
             "invoice_origin": stmts_vals["name"],
             "invoice_line_ids": [
                 (0, 0, self._generate_invoice_line(res, product, st_line, partner.id))
