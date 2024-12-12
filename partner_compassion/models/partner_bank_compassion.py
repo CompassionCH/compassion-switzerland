@@ -39,8 +39,10 @@ class ResPartnerBank(models.Model):
         )
         # Set amount to an empty string indicating that it has to be chosen by the payer
         qr_vals[18] = "" if qr_vals[18] == "0.00" else qr_vals[18]
-
-        return qr_vals
+        # T2055 Sanitize the values with no char from charset not in Basic Latin
+        # (Unicode codepoints U+0020–U+007E),
+        # Latin1 Supplement (Unicode codepoints U+00A0–U+00FF), Latin Extended A
+        return [val.encode("latin1", "replace").decode("latin1") for val in qr_vals]
 
     def _get_partner_address_lines(self, partner):
         """Override to allow empty zip or city."""
