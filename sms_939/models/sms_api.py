@@ -66,14 +66,6 @@ class SmsApi(models.AbstractModel):
         s = self.env["sms.sms"].browse(sms_id)
         if req_uid:
             s.request_uid = req_uid
-            if not s.mail_message_id:
-                mm_id = s.partner_id._message_sms(
-                    s.body,
-                    subtype_id=self.env.ref("mail.mt_note").id,
-                    number_field="mobile",
-                    sms_numbers=[s.number],
-                )
-                s.mail_message_id = mm_id.id
             s.mail_message_id.request_uid = req_uid
             return "success"
         else:
