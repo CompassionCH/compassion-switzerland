@@ -57,8 +57,7 @@
         "account_statement_import_camt54",
         # OCA/social
         "mail_tracking",
-        # OCA/web
-        "web_notify",
+        "mass_mailing_partner",
         # OCA/server-tools
         "base_search_fuzzy",
         "auditlog",
