@@ -51,6 +51,7 @@
         "partner_address_street3",
         "partner_contact_birthdate",
         "partner_contact_in_several_companies",
+        "partner_tag_smart_assignation",
         # OCA/bank-payment
         "account_banking_mandate",
         # OCA/bank-statement-import
