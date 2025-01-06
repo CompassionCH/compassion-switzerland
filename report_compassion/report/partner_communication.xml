@@ -380,7 +380,9 @@
                                     </div>
                                     <hr />
                                 </div>
-                                <span t-raw="o.partner_id.short_address" />
+                                <span t-raw="o.partner_id.address_name"/>
+                                <br/>
+                                <span t-raw="'&lt;br/&gt;'.join((o.partner_id.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"/>
                             </div>
                 </t>
         </t>
