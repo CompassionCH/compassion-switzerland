@@ -410,6 +410,9 @@ class Contracts(models.Model):
                 }
             )
             msg_dict["subject"] = csp_name
+            msg_date = msg_dict.get("date")
+            if msg_date:
+                custom_values["create_date"] = msg_date
         return super().message_new(msg_dict, custom_values)
 
     def _parse_csp_info(self, data_string):
