@@ -11,6 +11,7 @@ import logging
 import re
 
 from werkzeug.utils import escape
+from random import randint
 
 from odoo import _, api, fields, models
 from odoo.tools import config, html2plaintext
@@ -389,7 +390,7 @@ class Contracts(models.Model):
             product = self.env["product.product"].search(
                 [("default_code", "=", f"csp_{country_code}")], limit=1
             )
-            csp_name = f"CSP-{country_code}-{partner.ref}"
+            csp_name = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
             custom_values.update(
                 {
                     "partner_id": partner.id,
