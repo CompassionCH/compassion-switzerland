@@ -8,8 +8,7 @@
 ##############################################################################
 
 import datetime
-
-import mock
+from unittest import mock
 
 from odoo.addons.sponsorship_compassion.tests.test_sponsorship_compassion import (
     BaseSponsorshipTest,

@@ -126,7 +126,7 @@ class ReconcileOutstandingWizard(models.TransientModel):
         date_length = 8
         search_days_delta = 0
         if Provider.WORLDLINE.value in move_line.name:
-            date_position = self._search_in_credit_string(move_line, "REFERENCES: ")
+            date_position = self._search_in_credit_string(move_line, "/DAT.")
             search_days_delta = -9
             provider = Provider.WORLDLINE
         elif Provider.TWINT.value in move_line.name:

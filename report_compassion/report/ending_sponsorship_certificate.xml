@@ -163,11 +163,11 @@
                     <p t-field="o.child_id.preferred_name" class="child_name" />
                     <t
             t-set="start_date"
-            t-value="o.env['connect.month'].get_months_selection()[o.start_date.month][1]+' '+str(o.start_date.year)"
+            t-value="o.env['connect.month'].get_months_selection()[o.start_date.month - 1][1]+' '+str(o.start_date.year)"
           />
                     <t
             t-set="end_date"
-            t-value="o.env['connect.month'].get_months_selection()[o.end_date.month][1]+' '+str(o.end_date.year)"
+            t-value="o.env['connect.month'].get_months_selection()[o.end_date.month - 1][1]+' '+str(o.end_date.year)"
           />
                     <hr class="yellow_line" />
                     <p class="legend_date">

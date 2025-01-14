@@ -51,14 +51,14 @@
         "partner_address_street3",
         "partner_contact_birthdate",
         "partner_contact_in_several_companies",
+        "partner_tag_smart_assignation",
         # OCA/bank-payment
         "account_banking_mandate",
         # OCA/bank-statement-import
         "account_statement_import_camt54",
         # OCA/social
         "mail_tracking",
-        # OCA/web
-        "web_notify",
+        "mass_mailing_partner",
         # OCA/server-tools
         "base_search_fuzzy",
         "auditlog",

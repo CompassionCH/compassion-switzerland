@@ -19,4 +19,5 @@ from . import (
     partner_compassion,
     product,
     res_users,
+    res_partner_category,
 )

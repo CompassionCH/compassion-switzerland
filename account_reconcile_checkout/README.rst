@@ -45,7 +45,7 @@ Usage
 
 To use this module, you need to:
 
-- Go to Accounting -> Action -> Reconcile outstanding
+-  Go to Accounting -> Action -> Reconcile outstanding
 
 Bug Tracker
 ===========
@@ -68,7 +68,7 @@ Authors
 Contributors
 ------------
 
-- Emanuel Cino <ecino@compassion.ch>
+-  Emanuel Cino <ecino@compassion.ch>
 
 Maintainers
 -----------

@@ -24,20 +24,6 @@ class HrPayslip(models.Model):
         store=True,
     )
 
-    def action_payslip_done(self):
-        """Add analytic tags to salary moves."""
-        res = super(HrPayslip, self).action_payslip_done()
-        for slip in self:
-            analytic_tag_ids = slip.contract_id.analytic_tag_id.ids
-            if analytic_tag_ids:
-                move = self.env["account.move"].search([("ref", "=", slip.number)])
-                move.button_cancel()
-                move.line_ids.filtered("analytic_account_id").write(
-                    {"analytic_tag_ids": [(6, 0, analytic_tag_ids)]}
-                )
-                move.action_post()
-        return res
-
     @api.depends("employee_id", "pay_13_salary", "contract_id", "state")
     def _compute_13_salary(self):
         for payslip in self:

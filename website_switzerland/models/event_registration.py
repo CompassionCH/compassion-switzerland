@@ -1,9 +1,10 @@
-from odoo import models
+from odoo import api, models
 
 
 class EventRegistration(models.Model):
     _inherit = "event.registration"
 
+    @api.model_create_multi
     def create(self, vals_list):
         registrations = super().create(vals_list)
         activate_task = self.env.ref("website_switzerland.task_activate_account")

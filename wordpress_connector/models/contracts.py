@@ -9,6 +9,7 @@
 ##############################################################################
 import logging
 import re
+from random import randint
 
 from werkzeug.utils import escape
 
@@ -389,7 +390,7 @@ class Contracts(models.Model):
             product = self.env["product.product"].search(
                 [("default_code", "=", f"csp_{country_code}")], limit=1
             )
-            csp_name = f"CSP-{country_code}-{partner.ref}"
+            csp_name = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
             custom_values.update(
                 {
                     "partner_id": partner.id,
@@ -409,6 +410,9 @@ class Contracts(models.Model):
                 }
             )
             msg_dict["subject"] = csp_name
+            msg_date = msg_dict.get("date")
+            if msg_date:
+                custom_values["create_date"] = msg_date
         return super().message_new(msg_dict, custom_values)
 
     def _parse_csp_info(self, data_string):

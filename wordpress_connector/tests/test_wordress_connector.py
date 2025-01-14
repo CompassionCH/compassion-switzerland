@@ -8,8 +8,7 @@
 ##############################################################################
 
 import logging
-
-import mock
+from unittest import mock
 
 from odoo import fields
 
