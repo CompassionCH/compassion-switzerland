@@ -9,9 +9,9 @@
 ##############################################################################
 import logging
 import re
+from random import randint
 
 from werkzeug.utils import escape
-from random import randint
 
 from odoo import _, api, fields, models
 from odoo.tools import config, html2plaintext
