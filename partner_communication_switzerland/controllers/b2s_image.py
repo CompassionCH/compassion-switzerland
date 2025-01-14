@@ -22,7 +22,9 @@ class B2sControllerSwitzerland(RestController):
     @http.route("/b2s_image", type="http", auth="public", methods=["GET"])
     # We don't want to rename parameter id because it's used by our sponsors
     # pylint: disable=redefined-builtin
-    def handler_b2s_image(self, id=None, disposition="attachment", file_type=None):
+    # Changed 'attachment' to 'inline' :
+    # doesn't download the PDF anymore and opens it in a window
+    def handler_b2s_image(self, id=None, disposition="inline", file_type=None):
         """
         URL for downloading a correspondence PDF
         (or ZIP when multiple letters are attached).
