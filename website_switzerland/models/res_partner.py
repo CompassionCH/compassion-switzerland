@@ -23,7 +23,7 @@ class ResPartner(models.Model):
             ).write({"done": True})
         if vals.get("criminal_record"):
             self.mapped("registration_ids.task_ids").filtered(
-                lambda t: t.task_id == self.env.ref("website_switzerland.task_criminal")
+                lambda t: t.task_id == self.env.ref("muskathlon.task_criminal")
             ).write({"done": True})
         return res
 
