@@ -419,17 +419,28 @@ class ResPartner(models.Model):
         existing_comm = self.env["partner.communication.job"].search(
             [
                 ("config_id", "=", config.id),
-                ("state", "in", ["pending", "done", "call"]),
+                ("state", "in", ["pending", "done", "failure"]),
                 ("date", ">", end_date),
             ]
         )
         partners = invoice_lines.mapped(
             "partner_id.commercial_partner_id"
         ) - existing_comm.mapped("partner_id")
-        total = len(partners)
-        count = 1
-        for partner in partners:
-            _logger.info(f"Generating tax receipts: {count}/{total}")
+        partners.delayable()._generate_tax_receipt_jobs(config).set(
+            priority=50, channel="root.partner_communication"
+        ).split(50, chain=True).delay()
+        return True
+
+    def _generate_tax_receipt_jobs(self, config):
+        email_limit = int(
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param(
+                "partner_communication_switzerland.tax_receipt_email_limit", "1000"
+            )
+        )
+        today = date.today()
+        for partner in self:
             comm_vals = {
                 "config_id": config.id,
                 "partner_id": partner.id,
@@ -439,26 +450,19 @@ class ResPartner(models.Model):
                 "print_subject": False,
             }
 
-            self.env["partner.communication.job"].create(comm_vals)
             donation_amount = partner.get_receipt(today.year - 1)
-            email_limit = int(
-                self.env["ir.config_parameter"]
-                .sudo()
-                .get_param(
-                    "partner_communication_switzerland.tax_receipt_email_limit", "1000"
-                )
-            )
+            if not donation_amount:
+                continue
+            self.env["partner.communication.job"].create(comm_vals)
             if (
-                partner.tax_certificate != "only_email"
-                and donation_amount > email_limit
+                    partner.tax_certificate != "only_email"
+                    and donation_amount > email_limit
             ):
                 comm_vals["send_mode"] = "physical"
             self.env["partner.communication.job"].create(comm_vals)
             # Commit at each creation of communication to avoid starting all
             # again in case the job failed
             self.env.cr.commit()  # pylint: disable=invalid-commit
-            count += 1
-        return True
 
     def create_odoo_user(self):
         # Override compassion-modules/crm_compassion method

@@ -29,30 +29,35 @@ class ResPartner(models.Model):
         :param year: int: year of selection
         :return: float: total amount
         """
-        self.ensure_one()
-        start_date = date(year, 1, 1)
-        end_date = date(year, 12, 31)
-        invoice_lines = self.env["account.move.line"].search(
-            [
-                ("last_payment", ">=", start_date),
-                ("last_payment", "<=", end_date),
-                ("payment_state", "=", "paid"),
-                ("product_id.requires_thankyou", "=", True),
-                # invoice from either the partner, the company or the employee
-                # to obtain the same results when tax receipt is computed
-                # from companies or employees
-                "|",
-                # invoice from the partner (when self is either an company
-                # or an employee)
-                ("partner_id", "=", self.id),
-                "|",
-                # invoice from the company (when self is an employee)
-                ("partner_id.parent_id", "=", self.id),
-                # invoice from the employees (when self is a company)
-                ("partner_id.child_ids", "=", self.id),
-            ]
-        )
-        return sum(invoice_lines.mapped("price_subtotal"))
+        try:
+            self.ensure_one()
+            start_date = date(year, 1, 1)
+            end_date = date(year, 12, 31)
+            invoice_lines = self.env["account.move.line"].search(
+                [
+                    ("last_payment", ">=", start_date),
+                    ("last_payment", "<=", end_date),
+                    ("payment_state", "=", "paid"),
+                    "|",
+                    ("product_id.requires_thankyou", "=", True),
+                    ("product_id.default_code", "=", "SPN_BAL"),
+                    # invoice from either the partner, the company or the employee
+                    # to obtain the same results when tax receipt is computed
+                    # from companies or employees
+                    "|",
+                    # invoice from the partner (when self is either an company
+                    # or an employee)
+                    ("partner_id", "=", self.id),
+                    "|",
+                    # invoice from the company (when self is an employee)
+                    ("partner_id.parent_id", "=", self.id),
+                    # invoice from the employees (when self is a company)
+                    ("partner_id.child_ids", "=", self.id),
+                ]
+            )
+            return sum(invoice_lines.mapped("price_subtotal"))
+        except (ValueError, TypeError, AttributeError):
+            return 0.0
 
     def _compute_date_communication(self):
         """City and date displayed in the top right of a letter for Yverdon"""
