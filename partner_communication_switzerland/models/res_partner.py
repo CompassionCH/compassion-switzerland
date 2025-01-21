@@ -455,8 +455,8 @@ class ResPartner(models.Model):
                 continue
             self.env["partner.communication.job"].create(comm_vals)
             if (
-                    partner.tax_certificate != "only_email"
-                    and donation_amount > email_limit
+                partner.tax_certificate != "only_email"
+                and donation_amount > email_limit
             ):
                 comm_vals["send_mode"] = "physical"
             self.env["partner.communication.job"].create(comm_vals)

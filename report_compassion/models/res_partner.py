@@ -55,7 +55,9 @@ class ResPartner(models.Model):
                     ("partner_id.child_ids", "=", self.id),
                 ]
             )
-            return sum(invoice_lines.mapped("price_subtotal"))
+            return sum(invoice_lines.mapped("credit")) - sum(
+                invoice_lines.mapped("debit")
+            )
         except (ValueError, TypeError, AttributeError):
             return 0.0
 
