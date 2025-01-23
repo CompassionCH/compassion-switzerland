@@ -38,6 +38,7 @@
         "sponsorship_switzerland",  # compassion-switzerland
         "report_wkhtmltopdf_param",  # addons_oca
         "l10n_ch",
+        "crm_request",
     ],
     "external_dependencies": {"python": ["pyquery", "babel"]},
     "data": [
@@ -49,6 +50,7 @@
         "report/partner_communication.xml",
         "report/bvr_gift.xml",
         "report/anniversary_card.xml",
+        "report/bvr_christmas.xml",
         "report/bvr_fund.xml",
         "report/new_donors_card.xml",
         "report/tax_receipt.xml",
