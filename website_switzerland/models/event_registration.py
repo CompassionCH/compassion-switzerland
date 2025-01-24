@@ -6,10 +6,12 @@ class EventRegistration(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        vals_list[0]["stage_id"] = self.env.ref("website_switzerland.stage_group_pay").id
+
         registrations = super().create(vals_list)
         activate_task = self.env.ref("website_switzerland.task_activate_account")
         child_protection_task = self.env.ref(
-            "website_switzerland.task_sign_child_protection"
+           "website_switzerland.task_sign_child_protection"
         )
         for registration in registrations:
             partner = registration.partner_id
@@ -21,6 +23,12 @@ class EventRegistration(models.Model):
                 registration.task_ids.filtered(
                     lambda t, m_task=child_protection_task: t.task_id == m_task
                 ).write({"done": True})
+
+            if not partner.country_id:
+                partner.country_id = 44
+
+        registrations.create_down_payment()
+
         return registrations
 
     def _inverse_passport(self):
