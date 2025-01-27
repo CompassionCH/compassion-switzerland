@@ -19,6 +19,9 @@
         ref="website_event_compassion.model_event_registration"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
+            <field
+        name="attachments_function"
+      >get_trip_down_payment_attachment</field>
         </record>
         <record
       id="group_visit_step2_config"
@@ -36,9 +39,6 @@
         ref="website_event_compassion.model_event_registration"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
-            <field
-        name="attachments_function"
-      >get_trip_down_payment_attachment</field>
         </record>
         <record
       id="group_visit_step3_config"

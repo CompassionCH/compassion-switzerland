@@ -21,6 +21,12 @@ class EventRegistration(models.Model):
                 registration.task_ids.filtered(
                     lambda t, m_task=child_protection_task: t.task_id == m_task
                 ).write({"done": True})
+
+            if not partner.country_id:
+                partner.country_id = self.env.ref("base.ch")
+
+        registrations.create_down_payment()
+
         return registrations
 
     def _inverse_passport(self):
