@@ -144,6 +144,7 @@ class ImportLettersHistory(models.Model):
                 self.env.ref("sbc_switzerland.scan_letter_done").value
             )
         except TypeError:
+            logger.error("Could not find import or imported folder path", exc_info=True)
             return
         try:
             with self._get_connection() as sftp:
@@ -165,7 +166,9 @@ class ImportLettersHistory(models.Model):
                         )
                     yield i + 1, len(files), import_full_path
         except (AssertionError, IOError):
-            logger.error("Could not establish connection with sftp server")
+            logger.error(
+                "Could not establish connection with sftp server", exc_info=True
+            )
             return
 
     def run_analyze(self):
