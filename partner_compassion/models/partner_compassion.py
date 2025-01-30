@@ -587,6 +587,7 @@ class ResPartner(models.Model):
         self._secure_save_data()
 
         # Delete other objects and custom CH fields
+        self.mapped("mass_mailing_contact_ids").unlink()
         self.write(
             {
                 "church_id": False,
@@ -598,6 +599,7 @@ class ResPartner(models.Model):
                 "partner_longitude": False,
                 "birthdate_date": False,
                 "invalid_mail": False,
+                "zip_id": False,
             }
         )
         self._cr.execute(
