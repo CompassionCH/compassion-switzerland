@@ -43,3 +43,13 @@ class WebsiteSaleWithoutState(WebsiteSale):
         # Field is removed from view, we can't require it.
         if "state_id" in req:
             req.remove("state_id")
+
+    def _get_country_related_render_values(self, kw, render_values):
+        """Add contact titles to the render values"""
+        res = super()._get_country_related_render_values(kw, render_values)
+        res["contact_titles"] = (
+            request.env["res.partner.title"]
+            .sudo()
+            .search([("website_published", "=", True)])
+        )
+        return res

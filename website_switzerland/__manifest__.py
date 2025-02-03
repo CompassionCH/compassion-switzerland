@@ -34,6 +34,7 @@
         "data/event_registration_task.xml",
         "data/res_lang.xml",
         "data/website_menu.xml",
+        "data/form_data.xml",
         "templates/footer.xml",
         "templates/contact_us.xml",
         "templates/my_account_menu.xml",
