@@ -9,6 +9,29 @@
             <attribute name="name">old_state_id</attribute>
         </xpath>
         <xpath expr="//input[@name='name']/.." position="replace">
+
+            <div
+        t-attf-class="form-group #{error.get('title') and 'o_has_error' or ''} col-lg-6"
+        id="div_title"
+      >
+                    <label class="col-form-label" for="title">Title</label>
+                        <select
+          name="title"
+          id="title"
+          t-attf-class="form-control #{error.get('title') and 'is-invalid' or ''}"
+          t-att-value="checkout.get('title') and checkout['title'].name or ''"
+        >
+                            <t t-foreach="contact_titles" t-as="title">
+                                                <option
+              t-att-value="title.id"
+              t-att-selected="checkout and checkout['title'].name == title.name"
+            >
+                                                    <t t-esc="title.name" />
+                                                </option>
+                                            </t>
+                        </select>
+                </div>
+
             <div
         t-attf-class="form-group #{error.get('firstname') and 'o_has_error' or ''} col-lg-12 div_name"
       >
