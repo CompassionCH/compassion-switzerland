@@ -74,6 +74,10 @@ class AccountInvoice(models.Model):
             donnation_infos["utm_medium"],
             donnation_infos["utm_campaign"],
             donnation_infos["time"],
+            donnation_infos["name"],
+            donnation_infos["street"],
+            donnation_infos["zipcode"],
+            donnation_infos["city"],
         )
 
     @api.model
@@ -90,6 +94,10 @@ class AccountInvoice(models.Model):
         utm_medium,
         utm_campaign,
         time,
+        name,
+        street,
+        zipcode,
+        city,
     ):
         """
          Utility for invoice donation creation.
@@ -169,6 +177,9 @@ class AccountInvoice(models.Model):
                 "currency_id": 6,  # Always in CHF
                 "move_type": "out_invoice",
                 "invoice_payment_term_id": payment_term_id,
+                "narration": " ".join(
+                    filter(None, [name, ", ", street, ", ", zipcode, ", ", city])
+                ),
             }
         )
         invoice.with_delay().pay_wordpress_invoice(
