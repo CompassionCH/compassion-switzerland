@@ -21,7 +21,7 @@ class PaymentTransaction(models.Model):
         Must be removed after the next migration if resolved in newer Odoo version.
         """
         available_langs = self.env["res.lang"].search([]).mapped("code")
-        current_lang = self.env.lang
+        current_lang = self.env.lang or "de_DE"
         if current_lang not in available_langs:
             self = self.with_context(lang=None)
             for lang in available_langs:
