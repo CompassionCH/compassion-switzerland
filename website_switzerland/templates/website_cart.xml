@@ -9,7 +9,17 @@
             <attribute name="name">old_state_id</attribute>
         </xpath>
         <xpath expr="//input[@name='name']/.." position="replace">
-
+            <t
+        t-set="checkout_title"
+        t-value="checkout and checkout['title'] or '0'"
+      />
+            <t t-if="mode[0] == 'edit'">
+                <t t-set="title_id" t-value="int(checkout_title)" />
+            </t>
+            <t t-else="">
+                <t t-set="title_id" t-value="icheckout_title.id" />
+            </t>
+            <t t-esc="title_id" />
             <div
         t-attf-class="form-group #{error.get('title') and 'o_has_error' or ''} col-lg-6"
         id="div_title"
@@ -19,12 +29,14 @@
           name="title"
           id="title"
           t-attf-class="form-control #{error.get('title') and 'is-invalid' or ''}"
-          t-att-value="checkout.get('title') and checkout['title'].name or ''"
+          t-att-value="title_name"
         >
                             <t t-foreach="contact_titles" t-as="title">
+
+                                <t t-esc="title.id" />
                                                 <option
               t-att-value="title.id"
-              t-att-selected="checkout and checkout['title'].name == title.name"
+              t-att-selected="title_id == title.id"
             >
                                                     <t t-esc="title.name" />
                                                 </option>
