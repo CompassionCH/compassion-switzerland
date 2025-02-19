@@ -17,7 +17,7 @@
                 <t t-set="title_id" t-value="int(checkout_title)" />
             </t>
             <t t-else="">
-                <t t-set="title_id" t-value="icheckout_title.id" />
+                <t t-set="title_id" t-value="checkout_title.id" />
             </t>
             <t t-esc="title_id" />
             <div
