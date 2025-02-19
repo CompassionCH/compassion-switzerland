@@ -17,9 +17,8 @@
                 <t t-set="title_id" t-value="int(checkout_title)" />
             </t>
             <t t-else="">
-                <t t-set="title_id" t-value="checkout_title.id" />
+                <t t-set="title_id" t-value="int(checkout_title)" />
             </t>
-            <t t-esc="title_id" />
             <div
         t-attf-class="form-group #{error.get('title') and 'o_has_error' or ''} col-lg-6"
         id="div_title"
