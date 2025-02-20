@@ -20,6 +20,10 @@
           name="last_exception"
           attrs="{'invisible': [('last_exception', '=', False)]}"
         />
+            <field
+          name="last_exception_time"
+          attrs="{'invisible': [('last_exception','=',False)]}"
+        />
         </field>
     </field>
 </record>

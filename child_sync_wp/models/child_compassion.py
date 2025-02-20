@@ -166,7 +166,7 @@ class CompassionChild(models.Model):
     def _hold_children(self, global_pool):
         hold_wizard = (
             global_pool.env["child.hold.wizard"]
-            .with_context(active_id=global_pool.id, async_mode=False)
+            .with_context(active_id=global_pool.id, queue_job__no_delay=True)
             .create(
                 {
                     "type": HoldType.CONSIGNMENT_HOLD.value,
@@ -181,7 +181,7 @@ class CompassionChild(models.Model):
         hold_wizard.onchange_type()
         send_hold_result = hold_wizard.send()
         children = self.browse(send_hold_result["domain"][0][2]).with_context(
-            async_mode=False
+            queue_job__no_delay=True
         )
         return children
 

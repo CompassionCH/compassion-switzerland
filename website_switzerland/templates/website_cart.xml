@@ -13,12 +13,7 @@
         t-set="checkout_title"
         t-value="checkout and checkout['title'] or '0'"
       />
-            <t t-if="mode[0] == 'edit'">
-                <t t-set="title_id" t-value="int(checkout_title)" />
-            </t>
-            <t t-else="">
-                <t t-set="title_id" t-value="int(checkout_title)" />
-            </t>
+            <t t-set="title_id" t-value="int(checkout_title)" />
             <div
         t-attf-class="form-group #{error.get('title') and 'o_has_error' or ''} col-lg-6"
         id="div_title"

@@ -47,7 +47,7 @@ class ReportChildpackFull(models.AbstractModel):
             or p.last_update_date < date_limit
             or not p.country_id
         ):
-            project.with_context(async_mode=False).update_informations()
+            project.with_context(queue_job__no_delay=True).update_informations()
 
         return data
 
