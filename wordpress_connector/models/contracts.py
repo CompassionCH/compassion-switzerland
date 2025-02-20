@@ -266,20 +266,20 @@ class Contracts(models.Model):
                 f"campaign: {utm_campaign}",
                 user_id=21,  # EMA
             )
-        if not test_mode:
-            return self.with_delay().create_sponsorship_job(sponsorship_vals, form_data)
-        else:
-            return self.create_sponsorship_job(sponsorship_vals, form_data)
+        return self.with_delay(
+            channel="root.accounting",
+            priority=5,
+            identity_key=f"{self._name}.create_wordpress_sponsorship.{child_local_id}",
+        ).create_sponsorship_job(sponsorship_vals, form_data)
 
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
     @api.model
     def create_sponsorship_job(self, values, form_data):
-        """
-        Creates the wordpress sponsorship.
+        """Creates the WordPress sponsorship.
         :param values: dict for contract creation
-        :param form_data: wordpress form data
+        :param form_data: WordPress form data
         :return: <recurring.contract> record
         """
         child = self.env["compassion.child"].browse(values["child_id"])

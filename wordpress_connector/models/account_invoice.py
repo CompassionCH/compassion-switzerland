@@ -182,7 +182,11 @@ class AccountInvoice(models.Model):
                 ),
             }
         )
-        invoice.with_delay().pay_wordpress_invoice(
+        invoice.with_delay(
+            channel="root.accounting",
+            priority=5,
+            identity_key=f"{self._name}.pay_wordpress_invoice.{invoice.id}",
+        ).pay_wordpress_invoice(
             fund,
             child_code,
             wp_origin,

@@ -375,23 +375,30 @@ class RecurringContract(models.Model):
                 # is created from the website so that we can manage partner language
                 self.notify_sds_new_sponsorship()
 
-        self.filtered(
+        new_sponsorships = self.filtered(
             lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
             and not c.is_active
             and c not in mandates_valid
-        ).with_context({})._new_dossier()
+        )
+        if new_sponsorships:
+            new_sponsorships.with_delay(
+                channel="root.partner_communication",
+                identity_key=f"{self._name}.send_new_dossier.{new_sponsorships.ids}",
+            )._new_dossier()
 
         csp = self.filtered(
             lambda s: "6014"
             in s.mapped("contract_line_ids.product_id.property_account_income_id.code")
+            and s.type != "CSP"
         )
         if csp:
             module = "partner_communication_switzerland."
             other_csp_config = self.env.ref(module + "csp_mail")
             (
-                csp.filtered(lambda s: s.type != "CSP")
-                .with_context({})
-                .send_communication(other_csp_config, correspondent=False)
+                csp.with_delay(
+                    channel="root.partner_communication",
+                    identity_key=f"{self._name}.send_csp_mail.{csp.ids}",
+                ).send_communication(other_csp_config, correspondent=False)
             )
 
         return res
@@ -486,10 +493,7 @@ class RecurringContract(models.Model):
     #                             PRIVATE METHODS                            #
     ##########################################################################
     def _new_dossier(self):
-        """
-        Sends the dossier of the new sponsorship to both payer and
-        correspondent.
-        """
+        """Sends the dossier of the new sponsorship to both payer and correspondent."""
         for spo in self:
             if spo.correspondent_id.id != spo.partner_id.id:
                 corresp = spo.correspondent_id
