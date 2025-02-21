@@ -160,30 +160,30 @@
             >Payable to</span><br />
                             <span
               class="swissqr_text content"
-              t-field="bank_account.acc_number"
+              t-field="partner_bank_id.acc_number"
             /><br />
                             <span
               class="swissqr_text content"
-              t-field="bank_account.company_id.name"
+              t-field="partner_bank_id.company_id.name"
             /><br />
                             <span
               class="swissqr_text content"
-              t-field="bank_account.company_id.street"
+              t-field="partner_bank_id.company_id.street"
             /><br />
                             <span
               class="swissqr_text content"
-              t-field="bank_account.company_id.country_id.code"
+              t-field="partner_bank_id.company_id.country_id.code"
             />
                             <span
               class="swissqr_text content"
-              t-field="bank_account.company_id.zip"
+              t-field="partner_bank_id.company_id.zip"
             />
                             <span
               class="swissqr_text content"
-              t-field="bank_account.company_id.city"
+              t-field="partner_bank_id.company_id.city"
             /><br />
 
-                            <t t-if="bank_account._is_qr_iban()">
+                            <t t-if="partner_bank_id._is_qr_iban()">
                                 <span
                 class="swissqr_text title"
               >Reference</span><br />
@@ -199,12 +199,12 @@
                             <span
               class="swissqr_text content"
               t-esc="reference or communication"
-              t-if="not bank_account._is_qr_iban()"
+              t-if="not partner_bank_id._is_qr_iban()"
             />
                             <span
               class="swissqr_text content"
               t-raw="communication"
-              t-if="bank_account._is_qr_iban()"
+              t-if="partner_bank_id._is_qr_iban()"
             />
                             <br />
 
@@ -256,7 +256,7 @@
               >Currency</span><br />
                                 <span
                 class="swissqr_text content"
-                t-field="bank_account.currency_id.name"
+                t-field="partner_bank_id.currency_id.name"
               />
                             </div>
                             <div class="column" t-if="formatted_amount">
@@ -307,5 +307,47 @@
         </h4>
         <t t-call="report_compassion.report_compassion_qr_slip" />
     </template>
+
+    <!-- Add other record + template -->
+
+    <template id="report_compassion_qr_parent">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <t t-set="o" t-value="doc.with_context({'lang':doc.lang})" />
+                <t t-set="partner" t-value="o" />
+                <t
+                  t-set="bank_account"
+                  t-value="o.env['recurring.contract.group'].get_company_qrr_account()"
+                />
+                    <t
+                  t-set="reference"
+                  t-value="qrr or o.generate_bvr_reference(product)"
+                />
+                    <t
+                  t-set="communication"
+                  t-value="communication or product.with_context(lang=o.lang).name"
+                />
+                    <t
+                  t-set="comm_qr"
+                  t-value="communication.replace('&lt;br/&gt;', ', ')"
+                />
+                    <t t-call="report_compassion.report_compassion_qr" />
+
+            </t>
+        </t>
+    </template>
+
+    <!-- New record to -->
+    <record id="report_compassion_qr" model="ir.actions.report">
+            <field name="name">QR-bill</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">report_compassion.report_compassion_qr_slip</field>
+            <field name="report_file">report_compassion.report_compassion_qr_slip</field>
+            <field name="print_report_name">'QR-bill-%s' % object.name</field>
+            <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+            <field name="attachment">'QR-bill-' + object.name + '.pdf'</field>
+        </record>
 
 </odoo>
