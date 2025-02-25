@@ -1,7 +1,7 @@
 # Copyright 2024 Emmanuel Cino
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class IrCron(models.Model):
@@ -15,7 +15,17 @@ class IrCron(models.Model):
             cron_name, server_action_id, job_id, job_exception
         )
         my_cron = self.browse(job_id).sudo()
-        my_cron.with_delay().write({"last_exception": str(job_exception)})
+        my_cron.with_delay().write(
+            {
+                "last_exception": str(job_exception),
+                "last_exception_time": fields.Datetime.now(),
+            }
+        )
 
     def clear_exception(self):
-        return self.write({"last_exception": False})
+        return self.write(
+            {
+                "last_exception": False,
+                "last_exception_time": False,
+            }
+        )

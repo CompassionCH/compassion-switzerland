@@ -4,7 +4,7 @@ import time
 import traceback
 from datetime import timedelta
 
-from odoo import models
+from odoo import SUPERUSER_ID, fields, models
 
 
 class BaseAutomation(models.Model):
@@ -15,10 +15,24 @@ class BaseAutomation(models.Model):
         try:
             super()._process(records, domain_post)
         except Exception:
-            self.sudo().with_delay().write({"last_exception": traceback.format_exc()})
+            self.with_user(SUPERUSER_ID).with_delay().write(
+                {
+                    "last_exception": traceback.format_exc(),
+                    "last_exception_time": fields.Datetime.now(),
+                }
+            )
         end_time = time.time()
         execution_time = timedelta(seconds=end_time - start_time)
-        self.sudo().write({"last_execution_time": str(execution_time)})
+        self.sudo().write(
+            {
+                "last_execution_time": str(execution_time),
+            }
+        )
 
     def clear_exception(self):
-        return self.write({"last_exception": False})
+        return self.write(
+            {
+                "last_exception": False,
+                "last_exception_time": False,
+            }
+        )

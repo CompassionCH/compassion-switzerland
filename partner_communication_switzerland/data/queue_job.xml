@@ -5,7 +5,7 @@
         <field name="method">transform_wp_sponsorships</field>
         <field
       name="channel_id"
-      ref="sponsorship_compassion.channel_sponsorship"
+      ref="recurring_contract.channel_recurring_contract"
     />
     </record>
     <record id="sponsorship_confirm_upgrade" model="queue.job.function">
@@ -13,7 +13,7 @@
         <field name="method">confirm_upgrade</field>
         <field
       name="channel_id"
-      ref="sponsorship_compassion.channel_sponsorship"
+      ref="recurring_contract.channel_recurring_contract"
     />
     </record>
 </odoo>

@@ -35,7 +35,6 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "data": [
-        "data/queue_job.xml",
         "data/wordpress_configuration.xml",
         "views/request.xml",
     ],

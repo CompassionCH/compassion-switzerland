@@ -8,11 +8,12 @@ class ServerAction(models.Model):
     _inherit = "ir.actions.server"
 
     last_execution_time = fields.Char(
-        string="Last Execution Time",
+        string="Last Execution Duration",
         readonly=True,
-        help="Last execution time of the job.",
+        help="Last execution duration of the job in seconds.",
     )
     last_exception = fields.Text()
+    last_exception_time = fields.Datetime()
 
     def run(self):
         start_time = time.time()

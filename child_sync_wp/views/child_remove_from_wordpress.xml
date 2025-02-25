@@ -28,6 +28,7 @@
   >
         <field name="name">Remove from Wordpress</field>
         <field name="binding_model_id" ref="model_compassion_child" />
+        <field name="binding_view_types">list,form</field>
         <field name="res_model">child.remove.from.wordpress.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>

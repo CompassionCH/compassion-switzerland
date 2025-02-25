@@ -613,12 +613,15 @@ class ResPartner(models.Model):
                     in_one_month,
                     wp_young.birthdate_date.replace(year=in_one_month.year),
                 )
-                wp_young.with_delay(eta=delay).transform_wp_sponsorships()
+                wp_young.with_delay(
+                    eta=delay,
+                    priority=50,
+                    identity_key=f"{self._name}.wp_transformation_call.{wp_young.id}",
+                ).transform_wp_sponsorships()
         return True
 
     def transform_wp_sponsorships(self):
-        """
-        Called at the end of the W&P Journey:
+        """Called at the end of the W&P Journey.
         change communication preference, cancel sponsorships that are not fully paid,
         and transition sponsorships that are paid. Opt-in people if possible.
         Send communication for further promoting W&P.

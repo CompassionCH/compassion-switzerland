@@ -200,4 +200,4 @@ class SmsNotification(models.Model):
                 "text": parameters.get("text"),
             }
         )
-        sms.with_delay().run_service()
+        sms.run_service()

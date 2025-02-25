@@ -15,5 +15,4 @@ from . import recurring_contract
 from . import sms_sms
 from . import iap_account
 from . import mail_message
-from . import compassion_hold
 from . import sms_api

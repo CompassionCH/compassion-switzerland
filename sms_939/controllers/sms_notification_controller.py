@@ -11,12 +11,10 @@ import json
 import logging
 from datetime import datetime
 
-from odoo import http, tools
+from odoo import SUPERUSER_ID, http
 from odoo.http import request
 
 from ..tools import SmsNotificationAnswer
-
-is_async = not tools.config.get("test_enable")
 
 _logger = logging.getLogger(__name__)
 
@@ -29,10 +27,10 @@ class RestController(http.Controller):
         # &command=FORWARD&receptionDate=2014-04-12+12%3A00%3A00.000
         # &requestUid=sms21342314&text=COMPASSION
         _logger.info(f"SMS Request received : {json.dumps(parameters)}")
-
-        notification_env = request.env["sms.notification"].sudo()
-        (
-            notification_env.with_delay(priority=1) if is_async else notification_env
+        notification_env = request.env["sms.notification"].with_user(SUPERUSER_ID)
+        notification_env.with_delay(
+            priority=1,
+            identity_key=f"sms.notification.{parameters.get('requestUid')}",
         ).send_sms_answer(parameters)
         return SmsNotificationAnswer([], costs=[]).get_answer()
 

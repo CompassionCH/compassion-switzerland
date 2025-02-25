@@ -45,7 +45,7 @@ class SubSponsorshipWizard(models.TransientModel):
         if sponsorship.state != "active":
             # Make sure new child has all info
             sponsorship.sub_sponsorship_id.child_id.with_context(
-                async_mode=False
+                queue_job__no_delay=True
             ).get_infos()
             # Generate depart letter
             child = sponsorship.child_id
