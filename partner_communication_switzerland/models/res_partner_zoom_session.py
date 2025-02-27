@@ -94,21 +94,22 @@ class ZoomSession(models.Model):
         )
 
     def send_reminder_or_link(self):
-        communications = self.env["partner.communication.job"]
         for zoom in self.filtered(lambda z: z.state == "planned"):
             for participant in zoom.mapped("participant_ids").filtered(
                 lambda p: p.state in ("invited", "confirmed")
             ):
                 if participant.state in ["invited"]:
-                    communications += participant.send_communication(
-                        ZoomCommunication.REMINDER
-                    )
+                    participant.with_delay(
+                        channel="root.partner_communication",
+                        identity_key=f"send_zoom_reminder.{participant.id}",
+                    ).send_communication(ZoomCommunication.REMINDER)
                 elif participant.state in ["confirmed"]:
-                    communications += participant.send_communication(
-                        ZoomCommunication.LINK
-                    )
+                    participant.with_delay(
+                        channel="root.partner_communication",
+                        identity_key=f"send_zoom_link.{participant.id}",
+                    ).send_communication(ZoomCommunication.LINK)
             zoom.date_send_link = fields.Datetime.now()
-        return communications
+        return True
 
     def add_participant(self, partners):
         """

@@ -169,6 +169,7 @@ class ZoomAttendee(models.Model):
             )
 
     def send_communication(self, config_name):
+        """Send a communication to a Zoom participant"""
         self.ensure_one()
         config_id = self.env.ref(config_name.value).id
         partner_id = self.partner_id.id
