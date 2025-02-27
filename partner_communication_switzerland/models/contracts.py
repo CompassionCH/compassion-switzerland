@@ -439,14 +439,16 @@ class RecurringContract(models.Model):
         letter_reminder = self.env.ref(
             "partner_communication_switzerland.sponsorship_wrpr_reminder"
         )
-        comms = self.env["partner.communication.job"]
         for wrpr in wrprs:
             start_days = (fields.Datetime.now() - wrpr.start_date).days
             if wrpr.last_letter > 545 or (
                 not wrpr.sponsor_letter_ids and start_days > 545
             ):
-                comms += wrpr.send_communication(letter_reminder)
-        comms.send()
+                wrpr.with_delay(
+                    channel="root.partner_communication",
+                    identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
+                    priority=50,
+                ).send_communication(letter_reminder)
         return True
 
     @api.model
