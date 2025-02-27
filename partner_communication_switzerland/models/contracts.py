@@ -201,22 +201,22 @@ class RecurringContract(models.Model):
 
     @api.model
     def _send_birthday_reminders(self, sponsorships, communication):
-        communication_jobs = self.env["partner.communication.job"]
         for sponsorship in sponsorships:
             send_to_payer = (
                 sponsorship.send_gifts_to == "partner_id"
                 and sponsorship.partner_id.birthday_reminder
             )
             send_to_correspondent = sponsorship.correspondent_id.birthday_reminder
-            try:
-                communication_jobs += sponsorship.send_communication(
-                    communication,
-                    correspondent=send_to_correspondent,
-                    both=send_to_payer and send_to_correspondent,
-                )
-            except Exception:
-                # In any case, we don't want to stop email generation!
-                logger.error("Error during birthday reminder: ", exc_info=True)
+            sponsorship.with_delay(
+                channel="root.partner_communication",
+                identity_key=f"{sponsorship._name}."
+                f"send_birthday_reminder.{sponsorship.id}",
+                priority=50,
+            ).send_communication(
+                communication,
+                correspondent=send_to_correspondent,
+                both=send_to_payer and send_to_correspondent,
+            )
 
     @api.model
     def _get_sponsorships_with_child_birthday_on(self, birth_day):
