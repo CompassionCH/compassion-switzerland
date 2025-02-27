@@ -102,12 +102,12 @@ class ZoomSession(models.Model):
                     participant.with_delay(
                         channel="root.partner_communication",
                         identity_key=f"send_zoom_reminder.{participant.id}",
-                    ).send_communication(ZoomCommunication.REMINDER)
+                    ).send_communication(ZoomCommunication.REMINDER.value)
                 elif participant.state in ["confirmed"]:
                     participant.with_delay(
                         channel="root.partner_communication",
                         identity_key=f"send_zoom_link.{participant.id}",
-                    ).send_communication(ZoomCommunication.LINK)
+                    ).send_communication(ZoomCommunication.LINK.value)
             zoom.date_send_link = fields.Datetime.now()
         return True
 

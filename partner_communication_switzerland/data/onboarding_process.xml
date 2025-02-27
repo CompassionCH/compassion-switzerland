@@ -556,7 +556,7 @@ if not_read:
             <field name="trg_date_range_type">day</field>
             <field name="state">code</field>
             <field name="code">
-records.send_reminder()
+records.send_reminder_or_link()
             </field>
         </record>
     </data>

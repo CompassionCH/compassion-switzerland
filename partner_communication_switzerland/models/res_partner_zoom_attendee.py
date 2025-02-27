@@ -171,19 +171,22 @@ class ZoomAttendee(models.Model):
     def send_communication(self, config_name):
         """Send a communication to a Zoom participant"""
         self.ensure_one()
-        config_id = self.env.ref(config_name.value).id
+        config_id = self.env.ref(config_name).id
         partner_id = self.partner_id.id
 
         # avoid sending this twice communication
-        if config_name == ZoomCommunication.LINK:
+        if config_name == ZoomCommunication.LINK.value:
             if self.link_received:
                 return self.env["partner.communication.job"]
             else:
                 self.link_received = True
 
-        if config_name in [ZoomCommunication.REMINDER, ZoomCommunication.LINK]:
+        if config_name in [
+            ZoomCommunication.REMINDER.value,
+            ZoomCommunication.LINK.value,
+        ]:
             object_id = self.zoom_session_id.id
-        elif config_name in [ZoomCommunication.REGISTRATION]:
+        elif config_name in [ZoomCommunication.REGISTRATION.value]:
             object_id = self.id
         else:
             object_id = None
@@ -195,13 +198,3 @@ class ZoomAttendee(models.Model):
                 "object_ids": object_id,
             }
         )
-
-    def form_completion_callback(self):
-        self.ensure_one()
-        if (
-            datetime.now()
-            >= (self.zoom_session_id.date_send_link or self.zoom_session_id.date_start)
-            and self.state != "declined"
-        ):
-            return self.send_communication(ZoomCommunication.LINK)
-        return self.send_communication(ZoomCommunication.REGISTRATION)
