@@ -13,11 +13,13 @@ from typing import Any
 
 from jwt import JWT, AbstractJWKBase, supported_key_types
 from jwt.exceptions import JWTDecodeError
+from jwt.jwk import OctetJWK
 from jwt.utils import get_int_from_datetime
 
 from odoo import api, models
 from odoo.exceptions import AccessDenied
 from odoo.http import request
+from odoo.tools import config
 
 from odoo.addons.base.models.res_users import Users
 
@@ -46,8 +48,18 @@ def gen_signing_key() -> AbstractJWKBase:
     """
     # As we are using HS256 as the signing algorithm, we need 512 bits of entropy.
     # To be safe, we use 2048 bits (=256*8) which will be hashed down anyway
+    conf_key = config.get("auth_external.jwt_key")
+    if conf_key:
+        return OctetJWK(conf_key.encode())
     secret = secrets.token_bytes(256)
-    return supported_key_types()["oct"](secret)
+    key = supported_key_types()["oct"](secret)
+    _logger.warning(
+        "No JWT key found in config, generating a new one. "
+        "You can store it in odoo.conf as auth_external_jwt_key. "
+        "Check the debug log for the key."
+    )
+    _logger.debug("%s", key.to_dict()["k"])
+    return key
 
 
 # We use symmetric signing/verification keys as only the server needs to sign

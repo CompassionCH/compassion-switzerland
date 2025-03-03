@@ -1,5 +1,3 @@
-# Compassion CH External Auth
-
 This module is intended to allow authentication and authorization to the odoo backend from various frontends (the first use-case is for the translation platform, https://github.com/CompassionCH/translation-platform-web).
 This custom module was required for the following reasons:
 
@@ -39,28 +37,7 @@ The tests must be run on an empty database to avoid interference from other modu
 
 The secrets used to produce the MACs which prove the authenticity of the JWTs are stored in program memory (see `access_token_signing_key` and `refresh_token_signing_key` in `models/res_users.py`). Fresh secrets are generated on server startup and remain unchanged until next startup. This means that **_when the server is restarted, all the user's tokens instantly become invalid and they have to authenticate again with their credentials (login, password, totp)._**
 
-# TODO
 
-## Tokens in secure cookies
-
-Currently, tokens are stored in the localStorage in the frontend. This is dangerous if the frontend contains an XSS vulnerability (token extraction).
-We should use Secure, HttpOnly, Strict=..., Domain=..., Path=...
-
-https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security
-
-In the process of trying to store the tokens in HttpOnly cookies, I discovered that the XmlRpcClient library used by the frontend (`import { XmlRpcClient } from '@foxglove/xmlrpc';`) does not support the withCredentials property (https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials). This means that the access token cookie is not being sent with XmlRpc requests, and thus the server rejects them with AccessDenied. It would require substantial efforts to use another library or to re-implement the library with the required withCredentials property, so currently, the tokens remain stored in localStorage. This presents an important security vulnerability if an XSS vulnerability is discovered in the frontend. In that case, the tokens can be extracted by an attacker and used to make xmlrpc requests for the account of the victim. Significant care should thus be invested in testing the frontend for XSS vulnerabilities.
-
-## JWT library
-
-The library which is currently used seems to be abandoned : https://github.com/GehirnInc/python-jwt
-(No update since Apr 19, 2022). It is not clear if this library is already a dependency of odoo.
-
-Another possibility would be to switch to :
-https://github.com/jpadilla/pyjwt
 
 # References
 
-Refresh tokens in OAuth 2.0: https://www.rfc-editor.org/rfc/rfc6749#section-1.5
-https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
-https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/
