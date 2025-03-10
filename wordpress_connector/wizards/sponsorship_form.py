@@ -31,18 +31,19 @@ class WebsiteSponsorship(models.TransientModel):
             sponsor_lang = form.partner_id.lang[:2]
             staff_param = "sponsorship_" + sponsor_lang + "_id"
             staff = self.env["res.config.settings"].sudo().get_param(staff_param)
-            notify_text = (
-                "A new sponsorship was made on the website. Please "
-                "verify all information and validate the sponsorship "
-                "on Odoo: <br/><br/><ul>"
-            ) + web_info
+            if staff:
+                notify_text = (
+                    "A new sponsorship was made on the website. Please "
+                    "verify all information and validate the sponsorship "
+                    "on Odoo: <br/><br/><ul>"
+                ) + web_info
 
-            title = _("New sponsorship from the website")
-            form.contract_id.sudo().message_post(
-                body=notify_text,
-                subject=title,
-                partner_ids=[staff],
-                subtype_xmlid="mail.mt_comment",
-                content_subtype="html",
-            )
+                title = _("New sponsorship from the website")
+                form.contract_id.sudo().message_post(
+                    body=notify_text,
+                    subject=title,
+                    partner_ids=[staff],
+                    subtype_xmlid="mail.mt_comment",
+                    content_subtype="html",
+                )
         return records
