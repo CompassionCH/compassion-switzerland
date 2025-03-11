@@ -194,7 +194,7 @@
       model="partner.communication.config"
     >
             <field name="name">New Donors Onboarding - 1st Blog Post</field>
-            <field name="send_mode">auto_digital_only</field>
+            <field name="send_mode">auto_digital</field>
             <field
         name="email_template_id"
         ref="mail_new_donors_onboarding_1st_blog_post"
@@ -211,7 +211,7 @@
       model="partner.communication.config"
     >
             <field name="name">New Donors Onboarding - 2nd Blog Post</field>
-            <field name="send_mode">auto_digital_only</field>
+            <field name="send_mode">auto_digital</field>
             <field
         name="email_template_id"
         ref="mail_new_donors_onboarding_2nd_blog_post"
