@@ -35,5 +35,8 @@ class AccountMoveLine(models.Model):
                 else:
                     payment_line.unlink()
             elif payment_line:
-                invoice_lines -= move_line
+                # Remove all invoice lines because the invoice is being paid
+                invoice_lines = invoice_lines.filtered(
+                    lambda ivl, mvl=move_line: ivl.move_id != mvl.move_id
+                )
         return invoice_lines, modified_orders
