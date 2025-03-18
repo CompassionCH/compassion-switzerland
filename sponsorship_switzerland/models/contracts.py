@@ -357,13 +357,13 @@ class RecurringContracts(models.Model):
         :return: <account.move.line> recordset
         """
         invoice_lines = super()._filter_open_invoices_to_cancel()
-        filtered_lines, modified_orders = invoice_lines._filter_direct_debit()
+        invoice_lines, modified_orders = invoice_lines._filter_direct_debit()
         self._payment_order_modified(modified_orders)
         return invoice_lines
 
     def _filter_paid_invoices_to_cancel(self):
         invoice_lines = super()._filter_paid_invoices_to_cancel()
-        filtered_lines, modified_orders = invoice_lines._filter_direct_debit()
+        invoice_lines, modified_orders = invoice_lines._filter_direct_debit()
         self._payment_order_modified(modified_orders)
         return invoice_lines
 
