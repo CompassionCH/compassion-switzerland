@@ -34,15 +34,17 @@ class ResPartnerBank(models.Model):
             amount,
             currency_name,
             debtor_partner,
-            free_communication,
-            structured_communication,
+            free_communication or "",
+            structured_communication or "",
         )
         # Set amount to an empty string indicating that it has to be chosen by the payer
         qr_vals[18] = "" if qr_vals[18] == "0.00" else qr_vals[18]
         # T2055 Sanitize the values with no char from charset not in Basic Latin
         # (Unicode codepoints U+0020–U+007E),
         # Latin1 Supplement (Unicode codepoints U+00A0–U+00FF), Latin Extended A
-        return [val.encode("latin1", "replace").decode("latin1") for val in qr_vals]
+        return [
+            (val or "").encode("latin1", "replace").decode("latin1") for val in qr_vals
+        ]
 
     def _get_partner_address_lines(self, partner):
         """Override to allow empty zip or city."""
