@@ -117,7 +117,7 @@ class CompassionChild(models.Model):
                 int(take)
             )
             self.with_delay(
-                channel="root.child_compassion",
+                channel="root.gmc_pool.child_compassion",
                 description="Hold and push children to wordpress",
             )._hold_and_push_to_wordpress(company.id, global_pool)
             return True
