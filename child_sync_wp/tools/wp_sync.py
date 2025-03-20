@@ -71,34 +71,33 @@ class WPSync(object):
         for child in children:
             _logger.info("Pushing child %s/%s", count_insert + 1, len(children))
             try:
-                child_values = {
-                    "local_id": child.local_id,
-                    "number": child.local_id,
-                    "first_name": child.preferred_name,
-                    "name": child.name,
-                    "full_name": child.name,
-                    "birthday": child.birthdate,
-                    "gender": child.gender,
-                    # CO-1003 in case child has no unsponsored_since date,
-                    # we use allocation date
-                    "start_date": child.unsponsored_since or child.date,
-                    "desc": child.description_fr,
-                    "desc_de": child.description_de,
-                    "desc_it": child.description_it,
-                    "country": child.project_id.country_id.name,
-                    "project": child.project_id.description_fr,
-                    "project_de": child.project_id.description_de,
-                    "project_it": child.project_id.description_it,
-                    "cloudinary_url": child.image_url,
-                }
-                if self.xmlrpc_server.child_import.addChild(
-                    self.user, self.pwd, child_values
-                ):
-                    count_insert += 1
-                    child.state = "I"
-                    children.env.cr.commit()
+                with children.env.cr.savepoint():
+                    child_values = {
+                        "local_id": child.local_id,
+                        "number": child.local_id,
+                        "first_name": child.preferred_name,
+                        "name": child.name,
+                        "full_name": child.name,
+                        "birthday": child.birthdate,
+                        "gender": child.gender,
+                        # CO-1003 in case child has no unsponsored_since date,
+                        # we use allocation date
+                        "start_date": child.unsponsored_since or child.date,
+                        "desc": child.description_fr,
+                        "desc_de": child.description_de,
+                        "desc_it": child.description_it,
+                        "country": child.project_id.country_id.name,
+                        "project": child.project_id.description_fr,
+                        "project_de": child.project_id.description_de,
+                        "project_it": child.project_id.description_it,
+                        "cloudinary_url": child.image_url,
+                    }
+                    if self.xmlrpc_server.child_import.addChild(
+                        self.user, self.pwd, child_values
+                    ):
+                        count_insert += 1
+                        child.state = "I"
             except Exception:
-                children.env.clear()
                 _logger.error("Child Upload failed: ", exc_info=True)
 
         if count_insert == len(children):
