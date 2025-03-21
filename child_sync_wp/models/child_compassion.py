@@ -58,23 +58,35 @@ class CompassionChild(models.Model):
 
         wp_config = self.env["wordpress.configuration"].get_config(company_id)
         wp = WPSync(wp_config)
-        return wp.upload_children(valid_children)
+        return wp.upload_children(self)
 
     def remove_from_wordpress(self):
-        valid_children = self.filtered(lambda c: c.state == "I")
-        if valid_children:
-            wp_config = self.env["wordpress.configuration"].get_config()
-            wp = WPSync(wp_config)
-            if wp.remove_children(valid_children):
-                valid_children.write({"state": "N"})
-        return True
+        try:
+            valid_children = self.filtered(lambda c: c.state == "I")
+            if valid_children:
+                wp_config = self.env["wordpress.configuration"].get_config()
+                wp = WPSync(wp_config)
+                if wp.remove_children(valid_children):
+                    valid_children.write({"state": "N"})
+            return True
+        except Exception as e:
+            logger.error(f"Error removing children from WordPress: {e}", exc_info=True)
+            raise
 
     def force_remove_from_wordpress(self, company_id=None):
-        wp_config = self.env["wordpress.configuration"].get_config(company_id)
-        wp = WPSync(wp_config)
-        if wp.remove_all_children():
-            self.write({"state": "N"})
-        return True
+        try:
+            wp_config = self.env["wordpress.configuration"].get_config(company_id)
+            wp = WPSync(wp_config)
+            if wp.remove_all_children():
+                logger.info("ALL CHILDREN REMOVED")
+                self.write({"state": "N"})
+            return True
+        except Exception as e:
+            logger.error(
+                f"Error force removing children from WordPress: {e}",
+                exc_info=True,
+            )
+            raise
 
     def child_sponsored(self, sponsor_id):
         """Remove children from the website when they are sponsored."""
@@ -117,7 +129,7 @@ class CompassionChild(models.Model):
                 int(take)
             )
             self.with_delay(
-                channel="root.gmc_pool.child_compassion",
+                channel="root.child_compassion",
                 description="Hold and push children to wordpress",
             )._hold_and_push_to_wordpress(company.id, global_pool)
             return True
