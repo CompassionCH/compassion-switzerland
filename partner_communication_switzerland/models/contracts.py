@@ -546,7 +546,7 @@ class RecurringContract(models.Model):
                     ("partner_id", "=", partner.id),
                     ("config_id", "=", config.id),
                     ("object_ids", "like", str(self.id)),
-                    ("state", "=", "done"),
+                    ("state", "!=", "cancel"),
                 ]
             )
             if not already_sent:
