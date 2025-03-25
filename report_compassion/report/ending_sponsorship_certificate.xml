@@ -122,11 +122,6 @@
           />
                 </div>
 
-        <t t-esc="lang"/>
-                <t t-esc="digital"/>
-                <t t-esc="communication_generated"/>
-        <t t-esc="o['long_lasting']"/>
-
                 <div
           class="text_layout"
         >
