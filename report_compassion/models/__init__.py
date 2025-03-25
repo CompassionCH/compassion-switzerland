@@ -19,4 +19,5 @@ from . import (
     report_bvr_sponsorship_gift,
     report_tax_receipt,
     res_partner,
+    ending_sponsorship_certificate
 )

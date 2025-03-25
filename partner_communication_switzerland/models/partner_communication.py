@@ -367,6 +367,7 @@ class PartnerCommunication(models.Model):
             "doc_ids": sponsorships.ids,
             "long_lasting": max(sponsorships.mapped("contract_duration")) >= 730,
             "new_version": new_version,
+            "communication_generated": True
         }
         pdf = self._get_pdf_from_data(
             data,
