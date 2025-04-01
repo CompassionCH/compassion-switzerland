@@ -129,7 +129,7 @@ class AdvocateDetails(models.Model):
             html_vals = {
                 "img_alt": details.display_name,
                 "image_url": f"{details.get_base_url()}/web/partner_image"
-                f"/{details.partner_id.id}/image_512",
+                f"/{details.partner_id.id}/image_512/{firstname}.jpg",
                 "text": details.quote.strip() or "",
                 "attribution": _("Quote from %s %s") % (firstname, lastname)
                 if details.quote.strip()
