@@ -6,7 +6,9 @@
         <field name="name">Ending Sponsorship Certificate</field>
         <field name="model">recurring.contract</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">report_compassion.ending_sponsorship_certificate</field>
+        <field
+      name="report_name"
+    >report_compassion.ending_sponsorship_certificate</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
         <field name="binding_model_id" ref="model_recurring_contract" />
         <field name="binding_type">report</field>
@@ -115,31 +117,37 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="report_compassion.style" />
                 <t t-set="pictures" t-value="o['pictures']" />
-                <t t-set="first_pic_available" t-value="len(pictures) &gt; 1 and pictures[-1].date.year &lt; pictures[0].date.year"/>
+                <t
+          t-set="first_pic_available"
+          t-value="len(pictures) &gt; 1 and pictures[-1].date.year &lt; pictures[0].date.year"
+        />
                 <div class="background" t-if="digital">
                     <img
             t-attf-src="#{base_url}/report_compassion/static/img/report_compassion.ending_sponsorship_certificate/ending_sponsor_card_#{lang[:2]}.jpg"
           />
                 </div>
 
-                <div
-          class="text_layout"
-        >
-                    <t t-if="communication_generated and (new_version or digital or lang in ('it_IT', 'en_US', 'de_DE', 'fr_CH'))">
+                <div class="text_layout">
+                    <t
+            t-if="communication_generated and (new_version or digital or lang in ('it_IT', 'en_US', 'de_DE', 'fr_CH'))"
+          >
 
-                    <p>We thank you from the bottom of our hearts for accompanying a child living in poverty.</p>
-                   <p class="second_paragraph">Your precious commitment has given dignity to this child, helped him to develop in a promising way and allowed him to look forward to the future with hope.
+                    <p
+            >We thank you from the bottom of our hearts for accompanying a child living in poverty.</p>
+                   <p
+              class="second_paragraph"
+            >Your precious commitment has given dignity to this child, helped him to develop in a promising way and allowed him to look forward to the future with hope.
                     </p>
                     <p
-            class="third_paragraph"
-            t-if="o['long_lasting']"
-          >Do you remember the beginning of your sponsorship?<br
-            />What a great journey it has been since then!</p>
+              class="third_paragraph"
+              t-if="o['long_lasting']"
+            >Do you remember the beginning of your sponsorship?<br
+              />What a great journey it has been since then!</p>
                     </t>
                     <t t-else="">
-                        <t t-raw="o['text']"/>
+                        <t t-raw="o['text']" />
                     <p class="third_paragraph" t-if="o['long_lasting']">
-                    <t t-raw="o['long_lasting_text']"/>
+                    <t t-raw="o['long_lasting_text']" />
                     </p>
                     </t>
 
@@ -167,21 +175,19 @@
                 </div>
                 <div class="info_layout">
                     <p class="child_name">
-                        <t t-esc="o['child_name']"/>
+                        <t t-esc="o['child_name']" />
                     </p>
                     <hr class="yellow_line" />
                     <p class="legend_date">
-                        <t
-              t-if="o['gender'] == 'M'"
-            >
+                        <t t-if="o['gender'] == 'M'">
                             Sponsored since
                         </t>
-                        <t
-              t-if="o['gender'] == 'F'"
-            >
+                        <t t-if="o['gender'] == 'F'">
                             Sponsored since (Female)
                         </t>
-                        <t t-raw="o['start_date']" /> - <t t-raw="o['end_date']" /></p>
+                        <t t-raw="o['start_date']" /> - <t
+              t-raw="o['end_date']"
+            /></p>
                 </div>
             </t>
         </t>

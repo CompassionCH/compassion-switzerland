@@ -17,22 +17,42 @@ class ReportEndingSponsorshipCertificate(models.TransientModel):
         partner_lang = "en_US"
 
         paragraph_one = {
-            "en_US": "We thank you from the bottom of our hearts for accompanying a child living in poverty.",
-            "fr_CH": "Nous vous remercions du fond du cœur d'avoir accompagné un enfant vivant dans la pauvreté.",
-            "de_DE": "Wir danken dir von ganzem Herzen, dass du ein Kind, das in Armut lebt, begleitet hast.",
-            "it_IT": "Grazie di cuore per aver accompagnato un bambino che vive in estrema povertà.",
+            "en_US": "We thank you from the bottom of our "
+            "hearts for accompanying a child living in poverty.",
+            "fr_CH": "Nous vous remercions du fond du cœur "
+            "d'avoir accompagné un enfant vivant dans la pauvreté.",
+            "de_DE": "Wir danken dir von ganzem Herzen, dass du "
+            "ein Kind, das in Armut lebt, begleitet hast.",
+            "it_IT": "Grazie di cuore per aver accompagnato "
+            "un bambino che vive in estrema povertà.",
         }
         paragraph_two = {
-            "en_US": "Your precious commitment has given dignity to this child, helped him to develop in a promising way and allowed him to look forward to the future with hope.",
-            "fr_CH": "Votre précieux engagement a donné de la dignité à cet enfant, l'a aidé à se développer de manière prometteuse et lui a permis d'envisager l'avenir avec espérance.",
-            "de_DE": "Dein wertvoller Einsatz hat diesem Kind Würde gegeben, ihm zu einer vielversprechenden Entwicklung verholfen und ihm ermöglicht, mit Hoffnung in die Zukunft zu blicken.",
-            "it_IT": "Il tuo prezioso impegno gli ha ridato dignità, lo ha aiutato a svilupparsi in modo promettente e gli ha permesso di guardare al futuro con speranza.",
+            "en_US": "Your precious commitment has given "
+            "dignity to this child, helped him "
+            "to develop in a promising way and allowed "
+            "him to look forward to the future with hope.",
+            "fr_CH": "Votre précieux engagement a donné de la dignité "
+            "à cet enfant, l'a aidé à se développer "
+            "de manière prometteuse et lui a "
+            "permis d'envisager l'avenir avec espérance.",
+            "de_DE": "Dein wertvoller Einsatz hat diesem Kind Würde gegeben,"
+            " ihm zu einer vielversprechenden "
+            "Entwicklung verholfen und ihm ermöglicht, "
+            "mit Hoffnung in die Zukunft zu blicken.",
+            "it_IT": "Il tuo prezioso impegno gli ha "
+            "ridato dignità, lo ha aiutato a "
+            "svilupparsi in modo promettente e gli "
+            "ha permesso di guardare al futuro con speranza.",
         }
         paragraph_three = {
-            "en_US": "We thank you from the bottom of our hearts for accompanying a child living in poverty.",
-            "fr_CH": "Nous vous remercions du fond du cœur d'avoir accompagné un enfant vivant dans la pauvreté.",
-            "de_DE": "Wir danken dir von ganzem Herzen, dass du ein Kind, das in Armut lebt, begleitet hast.",
-            "it_IT": "Grazie di cuore per aver accompagnato un bambino che vive in estrema povertà.",
+            "en_US": "Do you remember the beginning of your sponsorship? "
+            "What a great journey it has been since then!",
+            "fr_CH": "Vous souvenez-vous du début de votre parrainage? "
+            "Quel beau chemin parcouru depuis!",
+            "de_DE": "Erinnerst du dich an den Beginn deiner Patenschaft? "
+            "Was für einen langen Weg haben wir seither zurückgelegt!",
+            "it_IT": "Ti ricordi l’inizio del tuo sostegno? "
+            "Quanta strada abbiamo fatto da allora!",
         }
 
         for doc in docs:
@@ -48,7 +68,8 @@ class ReportEndingSponsorshipCertificate(models.TransientModel):
             else:
                 raise UserError(
                     _(
-                        "Either start date or activation date is required for generating the certificate"
+                        "Either start date or activation date is "
+                        "required for generating the certificate"
                     )
                 )
 
