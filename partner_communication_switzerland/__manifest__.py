@@ -38,7 +38,7 @@
         "hr",
         "website_form",
         "report_compassion",
-        "partner_communication_compassion",
+        "partner_communication_reminder",
         "label",
         "child_sync_wp",
         "sms_939",  # compassion-modules

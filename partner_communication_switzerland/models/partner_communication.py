@@ -453,13 +453,13 @@ class PartnerCommunication(models.Model):
 
         # Define template references for no money holds
         no_money_1 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_1"
+            "partner_communication_reminder.sponsorship_activation_reminder_1"
         )
         no_money_2 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
+            "partner_communication_reminder.sponsorship_activation_reminder_2"
         )
         no_money_3 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_3"
+            "partner_communication_reminder.sponsorship_activation_reminder_3"
         )
 
         for communication in self:
