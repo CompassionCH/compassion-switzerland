@@ -36,7 +36,7 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         user_id = self.user_id.id
         sponsorship_reminder_2 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
+            "partner_communication_reminder.sponsorship_activation_reminder_2"
         )
 
         if self.config_id == sponsorship_reminder_2:
