@@ -177,7 +177,7 @@ class AccountInvoice(models.Model):
                 "currency_id": 6,  # Always in CHF
                 "move_type": "out_invoice",
                 "invoice_payment_term_id": payment_term_id,
-                "narration": " ".join(
+                "invoice_origin": " ".join(
                     filter(None, [name, ", ", street, ", ", zipcode, ", ", city])
                 ),
             }
