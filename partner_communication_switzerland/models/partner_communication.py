@@ -208,7 +208,7 @@ class PartnerCommunication(models.Model):
                 )
                 return {
                     _("bank authorization form.pdf"): [
-                        "thankyou_letters.donation",
+                        "partner_communication.a4_communication",
                         pdf_form,
                     ]
                 }
@@ -677,7 +677,7 @@ class PartnerCommunication(models.Model):
             attachments.update(
                 {
                     _("bank authorization form.pdf"): [
-                        "thankyou_letters.donation",
+                        "partner_communication.a4_communication",
                         pdf_form,
                     ]
                 }
