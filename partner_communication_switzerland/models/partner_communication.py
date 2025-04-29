@@ -684,6 +684,20 @@ class PartnerCommunication(models.Model):
             )
         return attachments
 
+    def get_toiletten_tanzania(self):
+        self.ensure_one()
+        attachments = dict()
+        report_name = "partner_communication.a4_communication"
+        pdf_attachment = (
+            self.env["ir.attachment"]
+            .search([("name", "=", "Abschlussbericht_Wash_Tansania.pdf")], limit=1)
+            .with_context(bin_size=False)
+        )
+        attachments.update(
+            {"Abschlussbericht_Wash_Tansania.pdf": [report_name, pdf_attachment.datas]}
+        )
+        return attachments
+
     def get_csp_picture(self):
         self.ensure_one()
         field_offices = set(
