@@ -196,6 +196,8 @@
                             <span
               class="swissqr_text title"
             >Additional information</span><br />
+
+            <div style="max-width: 70mm; overflow-wrap: break-word;">
                             <span
               class="swissqr_text content"
               t-esc="reference or communication"
@@ -206,6 +208,7 @@
               t-raw="communication"
               t-if="bank_account._is_qr_iban()"
             />
+            </div>
                             <br />
 
                             <span
