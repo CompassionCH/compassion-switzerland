@@ -122,14 +122,14 @@ class AdvocateDetails(models.Model):
             "partner_compassion/static/src/html/thank_you_quote_template.html"
         )
         template_html = str(html_file.read())
+        self.get_base_url()
         for details in self:
             firstname = details.partner_id.firstname
             lastname = details.partner_id.lastname
             html_vals = {
                 "img_alt": details.display_name,
-                "image_data": details.partner_id.with_context(
-                    bin_size=False
-                ).image_512.decode("utf-8"),
+                "image_url": f"{details.get_base_url()}/web/partner_image"
+                f"/{details.partner_id.id}/image_512/{firstname}.jpg",
                 "text": details.quote.strip() or "",
                 "attribution": _("Quote from %s %s") % (firstname, lastname)
                 if details.quote.strip()

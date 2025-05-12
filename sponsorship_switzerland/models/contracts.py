@@ -349,3 +349,30 @@ class RecurringContracts(models.Model):
                 "LSV" in old_payment_name or "Postfinance" in old_payment_name
             ) and not ("LSV" in payment_name or "Postfinance" in payment_name):
                 contract.mandate_valid()
+
+    def _filter_open_invoices_to_cancel(self):
+        """
+        Exclude Direct Debit Order invoices,
+        to avoid cancelling invoices that are being paid.
+        :return: <account.move.line> recordset
+        """
+        invoice_lines = super()._filter_open_invoices_to_cancel()
+        invoice_lines, modified_orders = invoice_lines._filter_direct_debit()
+        self._payment_order_modified(modified_orders)
+        return invoice_lines
+
+    def _filter_paid_invoices_to_cancel(self):
+        invoice_lines = super()._filter_paid_invoices_to_cancel()
+        invoice_lines, modified_orders = invoice_lines._filter_direct_debit()
+        self._payment_order_modified(modified_orders)
+        return invoice_lines
+
+    def _payment_order_modified(self, payment_orders):
+        for order in payment_orders:
+            for contract in self:
+                order.message_post(
+                    body=f"Contract "
+                    f"<a href='{contract._notify_get_action_link('view')}'>"
+                    f"{contract.name}</a> was terminated. "
+                    f"Payment lines were adapted."
+                )

@@ -26,7 +26,7 @@
 ##############################################################################
 {
     "name": "Compassion CH External Auth",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Compassion",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",

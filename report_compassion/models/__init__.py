@@ -9,6 +9,7 @@
 ##############################################################################
 
 from . import (
+    account_invoice,
     contract,
     contract_group,
     partner_communication,
