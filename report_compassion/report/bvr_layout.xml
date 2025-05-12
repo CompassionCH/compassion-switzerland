@@ -189,15 +189,15 @@
             >Additional information</span><br />
             <div style="max-width: 70mm;">
                         <span
-              class="swissqr_text content"
-              t-esc="reference or communication"
-              t-if="not bank_account._is_qr_iban()"
-            />
+                class="swissqr_text content"
+                t-esc="reference or communication"
+                t-if="not bank_account._is_qr_iban()"
+              />
                         <span
-              class="swissqr_text content"
-              t-raw="communication"
-              t-if="bank_account._is_qr_iban()"
-            />
+                class="swissqr_text content"
+                t-raw="communication"
+                t-if="bank_account._is_qr_iban()"
+              />
             </div>
                         <br />
 
