@@ -28,15 +28,6 @@ class GoogleAnalyticsData(models.Model):
         string="Device Category", default='all')
     report_lines = fields.One2many('google.analytics.data.line', 'report_id', string="Report Lines")
 
-    # Method executed when one of the fields is modified to generate the report
-    @api.onchange('start_date', 'end_date', 'language', 'device_category')
-    def _onchange_generate_report(self):
-        if self.start_date and self.end_date:
-            try:
-                self.generate_report()
-            except Exception as e:
-                raise UserError(f"Erreur lors de la mise à jour du rapport : {e}")
-
     # How to retrieve data from the Google Analytics API
     def fetch_data(self):
         try:
@@ -57,7 +48,7 @@ class GoogleAnalyticsData(models.Model):
             response = client.run_report(request)
 
             if not response.rows:
-                raise UserError("Aucune donnée trouvée pour la période sélectionnée.")
+                raise UserError("No data found for the selected period.")
 
             rows = []
             for row in response.rows:
@@ -87,22 +78,22 @@ class GoogleAnalyticsData(models.Model):
             return df
 
         except Exception as e:
-            raise UserError(f"Erreur lors de la récupération des données : {e}")
+            raise UserError(f"Error fetching data: {e}")
 
     # Creation of new lines in the ‘google.analytics.data.line’ template
     def generate_report(self):
         if not self.start_date or not self.end_date:
-            raise UserError("Les champs Start Date et End Date sont requis.")
+            raise UserError("Start Date and End Date are required.")
 
         try:
             df = self.fetch_data()
             if df.empty:
-                raise UserError("Aucune donnée à afficher dans le rapport.")
+                raise UserError("The DataFrame is empty, no data to display.")
 
             self.report_lines.unlink()
 
             for _, row in df.iterrows():
-                _logger.info(f"Création de la ligne pour {row['URL']}")
+                _logger.info(f"Creating line for {row['URL']}")
                 self.env['google.analytics.data.line'].create({
                     'report_id': self.id,
                     'url': row['URL'],
@@ -115,18 +106,16 @@ class GoogleAnalyticsData(models.Model):
 
             fig, ax = plt.subplots(figsize=(14, 8))
             ax.barh(df_to_plot['URL'], df_to_plot['Page views - total'], color='blue', label='Page Views')
-            ax.set_xlabel('Nombre de vues', fontsize=14)
+            ax.set_xlabel('Number of Views', fontsize=14)
             ax.set_ylabel('Page URL', fontsize=12)
-            ax.set_title('Statistiques Google Analytics', fontsize=16)
-
+            ax.set_title('Google Analytics Statistics', fontsize=16)
             for index, value in enumerate(df_to_plot['Page views - total']):
                 ax.text(value + 10, index, str(value), va='center')
-
             plt.tight_layout()
             plt.close(fig)
 
         except Exception as e:
-            raise UserError(f"Erreur lors de la génération du rapport : {e}")
+            raise UserError(f"Error generating the report: {e}")
 
     @api.model
     def create(self, vals):
