@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+google_analytics_data_user,google.analytics.data user,model_google_analytics_data,base.group_user,1,1,1,1
+google_analytics_data_manager,google.analytics.data manager,model_google_analytics_data,base.group_system,1,1,1,1
+google_analytics_data_line_user,google.analytics.data.line user,model_google_analytics_data_line,base.group_user,1,1,1,1
+google_analytics_data_line_manager,google.analytics.data.line manager,model_google_analytics_data_line,base.group_system,1,1,1,1
