@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 
 _logger = logging.getLogger(__name__)
 
+
 class GoogleAnalyticsData(models.Model):
     _name = 'google.analytics.data'
     _description = 'Google Analytics Data'
@@ -101,19 +102,6 @@ class GoogleAnalyticsData(models.Model):
                     'page_views_total': row['Page views - total'],
                     'active_users_total': row['Active users - total'],
                 })
-
-            df_to_plot = df.sort_values(by=['Page views - total'], ascending=True).head(30)
-
-            fig, ax = plt.subplots(figsize=(14, 8))
-            ax.barh(df_to_plot['URL'], df_to_plot['Page views - total'], color='blue', label='Page Views')
-            ax.set_xlabel('Number of Views', fontsize=14)
-            ax.set_ylabel('Page URL', fontsize=12)
-            ax.set_title('Google Analytics Statistics', fontsize=16)
-            for index, value in enumerate(df_to_plot['Page views - total']):
-                ax.text(value + 10, index, str(value), va='center')
-            plt.tight_layout()
-            plt.close(fig)
-
         except Exception as e:
             raise UserError(f"Error generating the report: {e}")
 
