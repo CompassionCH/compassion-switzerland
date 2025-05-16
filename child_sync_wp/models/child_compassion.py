@@ -58,7 +58,7 @@ class CompassionChild(models.Model):
 
         wp_config = self.env["wordpress.configuration"].get_config(company_id)
         wp = WPSync(wp_config)
-        return wp.upload_children(self)
+        return wp.upload_children(valid_children)
 
     def remove_from_wordpress(self):
         try:

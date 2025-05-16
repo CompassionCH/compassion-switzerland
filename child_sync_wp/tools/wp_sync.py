@@ -21,8 +21,8 @@ class WPSync(object):
          - password
         """
         self.wp_config = wp_config
-        self.base_url = "http://{}/wp-json/child-import/v1/".format(wp_config.host)
-        self.jwt_url = "http://{}/wp-json/jwt-auth/v1/".format(wp_config.host)
+        self.base_url = "https://{}/wp-json/child-import/v1/".format(wp_config.host)
+        self.jwt_url = "https://{}/wp-json/jwt-auth/v1/".format(wp_config.host)
         self.token = None
         self.authenticate()
 
@@ -135,8 +135,7 @@ class WPSync(object):
                 self.base_url + "delete-children",
                 json=payload,
                 headers=self.get_headers(),
-                # TODO set to True for prod
-                verify=False,
+                verify=True,
             )
             response.raise_for_status()
             res_data = response.json()
@@ -151,8 +150,7 @@ class WPSync(object):
             response = requests.delete(
                 self.base_url + "delete-all-children",
                 headers=self.get_headers(),
-                # TODO set to True for prod
-                verify=False,
+                verify=True,
             )
             response.raise_for_status()
             res_data = response.json()
