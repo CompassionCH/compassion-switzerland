@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 
 import requests
 
@@ -83,8 +82,7 @@ class WPSync(object):
                         "first_name": child.preferred_name,
                         "name": child.name,
                         "full_name": child.name,
-                        "birthday": datetime.combine(
-                            child.birthdate, datetime.min.time()).timestamp(),
+                        "birthday": serialize_date(child.birthdate),
                         "gender": child.gender,
                         "start_date": serialize_date(
                             child.unsponsored_since or child.date
