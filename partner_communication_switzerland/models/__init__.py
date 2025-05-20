@@ -9,7 +9,6 @@
 ##############################################################################
 
 from . import child
-from . import correspondence
 from . import mail_tracking_event
 from . import contracts
 from . import res_partner
