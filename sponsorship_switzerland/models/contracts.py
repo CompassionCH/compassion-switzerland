@@ -52,7 +52,7 @@ class RecurringContracts(models.Model):
     def _compute_first_open_invoice(self):
         for contract in self:
             invoices = contract.invoice_line_ids.mapped("move_id").filtered(
-                lambda i: i.payment_state == "not_paid"
+                lambda i: i.payment_state == "not_paid" and i.state == "posted"
             )
             if invoices:
                 first_open_invoice = min(i.invoice_date for i in invoices)
