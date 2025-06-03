@@ -41,10 +41,12 @@
             action="/my/download/tax_receipt"
             class="w-100"
           >
+                        <t t-set="download">Download</t>
                         <input
               type="submit"
               class="btn btn-primary"
-            >Download</input>
+              t-att-value="download"
+            />
                     </form>
                 </div>
             </div>
