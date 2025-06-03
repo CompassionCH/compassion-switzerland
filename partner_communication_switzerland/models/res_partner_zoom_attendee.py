@@ -9,7 +9,7 @@
 ##############################################################################
 from enum import Enum
 
-from odoo import api, fields, models
+from odoo import SUPERUSER_ID, api, fields, models
 
 COLOR_MAPPING = {
     "invited": 0,
@@ -128,6 +128,11 @@ class ZoomAttendee(models.Model):
         for attendee in res:
             if attendee.inform_me_for_next_zoom:
                 attendee.inform_about_next_session()
+            elif attendee.zoom_session_id.date_send_link:
+                attendee.with_user(SUPERUSER_ID).with_delay(
+                    channel="root.partner_communication",
+                    identity_key=f"send_zoom_link.{attendee.id}",
+                ).send_communication(ZoomCommunication.LINK.value)
             if attendee.optional_message:
                 attendee.notify_user()
         return res
