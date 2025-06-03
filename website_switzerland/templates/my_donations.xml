@@ -44,8 +44,7 @@
                         <input
               type="submit"
               class="btn btn-primary"
-              value="Download"
-            />
+            >Download</input>
                     </form>
                 </div>
             </div>
