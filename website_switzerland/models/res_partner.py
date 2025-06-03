@@ -14,6 +14,15 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     def write(self, vals):
+        if "zip" in vals:
+            better_zip = self.env["res.city.zip"].search(
+                [("name", "=", vals["zip"])], limit=1
+            )
+            if better_zip:
+                vals["zip_id"] = better_zip.id
+                del vals["zip"]
+            else:
+                vals["zip_id"] = False
         # Mark child protection charter task done when charter is signed
         res = super().write(vals)
         if vals.get("date_agreed_child_protection_charter"):
