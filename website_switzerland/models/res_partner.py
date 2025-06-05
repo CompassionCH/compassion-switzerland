@@ -14,7 +14,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     def write(self, vals):
-        if "zip" in vals:
+        if "zip" in vals and "zip_id" not in vals:
             better_zip = self.env["res.city.zip"].search(
                 [("name", "=", vals["zip"])], limit=1
             )
