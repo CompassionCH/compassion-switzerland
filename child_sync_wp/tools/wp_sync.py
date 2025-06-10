@@ -35,7 +35,7 @@ class WPSync(object):
                 "password": self.wp_config.password,
             }
             headers = {"Content-Type": "application/json", "Accept": "application/json"}
-            response = requests.post(url, json=payload, headers=headers, verify=False)
+            response = requests.post(url, json=payload, headers=headers)
             response.raise_for_status()
             data = response.json()
             self.token = data.get("token")
@@ -46,7 +46,7 @@ class WPSync(object):
             _logger.error(
                 "JWT Auth Failure : %s\nResponse: %s",
                 e,
-                response.text if response is not None else "No reponse",
+                response.text if response is not None else "No response",
                 exc_info=True,
             )
             raise
@@ -101,7 +101,6 @@ class WPSync(object):
                         self.base_url + "add-child",
                         json=payload,
                         headers=self.get_headers(),
-                        verify=False,
                     )
                     response.raise_for_status()
                     resp_data = response.json()
