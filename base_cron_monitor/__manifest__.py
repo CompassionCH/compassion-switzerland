@@ -3,7 +3,7 @@
 {
     "name": "Monitor Scheduled and Automated Actions",
     "summary": "Monitor Scheduled and Automated Actions",
-    "version": "14.0.1.0.0",
+    "version": "14.0.2.0.0",
     # see https://odoo-community.org/page/development-status
     "development_status": "Beta",
     "category": "Tools",
@@ -13,8 +13,8 @@
     "license": "AGPL-3",
     "installable": True,
     "data": [
-        "views/ir_cron_view.xml",
-        "views/base_automation_view.xml",
+        "security/ir.model.access.csv",
+        "views/server_action_monitor.xml",
     ],
     "external_dependencies": {
         "python": [],
@@ -22,6 +22,5 @@
     },
     "depends": [
         "base_automation",
-        "queue_job",
     ],
 }

@@ -36,7 +36,7 @@ class PartnerCommunication(models.Model):
         self.ensure_one()
         user_id = self.user_id.id
         sponsorship_reminder_2 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
+            "partner_communication_reminder.sponsorship_activation_reminder_2"
         )
 
         if self.config_id == sponsorship_reminder_2:
@@ -208,7 +208,7 @@ class PartnerCommunication(models.Model):
                 )
                 return {
                     _("bank authorization form.pdf"): [
-                        "thankyou_letters.donation",
+                        "partner_communication.a4_communication",
                         pdf_form,
                     ]
                 }
@@ -453,13 +453,13 @@ class PartnerCommunication(models.Model):
 
         # Define template references for no money holds
         no_money_1 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_1"
+            "partner_communication_reminder.sponsorship_activation_reminder_1"
         )
         no_money_2 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_2"
+            "partner_communication_reminder.sponsorship_activation_reminder_2"
         )
         no_money_3 = self.env.ref(
-            "partner_communication_switzerland.sponsorship_waiting_reminder_3"
+            "partner_communication_reminder.sponsorship_activation_reminder_3"
         )
 
         for communication in self:
@@ -677,11 +677,25 @@ class PartnerCommunication(models.Model):
             attachments.update(
                 {
                     _("bank authorization form.pdf"): [
-                        "thankyou_letters.donation",
+                        "partner_communication.a4_communication",
                         pdf_form,
                     ]
                 }
             )
+        return attachments
+
+    def get_toiletten_tanzania(self):
+        self.ensure_one()
+        attachments = dict()
+        report_name = "partner_communication.a4_communication"
+        pdf_attachment = (
+            self.env["ir.attachment"]
+            .search([("name", "=", "Abschlussbericht_Wash_Tansania.pdf")], limit=1)
+            .with_context(bin_size=False)
+        )
+        attachments.update(
+            {"Abschlussbericht_Wash_Tansania.pdf": [report_name, pdf_attachment.datas]}
+        )
         return attachments
 
     def get_csp_picture(self):

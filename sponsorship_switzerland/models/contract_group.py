@@ -125,13 +125,16 @@ class ContractGroup(models.Model):
         if len(result) == 26:
             return mod10r(result)
 
-    def _should_skip_invoice_generation(self, invoicing_date, contracts=None):
+    def _should_skip_invoice_generation(
+        self, invoicing_date, contracts=None, skip_suspended=True
+    ):
         # Avoids generating invoices for Donors of Compassion in CH
-        if contracts and set(contracts.mapped("partner_id.id")).intersection(
-            {22585, 560}
-        ):
+        active_contracts = contracts or self.active_contract_ids
+        if set(active_contracts.mapped("partner_id.id")).intersection({22585, 560}):
             return True
-        return super()._should_skip_invoice_generation(invoicing_date, contracts)
+        return super()._should_skip_invoice_generation(
+            invoicing_date, contracts, skip_suspended
+        )
 
     ##########################################################################
     #                             VIEW CALLBACKS                             #

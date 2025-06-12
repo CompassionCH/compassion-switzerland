@@ -187,16 +187,18 @@
                         <span
               class="swissqr_text title"
             >Additional information</span><br />
+            <div style="max-width: 70mm;">
                         <span
-              class="swissqr_text content"
-              t-esc="reference or communication"
-              t-if="not bank_account._is_qr_iban()"
-            />
+                class="swissqr_text content"
+                t-esc="reference or communication"
+                t-if="not bank_account._is_qr_iban()"
+              />
                         <span
-              class="swissqr_text content"
-              t-raw="communication"
-              t-if="bank_account._is_qr_iban()"
-            />
+                class="swissqr_text content"
+                t-raw="communication"
+                t-if="bank_account._is_qr_iban()"
+              />
+            </div>
                         <br />
 
                         <span class="swissqr_text title">Payable by</span><br />
@@ -318,7 +320,7 @@
         t-set="reference"
         t-value="o.l10n_ch_isr_number or o.payment_reference"
       />
-                <t t-set="communication" t-value="o.ref" />
+                <t t-set="communication" t-value="o.ref or ''" />
                 <t
         t-set="comm_qr"
         t-value="communication.replace('&lt;br/&gt;', ', ')"

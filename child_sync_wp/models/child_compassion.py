@@ -61,20 +61,32 @@ class CompassionChild(models.Model):
         return wp.upload_children(valid_children)
 
     def remove_from_wordpress(self):
-        valid_children = self.filtered(lambda c: c.state == "I")
-        if valid_children:
-            wp_config = self.env["wordpress.configuration"].get_config()
-            wp = WPSync(wp_config)
-            if wp.remove_children(valid_children):
-                valid_children.write({"state": "N"})
-        return True
+        try:
+            valid_children = self.filtered(lambda c: c.state == "I")
+            if valid_children:
+                wp_config = self.env["wordpress.configuration"].get_config()
+                wp = WPSync(wp_config)
+                if wp.remove_children(valid_children):
+                    valid_children.write({"state": "N"})
+            return True
+        except Exception as e:
+            logger.error(f"Error removing children from WordPress: {e}", exc_info=True)
+            raise
 
     def force_remove_from_wordpress(self, company_id=None):
-        wp_config = self.env["wordpress.configuration"].get_config(company_id)
-        wp = WPSync(wp_config)
-        if wp.remove_all_children():
-            self.write({"state": "N"})
-        return True
+        try:
+            wp_config = self.env["wordpress.configuration"].get_config(company_id)
+            wp = WPSync(wp_config)
+            if wp.remove_all_children():
+                logger.info("ALL CHILDREN REMOVED")
+                self.write({"state": "N"})
+            return True
+        except Exception as e:
+            logger.error(
+                f"Error force removing children from WordPress: {e}",
+                exc_info=True,
+            )
+            raise
 
     def child_sponsored(self, sponsor_id):
         """Remove children from the website when they are sponsored."""
@@ -116,19 +128,10 @@ class CompassionChild(models.Model):
             global_pool = self.with_company(company.id)._create_diverse_children_pool(
                 int(take)
             )
-            new_children = self._hold_children(global_pool)
-            valid_new_children = self._update_information_and_filter_invalid(
-                new_children
-            )
-            old_children = self.search(
-                [
-                    ("state", "=", "I"),
-                    ("hold_id.type", "!=", HoldType.NO_MONEY_HOLD.value),
-                ]
-            )
-            self._replace_children_in_wordpress(
-                company.id, old_children, valid_new_children
-            )
+            self.with_delay(
+                channel="root.child_compassion",
+                description="Hold and push children to wordpress",
+            )._hold_and_push_to_wordpress(company.id, global_pool)
             return True
 
     def _create_diverse_children_pool(self, take):
@@ -148,15 +151,28 @@ class CompassionChild(models.Model):
             global_pool.rich_mix()
         return global_pool
 
-    def _update_information_and_filter_invalid(self, children):
-        for child in children:
+    def _hold_and_push_to_wordpress(self, company_id, global_pool):
+        new_children = self._hold_children(global_pool)
+        valid_new_children = new_children._update_information_and_filter_invalid()
+        old_children = self.search(
+            [
+                ("state", "=", "I"),
+                ("hold_id.type", "!=", HoldType.NO_MONEY_HOLD.value),
+            ]
+        )
+        self._replace_children_in_wordpress(
+            company_id, old_children, valid_new_children
+        )
+
+    def _update_information_and_filter_invalid(self):
+        for child in self:
             try:
                 child.get_infos()
                 child.mapped("project_id").update_informations()
             except UserError:
                 logger.error("Error updating child information: ", exc_info=True)
                 continue
-        return children.filtered(
+        return self.filtered(
             lambda c: c.state == "N"
             and c.description_it
             and c.pictures_ids
