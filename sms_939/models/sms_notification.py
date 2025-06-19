@@ -182,22 +182,3 @@ class SmsNotification(models.Model):
 
     def test_service_error(self):
         raise Exception
-
-    def send_sms_answer(self, parameters):
-        """Job for sending the SMS reply to a SMS child request.
-        :param parameters: SMS parameters received from 939 API.
-        :return: True
-        """
-        sms = self.create(
-            {
-                "instance": parameters.get("instance"),
-                "sender": parameters.get("sender"),
-                "operator": parameters.get("operator"),
-                "service": parameters.get("service"),
-                "language": parameters.get("language"),
-                "date": parser.parse(parameters.get("receptionDate")),
-                "uuid": parameters.get("requestUid"),
-                "text": parameters.get("text"),
-            }
-        )
-        sms.run_service()
