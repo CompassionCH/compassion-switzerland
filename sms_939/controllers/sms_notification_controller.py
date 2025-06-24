@@ -11,10 +11,8 @@ import json
 import logging
 from datetime import datetime
 
-from odoo import SUPERUSER_ID, http
+from odoo import http
 from odoo.http import request
-
-from ..tools import SmsNotificationAnswer
 
 _logger = logging.getLogger(__name__)
 

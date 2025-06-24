@@ -11,8 +11,6 @@
 import logging
 import traceback
 
-from dateutil import parser
-
 from odoo import _, api, fields, models, tools
 
 logger = logging.getLogger(__name__)
