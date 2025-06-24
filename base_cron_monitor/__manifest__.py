@@ -22,5 +22,6 @@
     },
     "depends": [
         "base_automation",
+        "queue_job",
     ],
 }
