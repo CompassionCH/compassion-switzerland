@@ -7,6 +7,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import requests
+
 from odoo import fields, models
 
 
@@ -19,6 +21,7 @@ class CompassionProject(models.Model):
     description = fields.Html(compute="_compute_description")
     description_left = fields.Html(compute="_compute_description")
     description_right = fields.Html(compute="_compute_description")
+    has_tpl_image = fields.Boolean(compute="_compute_has_tpl_image")
 
     def _compute_description(self):
         lang_map = {
@@ -34,3 +37,20 @@ class CompassionProject(models.Model):
             project.description_right = description
             project.description_left = ""
             project.description = description
+
+    def _compute_has_tpl_image(self):
+        base_url = "https://tpl.compassion.ch/tpl/{field_office}/{fcp_id}{suffix}.jpg"
+        suffixes = ["_a", "_g"]
+        for project in self:
+            field_office = project.field_office_id.field_office_id
+            fcp_id = project.fcp_id
+            has_tpl_image = True
+            for suffix in suffixes:
+                # Check if the image exists for both suffixes
+                response = requests.head(
+                    base_url.format(field_office=field_office, fcp_id=fcp_id, suffix=suffix)
+                )
+                if response.status_code != 200:
+                    has_tpl_image = False
+                    break
+            project.has_tpl_image = has_tpl_image
