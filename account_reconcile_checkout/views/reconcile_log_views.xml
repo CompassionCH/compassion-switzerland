@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_postfinance_reconcile_log_tree" model="ir.ui.view">
+        <field name="name">postfinance.reconcile.log.tree</field>
+        <field name="model">postfinance.reconcile.log</field>
+        <field name="arch" type="xml">
+            <tree string="PostFinance Reconciliation Logs">
+                <field name="create_date"/>
+                <field name="log_type"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_postfinance_reconcile_log_form" model="ir.ui.view">
+        <field name="name">postfinance.reconcile.log.form</field>
+        <field name="model">postfinance.reconcile.log</field>
+        <field name="arch" type="xml">
+            <form string="PostFinance Reconciliation Log">
+                <sheet>
+                    <group>
+                        <field name="create_date"/>
+                        <field name="log_type"/>
+                        <field name="message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_postfinance_reconcile_log" model="ir.actions.act_window">
+        <field name="name">PostFinance Reconciliation Logs</field>
+        <field name="res_model">postfinance.reconcile.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_postfinance_reconcile_log_tree"/>
+    </record>
+
+    <menuitem id="menu_postfinance_reconcile_log"
+              name="PostFinance Logs"
+              parent="account.menu_finance_entries_actions"
+              action="action_postfinance_reconcile_log"
+              sequence="10"/>
+</odoo>

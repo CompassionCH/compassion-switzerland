@@ -7,4 +7,6 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from . import reconcile_outstanding_wizard
+
+from . import reconcile_postfinance
+from . import reconcile_log
