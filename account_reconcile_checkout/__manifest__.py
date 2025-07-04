@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Reconcile tools for Compassion CH",
-    "version": "14.0.1.0.0",
+    "version": "14.0.2.0.0",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "category": "Finance",
@@ -38,11 +38,10 @@
         "account",
         "payment_postfinance_flex",  # paid-addons
     ],
-    "external_dependencies": {"python": ["postfinancecheckout"]},
-    "data": [
-        "security/ir.model.access.csv",
-        "views/reconcile_outstanding_wizard_view.xml",
+    'data': [
+        'security/ir.model.access.csv',
+        'views/reconcile_log_views.xml',
+        'data/cron.xml',
     ],
-    "auto_install": False,
-    "installable": True,
+    'installable': True,
 }
