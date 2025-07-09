@@ -1,5 +1,4 @@
 <odoo>
-
     <menuitem
     id="menu_google_analytics_report"
     name="Google Analytics Report"

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo><record id="view_google_analytics_kanban" model="ir.ui.view">
+        <field name="name">google.analytics.data.kanban</field>
+        <field name="model">google.analytics.data</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard" default_group_by="device_category">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_card" t-att-record="record" t-options="{'clickable': True}">
+                            <div class="o_kanban_details">
+                                <div class="o_kanban_primary_left">
+                                    <strong class="text-lg"><field name="name"/></strong>
+                                    <div class="text-muted">
+                                        <span><i class="fa fa-calendar" title="Dates"/></span>
+                                        <field name="start_date"/> - <field name="end_date"/>
+                                    </div>
+                                    <div class="mt-1">
+                                        <span class="badge badge-info"><field name="device_category"/></span>
+                                        <span class="badge badge-secondary"><field name="language"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <field name="id"/>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    </odoo>

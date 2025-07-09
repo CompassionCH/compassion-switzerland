@@ -35,10 +35,14 @@
     "license": "AGPL-3",
     "depends": [],
     "data": [
+        "views/view_google_analytics_data_line_graph.xml",
+        "actions/action_google_analytics_data_line_graph.xml",
+        "views/view_google_analytics_kanban.xml",
+        "views/view_google_analytics_tree.xml",
+        "views/view_google_analytics_form.xml",
+        "actions/action_google_analytics_report.xml",
+        "menus/google_analytics_menus.xml",
         "data/website_analytics_config.xml",
-        "views/views.xml",
-        "views/google_analytics_actions.xml",
-        "views/google_analytics_menus.xml",
         "security/ir.model.access.csv",
     ],
 }
