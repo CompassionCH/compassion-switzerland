@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <odoo><record id="action_google_analytics_report" model="ir.actions.act_window">
         <field name="name">Google Analytics Report</field>
         <field name="res_model">google.analytics.data</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="view_id" ref="view_google_analytics_kanban"/>
+        <field name="view_id" ref="view_google_analytics_kanban" />
     </record>
 </odoo>
