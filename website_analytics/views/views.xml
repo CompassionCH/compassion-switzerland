@@ -3,27 +3,44 @@
         <field name="name">google.analytics.data.kanban</field>
         <field name="model">google.analytics.data</field>
         <field name="arch" type="xml">
-            <kanban class="o_kanban_dashboard" default_group_by="device_category">
+            <kanban
+        class="o_kanban_dashboard"
+        default_group_by="device_category"
+      >
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click o_kanban_card" t-att-record="record"
-                             t-options="{'clickable': True}">
+                        <div
+              class="oe_kanban_global_click o_kanban_card"
+              t-att-record="record"
+              t-options="{'clickable': True}"
+            >
                             <div class="o_kanban_details">
                                 <div class="o_kanban_primary_left">
-                                    <strong class="text-lg"><field name="name"/></strong>
+                                    <strong class="text-lg"><field
+                      name="name"
+                    /></strong>
                                     <div class="text-muted">
-                                        <span><i class="fa fa-calendar" title="Dates"/></span>
-                                        <field name="start_date"/> - <field name="end_date"/>
+                                        <span><i
+                        class="fa fa-calendar"
+                        title="Dates"
+                      /></span>
+                                        <field name="start_date" /> - <field
+                      name="end_date"
+                    />
                                     </div>
                                     <div class="mt-1">
-                                        <span class="badge badge-info"><field name="device_category"/></span>
-                                        <span class="badge badge-secondary"><field name="language"/></span>
+                                        <span class="badge badge-info"><field
+                        name="device_category"
+                      /></span>
+                                        <span
+                      class="badge badge-secondary"
+                    ><field name="language" /></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </t>
-                    <field name="id"/>
+                    <field name="id" />
                 </templates>
             </kanban>
         </field>
@@ -34,11 +51,11 @@
         <field name="model">google.analytics.data</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="start_date"/>
-                <field name="end_date"/>
-                <field name="device_category"/>
-                <field name="language"/>
+                <field name="name" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="device_category" />
+                <field name="language" />
             </tree>
         </field>
     </record>
@@ -52,10 +69,17 @@
                 <sheet>
                     <group>
                         <div class="oe_title mb-3">
-                            <h1><field name="name" nolabel="1" placeholder="Name"/></h1>
-                            <button name="%(action_google_analytics_data_line_graph)d" type="action"
-                                    class="btn btn-primary mt-3">
-                                <i class="fa fa-bar-chart"></i> Graphique
+                            <h1><field
+                  name="name"
+                  nolabel="1"
+                  placeholder="Name"
+                /></h1>
+                            <button
+                name="%(action_google_analytics_data_line_graph)d"
+                type="action"
+                class="btn btn-primary mt-3"
+              >
+                                <i class="fa fa-bar-chart" /> Graphique
 
                             </button>
                         </div>
@@ -63,9 +87,17 @@
                         <div class="mt-2">
                             <h3>
                             <div class="d-flex flex-row">
-                                <field name="start_date" nolabel="1" placeholder="Start"/>
+                                <field
+                    name="start_date"
+                    nolabel="1"
+                    placeholder="Start"
+                  />
                                 <span class="mx-2">-</span>
-                                <field name="end_date" nolabel="1" placeholder="End"/>
+                                <field
+                    name="end_date"
+                    nolabel="1"
+                    placeholder="End"
+                  />
                             </div>
                             </h3>
 
@@ -74,27 +106,55 @@
                             <div class="d-flex flex-row">
 
                                 <div class="flex-column">
-                                    <label for="device_category" class="font-weight-bold" nolabel="1">Device
+                                    <label
+                    for="device_category"
+                    class="font-weight-bold"
+                    nolabel="1"
+                  >Device
                                         Category</label>
-                                    <field name="device_category" nolabel="1" class="form-control mr-5"/>
+                                    <field
+                    name="device_category"
+                    nolabel="1"
+                    class="form-control mr-5"
+                  />
                                 </div>
 
                                 <div class="flex-column">
-                                    <label for="language" class="font-weight-bold">language</label>
-                                    <field name="language" nolabel="1" class="form-control"/>
+                                    <label
+                    for="language"
+                    class="font-weight-bold"
+                  >language</label>
+                                    <field
+                    name="language"
+                    nolabel="1"
+                    class="form-control"
+                  />
                                 </div>
                             </div>
                         </div>
 
 
                         <notebook>
-                            <page string="Analytics Details" name="analytics_details">
-                                <field name="report_lines" nolabel="1" context="{'default_report_id': active_id}">
+                            <page
+                string="Analytics Details"
+                name="analytics_details"
+              >
+                                <field
+                  name="report_lines"
+                  nolabel="1"
+                  context="{'default_report_id': active_id}"
+                >
                                     <tree string="Report Lines">
-                                        <field name="url"/>
-                                        <field name="device"/>
-                                        <field name="page_views_total" sum="Total Page Views"/>
-                                        <field name="active_users_total" sum="Total Active Users"/>
+                                        <field name="url" />
+                                        <field name="device" />
+                                        <field
+                      name="page_views_total"
+                      sum="Total Page Views"
+                    />
+                                        <field
+                      name="active_users_total"
+                      sum="Total Active Users"
+                    />
                                     </tree>
                                 </field>
                             </page>
@@ -110,30 +170,9 @@
         <field name="model">google.analytics.data.line</field>
         <field name="arch" type="xml">
             <graph string="Page Views by URL" type="bar">
-                <field name="url" type="row"/>
-                <field name="page_views_total" type="measure"/>
+                <field name="url" type="row" />
+                <field name="page_views_total" type="measure" />
             </graph>
         </field>
     </record>
-
-    <record id="action_google_analytics_data_line_graph" model="ir.actions.act_window">
-        <field name="name">Page Views by URL</field>
-        <field name="res_model">google.analytics.data.line</field>
-        <field name="view_mode">graph</field>
-        <field name="view_id" ref="view_google_analytics_data_line_graph"/>
-        <field name="context">{'search_default_group_by': 'url'}</field>
-        <field name="domain">[('report_id', '=', active_id)]</field>
-    </record>
-
-    <record id="action_google_analytics_report" model="ir.actions.act_window">
-        <field name="name">Google Analytics Report</field>
-        <field name="res_model">google.analytics.data</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="view_id" ref="view_google_analytics_kanban"/>
-    </record>
-
-    <menuitem id="menu_google_analytics_report"
-              name="Google Analytics Report"
-              action="action_google_analytics_report"
-              parent="child_compassion.menu_sponsorship_section"/>
 </odoo>

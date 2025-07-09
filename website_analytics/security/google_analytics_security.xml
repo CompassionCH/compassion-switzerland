@@ -2,22 +2,22 @@
     <odoo>
     <record id="group_google_analytics_user" model="res.groups">
         <field name="name">Google Analytics User</field>
-        <field name="category_id" ref="base.module_category_website"/>
+        <field name="category_id" ref="base.module_category_website" />
     </record>
 </odoo>
 
     <record id="group_google_analytics_user" model="res.groups">
         <field name="name">Google Analytics User</field>
-        <field name="category_id" ref="base.module_category_website"/>
+        <field name="category_id" ref="base.module_category_website" />
     </record>
 
     <record id="access_google_analytics_data_user" model="ir.model.access">
         <field name="name">access_google_analytics_data_user</field>
-        <field name="model_id" ref="model_google_analytics_data"/>
-        <field name="group_id" ref="group_google_analytics_user"/>
-        <field name="perm_read" eval="1"/>
-        <field name="perm_write" eval="1"/>
-        <field name="perm_create" eval="1"/>
-        <field name="perm_unlink" eval="1"/>
+        <field name="model_id" ref="model_google_analytics_data" />
+        <field name="group_id" ref="group_google_analytics_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
     </record>
 </odoo>

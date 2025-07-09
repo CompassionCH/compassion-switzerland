@@ -65,8 +65,11 @@ class GoogleAnalyticsData(models.Model):
             )
             client = BetaAnalyticsDataClient(credentials=credentials)
 
-            property_id = self.env["ir.config_parameter"].sudo().get_param(
-                "website_analytics.google_analytics_property_id")
+            property_id = (
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param("website_analytics.google_analytics_property_id")
+            )
             if not property_id:
                 raise UserError(_("Google Analytics Property ID is not configured."))
             request = RunReportRequest(

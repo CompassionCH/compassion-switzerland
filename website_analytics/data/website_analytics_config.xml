@@ -5,6 +5,6 @@
     </record>
     <record id="param_google_analytics_property" model="ir.config_parameter">
         <field name="key">website_analytics.google_analytics_property_id</field>
-        <field name="value"></field>
+        <field name="value" />
     </record>
 </odoo>
