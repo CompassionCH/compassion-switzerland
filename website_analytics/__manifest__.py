@@ -1,34 +1,44 @@
+##############################################################################
+#
+#       ______ Releasing children from poverty      _
+#      / ____/___  ____ ___  ____  ____ ___________(_)___  ____
+#     / /   / __ \/ __ `__ \/ __ \/ __ `/ ___/ ___/ / __ \/ __ \
+#    / /___/ /_/ / / / / / / /_/ / /_/ (__  |__  ) / /_/ / / / /
+#    \____/\____/_/ /_/ /_/ .___/\__,_/____/____/_/\____/_/ /_/
+#                        /_/
+#
+#    Copyright (C) 2016-2020 Compassion CH (http://www.compassion.ch)
+#    @author: Dylan Bossoku <dbossoku@compassion.ch>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
 {
-    'name': "Website Analytics",
-    'summary': "Module d'affichage de données Google Analytics dans Odoo",
-    'description': """
-        Ce module permet d'intégrer les données de Google Analytics dans Odoo
-        et d'afficher des graphiques.
-    """,
-    'author': "Web Pro Craft",
-    'website': "https://webprocraft.ch",
-    'category': 'Analytics',
-    'language': '1.0',
-    'depends': [
-        "crm_compassion",
-        "partner_auto_match",
-        "sponsorship_sub_management",
-        "account_banking_mandate",
-        "partner_compassion",
-        "account_statement_completion",
-        "account_reconcile_compassion",
-        "gift_compassion",
-        "web_notify",
-        "sbc_compassion",
-        "website",
-        "base",
-        "web",
-    ],
-    'data': [
-        'security/ir.model.access.csv',
-        'views/views.xml',
-    ],
-    'demo': [
-        'demo/demo.xml',
+    "name": "Website Analytics",
+    "summary": "This module allows you to integrate Google "
+    "Analytics data into Odoo and display graphs",
+    "author": "Compassion Switzerland",
+    "version": "14.0.1.0.0",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
+    "category": "Analytics",
+    "license": "AGPL-3",
+    "depends": [],
+    "data": [
+        "data/website_analytics_config.xml",
+        "views/views.xml",
+        "views/google_analytics_actions.xml",
+        "views/google_analytics_menus.xml",
+        "security/ir.model.access.csv",
     ],
 }

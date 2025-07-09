@@ -3,4 +3,8 @@
         <field name="key">website_analytics.google_analytics_api_key</field>
         <field name="value" />
     </record>
+    <record id="param_google_analytics_property" model="ir.config_parameter">
+        <field name="key">website_analytics.google_analytics_property_id</field>
+        <field name="value"></field>
+    </record>
 </odoo>
