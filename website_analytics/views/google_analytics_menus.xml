@@ -1,0 +1,10 @@
+<odoo>
+
+    <menuitem
+    id="menu_google_analytics_report"
+    name="Google Analytics Report"
+    action="action_google_analytics_report"
+    parent="child_compassion.menu_sponsorship_section"
+  />
+
+</odoo>

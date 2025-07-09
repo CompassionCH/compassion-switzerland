@@ -1,0 +1,6 @@
+<odoo>
+    <record id="param_google_analytics_api_key" model="ir.config_parameter">
+        <field name="key">website_analytics.google_analytics_api_key</field>
+        <field name="value" />
+    </record>
+</odoo>
