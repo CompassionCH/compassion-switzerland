@@ -119,4 +119,25 @@
       />
         </xpath>
     </template>
+
+    <template
+    id="childpack_swiss"
+    inherit_id="child_compassion.childpack_document"
+  >
+        <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
+        <xpath expr="//div[@class='background']/img" position="replace">
+            <t t-if="lang != 'en_US'">
+            <img
+          t-attf-src="/child_compassion/static/img/#{ type }/1904_dossier_#{ lang }.jpg"
+        />
+            </t>
+            <t t-else="">
+                <t t-if="'full' not in type">
+                    <img
+            src="/child_switzerland/static/img/1904_dossier_en_US.jpg"
+          />
+                </t>
+            </t>
+        </xpath>
+    </template>
 </odoo>

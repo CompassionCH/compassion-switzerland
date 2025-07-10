@@ -126,11 +126,10 @@ class ContractGroup(models.Model):
             return mod10r(result)
 
     def _should_skip_invoice_generation(
-        self, invoicing_date, contracts=None, skip_suspended=True
+        self, invoicing_date, contracts, skip_suspended=True
     ):
         # Avoids generating invoices for Donors of Compassion in CH
-        active_contracts = contracts or self.active_contract_ids
-        if set(active_contracts.mapped("partner_id.id")).intersection({22585, 560}):
+        if set(contracts.mapped("partner_id.id")).intersection({22585, 560}):
             return True
         return super()._should_skip_invoice_generation(
             invoicing_date, contracts, skip_suspended
@@ -289,12 +288,10 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _build_invoice_gen_data(
-        self, invoicing_date, invoicer, contracts, gift_wizard=False
-    ):
+    def _build_invoice_gen_data(self, invoicing_date, invoicer, gift_wizard=False):
         """Inherit to add BVR ref and mandate"""
         inv_data = super()._build_invoice_gen_data(
-            invoicing_date, invoicer, contracts, gift_wizard
+            invoicing_date, invoicer, gift_wizard
         )
         ref = self.with_context(lang=self.partner_id.lang)._compute_ref(
             invoicing_date, gift_wizard
