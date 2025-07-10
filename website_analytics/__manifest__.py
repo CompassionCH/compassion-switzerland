@@ -7,7 +7,7 @@
 #    \____/\____/_/ /_/ /_/ .___/\__,_/____/____/_/\____/_/ /_/
 #                        /_/
 #
-#    Copyright (C) 2016-2020 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2025 Compassion CH (http://www.compassion.ch)
 #    @author: Dylan Bossoku <dbossoku@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
