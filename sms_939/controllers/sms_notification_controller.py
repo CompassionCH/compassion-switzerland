@@ -11,29 +11,13 @@ import json
 import logging
 from datetime import datetime
 
-from odoo import SUPERUSER_ID, http
+from odoo import http
 from odoo.http import request
-
-from ..tools import SmsNotificationAnswer
 
 _logger = logging.getLogger(__name__)
 
 
 class RestController(http.Controller):
-    @http.route("/sms/mnc/", type="http", auth="public", methods=["GET"], csrf=False)
-    def sms_notification(self, **parameters):
-        # ...base url...
-        # ?instance=pro&sender=%2B244342126&operator=orange&service=ULTIMATE&language=fr
-        # &command=FORWARD&receptionDate=2014-04-12+12%3A00%3A00.000
-        # &requestUid=sms21342314&text=COMPASSION
-        _logger.info(f"SMS Request received : {json.dumps(parameters)}")
-        notification_env = request.env["sms.notification"].with_user(SUPERUSER_ID)
-        notification_env.with_delay(
-            priority=1,
-            identity_key=f"sms.notification.{parameters.get('requestUid')}",
-        ).send_sms_answer(parameters)
-        return SmsNotificationAnswer([], costs=[]).get_answer()
-
     @http.route(
         "/sms/delivery/", type="http", auth="public", methods=["GET"], csrf=False
     )

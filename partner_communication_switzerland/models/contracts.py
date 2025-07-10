@@ -432,8 +432,6 @@ class RecurringContract(models.Model):
             [
                 ("type", "=", "SWP"),
                 ("state", "=", "active"),
-                ("correspondent_id.mobile", "!=", False),
-                ("correspondent_id.lang", "not in", ["it_IT", "en_US"]),
             ]
         )
         letter_reminder = self.env.ref(
