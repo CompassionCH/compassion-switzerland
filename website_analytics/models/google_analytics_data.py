@@ -119,6 +119,7 @@ class GoogleAnalyticsData(models.Model):
             return df
 
         except Exception as e:
+            _logger.exception("An error occurred while fetching data: %s", e)
             raise UserError(_("An error occurred")) from e
 
     # Creation of new lines in the ‘google.analytics.data.line’ template
@@ -145,6 +146,7 @@ class GoogleAnalyticsData(models.Model):
                     }
                 )
         except Exception as e:
+            _logger.exception(f"Error generating the report: {e}")
             raise UserError(f"Error generating the report: {e}") from e
 
     @api.model
