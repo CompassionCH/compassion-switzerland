@@ -32,55 +32,53 @@ SPONSOR_MAPPING = {
 }
 
 CONTINENT_MAPPING = {
-            # French
-            'Asie': 'Asia',
-            'Afrique': 'Africa',
-            'Amérique Latine & Caraïbes': 'LATAM',
-
-            # German
-            'Asien': 'Asia',
-            'Afrika': 'Africa',
-            'Lateinamerika & Karibik': 'LATAM',
-
-            # Italian
-            'Asia': 'Asia',
-            'Africa': 'Africa',
-            'America Latina e Caraibi': 'LATAM',
-        }
+    # French
+    "Asie": "Asia",
+    "Afrique": "Africa",
+    "Amérique Latine & Caraïbes": "LATAM",
+    # German
+    "Asien": "Asia",
+    "Afrika": "Africa",
+    "Lateinamerika & Karibik": "LATAM",
+    # Italian
+    "Asia": "Asia",
+    "Africa": "Africa",
+    "America Latina e Caraibi": "LATAM",
+}
 
 CONTINENT_COUNTRY_MAP = {
-    'Africa': [
-        'BF',  # Burkina Faso
-        'ET',  # Ethiopia
-        'GH',  # Ghana
-        'KE',  # Kenya
-        'RW',  # Rwanda
-        'TG',  # Togo
-        'TZ',  # Tanzania
-        'UG',  # Uganda
+    "Africa": [
+        "BF",  # Burkina Faso
+        "ET",  # Ethiopia
+        "GH",  # Ghana
+        "KE",  # Kenya
+        "RW",  # Rwanda
+        "TG",  # Togo
+        "TZ",  # Tanzania
+        "UG",  # Uganda
     ],
-    'Asia': [
-        'BD',  # Bangladesh
-        'ID',  # East Indonesia
-        'IO',  # Indonesia
-        'LK',  # Sri Lanka
-        'PH',  # Philippines
-        'TH',  # Thailand
+    "Asia": [
+        "BD",  # Bangladesh
+        "ID",  # East Indonesia
+        "IO",  # Indonesia
+        "LK",  # Sri Lanka
+        "PH",  # Philippines
+        "TH",  # Thailand
     ],
-    'LATAM': [
-        'BO',  # Bolivia
-        'BR',  # Brazil
-        'CO',  # Colombia
-        'DR',  # Dominican Republic
-        'EC',  # Ecuador
-        'ES',  # El Salvador
-        'GU',  # Guatemala
-        'HA',  # Haiti
-        'HO',  # Honduras
-        'ME',  # Mexico
-        'NI',  # Nicaragua
-        'PE',  # Peru
-    ]
+    "LATAM": [
+        "BO",  # Bolivia
+        "BR",  # Brazil
+        "CO",  # Colombia
+        "DR",  # Dominican Republic
+        "EC",  # Ecuador
+        "ES",  # El Salvador
+        "GU",  # Guatemala
+        "HA",  # Haiti
+        "HO",  # Honduras
+        "ME",  # Mexico
+        "NI",  # Nicaragua
+        "PE",  # Peru
+    ],
 }
 
 test_mode = config.get("test_enable")
@@ -544,17 +542,18 @@ class Contracts(models.Model):
             country_codes = CONTINENT_COUNTRY_MAP[continent]
         else:
             country_codes = [
-                code for country_list in CONTINENT_COUNTRY_MAP.values()
+                code
+                for country_list in CONTINENT_COUNTRY_MAP.values()
                 for code in country_list
             ]
 
-        csp_products = self.env['product.product'].search(
-            [('default_code', 'in', [f'csp_{code}' for code in country_codes])])
+        csp_products = self.env["product.product"].search(
+            [("default_code", "in", [f"csp_{code}" for code in country_codes])]
+        )
 
         # Sort csp_products by slot_used asc and survival_slot_number desc
         csp_sorted_by_needs = sorted(
-            csp_products,
-            key=lambda c: (c.slot_used, -c.survival_slot_number)
+            csp_products, key=lambda c: (c.slot_used, -c.survival_slot_number)
         )
 
-        return csp_sorted_by_needs[0].default_code.split('_')[-1]
+        return csp_sorted_by_needs[0].default_code.split("_")[-1]
