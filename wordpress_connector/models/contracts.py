@@ -487,12 +487,12 @@ class Contracts(models.Model):
                 * engagement_type: The desired sponsorship level.
                 * payment_method: The preferred payment method.
         """
-        # Regular expressions for parsing
-        country_regex = r"Country:\s*(.*?)\n"  # Capture all characters
-        continent_regex = r"Continent:\s*(.*?)\n"
-        engagement_regex = r"Engagement type:\s*(.*?)\n"
-        email_regex = r"E-mail:\s*(.*?)\n"
-        sponsorship_length_regex = r"Sponsorship length:\s*(.*?)\n"
+        # Regex to capture the rest of the line after a specific label.
+        country_regex = r"Country:\s*([^\n]*)"
+        continent_regex = r"Continent:\s*([^\n]*)"
+        engagement_regex = r"Engagement type:\s*([^\n]*)"
+        email_regex = r"E-mail:\s*([^\n]*)"
+        sponsorship_length_regex = r"Sponsorship length:\s*([^\n]*)"
 
         # Compile the regex patterns for efficiency
         country_pattern = re.compile(country_regex)
