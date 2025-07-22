@@ -550,6 +550,6 @@ class Contracts(models.Model):
         csp_sorted_by_needs = self.env["product.product"].search(
             [("default_code", "in", [f"csp_{code}" for code in country_codes])],
             order="slot_used ASC, survival_slot_number DESC",
-            limit=1
+            limit=1,
         )
         return csp_sorted_by_needs.default_code.split("_")[-1]
