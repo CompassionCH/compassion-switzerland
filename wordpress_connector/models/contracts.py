@@ -31,6 +31,56 @@ SPONSOR_MAPPING = {
     "kirchgemeinde": "church_name",
 }
 
+CONTINENT_MAPPING = {
+    # French
+    "Asie": "Asia",
+    "Afrique": "Africa",
+    "Amérique Latine & Caraïbes": "LATAM",
+    # German
+    "Asien": "Asia",
+    "Afrika": "Africa",
+    "Lateinamerika & Karibik": "LATAM",
+    # Italian
+    "Asia": "Asia",
+    "Africa": "Africa",
+    "America Latina e Caraibi": "LATAM",
+}
+
+CONTINENT_COUNTRY_MAP = {
+    "Africa": [
+        "BF",  # Burkina Faso
+        "ET",  # Ethiopia
+        "GH",  # Ghana
+        "KE",  # Kenya
+        "RW",  # Rwanda
+        "TG",  # Togo
+        "TZ",  # Tanzania
+        "UG",  # Uganda
+    ],
+    "Asia": [
+        "BD",  # Bangladesh
+        "ID",  # East Indonesia
+        "IO",  # Indonesia
+        "LK",  # Sri Lanka
+        "PH",  # Philippines
+        "TH",  # Thailand
+    ],
+    "LATAM": [
+        "BO",  # Bolivia
+        "BR",  # Brazil
+        "CO",  # Colombia
+        "DR",  # Dominican Republic
+        "EC",  # Ecuador
+        "ES",  # El Salvador
+        "GU",  # Guatemala
+        "HA",  # Haiti
+        "HO",  # Honduras
+        "ME",  # Mexico
+        "NI",  # Nicaragua
+        "PE",  # Peru
+    ],
+}
+
 test_mode = config.get("test_enable")
 
 
@@ -386,7 +436,13 @@ class Contracts(models.Model):
             partner = self.env["res.partner"].search(
                 [("email", "=", csp_data["email"])], limit=1
             )
+
             country_code = csp_data["country"]
+            if not country_code:
+                country_code = self._get_neediest_csp_country_code(
+                    csp_data["continent"]
+                )
+
             product = self.env["product.product"].search(
                 [("default_code", "=", f"csp_{country_code}")], limit=1
             )
@@ -429,26 +485,30 @@ class Contracts(models.Model):
                 * engagement_type: The desired sponsorship level.
                 * payment_method: The preferred payment method.
         """
-        # Regular expressions for parsing
-        country_regex = r"Country:\s*(.*?)\n"  # Capture all characters
-        engagement_regex = r"Engagement type:\s*(.*?)\n"
-        email_regex = r"E-mail:\s*(.*?)\n"
-        sponsorship_length_regex = r"Sponsorship length:\s*(.*?)\n"
+        # Regex to capture the rest of the line after a specific label.
+        country_regex = r"Country:\s*([^\n]*)"
+        continent_regex = r"Continent:\s*([^\n]*)"
+        engagement_regex = r"Engagement type:\s*([^\n]*)"
+        email_regex = r"E-mail:\s*([^\n]*)"
+        sponsorship_length_regex = r"Sponsorship length:\s*([^\n]*)"
 
         # Compile the regex patterns for efficiency
         country_pattern = re.compile(country_regex)
+        continent_pattern = re.compile(continent_regex)
         engagement_pattern = re.compile(engagement_regex)
         email_pattern = re.compile(email_regex)
         sponsorship_length_pattern = re.compile(sponsorship_length_regex)
 
         # Extract information using regular expressions
         country_match = country_pattern.search(data_string)
+        continent_match = continent_pattern.search(data_string)
         engagement_match = engagement_pattern.search(data_string)
         email_match = email_pattern.search(data_string)
         sponsorship_length_match = sponsorship_length_pattern.search(data_string)
 
         # Extract data from matches (handle cases where no match is found)
         country = country_match.group(1) if country_match else ""
+        continent = continent_match.group(1) if continent_match else ""
         engagement_type = engagement_match.group(1) if engagement_match else ""
         email = email_match.group(1) if email_match else ""
         sponsorship_length = (
@@ -458,7 +518,38 @@ class Contracts(models.Model):
         # Return a dictionary with the extracted information
         return {
             "country": html2plaintext(country),
+            "continent": CONTINENT_MAPPING.get(html2plaintext(continent), "Africa"),
             "engagement_type": html2plaintext(engagement_type),
             "email": html2plaintext(email),
             "sponsorship_length": html2plaintext(sponsorship_length),
         }
+
+    def _get_neediest_csp_country_code(self, continent=None):
+        """
+        Sort CSP products to find the country with the most needs.
+
+        The neediest country is determined by two factors, in order of priority:
+        1. The lowest percentage of used slots (prioritizing need).
+        2. The highest number of absolute available slots (prioritizing capacity).
+
+        Args:
+            continent (str, optional): The continent ('Africa', 'Asia', 'LATAM')
+                                       to search within. If None, searches globally.
+        Returns:
+            str: The two-letter country code (e.g., 'UG') of the neediest country
+        """
+        if continent:
+            country_codes = CONTINENT_COUNTRY_MAP[continent]
+        else:
+            country_codes = [
+                code
+                for country_list in CONTINENT_COUNTRY_MAP.values()
+                for code in country_list
+            ]
+
+        csp_sorted_by_needs = self.env["product.product"].search(
+            [("default_code", "in", [f"csp_{code}" for code in country_codes])],
+            order="slot_used ASC, survival_slot_number DESC",
+            limit=1,
+        )
+        return csp_sorted_by_needs.default_code.split("_")[-1]

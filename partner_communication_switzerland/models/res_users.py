@@ -14,9 +14,11 @@ _logger = logging.getLogger(__name__)
 
 class ResUsers(models.Model):
     _inherit = "res.users"
-    signature = fields.Html(compute="_compute_signature")
-    short_signature = fields.Html(compute="_compute_short_signature")
-    signature_letter = fields.Html(compute="_compute_signature_letter")
+    signature = fields.Html(compute="_compute_signature", compute_sudo=True)
+    short_signature = fields.Html(compute="_compute_short_signature", compute_sudo=True)
+    signature_letter = fields.Html(
+        compute="_compute_signature_letter", compute_sudo=True
+    )
 
     def action_reset_password(self):
         create_mode = bool(self.env.context.get("create_user"))

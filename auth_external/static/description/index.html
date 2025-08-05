@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Compassion CH External Auth</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="compassion-ch-external-auth">
+<h1 class="title">Compassion CH External Auth</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:c57687e60cab97d34e2d49877353abe3a55a5d449af2302bda9ba82cae2399ea
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/CompassionCH/compassion-switzerland/tree/14.0/auth_external"><img alt="CompassionCH/compassion-switzerland" src="https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github" /></a></p>
+<p>This module is intended to allow authentication and authorization to the
+odoo backend from various frontends (the first use-case is for the
+translation platform,
+<a class="reference external" href="https://github.com/CompassionCH/translation-platform-web">https://github.com/CompassionCH/translation-platform-web</a>). This custom
+module was required for the following reasons:</p>
+<ol class="arabic simple">
+<li>Odoo xmlrpc calls required to provide the (login, password) pair for
+each call, which required the storage in the user’s browser. This
+would be a very important security risk, for example if an XSS
+vulnerability was discovered in the frontend.</li>
+<li>Odoo xmlrpc calls do not support users who enabled 2FA.</li>
+</ol>
+<p>For these reasons, this module was developped.</p>
+<p>A typical user session plays out as follows:</p>
+<ol class="arabic simple">
+<li>The user makes a request to <tt class="docutils literal">/auth/login</tt>, providing their
+credentials (<tt class="docutils literal">login</tt>, <tt class="docutils literal">password</tt>, optionally <tt class="docutils literal">totp</tt>). If the
+credentials are verified (using the <tt class="docutils literal">auth_totp</tt> module if the user
+activated 2FA), the server returns an object which includes (not
+exhaustive) :<ul>
+<li>A JWT <tt class="docutils literal">access_token</tt> which will be used to authorize the
+following xmlrpc requests. This token contains a Message
+Authentication Code produced using the
+<tt class="docutils literal">access_token_signing_key</tt>, which allows to verify the
+authenticity of this token (without keeping state on the server
+for each token). This token remains valid a few hours
+(configurable through <tt class="docutils literal">auth_external.tokens_config</tt>).</li>
+<li>A JWT <tt class="docutils literal">refresh_token</tt> which will be used to refresh the
+<tt class="docutils literal">access_token</tt> (and also the <tt class="docutils literal">refresh_token</tt>). This is
+described below. This token remains valid a few days/weeks. This
+duration of validity determines the maximum period during which a
+user can not use the application and still remain “connected”. If
+the user regularly uses the application, the tokens are refreshed
+and they could remain “connected” indefinetly without needing to
+re-submit their credentials.</li>
+</ul>
+</li>
+<li>The user uses their <tt class="docutils literal">access_token</tt> to make xmlrpc requests to the
+odoo backend.</li>
+<li>The user refreshes their tokens by making a request to
+<tt class="docutils literal">/auth/refresh</tt>, providing their current <tt class="docutils literal">refresh_token</tt>. If the
+<tt class="docutils literal">refresh_token</tt> is considered valid (authentic, non-expired,
+non-revoked), a fresh (<tt class="docutils literal">access_token</tt>, <tt class="docutils literal">refresh_token</tt>) pair is
+returned, and the provided <tt class="docutils literal">refresh_token</tt> is revoked.</li>
+<li>When the user is done using the platform, they make a request to
+<tt class="docutils literal">/auth/logout</tt>, providing their current <tt class="docutils literal">refresh_token</tt>. This
+revokes all <tt class="docutils literal">refresh_token</tt>s of the family (the original one
+obtained during login and the subsequent ones obtained through
+refreshes).</li>
+</ol>
+<p>To get a more precise idea of how to use this module, have a look at
+<tt class="docutils literal">tests/test_auth_controller.py:test_full_2fa_user_lifecycle</tt>.</p>
+<div class="section" id="security">
+<h1>Security</h1>
+<div class="section" id="refresh-token-reuse-detection-rtrd-mechanism">
+<h2>Refresh Token Reuse Detection (RTRD) mechanism</h2>
+<p>This feature is heavily inspired by this article:
+<a class="reference external" href="https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/#Automatic-Reuse-Detection">https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/#Automatic-Reuse-Detection</a></p>
+<p>It prevents reuse of <tt class="docutils literal">refresh_token</tt>s by keeping a list of the
+issued <tt class="docutils literal">refresh_token</tt>s (see <tt class="docutils literal">models/refresh_tokens.py</tt>). The
+tokens are stored as a doubly linked list, the parent <tt class="docutils literal">refresh_token</tt>
+being linked to a child <tt class="docutils literal">refresh_token</tt> after the former was used to
+authorize the issuance of the latter. Once a token is used to authorize
+a refresh, it is marked as revoked. If a revoked token is submitted, it
+means that it was probably intercepted/exfiltrated by a malicious actor.
+In this case, we revoke all tokens of the token family, and the user has
+to submit their credentials again (through <tt class="docutils literal">/auth/login</tt>) in order to
+use the platform again.</p>
+</div>
+<div class="section" id="tests">
+<h2>Tests</h2>
+<p><tt class="docutils literal">tests/test_auth_controller.py</tt> contains multiple unit tests which
+assert the security properties of this module. For example,
+<tt class="docutils literal">test_access_denied_2fa_correct_password_incorrect_totp</tt> verifies that
+the login fails if a user with 2FA enabled tries to login with a correct
+password but an incorrect TOTP code. The tests must be run on an empty
+database to avoid interference from other modules.</p>
+</div>
+<div class="section" id="secrets-used-for-token-issuance-and-authenticity-verification">
+<h2>Secrets used for token issuance and authenticity verification</h2>
+<p>The secrets used to produce the MACs which prove the authenticity of the
+JWTs are stored in program memory (see <tt class="docutils literal">access_token_signing_key</tt> and
+<tt class="docutils literal">refresh_token_signing_key</tt> in <tt class="docutils literal">models/res_users.py</tt>). Fresh secrets
+are generated on server startup and remain unchanged until next startup.
+This means that <strong>when the server is restarted, all the user’s tokens
+instantly become invalid and they have to authenticate again with their
+credentials (login, password, totp).</strong></p>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References</h1>
+<p><strong>Table of contents</strong></p>
+</div>
+<div class="section" id="configuration">
+<h1>Configuration</h1>
+<p>Please add a JWT token in your odoo.conf in order to allow reconnection
+of users accross server restarts. If you don’t have any, you will see a
+new key generated in the DEBUG logs.</p>
+<p><tt class="docutils literal">auth_external.jwt_key = &lt;your_secret_key&gt;</tt></p>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1>Known issues / Roadmap</h1>
+<div class="section" id="tokens-in-secure-cookies">
+<h2>Tokens in secure cookies</h2>
+<p>Currently, tokens are stored in the localStorage in the frontend. This
+is dangerous if the frontend contains an XSS vulnerability (token
+extraction). We should use Secure, HttpOnly, Strict=…, Domain=…,
+Path=…</p>
+<p><a class="reference external" href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies">https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies</a>
+<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security">https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security</a></p>
+<p>In the process of trying to store the tokens in HttpOnly cookies, I
+discovered that the XmlRpcClient library used by the frontend
+(<tt class="docutils literal">import { XmlRpcClient } from '&#64;foxglove/xmlrpc';</tt>) does not support
+the withCredentials property
+(<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials">https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials</a>).
+This means that the access token cookie is not being sent with XmlRpc
+requests, and thus the server rejects them with AccessDenied. It would
+require substantial efforts to use another library or to re-implement
+the library with the required withCredentials property, so currently,
+the tokens remain stored in localStorage. This presents an important
+security vulnerability if an XSS vulnerability is discovered in the
+frontend. In that case, the tokens can be extracted by an attacker and
+used to make xmlrpc requests for the account of the victim. Significant
+care should thus be invested in testing the frontend for XSS
+vulnerabilities.</p>
+</div>
+<div class="section" id="jwt-library">
+<h2>JWT library</h2>
+<p>The library which is currently used seems to be abandoned :
+<a class="reference external" href="https://github.com/GehirnInc/python-jwt">https://github.com/GehirnInc/python-jwt</a> (No update since Apr 19, 2022).
+It is not clear if this library is already a dependency of odoo.</p>
+<p>Another possibility would be to switch to :
+<a class="reference external" href="https://github.com/jpadilla/pyjwt">https://github.com/jpadilla/pyjwt</a></p>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h1>Bug Tracker</h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20auth_external%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1>Credits</h1>
+<div class="section" id="authors">
+<h2>Authors</h2>
+<ul class="simple">
+<li>Compassion Switzerland</li>
+</ul>
+</div>
+<div class="section" id="other-credits">
+<h2>Other credits</h2>
+<div class="section" id="refresh-tokens-in-oauth-2-0">
+<h3>Refresh tokens in OAuth 2.0</h3>
+<ul class="simple">
+<li><a class="reference external" href="https://www.rfc-editor.org/rfc/rfc6749#section-1.5">https://www.rfc-editor.org/rfc/rfc6749#section-1.5</a></li>
+<li><a class="reference external" href="https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/">https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/</a></li>
+<li><a class="reference external" href="https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/">https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="maintainers">
+<h2>Maintainers</h2>
+<p>This module is part of the <a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/tree/14.0/auth_external">CompassionCH/compassion-switzerland</a> project on GitHub.</p>
+<p>You are welcome to contribute.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

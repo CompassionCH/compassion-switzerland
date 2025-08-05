@@ -1,0 +1,98 @@
+<odoo>
+    <!-- Allows the partner to download its tax receipt for a selected year -->
+    <template id="my_donations_tax_receipt">
+        <div class="mt-4 mb-4" t-if="invoices_per_day">
+            <h3 id="tax_title">
+                <span>Download your tax receipt</span>
+            </h3>
+            <input
+        type="text"
+        class="d-none"
+        id="last_complete_year"
+        t-att-value="last_completed_tax_receipt"
+      />
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group mb-0">
+                        <select
+              name="year"
+              id="year"
+              form="tax_receipt_form"
+              class="custom-select"
+            >
+                            <option
+                t-att-value="current_year"
+                selected="selected"
+              ><t t-esc="current_year" /></option>
+                            <t
+                t-foreach="range(int(current_year) - 1, first_year - 1, -1)"
+                t-as="fiscal_year"
+              >
+                                <option t-att-value="fiscal_year"><t
+                    t-esc="fiscal_year"
+                  /></option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3 d-flex align-items-end">
+                    <form
+            id="tax_receipt_form"
+            action="/my/download/tax_receipt"
+            class="w-100"
+          >
+                        <t t-set="download">Download</t>
+                        <input
+              type="submit"
+              class="btn btn-primary"
+              t-att-value="download"
+            />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template
+    id="my_donations_page"
+    inherit_id="my_compassion.my_donations_page_template"
+  >
+        <xpath expr="//div[@id='my_account_invoicing']/t[1]" position="before">
+            <t
+        t-call="website_switzerland.my_donations_tax_receipt"
+        t-if="invoices_per_day"
+      />
+        </xpath>
+    </template>
+
+    <template
+    id="my_sponsorships_template"
+    inherit_id="my_compassion.my_sponsorship_donation"
+  >
+        <xpath expr="//div[@class='col col-6']" position="attributes">
+            <attribute name="class">col col-md-4</attribute>
+        </xpath>
+        <xpath expr="//div[@class='col col-6']" position="attributes">
+            <attribute name="class">col col-md-4</attribute>
+        </xpath>
+        <xpath expr="//div[@class='col col-6']" position="attributes">
+            <attribute name="class">col col-md-4</attribute>
+        </xpath>
+        <xpath expr="//div[@class='col col-6']" position="attributes">
+            <attribute name="class">col col-md-4</attribute>
+        </xpath>
+        <xpath expr="//div[@class='row'][1]">
+            <div class="col col-md-4">
+                <label><b>Download payment slips</b></label>
+            </div>
+        </xpath>
+        <xpath expr="//t[@t-as='sponsorship']/div[@class='row']">
+            <div class="col col-md-4">
+                <label><a
+            class="btn btn-primary"
+            t-attf-href="/my/download/gift_bvr?child_id={{sponsorship.child_id.id}}"
+          ><span>Download payment slips</span></a></label>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -284,7 +284,6 @@ class ResPartner(models.Model):
                         user_id=notify_user,
                     )
 
-        self._update_state_from_zip(vals)
         self.check_phone_and_mobile(vals)
         self._unlink_mailing_contacts_if_needed(vals)
 
@@ -757,24 +756,6 @@ class ResPartner(models.Model):
                 # ACLs shouldn't produce data inconsistency
                 old_contacts.sudo().unlink()
                 new_contacts.sudo().write({"email": vals["email"]})
-
-    def _update_state_from_zip(self, vals):
-        if "zip" not in vals:
-            return
-        zip_ = vals["zip"]
-        country_id = vals.get("country_id") or self[:1].country_id.id
-        domain = [
-            ("name", "=", zip_),
-            ("city_id.country_id", "=", country_id),
-        ]
-        city_zip = self.env["res.city.zip"].search(domain)
-        state = city_zip.mapped("city_id.state_id")
-        vals.update(
-            {
-                # check if a state was found or not for this zip
-                "state_id": state.id if len(state) == 1 else None,
-            }
-        )
 
 
 class SftpConfig:
