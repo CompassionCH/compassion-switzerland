@@ -85,9 +85,9 @@ class PostfinanceReconcileWizard(models.TransientModel):
                     ("ref", "ilike", merchant_reference)
                 ])
                 if aml:
-                    _logger.info(f"Found: {merchant_reference} with debit of: {aml.debit} for transaction amount of {amount}")
+                    _logger.info(f"Found: {merchant_reference} with {len(aml)} debit(s) of: {sum(aml.debit)} for transaction amount of {amount}")
                     self.env['postfinance.reconcile.log'].create({
-                        'message': f"Found: {merchant_reference} with debit of: {aml.debit} for transaction amount of {amount}",
+                        'message': f"Found: {merchant_reference} with {len(aml)} debit of: {sum(aml.debit)} for transaction amount of {amount}",
                         'log_type': 'info',
                     })
                     debit_ml_ids += aml
