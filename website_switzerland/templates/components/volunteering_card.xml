@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Page: My Compassion 2 Volunteering Page
+
+    Description:
+    This page displays the volunteering opportunities for a user
+
+    Used in route:
+    - /my2/volunteering/
+
+    Injected data:
+    - engagement_type (object): The engagement type object containing the details for the volunteering opportunity.
+-->
+<odoo>
+    <template id="volunteering_card_component" name="My Compassion 2 Volunteering Card Component">
+        <!-- Image, title and description -->
+        <div class="d-flex flex-column align-items-center justify-content-center text-center">
+            <img t-att-alt="engagement_type.my_compassion_alt_text"
+                 t-att-src="'/web/image/%s/%s/my_compassion_image' % (engagement_type._name, engagement_type.id)"
+                 class="w-100 pb-3" />
+            <t t-call="theme_compassion_2025.TitleComponent">
+                <t t-set="title_content" t-value="engagement_type.my_compassion_label" />
+                <t t-set="title_size" t-value="'md'" />
+                <t t-set="color" t-value="'core-blue'" />
+                <t t-set="show_underline" t-value="true" />
+                <t t-set="underline_color" t-value="'low-yellow'" />
+                <t t-set="description" t-value="engagement_type.my_compassion_description" />
+            </t>
+        </div>
+        <!-- Action buttons -->
+        <div>
+            <t t-if="engagement_type.my_compassion_external_link">
+                <t t-call="theme_compassion_2025.ThemedButtonComponent">
+                    <t t-set="variant" t-value="'default'" />
+                    <t t-set="variation" t-value="'filled'" />
+                    <t t-set="label" t-value="'Learn more about it'" />
+                    <t t-set="color" t-value="'core-blue'" />
+                    <t t-set="text_color" t-value="'pure-white'" />
+                    <t t-set="href" t-value="engagement_type.my_compassion_external_link" />
+                </t>
+            </t>
+            <t t-elif="engagement_type.my_compassion_internal_link">
+                <t t-call="theme_compassion_2025.ThemedButtonComponent">
+                    <t t-set="variant" t-value="'default'" />
+                    <t t-set="variation" t-value="'filled'" />
+                    <t t-set="label" t-value="'Learn more about it'" />
+                    <t t-set="color" t-value="'core-blue'" />
+                    <t t-set="text_color" t-value="'pure-white'" />
+                    <t t-set="href" t-value="engagement_type.my_compassion_internal_link" />
+                </t>
+            </t>
+            <t t-else="">
+                <t t-call="theme_compassion_2025.ThemedButtonComponent">
+                    <t t-set="variant" t-value="'default'" />
+                    <t t-set="variation" t-value="'filled'" />
+                    <t t-set="label" t-value="'Express interest'" />
+                    <t t-set="color" t-value="'mid-green'" />
+                    <t t-set="text_color" t-value="'pure-white'" />
+                    <t t-set="href" t-value="'#volunteer_form'" />
+                </t>
+            </t>
+        </div>
+    </template>
+</odoo>

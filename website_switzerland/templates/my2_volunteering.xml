@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Page: My Compassion 2 Volunteering Page
+
+    Description:
+    This page displays the volunteering opportunities for a user
+
+    Used in route:
+    - /my2/volunteering/
+
+    Injected data:
+    - engagement_types (list): A list of engagement type objects
+      containing the details for the volunteering opportunities.
+-->
+<odoo>
+    <template id="my2_volunteering" name="My Compassion 2 Volunteering Page">
+        <t t-call="website.layout">
+            <div class="site-wrapper">
+                <div class="container">
+                    <div class="content-column">
+                        <t t-call="theme_compassion_2025.TitleComponent">
+                            <t t-set="title_content" t-value="'Get more involved'"/>
+                            <t t-set="title_size" t-value="'md'"/>
+                            <t t-set="color" t-value="'core-blue'"/>
+                            <t t-set="show_underline" t-value="True"/>
+                            <t t-set="underline_color" t-value="'low-yellow'"/>
+                            <p>Would you like to encourage others to sponsor a child? Are you particularly moved by the
+                                plight of disadvantaged children and want to take action?
+                            </p>
+                            <p>You can volunteer for Compassion and put your talents to work for some of the world's most
+                                disadvantaged children. Translations, envelope stuffing, attending events, speaking on
+                                behalf of Compassion in your church, or running for children.
+                            </p>
+                            <p>Here's how you can get involved:</p>
+                        </t>
+                    </div>
+                    <div class="row g-4 text-center mb-3 mt-3">
+                        <t t-foreach="engagement_types" t-as="engagement_type">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <t t-call="website_switzerland.volunteering_card_component">
+                                    <t t-set="engagement_type" t-value="engagement_type"/>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
