@@ -4,6 +4,13 @@ from odoo import fields, models
 class AdvocateEngagement(models.Model):
     _inherit = "advocate.engagement"
 
+    _order = "sequence, id"
+
+    sequence = fields.Integer(
+        default=10,
+        help="Sequence of the engagement type, used to order the engagement types in the MyCompassion website",
+    )
+
     activate_for_my_compassion = fields.Boolean(
         help="Publish the engagement type as an available engagement type on the MyCompassion website"
     )
