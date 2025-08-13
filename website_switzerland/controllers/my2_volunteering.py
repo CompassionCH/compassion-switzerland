@@ -87,3 +87,46 @@ class MyCompassionVolunteeringController(http.Controller):
             }
         )
 
+    @http.route("/my2/volunteering/register", type="json", auth="user", website=True, sitemap=False)
+    def my2_volunteering_register(self, **kwargs):
+        data = kwargs.get("data", {})
+
+        lang = (data.get("lang") or "").lower()
+        lang_code = lang.split("_")[0] if "_" in lang else lang
+
+        recipients = {
+            "fr": "site_fr_participate@compassion.ch",
+            "it": "site_it_participate@compassion.ch",
+            "de": "site_de_participate@compassion.ch",
+        }
+        email_to = recipients.get(lang_code, "site_de_participate@compassion.ch")
+
+        # Send the mail template with context data
+        template = request.env['mail.template'].search([('name', '=', 'Volunteer Registration')], limit=1)
+        if template:
+            template.sudo().with_context(
+                email_to=email_to,
+                lang=lang,
+                title=data.get("title"),
+                firstname=data.get("firstname"),
+                lastname=data.get("lastname"),
+                phone_number=data.get("phone_number"),
+                email=data.get("email"),
+                church=data.get("church"),
+                volunteer_roles=data.get("volunteer_roles"),
+                comments=data.get("comments"),
+            ).send_mail(request.env.user.partner_id.id, email_values={'email_to': email_to}, force_send=True)
+        else:
+            # Log an error if the template is not found
+            request.env['ir.logging'].sudo().create({
+                'name': 'MyCompassionVolunteeringController',
+                'type': 'server',
+                'dbname': request.env.cr.dbname,
+                'level': 'error',
+                'message': 'Mail template for Volunteer Registration not found.',
+                'path': 'addons-compassion-switzerland/compassion-switzerland/website_switzerland/controllers/my2_volunteering.py',
+                'func': 'my2_volunteering_register',
+            })
+            return {"error": False}
+
+        return {"success": True}
