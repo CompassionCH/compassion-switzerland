@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "14.0.1.3.0",
+    "version": "14.0.1.3.1",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -62,6 +62,7 @@
         "views/communication_config_view.xml",
         "views/generate_communication_wizard_view.xml",
         "views/print_tax_receipt_view.xml",
+        "views/report_assets.xml",
         "data/tax_receipt_email_template.xml",
     ],
     "demo": [],

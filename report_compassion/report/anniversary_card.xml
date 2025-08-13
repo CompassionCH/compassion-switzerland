@@ -10,16 +10,17 @@
         </record>
 
         <template id="anniversary_card">
-                  <t t-set="custom_css">
+         <t t-set="custom_css">
                 .container {
-                    font-family: "millerLight";
+                    font-family: "NeighbourSans";
                     margin-top: -5mm;
-                    margin-left: 10mm;
+                    margin-left: 6mm;
                     font-size: 10pt;
                 }
 
                 .body {
-                    width: 115mm;
+                    font-family: "NeighbourSans";
+                    width: 100mm;
                     float: left;
                     box-sizing: border-box;
                 }
@@ -27,17 +28,19 @@
                     width: 100%;
                 }
                 #title {
-                    font-family: "millerBold";
+                    font-family: "NeighbourSans";
                     margin-top: 10mm;
                     width: 100%;
                 }
                 #body-content {
                     width: 100%;
-                    margin-top: 5mm;
+                    margin-top: 8mm;
                 }
                 #signature {
                     display: block;
                     float: right;
+                    position: relative;
+                    top: -10mm;
                 }
 
                 .expedition {
@@ -48,20 +51,21 @@
                 }
                 #pp {
                     position: absolute;
+                    top: 38mm;
                     width: 70mm;
                     font-family: verdana;
                     margin-bottom: 5mm;
+                    font-weight: bold;
                 }
                 #pp-box {
+                    display: inline-block;
                     padding: 1mm;
                     border: 1pt solid black;
                     white-space: nowrap;
-                    display: inline-block;
-                    width: 50mm;
+                    width: 45mm;
                 }
                 #pp-box div:first-child {
                     font-size: 10pt;
-                    font-weight: bold;
                     white-space: nowrap;
                 }
                 #pp-box div:last-child {
@@ -71,26 +75,31 @@
                 #pp-post {
                     font-size: 8pt;
                     display: inline-block;
+                    width: 20mm;
                 }
                 #pp hr {
                     margin-top: 0.5mm;
                     margin-bottom: 3mm;
                     width: 100%;
+                    height: 2px;
+                    background-color: black;
+                    border: none;
                 }
                 #partner_address {
                     overflow-wrap: break-word;
                     display: block;
                     position: absolute;
-                    top: 70mm;
+                    top: 54mm;
                     width: 70mm;
-                    padding:2mm;
+                    font-family: "NeighbourSans";
                 }
 
                 #footer {
                     font-size: 8pt;
                     width: 100%;
                     position: fixed;
-                    margin-top: 120mm;
+                    top: 135mm;
+                    font-family: "NeighbourSans";
                 }
                 .blue {
                     color: #0054A6;
@@ -121,16 +130,15 @@
                                     <div id="body-content">
                                         <span t-raw="o.body_html" />
                                         <div id="signature">
-                                            <t
-                    t-set="sign_user_name"
-                  >sarah maria</t>
+                                            <!-- 187 is equal to Sarah Maria Internal user ID -->
                                             <t
                     t-set="sign_user"
-                    t-value="o.env['res.users'].search([('name', 'ilike', sign_user_name),('share','=',False)], limit=1)"
+                    t-value="o.env['res.users'].browse(187)"
                   />
                                             <img
                     t-if="sign_user.digital_signature"
-                    t-attf-src="/web/image/res.users/#{sign_user.id}/digital_signature?width=200"
+                    t-att-src="'data:image/png;base64,' + sign_user.digital_signature.decode('utf-8')"
+                    style="width: 200px; max-width: 200px;"
                   />
                                             <p>
                                                 <span
@@ -162,7 +170,7 @@
                                 <div id="footer">
                                     <span class="blue">COMPASSION</span>
                                     <span
-              >, Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>
+              >Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>
                                     <br />
                                     <span class="blue">TÉL</span>
                                     <span>.: 031 552 21 25 </span>
