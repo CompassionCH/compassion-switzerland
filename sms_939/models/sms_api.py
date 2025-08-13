@@ -54,7 +54,7 @@ class SmsApi(models.AbstractModel):
         request = [
             ("receiver", number),
             ("service", "compassion"),
-            ("maximumSMSAmount", 3),
+            ("maximumSMSAmount", 6),
             ("cost", 0),
             ("text", message),
         ]
