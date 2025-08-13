@@ -49,7 +49,7 @@ class MyCompassionVolunteeringController(http.Controller):
         Marks the partner as interested for volunteering and adds/removes the 'Prayer' engagement.
         Then renders the volunteering dashboard page.
         """
-        partner = request.env.user.partner_id  # sudo to bypass portal restrictions
+        partner = request.env.user.partner_id
 
         prayer_engagement = request.env["advocate.engagement"].search([
             ("name", "=", "Prayer")
@@ -74,7 +74,7 @@ class MyCompassionVolunteeringController(http.Controller):
                 })
                 is_prayer_subscribed = True
 
-        engagement_types = request.env["advocate.engagement"].sudo().search([
+        engagement_types = request.env["advocate.engagement"].search([
             ("activate_for_my_compassion", "=", True)
         ])
 
@@ -104,7 +104,7 @@ class MyCompassionVolunteeringController(http.Controller):
         # Send the mail template with context data
         template = request.env['mail.template'].search([('name', '=', 'Volunteer Registration')], limit=1)
         if template:
-            template.sudo().with_context(
+            template.with_context(
                 email_to=email_to,
                 lang=lang,
                 title=data.get("title"),
@@ -118,7 +118,7 @@ class MyCompassionVolunteeringController(http.Controller):
             ).send_mail(request.env.user.partner_id.id, email_values={'email_to': email_to}, force_send=True)
         else:
             # Log an error if the template is not found
-            request.env['ir.logging'].sudo().create({
+            request.env['ir.logging'].create({
                 'name': 'MyCompassionVolunteeringController',
                 'type': 'server',
                 'dbname': request.env.cr.dbname,
@@ -127,6 +127,6 @@ class MyCompassionVolunteeringController(http.Controller):
                 'path': 'addons-compassion-switzerland/compassion-switzerland/website_switzerland/controllers/my2_volunteering.py',
                 'func': 'my2_volunteering_register',
             })
-            return {"error": False}
+            return {"success": False}
 
         return {"success": True}

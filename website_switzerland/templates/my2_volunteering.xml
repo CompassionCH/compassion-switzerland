@@ -164,7 +164,6 @@ Page: My Compassion 2 Volunteering Page
                                        name="church"
                                        class="form-control"
                                        placeholder="church"
-                                       required="required"
                                        t-att-value="partner.church_id.name or ''"
                                 />
                             </t>
