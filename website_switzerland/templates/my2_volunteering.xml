@@ -9,8 +9,10 @@ Page: My Compassion 2 Volunteering Page
     - /my2/volunteering/
 
     Injected data:
+    - partner (object): The partner object containing the user's details.
     - engagement_types (list): A list of engagement type objects
       containing the details for the volunteering opportunities.
+    - is_prayer_subscribed (boolean): Indicates if the user is subscribed to the prayer letter.
 -->
 <odoo>
     <template id="my2_volunteering" name="My Compassion 2 Volunteering Page">
@@ -54,7 +56,7 @@ Page: My Compassion 2 Volunteering Page
                     </div>
                 </div>
             </div>
-            <div class="bg-core-blue text-center py-5">
+            <div id="volunteer_form_top" class="bg-core-blue text-center py-5">
                 <div class="content-column mx-3 mx-md-auto">
                     <t t-call="theme_compassion_2025.TitleComponent">
                         <t t-set="title_content" t-value="'To get involved'"/>
@@ -201,7 +203,7 @@ Page: My Compassion 2 Volunteering Page
                             <input id="volunteer_form_lang" type="hidden" name="lang" t-att-value="request.env.lang"/>
 
                             <!-- Submit button -->
-                            <div class="w-0 w-md-100 mt-3 ml-3 d-flex justify-content-center">
+                            <div class="w-100 mt-3 ml-3 d-flex justify-content-center">
                                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                                     <t t-set="variant" t-value="'compact'" />
                                     <t t-set="variation" t-value="'filled'" />

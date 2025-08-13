@@ -1,3 +1,17 @@
+/**
+ * Volunteer Form Submission Handler
+ * ---------------------------------
+ * This script handles the submission of the volunteer registration form.
+ * It collects user input, validates the data, and sends it to the backend via RPC.
+ * Additionally, it provides smooth scrolling for internal anchor links on the page.
+ *
+ * Key Features:
+ * - Collects data from text inputs, radio buttons, checkboxes, and textareas
+ * - Validates required fields before sending
+ * - Sends form data to `/my2/volunteering/register` via Odoo RPC
+ * - Displays success or error messages using ToastService
+ * - Smoothly scrolls to target sections when internal anchor links are clicked
+ */
 document.addEventListener("DOMContentLoaded", function (event) {
     odoo.define("my_compassion", function (require) {
         "use strict";
@@ -10,6 +24,24 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         form.addEventListener("submit", onSubmit);
 
+        // Enable smooth scrolling for all internal anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        /**
+         * Handles form submission
+         * - Prevents default submission
+         * - Collects and validates form data
+         * - Sends data to the backend via RPC
+         * - Shows toast messages for success or failure
+         */
         async function onSubmit(event) {
             // Prevent default form submission to handle the process manually
             event.preventDefault();
@@ -40,6 +72,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         }
 
+        /**
+         * Collects and validates form data
+         * @returns {Object} - The data object to send to the backend
+         */
         async function collectFormData() {
             // Collect data from the form fields
             const title = document.getElementById("mrs")?.checked ? "Mrs." : "Mr.";
@@ -83,15 +119,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
         /**
-         * Sends the volunteering form data the backend via RPC.
-         *
-         * The backend is expected to indicate that the request was successful and a mail was send to the user and
-         * to compassion
-         *
-         * @function
-         * @param {Object} data - The data payload to send with the request.
-         *
-         * @returns {Promise<Object>} A promise that resolves with the backend response.
+         * Sends the volunteering form data to the backend via RPC
+         * @param {Object} data - The data payload
+         * @returns {Promise<Object>} - Backend response
          */
         function registerVolunteer(data) {
             return rpc.query({

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-Page: My Compassion 2 Volunteering Page
+Page: My Compassion 2 Volunteering Card Component
 
     Description:
-    This page displays the volunteering opportunities for a user
+    This component is used to display a volunteering opportunity
 
     Used in route:
     - /my2/volunteering/
 
     Injected data:
     - engagement_type (object): The engagement type object containing the details for the volunteering opportunity.
+    - internal_link_label (string): The label for the internal link button.
+    - button_color (string): The color for the button when there is an internal link.
 -->
 <odoo>
     <template id="volunteering_card_component" name="My Compassion 2 Volunteering Card Component">
@@ -56,7 +58,7 @@ Page: My Compassion 2 Volunteering Page
                     <t t-set="label" t-value="'Express interest'" />
                     <t t-set="color" t-value="'mid-green'" />
                     <t t-set="text_color" t-value="'pure-white'" />
-                    <t t-set="href" t-value="'#volunteer_form'" />
+                    <t t-set="href" t-value="'#volunteer_form_top'" />
                 </t>
             </t>
         </div>
