@@ -33,7 +33,7 @@ class MyCompassionVolunteeringController(http.Controller):
         ])
 
         return request.render(
-            "website_switzerland.my2_volunteering",
+            "my_compassion_switzerland.my2_volunteering",
             {
                 "partner": partner,
                 "is_prayer_subscribed": is_prayer_subscribed,
@@ -79,7 +79,7 @@ class MyCompassionVolunteeringController(http.Controller):
         ])
 
         return request.render(
-            "website_switzerland.my2_volunteering",
+            "my_compassion_switzerland.my2_volunteering",
             {
                 "partner": partner,
                 "is_prayer_subscribed": is_prayer_subscribed,

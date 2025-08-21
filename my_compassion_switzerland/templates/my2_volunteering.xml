@@ -16,11 +16,11 @@ Page: My Compassion 2 Volunteering Page
 -->
 <odoo>
     <template id="my2_volunteering" name="My Compassion 2 Volunteering Page">
-        <link rel="stylesheet" href="/website_switzerland/static/src/css/my2_volunteering.css"/>
+        <link rel="stylesheet" href="/my_compassion_switzerland/static/src/css/my2_volunteering.css"/>
         <t t-call="website.layout">
             <div class="site-wrapper">
                 <div class="container">
-                    <div class="content-column pt-3">
+                    <div class="single-column pt-3">
                         <t t-call="theme_compassion_2025.TitleComponent">
                             <t t-set="title_content" t-value="'Get more involved'"/>
                             <t t-set="title_size" t-value="'md'"/>
@@ -40,7 +40,7 @@ Page: My Compassion 2 Volunteering Page
                     <div class="row text-center mb-3 mt-3">
                         <t t-foreach="engagement_types" t-as="engagement_type">
                             <div class="col-12 col-md-6 col-lg-4 pb-4">
-                                <t t-call="website_switzerland.volunteering_card_component">
+                                <t t-call="my_compassion_switzerland.volunteering_card_component">
                                     <t t-set="engagement_type" t-value="engagement_type"/>
                                     <t t-if="engagement_type.name == 'Prayer' and not is_prayer_subscribed">
                                         <t t-set="internal_link_label" t-value="'I subscribe to the prayer letter'"/>
@@ -57,7 +57,7 @@ Page: My Compassion 2 Volunteering Page
                 </div>
             </div>
             <div id="volunteer_form_top" class="bg-core-blue text-center py-5">
-                <div class="content-column mx-3 mx-md-auto">
+                <div class="single-column mx-3 mx-md-auto">
                     <t t-call="theme_compassion_2025.TitleComponent">
                         <t t-set="title_content" t-value="'To get involved'"/>
                         <t t-set="title_size" t-value="'md'"/>
@@ -216,6 +216,6 @@ Page: My Compassion 2 Volunteering Page
                 </div>
             </div>
         </t>
-        <script type="text/javascript" src="/website_switzerland/static/src/js/my2_volunteering.js" />
+        <script type="text/javascript" src="/my_compassion_switzerland/static/src/js/my2_volunteering.js" />
     </template>
 </odoo>

@@ -6,4 +6,3 @@ from . import res_partner
 from . import event_registration
 from . import survey_user_input
 from . import payment_transaction
-from . import advocate_engagement
