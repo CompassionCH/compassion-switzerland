@@ -1,6 +1,7 @@
 from openupgradelib import openupgrade
-import logging
-import sys
+
+from odoo import fields
+
 
 @openupgrade.migrate()
 def migrate(env, version):
@@ -31,8 +32,10 @@ def migrate(env, version):
         if not advocate:
             advocate = advocate_details.search([("partner_id", "=", part.id)])
             if not advocate:
-                advocate = advocate_details.create({"partner_id": part.id})
-                advocate.active_since = part.create_date.date()
+                advocate = advocate_details.create({
+                    "partner_id": part.id,
+                    "active_since": fields.Date.today(),  # <-- set today's date
+                })
             part.advocate_details_id = advocate.id
 
         # Add engagement if not already there
