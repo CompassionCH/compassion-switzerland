@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
         async function onSubmit(event) {
             // Prevent default form submission to handle the process manually
             event.preventDefault();
+            const form = event.target;
 
             let data = null;
             try {
