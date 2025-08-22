@@ -80,6 +80,7 @@ Page: My Compassion 2 Volunteering Page
                                             type="radio"
                                             name="title"
                                             id="mrs"
+                                            value="Mrs."
                                             t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mrs.' else None"/>
                                     <label class="form-check-label text-pure-white" for="mrs">Mrs.</label>
                                 </div>
@@ -88,6 +89,7 @@ Page: My Compassion 2 Volunteering Page
                                            type="radio"
                                            name="title"
                                            id="mr"
+                                           value="Mr."
                                            t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mr.' else None"/>
                                     <label class="form-check-label text-pure-white" for="mr">Mr.</label>
                                 </div>

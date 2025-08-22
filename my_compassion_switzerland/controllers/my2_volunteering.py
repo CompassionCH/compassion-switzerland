@@ -135,8 +135,7 @@ class MyCompassionVolunteeringController(http.Controller):
                 'dbname': request.env.cr.dbname,
                 'level': 'error',
                 'message': 'Mail template for Volunteer Registration not found.',
-                'path': 'addons-compassion-switzerland/compassion-switzerland/'
-                        'website_switzerland/controllers/my2_volunteering.py',
+                'path': '/my_compassion_switzerland/controllers/my2_volunteering.py',
                 'func': 'my2_volunteering_register',
             })
             return {"success": False}

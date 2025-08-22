@@ -13,7 +13,7 @@
  * - Smoothly scrolls to target sections when internal anchor links are clicked
  */
 document.addEventListener("DOMContentLoaded", function (event) {
-    odoo.define("my_compassion", function (require) {
+    odoo.define("my_compassion_switzerland.my2_volunteering", function (require) {
         "use strict";
 
         const ToastService = require("my_compassion.toast_service");
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         form.addEventListener("submit", onSubmit);
 
         // Enable smooth scrolling for all internal anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('a[href^="#volunteer_form_top"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
          */
         async function collectFormData() {
             // Collect data from the form fields
-            const title = document.getElementById("mrs")?.checked ? "Mrs." : (document.getElementById("mr")?.checked ? "Mr." : null);
+            const title = document.querySelector('input[name="title"]:checked')?.value;
             const firstname = document.getElementById("volunteer_form_firstname")?.value.trim();
             const lastname = document.getElementById("volunteer_form_lastname")?.value.trim();
             const email = document.getElementById("volunteer_form_email")?.value.trim();
