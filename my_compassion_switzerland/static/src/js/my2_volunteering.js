@@ -12,28 +12,10 @@
  * - Displays success or error messages using ToastService
  * - Smoothly scrolls to target sections when internal anchor links are clicked
  */
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
     odoo.define("my_compassion_switzerland.my2_volunteering", function (require) {
-        "use strict";
-
         const ToastService = require("my_compassion.toast_service");
         const rpc = require("web.rpc");
-
-        const form = document.querySelector("form");
-        if (!form) return;
-
-        form.addEventListener("submit", onSubmit);
-
-        // Enable smooth scrolling for all internal anchor links
-        document.querySelectorAll('a[href^="#volunteer_form_top"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
 
         /**
          * Handles form submission
@@ -41,12 +23,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
          * - Collects and validates form data
          * - Sends data to the backend via RPC
          * - Shows toast messages for success or failure
+         * @param {Event} event - Submit event
          */
         async function onSubmit(event) {
             // Prevent default form submission to handle the process manually
             event.preventDefault();
 
-            let data;
+            let data = null;
             try {
                 data = await collectFormData();
             } catch (error) {
@@ -59,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                     ToastService.success(
                         "Thank you for your interest in volunteering! A confirmation email has been sent to you."
                     );
-                    form.reset(); // Reset the form after successful submission
+                    form.reset();
                 } else {
                     ToastService.error(
                         "There was an issue with your submission. Please check your inputs and try again."
@@ -77,24 +60,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
          * @returns {Object} - The data object to send to the backend
          */
         async function collectFormData() {
+            function getValueFromDocumentElementId(id) {
+                const el = document.getElementById(id);
+                return el ? el.value.trim() : "";
+            }
+
             // Collect data from the form fields
             const titleInput = document.querySelector('input[name="title"]:checked');
             const title = titleInput ? titleInput.value : null;
 
-            const firstnameEl = document.getElementById("volunteer_form_firstname");
-            const firstname = firstnameEl ? firstnameEl.value.trim() : "";
-
-            const lastnameEl = document.getElementById("volunteer_form_lastname");
-            const lastname = lastnameEl ? lastnameEl.value.trim() : "";
-
-            const emailEl = document.getElementById("volunteer_form_email");
-            const email = emailEl ? emailEl.value.trim() : "";
-
-            const phoneEl = document.getElementById("volunteer_form_phone_number");
-            const phone_number = phoneEl ? phoneEl.value.trim() : "";
-
-            const churchEl = document.getElementById("volunteer_form_church");
-            const church = churchEl ? churchEl.value.trim() : "";
+            const firstname = getValueFromDocumentElementId("volunteer_form_firstname");
+            const lastname = getValueFromDocumentElementId("volunteer_form_lastname");
+            const email = getValueFromDocumentElementId("volunteer_form_email");
+            const phone_number = getValueFromDocumentElementId("volunteer_form_phone_number");
+            const church = getValueFromDocumentElementId("volunteer_form_church");
 
             // Collect all checked volunteer roles
             const volunteer_roles = Array.from(
@@ -143,5 +122,21 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 params: data,
             });
         }
+
+        const form = document.querySelector("form");
+        if (!form) return;
+
+        form.addEventListener("submit", onSubmit);
+
+        // Enable smooth scrolling for all internal anchor links
+        document.querySelectorAll('a[href^="#volunteer_form_top"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
     });
 });
