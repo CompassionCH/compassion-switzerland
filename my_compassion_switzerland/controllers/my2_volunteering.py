@@ -29,8 +29,6 @@ class MyCompassionVolunteeringController(http.Controller):
         is_prayer_subscribed = (prayer_engagement and
                                 prayer_engagement in partner.engagement_ids)
 
-        # Search for all advocate.engagement records
-        # with activate_for_my_compassion = True
         engagement_types = request.env["advocate.engagement"].search([
             ("activate_for_my_compassion", "=", True)
         ])
@@ -113,7 +111,7 @@ class MyCompassionVolunteeringController(http.Controller):
         email_to = recipients.get(lang_code, "site_de_participate@compassion.ch")
 
         # Send the mail template with context data
-        template = (request.env['mail.template']
+        template = (request.env['mail.template'].sudo()
                     .search([('name', '=', 'Volunteer Registration')], limit=1))
         if template:
             template.with_context(
