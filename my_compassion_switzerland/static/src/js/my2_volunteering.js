@@ -102,9 +102,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
             ).map(cb => cb.value);
 
             // Collect comments
-            const comments = document.querySelector('textarea[name="comments"]')?.value.trim();
+            const commentsInput = document.querySelector('textarea[name="comments"]');
+            const comments = commentsInput ? commentsInput.value : null;
 
-            const lang = odoo.session_info?.user_context?.lang || "en_US";
+            const lang = (odoo.session_info &&
+                            odoo.session_info.user_context &&
+                            odoo.session_info.user_context.lang) || "en_US";
 
             // Validate inputs
             if (!title) throw new Error("Please select a title");
