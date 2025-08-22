@@ -14,6 +14,8 @@
  */
 document.addEventListener("DOMContentLoaded", function () {
     odoo.define("my_compassion_switzerland.my2_volunteering", function (require) {
+        "use strict";
+
         const ToastService = require("my_compassion.toast_service");
         const rpc = require("web.rpc");
 
