@@ -24,7 +24,6 @@ def migrate(env, version):
     # All partners with the tag "Prayer"
     partners = partner.search([("category_id", "in", prayer_tag.ids)])
 
-
     for part in partners:
         # Ensure advocate.details exists
         advocate = part.advocate_details_id
