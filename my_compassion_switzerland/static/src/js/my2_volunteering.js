@@ -78,9 +78,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
          */
         async function collectFormData() {
             // Collect data from the form fields
-            const title = document.getElementById("mrs")?.checked ?
-                "Mrs." : (document.getElementById("mr")?.checked ?
-                "Mr." : null);
+            const title = document.getElementById("mrs")?.checked ? "Mrs." : (document.getElementById("mr")?.checked ? "Mr." : null);
             const firstname = document.getElementById("volunteer_form_firstname")?.value.trim();
             const lastname = document.getElementById("volunteer_form_lastname")?.value.trim();
             const email = document.getElementById("volunteer_form_email")?.value.trim();
