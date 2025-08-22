@@ -78,12 +78,23 @@ document.addEventListener("DOMContentLoaded", function (event) {
          */
         async function collectFormData() {
             // Collect data from the form fields
-            const title = document.querySelector('input[name="title"]:checked')?.value;
-            const firstname = document.getElementById("volunteer_form_firstname")?.value.trim();
-            const lastname = document.getElementById("volunteer_form_lastname")?.value.trim();
-            const email = document.getElementById("volunteer_form_email")?.value.trim();
-            const phone_number = document.getElementById("volunteer_form_phone_number")?.value.trim();
-            const church = document.getElementById("volunteer_form_church")?.value.trim();
+            const titleInput = document.querySelector('input[name="title"]:checked');
+            const title = titleInput ? titleInput.value : null;
+
+            const firstnameEl = document.getElementById("volunteer_form_firstname");
+            const firstname = firstnameEl ? firstnameEl.value.trim() : "";
+
+            const lastnameEl = document.getElementById("volunteer_form_lastname");
+            const lastname = lastnameEl ? lastnameEl.value.trim() : "";
+
+            const emailEl = document.getElementById("volunteer_form_email");
+            const email = emailEl ? emailEl.value.trim() : "";
+
+            const phoneEl = document.getElementById("volunteer_form_phone_number");
+            const phone_number = phoneEl ? phoneEl.value.trim() : "";
+
+            const churchEl = document.getElementById("volunteer_form_church");
+            const church = churchEl ? churchEl.value.trim() : "";
 
             // Collect all checked volunteer roles
             const volunteer_roles = Array.from(
