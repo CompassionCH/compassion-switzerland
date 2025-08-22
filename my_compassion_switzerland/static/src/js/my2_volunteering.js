@@ -18,44 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const rpc = require("web.rpc");
 
         /**
-         * Handles form submission
-         * - Prevents default submission
-         * - Collects and validates form data
-         * - Sends data to the backend via RPC
-         * - Shows toast messages for success or failure
-         * @param {Event} event - Submit event
-         */
-        async function onSubmit(event) {
-            // Prevent default form submission to handle the process manually
-            event.preventDefault();
-
-            let data = null;
-            try {
-                data = await collectFormData();
-            } catch (error) {
-                return ToastService.error(error.message);
-            }
-
-            try {
-                const result = await registerVolunteer(data);
-                if (result.success) {
-                    ToastService.success(
-                        "Thank you for your interest in volunteering! A confirmation email has been sent to you."
-                    );
-                    form.reset();
-                } else {
-                    ToastService.error(
-                        "There was an issue with your submission. Please check your inputs and try again."
-                    );
-                }
-            } catch (error) {
-                ToastService.error(
-                    "An error occurred while processing your request. Please try again or contact support."
-                );
-            }
-        }
-
-        /**
          * Collects and validates form data
          * @returns {Object} - The data object to send to the backend
          */
@@ -121,6 +83,44 @@ document.addEventListener("DOMContentLoaded", function () {
                 route: "/my2/volunteering/register",
                 params: data,
             });
+        }
+
+        /**
+         * Handles form submission
+         * - Prevents default submission
+         * - Collects and validates form data
+         * - Sends data to the backend via RPC
+         * - Shows toast messages for success or failure
+         * @param {Event} event - Submit event
+         */
+        async function onSubmit(event) {
+            // Prevent default form submission to handle the process manually
+            event.preventDefault();
+
+            let data = null;
+            try {
+                data = await collectFormData();
+            } catch (error) {
+                return ToastService.error(error.message);
+            }
+
+            try {
+                const result = await registerVolunteer(data);
+                if (result.success) {
+                    ToastService.success(
+                        "Thank you for your interest in volunteering! A confirmation email has been sent to you."
+                    );
+                    form.reset();
+                } else {
+                    ToastService.error(
+                        "There was an issue with your submission. Please check your inputs and try again."
+                    );
+                }
+            } catch (error) {
+                ToastService.error(
+                    "An error occurred while processing your request. Please try again or contact support."
+                );
+            }
         }
 
         const form = document.querySelector("form");
