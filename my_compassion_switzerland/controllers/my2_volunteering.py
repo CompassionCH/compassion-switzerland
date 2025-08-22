@@ -98,6 +98,9 @@ class MyCompassionVolunteeringController(http.Controller):
                 sitemap=False)
     def my2_volunteering_register(self, **kwargs):
         data = kwargs.get("data", {})
+        required_fields = ["title", "firstname", "lastname", "email", "phone_number"]
+        if not all(data.get(field) for field in required_fields):
+            return {"success": False, "error": "Missing required fields"}
 
         lang = (data.get("lang") or "").lower()
         lang_code = lang.split("_")[0] if "_" in lang else lang
