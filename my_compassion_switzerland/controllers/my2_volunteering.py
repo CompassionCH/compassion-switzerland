@@ -17,7 +17,8 @@ class MyCompassionVolunteeringController(http.Controller):
     def my2_render_volunteering_dashboard_page(self, **kwargs):
         """
         Renders the voluntering dashboard page
-        return: An HTTP response containing a rendered template with the volunteering content.
+        return: An HTTP response containing a rendered
+                template with the volunteering content.
         """
         partner = request.env.user.partner_id
 
@@ -25,9 +26,11 @@ class MyCompassionVolunteeringController(http.Controller):
             ("name", "=", "Prayer")
         ], limit=1)
 
-        is_prayer_subscribed = prayer_engagement and prayer_engagement in partner.engagement_ids
+        is_prayer_subscribed = (prayer_engagement and
+                                prayer_engagement in partner.engagement_ids)
 
-        # Search for all advocate.engagement records with activate_for_my_compassion = True
+        # Search for all advocate.engagement records
+        # with activate_for_my_compassion = True
         engagement_types = request.env["advocate.engagement"].search([
             ("activate_for_my_compassion", "=", True)
         ])
@@ -46,8 +49,8 @@ class MyCompassionVolunteeringController(http.Controller):
     )
     def my2_update_prayer_subscription(self, **kwargs):
         """
-        Marks the partner as interested for volunteering and adds/removes the 'Prayer' engagement.
-        Then renders the volunteering dashboard page.
+        Marks the partner as interested for volunteering and adds/removes
+        the 'Prayer' engagement.Then renders the volunteering dashboard page.
         """
         partner = request.env.user.partner_id
 
@@ -65,9 +68,10 @@ class MyCompassionVolunteeringController(http.Controller):
             else:
                 if not partner.advocate_details_id:
                     # If the partner does not have advocate details, create it
-                    partner.advocate_details_id = request.env["advocate.details"].create({
+                    partner.advocate_details_id = (request.env["advocate.details"]
+                    .create({
                         "partner_id": partner.id,
-                    })
+                    }))
                 # Add subscription
                 partner.write({
                     "engagement_ids": [(4, prayer_engagement.id)]
@@ -87,7 +91,11 @@ class MyCompassionVolunteeringController(http.Controller):
             }
         )
 
-    @http.route("/my2/volunteering/register", type="json", auth="user", website=True, sitemap=False)
+    @http.route("/my2/volunteering/register",
+                type="json",
+                auth="user",
+                website=True,
+                sitemap=False)
     def my2_volunteering_register(self, **kwargs):
         data = kwargs.get("data", {})
 
@@ -102,7 +110,8 @@ class MyCompassionVolunteeringController(http.Controller):
         email_to = recipients.get(lang_code, "site_de_participate@compassion.ch")
 
         # Send the mail template with context data
-        template = request.env['mail.template'].search([('name', '=', 'Volunteer Registration')], limit=1)
+        template = (request.env['mail.template']
+                    .search([('name', '=', 'Volunteer Registration')], limit=1))
         if template:
             template.with_context(
                 email_to=email_to,
@@ -115,7 +124,9 @@ class MyCompassionVolunteeringController(http.Controller):
                 church=data.get("church"),
                 volunteer_roles=data.get("volunteer_roles"),
                 comments=data.get("comments"),
-            ).send_mail(request.env.user.partner_id.id, email_values={'email_to': email_to}, force_send=True)
+            ).send_mail(request.env.user.partner_id.id,
+                        email_values={'email_to': email_to},
+                        force_send=True)
         else:
             # Log an error if the template is not found
             request.env['ir.logging'].create({
@@ -124,7 +135,8 @@ class MyCompassionVolunteeringController(http.Controller):
                 'dbname': request.env.cr.dbname,
                 'level': 'error',
                 'message': 'Mail template for Volunteer Registration not found.',
-                'path': 'addons-compassion-switzerland/compassion-switzerland/website_switzerland/controllers/my2_volunteering.py',
+                'path': 'addons-compassion-switzerland/compassion-switzerland/'
+                        'website_switzerland/controllers/my2_volunteering.py',
                 'func': 'my2_volunteering_register',
             })
             return {"success": False}
