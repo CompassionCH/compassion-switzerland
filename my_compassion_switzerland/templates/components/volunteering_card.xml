@@ -14,19 +14,32 @@ Page: My Compassion 2 Volunteering Card Component
     - button_color (string): The color for the button when there is an internal link.
 -->
 <odoo>
-    <template id="volunteering_card_component" name="My Compassion 2 Volunteering Card Component">
+    <template
+    id="volunteering_card_component"
+    name="My Compassion 2 Volunteering Card Component"
+  >
         <!-- Image, title and description -->
-        <div class="d-flex flex-column align-items-center justify-content-center text-center">
-            <img t-att-alt="engagement_type.my_compassion_alt_text"
-                 t-att-src="'/web/image/%s/%s/my_compassion_image' % (engagement_type._name, engagement_type.id)"
-                 class="volunteering_image w-100 pb-3" />
+        <div
+      class="d-flex flex-column align-items-center justify-content-center text-center"
+    >
+            <img
+        t-att-alt="engagement_type.my_compassion_alt_text"
+        t-att-src="'/web/image/%s/%s/my_compassion_image' % (engagement_type._name, engagement_type.id)"
+        class="volunteering_image w-100 pb-3"
+      />
             <t t-call="theme_compassion_2025.TitleComponent">
-                <t t-set="title_content" t-value="engagement_type.my_compassion_label" />
+                <t
+          t-set="title_content"
+          t-value="engagement_type.my_compassion_label"
+        />
                 <t t-set="title_size" t-value="'md'" />
                 <t t-set="color" t-value="'core-blue'" />
                 <t t-set="show_underline" t-value="true" />
                 <t t-set="underline_color" t-value="'low-yellow'" />
-                <t t-set="description" t-value="engagement_type.my_compassion_description" />
+                <t
+          t-set="description"
+          t-value="engagement_type.my_compassion_description"
+        />
             </t>
         </div>
         <!-- Action buttons -->
@@ -38,7 +51,10 @@ Page: My Compassion 2 Volunteering Card Component
                     <t t-set="label" t-value="'Learn more about it'" />
                     <t t-set="color" t-value="'core-blue'" />
                     <t t-set="text_color" t-value="'pure-white'" />
-                    <t t-set="href" t-value="engagement_type.my_compassion_external_link" />
+                    <t
+            t-set="href"
+            t-value="engagement_type.my_compassion_external_link"
+          />
                 </t>
             </t>
             <t t-elif="engagement_type.my_compassion_internal_link">
@@ -48,7 +64,10 @@ Page: My Compassion 2 Volunteering Card Component
                     <t t-set="label" t-value="internal_link_label" />
                     <t t-set="color" t-value="button_color" />
                     <t t-set="text_color" t-value="'pure-white'" />
-                    <t t-set="href" t-value="engagement_type.my_compassion_internal_link" />
+                    <t
+            t-set="href"
+            t-value="engagement_type.my_compassion_internal_link"
+          />
                 </t>
             </t>
             <t t-else="">
