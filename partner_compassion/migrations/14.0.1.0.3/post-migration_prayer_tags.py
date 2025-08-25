@@ -2,6 +2,7 @@ from openupgradelib import openupgrade
 
 from odoo import fields
 
+
 @openupgrade.migrate()
 def migrate(env, version):
     if not version:
@@ -30,10 +31,12 @@ def migrate(env, version):
         if not advocate:
             advocate = advocate_details.search([("partner_id", "=", part.id)])
             if not advocate:
-                advocate = advocate_details.create({
-                    "partner_id": part.id,
-                    "active_since": fields.Date.today(),  # <-- set today's date
-                })
+                advocate = advocate_details.create(
+                    {
+                        "partner_id": part.id,
+                        "active_since": fields.Date.today(),  # <-- set today's date
+                    }
+                )
             part.advocate_details_id = advocate.id
 
         # Add engagement if not already there
@@ -41,9 +44,10 @@ def migrate(env, version):
             advocate.engagement_ids = [(4, prayer_engagement.id)]
 
     # Update the tag Prayer to be a smart tag
-    prayer_tag.write({
-        "smart": True,
-        "tag_filter_sql_query": """
+    prayer_tag.write(
+        {
+            "smart": True,
+            "tag_filter_sql_query": """
             SELECT p.id
             FROM res_partner p
             JOIN advocate_details ad ON ad.partner_id = p.id
@@ -51,7 +55,5 @@ def migrate(env, version):
             JOIN advocate_engagement eng ON eng.id = rel.engagement_id
             WHERE eng.name = 'Prayer'
         """,
-    })
-
-
-
+        }
+    )
