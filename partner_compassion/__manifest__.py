@@ -30,7 +30,7 @@
 {
     "name": "Compassion CH Partners",
     "summary": "Upgrade Partners for Compassion Switzerland",
-    "version": "14.0.1.0.2",
+    "version": "14.0.1.0.3",
     "development_status": "Production/Stable",
     "category": "Partner Management",
     "author": "Compassion CH",
