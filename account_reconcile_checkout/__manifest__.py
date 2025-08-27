@@ -38,6 +38,7 @@
         "account",
         "payment_postfinance_flex",  # paid-addons
     ],
+    "external_dependencies": {"python": ["postfinancecheckout"]},
     'data': [
         'security/ir.model.access.csv',
         'views/reconcile_log_views.xml',
