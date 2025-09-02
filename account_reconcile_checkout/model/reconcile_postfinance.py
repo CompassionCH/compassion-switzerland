@@ -1,4 +1,4 @@
-from odoo import models, api
+from odoo import models, api,fields
 import logging
 from datetime import datetime, timedelta
 from enum import Enum
@@ -27,6 +27,14 @@ PF_MAPPING = {
 class PostfinanceReconcileWizard(models.TransientModel):
     _name = 'postfinance.reconcile.wizard'
     _description = 'PostFinance Reconcile Wizard'
+
+    account_id = fields.Many2one(
+        "account.account",
+        "Reconcile account",
+        default=lambda self: self.env["res.config.settings"].
+        get_param("account_transfer_pf_checkout"),
+    )
+
 
     def get_pf_filter(self, date_search=None, provider=None, state="SETTLED", transaction=""):
         if date_search is None:
@@ -79,7 +87,7 @@ class PostfinanceReconcileWizard(models.TransientModel):
                     merchant_reference = tr.merchant_reference
                     amount = tr.authorization_amount
                 aml = ml_obj.search([
-                    ("account_id.code", "=", "44"),
+                    ("account_id.code", "=", self.account_id.code),
                     "|",
                     ("name", "ilike", merchant_reference),
                     ("ref", "ilike", merchant_reference)
@@ -162,25 +170,21 @@ class PostfinanceReconcileWizard(models.TransientModel):
             cbts = ChargeBankTransactionServiceApi(configuration=config)
 
             for credit_ml in credit_ml_ids:
-                if re.match(".*Payout ([0-9]*) *Gross", credit_ml.name):
+                if payout_re:= re.match(".*Payout ([0-9]*) *Gross", credit_ml.name):
                     provider = Provider.TWINT
-                    payout_re = re.match(".*Payout ([0-9]*) *Gross", credit_ml.name)
                     if payout_re:
                         payout_date = datetime.strptime(payout_re[1], '%Y%m%d') - timedelta(days=1)
                         self.search_and_rec_with_pf_service(config, space_id, payout_date, provider, credit_ml, ml_obj, cbts, "transaction.")
-                elif re.match(r".*POSTFINANCE CARD TRAITEMENT DU ([0-9]+(\.[0-9]+)+) COMPASSION.*", credit_ml.name):
+                elif payout_re := re.match(r".*POSTFINANCE CARD TRAITEMENT DU ([0-9]+(\.[0-9]+)+) COMPASSION.*", credit_ml.name):
                     provider = Provider.PF_CARD
-                    payout_re = re.match(r".*TRAITEMENT DU ([0-9]+(\.[0-9]+)+) COMPASSION.*", credit_ml.name)
                     payout_date = datetime.strptime(payout_re[1], '%d.%m.%Y')
                     self.search_and_rec_with_pf_service(config, space_id, payout_date, provider, credit_ml, ml_obj, cbts, "transaction.")
-                elif re.match(r".*POSTFINANCE PAY TRAITEMENT DU ([0-9]+(\.[0-9]+)+) COMPASSION.*", credit_ml.name):
+                elif payout_re:=re.match(r".*POSTFINANCE PAY TRAITEMENT DU ([0-9]+(\.[0-9]+)+) COMPASSION.*", credit_ml.name):
                     provider = Provider.PF_PAY
-                    payout_re = re.match(r".*TRAITEMENT DU ([0-9]+(\.[0-9]+)+) COMPASSION.*", credit_ml.name)
                     payout_date = datetime.strptime(payout_re[1], '%d.%m.%Y')
                     self.search_and_rec_with_pf_service(config, space_id, payout_date, provider, credit_ml, ml_obj, cbts, "transaction.")
-                elif re.match(r'.*DAT\.([0-9]+(\.[0-9]+)+)/Compassion Suisse.*', credit_ml.name):
+                elif payout_re:=re.match(r'.*DAT\.([0-9]+(\.[0-9]+)+)/Compassion Suisse.*', credit_ml.name):
                     provider = Provider.WORLDLINE
-                    payout_re = re.match(r'.*DAT\.([0-9]+(\.[0-9]+)+)/Compassion Suisse.*', credit_ml.name)
                     payout_date = datetime.strptime(payout_re[1], '%d.%m.%Y') - timedelta(days=9)
                     self.search_and_rec_with_pf_service(config, space_id, payout_date, provider, credit_ml, ml_obj, ts, "")
                 else:
