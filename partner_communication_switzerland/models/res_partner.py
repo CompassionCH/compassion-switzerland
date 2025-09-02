@@ -13,6 +13,7 @@ from datetime import date, datetime, timedelta
 from typing import List
 
 from dateutil.relativedelta import relativedelta
+from gender_guesser.detector import Detector
 
 from odoo import _, api, fields, models
 
@@ -59,6 +60,42 @@ class ResPartner(models.Model):
     signup_type = fields.Char(groups="base.group_user")
     signup_expiration = fields.Datetime(groups="base.group_user")
     plural = fields.Boolean(compute="_compute_plural", store=True)
+    dear_firstname = fields.Char(compute="_compute_dear_firstname")
+
+    def _compute_dear_firstname(self):
+        gender_detector = Detector()
+        translation_obj = self.env["ir.advanced.translation"]
+        countries = {
+            "fr_CH": "france",
+            "de_DE": "germany",
+            "it_IT": "italy",
+            "en_US": "usa",
+        }
+        certain_genders = (
+            self.env.ref("base.res_partner_title_mister")
+            + self.env.ref("base.res_partner_title_madam")
+            + self.env.ref("partner_compassion.res_partner_title_ladies")
+            + self.env.ref("partner_compassion.res_partner_title_men")
+        )
+        for partner in self:
+            if partner.is_company or partner.is_church:
+                partner.dear_firstname = _("Dear friends of Compassion")
+                continue
+            firstname = (
+                partner.preferred_name or partner.firstname or partner.name
+            ).split()[0]
+            if partner.title in certain_genders:
+                is_female = partner.gender == "F"
+            else:
+                gender = gender_detector.get_gender(firstname, countries[partner.lang])
+                _logger.info("%s detected as %s", firstname, gender)
+                is_female = "female" in gender
+            dear = (
+                translation_obj.with_context(lang=partner.lang)
+                .get("salutation", is_female)
+                .title()
+            )
+            partner.dear_firstname = f"{dear} {firstname}"
 
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
