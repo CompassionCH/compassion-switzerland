@@ -116,6 +116,7 @@ class ResPartner(models.Model):
         "advocate.details", "Advocate details", copy=False, readonly=False
     )
     interested_for_volunteering = fields.Boolean()
+    is_volunteer = fields.Boolean(compute="_compute_is_volunteer")
     engagement_ids = fields.Many2many(
         "advocate.engagement",
         compute="_compute_engagement_ids",
@@ -197,6 +198,14 @@ class ResPartner(models.Model):
         for record in self:
             record.can_manage_paid_sponsorships = (
                 record.has_majority or record.parent_consent in ["approved"]
+            )
+
+    @api.depends("advocate_details_id")
+    def _compute_is_volunteer(self):
+        for partner in self:
+            partner.is_volunteer = (
+                partner.advocate_details_id.engagement_ids
+                and partner.advocate_details_id.state != "inactive"
             )
 
     def get_unreconciled_amount(self):
