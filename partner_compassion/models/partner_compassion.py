@@ -118,7 +118,8 @@ class ResPartner(models.Model):
     interested_for_volunteering = fields.Boolean()
     engagement_ids = fields.Many2many(
         "advocate.engagement",
-        related="advocate_details_id.engagement_ids",
+        compute="_compute_engagement_ids",
+        inverse="_inverse_engagement_ids",
         readonly=False,
     )
     other_contact_ids = fields.One2many(
@@ -237,6 +238,31 @@ class ResPartner(models.Model):
                 partner.address_name = (partner.short_address or "").split("<br/>")[0]
             else:
                 partner.address_name = partner.name
+
+    def _compute_engagement_ids(self):
+        for partner in self:
+            partner.engagement_ids = partner.advocate_details_id.engagement_ids
+
+    def _inverse_engagement_ids(self):
+        for partner in self:
+            if not partner.advocate_details_id and partner.engagement_ids:
+                partner.advocate_details_id = self.env["advocate.details"].create(
+                    {
+                        "partner_id": partner.id,
+                        "active_since": fields.Date.today(),
+                        "advocacy_source": ", ".join(
+                            partner.engagement_ids.mapped("name")
+                        ),
+                    }
+                )
+            partner.advocate_details_id.engagement_ids = partner.engagement_ids
+            if not partner.engagement_ids and partner.advocate_details_id:
+                partner.advocate_details_id.set_inactive()
+            if (
+                partner.engagement_ids
+                and partner.advocate_details_id.state == "inactive"
+            ):
+                partner.advocate_details_id.set_active()
 
     ##########################################################################
     #                              ORM METHODS                               #

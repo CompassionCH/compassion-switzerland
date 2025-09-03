@@ -12,4 +12,7 @@
     <record id="engagement_sport" model="advocate.engagement">
         <field name="name">Sport</field>
     </record>
+    <record id="engagement_pray" model="advocate.engagement">
+        <field name="name">Prayer</field>
+    </record>
 </odoo>
