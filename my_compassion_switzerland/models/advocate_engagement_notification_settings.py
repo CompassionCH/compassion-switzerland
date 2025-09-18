@@ -1,3 +1,5 @@
+import re
+
 from odoo import api, exceptions, fields, models
 from odoo.tools.translate import _
 
@@ -36,7 +38,6 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
 
     def _is_valid_email(self, email):
         """Validates the email format. Returns True if the format is respected."""
-        import re
 
         if not email:
             return False
@@ -53,10 +54,13 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
         for field_name, value in emails.items():
             if not value:
                 continue
-            if not self._is_valid_email(value.strip()):
+            stripped_value = value.strip()
+            if not self._is_valid_email(stripped_value):
                 raise exceptions.ValidationError(
                     _("Invalid email for %s: %s") % (field_name, value)
                 )
+            if stripped_value != value:
+                self[field_name] = stripped_value
         return super().set_values()
 
     @api.model
