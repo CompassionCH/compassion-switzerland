@@ -31,7 +31,7 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
         config_parameter="partner_communication_switzerland.advocate_notify_default_email",
         default="site_de_participate@compassion.ch",
         help=f"{help_field_template} any other languages.",
-        required= True
+        required=True,
     )
 
     def _is_valid_email(self, email):
