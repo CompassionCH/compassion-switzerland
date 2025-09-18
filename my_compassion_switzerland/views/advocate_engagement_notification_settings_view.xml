@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_notification_engagement_advocate" model="ir.ui.view">
+        <field name="name">advocate.engagement.notification.website.form</field>
+        <field name="model">res.config.settings</field>
+        <field
+                name="inherit_id"
+                ref="message_center_compassion.notification_settings"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']"
+                   position="inside">
+                <h3>Engagement from advocates</h3>
+                <div name="advocate_engagement_notify" style="min-width:40em;">
+
+                    <label for="advocate_engagement_notify_fr_email" class="o_light_label"/>
+                    <field name="advocate_engagement_notify_fr_email" style="width:20em; max-width:100%;"/>
+
+                    <label for="advocate_engagement_notify_de_email" class="o_light_label"/>
+                    <field name="advocate_engagement_notify_de_email" style="width:20em; max-width:100%;"/>
+
+                    <label for="advocate_engagement_notify_it_email" class="o_light_label"/>
+                    <field name="advocate_engagement_notify_it_email" style="width:20em; max-width:100%;"/>
+
+
+                    <label for="advocate_engagement_notify_default_email" class="o_light_label"/>
+                    <field name="advocate_engagement_notify_default_email" style="width:20em; max-width:100%;"/>
+
+
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

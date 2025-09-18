@@ -16,6 +16,7 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
+        "message_center_compassion",
         "my_compassion",
         "theme_compassion_2025",
         "partner_compassion",
@@ -24,8 +25,10 @@
         "security/ir.model.access.csv",
         "security/access_rules.xml",
         "views/advocate_engagement_view.xml",
+
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
+        "views/advocate_engagement_notification_settings_view.xml",
     ],
     "installable": True,
     "auto_install": False,
