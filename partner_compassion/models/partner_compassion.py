@@ -583,7 +583,7 @@ class ResPartner(models.Model):
 
     def anonymize(self, vals=None):
         # Store information in CSV, inside encrypted zip file.
-        self._secure_save_data()
+        # self._secure_save_data()
 
         # Delete other objects and custom CH fields
         self.mapped("mass_mailing_contact_ids").unlink()
