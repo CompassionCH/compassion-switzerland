@@ -16,7 +16,7 @@ from odoo.tools import file_open
 _logger = logging.getLogger(__name__)
 
 try:
-    from pandas.tseries.offsets import DateOffset
+    from pandas.tseries.offsets import BDay, DateOffset
 except ImportError:
     _logger.warning("Please install pandas for the Advocate CRON to work")
 
@@ -207,11 +207,19 @@ class AdvocateDetails(models.Model):
         return self.write({"state": "active", "end_date": False, "break_end": False})
 
     def advocate_cron(self):
-        three_open_days = datetime.today() + DateOffset(n=3)
+        three_open_days = {datetime.today() + BDay(3)}
+        dates = [three_open_days]
+
+        # on tuesday you'll get not only the birthdays of friday but also
+        # the birthdays of the upcoming weekend
+        if three_open_days.weekday() == 4:
+            dates.append(three_open_days + DateOffset(n=1))
+            dates.append(three_open_days + DateOffset(n=2))
+
         birthday_advocates = self.search(
             [
                 ("state", "in", ["active", "on_break"]),
-                ("birthdate", "like", three_open_days.strftime("-%m-%d")),
+                ("birthdate", "in", [d.strftime("-%m-%d") for d in dates]),
             ]
         )
         birthday_advocates = birthday_advocates.filtered(
