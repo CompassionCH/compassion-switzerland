@@ -18,19 +18,20 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
         "Adv. engagement (DE)",
         config_parameter="partner_communication_switzerland.advocate_notify_de_email",
         default="site_de_participate@compassion.ch",
-        help=f"{help_field_template}French.",
+        help=f"{help_field_template}German.",
     )
     advocate_notify_it_email = fields.Char(
         "Adv. engagement (IT)",
         config_parameter="partner_communication_switzerland.advocate_notify_it_email",
         default="site_it_participate@compassion.ch",
-        help=f"{help_field_template}French.",
+        help=f"{help_field_template}Italian.",
     )
     advocate_notify_default_email = fields.Char(
         "Advocate engagement (Default)",
         config_parameter="partner_communication_switzerland.advocate_notify_default_email",
         default="site_de_participate@compassion.ch",
         help=f"{help_field_template} any other languages.",
+        required= True
     )
 
     def _is_valid_email(self, email):
