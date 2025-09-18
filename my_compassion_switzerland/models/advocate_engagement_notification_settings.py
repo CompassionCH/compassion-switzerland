@@ -17,7 +17,7 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
     advocate_notify_de_email = fields.Char(
         "Adv. engagement (DE)",
         config_parameter="partner_communication_switzerland.advocate_notify_de_email",
-        default="site_it_participate@compassion.ch",
+        default="site_de_participate@compassion.ch",
         help=f"{help_field_template}French.",
     )
     advocate_notify_it_email = fields.Char(
