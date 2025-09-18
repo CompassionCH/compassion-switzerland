@@ -13,42 +13,42 @@
         position="inside"
       >
                 <h3>Engagement from advocates</h3>
-                <div name="advocate_engagement_notify" style="min-width:40em;">
+                <div name="advocate_notify" style="min-width:40em;">
 
                     <label
-            for="advocate_engagement_notify_fr_email"
+            for="advocate_notify_fr_email"
             class="o_light_label"
           />
                     <field
-            name="advocate_engagement_notify_fr_email"
+            name="advocate_notify_fr_email"
             style="width:20em; max-width:100%;"
           />
 
                     <label
-            for="advocate_engagement_notify_de_email"
+            for="advocate_notify_de_email"
             class="o_light_label"
           />
                     <field
-            name="advocate_engagement_notify_de_email"
+            name="advocate_notify_de_email"
             style="width:20em; max-width:100%;"
           />
 
                     <label
-            for="advocate_engagement_notify_it_email"
+            for="advocate_notify_it_email"
             class="o_light_label"
           />
                     <field
-            name="advocate_engagement_notify_it_email"
+            name="advocate_notify_it_email"
             style="width:20em; max-width:100%;"
           />
 
 
                     <label
-            for="advocate_engagement_notify_default_email"
+            for="advocate_notify_default_email"
             class="o_light_label"
           />
                     <field
-            name="advocate_engagement_notify_default_email"
+            name="advocate_notify_default_email"
             style="width:20em; max-width:100%;"
           />
 

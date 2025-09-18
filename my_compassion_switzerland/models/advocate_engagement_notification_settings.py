@@ -1,4 +1,5 @@
 from odoo import api, exceptions, fields, models
+from odoo.tools.translate import _
 
 
 class AdvocateEngagementNotificationSettings(models.TransientModel):
@@ -7,29 +8,29 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
         "Email address to notify when an advocates engagement form is submitted in "
     )
 
-    advocate_engagement_notify_fr_email = fields.Char(
+    advocate_notify_fr_email = fields.Char(
         "Adv. engagement (FR)",
-        config_parameter="partner_communication_switzerland.advocate_engagement_notify_fr_email",
+        config_parameter="partner_communication_switzerland.advocate_notify_fr_email",
         default="site_fr_participate@compassion.ch",
         help=f"{help_field_template}French.",
     )
-    advocate_engagement_notify_de_email = fields.Char(
+    advocate_notify_de_email = fields.Char(
         "Adv. engagement (DE)",
-        config_parameter="partner_communication_switzerland.advocate_engagement_notify_de_email",
+        config_parameter="partner_communication_switzerland.advocate_notify_de_email",
         default="site_it_participate@compassion.ch",
         help=f"{help_field_template}French.",
     )
-    advocate_engagement_notify_it_email = fields.Char(
+    advocate_notify_it_email = fields.Char(
         "Adv. engagement (IT)",
-        config_parameter="partner_communication_switzerland.advocate_engagement_notify_it_email",
+        config_parameter="partner_communication_switzerland.advocate_notify_it_email",
         default="site_it_participate@compassion.ch",
         help=f"{help_field_template}French.",
     )
-    advocate_engagement_notify_default_email = fields.Char(
+    advocate_notify_default_email = fields.Char(
         "Advocate engagement (Default)",
-        config_parameter="partner_communication_switzerland.advocate_engagement_notify_default_email",
+        config_parameter="partner_communication_switzerland.advocate_notify_default_email",
         default="site_de_participate@compassion.ch",
-        help=f"{help_field_template} any other languages than german, french and italian.",
+        help=f"{help_field_template} any other languages.",
     )
 
     def _is_valid_email(self, email):
@@ -43,17 +44,17 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
 
     def set_values(self):
         emails = {
-            "advocate_engagement_notify_fr_email": self.advocate_engagement_notify_fr_email,
-            "advocate_engagement_notify_de_email": self.advocate_engagement_notify_de_email,
-            "advocate_engagement_notify_it_email": self.advocate_engagement_notify_it_email,
-            "advocate_engagement_notify_default_email": self.advocate_engagement_notify_default_email,
+            "advocate_notify_fr_email": self.advocate_notify_fr_email,
+            "advocate_notify_de_email": self.advocate_notify_de_email,
+            "advocate_notify_it_email": self.advocate_notify_it_email,
+            "advocate_notify_default_email": self.advocate_notify_default_email,
         }
         for field_name, value in emails.items():
             if not value:
                 continue
             if not self._is_valid_email(value.strip()):
                 raise exceptions.ValidationError(
-                    "Invalid email for %s: %s" % (field_name, value)
+                    _("Invalid email for %s: %s") % (field_name, value)
                 )
         return super().set_values()
 
@@ -69,10 +70,10 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
         ICP = self.env["ir.config_parameter"].sudo()
 
         field_map = {
-            "fr": "advocate_engagement_notify_fr_email",
-            "de": "advocate_engagement_notify_de_email",
-            "it": "advocate_engagement_notify_it_email",
-            "default": "advocate_engagement_notify_default_email",
+            "fr": "advocate_notify_fr_email",
+            "de": "advocate_notify_de_email",
+            "it": "advocate_notify_it_email",
+            "default": "advocate_notify_default_email",
         }
 
         recipients = {}
