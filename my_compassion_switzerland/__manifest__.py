@@ -24,7 +24,6 @@
         "security/ir.model.access.csv",
         "security/access_rules.xml",
         "views/advocate_engagement_view.xml",
-
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
         "views/advocate_engagement_notification_settings_view.xml",

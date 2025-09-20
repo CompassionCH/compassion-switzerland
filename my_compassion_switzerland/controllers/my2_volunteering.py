@@ -106,7 +106,9 @@ class MyCompassionVolunteeringController(http.Controller):
         lang_code = lang.split("_")[0] if "_" in lang else lang
 
         # Fetch the appropriate recipient email based on the language as a dictionary
-        recipients = request.env['res.config.settings'].get_advocate_engagement_recipients()
+        recipients = request.env[
+            "res.config.settings"
+        ].get_advocate_engagement_recipients()
         email_to = recipients.get(lang_code, recipients["default"])
 
         # Send the mail template with context data
