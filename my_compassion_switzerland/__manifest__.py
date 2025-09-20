@@ -16,7 +16,6 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
-        "message_center_compassion",
         "my_compassion",
         "theme_compassion_2025",
         "partner_compassion",
