@@ -791,6 +791,19 @@ class ResPartner(models.Model):
                 # ACLs shouldn't produce data inconsistency
                 old_contacts.sudo().unlink()
                 new_contacts.sudo().write({"email": vals["email"]})
+        mm_vals = {}
+        if "active" in vals and not vals["active"]:
+            vals["opt_out"] = True
+            mm_vals.update(
+                {
+                    "opt_out": True,
+                    "active": False,
+                }
+            )
+        if "opt_out" in vals:
+            mm_vals["opt_out"] = vals["opt_out"]
+        if mm_vals and self.mapped("mass_mailing_contact_ids"):
+            self.mapped("mass_mailing_contact_ids").sudo().write(mm_vals)
 
 
 class SftpConfig:

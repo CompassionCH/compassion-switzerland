@@ -46,6 +46,7 @@
         "sbc_compassion",
         "thankyou_letters",
         "partner_communication_compassion",
+        "mailchimp",
         # OCA/partner-contact
         "base_location",
         "partner_address_street3",
