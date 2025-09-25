@@ -782,28 +782,28 @@ class ResPartner(models.Model):
         return domain
 
     def _unlink_mailing_contacts_if_needed(self, vals):
+        # ACLs shouldn't produce data inconsistency
+        sudo = self.sudo()
         if "email" in vals:
-            old_contacts = self.mapped("mass_mailing_contact_ids")
-            new_contacts = self.env["mailing.contact"].search(
+            old_contacts = sudo.mapped("mass_mailing_contact_ids")
+            new_contacts = sudo.env["mailing.contact"].search(
                 [("email", "=", vals["email"]), ("id", "not in", old_contacts.ids)]
             )
             if old_contacts and new_contacts:
-                # ACLs shouldn't produce data inconsistency
-                old_contacts.sudo().unlink()
-                new_contacts.sudo().write({"email": vals["email"]})
+                old_contacts.unlink()
+                new_contacts.write({"email": vals["email"]})
         mm_vals = {}
         if "active" in vals and not vals["active"]:
-            vals["opt_out"] = True
-            mm_vals.update(
-                {
-                    "opt_out": True,
-                    "active": False,
-                }
-            )
+            mm_vals["active"] = False
         if "opt_out" in vals:
-            mm_vals["opt_out"] = vals["opt_out"]
+            subscription_ids = sudo.mapped(
+                "mass_mailing_contact_ids.subscription_list_ids"
+            ).ids
+            mm_vals["subscription_list_ids"] = [
+                (1, sub_id, {"opt_out": vals["opt_out"]}) for sub_id in subscription_ids
+            ]
         if mm_vals and self.mapped("mass_mailing_contact_ids"):
-            self.mapped("mass_mailing_contact_ids").sudo().write(mm_vals)
+            sudo.mapped("mass_mailing_contact_ids").write(mm_vals)
 
 
 class SftpConfig:
