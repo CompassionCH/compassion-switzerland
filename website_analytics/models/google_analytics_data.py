@@ -117,7 +117,7 @@ class GoogleAnalyticsData(models.Model):
             min_page_view = int(
                 self.env["ir.config_parameter"]
                 .sudo()
-                .get_param("website_analytics.page_views_threshold")
+                .get_param("website_analytics.google_analytics_min_page_views")
             )
             df = df[df["Page views - total"] >= min_page_view]
 
