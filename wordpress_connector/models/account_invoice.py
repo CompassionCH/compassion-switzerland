@@ -223,14 +223,9 @@ class AccountInvoice(models.Model):
         product = self.env["product.product"]
         if fund:
             product = product.search([("default_code", "=", fund)], limit=1)
-        analytic_id = (
-            self.env["account.analytic.default"].account_get(product.id).analytic_id.id
-        )
-        analytic_tag_ids = (
-            self.env["account.analytic.default"]
-            .account_get(product.id)
-            .analytic_tag_ids.ids
-        )
+        analytic_default = self.env["account.analytic.default"].account_get(product.id)
+        analytic_id = analytic_default.analytic_id.id
+        analytic_tag_ids = analytic_default.analytic_tag_ids.ids
         gift_account = self.env["account.account"].search([("code", "=", "6003")])
         sponsorship = self.env["recurring.contract"]
         if child_code:
@@ -239,7 +234,7 @@ class AccountInvoice(models.Model):
                     "|",
                     ("partner_id", "=", self.partner_id.id),
                     ("correspondent_id", "=", self.partner_id.id),
-                    ("child_code", "ilike", child_code),
+                    ("child_code", "=", child_code),
                 ],
                 order="id desc",
                 limit=1,
@@ -249,38 +244,40 @@ class AccountInvoice(models.Model):
                     "No sponsorship found for child %s and partner %s"
                     % (child_code, self.partner_id.id)
                 )
+        source_id = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
+        medium_id = self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1)
+        campaign_id = self.env["utm.campaign"].search(
+            [("name", "=", utm_campaign)], limit=1
+        )
         internet_id = self.env.ref("utm.utm_medium_website").id
-        inv_line_ids = (
-            self.env["account.move.line"]
-            .with_context(
-                check_move_validity=False,
-            )
-            .create(
-                {
-                    "move_id": self.id,
-                    "product_id": product.id,
-                    "account_id": product.property_account_income_id.id
-                    or gift_account.id,
-                    "contract_id": sponsorship.id,
-                    "name": product.name or "Online donation for " + wp_origin,
-                    "quantity": 1,
-                    "price_unit": float(amount),
-                    "price_subtotal": float(amount),
-                    "analytic_account_id": analytic_id,
-                    "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
-                }
-            )
-        )
-        self.invoice_line_ids = inv_line_ids
-        self.source_id = (
-            self.env["utm.source"].search([("name", "=", utm_source)], limit=1).id
-        )
-        self.medium_id = (
-            self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1).id
-            or internet_id
-        )
-        self.campaign_id = (
-            self.env["utm.campaign"].search([("name", "=", utm_campaign)], limit=1).id
+
+        self.with_context(check_move_validity=False).write(
+            {
+                "invoice_line_ids": [
+                    (5, 0, 0),
+                    (
+                        0,
+                        0,
+                        {
+                            "move_id": self.id,
+                            "product_id": product.id,
+                            "account_id": product.property_account_income_id.id
+                            or gift_account.id,
+                            "contract_id": sponsorship.id,
+                            "name": product.name or "Online donation for " + wp_origin,
+                            "quantity": 1,
+                            "price_unit": float(amount),
+                            "price_subtotal": float(amount),
+                            "analytic_account_id": analytic_id,
+                            "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
+                        },
+                    ),
+                ],
+                "source_id": source_id.id,
+                "medium_id": medium_id.id or internet_id,
+                "campaign_id": campaign_id.id,
+                "payment_mode_id": payment_mode_id,
+            }
         )
         if not self.partner_id.legal_agreement_date:
             self.partner_id.legal_agreement_date = self.invoice_date
@@ -311,7 +308,5 @@ class AccountInvoice(models.Model):
         for account in account_payment.line_ids.account_id:
             (account_payment.line_ids + self.line_ids).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
-            ).reconcile()
-        self.payment_mode_id = payment_mode_id
-
+            ).with_delay(channel="root.accounting", priority=500).reconcile()
         return True

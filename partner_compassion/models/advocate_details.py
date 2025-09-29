@@ -167,12 +167,26 @@ class AdvocateDetails(models.Model):
         return True
 
     @api.model_create_multi
-    def create(self, vals):
-        # Link partner to the advocate details
-        advocates = super().create(vals)
-        for advocate in advocates:
+    def create(self, vals_list):
+        advocates_to_return = self.browse()
+        vals_to_create = []
+
+        partner_ids = [vals["partner_id"] for vals in vals_list]
+        existing_advocates = self.search([("partner_id", "in", partner_ids)])
+        existing_partner_ids = existing_advocates.partner_id.ids
+        advocates_to_return |= existing_advocates
+
+        for vals in vals_list:
+            if vals["partner_id"] not in existing_partner_ids:
+                vals_to_create.append(vals)
+
+        if vals_to_create:
+            advocates_to_return |= super().create(vals_to_create)
+
+        for advocate in advocates_to_return:
             advocate.partner_id.advocate_details_id = advocate
-        return advocates
+
+        return advocates_to_return
 
     def open_events(self):
         return {

@@ -348,8 +348,9 @@ class RecurringContract(models.Model):
                 date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
                 summary=_("Notify partner of new sponsorship"),
                 note=_(
-                    "A sponsorship was added to a partner with the communication "
-                    'settings set to "don\'t inform", please notify him of it'
+                    "A sponsorship was added to a partner whose communication settings "
+                    'are set to "don’t inform." Please verify that the correspondence '
+                    "settings for this partner are correct."
                 ),
                 user_id=sds_user.id,
             )
@@ -358,7 +359,7 @@ class RecurringContract(models.Model):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
         res = super().contract_waiting()
 
-        for contract in self:
+        for contract in self.filtered("child_id"):
             old_sponsorships = contract.correspondent_id.sponsorship_ids.filtered(
                 lambda c, ref=contract: c.state != "cancelled"
                 and c.start_date

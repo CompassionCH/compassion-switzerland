@@ -1,6 +1,7 @@
 # generated from manifests external_dependencies
 babel
 bs4
+gender_guesser
 pandas
 pandas>=1.5.3
 pdf2image
