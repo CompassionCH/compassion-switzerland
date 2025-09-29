@@ -1,9 +1,9 @@
 <odoo>
-    <menuitem
-    id="menu_google_analytics_report"
-    name="Google Analytics Report"
-    action="action_google_analytics_report"
-    parent="child_compassion.menu_sponsorship_section"
-  />
+       <menuitem name="Google Analytics Report"
+          id="menu_google_analytics_report"
+          sequence="99"
+          parent="mass_mailing.mass_mailing_menu_root"
+          action="action_google_analytics_report"
+          groups="mass_mailing.group_mass_mailing_user"/>
 
 </odoo>
