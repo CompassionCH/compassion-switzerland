@@ -114,7 +114,12 @@ class GoogleAnalyticsData(models.Model):
                 elif self.language == "it":
                     df = df[df["URL"].str.contains("/it/")]
 
-            df = df[df["Page views - total"] >= 5]
+            min_page_view = int(
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param("website_analytics.page_views_threshold")
+            )
+            df = df[df["Page views - total"] >= min_page_view]
 
             return df
 

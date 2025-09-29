@@ -33,7 +33,7 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "category": "Analytics",
     "license": "AGPL-3",
-    "depends": [],
+    "depends": ["child_compassion","mass_mailing"],
     "data": [
         "views/view_google_analytics_data_line_graph.xml",
         "actions/action_google_analytics_data_line_graph.xml",
