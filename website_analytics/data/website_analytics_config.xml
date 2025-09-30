@@ -7,8 +7,4 @@
         <field name="key">website_analytics.google_analytics_property_id</field>
         <field name="value" />
     </record>
-    <record id="param_google_analytics_min_page_views" model="ir.config_parameter">
-        <field name="key">website_analytics.google_analytics_min_page_views</field>
-        <field name="value" />
-    </record>
 </odoo>
