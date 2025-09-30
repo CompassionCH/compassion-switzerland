@@ -43,6 +43,7 @@
         "actions/action_google_analytics_report.xml",
         "menus/google_analytics_menus.xml",
         "data/website_analytics_config.xml",
+        "security/google_analytics_security.xml",
         "security/ir.model.access.csv",
     ],
 }
