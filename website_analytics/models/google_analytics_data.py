@@ -29,6 +29,7 @@ class GoogleAnalyticsData(models.Model):
     )
     start_date = fields.Date(string="Start Date")
     end_date = fields.Date(string="End Date")
+    min_view = fields.Integer()
     device_category = fields.Selection(
         [
             ("all", "All Devices"),
@@ -114,12 +115,8 @@ class GoogleAnalyticsData(models.Model):
                 elif self.language == "it":
                     df = df[df["URL"].str.contains("/it/")]
 
-            min_page_view = int(
-                self.env["ir.config_parameter"]
-                .sudo()
-                .get_param("website_analytics.google_analytics_min_page_views")
-            )
-            df = df[df["Page views - total"] >= min_page_view]
+            if self.min_view:
+                df = df[df["Page views - total"] >= self.min_view]
 
             return df
 
