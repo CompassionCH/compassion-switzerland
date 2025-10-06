@@ -25,12 +25,12 @@
             <field name="subject" position="attributes">
                 <attribute
           name="attrs"
-        >{'invisible': [('send_mode', '=', 'sms')]}</attribute>
+        >{'invisible': ['|', ('send_mode', '=', 'sms'), ('state', 'in', ['processing', 'done'])]}</attribute>
             </field>
             <field name="ir_attachment_ids" position="attributes">
                 <attribute
           name="attrs"
-        >{'invisible': [('send_mode', '=', 'sms')]}</attribute>
+        >{'invisible': ['|', ('send_mode', '=', 'sms'), ('state', 'in', ['processing', 'done'])]}</attribute>
             </field>
         </field>
     </record>

@@ -30,7 +30,7 @@
 {
     "name": "Compassion CH Partners",
     "summary": "Upgrade Partners for Compassion Switzerland",
-    "version": "14.0.1.0.3",
+    "version": "14.0.1.0.4",
     "development_status": "Production/Stable",
     "category": "Partner Management",
     "author": "Compassion CH",
@@ -46,6 +46,7 @@
         "sbc_compassion",
         "thankyou_letters",
         "partner_communication_compassion",
+        "mailchimp",
         # OCA/partner-contact
         "base_location",
         "partner_address_street3",
