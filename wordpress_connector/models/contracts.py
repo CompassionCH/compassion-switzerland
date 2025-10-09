@@ -438,10 +438,11 @@ class Contracts(models.Model):
             partner = self.env["res.partner"].search(
                 [("email", "=", form_data["email"])], limit=1
             )
+            lang_code = False
             if form_data.get("language"):
                 lang_code = (
                     self.env["res.lang"]
-                    .search([("name", "=", form_data["language"])], limit=1)
+                    .search([("name", "ilike", form_data["language"])], limit=1)
                     .code
                 )
             lang_code = (
