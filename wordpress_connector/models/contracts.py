@@ -432,6 +432,7 @@ class Contracts(models.Model):
         if custom_values is None:
             custom_values = {}
         sponsorship_type = custom_values.get("type")
+        notify_partner_id = False
         if sponsorship_type in ("CSP", "M2M"):
             form_data = self._parse_wp_sponsorship_form(msg_dict.get("body", ""))
             partner = self.env["res.partner"].search(
@@ -486,9 +487,15 @@ class Contracts(models.Model):
             notify_partner_id = self.env["res.config.settings"].get_param(
                 notify_partner_field
             )
-            if notify_partner_id:
-                msg_dict["partner_ids"] = [[4, notify_partner_id]]
-        return super().message_new(msg_dict, custom_values)
+        contract = super().message_new(msg_dict, custom_values)
+        if notify_partner_id:
+            contract.message_post(
+                body=msg_dict["body"],
+                subject=msg_dict["subject"],
+                partner_ids=[notify_partner_id],
+                message_type="email"
+            )
+        return contract
 
     def _parse_wp_sponsorship_form(self, data_string):
         """
