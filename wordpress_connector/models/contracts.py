@@ -438,7 +438,17 @@ class Contracts(models.Model):
             partner = self.env["res.partner"].search(
                 [("email", "=", form_data["email"])], limit=1
             )
-            lang_code = (partner.lang and partner.lang[:2]) or "de"
+            if form_data.get("language"):
+                lang_code = (
+                    self.env["res.lang"]
+                    .search([("name", "=", form_data["language"])], limit=1)
+                    .code
+                )
+            lang_code = (
+                (lang_code and lang_code[:2])
+                or (partner.lang and partner.lang[:2])
+                or "de"
+            )
 
             if sponsorship_type == "CSP":
                 country_code = form_data["country"]
@@ -493,7 +503,7 @@ class Contracts(models.Model):
                 body=msg_dict["body"],
                 subject=msg_dict["subject"],
                 partner_ids=[notify_partner_id],
-                message_type="email"
+                message_type="email",
             )
         return contract
 
@@ -513,11 +523,12 @@ class Contracts(models.Model):
         - 'sponsorship_length' (str): The sponsorship duration.
         """
         # Regex to capture the rest of the line after a specific label.
-        country_regex = r"Country:\s*([^\n]*)"
-        continent_regex = r"Continent:\s*([^\n]*)"
-        engagement_regex = r"Engagement type:\s*([^\n]*)"
-        email_regex = r"E-mail:\s*([^\n]*)"
-        sponsorship_length_regex = r"Sponsorship length:\s*([^\n]*)"
+        country_regex = r"Country:\s*([^\n\s]*)"
+        continent_regex = r"Continent:\s*([^\n\s]*)"
+        engagement_regex = r"Engagement type:\s*([^\n\s]*)"
+        email_regex = r"E-mail:\s*([^\n\s]*)"
+        sponsorship_length_regex = r"Sponsorship length:\s*([^\n\s]*)"
+        language_regex = r"Language\s*:\s*([^\n\s]*)"
 
         # Compile the regex patterns for efficiency
         country_pattern = re.compile(country_regex)
@@ -525,6 +536,7 @@ class Contracts(models.Model):
         engagement_pattern = re.compile(engagement_regex)
         email_pattern = re.compile(email_regex)
         sponsorship_length_pattern = re.compile(sponsorship_length_regex)
+        language_pattern = re.compile(language_regex)
 
         # Extract information using regular expressions
         country_match = country_pattern.search(data_string)
@@ -532,6 +544,7 @@ class Contracts(models.Model):
         engagement_match = engagement_pattern.search(data_string)
         email_match = email_pattern.search(data_string)
         sponsorship_length_match = sponsorship_length_pattern.search(data_string)
+        language_match = language_pattern.search(data_string)
 
         # Extract data from matches (handle cases where no match is found)
         country = country_match.group(1) if country_match else ""
@@ -541,6 +554,7 @@ class Contracts(models.Model):
         sponsorship_length = (
             sponsorship_length_match.group(1) if sponsorship_length_match else ""
         )
+        language = language_match.group(1) if language_match else ""
 
         # Return a dictionary with the extracted information
         return {
@@ -549,6 +563,7 @@ class Contracts(models.Model):
             "engagement_type": html2plaintext(engagement_type),
             "email": html2plaintext(email),
             "sponsorship_length": html2plaintext(sponsorship_length),
+            "language": language,
         }
 
     def _get_neediest_csp_country_code(self, continent=None):
