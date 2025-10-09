@@ -437,7 +437,7 @@ class Contracts(models.Model):
             partner = self.env["res.partner"].search(
                 [("email", "=", form_data["email"])], limit=1
             )
-            lang_code = partner.lang[:2] or "de"
+            lang_code = (partner.lang and partner.lang[:2]) or "de"
 
             if sponsorship_type == "CSP":
                 country_code = form_data["country"]
