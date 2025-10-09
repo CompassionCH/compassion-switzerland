@@ -523,12 +523,12 @@ class Contracts(models.Model):
         - 'sponsorship_length' (str): The sponsorship duration.
         """
         # Regex to capture the rest of the line after a specific label.
-        country_regex = r"Country:\s*([^\n\s]*)"
-        continent_regex = r"Continent:\s*([^\n\s]*)"
-        engagement_regex = r"Engagement type:\s*([^\n\s]*)"
-        email_regex = r"E-mail:\s*([^\n\s]*)"
-        sponsorship_length_regex = r"Sponsorship length:\s*([^\n\s]*)"
-        language_regex = r"Language\s*:\s*([^\n\s]*)"
+        country_regex = r"Country:\s*([^\n]*)"
+        continent_regex = r"Continent:\s*([^\n]*)"
+        engagement_regex = r"Engagement type:\s*([^\n]*)"
+        email_regex = r"E-mail:\s*([^\n]*)"
+        sponsorship_length_regex = r"Sponsorship length:\s*([^\n]*)"
+        language_regex = r"Language\s*:\s*([^\n]*)"
         amount_regex = r"CHF\s*(\d+)"
 
         # Compile the regex patterns for efficiency
