@@ -11,7 +11,7 @@ import logging
 import re
 from random import randint
 
-from werkzeug.utils import escape
+from markupsafe import escape
 
 from odoo import _, api, fields, models
 from odoo.tools import config, html2plaintext
@@ -216,8 +216,9 @@ class Contracts(models.Model):
             # Format birthday
             birthday = form_data.get("birthday", "")
             if birthday:
-                d = birthday.split("/")  # 'dd/mm/YYYY' => ['dd', 'mm', 'YYYY']
-                partner_infos["birthdate"] = "%s-%s-%s" % (d[2], d[1], d[0])
+                d = birthday.split("/")
+                if len(d) == 3:
+                    partner_infos["birthdate"] = f"{d[2]}-{d[1]}-{d[0]}"
 
             # Search for existing partner
             partner = match_obj.match_values_to_partner(partner_infos)
@@ -431,22 +432,34 @@ class Contracts(models.Model):
         if custom_values is None:
             custom_values = {}
         sponsorship_type = custom_values.get("type")
-        if sponsorship_type == "CSP":
-            csp_data = self._parse_csp_info(msg_dict.get("body", ""))
+        if sponsorship_type in ("CSP", "M2M"):
+            form_data = self._parse_wp_sponsorship_form(msg_dict.get("body", ""))
             partner = self.env["res.partner"].search(
-                [("email", "=", csp_data["email"])], limit=1
+                [("email", "=", form_data["email"])], limit=1
             )
+            lang_code = partner.lang[:2] or "de"
 
-            country_code = csp_data["country"]
-            if not country_code:
-                country_code = self._get_neediest_csp_country_code(
-                    csp_data["continent"]
+            if sponsorship_type == "CSP":
+                country_code = form_data["country"]
+                if not country_code:
+                    country_code = self._get_neediest_csp_country_code(
+                        form_data["continent"]
+                    )
+
+                product = self.env["product.product"].search(
+                    [("default_code", "=", f"csp_{country_code}")], limit=1
                 )
+                ref = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
+            else:
+                product = self.env["product.product"].search(
+                    [
+                        ("default_code", "like", "m2m"),
+                        ("default_code", "like", lang_code),
+                    ],
+                    limit=1,
+                )
+                ref = f"M2M-{partner.ref or randint(1000, 9999)}"
 
-            product = self.env["product.product"].search(
-                [("default_code", "=", f"csp_{country_code}")], limit=1
-            )
-            csp_name = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
             custom_values.update(
                 {
                     "partner_id": partner.id,
@@ -462,16 +475,22 @@ class Contracts(models.Model):
                             },
                         )
                     ],
-                    "reference": csp_name,
+                    "reference": ref,
                 }
             )
-            msg_dict["subject"] = csp_name
+            msg_dict["subject"] = ref
             msg_date = msg_dict.get("date")
             if msg_date:
                 custom_values["create_date"] = msg_date
+            notify_partner_field = f"sponsorship_{lang_code}_id"
+            notify_partner_id = self.env["res.config.settings"].get_param(
+                notify_partner_field
+            )
+            if notify_partner_id:
+                msg_dict["partner_ids"] = [[4, notify_partner_id]]
         return super().message_new(msg_dict, custom_values)
 
-    def _parse_csp_info(self, data_string):
+    def _parse_wp_sponsorship_form(self, data_string):
         """
         Parses a sponsorship application string and extracts specific information.
 
@@ -479,11 +498,12 @@ class Contracts(models.Model):
             data_string: The string containing the sponsorship application data.
 
         Returns:
-            A dictionary containing the parsed information:
-                * continent: The applicant's continent.
-                * country: The applicant's country. (without potential encoding issues)
-                * engagement_type: The desired sponsorship level.
-                * payment_method: The preferred payment method.
+            dict: A dictionary with parsed form data.
+        - 'country' (str): The applicant's country.
+        - 'continent' (str): The applicant's continent (mapped via CONTINENT_MAPPING).
+        - 'engagement_type' (str): The desired sponsorship level.
+        - 'email' (str): The applicant's email.
+        - 'sponsorship_length' (str): The sponsorship duration.
         """
         # Regex to capture the rest of the line after a specific label.
         country_regex = r"Country:\s*([^\n]*)"

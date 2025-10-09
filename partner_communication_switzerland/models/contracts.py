@@ -422,6 +422,9 @@ class RecurringContract(models.Model):
 
     def _contract_terminated(self, vals):
         vals["new_picture"] = False
+        self.filtered(lambda c: c.type == "M2M").send_communication(
+            self.env.ref("partner_communication_switzerland.m2m_stop_rule")
+        )
         return super()._contract_terminated(vals)
 
     def cancel_sub_validation(self):
@@ -521,6 +524,7 @@ class RecurringContract(models.Model):
         transfer = self.env.ref(common + "new_dossier_transfer")
         child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
+        m2m_welcome = self.env.ref(swiss + "m2m_welcome_rule")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
@@ -537,6 +541,8 @@ class RecurringContract(models.Model):
             configs = wrpr_welcome + child_picture
         elif self.type == "CSP":
             configs = survival_config
+        elif self.type == "M2M":
+            configs = m2m_welcome
         else:
             configs = new_dossier + child_picture
         for config in configs:

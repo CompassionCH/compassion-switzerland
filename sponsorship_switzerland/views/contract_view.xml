@@ -86,27 +86,16 @@
       ref="sponsorship_compassion.view_recurring_contract_filter_graph"
     />
         <field name="arch" type="xml">
-            <filter name="last_3_months" position="after">
-                <separator />
-                <filter
-          string="Child Sponsorship"
-          name="Child Sponsorship"
-          domain="[('type', '=', 'S')]"
-        />
-                <filter
-          string="Moms&amp;Baby Sponsorship"
-          name="Moms&amp;Baby Sponsorship"
-          domain="[('type', '=','CSP')]"
-        />
-                <filter
-          string="W&amp;P Sponsorship"
-          name="W&amp;P Sponsorship"
-          domain="[('type', '=', 'SWP')]"
-        />
+            <filter name="type_write_pray" position="after">
                 <filter
           string="Correspondent Sponsorship"
           name="Correspondent Sponsorship"
           domain="[('type', '=', 'SC')]"
+        />
+                <filter
+          string="Many2Many Sponsorship"
+          name="many2many"
+          domain="[('type', '=','M2M')]"
         />
                 <separator />
                 <filter
@@ -127,7 +116,7 @@
                 <filter
           string="English"
           name="english"
-          domain="[('correspondent_id.lang', '=', 'en_US')]"
+          domain="[('correspondent_id.lang', '=', 'en_US'),('origin_id','!=',3955)]"
         />
             </filter>
         </field>
@@ -154,4 +143,13 @@
     action="action_view_partner_waiting_mandate"
     sequence="100"
   />
+
+    <record
+    id="sponsorship_compassion.action_sponsorship_contract"
+    model="ir.actions.act_window"
+  >
+        <field
+      name="domain"
+    >["|", ("type", "like", "S"), ("type", "like", "M2M")]</field>
+    </record>
 </odoo>
