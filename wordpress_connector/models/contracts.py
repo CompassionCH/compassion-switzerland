@@ -480,9 +480,9 @@ class Contracts(models.Model):
                             0,
                             {
                                 "product_id": product.id,
-                                "amount": product.list_price,
+                                "amount": form_data["amount"] or product.list_price,
                                 "quantity": 1,
-                                "subtotal": product.list_price,
+                                "subtotal": form_data["amount"] or product.list_price,
                             },
                         )
                     ],
@@ -529,6 +529,7 @@ class Contracts(models.Model):
         email_regex = r"E-mail:\s*([^\n\s]*)"
         sponsorship_length_regex = r"Sponsorship length:\s*([^\n\s]*)"
         language_regex = r"Language\s*:\s*([^\n\s]*)"
+        amount_regex = r"CHF\s*(\d+)"
 
         # Compile the regex patterns for efficiency
         country_pattern = re.compile(country_regex)
@@ -537,6 +538,7 @@ class Contracts(models.Model):
         email_pattern = re.compile(email_regex)
         sponsorship_length_pattern = re.compile(sponsorship_length_regex)
         language_pattern = re.compile(language_regex)
+        amount_pattern = re.compile(amount_regex)
 
         # Extract information using regular expressions
         country_match = country_pattern.search(data_string)
@@ -545,6 +547,7 @@ class Contracts(models.Model):
         email_match = email_pattern.search(data_string)
         sponsorship_length_match = sponsorship_length_pattern.search(data_string)
         language_match = language_pattern.search(data_string)
+        amount_match = amount_pattern.search(data_string)
 
         # Extract data from matches (handle cases where no match is found)
         country = country_match.group(1) if country_match else ""
@@ -555,6 +558,7 @@ class Contracts(models.Model):
             sponsorship_length_match.group(1) if sponsorship_length_match else ""
         )
         language = language_match.group(1) if language_match else ""
+        amount = amount_match.group(1) if amount_match else ""
 
         # Return a dictionary with the extracted information
         return {
@@ -564,6 +568,7 @@ class Contracts(models.Model):
             "email": html2plaintext(email),
             "sponsorship_length": html2plaintext(sponsorship_length),
             "language": language,
+            "amount": amount,
         }
 
     def _get_neediest_csp_country_code(self, continent=None):
