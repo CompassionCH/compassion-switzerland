@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Wordpress Connector",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.1.0",
     "category": "Social",
     "author": "Emanuel Cino",
     "license": "AGPL-3",
@@ -45,6 +45,8 @@
         "crm_request",
         "partner_compassion",
         "website_sponsorship",
+        "sponsorship_switzerland",
+        "survival_sponsorship_compassion",
     ],
     "external_dependencies": {"python": ["pysftp", "yaml"]},
     "demo": [],

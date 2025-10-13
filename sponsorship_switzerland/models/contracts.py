@@ -45,6 +45,10 @@ class RecurringContracts(models.Model):
         selection_add=[("mandate", "Waiting Mandate")],
         ondelete={"mandate": lambda records: records.write({"state": "waiting"})},
     )
+    type = fields.Selection(
+        selection_add=[("M2M", "Many2Many Sponsorship")],
+        ondelete={"M2M": lambda records: records.write({"type": "O"})},
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
@@ -132,6 +136,29 @@ class RecurringContracts(models.Model):
                     "message": ", ".join(cat_names),
                 }
             }
+
+    @api.onchange("type", "partner_id")
+    def onchange_type(self):
+        if self.type == "M2M":
+            lang = self.partner_id.lang or self.env.lang
+            product = self.env["product.product"].search(
+                [("default_code", "like", "m2m"), ("default_code", "like", lang[:2])],
+                limit=1,
+            )
+            if product:
+                self.contract_line_ids = [
+                    (5, 0, 0),
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "quantity": 1,
+                            "amount": product.list_price,
+                            "subtotal": product.list_price,
+                        },
+                    ),
+                ]
 
     def postpone_reminder(self):
         self.ensure_one()
