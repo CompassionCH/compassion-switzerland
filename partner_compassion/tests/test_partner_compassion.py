@@ -95,7 +95,6 @@ class TestMessages(BaseSponsorshipTest):
         self.partner.number_sponsorships = 5
         self.assertEqual(self.partner.number_sponsorships, 5)
 
-        self.partner.update_number_sponsorships()
         self.assertEqual(self.partner.number_sponsorships, 0)
 
         sp_group = self.create_group(
