@@ -48,7 +48,7 @@
         "hr_payroll_period",  # oca/payroll
         "asterisk_click2dial",  # oca_addons/connector-telephony
         "web_notify",  # oca_addons/web
-        "hr_attendance_report_theoretical_time",  # hr_attendance_report_theoretical_tim
+        "hr_attendance_report_theoretical_time",  # hr_attendance_report_theoretical_time
     ],
     "demo": [],
     "installable": True,
