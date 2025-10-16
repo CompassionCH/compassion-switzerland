@@ -225,17 +225,6 @@ class ResPartner(models.Model):
             res += move_line.credit
         return res
 
-    def update_number_sponsorships(self):
-        """
-        Update the sponsorship number for the related church as well.
-        """
-        church_to_update = self.filtered(
-            lambda x: x.church_id and x.church_id != x
-        ).mapped("church_id")
-        if church_to_update:
-            church_to_update.update_number_sponsorships()
-        return super().update_number_sponsorships()
-
     def _compute_write_and_pray(self):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
