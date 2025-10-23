@@ -19,8 +19,8 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                 SELECT hl.employee_id,
                        d.date,
                        case when hl.number_of_days > 1
-                              then 8
-                            else 8 * hl.number_of_days
+                              then rc.hours_per_day
+                            else rc.hours_per_day * hl.number_of_days
                        end as leave_hours
                   FROM hr_leave hl
                  CROSS JOIN generate_series(
@@ -30,6 +30,12 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                  'Europe/Zurich')::date,
                   '1 day'::interval
                                             ) AS d(date)
+                 JOIN hr_employee_calendar hec
+                   ON hec.employee_id = hl.employee_id
+                  AND d.date BETWEEN hec.date_start
+                  AND COALESCE(hec.date_end, '9999-12-31')
+                 JOIN resource_calendar rc
+                   ON rc.id = hec.calendar_id
                  WHERE hl.state = 'validate'
                    AND EXTRACT(isodow FROM d.date) < 6
                    AND NOT EXISTS (SELECT 1
@@ -59,8 +65,7 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                            all_days.date,
                            (rules.hour_to - rules.hour_from) as work_duration
                       FROM daily_schedule_rules rules
-                      JOIN generate_series( (SELECT LEAST(MIN(date_start),
-                                                    CURRENT_DATE - INTERVAL '2 year')
+                      JOIN generate_series( (SELECT MIN(date_start)
                                                FROM daily_schedule_rules),
                                                     CURRENT_DATE,
                                                     '1 day'::interval
