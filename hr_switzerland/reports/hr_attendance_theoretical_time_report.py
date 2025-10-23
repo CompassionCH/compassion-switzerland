@@ -142,7 +142,8 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
     def read_group(
         self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True
     ):
-        return super(models.Model, self).read_group(
+        return models.Model.read_group(
+            self,
             domain,
             fields,
             groupby,
