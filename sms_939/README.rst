@@ -52,7 +52,7 @@ To use this module, you need to:
 Known issues / Roadmap
 ======================
 
-- Nothing yet
+-  Nothing yet
 
 Changelog
 =========
@@ -60,7 +60,7 @@ Changelog
 10.0.1.0.0 (2018-07-09)
 -----------------------
 
-- [ADD] Add the module
+-  [ADD] Add the module
 
 Bug Tracker
 ===========
@@ -83,7 +83,7 @@ Authors
 Contributors
 ------------
 
-- Emanuel Cino <ecino@compassion.ch>
+-  Emanuel Cino <ecino@compassion.ch>
 
 Maintainers
 -----------
