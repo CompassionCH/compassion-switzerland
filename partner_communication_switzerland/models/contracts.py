@@ -73,16 +73,17 @@ class RecurringContract(models.Model):
             total_paid = self.mapped("group_id.contract_ids").filtered(
                 lambda s: s.state not in ("cancelled", "terminated") and s.total_amount
             )
+            total_amount = int(sum(self.mapped("total_amount")))
             if len(self) == len(total_paid):
                 phrase = _(
-                    "Attached you will find a payment slip to set up a standing order "
-                    "for monthly payment of the sponsorship"
-                )
+                    "Please find attached a payment slip to set up a standing order "
+                    "for your monthly donation of {amount} CHF."
+                ).format(amount=total_amount)
             else:
                 phrase = _(
-                    "Attached you will find the payment slip that will allow you "
-                    "to increase your current standing order to CHF %s.-"
-                ) % int(sum(total_paid.mapped("total_amount")))
+                    "We thank you in advance for adding your monthly support "
+                    "of {amount} CHF to your existing standing order."
+                ).format(amount=total_amount)
         elif "LSV" in payment_mode or "Postfinance" in payment_mode:
             if "mandate" in self.mapped("state"):
                 phrase = _(
