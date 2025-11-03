@@ -44,7 +44,8 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                                   )
                  GROUP BY hl.employee_id,
                           d.date,
-                          hl.number_of_days
+                          hl.number_of_days,
+                          rc.hours_per_day
             ),
             daily_theoretical_hours AS (
                 WITH daily_schedule_rules AS (
