@@ -23,6 +23,9 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                             else rc.hours_per_day * hl.number_of_days
                        end as leave_hours
                   FROM hr_leave hl
+                  join hr_leave_type hlt
+                    on hlt.id = hl.holiday_status_id
+                   and hlt.include_in_theoretical = false
                  CROSS JOIN generate_series(
                  (hl.date_from AT TIME ZONE 'UTC' AT TIME ZONE
                  'Europe/Zurich')::date,
