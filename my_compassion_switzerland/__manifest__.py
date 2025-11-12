@@ -23,9 +23,12 @@
     "data": [
         "security/ir.model.access.csv",
         "security/access_rules.xml",
+        "data/account_payment_mode_data.xml",
         "views/advocate_engagement_view.xml",
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
+        "templates/my2_new_sponsorship_wizard_ebill.xml",
+        "templates/assets.xml",
     ],
     "installable": True,
     "auto_install": False,
