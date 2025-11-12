@@ -14,10 +14,16 @@ Page: My Compassion 2 – New Sponsorship Wizard - Inject eBill Container during
     - Provides DOM hooks: #ebill_setup_container, #ebill_content_container, #start_ebill_workflow_btn.
 -->
 <odoo>
-  <template id="inject_ebill_container_during_payment_selection" inherit_id="my_compassion.my2_new_sponsorship_wizard_payment_method" name="Inject eBill container during payment selection">
+  <template
+    id="inject_ebill_container_during_payment_selection"
+    inherit_id="my_compassion.my2_new_sponsorship_wizard_payment_method"
+    name="Inject eBill container during payment selection"
+  >
         <xpath
-          expr="//t[@t-call='theme_compassion_2025.FormFieldComponent']
-                   [.//t[@t-set='input_id' and @t-value=&quot;'payment_method'&quot;]]" position="after">
+      expr="//t[@t-call='theme_compassion_2025.FormFieldComponent']
+                   [.//t[@t-set='input_id' and @t-value=&quot;'payment_method'&quot;]]"
+      position="after"
+    >
 
       <div id="ebill_setup_container" class="my-3 d-none">
         <div id="ebill_content_container" class="p-4 bg-high-yellow rounded-lg">
@@ -27,9 +33,11 @@ Page: My Compassion 2 – New Sponsorship Wizard - Inject eBill Container during
               You selected E-Bill. To continue, please set up your E-Bill connection with Compassion.
             </p>
             <div class="d-flex justify-content-end">
-              <button type="button"
-                      class="btn btn--compact-filled btn--radius-pill bg-core-blue text-pure-white"
-                      id="start_ebill_workflow_btn">
+              <button
+                type="button"
+                class="btn btn--compact-filled btn--radius-pill bg-core-blue text-pure-white"
+                id="start_ebill_workflow_btn"
+              >
                 Set up E-Bill Now
               </button>
             </div>
