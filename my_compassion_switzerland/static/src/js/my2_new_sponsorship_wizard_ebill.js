@@ -41,10 +41,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         /**
          * @override
          */
-        start: function () {
+        start: async function () {
           this._super.apply(this, arguments);
-
-          this._onPaymentMethodChange();
           this._initEbillState();
         },
 
@@ -60,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             })
             .then((eBillInfoOfCurrentUser) => {
               this._eBill = eBillInfoOfCurrentUser;
+              this._onPaymentMethodChange();
             })
             .catch((err) => {
               console.warn("Could not check existing eBill contract:", err);
@@ -74,12 +73,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
           const selectedText = this.$("#payment_method option:selected").text();
           const isEBill = selectedText.includes("eBill");
 
-          console.log("Payment method changed. isEBill =", isEBill);
-          if (isEBill) {
-            if (!this._eBill.has_contract) {
-              this.$("#ebill_setup_container").toggleClass("d-none", false);
-              this.$("#finish_button").prop("disabled", true);
-            }
+          if (isEBill && !this._eBill.has_contract) {
+            this.$("#ebill_setup_container").toggleClass("d-none", false);
+            this.$("#finish_button").prop("disabled", true);
           } else {
             this.$("#ebill_setup_container").toggleClass("d-none", true);
             this.$("#finish_button").prop("disabled", false);
@@ -116,11 +112,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
          * @param {Event} ev
          */
         _onEbillFormSubmit: function (ev) {
-          const form = ev.delegateTarget;
+          const form = $(ev.currentTarget).closest("form");
           const noValidationNeeded = $(ev.currentTarget).is("[formnovalidate]");
 
-          if (!form.checkValidity() && !noValidationNeeded) {
-            form.reportValidity();
+          if (form.length && !form[0].checkValidity() && !noValidationNeeded) {
+            form[0].reportValidity();
             return;
           }
 
