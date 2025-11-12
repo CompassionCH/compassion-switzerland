@@ -19,6 +19,7 @@
         "my_compassion",
         "theme_compassion_2025",
         "partner_compassion",
+        "ebill_postfinance_recipient_subscription",
     ],
     "data": [
         "security/ir.model.access.csv",
