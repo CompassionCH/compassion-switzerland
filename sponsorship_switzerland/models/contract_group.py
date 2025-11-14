@@ -304,7 +304,7 @@ class ContractGroup(models.Model):
         )
         bank = self.payment_mode_id.fixed_journal_id.bank_account_id
         if gift_wizard:
-            payment_reference = gift_wizard.contract_id.get_gift_bvr_reference(
+            payment_reference = gift_wizard.current_contract_id.get_gift_bvr_reference(
                 gift_wizard.product_id
             )
         elif self.bvr_reference:
