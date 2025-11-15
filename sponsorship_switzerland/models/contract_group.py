@@ -338,7 +338,7 @@ class ContractGroup(models.Model):
         if gift_wizard:
             gift = gift_wizard.with_context(lang=lang)
             product_name = gift.product_id.name
-            child_preferred_name = gift.contract_id.child_id.preferred_name
+            child_preferred_name = gift.current_contract_id.child_id.preferred_name
 
             if gift_wizard.description != gift_wizard.product_id.display_name:
                 ref = (
