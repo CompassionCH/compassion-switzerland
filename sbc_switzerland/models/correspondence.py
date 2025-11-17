@@ -11,7 +11,7 @@ import base64
 import logging
 from io import BytesIO
 
-from odoo import SUPERUSER_ID, api, fields, models
+from odoo import api, fields, models
 
 logger = logging.getLogger(__name__)
 
@@ -97,14 +97,3 @@ class Correspondence(models.Model):
             {"translation_supervisor_id": translation_supervisor.id}
         )
         return True
-
-    def _post_process_translation(self):
-        # We want to send the communication to the sponsor when the translation is done
-        super()._post_process_translation()
-        if self.direction == "Beneficiary To Supporter":
-            self.with_user(SUPERUSER_ID).with_delay(
-                channel="root.partner_communication",
-                priority=100,
-                description="Send B2S letter communication",
-                identity_key=f"sbc.send_communication.{self.ids}",
-            ).send_communication()
