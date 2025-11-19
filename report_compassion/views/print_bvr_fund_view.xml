@@ -10,11 +10,11 @@
                 <group>
                     <field name="product_id" />
                     <field name="amount" />
-                    <field name="pdf" />
+                    <field name="output_type" />
                 </group>
-                <group states="pdf">
-                    <field name="pdf_name" invisible="1" />
-                    <field name="pdf_download" filename="pdf_name" />
+                <group states="download">
+                    <field name="file_name" invisible="1" />
+                    <field name="file_download" filename="file_name" />
                 </group>
                 <footer>
                     <button

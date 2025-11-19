@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "14.0.1.3.1",
+    "version": "14.0.1.3.2",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
