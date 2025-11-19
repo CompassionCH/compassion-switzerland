@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           const params = {
             is_integrated: true,
-            email: this._eBill.partner?.email,
+            email: this._eBill.partner?.email || "",
           };
 
           ajax
