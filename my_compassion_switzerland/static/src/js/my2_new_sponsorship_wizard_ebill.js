@@ -134,10 +134,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
               "The clicked button is missing a 'data-action' attribute."
             );
             return;
-          } else if (action === "/ebill/validate") {
+          } else if (action === "/ebill/subscribe") {
             params.email =
               this.$("#email_input").val() ?? this.$("#email").val();
-          } else if (action === "/ebill/confirm") {
+          } else if (action === "/ebill/validate") {
             params.validation_code = this.$("#validation_code_input").val();
             params.token = this.$("#token").val();
             params.email = this.$("#email").val();
