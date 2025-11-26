@@ -88,7 +88,7 @@
         "views/mail_mail.xml",
     ],
     "qweb": [],
-    "installable": True,
+    'installable': False,
     "auto_install": False,
     "post_init_hook": "post_init_hook",
 }

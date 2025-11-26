@@ -10,7 +10,7 @@
     "author": "Compassion Switzerland",
     "maintainers": ["ecino"],
     "license": "AGPL-3",
-    "installable": True,
+    'installable': False,
     "external_dependencies": {"python": ["pandas>=1.5.3"]},
     "depends": [
         "crm_request",

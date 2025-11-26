@@ -32,7 +32,7 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "author": "Compassion Switzerland, Jérémie Lang",
     "license": "AGPL-3",
-    "installable": True,
+    'installable': False,
     "data": [
         "views/account_bank_statement_line.xml",
         "views/account_bank_statement_line_form.xml",

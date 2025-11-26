@@ -38,7 +38,7 @@
     ],
     "data": ["views/account_move.xml", "views/res_partner_view.xml"],
     "demo": [],
-    "installable": True,
+    'installable': False,
     "application": False,
     "auto_install": False,
 }
