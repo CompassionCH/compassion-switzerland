@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template
-        id="method_form_fee_extended"
-        name="Payment Method Fee Extended"
-        inherit_id="website_sale_charge_payment_fee.method_form_fee"
+            id="method_form_fee_extended"
+            name="Payment Method Fee Extended"
+            inherit_id="website_sale_charge_payment_fee.method_form_fee"
     >
         <xpath expr="//t[@t-if='provider_sudo.charge_fee']" position="replace">
 
@@ -11,15 +11,15 @@
                 <span>(Fee:
                     <t t-if="pm_sudo.charge_fee_type == 'fixed'">
                         <span
-                            id="charge_fee_fixed_price"
-                            t-field="pm_sudo.charge_fee_fixed_price"
-                            t-options="{'widget': 'monetary', 'display_currency': pm_sudo.charge_fee_currency_id}"
+                                id="charge_fee_fixed_price"
+                                t-field="pm_sudo.charge_fee_fixed_price"
+                                t-options="{'widget': 'monetary', 'display_currency': pm_sudo.charge_fee_currency_id}"
                         />
                     </t>
                     <t t-if="pm_sudo.charge_fee_type == 'percentage'">
                         <span
-                            id="charge_fee_percentage"
-                            t-field="pm_sudo.charge_fee_percentage"
+                                id="charge_fee_percentage"
+                                t-field="pm_sudo.charge_fee_percentage"
                         />
                         %
                     </t>

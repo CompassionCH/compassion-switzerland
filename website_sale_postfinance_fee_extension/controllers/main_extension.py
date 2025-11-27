@@ -34,7 +34,8 @@ class WebsiteSaleFeeExtended(WebsiteSale):
         selected_fee_entity = False
 
         if payment_option_id:
-            selected_fee_entity = request.env["payment.method"].sudo().browse(int(payment_option_id))
+            selected_fee_entity = request.env["payment.method"].sudo().browse(
+                int(payment_option_id))
 
             if selected_fee_entity and selected_fee_entity.provider_ids:
                 selected_provider = selected_fee_entity.provider_ids[0]
@@ -43,9 +44,11 @@ class WebsiteSaleFeeExtended(WebsiteSale):
         # Cette logique s'active si aucune méthode spécifique (payment_option_id)
         # n'a été sélectionnée. Cela couvre les fournisseurs standard
         # (sans méthode PostFinance) qui ne sont identifiés que par provider_id.
-        if not selected_fee_entity and (provider_id or render_values.get("providers_sudo")):
+        if not selected_fee_entity and (
+                provider_id or render_values.get("providers_sudo")):
             if provider_id:
-                selected_provider = request.env["payment.provider"].sudo().browse(int(provider_id))
+                selected_provider = request.env["payment.provider"].sudo().browse(
+                    int(provider_id))
             else:
                 providers_sudo = render_values.get("providers_sudo")
                 payment_methods_sudo = render_values.get("payment_methods_sudo")

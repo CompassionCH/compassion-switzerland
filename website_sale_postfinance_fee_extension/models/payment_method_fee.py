@@ -24,7 +24,7 @@ class PaymentMethod(models.Model):
     charge_fee = fields.Boolean(
         "Fee charged to customer",
         help="An extra fee line will be added to online order when using this "
-        "payment method",
+             "payment method",
     )
     charge_fee_description = fields.Text(
         "Fee Description", compute="_compute_charge_fee_description"
