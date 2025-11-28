@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Permet de masquer l'onglet "Charge payment fee" dans le payment provider -->
+    <!-- Allows you to hide the “Charge payment fee” tab in the payment provider. -->
     <record id="provider_form_fee_inherit_hide" model="ir.ui.view">
         <field name="name">payment_provider.form.fee.inherit.hide</field>
         <field name="model">payment.provider</field>
@@ -13,7 +13,7 @@
         </field>
     </record>
 
-    <!-- On ajoute les champs masqués (du provider) dans le payment.method -->
+    <!-- The hidden fields (from the provider) are added to the payment.method. -->
     <record id="payment_method_form_fee_inherit" model="ir.ui.view">
         <field name="name">payment_method.form.fee.inherit</field>
         <field name="model">payment.method</field>

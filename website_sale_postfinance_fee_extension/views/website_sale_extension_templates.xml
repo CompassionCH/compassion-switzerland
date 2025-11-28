@@ -5,6 +5,7 @@
             name="Payment Method Fee Extended"
             inherit_id="website_sale_charge_payment_fee.method_form_fee"
     >
+        <!-- Allows you to add the fee amount after the name of the payment method. -->
         <xpath expr="//t[@t-if='provider_sudo.charge_fee']" position="replace">
 
             <t t-if="pm_sudo.charge_fee">

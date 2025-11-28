@@ -6,11 +6,7 @@ from odoo.addons.website_sale_charge_payment_fee.controllers.main import Website
 
 class WebsiteSaleFeeExtended(WebsiteSaleFee):
     @http.route(
-        "/shop/payment",
-        type="http",
-        auth="public",
-        website=True,
-        sitemap=False
+        "/shop/payment", type="http", auth="public", website=True, sitemap=False
     )
     def shop_payment(self, **post):
         order = request.website.sudo().sale_get_order()
@@ -21,16 +17,16 @@ class WebsiteSaleFeeExtended(WebsiteSaleFee):
         selected_provider = False
         selected_fee_entity = False
 
-        # Tente d'identifier la source de frais
+        # Try to identify the source of expenses
         if payment_option_id:
             selected_fee_entity = request.env["payment.method"].sudo().browse(
                 int(payment_option_id))
 
-            # Récupère le provider associé à la méthode
+            # Retrieves the provider associated with the method
             if selected_fee_entity and selected_fee_entity.provider_ids:
                 selected_provider = selected_fee_entity.provider_ids[0]
 
-        # Fallback qui utilise le Payment Provider si aucune méthode de paymeent trouvé
+        # Fallback that uses the Payment Provider if no payment method is found
         if not selected_fee_entity and (
                 provider_id or render_values.get("providers_sudo")):
 
@@ -38,7 +34,7 @@ class WebsiteSaleFeeExtended(WebsiteSaleFee):
                 selected_provider = request.env["payment.provider"].sudo().browse(
                     int(provider_id))
             else:
-                # Logique pour identifier le Provider par défaut si non spécifié.
+                # Logic for identifying the default provider if not specified.
                 providers_sudo = render_values.get("providers_sudo")
                 payment_methods_sudo = render_values.get("payment_methods_sudo")
                 _selected_provider = [
@@ -49,20 +45,20 @@ class WebsiteSaleFeeExtended(WebsiteSaleFee):
                 if len(_selected_provider) > 0:
                     selected_provider = _selected_provider[0]
 
-            # L'entité de frais devient le Provider dans le cas du fallback.
+            # The cost entity becomes the Provider in the event of a fallback.
             selected_fee_entity = selected_provider
 
-        # Application des frais via l'entité déterminée.
+        # Application of fees via the designated entity.
         if selected_fee_entity:
             order.sudo().update_fee_line(selected_fee_entity.sudo())
         else:
             order.sudo().update_fee_line(False)
 
         # Exécution du parent (WebsiteSale) en sautant la logique de l'OCA.
-        # Cela empêche le contrôleur OCA de ré-exécuter et d'écraser les frais.
+        # This prevents the OCA controller from re-running and overwriting the fees.
         res = super(WebsiteSaleFee, self).shop_payment(**post)
 
-        # Mise à jour du contexte de rendu avec les IDs sélectionnés.
+        # Update the rendering context with the selected IDs.
         if payment_option_id:
             res.qcontext["selected_payment_method"] = int(payment_option_id)
         if selected_provider:

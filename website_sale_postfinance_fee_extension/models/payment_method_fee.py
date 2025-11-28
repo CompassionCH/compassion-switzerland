@@ -18,7 +18,8 @@ class PaymentMethod(models.Model):
         domain="[('type', '=', 'service')]"
     )
     charge_fee_fixed_price = fields.Float("Fixed Price", digits="Product Price")
-    charge_fee_currency_id = fields.Many2one("res.currency", string="Fee Currency")
+    charge_fee_currency_id = fields.Many2one("res.currency",
+                                             string="Fee Currency")
     charge_fee_percentage = fields.Float(
         "Percentage", help="Percentage applied to order total"
     )
