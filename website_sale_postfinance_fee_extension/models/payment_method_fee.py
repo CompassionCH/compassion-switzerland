@@ -1,20 +1,3 @@
-"""
-Fichier : payment_method_fee.py
-Module : website_sale_postfinance_fee_extension
-
-Rôle :
-    Ce fichier étend le modèle Odoo standard 'payment.method' pour y ajouter
-    tous les champs de configuration de frais de paiement ('charge_fee',
-    'charge_fee_percentage', etc.).
-
-    Ceci est la première étape du déplacement des frais : rendre chaque Méthode
-    de Paiement (Gateway : TWINT, Carte) capable de stocker sa propre règle de frais,
-    au lieu que le Fournisseur (Provider) stocke la règle unique.
-
-Héritage :
-    - payment.method (Modèle de base pour les méthodes de paiement spécifiques)
-"""
-
 from odoo import api, fields, models
 
 
