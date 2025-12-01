@@ -30,7 +30,7 @@ class WebsiteSaleFeeExtended(WebsiteSaleFee):
         if not selected_fee_entity and (
                 provider_id or render_values.get("providers_sudo")):
 
-            if provider_id:
+            if provider_id and provider_id.isdigit():
                 selected_provider = request.env["payment.provider"].sudo().browse(
                     int(provider_id))
             else:
