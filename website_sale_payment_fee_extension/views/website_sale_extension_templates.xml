@@ -12,7 +12,7 @@
                 <span>(Fee:
                     <t t-if="pm_sudo.charge_fee_type == 'fixed'">
                         <span
-                                id="charge_fee_fixed_price"
+                                t-attf-id="charge_fee_fixed_price_#{pm_sudo.id}"
                                 t-field="pm_sudo.charge_fee_fixed_price"
                                 t-options="{'widget': 'monetary', 'display_currency': pm_sudo.charge_fee_currency_id}"
                         />
