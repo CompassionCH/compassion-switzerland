@@ -18,7 +18,7 @@ class WebsiteSaleFeeExtended(WebsiteSaleFee):
         selected_fee_entity = False
 
         # Try to identify the source of expenses
-        if payment_option_id:
+        if payment_option_id and payment_option_id.isdigit():
             selected_fee_entity = request.env["payment.method"].sudo().browse(
                 int(payment_option_id))
 
