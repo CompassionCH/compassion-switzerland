@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template
-            id="method_form_fee_extended"
-            name="Payment Method Fee Extended"
-            inherit_id="website_sale_charge_payment_fee.method_form_fee"
-    >
-        <!-- Allows you to add the fee amount after the name of the payment method. -->
-        <xpath expr="//t[@t-if='provider_sudo.charge_fee']" position="replace">
+    <record id="method_form_fee_extended" model="ir.ui.view">
+        <field name="name">Payment Method Fee Extended</field>
+        <field name="inherit_id" ref="website_sale_charge_payment_fee.method_form_fee"/>
+        <field name="priority" eval="17"/>
 
-            <t t-if="pm_sudo.charge_fee">
-                <span>(Fee:
-                    <t t-if="pm_sudo.charge_fee_type == 'fixed'">
-                        <span
-                                t-attf-id="charge_fee_fixed_price_#{pm_sudo.id}"
-                                t-field="pm_sudo.charge_fee_fixed_price"
-                                t-options="{'widget': 'monetary', 'display_currency': pm_sudo.charge_fee_currency_id}"
-                        />
-                    </t>
-                    <t t-if="pm_sudo.charge_fee_type == 'percentage'">
-                        <span
-                                t-attf-id="charge_fee_percentage_#{pm_sudo.id}"
-                                t-field="pm_sudo.charge_fee_percentage"
-                        />
-                        %
-                    </t>
-                    )
-                </span>
-            </t>
-        </xpath>
-    </template>
+        <field name="arch" type="xml">
+            <!-- Allows to add the fee amount after the name of the payment method. -->
+            <xpath expr="//t[@t-if='provider_sudo.charge_fee']" position="replace">
+
+                <t t-if="pm_sudo.charge_fee">
+                    <span>(Fee:
+                        <t t-if="pm_sudo.charge_fee_type == 'fixed'">
+                            <span
+                                    t-attf-id="charge_fee_fixed_price_#{pm_sudo.id}"
+                                    t-field="pm_sudo.charge_fee_fixed_price"
+                                    t-options="{'widget': 'monetary',
+                                    'display_currency': pm_sudo.charge_fee_currency_id}"
+                            />
+                        </t>
+                        <t t-if="pm_sudo.charge_fee_type == 'percentage'">
+                            <span
+                                    t-attf-id="charge_fee_percentage_#{pm_sudo.id}"
+                                    t-field="pm_sudo.charge_fee_percentage"
+                            />
+                            %
+                        </t>
+                        )
+                    </span>
+                </t>
+            </xpath>
+        </field>
+    </record>
 </odoo>
