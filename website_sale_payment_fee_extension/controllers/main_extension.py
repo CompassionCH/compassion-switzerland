@@ -59,7 +59,7 @@ class WebsiteSaleFeeExtended(WebsiteSaleFee):
         res = super(WebsiteSaleFee, self).shop_payment(**post)
 
         # Update the rendering context with the selected IDs.
-        if payment_option_id:
+        if payment_option_id and payment_option_id.isdigit():
             res.qcontext["selected_payment_method"] = int(payment_option_id)
         if selected_provider:
             res.qcontext["selected_provider"] = selected_provider
