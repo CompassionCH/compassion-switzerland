@@ -19,7 +19,7 @@
                     </t>
                     <t t-if="pm_sudo.charge_fee_type == 'percentage'">
                         <span
-                                id="charge_fee_percentage"
+                                t-attf-id="charge_fee_percentage_#{pm_sudo.id}"
                                 t-field="pm_sudo.charge_fee_percentage"
                         />
                         %
