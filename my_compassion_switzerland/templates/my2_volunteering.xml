@@ -92,7 +92,9 @@ Page: My Compassion 2 Volunteering Page
                         <t t-set="title_size" t-value="'md'" />
                         <t t-set="color" t-value="'pure-white'" />
                         <t t-set="show_underline" t-value="False" />
-                        <t t-set="description">For more information on how to get involved in helping
+                        <t
+              t-set="description"
+            >For more information on how to get involved in helping
                         disadvantaged children, please fill out the form below and we will contact you as
                         soon as possible.</t>
                         <t t-set="description_color" t-value="'pure-white'" />
@@ -256,7 +258,9 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">I would like to volunteer for</t>
+                                <t
+                  t-set="label"
+                >I would like to volunteer for</t>
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <div class="form-check">
