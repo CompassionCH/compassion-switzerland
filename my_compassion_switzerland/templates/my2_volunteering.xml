@@ -25,10 +25,7 @@ Page: My Compassion 2 Volunteering Page
                 <div class="container">
                     <div class="single-column pt-3">
                         <t t-call="theme_compassion_2025.TitleComponent">
-                            <t
-                t-set="title_content"
-                t-value="'Get more involved'"
-              />
+                            <t t-set="title_content">Get more involved</t>
                             <t t-set="title_size" t-value="'md'" />
                             <t t-set="color" t-value="'core-blue'" />
                             <t t-set="show_underline" t-value="True" />
@@ -88,7 +85,7 @@ Page: My Compassion 2 Volunteering Page
             <div id="volunteer_form_top" class="bg-core-blue text-center py-5">
                 <div class="single-column mx-3 mx-md-auto">
                     <t t-call="theme_compassion_2025.TitleComponent">
-                        <t t-set="title_content" t-value="'To get involved'" />
+                        <t t-set="title_content">To get involved</t>
                         <t t-set="title_size" t-value="'md'" />
                         <t t-set="color" t-value="'pure-white'" />
                         <t t-set="show_underline" t-value="False" />
