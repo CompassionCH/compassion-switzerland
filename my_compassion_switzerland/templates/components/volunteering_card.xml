@@ -28,18 +28,12 @@ Page: My Compassion 2 Volunteering Card Component
         class="volunteering_image w-100 pb-3"
       />
             <t t-call="theme_compassion_2025.TitleComponent">
-                <t
-          t-set="title_content"
-          t-value="engagement_type.my_compassion_label"
-        />
+                <t t-set="title_content"><t t-esc="engagement_type.my_compassion_label"/></t>
                 <t t-set="title_size" t-value="'md'" />
                 <t t-set="color" t-value="'core-blue'" />
                 <t t-set="show_underline" t-value="true" />
                 <t t-set="underline_color" t-value="'low-yellow'" />
-                <t
-          t-set="description"
-          t-value="engagement_type.my_compassion_description"
-        />
+                <t t-set="description"><t t-esc="engagement_type.my_compassion_description"/></t>
             </t>
         </div>
         <!-- Action buttons -->
@@ -61,7 +55,7 @@ Page: My Compassion 2 Volunteering Card Component
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />
                     <t t-set="variation" t-value="'filled'" />
-                    <t t-set="label" t-value="internal_link_label" />
+                    <t t-set="label"><t t-esc="internal_link_label"/></t>
                     <t t-set="color" t-value="button_color" />
                     <t t-set="text_color" t-value="'pure-white'" />
                     <t
