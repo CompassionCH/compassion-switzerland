@@ -57,8 +57,7 @@ Page: My Compassion 2 Volunteering Page
                   >
                                         <t
                       t-set="internal_link_label"
-                      t-value="'I subscribe to the prayer letter'"
-                    />
+                    >I subscribe to the prayer letter</t>
                                         <t
                       t-set="button_color"
                       t-value="'mid-green'"
@@ -69,8 +68,7 @@ Page: My Compassion 2 Volunteering Page
                   >
                                         <t
                       t-set="internal_link_label"
-                      t-value="'I unsubscribe to the prayer letter'"
-                    />
+                    >I unsubscribe to the prayer letter</t>
                                         <t
                       t-set="button_color"
                       t-value="'mid-orange'"
