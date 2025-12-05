@@ -48,7 +48,7 @@ Page: My Compassion 2 Volunteering Card Component
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />
                     <t t-set="variation" t-value="'filled'" />
-                    <t t-set="label" t-value="'Learn more about it'" />
+                    <t t-set="label">Learn more about it</t>
                     <t t-set="color" t-value="'core-blue'" />
                     <t t-set="text_color" t-value="'pure-white'" />
                     <t
@@ -74,7 +74,7 @@ Page: My Compassion 2 Volunteering Card Component
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />
                     <t t-set="variation" t-value="'filled'" />
-                    <t t-set="label" t-value="'Express interest'" />
+                    <t t-set="label">Express interest</t>
                     <t t-set="color" t-value="'mid-green'" />
                     <t t-set="text_color" t-value="'pure-white'" />
                     <t t-set="href" t-value="'#volunteer_form_top'" />
