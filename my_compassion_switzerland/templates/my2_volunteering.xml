@@ -25,7 +25,10 @@ Page: My Compassion 2 Volunteering Page
                 <div class="container">
                     <div class="single-column pt-3">
                         <t t-call="theme_compassion_2025.TitleComponent">
-                            <t t-set="title_content">Get more involved</t>
+                            <t
+                t-set="title_content"
+                t-value="'Get more involved'"
+              />
                             <t t-set="title_size" t-value="'md'" />
                             <t t-set="color" t-value="'core-blue'" />
                             <t t-set="show_underline" t-value="True" />
@@ -57,7 +60,8 @@ Page: My Compassion 2 Volunteering Page
                   >
                                         <t
                       t-set="internal_link_label"
-                    >I subscribe to the prayer letter</t>
+                      t-value="'I subscribe to the prayer letter'"
+                    />
                                         <t
                       t-set="button_color"
                       t-value="'mid-green'"
@@ -68,7 +72,8 @@ Page: My Compassion 2 Volunteering Page
                   >
                                         <t
                       t-set="internal_link_label"
-                    >I unsubscribe to the prayer letter</t>
+                      t-value="'I unsubscribe to the prayer letter'"
+                    />
                                         <t
                       t-set="button_color"
                       t-value="'mid-orange'"
@@ -83,15 +88,16 @@ Page: My Compassion 2 Volunteering Page
             <div id="volunteer_form_top" class="bg-core-blue text-center py-5">
                 <div class="single-column mx-3 mx-md-auto">
                     <t t-call="theme_compassion_2025.TitleComponent">
-                        <t t-set="title_content">To get involved</t>
+                        <t t-set="title_content" t-value="'To get involved'" />
                         <t t-set="title_size" t-value="'md'" />
                         <t t-set="color" t-value="'pure-white'" />
                         <t t-set="show_underline" t-value="False" />
-                        <t t-set="description">
-    For more information on how to get involved in helping
-    disadvantaged children, please fill out the form below and we will contact you as
-    soon as possible.
-</t>
+                        <t
+              t-set="description"
+              t-value="'For more information on how to get involved in helping
+                        disadvantaged children, please fill out the form below and we will contact you as
+                        soon as possible.'"
+            />
                         <t t-set="description_color" t-value="'pure-white'" />
                     </t>
                     <form class="volunteering-form" role="form">
@@ -136,7 +142,7 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">Firstname</t>
+                                <t t-set="label" t-value="'Firstname'" />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t
                   t-set="top_class"
@@ -159,7 +165,7 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">Lastname</t>
+                                <t t-set="label" t-value="'Lastname'" />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t
                   t-set="top_class"
@@ -184,7 +190,7 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">Phone number</t>
+                                <t t-set="label" t-value="'Phone number'" />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t
                   t-set="top_class"
@@ -207,7 +213,7 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">E-mail</t>
+                                <t t-set="label" t-value="'E-mail'" />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t
                   t-set="top_class"
@@ -232,7 +238,10 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">Church (optional)</t>
+                                <t
+                  t-set="label"
+                  t-value="'Church (optional)'"
+                />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <t
@@ -255,7 +264,8 @@ Page: My Compassion 2 Volunteering Page
               >
                                 <t
                   t-set="label"
-                >I would like to volunteer for</t>
+                  t-value="'I would like to volunteer for'"
+                />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <div class="form-check">
@@ -308,7 +318,10 @@ Page: My Compassion 2 Volunteering Page
                             <t
                 t-call="theme_compassion_2025.FormFieldComponent"
               >
-                                <t t-set="label">Comments, Questions</t>
+                                <t
+                  t-set="label"
+                  t-value="'Comments, Questions'"
+                />
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <textarea
@@ -334,7 +347,10 @@ Page: My Compassion 2 Volunteering Page
                 >
                                     <t t-set="variant" t-value="'compact'" />
                                     <t t-set="variation" t-value="'filled'" />
-                                    <t t-set="label">Send the message</t>
+                                    <t
+                    t-set="label"
+                    t-value="'Send the message'"
+                  />
                                     <t t-set="color" t-value="'pure-white'" />
                                     <t
                     t-set="text_color"
