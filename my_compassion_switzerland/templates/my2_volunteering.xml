@@ -270,7 +270,7 @@ Page: My Compassion 2 Volunteering Page
                     class="form-check-input"
                     type="checkbox"
                     name="volunteer_roles"
-                    value="Event Volunteer"
+                    value="Spokesperson at events"
                   />
                                     <label
                     class="form-check-label text-pure-white"
@@ -281,7 +281,7 @@ Page: My Compassion 2 Volunteering Page
                     class="form-check-input"
                     type="checkbox"
                     name="volunteer_roles"
-                    value="Church Ambassador"
+                    value="Spokesperson in my church"
                   />
                                     <label
                     class="form-check-label text-pure-white"
@@ -292,7 +292,7 @@ Page: My Compassion 2 Volunteering Page
                     class="form-check-input"
                     type="checkbox"
                     name="volunteer_roles"
-                    value="Letter Translator"
+                    value="Letter translator"
                   />
                                     <label
                     class="form-check-label text-pure-white"
@@ -303,7 +303,7 @@ Page: My Compassion 2 Volunteering Page
                     class="form-check-input"
                     type="checkbox"
                     name="volunteer_roles"
-                    value="Supporting Children Through Sports"
+                    value="Sport for the children"
                   />
                                     <label
                     class="form-check-label text-pure-white"
