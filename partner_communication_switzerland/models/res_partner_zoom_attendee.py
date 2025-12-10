@@ -133,6 +133,11 @@ class ZoomAttendee(models.Model):
                     channel="root.partner_communication",
                     identity_key=f"send_zoom_link.{attendee.id}",
                 ).send_communication(ZoomCommunication.LINK.value)
+            else:
+                attendee.with_user(SUPERUSER_ID).with_delay(
+                    channel="root.partner_communication",
+                    identity_key=f"send_zoom_registration.{attendee.id}",
+                ).send_communication(ZoomCommunication.REGISTRATION.value)
             if attendee.optional_message:
                 attendee.notify_user()
         return res
