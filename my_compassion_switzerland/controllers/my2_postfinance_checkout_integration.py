@@ -104,7 +104,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
 
                 # Check if it already exists to avoid duplicates
                 existing_token = request.env['payment.token'].sudo().search([
-                    ('acquirer_ref', '=', str(token_ref)),
+                    ('name', '=', token_name),
                     ('acquirer_id', '=', tx.acquirer_id.id)
                 ], limit=1)
 
