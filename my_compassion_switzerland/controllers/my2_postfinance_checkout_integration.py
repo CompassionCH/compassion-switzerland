@@ -6,6 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
 import werkzeug
 
@@ -26,20 +27,15 @@ class MyCompassionPostFinanceController(PostFinanceController):
         """
         Override to process feedback, force token creation, and redirect.
         """
-        print(f"MyCompassion PostFinance Feedback: txnId={txnId}")
-
-        # 1. Run standard processing
         try:
             super(MyCompassionPostFinanceController, self).postfinance_form_feedback(txnId, **post)
         except Exception as e:
             print(f"Standard PostFinance feedback ignored exception: {e}")
 
-        # 2. Custom Logic
         if txnId:
             tx = request.env['payment.transaction'].sudo().browse(int(txnId))
             if tx.exists():
 
-                # --- NEW: Manually Create Token if missing ---
                 if not tx.payment_token_id and tx.acquirer_id.provider == 'postfinance':
                     try:
                         self._create_postfinance_token(tx)
@@ -48,7 +44,6 @@ class MyCompassionPostFinanceController(PostFinanceController):
                         tx = request.env['payment.transaction'].sudo().browse(int(txnId))
                     except Exception as e:
                         print(f"Failed to create PostFinance token: {e}")
-                # ---------------------------------------------
 
                 # Force processing (Standard Odoo Logic for tokens)
                 if not tx.is_processed and tx.state in ['done', 'authorized']:
@@ -64,7 +59,13 @@ class MyCompassionPostFinanceController(PostFinanceController):
 
                 # Redirect
                 if tx.return_url:
-                    return werkzeug.utils.redirect(tx.return_url)
+                    # Append ?payment_success=True to the return URL
+                    url_parts = list(urlparse(tx.return_url))
+                    query = parse_qs(url_parts[4])
+                    query['payment_success'] = ['True']
+                    url_parts[4] = urlencode(query, doseq=True)
+                    return_url_with_param = urlunparse(url_parts)
+                    return werkzeug.utils.redirect(return_url_with_param)
 
         return werkzeug.utils.redirect("/payment/process")
 
