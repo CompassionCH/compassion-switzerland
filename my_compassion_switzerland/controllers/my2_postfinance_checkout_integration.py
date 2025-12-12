@@ -10,8 +10,9 @@ from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
 import werkzeug
 
-from odoo import http
+from odoo import http, _
 from odoo.addons.payment_postfinance_flex.controllers.main import PostFinanceController
+from odoo.addons.test_impex.tests.test_load import message
 from odoo.http import request
 
 
@@ -25,7 +26,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
     )
     def postfinance_form_feedback(self, txnId=None, **post):
         """
-        Override to process feedback, force token creation, and redirect.
+        Override to process feedback, force local saving of token_ID and redirect.
         """
         try:
             super(MyCompassionPostFinanceController, self).postfinance_form_feedback(txnId, **post)
@@ -57,16 +58,33 @@ class MyCompassionPostFinanceController(PostFinanceController):
                 pass
 
         # Create recurring contract group for validation transactions
+        group = None
+        message = ""
         if tx.type == 'validation' and tx.state in ['done', 'authorized']:
-            request.env['recurring.contract.group'].sudo().create_from_transaction(tx)
+            group, message = request.env['recurring.contract.group'].sudo().create_from_transaction(tx)
 
-        # Redirect back to original return_url with success flag
+        # Determine status and message from the method result
         if tx.return_url:
-            url_parts = list(urlparse(tx.return_url))
+            if group and group.id:
+                if message == "This payment method is already saved.":
+                    status = 'Already Saved'
+                else:
+                    status = 'Success'
+            else:
+                status = 'Error'
+
+            # Build query parameters
+            url_parts = list(urlparse(tx.return_url or '/my/donations'))
             query = parse_qs(url_parts[4])
-            query['payment_success'] = ['True']
+
+            query.update({
+                'payment_method_result': [status],
+                'payment_method_message': [message],
+            })
+
             url_parts[4] = urlencode(query, doseq=True)
-            return werkzeug.utils.redirect(urlunparse(url_parts))
+            return_url = urlunparse(url_parts)
+            return werkzeug.utils.redirect(return_url)
 
         return werkzeug.utils.redirect("/payment/process")
 
@@ -85,17 +103,17 @@ class MyCompassionPostFinanceController(PostFinanceController):
         pf_data = response['data'][0]
         token_info = pf_data.get('token')
 
-        if not token_info or not token_info.get('id'):
+        if not token_info or not token_info.get('externalId'):
             return
 
-        token_ref = token_info['id']
+        token_ref = token_info['externalId']
 
         # Extract clean payment method brand (e.g. "MasterCard", "TWINT")
         connector_config = pf_data.get('paymentConnectorConfiguration', {})
         full_method_name = connector_config.get('name', 'PostFinance Payment')
         brand_name = full_method_name.split(' - ')[-1] if ' - ' in full_method_name else full_method_name
 
-        token_name = f"{brand_name}-{token_ref}"
+        token_name = f"{brand_name}_{token_ref}"
 
         # Reuse existing token to avoid duplicates
         existing_token = request.env['payment.token'].sudo().search([
