@@ -39,19 +39,7 @@ class MyCompassionVolunteeringController(http.Controller):
             prayer_engagement and prayer_engagement in partner.engagement_ids
         )
 
-        all_engagement_types = request.env["advocate.engagement"].search(
-            [("activate_for_my_compassion", "=", True)]
-        )
-
-        order_map = {
-            name: index for index, name in enumerate(self.ENGAGEMENT_TYPES_ORDER)
-        }
-        default_sort_value = len(self.ENGAGEMENT_TYPES_ORDER)
-
-        engagement_types_sorted = sorted(
-            all_engagement_types,
-            key=lambda engagement: order_map.get(engagement.name, default_sort_value),
-        )
+        engagement_types_sorted = self._get_sorted_engagement_types()
 
         return request.render(
             "my_compassion_switzerland.my2_volunteering",
@@ -172,3 +160,22 @@ class MyCompassionVolunteeringController(http.Controller):
             return {"success": False}
 
         return {"success": True}
+
+    def _get_sorted_engagement_types(self):
+        """
+        Retrieves and sorts the activated commitment types. Sorting is based on
+        COMMITMENT_TYPES_ORDER (based on oliviers' feedback).
+        """
+        all_engagement_types = request.env["advocate.engagement"].search(
+            [("activate_for_my_compassion", "=", True)]
+        )
+
+        order_map = {
+            name: index for index, name in enumerate(self.ENGAGEMENT_TYPES_ORDER)
+        }
+        default_sort_value = len(self.ENGAGEMENT_TYPES_ORDER)
+
+        return sorted(
+            all_engagement_types,
+            key=lambda engagement: order_map.get(engagement.name, default_sort_value),
+        )
