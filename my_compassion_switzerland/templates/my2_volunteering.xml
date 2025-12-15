@@ -55,7 +55,9 @@ Page: My Compassion 2 Volunteering Page
                                     <t
                     t-if="engagement_type.name == 'Prayer' and not is_prayer_subscribed"
                   >
-                                        <t t-set="internal_link_label">Subscribe</t>
+                                        <t
+                      t-set="internal_link_label"
+                    >Subscribe</t>
                                         <t
                       t-set="button_color"
                       t-value="'mid-green'"
@@ -64,7 +66,9 @@ Page: My Compassion 2 Volunteering Page
                                     <t
                     t-elif="engagement_type.name == 'Prayer' and is_prayer_subscribed"
                   >
-                                        <t t-set="internal_link_label">Unsubscribe</t>
+                                        <t
+                      t-set="internal_link_label"
+                    >Unsubscribe</t>
                                         <t
                       t-set="button_color"
                       t-value="'mid-orange'"
@@ -83,7 +87,9 @@ Page: My Compassion 2 Volunteering Page
                         <t t-set="title_size" t-value="'md'" />
                         <t t-set="color" t-value="'pure-white'" />
                         <t t-set="show_underline" t-value="False" />
-                        <t t-set="description">For more information on how to get involved in helping
+                        <t
+              t-set="description"
+            >For more information on how to get involved in helping
                         children in need, please fill out the form below and we will contact you as
                         soon as possible.</t>
                         <t t-set="description_color" t-value="'pure-white'" />
