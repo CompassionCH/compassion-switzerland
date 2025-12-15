@@ -11,14 +11,13 @@ from odoo.http import request
 
 
 class MyCompassionVolunteeringController(http.Controller):
-
     ENGAGEMENT_TYPES_ORDER = [
-        'Translation',
-        'Events',
-        'Sport',
-        'Prayer',
-        'Church presentation',
-        'Together'
+        "Translation",
+        "Events",
+        "Sport",
+        "Prayer",
+        "Church presentation",
+        "Together",
     ]
 
     @http.route(
@@ -44,14 +43,15 @@ class MyCompassionVolunteeringController(http.Controller):
             [("activate_for_my_compassion", "=", True)]
         )
 
-        order_map = {name: index for index, name in enumerate(self.ENGAGEMENT_TYPES_ORDER)}
+        order_map = {
+            name: index for index, name in enumerate(self.ENGAGEMENT_TYPES_ORDER)
+        }
         default_sort_value = len(self.ENGAGEMENT_TYPES_ORDER)
 
         engagement_types_sorted = sorted(
             all_engagement_types,
-            key=lambda engagement: order_map.get(
-                engagement.name,
-                default_sort_value))
+            key=lambda engagement: order_map.get(engagement.name, default_sort_value),
+        )
 
         return request.render(
             "my_compassion_switzerland.my2_volunteering",
