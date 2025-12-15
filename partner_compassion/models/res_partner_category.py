@@ -19,9 +19,9 @@ class PartnerCategory(models.Model):
             prayer = self.env.ref("partner_compassion.res_partner_category_prayer")
             prayer_engagement = self.env.ref("partner_compassion.engagement_pray")
             if tag_added:
-                tag_added.mapped("mass_mailing_contact_ids").with_delay(
-                    channel="root.mailchimp"
-                ).write({"tag_ids": [(4, tag_id) for tag_id in self.ids]})
+                tag_added.mapped("mass_mailing_contact_ids").delayable().write(
+                    {"tag_ids": [(4, tag_id) for tag_id in self.ids]}
+                ).set(priority=100, channel="root.mailchimp").split(80).delay()
                 if prayer in self:
                     for partner in tag_added:
                         partner.engagement_ids += prayer_engagement
