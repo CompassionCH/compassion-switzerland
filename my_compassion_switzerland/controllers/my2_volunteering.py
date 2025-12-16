@@ -164,7 +164,7 @@ class MyCompassionVolunteeringController(http.Controller):
     def _get_sorted_engagement_types(self):
         """
         Retrieves and sorts the activated commitment types. Sorting is based on
-        COMMITMENT_TYPES_ORDER (based on oliviers' feedback).
+        ENGAGEMENT_TYPES_ORDER (based on oliviers' feedback).
         """
         all_engagement_types = request.env["advocate.engagement"].search(
             [("activate_for_my_compassion", "=", True)]
