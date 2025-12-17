@@ -237,7 +237,8 @@ class RecurringContracts(models.Model):
         old_sponsor_cat_id = self.env.ref(
             "partner_compassion.res_partner_category_old"
         ).id
-        sponsorships = self.filtered(lambda c: "S" in c.type)
+        # This makes sure the smart tags are immediately updated (before daily cron)
+        sponsorships = self.filtered(lambda c: c.type.startswith("S") and c.child_id)
         add_sponsor_vals = {
             "category_id": [(4, sponsor_cat_id), (3, old_sponsor_cat_id)]
         }
@@ -334,7 +335,8 @@ class RecurringContracts(models.Model):
                     ("correspondent_id", "=", partner_id),
                     ("partner_id", "=", partner_id),
                     ("state", "=", "active"),
-                    ("type", "like", "S"),
+                    ("type", "in", ["S", "SC", "SWP"]),
+                    ("child_id", "!=", False),
                 ]
             )
             if not contract_count:
@@ -349,7 +351,8 @@ class RecurringContracts(models.Model):
                     ("correspondent_id", "=", correspondent_id),
                     ("partner_id", "=", correspondent_id),
                     ("state", "=", "active"),
-                    ("type", "like", "S"),
+                    ("type", "in", ["S", "SC", "SWP"]),
+                    ("child_id", "!=", False),
                 ]
             )
             if not contract_count:
