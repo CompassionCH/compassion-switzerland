@@ -17,46 +17,60 @@ Page: My Compassion 2 Volunteering Page
 <odoo>
     <template id="my2_volunteering" name="My Compassion 2 Volunteering Page">
         <link
-                rel="stylesheet"
-                href="/my_compassion_switzerland/static/src/css/my2_volunteering.css"
-        />
+      rel="stylesheet"
+      href="/my_compassion_switzerland/static/src/css/my2_volunteering.css"
+    />
         <t t-call="website.layout">
             <div class="site-wrapper">
                 <div class="container">
                     <div class="single-column pt-3">
                         <t t-if="partner.is_volunteer">
                             <t t-call="theme_compassion_2025.BannerComponent">
-                                <t t-set="title">Thank you for being a volunteer at
+                                <t
+                  t-set="title"
+                >Thank you for being a volunteer at
                                     Compassion</t>
-                                <t t-set="text">You can access the volunteer platform by
+                                <t
+                  t-set="text"
+                >You can access the volunteer platform by
                                     following the link below or check how to get more
                                     involved in Compassion Switzerland through
                                     MyCompassion</t>
 
-                                <t t-set="btn_text">Go to the volunteer platform</t>
-                                <t t-set="btn_text_color" t-value="'low-blue'"/>
-                                <t t-set="btn_color" t-value="'pure-white'"/>
+                                <t
+                  t-set="btn_text"
+                >Go to the volunteer platform</t>
+                                <t
+                  t-set="btn_text_color"
+                  t-value="'low-blue'"
+                />
+                                <t t-set="btn_color" t-value="'pure-white'" />
 
-                                <t t-set="btn_link"
-                                   t-value="'https://porte-parole.compassion.ch/'"/>
-                                <t t-set="target" t-value="'_blank'"/>
-                                <t t-set="rel" t-value="'noopener noreferrer'"/>
+                                <t
+                  t-set="btn_link"
+                  t-value="'https://porte-parole.compassion.ch/'"
+                />
+                                <t t-set="target" t-value="'_blank'" />
+                                <t
+                  t-set="rel"
+                  t-value="'noopener noreferrer'"
+                />
                             </t>
                         </t>
                         <t t-call="theme_compassion_2025.TitleComponent">
                             <t t-set="title_content">Get More Involved</t>
-                            <t t-set="title_size" t-value="'md'"/>
-                            <t t-set="color" t-value="'core-blue'"/>
-                            <t t-set="show_underline" t-value="True"/>
-                            <t t-set="underline_color" t-value="'low-yellow'"/>
+                            <t t-set="title_size" t-value="'md'" />
+                            <t t-set="color" t-value="'core-blue'" />
+                            <t t-set="show_underline" t-value="True" />
+                            <t t-set="underline_color" t-value="'low-yellow'" />
                             <p
-                            >Would you like to encourage others to sponsor a child? Are
+              >Would you like to encourage others to sponsor a child? Are
                                 you particularly moved by the
                                 plight of disadvantaged children and want to take
                                 action?
                             </p>
                             <p
-                            >You can volunteer for Compassion and put your talents to
+              >You can volunteer for Compassion and put your talents to
                                 work for some of the world's most
                                 disadvantaged children. Translations, letter prep,
                                 attending events, speaking on
@@ -70,33 +84,33 @@ Page: My Compassion 2 Volunteering Page
                         <t t-foreach="engagement_types" t-as="engagement_type">
                             <div class="col-12 col-md-6 col-lg-4 pb-4">
                                 <t
-                                        t-call="my_compassion_switzerland.volunteering_card_component"
-                                >
+                  t-call="my_compassion_switzerland.volunteering_card_component"
+                >
                                     <t
-                                            t-set="engagement_type"
-                                            t-value="engagement_type"
-                                    />
+                    t-set="engagement_type"
+                    t-value="engagement_type"
+                  />
                                     <t
-                                            t-if="engagement_type.name == 'Prayer' and not is_prayer_subscribed"
-                                    >
+                    t-if="engagement_type.name == 'Prayer' and not is_prayer_subscribed"
+                  >
                                         <t
-                                                t-set="internal_link_label"
-                                        >Subscribe</t>
+                      t-set="internal_link_label"
+                    >Subscribe</t>
                                         <t
-                                                t-set="button_color"
-                                                t-value="'mid-green'"
-                                        />
+                      t-set="button_color"
+                      t-value="'mid-green'"
+                    />
                                     </t>
                                     <t
-                                            t-elif="engagement_type.name == 'Prayer' and is_prayer_subscribed"
-                                    >
+                    t-elif="engagement_type.name == 'Prayer' and is_prayer_subscribed"
+                  >
                                         <t
-                                                t-set="internal_link_label"
-                                        >Unsubscribe</t>
+                      t-set="internal_link_label"
+                    >Unsubscribe</t>
                                         <t
-                                                t-set="button_color"
-                                                t-value="'mid-orange'"
-                                        />
+                      t-set="button_color"
+                      t-value="'mid-orange'"
+                    />
                                     </t>
                                 </t>
                             </div>
@@ -108,263 +122,263 @@ Page: My Compassion 2 Volunteering Page
                 <div class="single-column mx-3 mx-md-auto">
                     <t t-call="theme_compassion_2025.TitleComponent">
                         <t t-set="title_content">Get Involved</t>
-                        <t t-set="title_size" t-value="'md'"/>
-                        <t t-set="color" t-value="'pure-white'"/>
-                        <t t-set="show_underline" t-value="False"/>
+                        <t t-set="title_size" t-value="'md'" />
+                        <t t-set="color" t-value="'pure-white'" />
+                        <t t-set="show_underline" t-value="False" />
                         <t
-                                t-set="description"
-                        >For more information on how to get involved in helping
+              t-set="description"
+            >For more information on how to get involved in helping
                             children in need, please fill out the form below and we will
                             contact you as
                             soon as possible.</t>
-                        <t t-set="description_color" t-value="'pure-white'"/>
+                        <t t-set="description_color" t-value="'pure-white'" />
                     </t>
                     <form class="volunteering-form" role="form">
                         <div class="row text-left">
 
                             <!-- Title Mr. or Mrs -->
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
-                                <t t-set="top_class" t-value="'col-12 mb-3'"/>
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
+                                <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <div class="form-check form-check-inline">
                                     <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="title"
-                                            id="mrs"
-                                            value="Mrs."
-                                            t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mrs.' else None"
-                                    />
+                    class="form-check-input"
+                    type="radio"
+                    name="title"
+                    id="mrs"
+                    value="Mrs."
+                    t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mrs.' else None"
+                  />
                                     <label
-                                            class="form-check-label text-pure-white"
-                                            for="mrs"
-                                    >Mrs.</label>
+                    class="form-check-label text-pure-white"
+                    for="mrs"
+                  >Mrs.</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="title"
-                                            id="mr"
-                                            value="Mr."
-                                            t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mr.' else None"
-                                    />
+                    class="form-check-input"
+                    type="radio"
+                    name="title"
+                    id="mr"
+                    value="Mr."
+                    t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mr.' else None"
+                  />
                                     <label
-                                            class="form-check-label text-pure-white"
-                                            for="mr"
-                                    >Mr.</label>
+                    class="form-check-label text-pure-white"
+                    for="mr"
+                  >Mr.</label>
                                 </div>
                             </t>
 
                             <!-- First Name and Last Name -->
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t t-set="label">First Name</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
+                                <t t-set="label_color" t-value="'pure-white'" />
                                 <t
-                                        t-set="top_class"
-                                        t-value="'col-12 col-md-6 mb-3'"
-                                />
+                  t-set="top_class"
+                  t-value="'col-12 col-md-6 mb-3'"
+                />
                                 <t
-                                        t-set="input_id"
-                                        t-value="volunteer_form_firstname"
-                                />
+                  t-set="input_id"
+                  t-value="volunteer_form_firstname"
+                />
                                 <input
-                                        id="volunteer_form_firstname"
-                                        type="text"
-                                        name="firstname"
-                                        class="form-control"
-                                        placeholder="First Name"
-                                        required="required"
-                                        t-att-value="partner.firstname or ''"
-                                />
+                  id="volunteer_form_firstname"
+                  type="text"
+                  name="firstname"
+                  class="form-control"
+                  placeholder="First Name"
+                  required="required"
+                  t-att-value="partner.firstname or ''"
+                />
                             </t>
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t t-set="label">Last Name</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
+                                <t t-set="label_color" t-value="'pure-white'" />
                                 <t
-                                        t-set="top_class"
-                                        t-value="'col-12 col-md-6 mb-3'"
-                                />
+                  t-set="top_class"
+                  t-value="'col-12 col-md-6 mb-3'"
+                />
                                 <t
-                                        t-set="input_id"
-                                        t-value="volunteer_form_lastname"
-                                />
+                  t-set="input_id"
+                  t-value="volunteer_form_lastname"
+                />
                                 <input
-                                        id="volunteer_form_lastname"
-                                        type="text"
-                                        name="lastname"
-                                        class="form-control"
-                                        placeholder="Last Name"
-                                        required="required"
-                                        t-att-value="partner.lastname or ''"
-                                />
+                  id="volunteer_form_lastname"
+                  type="text"
+                  name="lastname"
+                  class="form-control"
+                  placeholder="Last Name"
+                  required="required"
+                  t-att-value="partner.lastname or ''"
+                />
                             </t>
 
                             <!-- Phone number and E-mail -->
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t t-set="label">Phone number</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
+                                <t t-set="label_color" t-value="'pure-white'" />
                                 <t
-                                        t-set="top_class"
-                                        t-value="'col-12 col-md-6 mb-3'"
-                                />
+                  t-set="top_class"
+                  t-value="'col-12 col-md-6 mb-3'"
+                />
                                 <t
-                                        t-set="input_id"
-                                        t-value="volunteer_form_phone_number"
-                                />
+                  t-set="input_id"
+                  t-value="volunteer_form_phone_number"
+                />
                                 <input
-                                        id="volunteer_form_phone_number"
-                                        type="text"
-                                        name="phone_number"
-                                        class="form-control"
-                                        placeholder="0041244342124"
-                                        required="required"
-                                        t-att-value="partner.phone_sanitized or ''"
-                                />
+                  id="volunteer_form_phone_number"
+                  type="text"
+                  name="phone_number"
+                  class="form-control"
+                  placeholder="0041244342124"
+                  required="required"
+                  t-att-value="partner.phone_sanitized or ''"
+                />
                             </t>
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t t-set="label">E-mail</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
+                                <t t-set="label_color" t-value="'pure-white'" />
                                 <t
-                                        t-set="top_class"
-                                        t-value="'col-12 col-md-6 mb-3'"
-                                />
+                  t-set="top_class"
+                  t-value="'col-12 col-md-6 mb-3'"
+                />
                                 <t
-                                        t-set="input_id"
-                                        t-value="volunteer_form_email"
-                                />
+                  t-set="input_id"
+                  t-value="volunteer_form_email"
+                />
                                 <input
-                                        id="volunteer_form_email"
-                                        type="email"
-                                        name="email"
-                                        class="form-control"
-                                        placeholder="info@compassion.ch"
-                                        required="required"
-                                        t-att-value="partner.email or ''"
-                                />
+                  id="volunteer_form_email"
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  placeholder="info@compassion.ch"
+                  required="required"
+                  t-att-value="partner.email or ''"
+                />
                             </t>
 
                             <!-- Church (optional) -->
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t t-set="label">Church (optional)</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
-                                <t t-set="top_class" t-value="'col-12 mb-3'"/>
+                                <t t-set="label_color" t-value="'pure-white'" />
+                                <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <t
-                                        t-set="input_id"
-                                        t-value="volunteer_form_church"
-                                />
+                  t-set="input_id"
+                  t-value="volunteer_form_church"
+                />
                                 <input
-                                        id="volunteer_form_church"
-                                        type="text"
-                                        name="church"
-                                        class="form-control"
-                                        placeholder="church"
-                                        t-att-value="partner.church_id.name or ''"
-                                />
+                  id="volunteer_form_church"
+                  type="text"
+                  name="church"
+                  class="form-control"
+                  placeholder="church"
+                  t-att-value="partner.church_id.name or ''"
+                />
                             </t>
 
                             <!-- I would like to volunteer for (checkboxes) -->
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t
-                                        t-set="label"
-                                >I would like to volunteer for</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
-                                <t t-set="top_class" t-value="'col-12 mb-3'"/>
+                  t-set="label"
+                >I would like to volunteer for</t>
+                                <t t-set="label_color" t-value="'pure-white'" />
+                                <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <div class="form-check">
                                     <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            name="volunteer_roles"
-                                            value="Event Volunteer"
-                                    />
+                    class="form-check-input"
+                    type="checkbox"
+                    name="volunteer_roles"
+                    value="Event Volunteer"
+                  />
                                     <label
-                                            class="form-check-label text-pure-white"
-                                    >Event Volunteer</label>
+                    class="form-check-label text-pure-white"
+                  >Event Volunteer</label>
                                 </div>
                                 <div class="form-check">
                                     <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            name="volunteer_roles"
-                                            value="Church Ambassador"
-                                    />
+                    class="form-check-input"
+                    type="checkbox"
+                    name="volunteer_roles"
+                    value="Church Ambassador"
+                  />
                                     <label
-                                            class="form-check-label text-pure-white"
-                                    >Church Ambassador</label>
+                    class="form-check-label text-pure-white"
+                  >Church Ambassador</label>
                                 </div>
                                 <div class="form-check">
                                     <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            name="volunteer_roles"
-                                            value="Letter Translator"
-                                    />
+                    class="form-check-input"
+                    type="checkbox"
+                    name="volunteer_roles"
+                    value="Letter Translator"
+                  />
                                     <label
-                                            class="form-check-label text-pure-white"
-                                    >Letter Translator</label>
+                    class="form-check-label text-pure-white"
+                  >Letter Translator</label>
                                 </div>
                                 <div class="form-check">
                                     <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            name="volunteer_roles"
-                                            value="Supporting Children Through Sports"
-                                    />
+                    class="form-check-input"
+                    type="checkbox"
+                    name="volunteer_roles"
+                    value="Supporting Children Through Sports"
+                  />
                                     <label
-                                            class="form-check-label text-pure-white"
-                                    >Supporting Children Through Sports</label>
+                    class="form-check-label text-pure-white"
+                  >Supporting Children Through Sports</label>
                                 </div>
                             </t>
 
                             <!-- Comment -->
                             <t
-                                    t-call="theme_compassion_2025.FormFieldComponent"
-                            >
+                t-call="theme_compassion_2025.FormFieldComponent"
+              >
                                 <t t-set="label">Questions or Comments</t>
-                                <t t-set="label_color" t-value="'pure-white'"/>
-                                <t t-set="top_class" t-value="'col-12 mb-3'"/>
+                                <t t-set="label_color" t-value="'pure-white'" />
+                                <t t-set="top_class" t-value="'col-12 mb-3'" />
                                 <textarea
-                                        name="comments"
-                                        class="form-control"
-                                        rows="4"
-                                />
+                  name="comments"
+                  class="form-control"
+                  rows="4"
+                />
                             </t>
 
                             <input
-                                    id="volunteer_form_lang"
-                                    type="hidden"
-                                    name="lang"
-                                    t-att-value="request.env.lang"
-                            />
+                id="volunteer_form_lang"
+                type="hidden"
+                name="lang"
+                t-att-value="request.env.lang"
+              />
 
                             <!-- Submit button -->
                             <div
-                                    class="w-100 mt-3 d-flex justify-content-center"
-                            >
+                class="w-100 mt-3 d-flex justify-content-center"
+              >
                                 <t
-                                        t-call="theme_compassion_2025.ThemedButtonComponent"
-                                >
-                                    <t t-set="variant" t-value="'compact'"/>
-                                    <t t-set="variation" t-value="'filled'"/>
+                  t-call="theme_compassion_2025.ThemedButtonComponent"
+                >
+                                    <t t-set="variant" t-value="'compact'" />
+                                    <t t-set="variation" t-value="'filled'" />
                                     <t t-set="label">Send</t>
-                                    <t t-set="color" t-value="'pure-white'"/>
+                                    <t t-set="color" t-value="'pure-white'" />
                                     <t
-                                            t-set="text_color"
-                                            t-value="'core-blue'"
-                                    />
+                    t-set="text_color"
+                    t-value="'core-blue'"
+                  />
                                 </t>
                             </div>
                         </div>
@@ -373,8 +387,8 @@ Page: My Compassion 2 Volunteering Page
             </div>
         </t>
         <script
-                type="text/javascript"
-                src="/my_compassion_switzerland/static/src/js/my2_volunteering.js"
-        />
+      type="text/javascript"
+      src="/my_compassion_switzerland/static/src/js/my2_volunteering.js"
+    />
     </template>
 </odoo>
