@@ -27,9 +27,9 @@ Page: My Compassion 2 Volunteering Page
                         <t t-if="partner.is_volunteer">
                             <t t-call="theme_compassion_2025.BannerComponent">
                                 <t t-set="title">Thank you for being a volunteer at
-                                    compassion</t>
+                                    Compassion</t>
                                 <t t-set="text">You can access the volunteer platform by
-                                    following the link bellow or check how to get more
+                                    following the link below or check how to get more
                                     involved in Compassion Switzerland through
                                     MyCompassion</t>
 
