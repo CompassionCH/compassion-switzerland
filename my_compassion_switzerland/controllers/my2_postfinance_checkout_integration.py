@@ -66,8 +66,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
         # Determine status and message from the method result
         if tx.return_url:
             if group and group.id:
-                #test on hardcoded string --> Should be removed
-                if message == "This payment method was already saved.":
+                if message == "This payment method is already saved.":
                     status = 'Already Saved'
                 else:
                     status = 'Success'
