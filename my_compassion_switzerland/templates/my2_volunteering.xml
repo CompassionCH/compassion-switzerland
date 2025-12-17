@@ -51,10 +51,6 @@ Page: My Compassion 2 Volunteering Page
                   t-value="'https://porte-parole.compassion.ch/'"
                 />
                                 <t t-set="target" t-value="'_blank'" />
-                                <t
-                  t-set="rel"
-                  t-value="'noopener noreferrer'"
-                />
                             </t>
                         </t>
                         <t t-call="theme_compassion_2025.TitleComponent">
