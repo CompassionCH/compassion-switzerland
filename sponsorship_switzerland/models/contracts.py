@@ -104,9 +104,9 @@ class RecurringContracts(models.Model):
     def write(self, vals):
         """Perform various checks when a contract is modified."""
         if "group_id" in vals:
-            old_payment_modes = [g.payment_mode_id for g in self.mapped("group_id")]
+            old_payment_modes = [contract.group_id.payment_mode_id for contract in self]
         super().write(vals)
-        if "group_id" in vals and old_payment_modes:
+        if "group_id" in vals and "old_payment_modes" in locals() and old_payment_modes:
             self.check_mandate_needed(old_payment_modes)
         return True
 
