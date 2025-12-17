@@ -1,1 +1,1 @@
-from . import my2_volunteering, my2_postfinance_checkout_integration
+from . import my2_volunteering
