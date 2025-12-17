@@ -245,7 +245,7 @@ class RecurringContracts(models.Model):
         partners = sponsorships.mapped("partner_id") | sponsorships.mapped(
             "correspondent_id"
         )
-        partners.write(add_sponsor_vals)
+        partners.with_context(allow_smart_tag_modification=True).write(add_sponsor_vals)
         return True
 
     def contract_waiting_mandate(self):
@@ -325,7 +325,7 @@ class RecurringContracts(models.Model):
             "partner_compassion.res_partner_category_old"
         ).id
 
-        for sponsorship in self:
+        for sponsorship in self.with_context(allow_smart_tag_modification=True):
             partner_id = sponsorship.partner_id.id
             correspondent_id = sponsorship.correspondent_id.id
             # Partner
