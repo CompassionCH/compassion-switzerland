@@ -98,7 +98,7 @@ class MyCompassionVolunteeringController(http.Controller):
     )
     def my2_volunteering_register(self, **kwargs):
         data = kwargs.get("data", {})
-        required_fields = ["title", "firstname", "lastname", "email", "phone_number"]
+        required_fields = ["title", "firstname", "lastname", "email", "phone_number", "volunteer_roles"]
         if not all(data.get(field) for field in required_fields):
             return {"success": False, "error": "Missing required fields"}
 
