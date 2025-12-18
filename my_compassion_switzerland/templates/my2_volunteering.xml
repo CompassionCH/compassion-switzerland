@@ -273,11 +273,11 @@ Page: My Compassion 2 Volunteering Page
                                                     type="checkbox"
                                                     name="volunteer_roles"
                                                     style="cursor: pointer;"
-                                                    t-att-id="'engagement_' + str(engagement.id)"
+                                                    t-att-id="'role_' + str(engagement.id)"
                                                     t-att-value="engagement.name"/>
 
                                             <label class="form-check-label text-pure-white"
-                                                   t-att-for="'engagement_' + str(engagement.id)"
+                                                   t-att-for="'role_' + str(engagement.id)"
                                                    style="cursor: pointer;">
                                                 <span t-field="engagement.name"/>
                                             </label>
