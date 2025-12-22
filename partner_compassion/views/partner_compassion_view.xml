@@ -262,7 +262,6 @@
                      'default_tax_certificate':'no',
                      'default_thankyou_preference':'none',
                      'default_nbmag':'no_mag',
-                     'default_calendar':0,
                      'default_christmas_card':0,
                      'default_email': email}</attribute>
             </xpath>
@@ -322,7 +321,6 @@
                             </div>
                         </div>
                         <field name="nbmag" />
-                        <field name="calendar" />
                     </group>
                     <group>
                         <group string="Contact information">
