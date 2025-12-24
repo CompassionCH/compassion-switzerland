@@ -30,6 +30,7 @@
         "templates/my2_volunteering.xml",
         "templates/my2_new_sponsorship_wizard_ebill.xml",
         "templates/assets.xml",
+        "data/engagement_types_data.xml",
     ],
     "installable": True,
     "auto_install": False,
