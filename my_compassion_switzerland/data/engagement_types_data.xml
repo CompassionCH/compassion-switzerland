@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- XML ID WAS MISSING -->
+    <record id="bridge_together" model="ir.model.data">
+        <field name="name">engagement_together</field>
+        <field name="module">partner_compassion</field>
+        <field name="model">advocate.engagement</field>
+        <field name="res_id" search="[('default_code', '=', 'Together')]" model="advocate.engagement"/>
+        <field name="noupdate">True</field>
+    </record>
+
+
+    <!-- CHURCH AMBASSADOR -->
+    <data noupdate="0">
+        <record id="partner_compassion.engagement_church" model="advocate.engagement">
+            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="my_compassion_alt_text">Spokesperson for Disadvantaged children in your church</field>
+            <field name="my_compassion_label">Spokesperson for Disadvantaged children in your church</field>
+            <field name="my_compassion_description">
+                Would you like to promote the development of disadvantaged children in
+                your church and raise awareness among Christians about issues of poverty
+                and injustice in the Global South? We are looking for a spokesperson for
+                each church in Switzerland. The spokesperson in a church organizes
+                Compassion's presence within the church, a home group, a youth group, a
+                Sunday school, etc., in agreement with church leaders. They can offer a
+                variety of resources (presentations, Sunday school resources,
+                announcements, worship films). This is an opportunity to respond to
+                Jesus' call to care for the most disadvantaged and vulnerable.
+            </field>
+        </record>
+    </data>
+
+    <!-- EVENTS VOLUNTEER -->
+    <data noupdate="0">
+        <record id="partner_compassion.engagement_event" model="advocate.engagement">
+            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="my_compassion_alt_text">Compassion spokesperson at events</field>
+            <field name="my_compassion_label">Compassion spokesperson at events</field>
+            <field name="my_compassion_description">
+                We are looking for spokespersons to represent children who do not have a
+                voice. Become the voice that can make a difference for the world's most
+                disadvantaged children!
+
+                Concerts, conferences, or presentations in churches: these events offer
+                an excellent opportunity to share your own experience as a sponsor and
+                your passion for freeing children from extreme poverty.
+            </field>
+        </record>
+    </data>
+
+    <!-- SPORT -->
+    <data noupdate="0">
+        <record id="partner_compassion.engagement_sport" model="advocate.engagement">
+            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="my_compassion_alt_text">Sport for the children</field>
+            <field name="my_compassion_label">Sport for the children</field>
+            <field name="my_compassion_description">
+                Do you love fresh air and adrenaline? Is sport part of your daily
+                routine? Combine your passion with a cause close to your heart by
+                participating in a Muskahtlon (marathon, ultrawalk, road bike or
+                mountain bike race, etc.).
+            </field>
+            <field name="my_compassion_external_link">https://compassion.ch/sport</field>
+        </record>
+    </data>
+
+    <!-- PRAYER -->
+    <data noupdate="0">
+        <record id="__export__.advocate_engagement_19_7dfc0c6e" model="advocate.engagement">
+            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="my_compassion_alt_text">Prayer</field>
+            <field name="my_compassion_label">Prayer</field>
+            <field name="my_compassion_description">
+                Our prayers can make a big difference in the lives of children and
+                families around the world. Now you can receive prayer topics to fuel
+                your intercession for disadvantaged children, Compassion's 8,000 partner
+                churches in the Global South, and the challenges facing Compassion in
+                Switzerland. Click below to receive our monthly prayer letter.
+            </field>
+            <field name="my_compassion_internal_link">/subscription/prayer</field>
+        </record>
+    </data>
+
+    <!-- LETTER TRANSLATION -->
+    <data noupdate="0">
+        <record id="partner_compassion.engagement_translation" model="advocate.engagement">
+            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="my_compassion_alt_text">Letter Translator</field>
+            <field name="my_compassion_label">Letter Translator</field>
+            <field name="my_compassion_description">
+                Connect sponsors and children. 30% of letters from sponsored children
+                and sponsors need to be translated. If you are particularly comfortable
+                with a foreign language (German, English, Spanish, Portuguese), this
+                wonderful job gives you the opportunity to read the children's letters
+                and see the essence of our work in action: the encouraging relationship
+                between the sponsor and the child, which makes all the difference.
+            </field>
+        </record>
+    </data>
+
+    <!-- TOGETHER -->
+    <data noupdate="0">
+        <record id="partner_compassion.engagement_together" model="advocate.engagement">
+            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="my_compassion_alt_text">Crowdfunding</field>
+            <field name="my_compassion_label">Crowdfunding</field>
+            <field name="my_compassion_description">
+                TOGETHER is Compassion's community fundraising platform. Anyone can
+                create their own fundraising campaign, either individually or as part
+                of a collective project, for development projects implemented by
+                Compassion in countries in the Global South. With just a few clicks,
+                you can launch your own project. You set your goal and determine the
+                end date. Then, you invite your family and friends via email, Facebook,
+                Instagram, WhatsApp, etc. to support the fundraising goal with a
+                financial contribution
+            </field>
+            <field name="my_compassion_external_link">https://together.compassion.ch</field>
+        </record>
+    </data>
+</odoo>
