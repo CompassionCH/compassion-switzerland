@@ -1,21 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- XML ID WAS MISSING -->
-    <record id="bridge_together" model="ir.model.data">
-        <field name="name">engagement_together</field>
-        <field name="module">partner_compassion</field>
-        <field name="model">advocate.engagement</field>
-        <field name="res_id" search="[('default_code', '=', 'Together')]" model="advocate.engagement"/>
-        <field name="noupdate">True</field>
-    </record>
-
-
     <!-- CHURCH AMBASSADOR -->
     <data noupdate="0">
-        <record id="partner_compassion.engagement_church" model="advocate.engagement">
-            <field name="activate_for_my_compassion" eval="True"/>
-            <field name="my_compassion_alt_text">Spokesperson for Disadvantaged children in your church</field>
-            <field name="my_compassion_label">Spokesperson for Disadvantaged children in your church</field>
+        <record
+      id="partner_compassion.engagement_church"
+      model="advocate.engagement"
+    >
+            <field name="name">Church presentation</field>
+            <field name="activate_for_my_compassion" eval="True" />
+            <field
+        name="my_compassion_alt_text"
+      >Spokesperson for Disadvantaged children in your church</field>
+            <field
+        name="my_compassion_label"
+      >Spokesperson for Disadvantaged children in your church</field>
             <field name="my_compassion_description">
                 Would you like to promote the development of disadvantaged children in
                 your church and raise awareness among Christians about issues of poverty
@@ -32,10 +30,18 @@
 
     <!-- EVENTS VOLUNTEER -->
     <data noupdate="0">
-        <record id="partner_compassion.engagement_event" model="advocate.engagement">
-            <field name="activate_for_my_compassion" eval="True"/>
-            <field name="my_compassion_alt_text">Compassion spokesperson at events</field>
-            <field name="my_compassion_label">Compassion spokesperson at events</field>
+        <record
+      id="partner_compassion.engagement_event"
+      model="advocate.engagement"
+    >
+            <field name="name">Events</field>
+            <field name="activate_for_my_compassion" eval="True" />
+            <field
+        name="my_compassion_alt_text"
+      >Compassion spokesperson at events</field>
+            <field
+        name="my_compassion_label"
+      >Compassion spokesperson at events</field>
             <field name="my_compassion_description">
                 We are looking for spokespersons to represent children who do not have a
                 voice. Become the voice that can make a difference for the world's most
@@ -50,8 +56,12 @@
 
     <!-- SPORT -->
     <data noupdate="0">
-        <record id="partner_compassion.engagement_sport" model="advocate.engagement">
-            <field name="activate_for_my_compassion" eval="True"/>
+        <record
+      id="partner_compassion.engagement_sport"
+      model="advocate.engagement"
+    >
+            <field name="name">Sport</field>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_alt_text">Sport for the children</field>
             <field name="my_compassion_label">Sport for the children</field>
             <field name="my_compassion_description">
@@ -60,14 +70,20 @@
                 participating in a Muskahtlon (marathon, ultrawalk, road bike or
                 mountain bike race, etc.).
             </field>
-            <field name="my_compassion_external_link">https://compassion.ch/sport</field>
+            <field
+        name="my_compassion_external_link"
+      >https://compassion.ch/sport</field>
         </record>
     </data>
 
     <!-- PRAYER -->
     <data noupdate="0">
-        <record id="__export__.advocate_engagement_19_7dfc0c6e" model="advocate.engagement">
-            <field name="activate_for_my_compassion" eval="True"/>
+        <record
+      id="partner_compassion.engagement_pray"
+      model="advocate.engagement"
+    >
+            <field name="name">Prayer</field>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_alt_text">Prayer</field>
             <field name="my_compassion_label">Prayer</field>
             <field name="my_compassion_description">
@@ -77,14 +93,20 @@
                 churches in the Global South, and the challenges facing Compassion in
                 Switzerland. Click below to receive our monthly prayer letter.
             </field>
-            <field name="my_compassion_internal_link">/subscription/prayer</field>
+            <field
+        name="my_compassion_internal_link"
+      >/subscription/prayer</field>
         </record>
     </data>
 
     <!-- LETTER TRANSLATION -->
     <data noupdate="0">
-        <record id="partner_compassion.engagement_translation" model="advocate.engagement">
-            <field name="activate_for_my_compassion" eval="True"/>
+        <record
+      id="partner_compassion.engagement_translation"
+      model="advocate.engagement"
+    >
+            <field name="name">Translation</field>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_alt_text">Letter Translator</field>
             <field name="my_compassion_label">Letter Translator</field>
             <field name="my_compassion_description">
@@ -100,8 +122,12 @@
 
     <!-- TOGETHER -->
     <data noupdate="0">
-        <record id="partner_compassion.engagement_together" model="advocate.engagement">
-            <field name="activate_for_my_compassion" eval="True"/>
+        <record
+      id="partner_compassion.engagement_together"
+      model="advocate.engagement"
+    >
+            <field name="name">Together</field>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_alt_text">Crowdfunding</field>
             <field name="my_compassion_label">Crowdfunding</field>
             <field name="my_compassion_description">
@@ -114,7 +140,9 @@
                 Instagram, WhatsApp, etc. to support the fundraising goal with a
                 financial contribution
             </field>
-            <field name="my_compassion_external_link">https://together.compassion.ch</field>
+            <field
+        name="my_compassion_external_link"
+      >https://together.compassion.ch</field>
         </record>
     </data>
 </odoo>
