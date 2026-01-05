@@ -279,7 +279,8 @@ class PartnerCommunication(models.Model):
         )
         if pay_bvr and pay_bvr.must_pay_next_year():
             today = date.today()
-            date_start = today.replace(today.year + 1, 1, 1)
+            year_start = today.year if today.month < 2 else today.year + 1
+            date_start = today.replace(year_start, 1, 1)
             date_stop = date_start.replace(month=12, day=31)
             report_name = "report_compassion.2bvr_sponsorship"
             data = {
