@@ -294,7 +294,7 @@ class PartnerCommunication(models.Model):
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
         # Attach gifts for correspondents
         pays_gift = self.env["recurring.contract"]
-        for sponsorship in sponsorships:
+        for sponsorship in sponsorships.filtered("child_id"):
             if sponsorship.mapped(sponsorship.send_gifts_to) == self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
