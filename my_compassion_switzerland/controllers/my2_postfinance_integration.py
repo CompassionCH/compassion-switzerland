@@ -56,11 +56,14 @@ class MyCompassionPostFinanceController(PostFinanceController):
             except Exception:
                 pass
 
+        # Retrieve payment mode name stored in session (if any)
+        selected_method_name = request.session.pop('add_method_name', None)
+
         # Create recurring contract group for validation transactions
         group = None
         message = ""
         if tx.type == 'validation' and tx.state in ['done', 'authorized']:
-            group, message = request.env['recurring.contract.group'].sudo().create_from_transaction(tx)
+            group, message = request.env['recurring.contract.group'].sudo().create_from_transaction(tx, selected_method_name)
 
         # Determine status and message from the method result
         if tx.return_url:
@@ -108,7 +111,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
 
         token_ref = token_info['externalId']
 
-        # Extract clean payment method brand (e.g. "MasterCard", "TWINT")
+        # Extract clean payment method brand
         connector_config = pf_data.get('paymentConnectorConfiguration', {})
         full_method_name = connector_config.get('name', 'PostFinance Payment')
         brand_name = full_method_name.split(' - ')[-1] if ' - ' in full_method_name else full_method_name
