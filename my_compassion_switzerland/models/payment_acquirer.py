@@ -31,18 +31,16 @@ class PaymentAcquirerPostFinance(models.Model):
         if self.provider != 'postfinance':
             return {'success': False, 'error': 'Invalid provider'}
 
-        # 1. Validation
-        # We need the Integer ID of the token on PostFinance side (e.g., 12345678)
-        # We stored this in 'acquirer_ref' during token creation.
         if not token.acquirer_ref:
-            return {'success': False, 'error': 'Token has no PostFinance ID (acquirer_ref)'}
+            return {'success': False, 'error': 'Token has no PostFinance ID'}
 
         try:
             pf_token_id = int(token.acquirer_ref)
         except ValueError:
-            return {'success': False, 'error': f'Invalid Token ID format: {token.acquirer_ref}'}
+            return {'success': False, 'error': f'Invalid Token ID: {token.acquirer_ref}'}
 
-        # 2. Prepare API Payload
+        # 1. Prepare Payload
+        # Note: 'token' is assigned here. The v2.0 API expects 'space' in headers.
         tx_values = {
             'currency': currency.name,
             'lineItems': [{
@@ -54,11 +52,8 @@ class PaymentAcquirerPostFinance(models.Model):
                 'sku': 'monthly_sub'
             }],
             'token': pf_token_id,
-
-            # --- CONFIGURATION FOR IMMEDIATE CHARGE ---
-            'autoConfirmationEnabled': True,  # Capture immediately
-            'chargeRetryEnabled': False,  # Fail immediately if declined (Sync response)
-
+            'autoConfirmationEnabled': True,
+            'chargeRetryEnabled': False,
             'merchantReference': reference,
             'billingAddress': {
                 'country': partner_id.country_id.code or 'CH',
@@ -68,45 +63,44 @@ class PaymentAcquirerPostFinance(models.Model):
             }
         }
 
-        # 3. Call PostFinance API (Create Transaction)
         try:
             space_id = self.postfinance_api_spaceid
-            uri = f"/api/transaction/create?spaceId={space_id}"
 
-            resp = self._postfinance_send_request(self.id, 'POST', uri, json_data=tx_values)
+            # CORRECTED: Use v2.0 endpoint
+            # Header requirements: The 'space' ID is required in the header
+            # We pass it in the headers dict to _postfinance_send_request
+            uri = "/api/v2.0/payment/transactions"
+            headers = {'space': str(space_id)}
 
-            if resp.get('status') != 200:
+            # Send Request
+            resp = self._postfinance_send_request(self.id, 'POST', uri, json_data=tx_values, headers=headers)
+
+            if resp.get('status') not in [200, 201]:
                 return {'success': False, 'error': resp.get('error', 'API Error')}
 
             data = resp.get('data', {})
             state = data.get('state')
             transaction_id = data.get('id')
 
-            # --- STEP 4: Force Processing (If still PENDING) ---
+            # 2. Force Processing (If PENDING)
             if state == 'PENDING':
-                _logger.info(f"Transaction {transaction_id} PENDING. Attempting to process without user interaction...")
+                _logger.info(f"Tx {transaction_id} PENDING. Processing without interaction...")
 
-                # CORRECT ENDPOINT: For S2S token charges, we often need to "process" it.
-                # Try passing the ID in the QUERY string, but remove 'tokenId'
-                process_uri = f"/api/transaction/process?spaceId={space_id}&id={transaction_id}"
+                # CORRECTED: Use v2.0 process endpoint
+                process_uri = f"/api/v2.0/payment/transactions/{transaction_id}/process-without-interaction"
 
-                # Some API versions require the transaction ID in the body, not the URL.
-                # If the above 404s again, likely the endpoint is meant to be hit via the SDK service "TransactionService"
-                # which usually maps to:
-                process_resp = self._postfinance_send_request(self.id, 'POST', process_uri)
+                # Ensure space header is passed again
+                process_resp = self._postfinance_send_request(self.id, 'POST', process_uri, headers=headers)
 
-                # If that still returns 404 or fails, we fallback to just returning the PENDING state error.
                 if process_resp.get('status') == 200:
                     data = process_resp.get('data', {})
                     state = data.get('state')
 
-            # 5. Final State Check
+            # 3. Final State Check
             if state in ['AUTHORIZED', 'COMPLETED', 'FULFILL', 'PROCESSING']:
                 return {'success': True, 'transaction_id': transaction_id, 'state': state}
             else:
-                fail_reason = data.get('failureReason', {}).get('description', 'No reason provided')
-                # If it is PENDING here, it usually means the Token is invalid for S2S (requires 3DS)
-                # or the API requires a specific "Merchant Initiated" flag in the paymentConnectorConfiguration.
+                fail_reason = data.get('failureReason', {}).get('description', 'No reason')
                 return {
                     'success': False,
                     'error': f"State: {state} | Reason: {fail_reason}",

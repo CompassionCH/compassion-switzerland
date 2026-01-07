@@ -1,3 +1,5 @@
+from docutils.nodes import header
+
 from odoo import http
 from odoo.http import request
 
@@ -86,13 +88,10 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
 
             # 3. Fetch All Possible Payment Methods (Generalization)
             space_id = acquirer.postfinance_api_spaceid
-            method_uri = "/api/transaction/fetchPossiblePaymentMethods?spaceId={}&id={}&integrationMode=iframe".format(
-                space_id, pf_trans_id
-            )
-
-            method_res = acquirer.sudo()._postfinance_send_request(
-                acquirer.id, "GET", method_uri
-            )
+            method_uri = f"/api/v2.0/payment/transactions/{pf_trans_id}/payment-method-configurations?integrationMode=iframe"
+            headers = {'space': str(space_id)}
+            method_res = acquirer.sudo()._postfinance_send_request(acquirer.id, "GET", method_uri,
+                                                                   headers=headers)
             available_methods = []
 
             if method_res.get("status") == 200:
