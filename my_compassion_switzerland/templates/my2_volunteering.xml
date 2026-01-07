@@ -25,7 +25,7 @@ Page: My Compassion 2 Volunteering Page
                 <div class="container">
                     <div class="single-column pt-3">
                         <t t-call="theme_compassion_2025.TitleComponent">
-                            <t t-set="title_content">Get More Involved</t>
+                            <t t-set="title_content">Volunteer with Compassion</t>
                             <t t-set="title_size" t-value="'md'" />
                             <t t-set="color" t-value="'core-blue'" />
                             <t t-set="show_underline" t-value="True" />
