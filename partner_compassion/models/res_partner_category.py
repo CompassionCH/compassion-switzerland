@@ -12,9 +12,9 @@ class PartnerCategory(models.Model):
         if "partner_ids" in vals:
             tag_removed = old_partners - new_partners
             if tag_removed:
-                tag_removed.mapped("mass_mailing_contact_ids").write(
+                tag_removed.mapped("mass_mailing_contact_ids").delayable().write(
                     {"tag_ids": [(3, tag_id) for tag_id in self.ids]}
-                )
+                ).set(priority=100, channel="root.mailchimp").split(80).delay()
             tag_added = new_partners - old_partners
             prayer = self.env.ref("partner_compassion.res_partner_category_prayer")
             prayer_engagement = self.env.ref("partner_compassion.engagement_pray")
