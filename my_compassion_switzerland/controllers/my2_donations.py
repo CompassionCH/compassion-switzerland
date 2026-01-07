@@ -1,5 +1,3 @@
-from docutils.nodes import header
-
 from odoo import http
 from odoo.http import request
 
@@ -25,11 +23,10 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
         return super(
             MyCompassionDonationsControllerSwiss, self
         ).add_payment_method_online(**kwargs)
-    
-    @http.route('/my2/debug/charge_token', type='json', auth='user', website=True)
+
+    @http.route("/my2/debug/charge_token", type="json", auth="user", website=True)
     def debug_charge_token(self, group_id):
         return super().debug_charge_token(group_id)
-    
 
     def _prepare_postfinance_iframe_redirect(self, acquirer, tx, return_url):
         """
@@ -89,9 +86,11 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
             # 3. Fetch All Possible Payment Methods (Generalization)
             space_id = acquirer.postfinance_api_spaceid
             method_uri = f"/api/v2.0/payment/transactions/{pf_trans_id}/payment-method-configurations?integrationMode=iframe"
-            headers = {'space': str(space_id)}
+            headers = {"space": str(space_id)}
 
-            method_res = acquirer.sudo()._postfinance_send_request(acquirer.id, "GET", method_uri, headers=headers)
+            method_res = acquirer.sudo()._postfinance_send_request(
+                acquirer.id, "GET", method_uri, headers=headers
+            )
             available_methods = []
 
             if method_res.get("status") == 200:
@@ -104,9 +103,9 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
                     # Resolve name based on language or fallback
                     title_map = m.get("resolvedTitle", {})
                     name = (
-                            title_map.get(current_lang)
-                            or title_map.get("en-US")
-                            or m.get("name")
+                        title_map.get(current_lang)
+                        or title_map.get("en-US")
+                        or m.get("name")
                     )
 
                     available_methods.append(
@@ -115,7 +114,7 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
                             "name": name,
                             "image": m.get("resolvedImageUrl"),
                         }
-                    )            # 4. Get JavaScript URL for Iframe
+                    )  # 4. Get JavaScript URL for Iframe
             url_res = acquirer.sudo().postfinance_build_javascript_url(
                 acquirer.id, pf_trans_id
             )

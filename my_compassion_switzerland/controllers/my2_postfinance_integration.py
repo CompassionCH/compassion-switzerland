@@ -68,7 +68,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
             group, message = (
                 request.env["recurring.contract.group"]
                 .sudo()
-                .create_from_transaction(tx, selected_method_name)
+                .create_from_transaction(tx)
             )
 
         # Determine status and message from the method result
@@ -104,36 +104,33 @@ class MyCompassionPostFinanceController(PostFinanceController):
         Fetch transaction details from PostFinance to get the 'token' (Alias).
         Create or link a payment.token record to the partner.
         """
-        search_params = {'acquirer_reference': tx.acquirer_reference}
+        search_params = {"acquirer_reference": tx.acquirer_reference}
 
         # 1. Fetch Data
-        response = tx.acquirer_id.postfinance_search_transation_id(tx.acquirer_id.id, search_params)
+        response = tx.acquirer_id.postfinance_search_transation_id(
+            tx.acquirer_id.id, search_params
+        )
 
-        if response.get('status') != 200 or not response.get('data'):
+        if response.get("status") != 200 or not response.get("data"):
             return
 
-        pf_data = response['data'][0]
-        token_info = pf_data.get('token')
+        pf_data = response["data"][0]
+        token_info = pf_data.get("token")
 
-        # Critical: Use the numeric ID for future API calls, use externalId for display if needed
+        # Use the numeric ID for future API calls.
         # In Wallee/PostFinance: 'id' is the internal integer ID (used for charging)
-        # 'externalId' is the UUID string.
-        # We need the INTEGER ID to charge later.
-        if not token_info or not token_info.get('id'):
+        if not token_info or not token_info.get("id"):
             return
 
-        # Token ID for charging (Integer)
-        token_pf_id = str(token_info['id'])
+        token_pf_id = str(token_info["id"])
 
-        # 2. Extract Brand Name (Optimization)
-        # pf_data['paymentConnectorConfiguration']['name'] example: "SIX Acquiring - MasterCard"
-        connector_config = pf_data.get('paymentConnectorConfiguration', {})
-        full_method_name = connector_config.get('name', 'PostFinance Payment')
+        # 2. Extract Brand Name (example: "SIX Acquiring - MasterCard")
+        connector_config = pf_data.get("paymentConnectorConfiguration", {})
+        full_method_name = connector_config.get("name", "PostFinance Payment")
 
         # Cleanup: Remove common prefixes to get the core brand
-        # "SIX Acquiring - MasterCard" -> "MasterCard"
-        if ' - ' in full_method_name:
-            brand_name = full_method_name.split(' - ')[-1]
+        if " - " in full_method_name:
+            brand_name = full_method_name.split(" - ")[-1]
         else:
             brand_name = full_method_name
 
@@ -142,10 +139,17 @@ class MyCompassionPostFinanceController(PostFinanceController):
         token_name = f"{brand_name}_{token_pf_id}"
 
         # 4. Save/Link Token
-        existing_token = request.env['payment.token'].sudo().search([
-            ('acquirer_ref', '=', token_pf_id),  # Search by Unique ID
-            ('acquirer_id', '=', tx.acquirer_id.id)
-        ], limit=1)
+        existing_token = (
+            request.env["payment.token"]
+            .sudo()
+            .search(
+                [
+                    ("acquirer_ref", "=", token_pf_id),  # Search by Unique ID
+                    ("acquirer_id", "=", tx.acquirer_id.id),
+                ],
+                limit=1,
+            )
+        )
 
         if existing_token:
             # Update name if brand changed or was generic
@@ -154,11 +158,17 @@ class MyCompassionPostFinanceController(PostFinanceController):
             tx.payment_token_id = existing_token.id
         else:
             # Create new payment.token
-            new_token = request.env['payment.token'].sudo().create({
-                'name': token_name,
-                'partner_id': tx.partner_id.id,
-                'acquirer_id': tx.acquirer_id.id,
-                'acquirer_ref': token_pf_id,
-                'active': True,
-            })
+            new_token = (
+                request.env["payment.token"]
+                .sudo()
+                .create(
+                    {
+                        "name": token_name,
+                        "partner_id": tx.partner_id.id,
+                        "acquirer_id": tx.acquirer_id.id,
+                        "acquirer_ref": token_pf_id,
+                        "active": True,
+                    }
+                )
+            )
             tx.payment_token_id = new_token.id
