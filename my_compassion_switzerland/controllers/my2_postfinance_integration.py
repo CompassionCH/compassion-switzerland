@@ -158,7 +158,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
                 'name': token_name,
                 'partner_id': tx.partner_id.id,
                 'acquirer_id': tx.acquirer_id.id,
-                'acquirer_ref': token_pf_id,  # Storing the INTEGER ID here is crucial for the charge API
+                'acquirer_ref': token_pf_id,
                 'active': True,
             })
             tx.payment_token_id = new_token.id

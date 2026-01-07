@@ -23,6 +23,11 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
         return super(
             MyCompassionDonationsControllerSwiss, self
         ).add_payment_method_online(**kwargs)
+    
+    @http.route('/my2/debug/charge_token', type='json', auth='user', website=True)
+    def debug_charge_token(self, group_id):
+        return super().debug_charge_token(group_id)
+    
 
     def _prepare_postfinance_iframe_redirect(self, acquirer, tx, return_url):
         """

@@ -78,7 +78,7 @@ class AccountMove(models.Model):
                 tx._set_transaction_done()
                 tx.write({
                     'acquirer_reference': res.get('transaction_id'),
-                    'is_processed': True  # Mark as processed to prevent double handling
+                    'is_processed': True
                 })
 
                 # 3. Reconcile!
