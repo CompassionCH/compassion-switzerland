@@ -54,11 +54,10 @@ class PaymentAcquirerPostFinance(models.Model):
                 'sku': 'monthly_sub'
             }],
             'token': pf_token_id,
-            'autoConfirmationEnabled': True,
-            'chargeRetryEnabled': False,
 
-            'completionBehavior': 'COMPLETE_IMMEDIATELY',
-
+            # --- CONFIGURATION FOR IMMEDIATE CHARGE ---
+            'autoConfirmationEnabled': True,  # Capture immediately
+            'chargeRetryEnabled': False,  # Fail immediately if declined (Sync response)
 
             'merchantReference': reference,
             'billingAddress': {
@@ -67,18 +66,14 @@ class PaymentAcquirerPostFinance(models.Model):
                 'familyName': partner_id.lastname or partner_id.name or '',
                 'givenName': partner_id.firstname or '',
             }
-        }# 3. Call PostFinance API (Create Transaction)
-        # Note: If this still stays PENDING, we might need a second call to /transaction/process
+        }
+
+        # 3. Call PostFinance API (Create Transaction)
         try:
             space_id = self.postfinance_api_spaceid
             uri = f"/api/transaction/create?spaceId={space_id}"
 
-            resp = self._postfinance_send_request(
-                self.id,
-                'POST',
-                uri,
-                json_data=tx_values
-            )
+            resp = self._postfinance_send_request(self.id, 'POST', uri, json_data=tx_values)
 
             if resp.get('status') != 200:
                 return {'success': False, 'error': resp.get('error', 'API Error')}
@@ -88,30 +83,35 @@ class PaymentAcquirerPostFinance(models.Model):
             transaction_id = data.get('id')
 
             # --- STEP 4: Force Processing (If still PENDING) ---
-            # Sometimes 'create' just drafts it. We must explicitly 'process' it with the token.
             if state == 'PENDING':
-                _logger.info(f"Transaction {transaction_id} is PENDING. Attempting to force process...")
+                _logger.info(f"Transaction {transaction_id} PENDING. Attempting to process without user interaction...")
 
-                process_uri = f"/api/transaction/process?spaceId={space_id}&id={transaction_id}&tokenId={pf_token_id}"
+                # CORRECT ENDPOINT: For S2S token charges, we often need to "process" it.
+                # Try passing the ID in the QUERY string, but remove 'tokenId'
+                process_uri = f"/api/transaction/process?spaceId={space_id}&id={transaction_id}"
 
-                # We call the PROCESS endpoint
-                # Note: Some APIs require 'processWithoutUserInteraction' or similar
-                process_resp = self._postfinance_send_request(
-                    self.id,
-                    'POST', # or GET depending on specific endpoint version, usually POST for actions
-                    process_uri
-                )
+                # Some API versions require the transaction ID in the body, not the URL.
+                # If the above 404s again, likely the endpoint is meant to be hit via the SDK service "TransactionService"
+                # which usually maps to:
+                process_resp = self._postfinance_send_request(self.id, 'POST', process_uri)
 
+                # If that still returns 404 or fails, we fallback to just returning the PENDING state error.
                 if process_resp.get('status') == 200:
                     data = process_resp.get('data', {})
                     state = data.get('state')
 
-            # Final Check
+            # 5. Final State Check
             if state in ['AUTHORIZED', 'COMPLETED', 'FULFILL', 'PROCESSING']:
                 return {'success': True, 'transaction_id': transaction_id, 'state': state}
             else:
                 fail_reason = data.get('failureReason', {}).get('description', 'No reason provided')
-                return {'success': False, 'error': f"State: {state} | Reason: {fail_reason}", 'transaction_id': transaction_id}
+                # If it is PENDING here, it usually means the Token is invalid for S2S (requires 3DS)
+                # or the API requires a specific "Merchant Initiated" flag in the paymentConnectorConfiguration.
+                return {
+                    'success': False,
+                    'error': f"State: {state} | Reason: {fail_reason}",
+                    'transaction_id': transaction_id
+                }
 
         except Exception as e:
             _logger.exception("Exception during PostFinance Token Charge")
