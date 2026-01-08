@@ -6,6 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
 import werkzeug
@@ -14,6 +15,8 @@ from odoo import http
 from odoo.http import request
 
 from odoo.addons.payment_postfinance_flex.controllers.main import PostFinanceController
+
+_logger = logging.getLogger(__name__)
 
 
 class MyCompassionPostFinanceController(PostFinanceController):
@@ -27,18 +30,24 @@ class MyCompassionPostFinanceController(PostFinanceController):
         """
         Override to process feedback, force local saving of token_ID and redirect.
         """
+
         try:
-            super(MyCompassionPostFinanceController, self).postfinance_form_feedback(
+            super().postfinance_form_feedback(
                 txnId, **post
             )
         except Exception:
-            pass
+            _logger.exception(
+                "Error in PostFinanceController.postfinance_form_feedback for txnId %s",
+                txnId,
+            )
 
         if not txnId:
+            _logger.warning("postfinance_form_feedback called without txnId.")
             return werkzeug.utils.redirect("/payment/process")
 
         tx = request.env["payment.transaction"].sudo().browse(int(txnId))
         if not tx.exists():
+            _logger.warning("Transaction %s not found in postfinance_form_feedback.", txnId)
             return werkzeug.utils.redirect("/payment/process")
 
         # Create PostFinance token if missing
@@ -49,24 +58,34 @@ class MyCompassionPostFinanceController(PostFinanceController):
                 tx.invalidate_cache()
                 tx = request.env["payment.transaction"].sudo().browse(int(txnId))
             except Exception:
-                pass
+                _logger.exception(
+                    "Failed to create PostFinance token for transaction %s", tx.id
+                )
 
         # Force Odoo standard post-processing for tokenized payments
         if not tx.is_processed and tx.state in ["done", "authorized"]:
             try:
                 tx._post_process_after_done()
             except Exception:
-                pass
+                _logger.exception(
+                    "Error during _post_process_after_done for transaction %s", tx.id
+                )
 
         # Create recurring contract group for validation transactions
         group = None
         message = ""
         if tx.type == "validation" and tx.state in ["done", "authorized"]:
-            group, message = (
-                request.env["recurring.contract.group"]
-                .sudo()
-                .create_from_transaction(tx)
-            )
+            try:
+                group, message = (
+                    request.env["recurring.contract.group"]
+                    .sudo()
+                    .create_from_transaction(tx)
+                )
+            except Exception:
+                _logger.exception(
+                    "Error creating recurring contract group for transaction %s", tx.id
+                )
+                message = "An error occurred while saving the payment method."
 
         # Determine status and message from the method result
         if tx.return_url:
@@ -78,21 +97,27 @@ class MyCompassionPostFinanceController(PostFinanceController):
                     status = "Success"
             else:
                 status = "Error"
+                if not message:
+                    message = "Could not create contract group."
 
-            # Build query parameters
-            url_parts = list(urlparse(tx.return_url or "/my/donations"))
-            query = parse_qs(url_parts[4])
+            try:
+                # Build query parameters
+                url_parts = list(urlparse(tx.return_url or "/my/donations"))
+                query = parse_qs(url_parts[4])
 
-            query.update(
-                {
-                    "payment_method_result": [status],
-                    "payment_method_message": [message],
-                }
-            )
+                query.update(
+                    {
+                        "payment_method_result": [status],
+                        "payment_method_message": [message],
+                    }
+                )
 
-            url_parts[4] = urlencode(query, doseq=True)
-            return_url = urlunparse(url_parts)
-            return werkzeug.utils.redirect(return_url)
+                url_parts[4] = urlencode(query, doseq=True)
+                return_url = urlunparse(url_parts)
+                return werkzeug.utils.redirect(return_url)
+            except Exception:
+                _logger.exception("Error constructing return URL for transaction %s", tx.id)
+                return werkzeug.utils.redirect("/payment/process")
 
         return werkzeug.utils.redirect("/payment/process")
 
@@ -109,6 +134,11 @@ class MyCompassionPostFinanceController(PostFinanceController):
         )
 
         if response.get("status") != 200 or not response.get("data"):
+            _logger.error(
+                "PostFinance API failed to search transaction %s. Response: %s",
+                tx.acquirer_reference,
+                response,
+            )
             return
 
         pf_data = response["data"][0]
@@ -117,6 +147,10 @@ class MyCompassionPostFinanceController(PostFinanceController):
         # Use the numeric ID for future API calls.
         # In Wallee/PostFinance: 'id' is the internal integer ID (used for charging)
         if not token_info or not token_info.get("id"):
+            _logger.warning(
+                "No token information found in PostFinance response for transaction %s",
+                tx.id,
+            )
             return
 
         token_pf_id = str(token_info["id"])
