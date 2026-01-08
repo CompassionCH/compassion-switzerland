@@ -107,7 +107,7 @@ class PaymentAcquirerPostFinance(models.Model):
                     state = data.get("state")
 
             # 3. Final State Check
-            if state in ["AUTHORIZED", "COMPLETED", "FULFILL", "PROCESSING"]:
+            if state in ["AUTHORIZED", "COMPLETED", "FULFILL"]:
                 return {
                     "success": True,
                     "transaction_id": transaction_id,
