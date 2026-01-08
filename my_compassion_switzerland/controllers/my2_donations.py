@@ -21,9 +21,7 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
         Calling super() preserves the generic logic but ensures 'self' refers to this
         class instance.
         """
-        return super(
-            MyCompassionDonationsControllerSwiss, self
-        ).add_payment_method_online(**kwargs)
+        return super().add_payment_method_online(**kwargs)
 
     @http.route("/my2/debug/charge_token", type="json", auth="user", website=True)
     def debug_charge_token(self, group_id):
