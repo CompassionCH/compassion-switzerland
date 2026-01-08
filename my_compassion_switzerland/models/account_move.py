@@ -18,7 +18,7 @@ class AccountMove(models.Model):
 
         # 2. Check for Auto-Pay candidates
         for invoice in self:
-            # Only process Customer Invoices that are unpaid and from the Recurring engine
+            # Only process Customer Invoices that are unpaid and from Recurring engine
             if (
                 invoice.move_type != "out_invoice"
                 or invoice.payment_state != "not_paid"
@@ -34,28 +34,33 @@ class AccountMove(models.Model):
             # All lines in one invoice belong to the same group
             group = contract_lines[0].group_id
 
-            # If the invoice was generated with a different payment mode (e.g. BVR)
-            # than the current group's mode (e.g. PostFinance Card), do not charge it.
+            # If the invoice was generated with a different payment mode
+            # than the current group's mode, do not charge it.
             if invoice.payment_mode_id and group.payment_mode_id:
                 if invoice.payment_mode_id.id != group.payment_mode_id.id:
                     _logger.info(
-                        f"Skipping auto-charge for {invoice.name}: Invoice Mode ({invoice.payment_mode_id.name}) != Group Mode ({group.payment_mode_id.name})"
+                        f"Skipping auto-charge for {invoice.name}:"
+                        f" Invoice Mode ({invoice.payment_mode_id.name})"
+                        f" != Group Mode ({group.payment_mode_id.name})"
                     )
                     continue
 
             # 3. Trigger Charge if Token exists
             if group.payment_token_id and group.payment_token_id.active:
-                # Double check: Do not charge if there is already a successful/pending transaction
+                # Double check: Do not charge if there is already a successful
+                # or pending transaction
                 if invoice.transaction_ids.filtered(
                     lambda t: t.state in ["done", "authorized", "pending"]
                 ):
                     _logger.info(
-                        f"Skipping auto-charge for {invoice.name}: Valid transaction already exists."
+                        f"Skipping auto-charge for {invoice.name}:"
+                        f" Valid transaction already exists."
                     )
                     continue
 
                 _logger.info(
-                    f"Auto-charging Invoice {invoice.name} with Token {group.payment_token_id.id}"
+                    f"Auto-charging Invoice {invoice.name} with"
+                    f" Token {group.payment_token_id.id}"
                 )
                 invoice._charge_postfinance_token(group.payment_token_id)
 

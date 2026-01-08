@@ -16,9 +16,10 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
     )
     def add_payment_method_online(self, **kwargs):
         """
-        Override the route to force Odoo to use this class (MyCompassionDonationsControllerSwiss)
-        instead of the parent class. calling super() preserves the generic logic
-        but ensures 'self' refers to this class instance.
+        Override the route to force Odoo to use this class
+        (MyCompassionDonationsControllerSwiss) instead of the parent class.
+        Calling super() preserves the generic logic but ensures 'self' refers to this
+        class instance.
         """
         return super(
             MyCompassionDonationsControllerSwiss, self
@@ -85,7 +86,10 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
 
             # 3. Fetch All Possible Payment Methods (Generalization)
             space_id = acquirer.postfinance_api_spaceid
-            method_uri = f"/api/v2.0/payment/transactions/{pf_trans_id}/payment-method-configurations?integrationMode=iframe"
+            method_uri = (
+                f"/api/v2.0/payment/transactions/{pf_trans_id}"
+                "/payment-method-configurations?integrationMode=iframe"
+            )
             headers = {"space": str(space_id)}
 
             method_res = acquirer.sudo()._postfinance_send_request(

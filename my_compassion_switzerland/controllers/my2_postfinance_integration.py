@@ -58,9 +58,6 @@ class MyCompassionPostFinanceController(PostFinanceController):
             except Exception:
                 pass
 
-        # Retrieve payment mode name stored in session (if any)
-        selected_method_name = request.session.pop("add_method_name", None)
-
         # Create recurring contract group for validation transactions
         group = None
         message = ""

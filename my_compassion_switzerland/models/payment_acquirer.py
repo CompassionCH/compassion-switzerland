@@ -92,7 +92,10 @@ class PaymentAcquirerPostFinance(models.Model):
                     f"Tx {transaction_id} PENDING. Processing without interaction..."
                 )
 
-                process_uri = f"/api/v2.0/payment/transactions/{transaction_id}/process-without-interaction"
+                process_uri = (
+                    f"/api/v2.0/payment/transactions/{transaction_id}"
+                    f"/process-without-interaction"
+                )
 
                 # Ensure space header is passed again
                 process_resp = self._postfinance_send_request(
