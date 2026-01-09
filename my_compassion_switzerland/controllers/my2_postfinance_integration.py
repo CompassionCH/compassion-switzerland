@@ -123,83 +123,12 @@ class MyCompassionPostFinanceController(PostFinanceController):
 
     def _create_postfinance_token(self, tx):
         """
-        Fetch transaction details from PostFinance to get the 'token' (Alias).
-        Create or link a payment.token record to the partner.
+        Custom finalization to create or link PostFinance token.
         """
-        search_params = {"acquirer_reference": tx.acquirer_reference}
+        token = request.env['payment.token'].sudo().create_or_find_postfinance_token(tx)
 
-        # 1. Fetch Data
-        response = tx.acquirer_id.postfinance_search_transation_id(
-            tx.acquirer_id.id, search_params
-        )
-
-        if response.get("status") != 200 or not response.get("data"):
-            _logger.error(
-                "PostFinance API failed to search transaction %s. Response: %s",
-                tx.acquirer_reference,
-                response,
-            )
-            return
-
-        pf_data = response["data"][0]
-        token_info = pf_data.get("token")
-
-        # Use the numeric ID for future API calls.
-        # In Wallee/PostFinance: 'id' is the internal integer ID (used for charging)
-        if not token_info or not token_info.get("id"):
-            _logger.warning(
-                "No token information found in PostFinance response for transaction %s",
-                tx.id,
-            )
-            return
-
-        token_pf_id = str(token_info["id"])
-
-        # 2. Extract Brand Name (example: "SIX Acquiring - MasterCard")
-        connector_config = pf_data.get("paymentConnectorConfiguration", {})
-        full_method_name = connector_config.get("name", "PostFinance Payment")
-
-        # Cleanup: Remove common prefixes to get the core brand
-        if " - " in full_method_name:
-            brand_name = full_method_name.split(" - ")[-1]
+        if token:
+            tx.payment_token_id = token.id
+            _logger.info("Token linked successfully: %s", token.name)
         else:
-            brand_name = full_method_name
-
-        # 3. Create Token Name
-        # This format helps us identify the brand later for icons/payment modes
-        token_name = f"{brand_name}_{token_pf_id}"
-
-        # 4. Save/Link Token
-        existing_token = (
-            request.env["payment.token"]
-            .sudo()
-            .search(
-                [
-                    ("acquirer_ref", "=", token_pf_id),  # Search by Unique ID
-                    ("acquirer_id", "=", tx.acquirer_id.id),
-                ],
-                limit=1,
-            )
-        )
-
-        if existing_token:
-            # Update name if brand changed or was generic
-            if existing_token.name != token_name:
-                existing_token.name = token_name
-            tx.payment_token_id = existing_token.id
-        else:
-            # Create new payment.token
-            new_token = (
-                request.env["payment.token"]
-                .sudo()
-                .create(
-                    {
-                        "name": token_name,
-                        "partner_id": tx.partner_id.id,
-                        "acquirer_id": tx.acquirer_id.id,
-                        "acquirer_ref": token_pf_id,
-                        "active": True,
-                    }
-                )
-            )
-            tx.payment_token_id = new_token.id
+            _logger.error("Failed to link token for tx %s", tx.reference)
