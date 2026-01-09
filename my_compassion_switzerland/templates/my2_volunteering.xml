@@ -25,21 +25,21 @@ Page: My Compassion 2 Volunteering Page
                 <div class="container">
                     <div class="single-column pt-3">
                         <t t-call="theme_compassion_2025.TitleComponent">
-                            <t t-set="title_content">Get More Involved</t>
+                            <t
+                t-set="title_content"
+              >Volunteer with Compassion</t>
                             <t t-set="title_size" t-value="'md'" />
                             <t t-set="color" t-value="'core-blue'" />
                             <t t-set="show_underline" t-value="True" />
                             <t t-set="underline_color" t-value="'low-yellow'" />
                             <p
-              >Would you like to encourage others to sponsor a child? Are you particularly moved by the
-                                plight of disadvantaged children and want to take action?
+              >Would you like to encourage others to support children?
+Are you particularly moved by the issue of extreme poverty and want to take action?
                             </p>
                             <p
-              >You can volunteer for Compassion and put your talents to work for some of the world's most
-                                disadvantaged children. Translations, letter prep, attending events, speaking on
-                                behalf of Compassion in your church, or running for children.
+              >You can volunteer for Compassion and use your skills to serve children — through translations, helping at events, prayer, or as an ambassador in your church or in the sports community.
                             </p>
-                            <p>Here's how you can get involved:</p>
+                            <p>Find out how you can get involved:</p>
                         </t>
                     </div>
                     <div class="container-content row text-center mb-3 mt-3">
