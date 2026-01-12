@@ -27,7 +27,7 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
     def debug_charge_token(self, group_id):
         return super().debug_charge_token(group_id)
 
-    def _prepare_postfinance_iframe_redirect(self, acquirer, return_url):
+    def _prepare_iframe_redirect(self, acquirer, return_url):
         """
         PostFinance specific: create the transaction via the API, gather
         available payment methods and the JavaScript URL for the iframe.
