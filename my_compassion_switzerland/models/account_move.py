@@ -24,8 +24,8 @@ class AccountMove(models.Model):
         invoices = self.search([
             ('state', '=', 'posted'),
             ('payment_state', '=', 'not_paid'),
-            ('invoice_date_due', '<=', today),  # Catch today's and any failed ones from before
-            ('recurring_invoicer_id', '!=', False),  # Must be from Recurring Engine
+            ('invoice_date_due', '=', today),  # Catch today's and any failed ones from before
+            ('recurring_invoicer_id', '!=', False),
         ])
 
         _logger.info(f"Found {len(invoices)} invoices due for auto-charge check.")
@@ -111,11 +111,10 @@ class AccountMove(models.Model):
 
             if res.get("success"):
                 # Update Transaction State
-                tx._set_transaction_done()
                 tx.write(
                     {"acquirer_reference": res.get("transaction_id"), "is_processed": True}
                 )
-
+                tx._set_transaction_done()
                 tx._post_process_after_done()
 
             else:

@@ -25,6 +25,7 @@
         "security/ir.model.access.csv",
         "security/access_rules.xml",
         "data/account_payment_mode_data.xml",
+        "data/recurring_payment_token_cron.xml",
         "views/advocate_engagement_view.xml",
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",

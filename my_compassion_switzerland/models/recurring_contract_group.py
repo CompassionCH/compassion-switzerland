@@ -17,7 +17,6 @@ class RecurringContractGroup(models.Model):
             invoice.invoice_payment_term_id = invoice.partner_id.property_payment_term_id
 
         # 3. Force Due Date Calculation
-        # In Odoo 14 backend, creating a record doesn't always trigger onchanges.
         # We manually trigger the logic that calculates 'invoice_date_due'
         if invoice.invoice_payment_term_id and invoice.invoice_date:
             invoice._onchange_invoice_date()

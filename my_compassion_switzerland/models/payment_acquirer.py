@@ -21,7 +21,7 @@ class PaymentAcquirerPostFinance(models.Model):
         """
         Server-to-Server (S2S) charge of an existing PostFinance Token.
         :param token: payment.token record
-        :param amount: float
+        :param amount: float (amount of the invoice)
         :param currency: res.currency record
         :param reference: str (unique merchant reference, e.g. INV/2025/001)
         :param partner_id: res.partner record
@@ -43,6 +43,7 @@ class PaymentAcquirerPostFinance(models.Model):
             }
 
         # 1. Prepare Payload
+        # [MIG] 18.0: TODO: use _postfinance_create_transaction from payment_postfinance_flex
         tx_values = {
             "currency": currency.name,
             "lineItems": [
