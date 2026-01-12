@@ -14,16 +14,16 @@
             <field name="my_compassion_label">Become a Church Advocate</field>
             <field
         name="my_compassion_description"
-        eval="'Would you like to be a '
-            'voice for underprivileged children within your church and help raise '
-            'awareness among Christians about poverty and injustice in the Global '
-            'South? We are looking for one church advocate per church in Switzerland. '
-            'As an advocate, you will coordinate Compassion’s presence within the '
-            'church—home groups, youth ministries, and Sunday school—working in '
-            'collaboration with church leaders. We provide a wide range of resources '
-            'to support you, including presentations, videos, Sunday school materials, '
-            'and event announcements. This is a valuable opportunity to respond to '
-            'Jesus’ call to care for the most vulnerable and the least of these.'"
+        eval="'Would you like to be a voice for underprivileged children within your '
+            'church and help raise awareness among Christians about poverty and '
+            'injustice in the Global South? We are looking for one church advocate per '
+            'church in Switzerland. As an advocate, you will coordinate Compassion’s '
+            'presence within the church—home groups, youth ministries, and Sunday '
+            'school—working in collaboration with church leaders. We provide a wide '
+            'range of resources to support you, including presentations, videos, '
+            'Sunday school materials, and event announcements. This is a valuable '
+            'opportunity to respond to Jesus’ call to care for the most vulnerable and '
+            'the least of these.'"
       />
         </record>
     </data>
@@ -44,13 +44,12 @@
       >Events &amp; Church Services</field>
             <field
         name="my_compassion_description"
-        eval="'We are looking for '
-            'volunteers to stand up for children who have no voice of their own. '
-            'Become a voice that can make a real difference for underprivileged '
-            'children around the world. Concerts, conferences, and church '
-            'presentations offer excellent opportunities to share your own experience '
-            'as a sponsor and inspire others with your passion for releasing children '
-            'from extreme poverty.'"
+        eval="'We are looking for volunteers to stand up for children who have no '
+            'voice of their own. Become a voice that can make a real difference for '
+            'underprivileged children around the world. Concerts, conferences, and '
+            'church presentations offer excellent opportunities to share your own '
+            'experience as a sponsor and inspire others with your passion for '
+            'releasing children from extreme poverty.'"
       />
         </record>
     </data>
@@ -67,10 +66,10 @@
             <field name="my_compassion_label">Sports for Children</field>
             <field
         name="my_compassion_description"
-        eval="'Is sport an important part '
-            'of your life? Turn your passion into action by taking part in a '
-            'muskathlon—whether a marathon, ultra walk, road cycling, or mountain '
-            'biking—or another sporting event organized by Compassion.'"
+        eval="'Is sport an important part of your life? Turn your passion into action '
+            'by taking part in a muskathlon—whether a marathon, ultra walk, road '
+            'cycling, or mountain biking—or another sporting event organized by '
+            'Compassion.'"
       />
             <field
         name="my_compassion_external_link"
@@ -90,11 +89,11 @@
             <field name="my_compassion_label">Pray with Compassion</field>
             <field
         name="my_compassion_description"
-        eval="'Our prayers can make a '
-            'powerful difference in the lives of children and families living in '
-            'extreme poverty. Receive regular prayer points to guide your intercession '
-            'for underprivileged children, Compassion’s partner churches across the '
-            'Global South, and the challenges Compassion faces in Switzerland.'"
+        eval="'Our prayers can make a powerful difference in the lives of children and '
+            'families living in extreme poverty. Receive regular prayer points to '
+            'guide your intercession for underprivileged children, Compassion’s '
+            'partner churches across the Global South, and the challenges Compassion '
+            'faces in Switzerland.'"
       />
             <field
         name="my_compassion_internal_link"
@@ -114,13 +113,13 @@
             <field name="my_compassion_label">Letter Translation</field>
             <field
         name="my_compassion_description"
-        eval="'Help build a meaningful '
-            'connection between sponsors and children. Around 30% of the letters '
-            'exchanged between sponsored children and sponsors require translation. If '
-            'you are confident in a foreign language (German, English, Spanish, or '
-            'Portuguese), this meaningful role allows you to read children’s letters '
-            'and discover a core element of our work: the life-changing relationship '
-            'of encouragement between a sponsor and a child.'"
+        eval="'Help build a meaningful connection between sponsors and children. '
+            'Around 30% of the letters exchanged between sponsored children and '
+            'sponsors require translation. If you are confident in a foreign language '
+            '(German, English, Spanish, or Portuguese), this meaningful role allows '
+            'you to read children’s letters and discover a core element of our work: '
+            'the life-changing relationship of encouragement between a sponsor and a '
+            'child.'"
       />
         </record>
     </data>
@@ -137,14 +136,13 @@
             <field name="my_compassion_label">Fundraising Campaigns</field>
             <field
         name="my_compassion_description"
-        eval="'TOGETHER is Compassion’s '
-            'fundraising platform. Anyone can start their own fundraising '
-            'campaign—individually or as part of a group project—to support '
-            'development projects implemented by Compassion in the Global South. In '
-            'just a few clicks, you can launch your own campaign, set a fundraising '
-            'goal, and choose an end date. You can then invite family and friends via '
-            'email, Facebook, Instagram, WhatsApp, and other channels to support your '
-            'fundraising goal through financial contributions.'"
+        eval="'TOGETHER is Compassion’s fundraising platform. Anyone can start their '
+            'own fundraising campaign—individually or as part of a group project—to '
+            'support development projects implemented by Compassion in the Global '
+            'South. In just a few clicks, you can launch your own campaign, set a '
+            'fundraising goal, and choose an end date. You can then invite family and '
+            'friends via email, Facebook, Instagram, WhatsApp, and other channels to '
+            'support your fundraising goal through financial contributions.'"
       />
             <field
         name="my_compassion_external_link"
