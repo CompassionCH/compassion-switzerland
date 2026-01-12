@@ -10,13 +10,14 @@ ENGAGEMENT_TYPE_ID_TOGETHER = 24
 
 # Full list of engagement type targeted by the migration
 TARGET_ENGAGEMENT_TYPE_IDS = (
-ENGAGEMENT_TYPE_ID_CHURCH,
-ENGAGEMENT_TYPE_ID_EVENTS,
-ENGAGEMENT_TYPE_ID_SPORT,
-ENGAGEMENT_TYPE_ID_PRAYER ,
-ENGAGEMENT_TYPE_ID_TRANSLATION ,
-ENGAGEMENT_TYPE_ID_TOGETHER,
+    ENGAGEMENT_TYPE_ID_CHURCH,
+    ENGAGEMENT_TYPE_ID_EVENTS,
+    ENGAGEMENT_TYPE_ID_SPORT,
+    ENGAGEMENT_TYPE_ID_PRAYER,
+    ENGAGEMENT_TYPE_ID_TRANSLATION,
+    ENGAGEMENT_TYPE_ID_TOGETHER,
 )
+
 
 @openupgrade.migrate()
 def migrate(env, version):
@@ -32,9 +33,9 @@ def migrate(env, version):
     # Add missing XML_ID for Together engagement type
     openupgrade.add_xmlid(
         cr,
-        'my_compassion_switzerland',
-        'partner_compassion.engagement_together',
-        'advocate.engagement',
+        "my_compassion_switzerland",
+        "partner_compassion.engagement_together",
+        "advocate.engagement",
         ENGAGEMENT_TYPE_ID_TOGETHER,
         noupdate=False,
     )
@@ -54,7 +55,8 @@ def migrate(env, version):
         if res:
             old_module, old_name = res
             openupgrade.rename_xmlids(
-                cr, [(f"{old_module}.{old_name}", f"my_compassion_switzerland.{new_name}")]
+                cr,
+                [(f"{old_module}.{old_name}", f"my_compassion_switzerland.{new_name}")],
             )
 
         # -------------------------------------------------------------------------
