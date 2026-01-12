@@ -1,6 +1,6 @@
 import logging
 
-from odoo import fields, models
+from odoo import fields, models, api
 
 _logger = logging.getLogger(__name__)
 
@@ -8,63 +8,71 @@ _logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    def action_post(self):
+    @api.model
+    def _cron_charge_due_recurring_invoices(self):
         """
-        Extend action_post to trigger auto-payment if the invoice
-        comes from a Recurring Contract with a Token.
+        CRON METHOD: Finds due invoices and triggers auto-payment.
+        Should be scheduled to run daily (e.g., at 07:00 AM).
         """
-        # 1. Standard Post Logic
-        res = super().action_post()
+        today = fields.Date.context_today(self)
+        _logger.info(f"Starting Auto-Charge Cron for Due Date: {today}")
 
-        # 2. Check for Auto-Pay candidates
-        for invoice in self:
-            # Only process Customer Invoices that are unpaid and from Recurring engine
-            if (
-                invoice.move_type != "out_invoice"
-                or invoice.payment_state != "not_paid"
-                or not getattr(invoice, "recurring_invoicer_id", False)
-            ):
+        # 1. Search for candidates
+        # - Posted & Unpaid
+        # - Due Date is Today (or in the past if missed)
+        # - Linked to Recurring Engine
+        invoices = self.search([
+            ('state', '=', 'posted'),
+            ('payment_state', '=', 'not_paid'),
+            ('invoice_date_due', '<=', today),  # Catch today's and any failed ones from before
+            ('recurring_invoicer_id', '!=', False),  # Must be from Recurring Engine
+        ])
+
+        _logger.info(f"Found {len(invoices)} invoices due for auto-charge check.")
+
+        for invoice in invoices:
+            try:
+                invoice._process_auto_charge_if_eligible()
+            except Exception as e:
+                _logger.exception(f"Failed to auto-charge invoice {invoice.name}")
+                # We catch exception to ensure one failure doesn't stop the whole cron
                 continue
 
-            # Find the related contract group via invoice lines
-            contract_lines = invoice.invoice_line_ids.mapped("contract_id")
-            if not contract_lines:
-                continue
+    def _process_auto_charge_if_eligible(self):
+        """
+        Separated logic to check eligibility and charge a specific invoice.
+        """
+        self.ensure_one()
 
-            # All lines in one invoice belong to the same group
-            group = contract_lines[0].group_id
+        # 1. Find the related contract group
+        contract_lines = self.invoice_line_ids.mapped("contract_id")
+        if not contract_lines:
+            return
 
-            # If the invoice was generated with a different payment mode
-            # than the current group's mode, do not charge it.
-            if invoice.payment_mode_id and group.payment_mode_id:
-                if invoice.payment_mode_id.id != group.payment_mode_id.id:
-                    _logger.info(
-                        f"Skipping auto-charge for {invoice.name}:"
-                        f" Invoice Mode ({invoice.payment_mode_id.name})"
-                        f" != Group Mode ({group.payment_mode_id.name})"
-                    )
-                    continue
+        # All lines in one invoice belong to the same group
+        group = contract_lines[0].group_id
 
-            # 3. Trigger Charge if Token exists
-            if group.payment_token_id and group.payment_token_id.active:
-                # Double check: Do not charge if there is already a successful
-                # or pending transaction
-                if invoice.transaction_ids.filtered(
-                    lambda t: t.state in ["done", "authorized", "pending"]
-                ):
-                    _logger.info(
-                        f"Skipping auto-charge for {invoice.name}:"
-                        f" Valid transaction already exists."
-                    )
-                    continue
+        # 2. Payment Mode Validation
+        if self.payment_mode_id and group.payment_mode_id:
+            if self.payment_mode_id.id != group.payment_mode_id.id:
+                return
 
-                _logger.info(
-                    f"Auto-charging Invoice {invoice.name} with"
-                    f" Token {group.payment_token_id.id}"
-                )
-                invoice._charge_postfinance_token(group.payment_token_id)
+        # 3. Check Token Existence
+        if not (group.payment_token_id and group.payment_token_id.active):
+            return
 
-        return res
+        # 4. Check for existing transactions (Avoid Double Charge)
+        if self.transaction_ids.filtered(lambda t: t.state in ["done", "authorized", "pending"]):
+            return
+
+        # 5. EXECUTE CHARGE
+        _logger.info(f"Auto-charging Invoice {self.name} (Due: {self.invoice_date_due})")
+
+        # Use queue_job here if installed to parallelize the actual API calls
+        if hasattr(self, 'with_delay'):
+            self.with_delay(priority=10)._charge_postfinance_token(group.payment_token_id)
+        else:
+            self._charge_postfinance_token(group.payment_token_id)
 
 
     def _charge_postfinance_token(self, token):
@@ -78,6 +86,7 @@ class AccountMove(models.Model):
         unique_reference = f"{self.name}-{timestamp}"
 
         # 1. Create Transaction (Draft)
+        # [MIG] 18.0: TODO: use _postfinance_create_transaction from payment_postfinance_flex
         tx_vals = {
             "acquirer_id": acquirer.id,
             "amount": self.amount_total,
