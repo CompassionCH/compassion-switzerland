@@ -15,4 +15,7 @@
     <record id="engagement_pray" model="advocate.engagement">
         <field name="name">Prayer</field>
     </record>
+    <record id="engagement_together" model="advocate.engagement">
+        <field name="name">Together</field>
+    </record>
 </odoo>
