@@ -72,8 +72,8 @@ class PaymentTransaction(models.Model):
                 "pf_methods": available_methods,
             }
 
-        except Exception:
-            # Log the specific error here using _logger
+        except Exception as e:
+            _logger.exception("Failed to create PostFinance validation session for transaction %s: %s", self.reference, e)
             return False
 
     def _postfinance_get_billing_address(self):
