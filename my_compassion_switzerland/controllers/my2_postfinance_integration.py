@@ -43,10 +43,13 @@ class MyCompassionPostFinanceController(PostFinanceController):
             _logger.warning("postfinance_form_feedback called without txnId.")
             return werkzeug.utils.redirect("/payment/process")
 
-        tx = request.env["payment.transaction"].sudo().browse(int(txnId))
-        if not tx.exists():
+        try:
+            tx = request.env["payment.transaction"].sudo().browse(int(txnId))
+            if not tx.exists():
+                raise ValueError()
+        except (ValueError, TypeError):
             _logger.warning(
-                "Transaction %s not found in postfinance_form_feedback.", txnId
+                "Transaction %s not found or invalid in postfinance_form_feedback.", txnId
             )
             return werkzeug.utils.redirect("/payment/process")
 
