@@ -8,8 +8,9 @@
 ##############################################################################
 from odoo import models
 
+
 class PaymentTransaction(models.Model):
-    _inherit = 'payment.transaction'
+    _inherit = "payment.transaction"
 
     def _postfinance_create_validation_session(self, return_url):
         """
@@ -31,13 +32,15 @@ class PaymentTransaction(models.Model):
                 "name": self.reference,
                 "partner_id": self.partner_id.id,
             },
-            "txline_details": [{
-                "name": "Validation",
-                "quantity": 1,
-                "type": "PRODUCT",
-                "uniqueId": "validation",
-                "amountIncludingTax": 0.0,
-            }],
+            "txline_details": [
+                {
+                    "name": "Validation",
+                    "quantity": 1,
+                    "type": "PRODUCT",
+                    "uniqueId": "validation",
+                    "amountIncludingTax": 0.0,
+                }
+            ],
             "postfinance_payment_method": False,
             "billing_address": self._postfinance_get_billing_address(),  # Refactored into helper
         }
@@ -69,12 +72,12 @@ class PaymentTransaction(models.Model):
                 "pf_methods": available_methods,
             }
 
-        except Exception as e:
+        except Exception:
             # Log the specific error here using _logger
             return False
 
     def _postfinance_get_billing_address(self):
-        """ Helper to format address for PostFinance """
+        """Helper to format address for PostFinance"""
         partner = self.partner_id
         return {
             "city": partner.city or "",
@@ -87,7 +90,7 @@ class PaymentTransaction(models.Model):
         }
 
     def _postfinance_fetch_iframe_methods(self, pf_trans_id):
-        """ Helper to fetch and parse payment methods """
+        """Helper to fetch and parse payment methods"""
         space_id = self.acquirer_id.postfinance_api_spaceid
         method_uri = (
             f"/api/v2.0/payment/transactions/{pf_trans_id}"
@@ -105,18 +108,20 @@ class PaymentTransaction(models.Model):
             payment_configs = response_body.get("data", [])
 
             # Use Odoo Context for lang if available, or fallback
-            current_lang = self.env.context.get('lang', 'en-US')
+            current_lang = self.env.context.get("lang", "en-US")
 
             for m in payment_configs:
                 title_map = m.get("resolvedTitle", {})
                 name = (
-                        title_map.get(current_lang)
-                        or title_map.get("en-US")
-                        or m.get("name")
+                    title_map.get(current_lang)
+                    or title_map.get("en-US")
+                    or m.get("name")
                 )
-                available_methods.append({
-                    "id": m.get("id"),
-                    "name": name,
-                    "image": m.get("resolvedImageUrl"),
-                })
+                available_methods.append(
+                    {
+                        "id": m.get("id"),
+                        "name": name,
+                        "image": m.get("resolvedImageUrl"),
+                    }
+                )
         return available_methods

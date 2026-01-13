@@ -1,6 +1,6 @@
 import logging
 
-from odoo import fields, models, api
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -21,19 +21,25 @@ class AccountMove(models.Model):
         # - Posted & Unpaid
         # - Due Date is Today (or in the past if missed)
         # - Linked to Recurring Engine
-        invoices = self.search([
-            ('state', '=', 'posted'),
-            ('payment_state', '=', 'not_paid'),
-            ('invoice_date_due', '=', today),  # Catch today's and any failed ones from before
-            ('recurring_invoicer_id', '!=', False),
-        ])
+        invoices = self.search(
+            [
+                ("state", "=", "posted"),
+                ("payment_state", "=", "not_paid"),
+                (
+                    "invoice_date_due",
+                    "=",
+                    today,
+                ),  # Catch today's and any failed ones from before
+                ("recurring_invoicer_id", "!=", False),
+            ]
+        )
 
         _logger.info(f"Found {len(invoices)} invoices due for auto-charge check.")
 
         for invoice in invoices:
             try:
                 invoice._process_auto_charge_if_eligible()
-            except Exception as e:
+            except Exception:
                 _logger.exception(f"Failed to auto-charge invoice {invoice.name}")
                 # We catch exception to ensure one failure doesn't stop the whole cron
                 continue
@@ -62,18 +68,23 @@ class AccountMove(models.Model):
             return
 
         # 4. Check for existing transactions (Avoid Double Charge)
-        if self.transaction_ids.filtered(lambda t: t.state in ["done", "authorized", "pending"]):
+        if self.transaction_ids.filtered(
+            lambda t: t.state in ["done", "authorized", "pending"]
+        ):
             return
 
         # 5. EXECUTE CHARGE
-        _logger.info(f"Auto-charging Invoice {self.name} (Due: {self.invoice_date_due})")
+        _logger.info(
+            f"Auto-charging Invoice {self.name} (Due: {self.invoice_date_due})"
+        )
 
         # Use queue_job here if installed to parallelize the actual API calls
-        if hasattr(self, 'with_delay'):
-            self.with_delay(priority=10)._charge_postfinance_token(group.payment_token_id)
+        if hasattr(self, "with_delay"):
+            self.with_delay(priority=10)._charge_postfinance_token(
+                group.payment_token_id
+            )
         else:
             self._charge_postfinance_token(group.payment_token_id)
-
 
     def _charge_postfinance_token(self, token):
         """
@@ -106,13 +117,20 @@ class AccountMove(models.Model):
         # 2. Execute PostFinance Charge
         if acquirer.provider == "postfinance":
             res = acquirer.postfinance_charge_token(
-                token, self.amount_total, self.currency_id, tx.reference, self.partner_id
+                token,
+                self.amount_total,
+                self.currency_id,
+                tx.reference,
+                self.partner_id,
             )
 
             if res.get("success"):
                 # Update Transaction State
                 tx.write(
-                    {"acquirer_reference": res.get("transaction_id"), "is_processed": True}
+                    {
+                        "acquirer_reference": res.get("transaction_id"),
+                        "is_processed": True,
+                    }
                 )
                 tx._set_transaction_done()
                 tx._post_process_after_done()
@@ -121,4 +139,6 @@ class AccountMove(models.Model):
                 # Handle Failure
                 error_msg = res.get("error", "Unknown Error")
                 tx._set_transaction_error(msg=error_msg)
-                self.message_post(body=f"Auto-payment failed via PostFinance: {error_msg}")
+                self.message_post(
+                    body=f"Auto-payment failed via PostFinance: {error_msg}"
+                )

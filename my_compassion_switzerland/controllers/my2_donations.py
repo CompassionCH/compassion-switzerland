@@ -1,4 +1,4 @@
-from odoo import http, fields
+from odoo import fields, http
 from odoo.http import request
 
 # Import the parent class to inherit

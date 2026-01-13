@@ -32,9 +32,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
         """
 
         try:
-            super().postfinance_form_feedback(
-                txnId, **post
-            )
+            super().postfinance_form_feedback(txnId, **post)
         except Exception:
             _logger.exception(
                 "Error in PostFinanceController.postfinance_form_feedback for txnId %s",
@@ -47,7 +45,9 @@ class MyCompassionPostFinanceController(PostFinanceController):
 
         tx = request.env["payment.transaction"].sudo().browse(int(txnId))
         if not tx.exists():
-            _logger.warning("Transaction %s not found in postfinance_form_feedback.", txnId)
+            _logger.warning(
+                "Transaction %s not found in postfinance_form_feedback.", txnId
+            )
             return werkzeug.utils.redirect("/payment/process")
 
         # Create PostFinance token if missing
@@ -77,12 +77,16 @@ class MyCompassionPostFinanceController(PostFinanceController):
         if tx.type == "validation" and tx.state in ["done", "authorized"]:
             try:
                 # Call the updated model method
-                result = request.env["recurring.contract.group"].sudo().create_from_transaction(tx)
+                result = (
+                    request.env["recurring.contract.group"]
+                    .sudo()
+                    .create_from_transaction(tx)
+                )
 
                 # Unpack the dictionary
-                group = result.get('group')
-                message = result.get('message')
-                action_status = result.get('status')
+                group = result.get("group")
+                message = result.get("message")
+                action_status = result.get("status")
 
             except Exception:
                 _logger.exception(
@@ -94,7 +98,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
         if tx.return_url:
             if group and group.id:
                 # REFACTOR: Check the status code, not the string
-                if action_status == 'existing':
+                if action_status == "existing":
                     status = "Already Saved"
                 else:
                     status = "Success"
@@ -118,7 +122,9 @@ class MyCompassionPostFinanceController(PostFinanceController):
                 return_url = urlunparse(url_parts)
                 return werkzeug.utils.redirect(return_url)
             except Exception:
-                _logger.exception("Error constructing return URL for transaction %s", tx.id)
+                _logger.exception(
+                    "Error constructing return URL for transaction %s", tx.id
+                )
                 return werkzeug.utils.redirect("/payment/process")
 
         return werkzeug.utils.redirect("/payment/process")
@@ -127,7 +133,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
         """
         Custom finalization to create or link PostFinance token.
         """
-        token = request.env['payment.token'].sudo().create_or_find_postfinance_token(tx)
+        token = request.env["payment.token"].sudo().create_or_find_postfinance_token(tx)
 
         if token:
             tx.payment_token_id = token.id

@@ -8,13 +8,14 @@
 ##############################################################################
 
 import logging
-from odoo import models, api, fields
+
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
 
 class PaymentToken(models.Model):
-    _inherit = 'payment.token'
+    _inherit = "payment.token"
 
     @api.model
     def create_or_find_postfinance_token(self, tx):
@@ -31,7 +32,9 @@ class PaymentToken(models.Model):
         )
 
         if response.get("status") != 200 or not response.get("data"):
-            _logger.error("PostFinance: API search failed for tx %s", tx.acquirer_reference)
+            _logger.error(
+                "PostFinance: API search failed for tx %s", tx.acquirer_reference
+            )
             return None
 
         pf_data = response["data"][0]
@@ -44,12 +47,15 @@ class PaymentToken(models.Model):
         token_pf_id = str(token_info["id"])
 
         # B. DEDUPLICATION: Check if this token already exists
-        existing_token = self.search([
-            ('acquirer_ref', '=', token_pf_id),
-            ('acquirer_id', '=', tx.acquirer_id.id),
-            ('partner_id', '=', tx.partner_id.id)
-            # Note: We check partner_id to be safe, though token IDs are usually unique per space
-        ], limit=1)
+        existing_token = self.search(
+            [
+                ("acquirer_ref", "=", token_pf_id),
+                ("acquirer_id", "=", tx.acquirer_id.id),
+                ("partner_id", "=", tx.partner_id.id),
+                # Note: We check partner_id to be safe, though token IDs are usually unique per space
+            ],
+            limit=1,
+        )
 
         if existing_token:
             if not existing_token.active:
@@ -60,14 +66,22 @@ class PaymentToken(models.Model):
         # Extract Brand Name
         connector_config = pf_data.get("paymentConnectorConfiguration", {})
         full_method_name = connector_config.get("name", "PostFinance Payment")
-        brand_name = full_method_name.split(" - ")[-1] if " - " in full_method_name else full_method_name
+        brand_name = (
+            full_method_name.split(" - ")[-1]
+            if " - " in full_method_name
+            else full_method_name
+        )
 
-        token_name = f"{brand_name}_{token_pf_id[-4:]}"  # e.g. "Visa_1234" (Cleaner than full ID)
+        token_name = (
+            f"{brand_name}_{token_pf_id[-4:]}"
+        )  # e.g. "Visa_1234" (Cleaner than full ID)
 
-        return self.create({
-            "name": token_name,
-            "partner_id": tx.partner_id.id,
-            "acquirer_id": tx.acquirer_id.id,
-            "acquirer_ref": token_pf_id,
-            "active": True,
-        })
+        return self.create(
+            {
+                "name": token_name,
+                "partner_id": tx.partner_id.id,
+                "acquirer_id": tx.acquirer_id.id,
+                "acquirer_ref": token_pf_id,
+                "active": True,
+            }
+        )
