@@ -27,7 +27,8 @@ class RecurringContractGroup(models.Model):
             invoice._onchange_invoice_date()
             invoice._onchange_invoice_payment_term_id()
 
-        # Fallback: If still no due date (e.g., no terms set), use the Invoice Date (Immediate Payment)
+        # Fallback: If still no due date (e.g., no terms set),
+        # use the Invoice Date (Immediate Payment)
         if not invoice.invoice_date_due:
             invoice.invoice_date_due = invoice.invoice_date
 
