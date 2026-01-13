@@ -23,7 +23,7 @@ class PaymentTransaction(models.Model):
         if return_url and return_url.startswith("/"):
             return_url = base_url.rstrip("/") + return_url
 
-        # 2. Build the Payload (Logic moved from Controller)
+        # 2. Build the Payload
         # Use existing fields on self (self.partner_id, self.amount, etc)
         tx_values = {
             "tx_details": {

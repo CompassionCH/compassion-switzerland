@@ -55,9 +55,6 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
         tx = request.env["payment.transaction"].sudo().create(tx_values)
         request.session["add_method_tx_id"] = tx.id
 
-        # 2. Delegate to the Model
-        # The transaction model knows about the partner, the amount, the acquirer...
-        # It should do the heavy lifting.
         iframe_data = tx.sudo()._postfinance_create_validation_session(return_url)
 
         return iframe_data

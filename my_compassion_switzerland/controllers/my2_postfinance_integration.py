@@ -76,22 +76,25 @@ class MyCompassionPostFinanceController(PostFinanceController):
         message = ""
         if tx.type == "validation" and tx.state in ["done", "authorized"]:
             try:
-                group, message = (
-                    request.env["recurring.contract.group"]
-                    .sudo()
-                    .create_from_transaction(tx)
-                )
+                # Call the updated model method
+                result = request.env["recurring.contract.group"].sudo().create_from_transaction(tx)
+
+                # Unpack the dictionary
+                group = result.get('group')
+                message = result.get('message')
+                action_status = result.get('status')
+
             except Exception:
                 _logger.exception(
                     "Error creating recurring contract group for transaction %s", tx.id
                 )
                 message = "An error occurred while saving the payment method."
 
-        # Determine status and message from the method result
+            # Determine status and message from the method result
         if tx.return_url:
             if group and group.id:
-                # test on hardcoded string --> Should be removed
-                if message == "This payment method was already saved.":
+                # REFACTOR: Check the status code, not the string
+                if action_status == 'existing':
                     status = "Already Saved"
                 else:
                     status = "Success"
@@ -99,7 +102,6 @@ class MyCompassionPostFinanceController(PostFinanceController):
                 status = "Error"
                 if not message:
                     message = "Could not create contract group."
-
             try:
                 # Build query parameters
                 url_parts = list(urlparse(tx.return_url or "/my/donations"))

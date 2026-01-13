@@ -62,7 +62,7 @@ class PaymentToken(models.Model):
         full_method_name = connector_config.get("name", "PostFinance Payment")
         brand_name = full_method_name.split(" - ")[-1] if " - " in full_method_name else full_method_name
 
-        token_name = f"{brand_name} {token_pf_id[-4:]}"  # e.g. "Visa 1234" (Cleaner than full ID)
+        token_name = f"{brand_name}_{token_pf_id[-4:]}"  # e.g. "Visa_1234" (Cleaner than full ID)
 
         return self.create({
             "name": token_name,
