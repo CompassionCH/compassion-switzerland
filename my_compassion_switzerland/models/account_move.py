@@ -27,7 +27,7 @@ class AccountMove(models.Model):
                 ("payment_state", "=", "not_paid"),
                 (
                     "invoice_date_due",
-                    "=",
+                    "<=",
                     today,
                 ),  # Catch today's and any failed ones from before
                 ("recurring_invoicer_id", "!=", False),
