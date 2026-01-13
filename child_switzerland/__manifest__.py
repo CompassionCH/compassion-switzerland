@@ -47,6 +47,6 @@
         "views/child_or_fcp_property_view.xml",
     ],
     "demo": [],
-    'installable': False,
+    "installable": True,
     "auto_install": False,
 }
