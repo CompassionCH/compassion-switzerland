@@ -23,10 +23,6 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
         """
         return super().fetch_payment_methods_iframe(**kwargs)
 
-    @http.route("/my2/debug/charge_token", type="json", auth="user", website=True)
-    def debug_charge_token(self, group_id):
-        return super().debug_charge_token(group_id)
-
     def _prepare_iframe_redirect(self, acquirer, return_url):
         """
         PostFinance specific: create the transaction via the API, gather
@@ -49,7 +45,6 @@ class MyCompassionDonationsControllerSwiss(MyCompassionDonationsController):
             "partner_country_id": partner.country_id.id,
             "type": "validation",
             "return_url": return_url,
-            # Odoo handles the relative/absolute conversion often, but passing it here is fine
         }
 
         tx = request.env["payment.transaction"].sudo().create(tx_values)

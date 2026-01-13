@@ -43,7 +43,8 @@ class PaymentAcquirerPostFinance(models.Model):
             }
 
         # 1. Prepare Payload
-        # [MIG] 18.0: TODO: use _postfinance_create_transaction from payment_postfinance_flex
+        # [MIG] 18.0:
+        # TODO: use _postfinance_create_transaction from payment_postfinance_flex
         tx_values = {
             "currency": currency.name,
             "lineItems": [

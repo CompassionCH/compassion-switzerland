@@ -42,7 +42,7 @@ class PaymentTransaction(models.Model):
                 }
             ],
             "postfinance_payment_method": False,
-            "billing_address": self._postfinance_get_billing_address(),  # Refactored into helper
+            "billing_address": self._postfinance_get_billing_address(),
         }
 
         try:

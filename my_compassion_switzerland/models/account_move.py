@@ -97,7 +97,8 @@ class AccountMove(models.Model):
         unique_reference = f"{self.name}-{timestamp}"
 
         # 1. Create Transaction (Draft)
-        # [MIG] 18.0: TODO: use _postfinance_create_transaction from payment_postfinance_flex
+        # [MIG] 18.0:
+        # TODO: use _postfinance_create_transaction from payment_postfinance_flex
         tx_vals = {
             "acquirer_id": acquirer.id,
             "amount": self.amount_total,

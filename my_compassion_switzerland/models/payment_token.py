@@ -52,7 +52,7 @@ class PaymentToken(models.Model):
                 ("acquirer_ref", "=", token_pf_id),
                 ("acquirer_id", "=", tx.acquirer_id.id),
                 ("partner_id", "=", tx.partner_id.id),
-                # Note: We check partner_id to be safe, though token IDs are usually unique per space
+                # We check partner_id to be safe, though token IDs are usually unique
             ],
             limit=1,
         )
