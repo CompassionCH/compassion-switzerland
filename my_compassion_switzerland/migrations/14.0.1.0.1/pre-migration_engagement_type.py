@@ -22,7 +22,20 @@ TARGET_ENGAGEMENT_TYPE_IDS = (
 @openupgrade.migrate()
 def migrate(env, version):
     """
-    TODO
+    Pre-migration script to standardize 'advocate.engagement' records.
+
+    1. Fix XML IDs:
+       - Assigns a proper XML ID ('partner_compassion.engagement_together') to the
+         'Together' record (ID 24) which was missing one.
+       - Renames the auto-generated '__export__' ID of 'Prayer' (ID 19) to
+         'partner_compassion.engagement_pray'.
+       Goal: Link existing production records to the new XML data files to prevent
+             duplicates during the module update.
+
+    2. Refresh Translations:
+       - Deletes old translations for MyCompassion fields (label, alt_text, description)
+         on target records.
+       - Goal: Force Odoo to reload the latest translations from the module's .po files.
     """
     cr = env.cr
 
@@ -33,8 +46,8 @@ def migrate(env, version):
     # Add missing XML_ID for Together engagement type
     openupgrade.add_xmlid(
         cr,
-        "my_compassion_switzerland",
-        "partner_compassion.engagement_together",
+        "partner_compassion",
+        "engagement_together",
         "advocate.engagement",
         ENGAGEMENT_TYPE_ID_TOGETHER,
         noupdate=False,
@@ -42,7 +55,7 @@ def migrate(env, version):
 
     # Rename old "__export__" IDs to proper module IDs
     xml_id_mapping = {
-        ENGAGEMENT_TYPE_ID_PRAYER: "partner_compassion_engagement_pray",
+        ENGAGEMENT_TYPE_ID_PRAYER: "engagement_pray",
     }
 
     for res_id, new_name in xml_id_mapping.items():
@@ -56,7 +69,7 @@ def migrate(env, version):
             old_module, old_name = res
             openupgrade.rename_xmlids(
                 cr,
-                [(f"{old_module}.{old_name}", f"my_compassion_switzerland.{new_name}")],
+                [(f"{old_module}.{old_name}", f"partner_compassion.{new_name}")],
             )
 
         # -------------------------------------------------------------------------
