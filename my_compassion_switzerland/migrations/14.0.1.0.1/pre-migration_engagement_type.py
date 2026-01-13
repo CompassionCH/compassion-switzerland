@@ -54,37 +54,32 @@ def migrate(env, version):
     )
 
     # Rename old "__export__" IDs to proper module IDs
-    xml_id_mapping = {
-        ENGAGEMENT_TYPE_ID_PRAYER: "engagement_pray",
-    }
+    cr.execute(
+        "SELECT module, name FROM ir_model_data WHERE model = %s AND res_id = %s",
+        ("advocate.engagement", ENGAGEMENT_TYPE_ID_PRAYER),
+    )
+    res = cr.fetchone()
 
-    for res_id, new_name in xml_id_mapping.items():
-        cr.execute(
-            "SELECT module, name FROM ir_model_data WHERE model = %s AND res_id = %s",
-            ("advocate.engagement", res_id),
+    if res:
+        old_module, old_name = res
+        openupgrade.rename_xmlids(
+            cr,
+            [(f"{old_module}.{old_name}", "partner_compassion.engagement_pray")],
         )
-        res = cr.fetchone()
 
-        if res:
-            old_module, old_name = res
-            openupgrade.rename_xmlids(
-                cr,
-                [(f"{old_module}.{old_name}", f"partner_compassion.{new_name}")],
-            )
+    # -------------------------------------------------------------------------
+    # CLEANUP OLD TRANSLATIONS
+    # -------------------------------------------------------------------------
 
-        # -------------------------------------------------------------------------
-        # CLEANUP OLD TRANSLATIONS
-        # -------------------------------------------------------------------------
-
-        # Force Odoo to reload translations from .po file by removing existing ones
-        # for the targeted products only.
-        cr.execute(
-            """
-            DELETE FROM ir_translation
-            WHERE name IN ('advocate.engagement,my_compassion_alt_text',
-                           'advocate.engagement,my_compassion_label',
-                           'advocate.engagement,my_compassion_description')
-            AND res_id IN %s
-            """,
-            (TARGET_ENGAGEMENT_TYPE_IDS,),
-        )
+    # Force Odoo to reload translations from .po file by removing existing ones
+    # for the targeted products only.
+    cr.execute(
+        """
+        DELETE FROM ir_translation
+        WHERE name IN ('advocate.engagement,my_compassion_alt_text',
+                       'advocate.engagement,my_compassion_label',
+                       'advocate.engagement,my_compassion_description')
+        AND res_id IN %s
+        """,
+        (TARGET_ENGAGEMENT_TYPE_IDS,),
+    )
