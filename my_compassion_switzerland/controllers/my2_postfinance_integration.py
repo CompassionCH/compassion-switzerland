@@ -49,7 +49,8 @@ class MyCompassionPostFinanceController(PostFinanceController):
                 raise ValueError()
         except (ValueError, TypeError):
             _logger.warning(
-                "Transaction %s not found or invalid in postfinance_form_feedback.", txnId
+                "Transaction %s not found or invalid in postfinance_form_feedback.",
+                txnId,
             )
             return werkzeug.utils.redirect("/payment/process")
 

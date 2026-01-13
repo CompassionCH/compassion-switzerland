@@ -6,7 +6,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
+
 from odoo import models
+
+_logger = logging.getLogger(__name__)
 
 
 class PaymentTransaction(models.Model):
@@ -73,7 +77,12 @@ class PaymentTransaction(models.Model):
             }
 
         except Exception as e:
-            _logger.exception("Failed to create PostFinance validation session for transaction %s: %s", self.reference, e)
+            _logger.exception(
+                "Failed to create PostFinance validation session for transaction"
+                " %s: %s",
+                self.reference,
+                e,
+            )
             return False
 
     def _postfinance_get_billing_address(self):
