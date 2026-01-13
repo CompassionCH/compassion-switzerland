@@ -1,4 +1,4 @@
-from odoo import models, api
+from odoo import models
 
 
 class RecurringContractGroup(models.Model):
@@ -13,8 +13,13 @@ class RecurringContractGroup(models.Model):
         invoice = super()._process_invoice_generation(invoicer, invoice_date)
 
         # 2. Ensure Payment Terms are set (Inherit from Partner if missing)
-        if not invoice.invoice_payment_term_id and invoice.partner_id.property_payment_term_id:
-            invoice.invoice_payment_term_id = invoice.partner_id.property_payment_term_id
+        if (
+            not invoice.invoice_payment_term_id
+            and invoice.partner_id.property_payment_term_id
+        ):
+            invoice.invoice_payment_term_id = (
+                invoice.partner_id.property_payment_term_id
+            )
 
         # 3. Force Due Date Calculation
         # We manually trigger the logic that calculates 'invoice_date_due'
