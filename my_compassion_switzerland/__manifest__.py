@@ -28,6 +28,7 @@
         "views/advocate_engagement_view.xml",
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
+        "views/advocate_engagement_notification_settings_view.xml",
         "templates/my2_new_sponsorship_wizard_ebill.xml",
         "templates/assets.xml",
     ],
