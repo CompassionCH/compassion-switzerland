@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "14.0.1.2.0",
+    "version": "14.0.1.4.0",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -48,7 +48,15 @@
         "link_tracker",
     ],
     "external_dependencies": {
-        "python": ["wand", "bs4", "pdf2image", "babel", "PyPDF2", "pyquery"]
+        "python": [
+            "wand",
+            "bs4",
+            "pdf2image",
+            "babel",
+            "PyPDF2",
+            "pyquery",
+            "gender_guesser",
+        ],
     },
     "data": [
         "security/ir.model.access.csv",
@@ -66,6 +74,7 @@
         "data/ir.advanced.translation.csv",
         "data/queue_job.xml",
         "data/sponsorship_action_rules.xml",
+        "data/m2m_sponsorship_comm.xml",
         "report/onboarding_photo_by_post.xml",
         "data/onboarding_process.xml",
         "data/onboarding_survey.xml",

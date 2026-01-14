@@ -7,10 +7,11 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "license": "AGPL-3",
     "category": "Marketing",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "depends": [
         "mass_mailing_partner",
         "crm",
+        "mailchimp",
     ],
     "data": [],
     "demo": [],

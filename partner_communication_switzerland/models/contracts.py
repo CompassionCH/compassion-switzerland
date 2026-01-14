@@ -73,16 +73,17 @@ class RecurringContract(models.Model):
             total_paid = self.mapped("group_id.contract_ids").filtered(
                 lambda s: s.state not in ("cancelled", "terminated") and s.total_amount
             )
+            total_amount = int(sum(self.mapped("total_amount")))
             if len(self) == len(total_paid):
                 phrase = _(
-                    "Attached you will find a payment slip to set up a standing order "
-                    "for monthly payment of the sponsorship"
-                )
+                    "Please find attached a payment slip to set up a standing order "
+                    "for your monthly donation of {amount} CHF."
+                ).format(amount=total_amount)
             else:
                 phrase = _(
-                    "Attached you will find the payment slip that will allow you "
-                    "to increase your current standing order to CHF %s.-"
-                ) % int(sum(total_paid.mapped("total_amount")))
+                    "We thank you in advance for adding your monthly support "
+                    "of {amount} CHF to your existing standing order."
+                ).format(amount=total_amount)
         elif "LSV" in payment_mode or "Postfinance" in payment_mode:
             if "mandate" in self.mapped("state"):
                 phrase = _(
@@ -342,7 +343,7 @@ class RecurringContract(models.Model):
             .search([("partner_id", "=", int(sds_partner_id))])
         )
 
-        if sds_user.id and self.correspondent_id.id != 560:  # This partner is OK:
+        if sds_user.id and self.correspondent_id.id not in (560, 22585):
             self.correspondent_id.activity_schedule(
                 "partner_communication_switzerland.activity_check_partner_no_communication",
                 date_deadline=datetime.date(datetime.today() + timedelta(weeks=1)),
@@ -422,6 +423,9 @@ class RecurringContract(models.Model):
 
     def _contract_terminated(self, vals):
         vals["new_picture"] = False
+        self.filtered(lambda c: c.type == "M2M").send_communication(
+            self.env.ref("partner_communication_switzerland.m2m_stop_rule")
+        )
         return super()._contract_terminated(vals)
 
     def cancel_sub_validation(self):
@@ -521,6 +525,7 @@ class RecurringContract(models.Model):
         transfer = self.env.ref(common + "new_dossier_transfer")
         child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
+        m2m_welcome = self.env.ref(swiss + "m2m_welcome_rule")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
@@ -537,6 +542,8 @@ class RecurringContract(models.Model):
             configs = wrpr_welcome + child_picture
         elif self.type == "CSP":
             configs = survival_config
+        elif self.type == "M2M":
+            configs = m2m_welcome
         else:
             configs = new_dossier + child_picture
         for config in configs:

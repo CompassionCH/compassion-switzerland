@@ -1,0 +1,33 @@
+<odoo>
+    <data noupdate="1">
+        <record model="mail.template" id="m2m_welcome_template">
+            <field
+        name="name"
+      >Many2Many Onboarding - Welcome and payment information</field>
+            <field name="model_id" ref="model_partner_communication_job" />
+        </record>
+        <record model="partner.communication.config" id="m2m_welcome_rule">
+            <field
+        name="name"
+      >Many2Many Onboarding - Welcome and payment information</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="email_template_id" ref="m2m_welcome_template" />
+            <field name="send_mode">partner_preference</field>
+        </record>
+
+        <record model="mail.template" id="m2m_stop_template">
+            <field
+        name="name"
+      >Many2Many Onboarding - Stop recurrent donation</field>
+            <field name="model_id" ref="model_partner_communication_job" />
+        </record>
+        <record model="partner.communication.config" id="m2m_stop_rule">
+            <field
+        name="name"
+      >Many2Many Onboarding - Stop recurrent donation</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="email_template_id" ref="m2m_stop_template" />
+            <field name="send_mode">partner_preference</field>
+        </record>
+    </data>
+</odoo>

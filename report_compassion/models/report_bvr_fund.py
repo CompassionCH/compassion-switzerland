@@ -50,7 +50,7 @@ class BvrFundReport(models.AbstractModel):
             {
                 "doc_model": report.model,  # res.partner
                 "docs": self.env[report.model].browse(docids),
-                "product": self.env["product.product"].browse(data["product_id"]),
+                "product": self.env["product.product"].browse(int(data["product_id"])),
             }
         )
         return data

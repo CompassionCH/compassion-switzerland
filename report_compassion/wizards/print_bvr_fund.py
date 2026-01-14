@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#    Copyright (C) 2016 Compassion CH (http://www.compassion.ch)
+#    Copyright (C) 2016-2025 Compassion CH (http://www.compassion.ch)
 #    Releasing children from poverty in Jesus' name
 #    @author: Emanuel Cino <ecino@compassion.ch>
 #
@@ -8,8 +8,11 @@
 #
 ##############################################################################
 import base64
+import zipfile
+from io import BytesIO
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class PrintBvrFund(models.TransientModel):
@@ -34,39 +37,77 @@ class PrintBvrFund(models.TransientModel):
         readonly=False,
     )
     amount = fields.Float()
-    state = fields.Selection([("new", "new"), ("pdf", "pdf")], default="new")
-    pdf = fields.Boolean()
-    pdf_name = fields.Char(default="fund.pdf")
-    pdf_download = fields.Binary(readonly=True)
+    state = fields.Selection([("new", "new"), ("download", "download")], default="new")
+    output_type = fields.Selection(
+        [("print", "Send to printer"), ("pdf", "PDF"), ("zip", "ZIP File")],
+        default="print",
+    )
+    file_name = fields.Char(default="fund.pdf")
+    file_download = fields.Binary(readonly=True)
 
     def get_report(self):
-        """
-        Prepare data for the report and call the selected report
-        (single bvr / 3 bvr).
-        :return: Generated report
-        """
-        partners = self.env["res.partner"].browse(self.env.context.get("active_ids"))
-        data = {
+        self.ensure_one()
+        partners = self.env["res.partner"].browse(
+            self.env.context.get("active_ids", [])
+        )
+        if not partners:
+            raise UserError(_("Please select at least one partner."))
+        if not self.product_id:
+            raise UserError(_("Please select a product to print the payment slip."))
+
+        product_name = self.product_id.display_name or _("fund")
+        report_ref = self.env.ref("report_compassion.report_bvr_fund")
+        base_data = {
             "doc_ids": partners.ids,
             "product_id": self.product_id.id,
             "amount": self.amount or False,
             "communication": False,
         }
-        report_ref = self.env.ref("report_compassion.report_bvr_fund")
-        if self.pdf:
-            self.pdf_name = self.product_id.name + ".pdf"
-            pdf_data = report_ref.with_context(
-                must_skip_send_to_printer=True
-            )._render_qweb_pdf(partners.ids, data=data)[0]
-            self.pdf_download = base64.encodebytes(pdf_data)
-            self.state = "pdf"
-            return {
-                "name": "Download report",
-                "type": "ir.actions.act_window",
-                "res_model": self._name,
-                "res_id": self.id,
-                "view_mode": "form",
-                "target": "new",
-                "context": self.env.context,
+
+        if self.output_type == "pdf":
+            pdf_data = self._render_report_pdf(report_ref, partners.ids, base_data)
+            return self._prepare_download(f"{product_name}.pdf", pdf_data)
+
+        if self.output_type == "zip":
+            zip_data = self._build_zip_content(partners, report_ref, base_data)
+            return self._prepare_download(f"{product_name}.zip", zip_data)
+
+        return report_ref.report_action(partners.ids, data=base_data, config=False)
+
+    def _render_report_pdf(self, report_ref, docids, data):
+        return report_ref.with_context(must_skip_send_to_printer=True)._render_qweb_pdf(
+            docids, data=data
+        )[0]
+
+    def _build_zip_content(self, partners, report_ref, base_data):
+        buffer = BytesIO()
+        with zipfile.ZipFile(buffer, mode="w") as zip_file:
+            for partner in partners:
+                partner_data = dict(base_data, doc_ids=[partner.id])
+                pdf_data = self._render_report_pdf(
+                    report_ref, [partner.id], partner_data
+                )
+                pdf_filename = f"{partner.ref or partner.id}.pdf"
+                zip_file.writestr(pdf_filename, pdf_data)
+        return buffer.getvalue()
+
+    def _prepare_download(self, filename, content):
+        self.write(
+            {
+                "file_name": filename,
+                "file_download": base64.encodebytes(content),
+                "state": "download",
             }
-        return report_ref.report_action(partners.ids, data=data, config=False)
+        )
+        return self._download_action()
+
+    def _download_action(self):
+        return {
+            "name": _("Download report"),
+            "type": "ir.actions.act_window",
+            "res_model": self._name,
+            "res_id": self.id,
+            "view_mode": "form",
+            "target": "new",
+            "context": self.env.context,
+        }

@@ -116,9 +116,11 @@ class ResPartner(models.Model):
         "advocate.details", "Advocate details", copy=False, readonly=False
     )
     interested_for_volunteering = fields.Boolean()
+    is_volunteer = fields.Boolean(compute="_compute_is_volunteer")
     engagement_ids = fields.Many2many(
         "advocate.engagement",
-        related="advocate_details_id.engagement_ids",
+        compute="_compute_engagement_ids",
+        inverse="_inverse_engagement_ids",
         readonly=False,
     )
     other_contact_ids = fields.One2many(
@@ -198,6 +200,14 @@ class ResPartner(models.Model):
                 record.has_majority or record.parent_consent in ["approved"]
             )
 
+    @api.depends("advocate_details_id")
+    def _compute_is_volunteer(self):
+        for partner in self:
+            partner.is_volunteer = (
+                partner.advocate_details_id.engagement_ids
+                and partner.advocate_details_id.state != "inactive"
+            )
+
     def get_unreconciled_amount(self):
         """Returns the amount of unreconciled credits in Account 1050"""
         self.ensure_one()
@@ -215,17 +225,6 @@ class ResPartner(models.Model):
             res += move_line.credit
         return res
 
-    def update_number_sponsorships(self):
-        """
-        Update the sponsorship number for the related church as well.
-        """
-        church_to_update = self.filtered(
-            lambda x: x.church_id and x.church_id != x
-        ).mapped("church_id")
-        if church_to_update:
-            church_to_update.update_number_sponsorships()
-        return super().update_number_sponsorships()
-
     def _compute_write_and_pray(self):
         for partner in self:
             partner.write_and_pray = "SWP" in partner.mapped("sponsorship_ids.type")
@@ -237,6 +236,31 @@ class ResPartner(models.Model):
                 partner.address_name = (partner.short_address or "").split("<br/>")[0]
             else:
                 partner.address_name = partner.name
+
+    def _compute_engagement_ids(self):
+        for partner in self:
+            partner.engagement_ids = partner.advocate_details_id.engagement_ids
+
+    def _inverse_engagement_ids(self):
+        for partner in self:
+            if not partner.advocate_details_id and partner.engagement_ids:
+                partner.advocate_details_id = self.env["advocate.details"].create(
+                    {
+                        "partner_id": partner.id,
+                        "active_since": fields.Date.today(),
+                        "advocacy_source": ", ".join(
+                            partner.engagement_ids.mapped("name")
+                        ),
+                    }
+                )
+            partner.advocate_details_id.engagement_ids = partner.engagement_ids
+            if not partner.engagement_ids and partner.advocate_details_id:
+                partner.advocate_details_id.set_inactive()
+            if (
+                partner.engagement_ids
+                and partner.advocate_details_id.state == "inactive"
+            ):
+                partner.advocate_details_id.set_active()
 
     ##########################################################################
     #                              ORM METHODS                               #
@@ -747,15 +771,28 @@ class ResPartner(models.Model):
         return domain
 
     def _unlink_mailing_contacts_if_needed(self, vals):
+        # ACLs shouldn't produce data inconsistency
+        sudo = self.sudo()
         if "email" in vals:
-            old_contacts = self.mapped("mass_mailing_contact_ids")
-            new_contacts = self.env["mailing.contact"].search(
+            old_contacts = sudo.mapped("mass_mailing_contact_ids")
+            new_contacts = sudo.env["mailing.contact"].search(
                 [("email", "=", vals["email"]), ("id", "not in", old_contacts.ids)]
             )
             if old_contacts and new_contacts:
-                # ACLs shouldn't produce data inconsistency
-                old_contacts.sudo().unlink()
-                new_contacts.sudo().write({"email": vals["email"]})
+                old_contacts.unlink()
+                new_contacts.write({"email": vals["email"]})
+        mm_vals = {}
+        if "active" in vals and not vals["active"]:
+            mm_vals["active"] = False
+        if "opt_out" in vals:
+            subscription_ids = sudo.mapped(
+                "mass_mailing_contact_ids.subscription_list_ids"
+            ).ids
+            mm_vals["subscription_list_ids"] = [
+                (1, sub_id, {"opt_out": vals["opt_out"]}) for sub_id in subscription_ids
+            ]
+        if mm_vals and self.mapped("mass_mailing_contact_ids"):
+            sudo.mapped("mass_mailing_contact_ids").write(mm_vals)
 
 
 class SftpConfig:
