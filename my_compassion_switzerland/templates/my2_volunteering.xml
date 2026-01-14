@@ -24,6 +24,35 @@ Page: My Compassion 2 Volunteering Page
             <div class="site-wrapper">
                 <div class="container">
                     <div class="single-column pt-3">
+                        <t t-if="partner.is_volunteer">
+                            <t t-call="theme_compassion_2025.BannerComponent">
+                                <t
+                  t-set="title"
+                >Thank you for being a volunteer at
+                                    Compassion</t>
+                                <t
+                  t-set="text"
+                >You can access the volunteer platform by
+                                    following the link below or check how to get more
+                                    involved in Compassion Switzerland through
+                                    MyCompassion</t>
+
+                                <t
+                  t-set="btn_text"
+                >Go to the volunteer platform</t>
+                                <t
+                  t-set="btn_text_color"
+                  t-value="'low-blue'"
+                />
+                                <t t-set="btn_color" t-value="'pure-white'" />
+
+                                <t
+                  t-set="btn_link"
+                  t-value="'https://porte-parole.compassion.ch/'"
+                />
+                                <t t-set="target" t-value="'_blank'" />
+                            </t>
+                        </t>
                         <t t-call="theme_compassion_2025.TitleComponent">
                             <t
                 t-set="title_content"
@@ -90,8 +119,9 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                         <t
               t-set="description"
             >For more information on how to get involved in helping
-                        children in need, please fill out the form below and we will contact you as
-                        soon as possible.</t>
+                            children in need, please fill out the form below and we will
+                            contact you as
+                            soon as possible.</t>
                         <t t-set="description_color" t-value="'pure-white'" />
                     </t>
                     <form class="volunteering-form" role="form">
