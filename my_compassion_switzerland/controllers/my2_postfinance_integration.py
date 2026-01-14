@@ -17,7 +17,8 @@ from odoo.http import request
 from odoo.addons.payment_postfinance_flex.controllers.main import PostFinanceController
 
 _logger = logging.getLogger(__name__)
-STATUS_EXISTING = 'existing'
+STATUS_EXISTING = "existing"
+
 
 class MyCompassionPostFinanceController(PostFinanceController):
     @http.route(
