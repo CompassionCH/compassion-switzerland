@@ -54,7 +54,7 @@ Credits
 Authors
 -------
 
-* CompassionCH
+* Compassion CH
 
 Maintainers
 -----------
