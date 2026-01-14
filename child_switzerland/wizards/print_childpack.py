@@ -22,6 +22,7 @@ class PrintChildpack(models.TransientModel):
     )
 
     def _compute_module_name(self):
-        super()._compute_module_name()
+        res = super()._compute_module_name()
         if self.type == "child_switzerland.childpack_mini":
             self.module_name = __name__.split(".")[2]
+        return res

@@ -50,7 +50,8 @@ class CompassionProject(models.Model):
                 response = requests.head(
                     base_url.format(
                         field_office=field_office, fcp_id=fcp_id, suffix=suffix
-                    )
+                    ),
+                    timeout=5,
                 )
                 if response.status_code != 200:
                     has_tpl_image = False
