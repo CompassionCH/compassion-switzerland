@@ -13,4 +13,28 @@
             </field>
         </field>
     </record>
+    <template id="hr_expense_empty_state_help">
+        <p class="o_view_nocontent_smiling_face">
+            Create a new expense
+        </p>
+        <p>
+            Record expenses to be reimbursed to employees.
+        </p>
+    </template>
+    <record
+    id="hr_expense.hr_expense_actions_my_unsubmitted"
+    model="ir.actions.act_window"
+  >
+        <field name="help" type="html">
+            <t t-call="hr_switzerland.hr_expense_empty_state_help" />
+        </field>
+    </record>
+    <record
+    id="hr_expense.hr_expense_actions_my_all"
+    model="ir.actions.act_window"
+  >
+        <field name="help" type="html">
+            <t t-call="hr_switzerland.hr_expense_empty_state_help" />
+        </field>
+    </record>
 </odoo>
