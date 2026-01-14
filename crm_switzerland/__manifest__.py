@@ -3,11 +3,11 @@
 {
     "name": "CRM for Compassion Switzerland",
     "summary": "Decouple partner and lead email",
-    "author": "Compassion Switzerland",
+    "author": "Compassion CH",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "license": "AGPL-3",
     "category": "Marketing",
-    "version": "14.0.1.1.0",
+    "version": "18.0.1.0.0",
     "depends": [
         "mass_mailing_partner",
         "crm",
