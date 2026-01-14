@@ -55,6 +55,8 @@ Page: My Compassion 2 Volunteering Card Component
             t-set="href"
             t-value="engagement_type.my_compassion_external_link"
           />
+                    <t t-set="target" t-value="'_blank'" />
+                    <t t-set="rel" t-value="'noopener noreferrer'" />
                 </t>
             </t>
             <t t-elif="engagement_type.my_compassion_internal_link">
