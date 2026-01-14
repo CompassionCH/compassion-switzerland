@@ -258,7 +258,6 @@ class ResPartner(models.Model):
                 "tax_certificate": (
                     "no" if self.tax_certificate == "no" else "only_email"
                 ),
-                "calendar": False,
                 "sponsorship_anniversary_card": False,
             }
             for _field in [
@@ -274,7 +273,7 @@ class ResPartner(models.Model):
                     vals[_field] = "digital_only"
             self.write(vals)
         else:
-            vals = {"calendar": True, "sponsorship_anniversary_card": True}
+            vals = {"sponsorship_anniversary_card": True}
             for _field in [
                 "global_communication_delivery_preference",
                 "letter_delivery_preference",
