@@ -288,49 +288,35 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                 >I would like to volunteer for</t>
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t t-set="top_class" t-value="'col-12 mb-3'" />
-                                <div class="form-check">
-                                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="volunteer_roles"
-                    value="Event Volunteer"
-                  />
-                                    <label
-                    class="form-check-label text-pure-white"
-                  >Event Volunteer</label>
-                                </div>
-                                <div class="form-check">
-                                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="volunteer_roles"
-                    value="Church Ambassador"
-                  />
-                                    <label
-                    class="form-check-label text-pure-white"
-                  >Church Ambassador</label>
-                                </div>
-                                <div class="form-check">
-                                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="volunteer_roles"
-                    value="Letter Translator"
-                  />
-                                    <label
-                    class="form-check-label text-pure-white"
-                  >Letter Translator</label>
-                                </div>
-                                <div class="form-check">
-                                    <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="volunteer_roles"
-                    value="Supporting Children Through Sports"
-                  />
-                                    <label
-                    class="form-check-label text-pure-white"
-                  >Supporting Children Through Sports</label>
+
+                                <div
+                  class="d-flex flex-column align-items-start"
+                >
+                                    <t
+                    t-foreach="engagement_types"
+                    t-as="engagement"
+                  >
+                                        <div class="form-check">
+                                            <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="volunteer_roles"
+                        style="cursor: pointer;"
+                        t-att-id="'role_' + str(engagement.id)"
+                        t-att-value="engagement.name"
+                      />
+
+                                            <label
+                        class="form-check-label text-pure-white"
+                        t-att-for="'role_' + str(engagement.id)"
+                        style="cursor: pointer;"
+                      >
+                                                <span
+                          t-field="engagement.name"
+                        />
+                                            </label>
+                                        </div>
+                                    </t>
                                 </div>
                             </t>
 
