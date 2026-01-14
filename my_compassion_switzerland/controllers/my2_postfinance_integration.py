@@ -17,7 +17,7 @@ from odoo.http import request
 from odoo.addons.payment_postfinance_flex.controllers.main import PostFinanceController
 
 _logger = logging.getLogger(__name__)
-
+STATUS_EXISTING = 'existing'
 
 class MyCompassionPostFinanceController(PostFinanceController):
     @http.route(
@@ -102,7 +102,7 @@ class MyCompassionPostFinanceController(PostFinanceController):
         if tx.return_url:
             if group and group.id:
                 # REFACTOR: Check the status code, not the string
-                if action_status == "existing":
+                if action_status == STATUS_EXISTING:
                     status = "Already Saved"
                 else:
                     status = "Success"
