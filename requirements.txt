@@ -12,5 +12,6 @@ pypng
 pyqrcode
 pyquery
 pysftp
+reportlab[pycairo]
 wand
 yaml
