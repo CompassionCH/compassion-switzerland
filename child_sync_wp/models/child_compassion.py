@@ -12,7 +12,7 @@ from datetime import date
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import relativedelta
+from dateutil.relativedelta import relativedelta
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
