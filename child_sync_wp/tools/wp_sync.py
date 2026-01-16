@@ -35,7 +35,7 @@ class WPSync:
                 "password": self.wp_config.password,
             }
             headers = {"Content-Type": "application/json", "Accept": "application/json"}
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.post(url, json=payload, headers=headers, timeout=3)
             response.raise_for_status()
             data = response.json()
             self.token = data.get("token")
@@ -101,6 +101,7 @@ class WPSync:
                         self.base_url + "add-child",
                         json=payload,
                         headers=self.get_headers(),
+                        timeout=3,
                     )
                     response.raise_for_status()
                     resp_data = response.json()
@@ -135,6 +136,7 @@ class WPSync:
                 json=payload,
                 headers=self.get_headers(),
                 verify=True,
+                timeout=3,
             )
             response.raise_for_status()
             res_data = response.json()
@@ -150,6 +152,7 @@ class WPSync:
                 self.base_url + "delete-all-children",
                 headers=self.get_headers(),
                 verify=True,
+                timeout=3,
             )
             response.raise_for_status()
             res_data = response.json()
