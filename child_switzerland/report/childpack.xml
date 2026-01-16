@@ -15,16 +15,12 @@
         <field name="dpi">96</field>
     </record>
 
-    <report
-    id="report_childpack_mini"
-    model="compassion.child"
-    string="Mini Childpack"
-    report_type="qweb-pdf"
-    name="child_switzerland.childpack_mini"
-    menu="False"
-  />
     <record id="report_childpack_mini" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_mini_childpack" />
+        <field name="model">compassion.child</field>
+        <field name="name">Mini Childpack</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">child_switzerland.childpack_mini</field>
     </record>
 
     <template id="childpack_mini">

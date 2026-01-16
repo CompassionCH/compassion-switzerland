@@ -39,9 +39,6 @@
         "child_switzerland",
         "wordpress_configuration",
     ],
-    "external_dependencies": {
-        "python": ["pysftp", "wand"],
-    },
     "data": [
         "security/ir.model.access.csv",
         "views/child_on_wordpress_wizard.xml",

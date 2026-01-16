@@ -29,11 +29,6 @@ Use XML-RPC Connector to Wordpress website
 .. contents::
    :local:
 
-Installation
-============
-
-You need to have python wand and pysftp installed.
-
 Bug Tracker
 ===========
 
@@ -55,7 +50,7 @@ Authors
 Contributors
 ------------
 
-- Emanuel Cino <ecino@compassion.ch>
+-  Emanuel Cino <ecino@compassion.ch>
 
 Maintainers
 -----------
