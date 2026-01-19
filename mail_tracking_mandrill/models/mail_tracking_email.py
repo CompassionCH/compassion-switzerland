@@ -91,8 +91,6 @@ class MailTrackingEmail(models.Model):
 
     @api.model
     def event_process(self, request, post, metadata, event_type=None):
-        super().event_process(request, post, metadata, event_type)
-
         res = []
 
         # iterate trough each event in mandrill_events key
