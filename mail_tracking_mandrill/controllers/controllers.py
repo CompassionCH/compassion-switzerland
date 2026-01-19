@@ -10,7 +10,7 @@ from odoo import http
 from odoo.http import request
 from odoo.tools import config
 
-from odoo.addons.mail_tracking.controllers.main import MailTrackingController
+from odoo.addons.mail_tracking.controllers.main import MailTrackingController, db_env
 
 _logger = logging.getLogger(__name__)
 
@@ -80,7 +80,11 @@ class MandrillTrackingController(MailTrackingController):
             return "NO_AUTH"
         try:
             kwargs["mandrill_events"] = json.loads(kwargs.get("mandrill_events", "[]"))
-            self.mail_tracking_event(db, **kwargs)
+            metadata = self._request_metadata()
+            with db_env(db) as env:
+                env["mail.tracking.email"].event_process(
+                    request, kwargs, metadata, event_type='mandrill'
+                )
             return "OK"
         except Exception as e:
             _logger.error(e.args[0] or e.message, exc_info=True)
