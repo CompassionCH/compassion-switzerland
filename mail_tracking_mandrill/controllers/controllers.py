@@ -83,7 +83,7 @@ class MandrillTrackingController(MailTrackingController):
             metadata = self._request_metadata()
             with db_env(db) as env:
                 env["mail.tracking.email"].event_process(
-                    request, kwargs, metadata, event_type='mandrill'
+                    request, kwargs, metadata, event_type="mandrill"
                 )
             return "OK"
         except Exception as e:
