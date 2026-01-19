@@ -1,5 +1,6 @@
 # Copyright 2021 Compassion CH (http://www.compassion.ch)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# pylint: disable=C8101
 {
     "name": "Mail Tracking for Mandrill",
     "summary": "Mail tracking integration trough Mandrill webhooks",
