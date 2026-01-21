@@ -13,12 +13,6 @@
                 <field name="provision_13_salary" />
                 <field name="lpp_amount" />
             </field>
-            <field name="analytic_account_id" position="before">
-                <field
-          name="analytic_tag_id"
-          groups="analytic.group_analytic_accounting"
-        />
-            </field>
         </field>
     </record>
 </odoo>

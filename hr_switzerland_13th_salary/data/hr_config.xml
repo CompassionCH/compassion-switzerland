@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <!-- Employee tags -->
+    <record id="employee_tag_office" model="hr.employee.category">
+        <field name="name">Y-Office</field>
+    </record>
+    <record id="employee_tag_church_rep" model="hr.employee.category">
+        <field name="name">Church Rep</field>
+    </record>
+</odoo>
