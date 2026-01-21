@@ -42,8 +42,7 @@
     ],
     "depends": [
         "payroll",
-        "payroll_account",  # oca/payroll
-        # "hr_payroll_period",  # oca/payroll
+        "payroll_account",
     ],
     "demo": [],
     "installable": True,
