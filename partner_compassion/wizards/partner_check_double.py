@@ -8,7 +8,7 @@
 #
 ##############################################################################
 
-from odoo import fields, models
+from odoo import Command, fields, models
 
 
 class PartnerCheckDouble(models.TransientModel):
@@ -43,5 +43,5 @@ class PartnerCheckDouble(models.TransientModel):
         }
 
     def keep(self):
-        self.partner_id.partner_duplicate_ids = False
+        self.partner_id.partner_duplicate_ids = [Command.clear()]
         return True

@@ -24,7 +24,7 @@ class StaffNotificationSettings(models.TransientModel):
             ("user_ids", "!=", False),
             ("user_ids.share", "=", False),
         ],
-        readonly=False,
+        config_parameter="partner_compassion.advocate_birthday_fr_id",
     )
     advocate_birthday_de_id = fields.Many2one(
         "res.partner",
@@ -33,7 +33,7 @@ class StaffNotificationSettings(models.TransientModel):
             ("user_ids", "!=", False),
             ("user_ids.share", "=", False),
         ],
-        readonly=False,
+        config_parameter="partner_compassion.advocate_birthday_de_id",
     )
     advocate_birthday_it_id = fields.Many2one(
         "res.partner",
@@ -42,7 +42,7 @@ class StaffNotificationSettings(models.TransientModel):
             ("user_ids", "!=", False),
             ("user_ids.share", "=", False),
         ],
-        readonly=False,
+        config_parameter="partner_compassion.advocate_birthday_it_id",
     )
     advocate_birthday_en_id = fields.Many2one(
         "res.partner",
@@ -51,110 +51,23 @@ class StaffNotificationSettings(models.TransientModel):
             ("user_ids", "!=", False),
             ("user_ids.share", "=", False),
         ],
-        readonly=False,
+        config_parameter="partner_compassion.advocate_birthday_en_id",
     )
     potential_advocate_fr = fields.Many2one(
-        "res.users", "Potential advocate FR", domain=[("share", "=", False)]
+        "res.users",
+        "Potential advocate FR",
+        domain=[("share", "=", False)],
+        config_parameter="partner_communication_switzerland.potential_advocate_fr",
     )
     potential_advocate_de = fields.Many2one(
-        "res.users", "Potential advocate DE", domain=[("share", "=", False)]
+        "res.users",
+        "Potential advocate DE",
+        domain=[("share", "=", False)],
+        config_parameter="partner_communication_switzerland.potential_advocate_de",
     )
     potential_advocate_it = fields.Many2one(
-        "res.users", "Potential advocate IT", domain=[("share", "=", False)]
+        "res.users",
+        "Potential advocate IT",
+        domain=[("share", "=", False)],
+        config_parameter="partner_communication_switzerland.potential_advocate_it",
     )
-
-    def set_values(self):
-        super().set_values()
-        self.env["ir.config_parameter"].sudo().set_param(
-            "partner_compassion.advocate_birthday_fr_id",
-            str(
-                self.advocate_birthday_fr_id.id
-                if self.advocate_birthday_fr_id.id
-                else 1
-            ),
-        )
-        self.env["ir.config_parameter"].sudo().set_param(
-            "partner_compassion.advocate_birthday_de_id",
-            str(
-                self.advocate_birthday_de_id.id
-                if self.advocate_birthday_de_id.id
-                else 1
-            ),
-        )
-        self.env["ir.config_parameter"].sudo().set_param(
-            "partner_compassion.advocate_birthday_it_id",
-            str(
-                self.advocate_birthday_it_id.id
-                if self.advocate_birthday_it_id.id
-                else 1
-            ),
-        )
-        self.env["ir.config_parameter"].sudo().set_param(
-            "partner_compassion.advocate_birthday_en_id",
-            str(
-                self.advocate_birthday_en_id.id
-                if self.advocate_birthday_en_id.id
-                else 1
-            ),
-        )
-        self.env["ir.config_parameter"].set_param(
-            "partner_communication_switzerland.potential_advocate_fr",
-            str(self.potential_advocate_fr.id or 0),
-        )
-        self.env["ir.config_parameter"].set_param(
-            "partner_communication_switzerland.potential_advocate_de",
-            str(self.potential_advocate_de.id or 0),
-        )
-        self.env["ir.config_parameter"].set_param(
-            "partner_communication_switzerland.potential_advocate_it",
-            str(self.potential_advocate_it.id or 0),
-        )
-
-    def get_values(self):
-        res = super().get_values()
-        param_obj = self.env["ir.config_parameter"].sudo()
-        res.update(
-            {
-                "advocate_birthday_fr_id": int(
-                    param_obj.get_param(
-                        "partner_compassion.advocate_birthday_fr_id", None
-                    )
-                    or 0
-                )
-                or False,
-                "advocate_birthday_de_id": int(
-                    param_obj.get_param(
-                        "partner_compassion.advocate_birthday_de_id", None
-                    )
-                    or 0
-                )
-                or False,
-                "advocate_birthday_it_id": int(
-                    param_obj.get_param(
-                        "partner_compassion.advocate_birthday_it_id", None
-                    )
-                    or 0
-                )
-                or False,
-                "advocate_birthday_en_id": int(
-                    param_obj.get_param(
-                        "partner_compassion.advocate_birthday_en_id", None
-                    )
-                    or 0
-                )
-                or False,
-            }
-        )
-        user_fr = self.env["ir.config_parameter"].get_param(
-            "partner_communication_switzerland.potential_advocate_fr", 0
-        )
-        res["potential_advocate_fr"] = int(user_fr)
-        user_de = self.env["ir.config_parameter"].get_param(
-            "partner_communication_switzerland.potential_advocate_de", 0
-        )
-        res["potential_advocate_de"] = int(user_de)
-        user_it = self.env["ir.config_parameter"].get_param(
-            "partner_communication_switzerland.potential_advocate_it", 0
-        )
-        res["potential_advocate_it"] = int(user_it)
-        return res

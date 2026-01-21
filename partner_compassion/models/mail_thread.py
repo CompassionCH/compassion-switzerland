@@ -19,31 +19,31 @@ class MailThread(models.AbstractModel):
 
     _inherit = "mail.thread"
 
-    def message_subscribe(self, partner_ids=None, channel_ids=None, subtype_ids=None):
+    def message_subscribe(self, partner_ids=None, subtype_ids=None):
+        # Only allow employees as followers
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id").ids
-        return super().message_subscribe(partner_ids, channel_ids, subtype_ids)
+        return super().message_subscribe(partner_ids, subtype_ids)
 
     def _message_auto_subscribe_notify(self, partner_ids, template):
         partners = self.env["res.partner"].browse(partner_ids)
         allowed = partners.mapped("user_ids").filtered(lambda u: not u.share)
         partner_ids = allowed.mapped("partner_id").ids
-        super()._message_auto_subscribe_notify(partner_ids, template)
+        return super()._message_auto_subscribe_notify(partner_ids, template)
 
     def _message_get_suggested_recipients(self):
+        # Never suggest partners that are not employees to send messages to
         result = super()._message_get_suggested_recipients()
         to_remove = list()
         partner_obj = self.env["res.partner"]
-        for message_id, suggestion in list(result.items()):
+        for suggestion in result:
             if suggestion:
-                partner = partner_obj.browse(suggestion[0][0])
+                partner = partner_obj.browse(suggestion.get("partner_id"))
                 users = partner.mapped("user_ids").filtered(lambda u: not u.share)
                 if not users:
-                    to_remove.append(message_id)
-        for message_id in to_remove:
-            del result[message_id]
-        return result
+                    to_remove.append(partner.id)
+        return [r for r in result if r.get("partner_id") not in to_remove]
 
     def _mail_find_partner_from_emails(
         self,

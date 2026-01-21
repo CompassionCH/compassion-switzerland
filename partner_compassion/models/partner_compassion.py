@@ -12,8 +12,9 @@ import logging
 import re
 import tempfile
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.osv import expression
 from odoo.tools import mod10r
 from odoo.tools.config import config
 
@@ -58,8 +59,8 @@ class ResPartner(models.Model):
     deathdate = fields.Date("Death date", tracking=True)
     nbmag = fields.Selection(
         [
-            ("email", _("Email")),
-            ("no_mag", _("No magazine")),
+            ("email", "Email"),
+            ("no_mag", "No magazine"),
             ("one", "1"),
             ("two", "2"),
             ("three", "3"),
@@ -81,10 +82,10 @@ class ResPartner(models.Model):
     )
     tax_certificate = fields.Selection(
         [
-            ("no", _("No receipt")),
-            ("default", _("Default")),
-            ("only_email", _("Only email")),
-            ("paper", _("On paper")),
+            ("no", "No receipt"),
+            ("default", "Default"),
+            ("only_email", "Only email"),
+            ("paper", "On paper"),
         ],
         required=True,
         default="default",
@@ -109,7 +110,6 @@ class ResPartner(models.Model):
         "res_partner_duplicates",
         "partner_id",
         "duplicate_id",
-        readonly=True,
     )
 
     advocate_details_id = fields.Many2one(
@@ -121,11 +121,6 @@ class ResPartner(models.Model):
         "advocate.engagement",
         compute="_compute_engagement_ids",
         inverse="_inverse_engagement_ids",
-        readonly=False,
-    )
-    other_contact_ids = fields.One2many(
-        string="Linked Partners",
-        context={"active_test": False},
         readonly=False,
     )
 
@@ -158,10 +153,10 @@ class ResPartner(models.Model):
 
     parent_consent = fields.Selection(
         [
-            ("not_submitted", _("Not submitted yet.")),
-            ("waiting", _("Waiting Compassion approval")),
-            ("approved", _("Approved")),
-            ("refused", _("Refused")),
+            ("not_submitted", "Not submitted yet."),
+            ("waiting", "Waiting Compassion approval"),
+            ("approved", "Approved"),
+            ("refused", "Refused"),
         ],
         string="Parent consents",
         default="not_submitted",
@@ -268,23 +263,14 @@ class ResPartner(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            duplicate_domain = self._check_duplicates_domain(
-                vals, skip_props_check=True
-            )
-            duplicate = self.search(duplicate_domain)
-            duplicate_ids = [(4, itm.id) for itm in duplicate]
-            vals.update({"partner_duplicate_ids": duplicate_ids})
+            self._check_duplicates(vals)
             vals["ref"] = self.env["ir.sequence"].get("partner.ref")
-
-        self.check_phone_and_mobile(vals)
+            self.check_phone_and_mobile(vals)
 
         # Never subscribe someone to res.partner record
         partner = super(
             ResPartner, self.with_context(mail_create_nosubscribe=True)
         ).create(vals_list)
-        partner.filtered(lambda p: p.contact_type == "attached").write(
-            {"active": False}
-        )
         return partner
 
     def write(self, vals):
@@ -310,6 +296,7 @@ class ResPartner(models.Model):
 
         self.check_phone_and_mobile(vals)
         self._unlink_mailing_contacts_if_needed(vals)
+        self._check_duplicates(vals)
 
         res = super().write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
@@ -355,7 +342,7 @@ class ResPartner(models.Model):
             if not res:
                 res = self.search(
                     ["|", ("name", "%", name), ("name", "ilike", name)],
-                    order="similarity(name, '%s') DESC" % name,
+                    order=f"similarity(name, '{name}') DESC",
                     limit=limit,
                 )
             # Search by e-mail
@@ -363,7 +350,7 @@ class ResPartner(models.Model):
                 res = self.search([("email", "ilike", name)], limit=limit)
         else:
             res = self.search(args, limit=limit)
-        return res.name_get()
+        return [(r.id, r.display_name) for r in res]
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
         """Order search results based on similarity if name search is used."""
@@ -378,22 +365,7 @@ class ResPartner(models.Model):
             )
         if order and isinstance(order, bytes):
             order = order.decode("utf-8")
-        return super().search(
-            args, offset=offset, limit=limit, order=order, count=count
-        )
-
-    def _generate_order_by_inner(
-        self, alias, order_spec, query, reverse_direction=False, seen=None
-    ):
-        # Small trick to allow similarity ordering while bypassing odoo checks
-        is_similarity_ordering = regex_order.match(order_spec) if order_spec else False
-        if is_similarity_ordering:
-            order_by_elements = [order_spec]
-        else:
-            order_by_elements = super()._generate_order_by_inner(
-                alias, order_spec, query, reverse_direction, seen
-            )
-        return order_by_elements
+        return super().search(args, offset=offset, limit=limit, order=order)
 
     def _check_qorder(self, word):
         """Allow similarity order"""
@@ -404,91 +376,71 @@ class ResPartner(models.Model):
                 raise
         return True
 
-    def _check_duplicates_domain(self, vals=None, skip_props_check=False):
+    def _check_duplicates(self, vals):
         """
         Generates a search domain to find duplicates for this partner based
         on various filters
-        :param dict vals: a dictionnary containing values used by the filters,
-                          inferred from self if not provided
-        :param bool skip_props_checks: whether you want to skip verifying
-                                       that each variable's filter are set,
-                                       thus running them all anyway
+        :param dict vals: a dictionary containing values to write
         """
-        if not vals:
-            vals = {
-                "email": self.email,
-                "firstname": self.firstname,
-                "lastname": self.lastname,
-                "zip": self.zip,
-                "street": self.street,
-            }
+        if "partner_duplicate_ids" in vals:
+            return False
 
-        # define set of checks for duplicates and required fields
-        checks = [
-            # Email check
-            (
-                vals.get("email"),
-                ["&", ("email", "=", vals.get("email")), ("email", "!=", False)],
-            ),
-            # zip and name check
-            (
-                vals.get("firstname") and vals.get("lastname") and vals.get("zip"),
-                [
-                    "&",
-                    "&",
-                    ("firstname", "ilike", vals.get("firstname")),
-                    ("lastname", "ilike", vals.get("lastname")),
-                    ("zip", "=", vals.get("zip")),
-                ],
-            ),
-            # name and address check
-            (
-                vals.get("lastname") and vals.get("street") and vals.get("zip"),
-                [
-                    "&",
-                    "&",
-                    ("lastname", "ilike", vals.get("lastname")),
-                    ("zip", "=", vals.get("zip")),
-                    ("street", "ilike", vals.get("street")),
-                ],
-            ),
-        ]
+        base = [("id", "not in", self.ids)]
+        candidates = []
 
-        # This step builds a domain query based on the checks that
-        # passed, prepending the list with a "|" operator for all item
-        # once its size is > 1
-        search_filters = []
-        for check in checks:
-            if skip_props_check or check[0]:
-                if len(search_filters) > 0:
-                    search_filters.insert(0, "|")
-                search_filters.extend(check[1])
-        return search_filters
+        email = vals.get("email")
+        if email:
+            candidates.append(["&", ("email", "=", email), ("email", "!=", False)])
+
+        firstname = vals.get("firstname")
+        lastname = vals.get("lastname")
+        zip_code = vals.get("zip")
+        street = vals.get("street")
+
+        if firstname and lastname and zip_code:
+            candidates.append(
+                [
+                    ("firstname", "ilike", firstname),
+                    ("lastname", "ilike", lastname),
+                    ("zip", "=", zip_code),
+                ]
+            )
+
+        if lastname and street and zip_code:
+            candidates.append(
+                [
+                    ("lastname", "ilike", lastname),
+                    ("zip", "=", zip_code),
+                    ("street", "ilike", street),
+                ]
+            )
+
+        if not candidates:
+            vals["partner_duplicate_ids"] = [Command.clear()]
+            return self.browse()
+
+        domain = expression.AND([base, expression.OR(candidates)])
+
+        duplicates = self.search(domain)
+        vals["partner_duplicate_ids"] = [Command.set(duplicates.ids)]
+        return duplicates
 
     ##########################################################################
     #                             ONCHANGE METHODS                           #
     ##########################################################################
-    @api.onchange("lastname", "firstname", "zip", "email")
-    def _onchange_partner(self):
-        duplicates_domain = self._check_duplicates_domain(skip_props_check=False)
-        if self.contact_type == "attached" or not duplicates_domain:
-            return
-
-        partner_duplicates = self.search(
-            [("id", "!=", self._origin.id)] + duplicates_domain
-        )
-        if partner_duplicates:
-            self.partner_duplicate_ids = partner_duplicates
-            return {
-                "warning": {
-                    "title": _("Possible existing partners found"),
-                    "message": _(
-                        "The partner you want to add may "
-                        'already exist. Please use the "'
-                        'Check duplicates" button to review it.'
-                    ),
-                },
-            }
+    @api.onchange("type")
+    def _onchange_type(self):
+        # Less likely that a contact has the same name as a company
+        if self.parent_id and self.type == "contact":
+            self.name = False
+            self.firstname = False
+            self.lastname = False
+            self.title = False
+        elif self.parent_id:
+            self.name = self.parent_id.name
+            self.title = self.parent_id.title
+            self.firstname = self.parent_id.firstname
+            self.lastname = self.parent_id.lastname
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
@@ -592,12 +544,14 @@ class ResPartner(models.Model):
 
     @api.depends("is_company", "title")
     def _compute_company_type(self):
-        super()._compute_company_type()
+        res = super()._compute_company_type()
         self.ensure_company_title_consistency()
+        return res
 
     def _write_company_type(self):
-        super()._write_company_type()
+        res = super()._write_company_type()
         self.ensure_company_title_consistency()
+        return res
 
     def get_lang_from_phone_number(self, phone):
         record = self.env["phone.common"].get_record_from_phone_number(phone)

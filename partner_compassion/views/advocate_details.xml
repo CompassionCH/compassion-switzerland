@@ -10,7 +10,7 @@
             name="set_active"
             string="Set active"
             type="object"
-            states="new,on_break,inactive"
+            invisible="state not in ('new', 'on_break', 'inactive')"
             class="oe_highlight"
             groups="base.group_user"
           />
@@ -18,14 +18,14 @@
             name="set_on_break"
             string="Put on break"
             type="object"
-            states="active"
+            invisible="state != 'active'"
             groups="base.group_user"
           />
                     <button
             name="set_inactive"
             string="Set inactive"
             type="object"
-            states="new,on_break,active"
+            invisible="state not in ('new', 'on_break', 'active')"
             groups="base.group_user"
           />
                     <field
@@ -74,18 +74,18 @@
                             <label
                 for="break_end"
                 style="color: red;"
-                states="on_break"
+                invisible="state != 'on_break'"
                 groups="base.group_user"
               />
                             <field
                 name="break_end"
-                states="on_break"
+                invisible="state != 'on_break'"
                 nolabel="1"
                 groups="base.group_user"
               />
                             <field
                 name="end_date"
-                states="inactive"
+                invisible="state != 'inactive'"
                 groups="base.group_user"
               />
                             <field name="last_event" groups="base.group_user" />
@@ -107,12 +107,12 @@
                 domain="[('categ_ids', '=', event_type_formation)]"
                 context="{'default_partner_ids': [(4, partner_id)], 'default_categ_ids': [(4, event_type_formation)]}"
               >
-                                <tree order="stop_date desc">
+                                <list order="stop_date desc">
                                     <field name="start_date" />
                                     <field name="name" />
                                     <field name="location" />
                                     <field name="user_id" />
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group string="Profile page">
@@ -123,27 +123,16 @@
                         </group>
                     </group>
                 </sheet>
-                <div class="oe_chatter">
-                    <field
-            name="message_follower_ids"
-            widget="mail_followers"
-            groups="base.group_user"
-          />
-                    <field
-            name="message_ids"
-            widget="mail_thread"
-            groups="base.group_user"
-          />
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
 
     <record id="advocate_details_tree" model="ir.ui.view">
-        <field name="name">advocate.details.tree</field>
+        <field name="name">advocate.details.list</field>
         <field name="model">advocate.details</field>
         <field name="arch" type="xml">
-            <tree
+            <list
         decoration-primary="state == 'new'"
         decoration-info="state in ('inactive','on_break')"
       >
@@ -162,7 +151,7 @@
           groups="base.group_user"
         />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -224,77 +213,17 @@
         </field>
     </record>
 
-    <record id="view_advocate_details_google_map" model="ir.ui.view">
-        <field name="name">view.res.partner.google_map</field>
-        <field name="model">advocate.details</field>
-        <field name="arch" type="xml">
-            <google_map
-        class="o_res_partner_map"
-        string="Google Map"
-        lat="partner_latitude"
-        lng="partner_longitude"
-        colors="blue:engagement_name=='Church presentation';green:engagement_name=='Events';red:engagement_name=='Sport';purple:engagement_name=='Translation';"
-      >
-                <field name="id" />
-                <field name="partner_latitude" />
-                <field name="partner_longitude" />
-                <field name="display_name" />
-                <field name="email" />
-                <field name="zip" />
-                <field name="city" />
-                <field name="lang" />
-                <field name="engagement_name" />
-                <templates>
-                    <t t-name="kanban-box">
-                        <div
-              class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban"
-            >
-                            <t
-                t-set="placeholder"
-                t-value="'/base/static/img/avatar_grey.png'"
-              />
-                            <div class="oe_kanban_details">
-                                <strong
-                  class="o_kanban_record_title oe_partner_heading"
-                >
-                                    <field name="display_name" />
-                                </strong>
-                                <div
-                  class="o_kanban_tags_section oe_kanban_partner_categories"
-                />
-                                <ul>
-                                    <li>
-                                        <field name="city" />
-                                    </li>
-                                    <li t-esc="record.engagement_name.value">
-                                    </li>
-                                    <li>
-                                        <field name="email" />
-                                    </li>
-                                    <li>
-                                        <field name="lang" />
-                                    </li>
-                                </ul>
-                                <div class="oe_kanban_partner_links" />
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </google_map>
-        </field>
-    </record>
-
     <record id="action_advocates" model="ir.actions.act_window">
         <field name="name">Advocates</field>
         <field name="res_model">advocate.details</field>
-        <field name="view_mode">tree,form,google_map</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_advocate':1}</field>
     </record>
 
     <record id="action_engagement_type" model="ir.actions.act_window">
         <field name="name">Engagement types</field>
         <field name="res_model">advocate.engagement</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem

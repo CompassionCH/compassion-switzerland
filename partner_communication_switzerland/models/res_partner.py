@@ -216,7 +216,7 @@ class ResPartner(models.Model):
                 ]
             )
             payments = donation_invl.mapped("last_payment")
-            new_donor = len(payments) < 2 and not partner.has_sponsorships
+            new_donor = len(payments) < 2 and not partner.number_sponsorships
             partner.is_new_donor = new_donor
 
     def _compute_no_physical_letter(self):
@@ -344,7 +344,7 @@ class ResPartner(models.Model):
                 ("zip_id", "=", False),
                 ("country_id", "=", False),  # No Full Address
                 ("invalid_mail", "!=", ""),  # Invalid Email Address
-                ("has_sponsorships", "=", False),  # No active sponsorships
+                ("number_sponsorships", "=", 0),  # No active sponsorships
                 ("active", "=", True),
             ]
         )
@@ -608,7 +608,7 @@ class ResPartner(models.Model):
             [
                 ("birthdate_date", "!=", False),
                 ("birthdate_date", "like", str(twenty_five_years_ago)),
-                ("has_sponsorships", "=", True),
+                ("number_sponsorships", ">", 0),
             ]
         )
         transformation_call = self.env.ref(

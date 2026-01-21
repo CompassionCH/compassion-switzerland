@@ -23,7 +23,6 @@ class SearchBankAddressWizard(models.TransientModel):
         default=lambda self: self._get_default(),
     )
     partner_address = fields.Text(
-        "Partner Address",
         compute="_compute_partner_address",
         readonly=True,
     )
