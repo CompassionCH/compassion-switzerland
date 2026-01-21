@@ -28,29 +28,23 @@
 
 # pylint: disable=C8101
 {
-    "name": "Compassion CH - HR Management",
-    "version": "14.0.1.0.0",
+    "name": "Compassion CH - HR Management 13th Salary",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "data": [
-        "views/hr_expense_custom.xml",
-        "views/res_users_view.xml",
         "views/hr_payslip_view.xml",
         "views/hr_contract_view.xml",
         "data/hr_config.xml",
+        "data/hr.salary.rule.xml",
     ],
     "depends": [
-        "hr_attendance",  # source/addons
-        "hr_expense",  # source/addons
-        "payroll_account",  # oca/payroll
-        "hr_payroll_period",  # oca/payroll
-        "asterisk_click2dial",  # oca_addons/connector-telephony
-        "web_notify",  # oca_addons/web
-        "hr_attendance_report_theoretical_time",  # hr_attendance_report_theoretical_tim
+        "payroll",
+        "payroll_account",
     ],
     "demo": [],
-    'installable': False,
+    "installable": True,
     "auto_install": False,
 }

@@ -13,7 +13,6 @@ from odoo import api, fields, models
 class HrContract(models.Model):
     _inherit = "hr.contract"
 
-    analytic_tag_id = fields.Many2one("account.analytic.tag", "Analytic tag")
     wage_fulltime = fields.Float(string="Full-time Wage", digits="Account", default=0)
     occupation_rate = fields.Float(
         string="Occupation Rate (%)", digits="Account", default=100.0
@@ -41,11 +40,14 @@ class HrContract(models.Model):
             contract.wage = contract.wage_fulltime * (contract.occupation_rate / 100)
 
     def _compute_13_salary(self):
-        account_id = self.env.ref("l10n_ch_hr_payroll.PROVISION_13").account_credit.id
+        account_id = self.env.ref(
+            "hr_switzerland_13th_salary.PROVISION_13"
+        ).account_credit.id
+
         for contract in self:
             move_lines = self.env["account.move.line"].search(
                 [
-                    ("partner_id", "=", contract.employee_id.address_home_id.id),
+                    ("partner_id", "=", contract.employee_id.id),
                     ("account_id", "=", account_id),
                 ]
             )
