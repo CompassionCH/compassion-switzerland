@@ -1109,11 +1109,6 @@ msgid "Partner Duplicate"
 msgstr ""
 
 #. module: partner_compassion
-#: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__partner_address
-msgid "Partner address (Maybe)"
-msgstr ""
-
-#. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_users__partner_id
 msgid "Partner-related data of the user"
 msgstr "Partnerbezogene Daten des Benutzers"

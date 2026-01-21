@@ -1,45 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
+    <!--
+    Resource: res.partner.category
+    -->
+    <record id="res_partner_category_donor" model="res.partner.category">
+        <field name="name">Donor</field>
+    </record>
 
-        <!--
-        Resource: res.partner.category
-        -->
-        <record id="res_partner_category_donor" model="res.partner.category">
-            <field name="name">Donor</field>
-        </record>
+    <record id="res_partner_category_sponsor" model="res.partner.category">
+        <field name="name">Sponsor</field>
+    </record>
 
-        <record id="res_partner_category_sponsor" model="res.partner.category">
-            <field name="name">Sponsor</field>
-        </record>
+    <record
+  id="res_partner_category_ambassador"
+  model="res.partner.category"
+>
+        <field name="name">Ambassador</field>
+    </record>
 
-        <record
-      id="res_partner_category_ambassador"
-      model="res.partner.category"
-    >
-            <field name="name">Ambassador</field>
-        </record>
+    <record
+  id="res_partner_category_prog_corresp"
+  model="res.partner.category"
+>
+        <field name="name">Correspondance Program</field>
+    </record>
 
-        <record
-      id="res_partner_category_prog_corresp"
-      model="res.partner.category"
-    >
-            <field name="name">Correspondance Program</field>
-        </record>
+    <record
+  id="res_partner_category_corresp_compass"
+  model="res.partner.category"
+>
+        <field name="name">Correspondance by Compassion</field>
+    </record>
 
-        <record
-      id="res_partner_category_corresp_compass"
-      model="res.partner.category"
-    >
-            <field name="name">Correspondance by Compassion</field>
-        </record>
+    <record id="res_partner_category_old" model="res.partner.category">
+        <field name="name">Old Sponsor</field>
+    </record>
 
-        <record id="res_partner_category_old" model="res.partner.category">
-            <field name="name">Old Sponsor</field>
-        </record>
-
-        <record id="res_partner_category_prayer" model="res.partner.category">
-            <field name="name">Prayer</field>
-        </record>
-    </data>
+    <record id="res_partner_category_prayer" model="res.partner.category">
+        <field name="name">Prayer</field>
+    </record>
 </odoo>

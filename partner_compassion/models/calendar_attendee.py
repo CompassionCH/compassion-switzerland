@@ -13,17 +13,12 @@ from odoo import models
 class Attendee(models.Model):
     _inherit = "calendar.attendee"
 
-    def _send_mail_to_attendees(self, template_xmlid):
+    def _send_mail_to_attendees(self, mail_template, force_send=False):
         # Only send email to compassion staff
         compassion_staff = self.filtered(
             lambda x: x.partner_id.user_ids and not x.partner_id.user_ids[0].share
         )
 
         return super(Attendee, compassion_staff)._send_mail_to_attendees(
-            template_xmlid, True
-        )
-
-    def send_invitation_to_partner(self):
-        return super()._send_mail_to_attendees(
-            "calendar.calendar_template_meeting_invitation", True
+            mail_template, force_send
         )

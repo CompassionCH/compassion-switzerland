@@ -30,7 +30,7 @@
 {
     "name": "Compassion CH Partners",
     "summary": "Upgrade Partners for Compassion Switzerland",
-    "version": "14.0.1.0.4",
+    "version": "18.0.1.0.0",
     "development_status": "Production/Stable",
     "category": "Partner Management",
     "author": "Compassion CH",
@@ -51,7 +51,6 @@
         "base_location",
         "partner_address_street3",
         "partner_contact_birthdate",
-        "partner_contact_in_several_companies",
         "partner_tag_smart_assignation",
         # OCA/bank-payment
         "account_banking_mandate",
@@ -65,8 +64,6 @@
         "auditlog",
         # OCA/connector-telephony
         "base_phone",
-        # OCA/geospatial
-        "web_view_google_map",
     ],
     "external_dependencies": {"python": ["pandas", "pyminizip", "pysftp"]},
     "data": [
@@ -88,7 +85,7 @@
         "views/mail_mail.xml",
     ],
     "qweb": [],
-    'installable': False,
+    "installable": True,
     "auto_install": False,
     "post_init_hook": "post_init_hook",
 }

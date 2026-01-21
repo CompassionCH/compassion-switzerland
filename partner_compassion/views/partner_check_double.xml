@@ -6,14 +6,14 @@
         <field name="arch" type="xml">
             <form>
                 <field name="mergeable_partner_ids">
-                    <tree>
+                    <list>
                         <field name="name" />
                         <field name="ref" />
                         <field name="email" />
                         <field name="zip" />
                         <field name="city" />
                         <field name="number_sponsorships" />
-                    </tree>
+                    </list>
                 </field>
                 <label for="selected_merge_partner_id" />
                 <field
@@ -26,7 +26,7 @@
             type='object'
             name='merge_with'
             string="Merge"
-            attrs="{'invisible': [('selected_merge_partner_id', '=', False)]}"
+            invisible="not selected_merge_partner_id"
             class="oe_highlight"
           />
                     <button type='object' name='keep' string="Keep partners" />

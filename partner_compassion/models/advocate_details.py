@@ -131,7 +131,9 @@ class AdvocateDetails(models.Model):
                 "image_url": f"{details.get_base_url()}/web/partner_image"
                 f"/{details.partner_id.id}/image_512/{firstname}.jpg",
                 "text": details.quote.strip() or "",
-                "attribution": _("Quote from %s %s") % (firstname, lastname)
+                "attribution": _("Quote from %(firstname)s %(lastname)s").format(
+                    {"firstname": firstname, "lastname": lastname}
+                )
                 if details.quote.strip()
                 else "",
             }
@@ -192,7 +194,7 @@ class AdvocateDetails(models.Model):
         return {
             "name": _("Events"),
             "type": "ir.actions.act_window",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "crm.event.compassion",
             "target": "current",
             "domain": [("id", "in", self.event_ids.ids)],
@@ -202,7 +204,7 @@ class AdvocateDetails(models.Model):
         return {
             "name": _("Surveys"),
             "type": "ir.actions.act_window",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "survey.user_input",
             "target": "current",
             "domain": [("partner_id", "=", self.partner_id.id)],
@@ -243,8 +245,10 @@ class AdvocateDetails(models.Model):
             date = advocate.partner_id.get_date("birthdate_date", "d MMMM")
             display_name = advocate.display_name
             advocate.message_post(
-                body=_("This is a reminder that %s will have birthday on %s.")
-                % (preferred_name, date),
+                body=_(
+                    "This is a reminder that %(advocate_name)s will have birthday "
+                    "on %(birthdate)s."
+                ).format({"advocate_name": preferred_name, "birthdate": date}),
                 subject=_("[%s] Advocate birthday reminder") % display_name,
                 partner_ids=[notify_partner_id],
                 subtype_xmlid="mail.mt_comment",
