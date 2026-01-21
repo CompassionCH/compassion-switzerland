@@ -365,9 +365,7 @@ class ExternalAuthUsers(models.Model):
             pass
 
         try:
-            return super(ExternalAuthUsers, self)._check_credentials(
-                password, user_agent_env
-            )
+            return super()._check_credentials(password, user_agent_env)
         except AccessDenied:
             pass
 
@@ -404,6 +402,6 @@ class ExternalAuthUsers(models.Model):
                     # as token might expire, and we are not using the password.
                     "Authorization" in request.httprequest.headers
                 ):
-                    super(ExternalAuthUsers, cls).check.clear_cache(self.env.user)
+                    super().check.clear_cache(self.env.user)
 
-                return super(ExternalAuthUsers, cls).check(db, uid, passwd)
+                return super().check(db, uid, passwd)

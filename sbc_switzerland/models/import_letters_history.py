@@ -11,6 +11,7 @@
 This module reads a zip file containing scans of mail and finds the relation
 between the database and the mail.
 """
+
 import base64
 import logging
 from pathlib import Path
@@ -165,7 +166,7 @@ class ImportLettersHistory(models.Model):
                             exc_info=True,
                         )
                     yield i + 1, len(files), import_full_path
-        except (AssertionError, IOError):
+        except (OSError, AssertionError):
             logger.error(
                 "Could not establish connection with sftp server", exc_info=True
             )

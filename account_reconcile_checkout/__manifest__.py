@@ -44,5 +44,5 @@
         "views/reconcile_outstanding_wizard_view.xml",
     ],
     "auto_install": False,
-    'installable': False,
+    "installable": False,
 }

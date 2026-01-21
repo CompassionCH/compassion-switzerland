@@ -42,6 +42,6 @@
         "templates/my_tasks_forms.xml",
         "templates/my_donations.xml",
     ],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

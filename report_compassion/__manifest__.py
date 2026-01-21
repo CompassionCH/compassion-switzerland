@@ -66,6 +66,6 @@
         "data/tax_receipt_email_template.xml",
     ],
     "demo": [],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

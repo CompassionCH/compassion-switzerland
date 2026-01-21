@@ -104,6 +104,6 @@
         "templates/onboarding_unsubscribe.xml",
     ],
     "demo": [],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

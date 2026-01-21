@@ -9,9 +9,9 @@ import os
 import random
 import string
 import time
+from collections.abc import Callable
 from datetime import datetime, timedelta, timezone
 from http import HTTPStatus
-from typing import Callable, Tuple, Union
 from xmlrpc.client import Fault, ServerProxy
 
 from jwt import AbstractJWKBase
@@ -34,7 +34,7 @@ NO_PASSWORD = "None"
 ACCESS_DENIED_XMLRPC = "Access Denied"
 
 # user_id, access_token, refresh_token, at_exp_datetime
-LoginRespData = Tuple[str, str, str, datetime]
+LoginRespData = tuple[str, str, str, datetime]
 
 
 class TestAuthController(HttpCase):
@@ -113,7 +113,7 @@ class TestAuthController(HttpCase):
         return self.gen_forged_JWT(user_id, USER_REFRESH_AUD)
 
     def setUp(self, *args, **kwargs):
-        super(TestAuthController, self).setUp(*args, **kwargs)
+        super().setUp(*args, **kwargs)
 
         test_user = {"name": "Test User"}
 
@@ -204,9 +204,7 @@ class TestAuthController(HttpCase):
         result = resp.json()["result"]
         self.assertIn("odoo.exceptions.AccessDenied", result)
 
-    def login(
-        self, login_data: dict, raw_response=False
-    ) -> Union[LoginRespData, Response]:
+    def login(self, login_data: dict, raw_response=False) -> LoginRespData | Response:
         resp = self.json_post(AUTH_LOGIN_ROUTE, login_data)
         if raw_response:
             return resp
@@ -222,7 +220,7 @@ class TestAuthController(HttpCase):
 
     def refresh(
         self, refresh_token: str, raw_response=False
-    ) -> Union[Tuple[str, str, str], Response]:
+    ) -> tuple[str, str, str] | Response:
         """Refresh the tokens using /auth/refresh
 
         Args:

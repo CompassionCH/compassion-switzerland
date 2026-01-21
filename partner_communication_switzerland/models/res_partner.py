@@ -10,7 +10,6 @@
 import logging
 import uuid
 from datetime import date, datetime, timedelta
-from typing import List
 
 from dateutil.relativedelta import relativedelta
 from gender_guesser.detector import Detector
@@ -324,7 +323,7 @@ class ResPartner(models.Model):
                 )
             )
 
-    def find_potential_partners_to_archive(self) -> List["ResPartner"]:
+    def find_potential_partners_to_archive(self) -> list["ResPartner"]:
         """Finds the list of partners which meet certain criteria and could be archived.
         This is used to generate the `auto_reminder_archive_partners_template` email.
 

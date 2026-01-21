@@ -58,7 +58,7 @@ class AccountInvoice(models.Model):
         pf_brand = donnation_infos["pf_brand"]
         pf_pm = donnation_infos["pf_pm"]
         if pf_brand != pf_pm:
-            payment_mode = "{}_{}".format(pf_brand, pf_pm)
+            payment_mode = f"{pf_brand}_{pf_pm}"
         else:
             payment_mode = pf_brand
 

@@ -35,7 +35,7 @@ class TestCompletionRulesSwitzerland(TransactionCase):
 
         self.assertTrue("partner_id" in completion_result)
         self.assertTrue("name" in completion_result)
-        self.assertRegexpMatches(completion_result["name"], "Project Gift.*")
+        self.assertRegex(completion_result["name"], "Project Gift.*")
 
     def test_lookup_by_sponsor_name(self):
         statement_line = {"name": " EXPÉDITEUR: Kim Snyder"}

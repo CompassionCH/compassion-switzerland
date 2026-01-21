@@ -1,17 +1,6 @@
 # generated from manifests external_dependencies
-babel
-bs4
-gender_guesser
 pandas
-pandas>=1.5.3
-pdf2image
-postfinancecheckout
 pyminizip
-PyPDF2
 pypng
 pyqrcode
-pyquery
 pysftp
-reportlab[pycairo]
-wand
-yaml

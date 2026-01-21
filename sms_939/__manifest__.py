@@ -51,6 +51,6 @@
     ],
     "demo": ["demo/sms_hook.xml"],
     "development_status": "Beta",
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

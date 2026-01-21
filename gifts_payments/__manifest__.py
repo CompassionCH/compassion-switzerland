@@ -39,6 +39,6 @@
         "gift_compassion",  # compassion-modules/gift_compassion
     ],
     "data": ["views/gifts_payments_view.xml", "views/gifts_payments_results_view.xml"],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

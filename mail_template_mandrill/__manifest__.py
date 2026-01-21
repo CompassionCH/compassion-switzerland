@@ -13,6 +13,6 @@
         "views/mail_template_view.xml",
     ],
     "demo": [],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

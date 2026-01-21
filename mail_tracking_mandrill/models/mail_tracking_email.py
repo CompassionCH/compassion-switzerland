@@ -34,9 +34,7 @@ class MailTrackingEmail(models.Model):
         event = event or {}
         mandrill_event_type = event.get("event")
         if mandrill_event_type not in self._mandrill_event_type_mapping.keys():
-            _logger.error(
-                "Mandrill: event type {} not supported".format(mandrill_event_type)
-            )
+            _logger.error(f"Mandrill: event type {mandrill_event_type} not supported")
             return False
 
         return True

@@ -1,5 +1,4 @@
 import logging
-from typing import List, Tuple
 
 from odoo import registry
 from odoo.exceptions import AccessDenied
@@ -14,7 +13,7 @@ AUTH_LOGOUT_ROUTE = "/auth/logout"
 
 
 class AuthController(Controller):
-    def _validate_fields_as_expected(self, fields: List[str], data: dict) -> None:
+    def _validate_fields_as_expected(self, fields: list[str], data: dict) -> None:
         for f in fields:
             if f not in data:
                 _logger.info(
@@ -54,7 +53,7 @@ class AuthController(Controller):
 
         return {"user_id": user_id, "auth_tokens": user.generate_external_auth_tokens()}
 
-    def _validate_refresh_token(self, request) -> Tuple[str, dict]:
+    def _validate_refresh_token(self, request) -> tuple[str, dict]:
         """Validates that the request contains a valid, authentic refresh token.
 
         Args:

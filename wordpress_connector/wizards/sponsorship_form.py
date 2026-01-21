@@ -20,7 +20,7 @@ class WebsiteSponsorship(models.TransientModel):
     def create(self, vals_list):
         # Notify SDS staff when new sponsorship is made
         records = super().create(vals_list)
-        for form, vals in zip(records, vals_list):
+        for form, vals in zip(records, vals_list, strict=False):
             if form.match_update:
                 # This is step2 when martch_update is True,
                 # we don't need to notify staff

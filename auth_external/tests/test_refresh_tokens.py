@@ -35,7 +35,7 @@ class TestRefreshTokens(TransactionCase):
         return self.env["res.users"].create({"name": f"Name {login}", "login": login})
 
     def setUp(self, *args, **kwargs):
-        super(TestRefreshTokens, self).setUp(*args, **kwargs)
+        super().setUp(*args, **kwargs)
 
         self.test_user = self.create_user()
 

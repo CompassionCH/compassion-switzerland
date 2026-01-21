@@ -51,6 +51,6 @@
         "hr_attendance_report_theoretical_time",  # hr_attendance_report_theoretical_tim
     ],
     "demo": [],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

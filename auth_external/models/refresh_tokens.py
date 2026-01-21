@@ -1,6 +1,7 @@
 import logging
+from collections.abc import Callable
 from datetime import datetime, timezone
-from typing import Callable, List, Optional
+from typing import Optional
 
 from odoo import _, api, fields, models
 
@@ -112,7 +113,7 @@ class RefreshTokens(models.Model):
         # revoke children
         revoke_list(self, lambda rt: rt.child_id)
 
-    def get_parents(self) -> List["RefreshTokens"]:
+    def get_parents(self) -> list["RefreshTokens"]:
         self.ensure_one()
 
         parents = []
@@ -123,7 +124,7 @@ class RefreshTokens(models.Model):
         parents.reverse()  # to get family in right order from root
         return parents
 
-    def get_children(self) -> List["RefreshTokens"]:
+    def get_children(self) -> list["RefreshTokens"]:
         self.ensure_one()
         children = []
         curr = self
@@ -132,7 +133,7 @@ class RefreshTokens(models.Model):
             children.append(curr)
         return children
 
-    def get_family(self) -> List["RefreshTokens"]:
+    def get_family(self) -> list["RefreshTokens"]:
         return [*self.get_parents(), self, *self.get_children()]
 
     def family_str(self) -> str:

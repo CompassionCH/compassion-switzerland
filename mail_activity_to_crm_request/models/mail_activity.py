@@ -21,7 +21,7 @@ class MailActivity(models.Model):
 
     @api.model
     def create(self, values):
-        activity = super(MailActivity, self).create(values)
+        activity = super().create(values)
 
         # Create the schedule activity to support request if the corresponding user
         # option is selected

@@ -47,5 +47,5 @@ class ServerActionMonitor(models.Model):
             except Exception:
                 return 0.0
         parts = match.groups(default="0")
-        h, m, s = [float(p) for p in parts]
+        h, m, s = (float(p) for p in parts)
         return h * 3600 + m * 60 + s

@@ -12,7 +12,7 @@ def serialize_date(date_obj):
     return str(date_obj) if date_obj else None
 
 
-class WPSync(object):
+class WPSync:
     def __init__(self, wp_config):
         """
         wp_config should be defined :
@@ -21,8 +21,8 @@ class WPSync(object):
          - password
         """
         self.wp_config = wp_config
-        self.base_url = "https://{}/wp-json/child-import/v1/".format(wp_config.host)
-        self.jwt_url = "https://{}/wp-json/jwt-auth/v1/".format(wp_config.host)
+        self.base_url = f"https://{wp_config.host}/wp-json/child-import/v1/"
+        self.jwt_url = f"https://{wp_config.host}/wp-json/jwt-auth/v1/"
         self.token = None
         self.authenticate()
 
@@ -40,7 +40,7 @@ class WPSync(object):
             data = response.json()
             self.token = data.get("token")
             if not self.token:
-                raise Exception("No token found in the response : {}".format(data))
+                raise Exception(f"No token found in the response : {data}")
             _logger.info("JWT received.")
         except Exception as e:
             _logger.error(

@@ -62,5 +62,5 @@
         "reports/translation_reports_view.xml",
     ],
     "demo": [],
-    'installable': False,
+    "installable": False,
 }

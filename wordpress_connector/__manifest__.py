@@ -50,6 +50,6 @@
     ],
     "external_dependencies": {"python": ["pysftp", "yaml"]},
     "demo": [],
-    'installable': False,
+    "installable": False,
     "auto_install": True,
 }

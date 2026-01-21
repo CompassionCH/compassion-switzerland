@@ -12,12 +12,12 @@ from io import BytesIO
 from werkzeug.wrappers import Response
 
 try:
-    import xml.etree.cElementTree as etree
+    import xml.etree.ElementTree as etree
 except ImportError:
     import xml.etree.ElementTree as etree
 
 
-class SmsNotificationAnswer(object):
+class SmsNotificationAnswer:
     def __init__(self, messages, costs=None, max_sms_size=0):
         """
         :param messages: list of text messages to return to the sender

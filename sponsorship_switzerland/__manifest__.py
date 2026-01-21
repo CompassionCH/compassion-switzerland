@@ -64,6 +64,6 @@
         "views/gift_compassion_view.xml",
         "views/product_template_view.xml",
     ],
-    'installable': False,
+    "installable": False,
     "auto_install": False,
 }

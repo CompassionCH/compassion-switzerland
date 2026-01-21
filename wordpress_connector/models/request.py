@@ -48,7 +48,7 @@ class CrmWordpressRequest(models.Model):
                     _logger.warning("Could not parse the front matter.", exc_info=True)
                 else:
                     self._parse_front_matter(front_matter, defaults)
-            defaults["description"] = "<pre>{}</pre>".format(desc)
+            defaults["description"] = f"<pre>{desc}</pre>"
 
         defaults.update(custom_values)
 

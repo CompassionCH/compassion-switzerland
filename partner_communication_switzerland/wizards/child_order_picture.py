@@ -104,7 +104,7 @@ class CompassionHold(models.TransientModel):
             with tempfile.NamedTemporaryFile(delete=True) as pdf_temp_file:
                 pdf_temp_file.write(pdf_data)
                 pages = convert_from_path(pdf_temp_file.name)
-                for child, page in zip(children, pages):
+                for child, page in zip(children, pages, strict=False):
                     fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
                     temp_img_path = os.path.join(tempfile.gettempdir(), fname)
                     page.save(temp_img_path, "JPEG")
