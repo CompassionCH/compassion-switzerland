@@ -10,7 +10,7 @@ from odoo import http
 from odoo.http import request
 from odoo.tools import config
 
-from odoo.addons.mail_tracking.controllers.main import MailTrackingController
+from odoo.addons.mail_tracking.controllers.main import MailTrackingController, db_env
 
 _logger = logging.getLogger(__name__)
 
@@ -62,7 +62,7 @@ class MandrillTrackingController(MailTrackingController):
         ).decode()
         if hash_text == signature:
             return True
-        _logger.info("HASH[%s] != SIGNATURE[%s]" % (hash_text, signature))
+        _logger.info(f"HASH[{hash_text}] != SIGNATURE[{signature}]")
         return True
 
     @http.route(
@@ -80,8 +80,14 @@ class MandrillTrackingController(MailTrackingController):
             return "NO_AUTH"
         try:
             kwargs["mandrill_events"] = json.loads(kwargs.get("mandrill_events", "[]"))
-            self.mail_tracking_event(db, **kwargs)
+            metadata = self._request_metadata()
+            with db_env(db) as env:
+                processing_result = env["mail.tracking.email"].event_process(
+                    kwargs, metadata, event_type="mandrill"
+                )
+                if processing_result:
+                    _logger.info("Mandrill processing result: %s", processing_result)
             return "OK"
         except Exception as e:
-            _logger.error(e.args[0] or e.message, exc_info=True)
+            _logger.error(e.args[0] or str(e), exc_info=True)
             return "ERROR"
