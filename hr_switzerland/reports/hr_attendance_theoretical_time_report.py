@@ -22,9 +22,9 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                               then rc.hours_per_day
                             else rc.hours_per_day * hl.number_of_days
                        end as leave_hours,
-                       case 
-	                       when bool_or(hl.request_unit_half) then 0.5 
-	                       else 1                       	
+                       case
+	                       when bool_or(hl.request_unit_half) then 0.5
+	                       else 1
                        end as leave_value
                   FROM hr_leave hl
                  JOIN hr_leave_type hlt
@@ -137,10 +137,10 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                           THEN SUM(ud.theoretical_hours) - SUM(ud.personal_leave_hours)
                         ELSE 0
                    END as theoretical_hours_old,
-                   CASE 
-	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0.5 
+                   CASE
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0.5
 	                      THEN SUM(ud.theoretical_hours) - 4
-	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)> 0.5  
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)> 0.5
     	                  THEN 0
 	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0
         	              THEN SUM(ud.theoretical_hours)
@@ -151,10 +151,10 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                    SUM(ud.theoretical_hours))
                         ELSE SUM(ud.worked_hours)
                    END as difference_old,
-                   SUM(ud.worked_hours) - CASE 
-	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0.5 
+                   SUM(ud.worked_hours) - CASE
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0.5
 	                      THEN SUM(ud.theoretical_hours) - 4
-	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)> 0.5  
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)> 0.5
     	                  THEN 0
 	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0
         	              THEN SUM(ud.theoretical_hours)
