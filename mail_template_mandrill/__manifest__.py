@@ -1,6 +1,7 @@
+# pylint: disable=C8101
 {
     "name": "Mail Template Mandrill",
-    "version": "14.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Mailing",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
@@ -13,6 +14,6 @@
         "views/mail_template_view.xml",
     ],
     "demo": [],
-    "installable": False,
+    "installable": True,
     "auto_install": False,
 }

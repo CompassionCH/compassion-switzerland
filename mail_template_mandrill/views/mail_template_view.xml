@@ -9,10 +9,10 @@
                 <page string="Mailchimp" name="mailchimp">
                     <group>
                         <field name="mailchimp_template_ids">
-                            <tree editable="top">
+                            <list editable="top">
                                 <field name="lang" />
                                 <field name="mailchimp_template" />
-                            </tree>
+                            </list>
                         </field>
                     </group>
                 </page>

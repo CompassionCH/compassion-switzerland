@@ -10,7 +10,6 @@ exclude: |
   ^gifts_payments/|
   ^hr_switzerland/|
   ^mail_activity_to_crm_request/|
-  ^mail_template_mandrill/|
   ^partner_communication_switzerland/|
   ^report_compassion/|
   ^sbc_switzerland/|
