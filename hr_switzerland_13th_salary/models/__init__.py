@@ -8,4 +8,4 @@
 #
 ##############################################################################
 
-from . import models
+from . import hr_contract, hr_payslip

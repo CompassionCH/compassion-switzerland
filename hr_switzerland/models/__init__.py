@@ -8,4 +8,6 @@
 #
 ##############################################################################
 
-from . import hr_contract, hr_employee, hr_payslip, res_users, hr_department
+from . import hr_employee
+from . import hr_department
+from . import res_users

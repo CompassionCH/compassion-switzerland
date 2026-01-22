@@ -28,17 +28,22 @@
 
 # pylint: disable=C8101
 {
-    "name": "Compassion CH - HR Management",
+    "name": "Compassion CH - HR Management 13th Salary",
     "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "data": [
-        "views/res_users_view.xml",
+        "views/hr_payslip_view.xml",
+        "views/hr_contract_view.xml",
+        "data/hr_config.xml",
+        "data/hr.salary.rule.xml",
     ],
     "depends": [
         "hr",
+        "payroll",
+        "payroll_account",  # oca/payroll
     ],
     "demo": [],
     "installable": True,

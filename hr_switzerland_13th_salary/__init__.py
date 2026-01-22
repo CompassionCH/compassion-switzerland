@@ -8,4 +8,4 @@
 #
 ##############################################################################
 
-from . import hr_attendance_theoretical_time_report
+from . import models
