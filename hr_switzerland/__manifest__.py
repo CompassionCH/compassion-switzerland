@@ -34,6 +34,12 @@
     "category": "HR",
     "author": "Emanuel Cino",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
+    "data": [
+        "views/res_users_view.xml",
+    ],
+    "depends": [
+        "hr",
+    ],
     "demo": [],
     "installable": True,
     "auto_install": False,

@@ -41,9 +41,9 @@
         "data/hr.salary.rule.xml",
     ],
     "depends": [
+        "hr",
         "payroll",
         "payroll_account",  # oca/payroll
-        # "hr_payroll_period",  # oca/payroll
     ],
     "demo": [],
     "installable": True,

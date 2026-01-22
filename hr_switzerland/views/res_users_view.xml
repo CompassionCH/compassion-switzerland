@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Add option on user form view -->
+    <record id="view_users_form" model="ir.ui.view">
+        <field name="name">crm.phone.agent.res.users.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <field name="signature" position="after">
+                <field name="digital_signature" widget="image" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="users_preference_form">
+        <field name="name">users.pref.digital.signature</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <group name="signature" position="after">
+                <group name="digital_signature">
+                    <field name="digital_signature" widget="image" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
