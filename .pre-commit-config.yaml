@@ -6,7 +6,6 @@ exclude: |
   ^auth_external/|
   ^bank_statement_import_compassion/|
   ^base_cron_monitor/|
-  ^child_sync_wp/|
   ^gifts_payments/|
   ^mail_activity_to_crm_request/|
   ^partner_communication_switzerland/|

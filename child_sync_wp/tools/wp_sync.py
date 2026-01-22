@@ -4,6 +4,8 @@ import requests
 
 _logger = logging.getLogger(__name__)
 
+REQUESTS_TIMEOUT = 3
+
 
 def serialize_date(date_obj):
     """Convertit un objet date/datetime en chaîne ISO 8601."""
@@ -35,7 +37,9 @@ class WPSync:
                 "password": self.wp_config.password,
             }
             headers = {"Content-Type": "application/json", "Accept": "application/json"}
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.post(
+                url, json=payload, headers=headers, timeout=REQUESTS_TIMEOUT
+            )
             response.raise_for_status()
             data = response.json()
             self.token = data.get("token")
@@ -101,6 +105,7 @@ class WPSync:
                         self.base_url + "add-child",
                         json=payload,
                         headers=self.get_headers(),
+                        timeout=REQUESTS_TIMEOUT,
                     )
                     response.raise_for_status()
                     resp_data = response.json()
@@ -135,6 +140,7 @@ class WPSync:
                 json=payload,
                 headers=self.get_headers(),
                 verify=True,
+                timeout=REQUESTS_TIMEOUT,
             )
             response.raise_for_status()
             res_data = response.json()
@@ -150,6 +156,7 @@ class WPSync:
                 self.base_url + "delete-all-children",
                 headers=self.get_headers(),
                 verify=True,
+                timeout=REQUESTS_TIMEOUT,
             )
             response.raise_for_status()
             res_data = response.json()

@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Sync Compassion Children with Wordpress website",
-    "version": "14.0.0.0.1",
+    "version": "18.0.1.0.0",
     "category": "Compassion",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -39,9 +39,6 @@
         "child_switzerland",
         "wordpress_configuration",
     ],
-    "external_dependencies": {
-        "python": ["pysftp", "wand"],
-    },
     "data": [
         "security/ir.model.access.csv",
         "views/child_on_wordpress_wizard.xml",
@@ -50,6 +47,6 @@
         "data/wordpress_cron.xml",
     ],
     "demo": [],
-    "installable": False,
+    "installable": True,
     "auto_install": False,
 }
