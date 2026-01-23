@@ -33,6 +33,7 @@ TARGET_PRODUCT_IDS = {
     PRODUCT_ID_HEALTH: PRODUCT_DEFAULT_CODE_HEALTH,
 }
 
+
 @openupgrade.migrate()
 def migrate(env, version):
     """
@@ -69,10 +70,10 @@ def migrate(env, version):
     for pid, code in TARGET_PRODUCT_IDS.items():
         cr.execute(
             """
-            SELECT id FROM product_template 
+            SELECT id FROM product_template
             WHERE id = %s AND default_code = %s
             """,
-            (pid, code)
+            (pid, code),
         )
         if cr.fetchone():
             valid_product_ids.append(pid)
@@ -113,7 +114,13 @@ def migrate(env, version):
             if res:
                 old_module, old_name = res
                 openupgrade.rename_xmlids(
-                    cr, [(f"{old_module}.{old_name}", f"my_compassion_switzerland.{new_name}")]
+                    cr,
+                    [
+                        (
+                            f"{old_module}.{old_name}",
+                            f"my_compassion_switzerland.{new_name}",
+                        )
+                    ],
                 )
 
     # -------------------------------------------------------------------------
@@ -161,5 +168,6 @@ def migrate(env, version):
     if info_table_exists:
         if PRODUCT_ID_CHRISTMAS in valid_product_ids:
             cr.execute(
-                "DELETE FROM donation_info_line WHERE donation_id = %s", (PRODUCT_ID_CHRISTMAS,)
+                "DELETE FROM donation_info_line WHERE donation_id = %s",
+                (PRODUCT_ID_CHRISTMAS,),
             )
