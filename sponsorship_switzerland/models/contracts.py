@@ -237,14 +237,15 @@ class RecurringContracts(models.Model):
         old_sponsor_cat_id = self.env.ref(
             "partner_compassion.res_partner_category_old"
         ).id
-        sponsorships = self.filtered(lambda c: "S" in c.type)
+        # This makes sure the smart tags are immediately updated (before daily cron)
+        sponsorships = self.filtered(lambda c: c.type.startswith("S") and c.child_id)
         add_sponsor_vals = {
             "category_id": [(4, sponsor_cat_id), (3, old_sponsor_cat_id)]
         }
         partners = sponsorships.mapped("partner_id") | sponsorships.mapped(
             "correspondent_id"
         )
-        partners.write(add_sponsor_vals)
+        partners.with_context(allow_smart_tag_modification=True).write(add_sponsor_vals)
         return True
 
     def contract_waiting_mandate(self):
@@ -324,7 +325,7 @@ class RecurringContracts(models.Model):
             "partner_compassion.res_partner_category_old"
         ).id
 
-        for sponsorship in self:
+        for sponsorship in self.with_context(allow_smart_tag_modification=True):
             partner_id = sponsorship.partner_id.id
             correspondent_id = sponsorship.correspondent_id.id
             # Partner
@@ -334,7 +335,8 @@ class RecurringContracts(models.Model):
                     ("correspondent_id", "=", partner_id),
                     ("partner_id", "=", partner_id),
                     ("state", "=", "active"),
-                    ("type", "like", "S"),
+                    ("type", "in", ["S", "SC", "SWP"]),
+                    ("child_id", "!=", False),
                 ]
             )
             if not contract_count:
@@ -349,7 +351,8 @@ class RecurringContracts(models.Model):
                     ("correspondent_id", "=", correspondent_id),
                     ("partner_id", "=", correspondent_id),
                     ("state", "=", "active"),
-                    ("type", "like", "S"),
+                    ("type", "in", ["S", "SC", "SWP"]),
+                    ("child_id", "!=", False),
                 ]
             )
             if not contract_count:
