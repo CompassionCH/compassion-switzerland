@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "My Compassion Switzerland",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Website",
     "author": "Daniel Palumbo",
     "development_status": "Beta",
@@ -25,6 +25,7 @@
         "security/ir.model.access.csv",
         "security/access_rules.xml",
         "data/account_payment_mode_data.xml",
+        "data/product_funds_data.xml",
         "views/advocate_engagement_view.xml",
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
