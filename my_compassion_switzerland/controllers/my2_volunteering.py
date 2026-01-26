@@ -67,7 +67,7 @@ class MyCompassionVolunteeringController(http.Controller):
                     # If the partner does not have advocate details, create it
                     partner.advocate_details_id = request.env[
                         "advocate.details"
-                    ].create(
+                    ].sudo().create(
                         {
                             "partner_id": partner.id,
                         }
