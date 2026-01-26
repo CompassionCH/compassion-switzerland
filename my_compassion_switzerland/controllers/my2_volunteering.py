@@ -65,12 +65,14 @@ class MyCompassionVolunteeringController(http.Controller):
             else:
                 if not partner.advocate_details_id:
                     # If the partner does not have advocate details, create it
-                    partner.advocate_details_id = request.env[
-                        "advocate.details"
-                    ].sudo().create(
-                        {
-                            "partner_id": partner.id,
-                        }
+                    partner.advocate_details_id = (
+                        request.env["advocate.details"]
+                        .sudo()
+                        .create(
+                            {
+                                "partner_id": partner.id,
+                            }
+                        )
                     )
                 # Add subscription
                 partner.write({"engagement_ids": [(4, prayer_engagement.id)]})
