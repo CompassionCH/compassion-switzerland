@@ -247,3 +247,33 @@ msgstr "accompagnamento psicosociale e spirituale"
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after4
 msgid "Training to generate a sustainable income in the long term."
 msgstr "formazione per consentire loro di generare un reddito a lungo termine"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_gen
+msgid "General Gift"
+msgstr "Regalo generico"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_gen
+msgid "Would you like to send an extra gift to your sponsored child? You can do this at any time— “just because” you want to make them happy, or to offer support during difficult times such as illness or a natural disaster."
+msgstr "Desideri fare un regalo supplementare al bambino che sostieni? Puoi cogliere questa opportunità senza un motivo particolare, semplicemente per fare un bel gesto nei confronti del bambino che sostieni, oppure nel caso in cui ricevi notizie preoccupanti, come una malattia, una catastrofe naturale, ecc."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_family
+msgid "Family Gift"
+msgstr "Regalo per la famiglia"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_family
+msgid "You have the opportunity to send a gift directly to your sponsored child's family. With guidance from Child Development Center staff, the family identifies how to use the funds most effectively to meet their specific needs. These gifts are a tremendous blessing. They often allow families to purchase income-generating items such as livestock, farming tools, or a sewing machine, helping them build a more secure future."
+msgstr "Hai la possibilità di fare un regalo alla famiglia del bambino che sostieni. Un collaboratore del centro di accoglienza offrirà loro consigli su come utilizzare il denaro. Questi regali sono generalmente una grande benedizione per la famiglia, che può investirli, ad esempio, in attrezzature agricole o per una falegnameria, in una macchina da cucire, ecc."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_birthday
+msgid "Birthday Gift"
+msgstr "Regalo di compleanno"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_birthday
+msgid "You have the opportunity to make your sponsored child's birthday extra special with a personal gift. We recommend sending your donation and birthday letter about 3 months in advance (look out for our email reminder) to ensure your child receives the gift on their special day. You will often receive a thank-you letter later, sharing exactly what was purchased with your gift."
+msgstr "Hai la possibilità di fare un regalo più personale per il compleanno del bambino che sostieni. Ti consigliamo di effettuare il pagamento e di inviare la lettera di auguri con circa 3 mesi di anticipo (al ricevimento dell'e-mail di promemoria), in modo da assicurarti che il bambino che sostieni riceva il tuo regalo il giorno del suo compleanno. Nella maggior parte dei casi, riceverai una lettera di ringraziamento che specifica l'acquisto effettuato con la tua donazione."
