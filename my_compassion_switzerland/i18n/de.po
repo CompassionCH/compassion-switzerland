@@ -249,6 +249,36 @@ msgid "Training to generate a sustainable income in the long term."
 msgstr "Schulungen, um langfristig ein eigenes Einkommen zu erzielen"
 
 #. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_gen
+msgid "General Gift"
+msgstr "Allgemeines Geschenk"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_gen
+msgid "Would you like to send an extra gift to your sponsored child? You can do this at any time— “just because” you want to make them happy, or to offer support during difficult times such as illness or a natural disaster."
+msgstr "Möchtest du deinem Patenkind ein zusätzliches Geschenk machen? Du kannst das jederzeit tun – einfach, um ihm eine kleine Freude zu bereiten oder um es in schwierigen Zeiten zu unterstützen, zum Beispiel bei Krankheit, Naturkatastrophen oder anderen schwierigen Situationen."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_family
+msgid "Family Gift"
+msgstr "Familiengeschenk"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_family
+msgid "You have the opportunity to send a gift directly to your sponsored child's family. With guidance from Child Development Center staff, the family identifies how to use the funds most effectively to meet their specific needs. These gifts are a tremendous blessing. They often allow families to purchase income-generating items such as livestock, farming tools, or a sewing machine, helping them build a more secure future."
+msgstr "Du kannst der Familie deines Patenkindes direkt ein Geschenk machen. Die Mitarbeitenden des Kinderzentrums beraten die Familie dabei, wie das Geld sinnvoll eingesetzt werden kann. Diese Geschenke sind für die Familie oft ein grosser Segen. Sie ermöglichen zum Beispiel den Kauf von landwirtschaftlichen Geräten oder wichtigen Arbeitsmitteln wie Werkzeug für eine Schreinerei oder eine Nähmaschine. So hilfst du mit, die Lebensgrundlage der Familie zu stärken."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_birthday
+msgid "Birthday Gift"
+msgstr "Geburtstagsgeschenk"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_birthday
+msgid "You have the opportunity to make your sponsored child's birthday extra special with a personal gift. We recommend sending your donation and birthday letter about 3 months in advance (look out for our email reminder) to ensure your child receives the gift on their special day. You will often receive a thank-you letter later, sharing exactly what was purchased with your gift."
+msgstr "Zum Geburtstag kannst du deinem Patenkind ein persönliches Geschenk machen. Am besten machst du die Überweisung und schreibst deinen Geburtstagsbrief etwa drei Monate im Voraus – du bekommst dazu eine Erinnerung von uns per E-Mail. So stellst du sicher, dass dein Patenkind dein Geschenk rechtzeitig zum Geburtstag erhält. Oft schreibt dir dein Patenkind später, was es als Geschenk bekommen hat."
+
+#. module: my_compassion_switzerland
 #: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_church
 #: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_church
 msgid "Become a Church Advocate"
