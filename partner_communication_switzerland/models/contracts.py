@@ -383,9 +383,11 @@ class RecurringContract(models.Model):
             and c not in mandates_valid
         )
         if new_sponsorships:
+            # Invoices must be generated before sending the dossier
             new_sponsorships.with_delay(
                 channel="root.partner_communication",
                 identity_key=f"{self._name}.send_new_dossier.{new_sponsorships.ids}",
+                eta=fields.Datetime.now() + relativedelta(seconds=3),
             )._new_dossier()
 
         csp = self.filtered(
@@ -400,6 +402,7 @@ class RecurringContract(models.Model):
                 csp.with_delay(
                     channel="root.partner_communication",
                     identity_key=f"{self._name}.send_csp_mail.{csp.ids}",
+                    eta=fields.Datetime.now() + relativedelta(seconds=3),
                 ).send_communication(other_csp_config, correspondent=False)
             )
 

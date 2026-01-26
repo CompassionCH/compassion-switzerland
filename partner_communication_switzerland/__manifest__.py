@@ -46,6 +46,7 @@
         "recurring_contract",  # compassion-accounting
         "survival_sponsorship_compassion",
         "link_tracker",
+        "partner_communication_compassion",
     ],
     "external_dependencies": {
         "python": [

@@ -21,7 +21,11 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                        case when hl.number_of_days > 1
                               then rc.hours_per_day
                             else rc.hours_per_day * hl.number_of_days
-                       end as leave_hours
+                       end as leave_hours,
+                       case
+	                       when bool_or(hl.request_unit_half) then 0.5
+	                       else 1
+                       end as leave_value
                   FROM hr_leave hl
                  JOIN hr_leave_type hlt
                    ON hlt.id = hl.holiday_status_id
@@ -104,21 +108,24 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                        date,
                        theoretical_hours,
                        0 as worked_hours,
-                       0 as personal_leave_hours
+                       0 as personal_leave_hours,
+                       0 as leave_value
                   FROM daily_theoretical_hours
                 UNION ALL
                 SELECT employee_id,
                        date,
                        0 as theoretical_hours,
                        worked_hours,
-                       0 as personal_leave_hours
+                       0 as personal_leave_hours,
+                       0 as leave_value
                   FROM daily_worked_hours
                 UNION ALL
                 SELECT employee_id,
                        date,
                        0 as theoretical_hours,
                        0 as worked_hours,
-                       leave_hours as personal_leave_hours
+                       leave_hours as personal_leave_hours,
+                       leave_value
                   FROM daily_leave_hours
             )
             SELECT ROW_NUMBER() OVER() AS id,
@@ -129,11 +136,29 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
                    CASE WHEN SUM(ud.theoretical_hours) > 0
                           THEN SUM(ud.theoretical_hours) - SUM(ud.personal_leave_hours)
                         ELSE 0
+                   END as theoretical_hours_old,
+                   CASE
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0.5
+	                      THEN SUM(ud.theoretical_hours) - 4
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)> 0.5
+    	                  THEN 0
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0
+        	              THEN SUM(ud.theoretical_hours)
+        	            ELSE 0
                    END as theoretical_hours,
                    CASE WHEN SUM(ud.theoretical_hours) > 0
                    THEN (SUM(ud.worked_hours) + SUM(ud.personal_leave_hours) -
                    SUM(ud.theoretical_hours))
                         ELSE SUM(ud.worked_hours)
+                   END as difference_old,
+                   SUM(ud.worked_hours) - CASE
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0.5
+	                      THEN SUM(ud.theoretical_hours) - 4
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)> 0.5
+    	                  THEN 0
+	                  WHEN SUM(ud.theoretical_hours) > 0 and sum(leave_value)= 0
+        	              THEN SUM(ud.theoretical_hours)
+        	            ELSE 0
                    END as difference
               FROM unioned_data ud
               JOIN hr_employee he ON ud.employee_id = he.id

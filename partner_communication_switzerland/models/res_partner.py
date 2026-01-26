@@ -258,7 +258,6 @@ class ResPartner(models.Model):
                 "tax_certificate": (
                     "no" if self.tax_certificate == "no" else "only_email"
                 ),
-                "calendar": False,
                 "sponsorship_anniversary_card": False,
             }
             for _field in [
@@ -274,7 +273,7 @@ class ResPartner(models.Model):
                     vals[_field] = "digital_only"
             self.write(vals)
         else:
-            vals = {"calendar": True, "sponsorship_anniversary_card": True}
+            vals = {"sponsorship_anniversary_card": True}
             for _field in [
                 "global_communication_delivery_preference",
                 "letter_delivery_preference",
@@ -443,26 +442,35 @@ class ResPartner(models.Model):
         today = date.today()
         start_date = today.replace(today.year - 1, 1, 1)
         end_date = today.replace(today.year - 1, 12, 31)
-        invoice_lines = self.env["account.move.line"].search(
-            [
-                ("last_payment", ">=", start_date),
-                ("last_payment", "<=", end_date),
-                ("payment_state", "=", "paid"),
-                ("product_id.requires_thankyou", "=", True),
-                ("partner_id.tax_certificate", "!=", "no"),
-            ]
-        )
         config = self.env.ref("partner_communication_switzerland.tax_receipt_config")
-        existing_comm = self.env["partner.communication.job"].search(
-            [
-                ("config_id", "=", config.id),
-                ("state", "in", ["pending", "done", "failure"]),
-                ("date", ">", end_date),
-            ]
+        self.env.cr.execute(
+            """
+            SELECT DISTINCT COALESCE(rp.commercial_partner_id, rp.id)
+                                AS commercial_partner_id
+              FROM account_move_line aml
+              JOIN res_partner rp ON rp.id = aml.partner_id
+              JOIN product_product pp ON pp.id = aml.product_id
+              JOIN product_template pt ON pt.id = pp.product_tmpl_id
+         LEFT JOIN product_category pc ON pc.id = pt.categ_id
+             WHERE aml.last_payment >= %s
+               AND aml.last_payment <= %s
+               AND aml.payment_state = 'paid'
+               AND pt.requires_thankyou = TRUE
+               AND COALESCE(rp.tax_certificate, '') <> 'no'
+               AND COALESCE(pc.name, '') <> 'Sponsorship'
+               AND NOT EXISTS (
+                    SELECT 1
+                      FROM partner_communication_job pcj
+                     WHERE pcj.config_id = %s
+                       AND pcj.state IN ('pending', 'done', 'failure')
+                       AND pcj.date > %s
+                       AND pcj.partner_id = COALESCE(rp.commercial_partner_id, rp.id)
+               )
+            """,
+            (start_date, end_date, config.id, end_date),
         )
-        partners = invoice_lines.mapped(
-            "partner_id.commercial_partner_id"
-        ) - existing_comm.mapped("partner_id")
+        partner_ids = [row[0] for row in self.env.cr.fetchall()]
+        partners = self.env["res.partner"].browse(partner_ids)
         partners.delayable()._generate_tax_receipt_jobs(config).set(
             priority=50, channel="root.partner_communication"
         ).split(50, chain=True).delay()

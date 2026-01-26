@@ -1,4 +1,254 @@
 #. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_fund_wtp
+msgid "Clean Water"
+msgstr "Fonds de l'eau pour les enfants"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_wtp
+msgid "Clean water and safe sanitation are crucial for a child's healthy development. That is why Compassion is committed to building wells, latrines, and sanitary facilities in Child Development Centers and local communities."
+msgstr "L’accès à l’eau potable et aux toilettes sûres joue un rôle déterminant dans le développement de l’enfant. Compassion s’engage à construire des puits, des toilettes et des blocs sanitaires dans les centres de développement de l’enfant ou pour les populations locales."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_before1
+msgid "2.2 billion people lack access to safe drinking water."
+msgstr "2,2 milliards de personnes n’ont pas accès à de l’eau potable."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_before2
+msgid "494 million people still use inadequate sanitation facilities or practice open defecation."
+msgstr "494 millions de personnes utilisent encore des installations sanitaires insuffisantes ou font leurs besoins en plein air."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_before3
+msgid "Just CHF 30.– is enough to provide a child with access to a safe toilet."
+msgstr "Seulement CHF 30.- suffisent pour permettre à un enfant d’accéder à des toilettes sûres."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after1
+msgid "Build wells and water tanks that give children, their families, and entire communities vital access to clean water."
+msgstr "Construire des puits et des réservoirs d’eau pour offrir aux enfants, à leurs familles et à l’ensemble des communautés un accès vital à l’eau potable."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after2
+msgid "Construct safe toilet facilities so that children—especially girls—have access to protected and dignified sanitation."
+msgstr "Installer des toilettes sûres et dignes pour que les enfants – en particulier les filles – disposent d’installations sanitaires protégées."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after3
+msgid "Keep children in class, as they no longer have to spend hours walking to fetch water."
+msgstr "Permettre aux enfants de poursuivre leur scolarité, car ils n’ont plus à passer des heures à aller chercher de l’eau."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_fund_usp
+msgid "Children Waiting for a Sponsor"
+msgstr "Enfants en attente de parrainage"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_usp
+msgid "Compassion staff on the ground identify highly vulnerable families and offer them the chance to register a child at the local Child Development Center. There, children receive support, protection, and loving care even before a sponsor is found. This fund covers program costs for children during this waiting period, ensuring they don't miss out on vital activities."
+msgstr "Les travailleurs sociaux identifient les familles les plus vulnérables et leur proposent le soutien d’un de leurs enfants. Ce dernier commence dès lors à fréquenter les activités du centre local de développement de l’enfant. Ce fonds permet de financer les activités aux enfants en attendant que Compassion leur trouve un donateur régulier."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before1
+msgid "Currently, over 400 million children worldwide live in extreme poverty on less than $2.15 a day."
+msgstr "Actuellement, plus de 400 millions d’enfants dans le monde vivent dans l’extrême pauvreté avec moins de 2,50 CHF par jour."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before2
+msgid "305,000 children are currently participating in the Compassion program while waiting for a sponsor."
+msgstr "305’000 enfants participent actuellement au programme de Compassion et attendent encore un parrain ou une marraine."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before3
+msgid "The average wait time to be matched with a sponsor is around 180 days."
+msgstr "Le temps moyen d’attente pour être soutenu par un parrain ou une marraine est d’environ 180 jours."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
+msgid "These children can fully participate in the Compassion program and center activities."
+msgstr "Les enfants peuvent participer au programme et aux activités du centre de développement de l’enfant."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after2
+msgid "Children receive support, protection, and loving care while they wait for a sponsor."
+msgstr "Les enfants bénéficient d’un encadrement complet, de repas nourrissants et de soins, même avant le début du parrainage."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:my_compassion_switzerland.product_template_fund_hea
+msgid "Medical Assistance"
+msgstr "Aide médicale"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_hea
+msgid "Compassion provides children with access to vital medical care—from surgeries and procedures to equipping facilities for children with disabilities. Thanks to donations, our local church partners can procure medicines and conduct prevention campaigns, such as those against malaria."
+msgstr "Ce fonds permet de financer des interventions chirurgicales ou médicales aux enfants ou des installations pour des enfants handicapés par exemple. Grâce aux dons, nos Églises partenaires locales peuvent se procurer des médicaments et mener des campagnes de prévention, par exemple contre le paludisme."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_before1
+msgid "Almost every minute, a child dies from malaria."
+msgstr "Presque toutes les minutes, un enfant meurt du paludisme."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_before2
+msgid "In 2023, 4.8 million children under the age of 5 died from preventable or treatable causes."
+msgstr "En 2023, 4,8 millions d’enfants de moins de 5 ans sont morts de causes évitables ou pouvant être soignées."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after1
+msgid "Medical support in countries without health insurance systems."
+msgstr "D’un soutien médical essentiel dans les pays où l’assurance maladie n’existe pas"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after2
+msgid "Health check-ups and medical treatments."
+msgstr "De contrôles de santé et de traitements médicaux"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after3
+msgid "Access to critical prevention programs."
+msgstr "D’un accès à des programmes de prévention"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:my_compassion_switzerland.product_template_fund_fda
+msgid "Food Fund"
+msgstr "Aide alimentaire"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_fda
+msgid "Droughts, crop failures, conflict, and rising prices—for families in extreme poverty, food is becoming less affordable or is often barely available. Through the Food Fund, Compassion steps in during times of shortage. This ensures sponsored children have enough to eat—and not just them, but their parents and siblings too."
+msgstr "Sécheresses et mauvaises récoltes, conflits et hausse des prix – pour les familles vivant dans l’extrême pauvreté, la nourriture devient de moins en moins abordable et l’insécurité alimentaire atteint un niveau critique. Grâce au programme d’aide alimentaire, Compassion intervient en période de pénurie. Ainsi, les enfants et leur famille ont suffisamment à manger."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before1
+msgid "Food security is a major challenge in many countries in the Global South."
+msgstr "La sécurité alimentaire est un enjeu de taille dans de nombreux pays du Sud."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before2
+msgid "Many families often do not know if or what they will eat tomorrow."
+msgstr "De nombreuses familles ne savent si et qu’est-ce qu’elles vont manger demain."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_after1
+msgid "Distribute food supplies to families in critical situations."
+msgstr "Distribuer des réserves alimentaires aux familles les plus fragiles."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_after2
+msgid "Provide vulnerable families with seeds, fertilizer, and livestock, and offer training in self-sufficient farming."
+msgstr "Fournir aux familles des semences, des engrais et du bétail, et proposer des formations à l’agriculture de subsistance."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:my_compassion_switzerland.product_template_fund_dis
+msgid "Disaster Relief Fund"
+msgstr "Fonds humanitaire d’urgence"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_dis
+msgid "Compassion’s church partners are deeply rooted in their communities, allowing them to respond quickly and effectively to disasters. Our Disaster Relief Fund provides centers and affected families with immediate aid, essential supplies, and safe shelter right after a crisis strikes."
+msgstr "Les églises partenaires de Compassion sont profondément ancrées localement, ce qui leur permet de réagir rapidement et efficacement en cas de catastrophe. Notre Fonds humanitaire d’urgence fournit aux centres de Compassion et aux familles touchées une aide immédiate, des biens essentiels et des abris sûrs dès qu’un sinistre survient."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_before1
+msgid "Weather-related disasters have increased fivefold in the last 50 years."
+msgstr "Les catastrophes climatiques ont quintuplé en 50 ans."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_before2
+msgid "Every year, millions of people worldwide face emergencies due to extreme weather events, which often destroy basic necessities like water, food, shelter, and healthcare access."
+msgstr "Chaque année, elles privent des millions de personnes de besoins essentiels comme l’eau, la nourriture, un logement sûr et l’accès aux soins médicaux."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after1
+msgid "Provide families in acute crisis with emergency shelter, medical care, food, and clean water."
+msgstr "Fournir aux familles en situation d’urgence des abris temporaires, une aide médicale, de la nourriture et de l’eau potable."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after2
+msgid "Develop sustainable reconstruction plans with local partners to establish long-term stability."
+msgstr "Développer, en partenariat avec les acteurs locaux, des plans de reconstruction durables pour créer une stabilité à long terme."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_fund_nol
+msgid "Christmas Gifts"
+msgstr "Cadeaux de Noël"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_nol
+msgid "Every child in the Compassion program should experience the joy of opening a gift at Christmas. Your donation makes this possible!"
+msgstr "Chaque enfant participant au programme de Compassion doit avoir la joie d’ouvrir un cadeau à Noël. Grâce à votre don, vous rendez cela possible !"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info1
+msgid "A gift for every child"
+msgstr "Un cadeau pour chaque enfant"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info1
+msgid "Your donation ensures your sponsored child receives a Christmas gift. You are also welcome to donate extra to provide gifts for unsponsored children, ensuring that every one of the 2.3 million children in our program receives a gift."
+msgstr "Grâce à votre don, votre filleul(e) reçoit un cadeau de Noël. Vous pouvez également faire un don supplémentaire pour offrir un cadeau à d’autres enfants, afin que chacun des 2,3 millions d’enfants soutenus au travers de Compassion en reçoive un."
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info2
+msgid "Meaningful and personal"
+msgstr "Un cadeau qui a du sens"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info2
+msgid "Staff at the Child Development Centers know every child well. They choose gifts that bring joy while meeting the children's specific needs. Some children receive a toy, others clothing or a warm blanket. Still others might receive a goat for milk or food supplies for the whole family."
+msgstr "Les collaborateurs de nos centres de développement de l’enfant connaissent personnellement les enfants et achètent un cadeau de Noël adapté, personnel, significatif et utile pour que chacun/e. Une belle façon de leur dire qu’ils ont de la valeur! Les cadeaux aident à couvrir des besoins vitaux là où c’est nécessaire et peuvent inclure par exemple des vêtements ou des chaussure, un animal de ferme, des produits d’hygiène ou du matériel scolaire."
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info3
+msgid "Lighting up children\'s eyes"
+msgstr "Des yeux d’enfants qui brillent"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info3
+msgid "At the Compassion Child Development Center in northern Peru, the Christmas party is one of the highlights of the year. Carefully prepared by Compassion staff, the celebration is an unforgettable day for the children and their families—full of laughter, gratitude, hope, and genuine community. Yamile (pictured) beams over her Christmas gift, which would not be possible without donations."
+msgstr "Dans un de nos centres de développement de l’enfant dans le nord du Pérou, la fête de Noël est l’un des plus beaux moments de l’année. L’événement est soigneusement préparé par les collaborateurs du centre et représente pour les enfants et leurs familles une journée inoubliable, pleine de rires, de gratitude, d’espoir et avec un véritable esprit de communauté. Yamile (sur la photo) rayonne devant son cadeau de Noël, rendu possible uniquement grâce à vos dons."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_fund_csp
+msgid "Helping Mothers and Babies"
+msgstr "Protéger les mamans et les bébés"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_csp
+msgid "To ensure babies get a healthy start in life, Compassion’s Survival Program supports mothers before and after birth through counseling, medical care, and individual support."
+msgstr "Pour offrir aux bébés un départ sain dans la vie, le programme de survie de Compassion soutient les mères avant et après la naissance grâce à des conseils, des soins médicaux et un accompagnement individualisé."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_before1
+msgid "Every year, more than 2.3 million children die before their 28th day of life."
+msgstr "Chaque année, plus de 2,3 millions d’enfants meurent avant leur 28ᵉ jour de vie"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_before2
+msgid "Over 260,000 women lose their lives during childbirth annually."
+msgstr "Plus de 260’000 femmes perdent la vie lors de l’accouchement"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after1
+msgid "Medical care during pregnancy, childbirth, and the child\'s first year of life."
+msgstr "soins médicaux pendant la grossesse, l’accouchement et la première année de vie de l’enfant"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after2
+msgid "Nutritious food."
+msgstr "aliments nutritifs"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after3
+msgid "Psychosocial and spiritual support."
+msgstr "accompagnement psychosocial et spirituel"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after4
+msgid "Training to generate a sustainable income in the long term."
+msgstr "formations pour leur permettre, à long terme, de générer un revenu"
+
+#. module: my_compassion_switzerland
 #: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_church
 #: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_church
 msgid "Become a Church Advocate"

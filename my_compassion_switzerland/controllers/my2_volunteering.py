@@ -98,19 +98,25 @@ class MyCompassionVolunteeringController(http.Controller):
     )
     def my2_volunteering_register(self, **kwargs):
         data = kwargs.get("data", {})
-        required_fields = ["title", "firstname", "lastname", "email", "phone_number"]
+        required_fields = [
+            "title",
+            "firstname",
+            "lastname",
+            "email",
+            "phone_number",
+            "volunteer_roles",
+        ]
         if not all(data.get(field) for field in required_fields):
             return {"success": False, "error": "Missing required fields"}
 
         lang = (data.get("lang") or "").lower()
         lang_code = lang.split("_")[0] if "_" in lang else lang
 
-        recipients = {
-            "fr": "site_fr_participate@compassion.ch",
-            "it": "site_it_participate@compassion.ch",
-            "de": "site_de_participate@compassion.ch",
-        }
-        email_to = recipients.get(lang_code, "site_de_participate@compassion.ch")
+        # Fetch the appropriate recipient email based on the language as a dictionary
+        recipients = request.env[
+            "res.config.settings"
+        ].get_advocate_engagement_recipients()
+        email_to = recipients.get(lang_code) or recipients["default"]
 
         # Send the mail template with context data
         template = (
