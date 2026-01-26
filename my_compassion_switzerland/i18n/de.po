@@ -277,3 +277,69 @@ msgstr "Geburtstagsgeschenk"
 #: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_birthday
 msgid "You have the opportunity to make your sponsored child's birthday extra special with a personal gift. We recommend sending your donation and birthday letter about 3 months in advance (look out for our email reminder) to ensure your child receives the gift on their special day. You will often receive a thank-you letter later, sharing exactly what was purchased with your gift."
 msgstr "Zum Geburtstag kannst du deinem Patenkind ein persönliches Geschenk machen. Am besten machst du die Überweisung und schreibst deinen Geburtstagsbrief etwa drei Monate im Voraus – du bekommst dazu eine Erinnerung von uns per E-Mail. So stellst du sicher, dass dein Patenkind dein Geschenk rechtzeitig zum Geburtstag erhält. Oft schreibt dir dein Patenkind später, was es als Geschenk bekommen hat."
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_church
+#: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_church
+msgid "Become a Church Advocate"
+msgstr "Botschafter/in in deiner Kirche"
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_church
+msgid "Would you like to be a voice for underprivileged children within your church and help raise awareness among Christians about poverty and injustice in the Global South? We are looking for one church advocate per church in Switzerland. As an advocate, you will coordinate Compassion’s presence within the church—home groups, youth ministries, and Sunday school—working in collaboration with church leaders. We provide a wide range of resources to support you, including presentations, videos, Sunday school materials, and event announcements. This is a valuable opportunity to respond to Jesus’ call to care for the most vulnerable and the least of these."
+msgstr "Möchtest du die Stimme für benachteiligte Kinder in deiner Kirche sein und andere für die Themen Armut und Ungerechtigkeit im globalen Süden sensibilisieren? Dann suchen wir genau dich – als Compassion-Botschafter/in in deiner Kirche! In Absprache mit deiner Kirchenleitung organisierst du eine Compassion-Präsenz in deiner Kirche, einer Hausgruppe, Jugendgruppe oder Sonntagsschule. Wir stellen dir dabei hilfreiche Materialien zur Verfügung, z.B. Präsentationen, Filmclips, Inhalte für die Sonntagsschule, etc.. So hast du die Möglichkeit, dem Auftrag Jesu zu folgen und dich für die Ärmsten und Kleinsten einzusetzen."
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_event
+#: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_event
+msgid "Events & Church Services"
+msgstr "Events & Gottesdienste"
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_event
+msgid "We are looking for volunteers to stand up for children who have no voice of their own. Become a voice that can make a real difference for underprivileged children around the world. Concerts, conferences, and church presentations offer excellent opportunities to share your own experience as a sponsor and inspire others with your passion for releasing children from extreme poverty."
+msgstr "Kommst du gerne mit Menschen ins Gespräch? Sei vor Ort mit dabei und unterstütze das Compassion-Team am Infostand bei Kongressen, Konzerten und Gottesdiensten in deiner Nähe. Diese Anlässe bieten dir die perfekte Gelegenheit, deine Erfahrungen als Patin/Pate zu teilen und andere mit deiner Leidenschaft für Kinder in extremer Armut zu inspirieren."
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_sport
+#: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_sport
+msgid "Sports for Children"
+msgstr "Sportlicher Einsatz für Kinder"
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_sport
+msgid "Is sport an important part of your life? Turn your passion into action by taking part in a muskathlon—whether a marathon, ultra walk, road cycling, or mountain biking—or another sporting event organized by Compassion."
+msgstr "Sport gehört zu deinem Alltag? Dann verbinde deine Leidenschaft mit einer guten Sache: Nimm an einem Muskathlon (Marathon, Ultra-Walk, Rennvelo- oder Mountainbike-Rennen usw.) oder an einem anderen Sportevent teil, das Compassion organisiert."
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_pray
+#: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_pray
+msgid "Pray with Compassion"
+msgstr "Gebet"
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_pray
+msgid "Our prayers can make a powerful difference in the lives of children and families living in extreme poverty. Receive regular prayer points to guide your intercession for underprivileged children, Compassion’s partner churches across the Global South, and the challenges Compassion faces in Switzerland."
+msgstr "Unsere Gebete machen einen grossen Unterschied im Leben von Kindern und Familien, die in extremer Armut leben. Erhalte monatlich unsere Gebetsanliegen und bete mit uns für Kinder in Armut, für unsere 8700 Partnerkirchen und für die Herausforderungen von Compassion in der Schweiz."
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_translation
+#: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_translation
+msgid "Letter Translation"
+msgstr "Briefe übersetzen"
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_translation
+msgid "Help build a meaningful connection between sponsors and children. Around 30% of the letters exchanged between sponsored children and sponsors require translation. If you are confident in a foreign language (German, English, Spanish, or Portuguese), this meaningful role allows you to read children’s letters and discover a core element of our work: the life-changing relationship of encouragement between a sponsor and a child."
+msgstr "Bist du gut mit Sprachen (Deutsch, Französisch, Englisch, Spanisch oder Portugiesisch)? Unsere Übersetzer/innen bilden die wichtige Brücke zwischen Paten und Kindern, denn rund 30% aller Briefe müssen übersetzt werden. Als Übersetzer/in erhältst du Einblick in die wunderbaren Briefe der Patenkinder und bist ganz nah am Herzen unserer Arbeit: der ermutigenden, persönlichen Beziehung zwischen Kindern und ihren Paten, die so viel bewirkt."
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_alt_text:partner_compassion.engagement_together
+#: model:advocate.engagement,my_compassion_label:partner_compassion.engagement_together
+msgid "Fundraising Campaigns"
+msgstr "Fundraising-Aktion starten"
+
+#. module: my_compassion_switzerland
+#: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_together
+msgid "TOGETHER is Compassion’s fundraising platform. Anyone can start their own fundraising campaign—individually or as part of a group project—to support development projects implemented by Compassion in the Global South. In just a few clicks, you can launch your own campaign, set a fundraising goal, and choose an end date. You can then invite family and friends via email, Facebook, Instagram, WhatsApp, and other channels to support your fundraising goal through financial contributions."
+msgstr "TOGETHER ist die Fundraising-Plattform von Compassion, auf der jede/r eine Spendenaktion starten kann – allein oder als Teil einer Gruppe – zur Unterstützung von Entwicklungsprojekten, die Compassion im globalen Süden umsetzt. Mit nur wenigen Klicks erstellst du deine persönliche Aktion: Du legst dein Spendenziel fest, wählst ein Enddatum und lädst dann Familie und Freunde ein, deine Aktion mit einer Spende zu unterstützen."
