@@ -621,7 +621,7 @@
             </field>
             <!-- MyCompassion tab -->
             <field name="activate_for_my_compassion" eval="True" />
-            <field name="my_compassion_donation_type">gift</field>
+            <field name="my_compassion_donation_type">fund</field>
             <field name="my_compassion_name">Christmas Gifts</field>
             <field
         name="my_compassion_color"
