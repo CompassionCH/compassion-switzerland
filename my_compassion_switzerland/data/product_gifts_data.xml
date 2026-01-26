@@ -40,7 +40,7 @@
             <field
         name="my_compassion_image"
         type="base64"
-        file="my_compassion_switzerland/static/src/img/general_gift_image.png"
+        file="my_compassion_switzerland/static/src/img/gift/general_gift_image.png"
       />
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="False" />
@@ -94,7 +94,7 @@
             <field
         name="my_compassion_image"
         type="base64"
-        file="my_compassion_switzerland/static/src/img/family_gift_image.png"
+        file="my_compassion_switzerland/static/src/img/gift/family_gift_image.png"
       />
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="False" />
@@ -147,7 +147,7 @@
             <field
         name="my_compassion_image"
         type="base64"
-        file="my_compassion_switzerland/static/src/img/birthday_gift_image.png"
+        file="my_compassion_switzerland/static/src/img/gift/birthday_gift_image.png"
       />
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="False" />
