@@ -2,30 +2,49 @@
 <odoo>
     <!-- GENERAL GIFT -->
     <data noupdate="0">
-        <record id="sponsorship_switzerland.product_template_gift_gen" model="product.template">
+        <record
+      id="sponsorship_switzerland.product_template_gift_gen"
+      model="product.template"
+    >
             <field name="name">General Gift</field>
             <!-- Header information -->
             <field name="sale_ok" eval="True" />
             <field name="purchase_ok" eval="True" />
             <!-- General information tab -->
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift"/>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
             <field name="default_code">gift_gen</field>
             <field name="list_price">1.00</field>
             <!-- MyCompassion tab -->
-            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_donation_type">gift</field>
             <field name="my_compassion_name">General Gift</field>
-            <field name="my_compassion_color" ref="theme_compassion_2025.mid_brown"/>
-            <field name="my_compassion_pictogram" ref="theme_compassion_2025.pictogram_gift_donation_general"/>
-            <field name="my_compassion_description" eval="'Would you like to send an '
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_brown"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_gift_donation_general"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Would you like to send an '
             'extra gift to your sponsored child? You can do this at any time— “just '
             'because” you want to make them happy, or to offer support during '
-            'difficult times such as illness or a natural disaster.'"/>
-            <field name="my_compassion_image" type="base64" file="my_compassion_switzerland/static/src/img/general_gift_image.png"/>
-            <field name="my_compassion_show_impact_statement" eval="False"/>
-            <field name="my_compassion_show_info" eval="False"/>
-            <field name="my_compassion_show_testimony" eval="False"/>
+            'difficult times such as illness or a natural disaster.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/general_gift_image.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="False" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
             <field name="my_compassion_donation_quantity_low">20</field>
             <field name="my_compassion_donation_quantity_medium">50</field>
             <field name="my_compassion_donation_quantity_high">100</field>
@@ -34,33 +53,52 @@
 
     <!-- FAMILY GIFT -->
     <data noupdate="0">
-        <record id="sponsorship_switzerland.product_template_gift_family" model="product.template">
+        <record
+      id="sponsorship_switzerland.product_template_gift_family"
+      model="product.template"
+    >
             <field name="name">Family Gift</field>
             <!-- Header information -->
             <field name="sale_ok" eval="True" />
             <field name="purchase_ok" eval="True" />
             <!-- General information tab -->
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift"/>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
             <field name="default_code">gift_family</field>
             <field name="list_price">1.00</field>
             <!-- MyCompassion tab -->
-            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_donation_type">gift</field>
             <field name="my_compassion_name">Family Gift</field>
-            <field name="my_compassion_color" ref="theme_compassion_2025.mid_green"/>
-            <field name="my_compassion_pictogram" ref="theme_compassion_2025.pictogram_family_gift"/>
-            <field name="my_compassion_description" eval="'You have the opportunity to '
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_green"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_family_gift"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'You have the opportunity to '
             'send a gift directly to your sponsored child\'s family. With guidance '
             'from Child Development Center staff, the family identifies how to use the '
             'funds most effectively to meet their specific needs. These gifts are a '
             'tremendous blessing. They often allow families to purchase '
             'income-generating items such as livestock, farming tools, or a sewing '
-            'machine, helping them build a more secure future.'"/>
-            <field name="my_compassion_image" type="base64" file="my_compassion_switzerland/static/src/img/family_gift_image.png"/>
-            <field name="my_compassion_show_impact_statement" eval="False"/>
-            <field name="my_compassion_show_info" eval="False"/>
-            <field name="my_compassion_show_testimony" eval="False"/>
+            'machine, helping them build a more secure future.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/family_gift_image.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="False" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
             <field name="my_compassion_donation_quantity_low">25</field>
             <field name="my_compassion_donation_quantity_medium">100</field>
             <field name="my_compassion_donation_quantity_high">500</field>
@@ -69,32 +107,51 @@
 
     <!-- BIRTHDAY GIFT -->
     <data noupdate="0">
-        <record id="sponsorship_switzerland.product_template_gift_birthday" model="product.template">
+        <record
+      id="sponsorship_switzerland.product_template_gift_birthday"
+      model="product.template"
+    >
             <field name="name">Birthday Gift</field>
             <!-- Header information -->
             <field name="sale_ok" eval="True" />
             <field name="purchase_ok" eval="True" />
             <!-- General information tab -->
             <field name="type">service</field>
-            <field name="categ_id" ref="sponsorship_compassion.product_category_gift"/>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_gift"
+      />
             <field name="default_code">gift_birthday</field>
             <field name="list_price">1.00</field>
             <!-- MyCompassion tab -->
-            <field name="activate_for_my_compassion" eval="True"/>
+            <field name="activate_for_my_compassion" eval="True" />
             <field name="my_compassion_donation_type">gift</field>
             <field name="my_compassion_name">Birthday Gift</field>
-            <field name="my_compassion_color" ref="theme_compassion_2025.mid_blue"/>
-            <field name="my_compassion_pictogram" ref="theme_compassion_2025.pictogram_birthday_gift"/>
-            <field name="my_compassion_description" eval="'You have the opportunity to '
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_blue"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_birthday_gift"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'You have the opportunity to '
             'make your sponsored child\'s birthday extra special with a personal gift. '
             'We recommend sending your donation and birthday letter about 3 months in '
             'advance (look out for our email reminder) to ensure your child receives '
             'the gift on their special day. You will often receive a thank-you letter '
-            'later, sharing exactly what was purchased with your gift.'"/>
-            <field name="my_compassion_image" type="base64" file="my_compassion_switzerland/static/src/img/birthday_gift_image.png"/>
-            <field name="my_compassion_show_impact_statement" eval="False"/>
-            <field name="my_compassion_show_info" eval="False"/>
-            <field name="my_compassion_show_testimony" eval="False"/>
+            'later, sharing exactly what was purchased with your gift.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/birthday_gift_image.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="False" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
             <field name="my_compassion_donation_quantity_low">20</field>
             <field name="my_compassion_donation_quantity_medium">50</field>
             <field name="my_compassion_donation_quantity_high">100</field>
