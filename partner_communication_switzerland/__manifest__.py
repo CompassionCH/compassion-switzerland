@@ -47,6 +47,7 @@
         "survival_sponsorship_compassion",
         "link_tracker",
         "partner_communication_compassion",
+        "partner_compassion",
     ],
     "external_dependencies": {
         "python": [

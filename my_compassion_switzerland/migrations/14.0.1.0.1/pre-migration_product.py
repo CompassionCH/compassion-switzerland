@@ -106,7 +106,8 @@ def migrate(env, version):
     for res_id, new_name in xml_id_mapping.items():
         if res_id in valid_product_ids:
             cr.execute(
-                "SELECT module, name FROM ir_model_data WHERE model = %s AND res_id = %s",
+                "SELECT module, name FROM ir_model_data "
+                "WHERE model = %s AND res_id = %s",
                 ("product.template", res_id),
             )
             res = cr.fetchone()
