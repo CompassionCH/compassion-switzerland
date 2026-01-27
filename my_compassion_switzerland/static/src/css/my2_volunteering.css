@@ -26,7 +26,7 @@
 }
 
 .spinner-rotate {
-  animation: custom-spin 1.5s infinite linear !important;
+  animation: custom-spin 1.5s infinite linear;
 }
 
 @keyframes custom-spin {
