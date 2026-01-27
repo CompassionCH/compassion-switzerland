@@ -125,9 +125,9 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                         <t t-set="description_color" t-value="'pure-white'" />
                     </t>
                     <form class="volunteering-form" role="form">
-                        <div id="volunteering-loader">
+                        <div id="volunteering-loader" class="d-none">
                             <span class="spinner-rotate">
-                                <i class="fa fa-spinner fa-5x text-low-green" />
+                                <i class="fa fa-spinner fa-5x text-pure-white" />
                             </span>
                         </div>
 
