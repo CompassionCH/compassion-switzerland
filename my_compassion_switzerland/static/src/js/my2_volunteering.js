@@ -103,21 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     function toggleFormLoading(form, isLoading) {
       const loader = document.getElementById("volunteering-loader");
-      const buttons = form.querySelectorAll(
-        "button, input[type='submit'], .btn"
-      );
 
-      // Toggle buttons
-      buttons.forEach((btn) => {
-        btn.disabled = isLoading;
-      });
-
-      // Toggle loader visibility (using d-none like in user_settings.js)
-      if (isLoading) {
-        loader?.classList.remove("d-none");
-      } else {
-        loader?.classList.add("d-none");
+      // Disable all form elements to prevent changes during submission.
+      for (const element of form.elements) {
+        element.disabled = isLoading;
       }
+
+      // Toggle spinner visibility
+      loader?.classList.toggle("d-none", !isLoading);
     }
 
     async function onSubmit(event) {
