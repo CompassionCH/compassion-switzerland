@@ -101,6 +101,25 @@ document.addEventListener("DOMContentLoaded", function () {
      * - Shows toast messages for success or failure
      * @param {Event} event - Submit event
      */
+    function toggleFormLoading(form, isLoading) {
+      const loader = document.getElementById("volunteering-loader");
+      const buttons = form.querySelectorAll(
+        "button, input[type='submit'], .btn"
+      );
+
+      // Toggle buttons
+      buttons.forEach((btn) => {
+        btn.disabled = isLoading;
+      });
+
+      // Toggle loader visibility (using d-none like in user_settings.js)
+      if (isLoading) {
+        loader?.classList.remove("d-none");
+      } else {
+        loader?.classList.add("d-none");
+      }
+    }
+
     async function onSubmit(event) {
       // Prevent default form submission to handle the process manually
       event.preventDefault();
@@ -112,6 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
       } catch (error) {
         return ToastService.error(error.message);
       }
+
+      // Start loading
+      toggleFormLoading(form, true);
 
       try {
         const result = await registerVolunteer(data);
@@ -129,6 +151,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ToastService.error(
           "An error occurred while processing your request. Please try again or contact support."
         );
+      } finally {
+        // Stop loading
+        toggleFormLoading(form, false);
       }
     }
 
