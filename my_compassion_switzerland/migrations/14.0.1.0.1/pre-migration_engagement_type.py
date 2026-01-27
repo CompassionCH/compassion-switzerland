@@ -44,6 +44,21 @@ def migrate(env, version):
     # -------------------------------------------------------------------------
 
     # Add missing XML_ID for Together engagement type
+    # Check if 'engagement_together' is already assigned to a WRONG ID
+    cr.execute(
+        "SELECT res_id FROM ir_model_data WHERE module = %s AND name = %s",
+        ("partner_compassion", "engagement_together"),
+    )
+    existing_together = cr.fetchone()
+
+    # If the XML ID exists but points to a duplicate (not ID 24), delete the XML ID link
+    # so we can reassign it correctly to ID 24 below.
+    if existing_together and existing_together[0] != ENGAGEMENT_TYPE_ID_TOGETHER:
+        cr.execute(
+            "DELETE FROM ir_model_data WHERE module = %s AND name = %s",
+            ("partner_compassion", "engagement_together"),
+        )
+
     openupgrade.add_xmlid(
         cr,
         "partner_compassion",
@@ -53,19 +68,35 @@ def migrate(env, version):
         noupdate=False,
     )
 
-    # Rename old "__export__" IDs to proper module IDs
+    # Manage 'Prayer' ID: Rename old "__export__" or Clean up duplicates
     cr.execute(
         "SELECT module, name FROM ir_model_data WHERE model = %s AND res_id = %s",
         ("advocate.engagement", ENGAGEMENT_TYPE_ID_PRAYER),
     )
-    res = cr.fetchone()
+    # Use fetchall() because ID 19 might have TWO entries
+    rows = cr.fetchall()
+    existing_modules = {row[0] for row in rows}
 
-    if res:
-        old_module, old_name = res
-        openupgrade.rename_xmlids(
-            cr,
-            [(f"{old_module}.{old_name}", "partner_compassion.engagement_pray")],
+    if "partner_compassion" in existing_modules:
+        # CASE 1: The target XMLID already exists
+        cr.execute(
+            """
+            DELETE FROM ir_model_data
+            WHERE model = %s
+              AND res_id = %s
+              AND module LIKE '__export__%%'
+            """,
+            ("advocate.engagement", ENGAGEMENT_TYPE_ID_PRAYER),
         )
+    else:
+        # CASE 2: Standard migration path.
+        for module, name in rows:
+            if module.startswith("__export__"):
+                openupgrade.rename_xmlids(
+                    cr,
+                    [(f"{module}.{name}", "partner_compassion.engagement_pray")],
+                )
+                break  # Stop after renaming one to avoid ambiguity
 
     # -------------------------------------------------------------------------
     # CLEANUP OLD TRANSLATIONS
