@@ -45,6 +45,11 @@
             'Compassion is committed to building wells, latrines, and sanitary '
             'facilities in Child Development Centers and local communities.'"
       />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/water_for_children_fund.png"
+      />
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
@@ -202,6 +207,11 @@
             'found. This fund covers program costs for children during this waiting '
             'period, ensuring they don\'t miss out on vital activities.'"
       />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/children_waiting_for_sponsor_fund.png"
+      />
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
@@ -327,6 +337,11 @@
             'Thanks to donations, our local church partners can procure medicines and '
             'conduct prevention campaigns, such as those against malaria.'"
       />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/health_fund.png"
+      />
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
@@ -435,6 +450,11 @@
             'sponsored children have enough to eat—and not just them, but their '
             'parents and siblings too.'"
       />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/food_fund.png"
+      />
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
@@ -531,6 +551,11 @@
             'quickly and effectively to disasters. Our Disaster Relief Fund provides '
             'centers and affected families with immediate aid, essential supplies, and '
             'safe shelter right after a crisis strikes.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/emergency_fund.png"
       />
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
@@ -637,6 +662,11 @@
             'Compassion program should experience the joy of opening a gift at '
             'Christmas. Your donation makes this possible!'"
       />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/christmas_gift_fund.png"
+      />
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="True" />
             <field name="my_compassion_donation_quantity_low">1</field>
@@ -740,6 +770,11 @@
             'healthy start in life, Compassion’s Survival Program supports mothers '
             'before and after birth through counseling, medical care, and individual '
             'support.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/moms_and_baby_fund.png"
       />
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
