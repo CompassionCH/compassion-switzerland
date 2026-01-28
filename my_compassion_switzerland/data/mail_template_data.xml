@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record
+      id="email_template_volunteer_registration"
+      model="mail.template"
+    >
+            <field name="name">Volunteer Registration</field>
+            <field name="model_id" ref="base.model_res_partner" />
+            <field
+        name="subject"
+      >I want to get involved at Compassion Switzerland</field>
+            <field
+        name="email_from"
+      >Compassion &lt;compassion@compassion.ch&gt;</field>
+            <field name="body_html" type="html">
+<div
+          style="font-family:Arial, sans-serif;font-size: 14px; line-height: 1.5; color: #333;"
+        >
+    <p
+          >A new volunteer has registered from My Compassion with the following details:</p>
+
+    <p><strong>Title:</strong> ${ctx.get('title') or ''}</p>
+    <p><strong
+            >Firstname, Lastname:</strong> ${ctx.get('firstname') or ''} ${ctx.get('lastname') or ''}</p>
+    <p><strong>Phone number:</strong> ${ctx.get('phone_number') or ''}</p>
+    <p><strong>Email:</strong> ${ctx.get('email') or ''}</p>
+    <p><strong>Church:</strong> ${ctx.get('church') or ''}</p>
+
+    <p><strong>I want to get involved as:</strong></p>
+    % if ctx.get('volunteer_roles'):
+        <ul>
+        % for role in ctx.get('volunteer_roles'):
+            <li>${role or ''}</li>
+        % endfor
+        </ul>
+    % else:
+        <p>No roles selected</p>
+    % endif
+
+    <p><strong>Message:</strong><br />
+        ${ctx.get('comments') or ''}
+    </p>
+
+    <p>Best regards,<br />
+    Compassion Switzerland Website</p>
+</div>
+            </field>
+            <field name="email_to">info@compassion.ch</field>
+            <field name="auto_delete" eval="True" />
+        </record>
+    </data>
+</odoo>

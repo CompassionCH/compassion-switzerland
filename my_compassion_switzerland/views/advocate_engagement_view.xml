@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        This view is used to manage the engagement types. It adds a new menu item under the
+        "Advocate" menu and a tree view to display the engagement types.
+        The tree view is editable at the bottom, allowing users to add, edit, or delete engagement types.
+    -->
+    <record id="view_advocate_engagement_tree" model="ir.ui.view">
+        <field name="name">advocate.engagement.tree</field>
+        <field name="model">advocate.engagement</field>
+        <field name="arch" type="xml">
+            <tree string="Engagement Types">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+
+    <!--
+        This view is used to manage the engagement types. It add a new notebook page and a tab for
+        My Compassion website to display the engagement type information.
+        The page is only visible if the engagement type is activated for My Compassion.
+    -->
+    <record id="advocate_engagement_form_view" model="ir.ui.view">
+        <field name="name">partner.advocate_engagement.my_compassion</field>
+        <field name="model">advocate.engagement</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Engagement type">
+                <sheet>
+                    <field name='name' string="Name" />
+                    <notebook>
+                        <page string="My Compassion" name="my_compassion">
+                            <group>
+                                <field
+                  name="activate_for_my_compassion"
+                  string="Activate for MyCompassion"
+                />
+                            </group>
+                            <group
+                attrs="{'invisible': [('activate_for_my_compassion', '=', False)]}"
+              >
+                                <field
+                  name="my_compassion_image"
+                  string="Picture"
+                  attrs="{'required': [('activate_for_my_compassion','=',True)]}"
+                />
+                                <field
+                  name="my_compassion_alt_text"
+                  string="Alt Text"
+                  attrs="{'required': [('activate_for_my_compassion','=',True)]}"
+                />
+                                <field
+                  name="my_compassion_label"
+                  string="Label"
+                  attrs="{'required': [('activate_for_my_compassion','=',True)]}"
+                />
+                                <field
+                  name="my_compassion_description"
+                  string="Description"
+                  attrs="{'required': [('activate_for_my_compassion','=',True)]}"
+                />
+                                <field
+                  name="my_compassion_external_link"
+                  string="External Link"
+                />
+                                <field
+                  name="my_compassion_internal_link"
+                  string="Internal Link"
+                />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

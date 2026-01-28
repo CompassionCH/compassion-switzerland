@@ -1,0 +1,8 @@
+.volunteering_image {
+  height: 330px;
+  object-fit: cover;
+
+  @media (max-width: 767.98px) {
+    height: 219px;
+  }
+}

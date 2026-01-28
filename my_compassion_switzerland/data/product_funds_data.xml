@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- PRODUCT REGISTRATION -->
+    <!-- WASH FUND PRODUCT -->
+    <data noupdate="0">
+        <record
+      id="sponsorship_switzerland.product_template_fund_wtp"
+      model="product.template"
+    >
+            <field name="name">"Water for the children" Fund</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">service</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">wash</field>
+            <field name="list_price">8.00</field>
+            <field name="description">
+                Thanks to your donation. It allows us to finance water disinfection
+                project to provide sponsored children, their families, their community
+                and villages with drinking water, in the poorest regions of the world.
+                This help would not be possible without you and we are very grateful for
+                your support.
+            </field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field name="my_compassion_name">Clean Water</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_blue"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_water_and_sanitation"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Clean water and safe '
+            'sanitation are crucial for a child\'s healthy development. That is why '
+            'Compassion is committed to building wells, latrines, and sanitary '
+            'facilities in Child Development Centers and local communities.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/water_for_children_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="True" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
+            <field name="my_compassion_donation_quantity_low">1</field>
+            <field name="my_compassion_donation_quantity_medium">3</field>
+            <field name="my_compassion_donation_quantity_high">5</field>
+        </record>
+
+        <record
+      id="product_template_fund_wtp_before1"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_wtp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'2.2 billion people lack access to safe '
+            'drinking water.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_wtp_before2"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_wtp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'494 million people still use inadequate '
+            'sanitation facilities or practice open defecation.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_wtp_before3"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_wtp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Just CHF 30.– is enough to provide a '
+            'child with access to a safe toilet.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_wtp_after1"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_wtp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Build wells and water tanks that give '
+            'children, their families, and entire communities vital access to clean '
+            'water.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_wtp_after2"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_wtp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Construct safe toilet facilities so that '
+            'children—especially girls—have access to protected and dignified '
+            'sanitation.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_wtp_after3"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_wtp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Keep children in class, as they no longer '
+            'have to spend hours walking to fetch water.'"
+      />
+        </record>
+    </data>
+
+    <!-- UNSPONSORED CHILDREN FUND PRODUCT -->
+    <data noupdate="0">
+        <record
+      id="sponsorship_switzerland.product_template_fund_usp"
+      model="product.template"
+    >
+            <field name="name">Unsponsored Children Fund</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">service</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">sansparrain</field>
+            <field name="list_price">8.00</field>
+            <field name="description">
+                Your donation to the "Unsponsored Children Fund" unlocks the benefits
+                of Compassion's program for children who have been registered but not
+                yet been sponsored. Your gift to this fund also encourages parents and
+                program staff as they see Compassion benefits at work for the children
+                they love, even as they wait — and hope — for sponsors.
+
+                We thank you very much for your precious support.
+            </field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field
+        name="my_compassion_name"
+      >Children Waiting for a Sponsor</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.low_yellow"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_children"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Compassion staff on the '
+            'ground identify highly vulnerable families and offer them the chance to '
+            'register a child at the local Child Development Center. There, children '
+            'receive support, protection, and loving care even before a sponsor is '
+            'found. This fund covers program costs for children during this waiting '
+            'period, ensuring they don\'t miss out on vital activities.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/children_waiting_for_sponsor_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="True" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
+            <field name="my_compassion_donation_quantity_low">1</field>
+            <field name="my_compassion_donation_quantity_medium">3</field>
+            <field name="my_compassion_donation_quantity_high">5</field>
+        </record>
+
+        <record
+      id="product_template_fund_usp_before1"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_usp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Currently, over 400 million children '
+            'worldwide live in extreme poverty on less than $2.15 a day.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_usp_before2"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_usp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'305,000 children are currently '
+            'participating in the Compassion program while waiting for a sponsor.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_usp_before3"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_usp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'The average wait time to be matched with '
+            'a sponsor is around 180 days.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_usp_after1"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_usp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'These children can fully participate in '
+            'the Compassion program and center activities.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_usp_after2"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_usp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Children receive support, protection, and '
+            'loving care while they wait for a sponsor.'"
+      />
+        </record>
+    </data>
+
+    <!-- HEALTH FUND PRODUCT -->
+    <data noupdate="0">
+        <record id="product_template_fund_hea" model="product.template">
+            <field name="name">health in TG</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">consu</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">health_TG</field>
+            <field name="list_price">1.00</field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field name="my_compassion_name">Medical Assistance</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_green"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_health"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Compassion provides children '
+            'with access to vital medical care—from surgeries and procedures to '
+            'equipping facilities for children with disabilities.\n'
+
+            'Thanks to donations, our local church partners can procure medicines and '
+            'conduct prevention campaigns, such as those against malaria.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/health_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="True" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
+            <field name="my_compassion_donation_quantity_low">1</field>
+            <field name="my_compassion_donation_quantity_medium">3</field>
+            <field name="my_compassion_donation_quantity_high">5</field>
+        </record>
+
+        <record
+      id="product_template_fund_hea_before1"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_hea" />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Almost every minute, a child dies from '
+            'malaria.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_hea_before2"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_hea" />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'In 2023, 4.8 million children under the '
+            'age of 5 died from preventable or treatable causes.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_hea_after1"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_hea" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Medical support in countries without '
+            'health insurance systems.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_hea_after2"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_hea" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Health check-ups and medical treatments.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_hea_after3"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_hea" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Access to critical prevention programs.'"
+      />
+        </record>
+    </data>
+
+    <!-- FOOD FUND PRODUCT -->
+    <data noupdate="0">
+        <record id="product_template_fund_fda" model="product.template">
+            <field name="name">food crisis</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">service</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">drf_food-business</field>
+            <field name="list_price">20.00</field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field name="my_compassion_name">Food Fund</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_brown"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_food"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Droughts, crop failures, '
+            'conflict, and rising prices—for families in extreme poverty, food is '
+            'becoming less affordable or is often barely available. Through the Food '
+            'Fund, Compassion steps in during times of shortage. This ensures '
+            'sponsored children have enough to eat—and not just them, but their '
+            'parents and siblings too.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/food_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="True" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
+            <field name="my_compassion_donation_quantity_low">1</field>
+            <field name="my_compassion_donation_quantity_medium">2</field>
+            <field name="my_compassion_donation_quantity_high">5</field>
+        </record>
+
+        <record
+      id="product_template_fund_fda_before1"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_fda" />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Food security is a major challenge in '
+            'many countries in the Global South.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_fda_before2"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_fda" />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Many families often do not know if or '
+            'what they will eat tomorrow.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_fda_after1"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_fda" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Distribute food supplies to families in '
+            'critical situations.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_fda_after2"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_fda" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Provide vulnerable families with seeds, '
+            'fertilizer, and livestock, and offer training in self-sufficient farming.'"
+      />
+        </record>
+    </data>
+
+    <!-- DISASTER FUND PRODUCT -->
+    <data noupdate="0">
+        <record id="product_template_fund_dis" model="product.template">
+            <field name="name">Ethiopia emergency</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">service</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">drf_ET</field>
+            <field name="list_price">8.00</field>
+            <field name="standard_price">8.00</field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field name="my_compassion_name">Disaster Relief Fund</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.low_orange"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_disaster_relief"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Compassion’s church '
+            'partners are deeply rooted in their communities, allowing them to respond '
+            'quickly and effectively to disasters. Our Disaster Relief Fund provides '
+            'centers and affected families with immediate aid, essential supplies, and '
+            'safe shelter right after a crisis strikes.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/emergency_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="True" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
+            <field name="my_compassion_donation_quantity_low">1</field>
+            <field name="my_compassion_donation_quantity_medium">3</field>
+            <field name="my_compassion_donation_quantity_high">5</field>
+        </record>
+
+        <record
+      id="product_template_fund_dis_before1"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_dis" />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Weather-related disasters have increased '
+            'fivefold in the last 50 years.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_dis_before2"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_dis" />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Every year, millions of people worldwide '
+            'face emergencies due to extreme weather events, which often destroy basic '
+            'necessities like water, food, shelter, and healthcare access.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_dis_after1"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_dis" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Provide families in acute crisis with '
+            'emergency shelter, medical care, food, and clean water.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_dis_after2"
+      model="donation.impact.line"
+    >
+            <field name="donation_id" ref="product_template_fund_dis" />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Develop sustainable reconstruction plans '
+            'with local partners to establish long-term stability.'"
+      />
+        </record>
+    </data>
+
+    <!-- CHRISTMAS GIFT FUND PRODUCT -->
+    <data noupdate="0">
+        <record
+      id="sponsorship_switzerland.product_template_fund_nol"
+      model="product.template"
+    >
+            <field name="name">Christmas Gift</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">service</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">noel</field>
+            <field name="list_price">8.00</field>
+            <field name="description">
+                Thanks to the Christmas Gift Fund, we can offer a Christmas gift to each
+                child registered in a Compassion center. It prevents inequalities
+                between the children at least at this special time of the year. We are
+                very grateful for your donation by which you share the joy of Christmas
+                with each child of Compassion.
+            </field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field name="my_compassion_name">Christmas Gifts</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.low_orange"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_christmas_gift"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'Every child in the '
+            'Compassion program should experience the joy of opening a gift at '
+            'Christmas. Your donation makes this possible!'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/christmas_gift_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="False" />
+            <field name="my_compassion_show_info" eval="True" />
+            <field name="my_compassion_donation_quantity_low">1</field>
+            <field name="my_compassion_donation_quantity_medium">3</field>
+            <field name="my_compassion_donation_quantity_high">5</field>
+        </record>
+
+        <record id="product_template_fund_nol_info1" model="donation.info.line">
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_nol"
+      />
+            <field name="title" eval="'A gift for every child'" />
+            <field
+        name="text"
+        eval="'Your donation ensures your sponsored child '
+            'receives a Christmas gift. You are also welcome to donate extra to '
+            'provide gifts for unsponsored children, ensuring that every one of the '
+            '2.3 million children in our program receives a gift.'"
+      />
+        </record>
+
+        <record id="product_template_fund_nol_info2" model="donation.info.line">
+        <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_nol"
+      />
+        <field name="title" eval="'Meaningful and personal'" />
+        <field
+        name="text"
+        eval="'Staff at the Child Development Centers know every '
+        'child well. They choose gifts that bring joy while meeting the children\'s '
+        'specific needs. Some children receive a toy, others clothing or a warm '
+        'blanket. Still others might receive a goat for milk or food supplies for the '
+        'whole family.'"
+      />
+        </record>
+
+        <record id="product_template_fund_nol_info3" model="donation.info.line">
+        <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_nol"
+      />
+        <field name="title" eval="'Lighting up children\'s eyes'" />
+        <field
+        name="text"
+        eval="'At the Compassion Child Development Center in '
+        'northern Peru, the Christmas party is one of the highlights of the year. '
+        'Carefully prepared by Compassion staff, the celebration is an unforgettable '
+        'day for the children and their families—full of laughter, gratitude, hope, '
+        'and genuine community. Yamile (pictured) beams over her Christmas gift, which '
+        'would not be possible without donations.'"
+      />
+    </record>
+    </data>
+
+    <!-- SURVIVAL FUND PRODUCT -->
+    <data noupdate="0">
+        <record
+      id="sponsorship_switzerland.product_template_fund_csp"
+      model="product.template"
+    >
+            <field name="name">Child Survival Program</field>
+            <!-- Header information -->
+            <field name="sale_ok" eval="True" />
+            <field name="purchase_ok" eval="True" />
+            <!-- General information tab -->
+            <field name="type">service</field>
+            <field
+        name="categ_id"
+        ref="sponsorship_compassion.product_category_fund"
+      />
+            <field name="default_code">survival_survie</field>
+            <field name="list_price">8.00</field>
+            <field name="standard_price">30.00</field>
+            <field name="description">
+                The CSP Fund  (Child Survival Program) allows us to support 3 CSP
+                centers, two in Haiti and one in Ecuador. Each CSP center welcomes
+                around 30 mothers and their babies and pregnant women. These women
+                receive training, practical assistance, food, thorough medical checks on
+                a regular basis and Bible lessons.
+
+                We are very grateful to you for your interest towards mothers and their
+                babies and for the hope you are bringing to them through your help.
+            </field>
+            <!-- MyCompassion tab -->
+            <field name="activate_for_my_compassion" eval="True" />
+            <field name="my_compassion_donation_type">fund</field>
+            <field name="my_compassion_name">Helping Mothers and Babies</field>
+            <field
+        name="my_compassion_color"
+        ref="theme_compassion_2025.mid_pink"
+      />
+            <field
+        name="my_compassion_pictogram"
+        ref="theme_compassion_2025.pictogram_mothers_and_babies"
+      />
+            <field
+        name="my_compassion_description"
+        eval="'To ensure babies get a '
+            'healthy start in life, Compassion’s Survival Program supports mothers '
+            'before and after birth through counseling, medical care, and individual '
+            'support.'"
+      />
+            <field
+        name="my_compassion_image"
+        type="base64"
+        file="my_compassion_switzerland/static/src/img/fund/moms_and_baby_fund.png"
+      />
+            <field name="my_compassion_show_impact_statement" eval="True" />
+            <field name="my_compassion_show_info" eval="False" />
+            <field name="my_compassion_show_testimony" eval="False" />
+            <field name="my_compassion_donation_quantity_low">2</field>
+            <field name="my_compassion_donation_quantity_medium">3</field>
+            <field name="my_compassion_donation_quantity_high">8</field>
+        </record>
+
+        <record
+      id="product_template_fund_csp_before1"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_csp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Every year, more than 2.3 million '
+            'children die before their 28th day of life.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_csp_before2"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_csp"
+      />
+            <field name="type">before</field>
+            <field
+        name="description"
+        eval="'Over 260,000 women lose their lives '
+            'during childbirth annually.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_csp_after1"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_csp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Medical care during pregnancy, '
+            'childbirth, and the child\'s first year of life.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_csp_after2"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_csp"
+      />
+            <field name="type">after</field>
+            <field name="description" eval="'Nutritious food.'" />
+        </record>
+
+        <record
+      id="product_template_fund_csp_after3"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_csp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Psychosocial and spiritual support.'"
+      />
+        </record>
+
+        <record
+      id="product_template_fund_csp_after4"
+      model="donation.impact.line"
+    >
+            <field
+        name="donation_id"
+        ref="sponsorship_switzerland.product_template_fund_csp"
+      />
+            <field name="type">after</field>
+            <field
+        name="description"
+        eval="'Training to generate a sustainable income '
+            'in the long term.'"
+      />
+        </record>
+    </data>
+</odoo>
