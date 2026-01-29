@@ -1,5 +1,5 @@
 # generated from manifests external_dependencies
-pandas
+pandas>=2.3.0
 pyminizip
 pypng
 pyqrcode
