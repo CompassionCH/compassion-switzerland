@@ -80,7 +80,7 @@ class ZoomAttendee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        res = self
+        res = self.browse()
         vals_list_to_create = vals_list.copy()
 
         for vals in vals_list:
