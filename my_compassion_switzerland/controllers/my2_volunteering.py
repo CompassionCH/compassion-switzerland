@@ -34,7 +34,7 @@ class MyCompassionVolunteeringController(http.Controller):
             [("activate_for_my_compassion", "=", True)]
         )
 
-        titles = request.env["res.partner.title"].sudo().search([], order="shortcut")
+        titles = request.env["res.partner.title"].search([], order="shortcut")
 
         return request.render(
             "my_compassion_switzerland.my2_volunteering",

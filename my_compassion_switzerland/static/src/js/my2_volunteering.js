@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           ToastService.error(
             result.error
-              ? _t(result.error)
+              ? result.error
               : _t(
                   "There was an issue with your submission. Please check your inputs and try again."
                 )
