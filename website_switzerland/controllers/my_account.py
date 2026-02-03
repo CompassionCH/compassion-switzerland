@@ -116,8 +116,4 @@ class MyPortal(MyAccountController):
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
 
-
-
-
-
         return super().download_file(source, **kw)
