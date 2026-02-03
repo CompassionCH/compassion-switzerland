@@ -63,10 +63,12 @@ Page: My Compassion 2 Volunteering Page
                             <t t-set="underline_color" t-value="'low-yellow'" />
                             <p
               >Would you like to encourage others to support children?
-Are you particularly moved by the issue of extreme poverty and want to take action?
+                                Are you particularly moved by the issue of extreme poverty and want to take action?
                             </p>
                             <p
-              >You can volunteer for Compassion and use your skills to serve children — through translations, helping at events, prayer, or as an ambassador in your church or in the sports community.
+              >You can volunteer for Compassion and use your skills to serve children — through
+                                translations, helping at events, prayer, or as an ambassador in your church or in the
+                                sports community.
                             </p>
                             <p>Find out how you can get involved:</p>
                         </t>
@@ -128,39 +130,50 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                         <div class="row text-left">
 
                             <!-- Title Mr. or Mrs -->
-                            <t
-                t-call="theme_compassion_2025.FormFieldComponent"
-              >
-                                <t t-set="top_class" t-value="'col-12 mb-3'" />
-                                <div class="form-check form-check-inline">
-                                    <input
-                    class="form-check-input"
-                    type="radio"
-                    name="title"
-                    id="mrs"
-                    value="Mrs."
-                    t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mrs.' else None"
+                            <div class="w-100">
+                                <t
+                  t-call="theme_compassion_2025.FormFieldComponent"
+                >
+                                    <t t-set="label">Title</t>
+                                    <t
+                    t-set="label_color"
+                    t-value="'pure-white'"
                   />
-                                    <label
-                    class="form-check-label text-pure-white"
-                    for="mrs"
-                  >Mrs.</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input
-                    class="form-check-input"
-                    type="radio"
-                    name="title"
-                    id="mr"
-                    value="Mr."
-                    t-att-checked="'checked' if partner.title and partner.title.shortcut == 'Mr.' else None"
+                                    <t
+                    t-set="input_id"
+                    t-value="title_select"
                   />
-                                    <label
-                    class="form-check-label text-pure-white"
-                    for="mr"
-                  >Mr.</label>
-                                </div>
-                            </t>
+                                    <t
+                    t-set="top_class"
+                    t-value="'mr-2 col-12 col-md-3 mb-3'"
+                  />
+                                    <t
+                    t-call="theme_compassion_2025.SelectComponent"
+                  >
+                                        <t t-set="name" t-value="'title'" />
+                                        <t
+                      t-set="id"
+                      t-value="'title_select'"
+                    />
+                                        <t
+                      t-set="select_class"
+                      t-value="'bg-white'"
+                    />
+                                        <option
+                      hidden="hidden"
+                      value=""
+                    >Please select</option>
+                                        <t t-foreach="titles" t-as="t">
+                                            <option
+                        t-att-value="t.shortcut"
+                        t-att-selected="t.shortcut == partner.title.shortcut"
+                      >
+                                                <t t-esc="t.shortcut" />
+                                            </option>
+                                        </t>
+                                    </t>
+                                </t>
+                            </div>
 
                             <!-- First Name and Last Name -->
                             <t
@@ -288,7 +301,6 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                 >I would like to volunteer for</t>
                                 <t t-set="label_color" t-value="'pure-white'" />
                                 <t t-set="top_class" t-value="'col-12 mb-3'" />
-
                                 <div
                   class="d-flex flex-column align-items-start"
                 >
@@ -303,16 +315,15 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                         name="volunteer_roles"
                         style="cursor: pointer;"
                         t-att-id="'role_' + str(engagement.id)"
-                        t-att-value="engagement.name"
+                        t-att-value="engagement.my_compassion_label"
                       />
-
                                             <label
                         class="form-check-label text-pure-white"
                         t-att-for="'role_' + str(engagement.id)"
                         style="cursor: pointer;"
                       >
                                                 <span
-                          t-field="engagement.name"
+                          t-field="engagement.my_compassion_label"
                         />
                                             </label>
                                         </div>
@@ -348,6 +359,10 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                                 <t
                   t-call="theme_compassion_2025.ThemedButtonComponent"
                 >
+                                    <t
+                    t-set="id"
+                    t-value="volunteer_form_submit_btn"
+                  />
                                     <t t-set="variant" t-value="'compact'" />
                                     <t t-set="variation" t-value="'filled'" />
                                     <t t-set="label">Send</t>

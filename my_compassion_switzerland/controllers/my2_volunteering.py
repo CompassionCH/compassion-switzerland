@@ -16,7 +16,7 @@ class MyCompassionVolunteeringController(http.Controller):
     )
     def my2_render_volunteering_dashboard_page(self, **kwargs):
         """
-        Renders the voluntering dashboard page
+        Renders the volunteering dashboard page
         return: An HTTP response containing a rendered
                 template with the volunteering content.
         """
@@ -34,10 +34,13 @@ class MyCompassionVolunteeringController(http.Controller):
             [("activate_for_my_compassion", "=", True)]
         )
 
+        titles = request.env["res.partner.title"].sudo().search([], order="shortcut")
+
         return request.render(
             "my_compassion_switzerland.my2_volunteering",
             {
                 "partner": partner,
+                "titles": titles,
                 "is_prayer_subscribed": is_prayer_subscribed,
                 "engagement_types": engagement_types,
             },

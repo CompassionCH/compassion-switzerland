@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const ToastService = require("my_compassion.toast_service");
     const rpc = require("web.rpc");
 
+    // Translation
+    const core = require("web.core");
+    const _t = core._t;
+
     /**
      * Collects and validates form data
      * @returns {Object} - The data object to send to the backend
@@ -30,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Collect data from the form fields
-      const titleInput = document.querySelector('input[name="title"]:checked');
-      const title = titleInput ? titleInput.value : null;
+      const titleSelect = document.getElementById("title_select");
+      const title = titleSelect ? titleSelect.value : null;
 
       const firstname = getValueFromDocumentElementId(
         "volunteer_form_firstname"
@@ -59,11 +63,13 @@ document.addEventListener("DOMContentLoaded", function () {
         "en_US";
 
       // Validate inputs
-      if (!title) throw new Error("Please select a title");
-      if (!firstname) throw new Error("Please enter your first name");
-      if (!lastname) throw new Error("Please enter your last name");
-      if (!email) throw new Error("Please enter your email address");
-      if (!phone_number) throw new Error("Please enter your phone number");
+      if (!title) throw new Error(_t("Please select a title"));
+      if (!firstname) throw new Error(_t("Please enter your first name"));
+      if (!lastname) throw new Error(_t("Please enter your last name"));
+      if (!email) throw new Error(_t("Please enter your email address"));
+      if (!phone_number) throw new Error(_t("Please enter your phone number"));
+      if (volunteer_roles.length === 0)
+        throw new Error(_t("Please select one or more volunteering options"));
 
       return {
         // Prepare the data object to send to the backend
@@ -117,17 +123,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const result = await registerVolunteer(data);
         if (result.success) {
           ToastService.success(
-            "Thank you for your interest in volunteering! A confirmation email has been sent to you."
+            _t(
+              "Thank you for your interest in volunteering! A confirmation email has been sent to you."
+            )
           );
           form.reset();
         } else {
           ToastService.error(
-            "There was an issue with your submission. Please check your inputs and try again."
+            result.error
+              ? _t(result.error)
+              : _t(
+                  "There was an issue with your submission. Please check your inputs and try again."
+                )
           );
         }
       } catch (error) {
         ToastService.error(
-          "An error occurred while processing your request. Please try again or contact support."
+          error.message ||
+            _t(
+              "An error occurred while processing your request. Please try again or contact support."
+            )
         );
       }
     }
