@@ -91,4 +91,33 @@ class MyPortal(MyAccountController):
             data = b64decode(wizard.pdf_download)
             return Response(data, content_type="application/pdf", headers=headers)
 
+        if source == "csp_bvr":
+            csp_id = int(kw["csp_id"])
+
+            sponsorship = partner.sponsorship_ids.browse(csp_id)
+
+            wizard = (
+                request.env["print.sponsorship.bvr"]
+                .with_user(SUPERUSER_ID)
+                .with_context(
+                    active_ids=sponsorship.id, active_model="recurring.contract"
+                )
+                .sudo()
+                .create(
+                    {
+                        "pdf": True,
+                        "paper_format": "report_compassion.2bvr_sponsorship",
+                    }
+                )
+            )
+            wizard.get_report()
+            headers = Headers()
+            headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
+            data = b64decode(wizard.pdf_download)
+            return Response(data, content_type="application/pdf", headers=headers)
+
+
+
+
+
         return super().download_file(source, **kw)
