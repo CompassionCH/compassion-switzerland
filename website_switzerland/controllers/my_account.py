@@ -41,6 +41,13 @@ class MyPortal(MyAccountController):
         )
         return values
 
+    def _generate_pdf_response(self, wizard):
+        wizard.get_report()
+        headers = Headers()
+        headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
+        data = b64decode(wizard.pdf_download)
+        return Response(data, content_type="application/pdf", headers=headers)
+
     @route("/my/download/<source>", type="http", auth="user", website=True)
     def download_file(self, source, **kw):
         partner = request.env.user.partner_id
@@ -58,11 +65,7 @@ class MyPortal(MyAccountController):
                     }
                 )
             )
-            wizard.get_report()
-            headers = Headers()
-            headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
-            data = b64decode(wizard.pdf_download)
-            return Response(data, content_type="application/pdf", headers=headers)
+            return self._generate_pdf_response(wizard)
         if source == "gift_bvr":
             child_id = int(kw["child_id"])
 
@@ -85,11 +88,7 @@ class MyPortal(MyAccountController):
                     }
                 )
             )
-            wizard.get_report()
-            headers = Headers()
-            headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
-            data = b64decode(wizard.pdf_download)
-            return Response(data, content_type="application/pdf", headers=headers)
+            return self._generate_pdf_response(wizard)
 
         if source == "csp_bvr":
             csp_id = int(kw["csp_id"])
@@ -110,10 +109,6 @@ class MyPortal(MyAccountController):
                     }
                 )
             )
-            wizard.get_report()
-            headers = Headers()
-            headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
-            data = b64decode(wizard.pdf_download)
-            return Response(data, content_type="application/pdf", headers=headers)
+            return self._generate_pdf_response(wizard)
 
         return super().download_file(source, **kw)
