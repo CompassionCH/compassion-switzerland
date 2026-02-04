@@ -48,3 +48,8 @@ class AdvocateEngagement(models.Model):
         help="Internal link for the engagement type which sends "
         "a request to the Odoo server",
     )
+
+    my_compassion_thank_you_text = fields.Text(
+        translate=True,
+        help="Displayed thank you message to the volunteer if they are engaged in this engagement type",
+    )

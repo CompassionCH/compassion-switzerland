@@ -63,10 +63,12 @@ Page: My Compassion 2 Volunteering Page
                             <t t-set="underline_color" t-value="'low-yellow'" />
                             <p
               >Would you like to encourage others to support children?
-Are you particularly moved by the issue of extreme poverty and want to take action?
+                                Are you particularly moved by the issue of extreme poverty and want to take action?
                             </p>
                             <p
-              >You can volunteer for Compassion and use your skills to serve children — through translations, helping at events, prayer, or as an ambassador in your church or in the sports community.
+              >You can volunteer for Compassion and use your skills to serve children — through
+                                translations, helping at events, prayer, or as an ambassador in your church or in the
+                                sports community.
                             </p>
                             <p>Find out how you can get involved:</p>
                         </t>
@@ -77,6 +79,10 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                                 <t
                   t-call="my_compassion_switzerland.volunteering_card_component"
                 >
+                                    <t
+                    t-set="volunteer"
+                    t-value="engagement_type in partner.engagement_ids"
+                  />
                                     <t
                     t-set="engagement_type"
                     t-value="engagement_type"
@@ -296,26 +302,30 @@ Are you particularly moved by the issue of extreme poverty and want to take acti
                     t-foreach="engagement_types"
                     t-as="engagement"
                   >
-                                        <div class="form-check">
-                                            <input
-                        class="form-check-input"
-                        type="checkbox"
-                        name="volunteer_roles"
-                        style="cursor: pointer;"
-                        t-att-id="'role_' + str(engagement.id)"
-                        t-att-value="engagement.name"
-                      />
-
-                                            <label
-                        class="form-check-label text-pure-white"
-                        t-att-for="'role_' + str(engagement.id)"
-                        style="cursor: pointer;"
-                      >
-                                                <span
-                          t-field="engagement.name"
+                                        <t
+                      t-if="engagement not in partner.engagement_ids"
+                    >
+                                            <div class="form-check">
+                                                <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="volunteer_roles"
+                          style="cursor: pointer;"
+                          t-att-id="'role_' + str(engagement.id)"
+                          t-att-value="engagement.name"
                         />
-                                            </label>
-                                        </div>
+
+                                                <label
+                          class="form-check-label text-pure-white"
+                          t-att-for="'role_' + str(engagement.id)"
+                          style="cursor: pointer;"
+                        >
+                                                    <span
+                            t-field="engagement.name"
+                          />
+                                                </label>
+                                            </div>
+                                        </t>
                                     </t>
                                 </div>
                             </t>
