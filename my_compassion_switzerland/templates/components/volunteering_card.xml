@@ -39,14 +39,8 @@ Page: My Compassion 2 Volunteering Card Component
                 <t t-set="underline_color" t-value="'low-yellow'" />
                 <t
           t-set="description"
-          t-value="engagement_type.my_compassion_description"
+          t-value="(engagement_type.my_compassion_thank_you_text or 'Thank you for being a volunteer!') if volunteer else engagement_type.my_compassion_description"
         />
-                <t t-if="volunteer">
-                    <t
-            t-set="description"
-            t-value="engagement_type.my_compassion_thank_you_text or 'Thank you for being a volunteer!'"
-          />
-                </t>
             </t>
         </div>
         <!-- Action buttons -->

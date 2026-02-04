@@ -32,7 +32,7 @@ class MyCompassionVolunteeringController(http.Controller):
 
         engagement_types = request.env["advocate.engagement"].search(
             [("activate_for_my_compassion", "=", True)],
-            order="my_compassion_external_link desc",
+            order="my_compassion_external_link desc, sequence",
         )
 
         return request.render(
