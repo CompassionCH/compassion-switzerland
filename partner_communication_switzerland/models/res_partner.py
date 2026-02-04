@@ -192,18 +192,9 @@ class ResPartner(models.Model):
             "paper": "physical",
         }
 
-        def _get_default_pref(partner):
-            if partner.birthdate_date:
-                today = date.today()
-                birthday = partner.birthdate_date
-                if (today - birthday).days > 365 * 60:
-                    # Old people get paper
-                    return "physical"
-            return "digital"
-
         for partner in self:
             partner.tax_receipt_preference = receipt_mapping.get(
-                partner.tax_certificate, _get_default_pref(partner)
+                partner.tax_certificate, "digital"
             )
 
     def _compute_new_donor(self):
