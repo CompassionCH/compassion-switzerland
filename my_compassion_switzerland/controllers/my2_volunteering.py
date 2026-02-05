@@ -34,13 +34,10 @@ class MyCompassionVolunteeringController(http.Controller):
             [("activate_for_my_compassion", "=", True)]
         )
 
-        titles = request.env["res.partner.title"].search([], order="shortcut")
-
         return request.render(
             "my_compassion_switzerland.my2_volunteering",
             {
                 "partner": partner,
-                "titles": titles,
                 "is_prayer_subscribed": is_prayer_subscribed,
                 "engagement_types": engagement_types,
             },
@@ -103,19 +100,13 @@ class MyCompassionVolunteeringController(http.Controller):
     )
     def my2_volunteering_register(self, **kwargs):
         data = kwargs.get("data", {})
-        required_fields = [
-            "title",
-            "firstname",
-            "lastname",
-            "email",
-            "phone_number",
-            "volunteer_roles",
-        ]
-        if not all(data.get(field) for field in required_fields):
-            return {"success": False, "error": "Missing required fields"}
 
-        lang = (data.get("lang") or "").lower()
-        lang_code = lang.split("_")[0] if "_" in lang else lang
+        if not data.get("volunteer_roles"):
+            return {"success": False, "error": "Missing required volunteer roles"}
+
+        partner = request.env.user.partner_id
+
+        lang_code = partner.lang.split("_")[0] if "_" in partner.lang else "en"
 
         # Fetch the appropriate recipient email based on the language as a dictionary
         recipients = request.env[
@@ -132,17 +123,17 @@ class MyCompassionVolunteeringController(http.Controller):
         if template:
             template.with_context(
                 email_to=email_to,
-                lang=lang,
-                title=data.get("title"),
-                firstname=data.get("firstname"),
-                lastname=data.get("lastname"),
-                phone_number=data.get("phone_number"),
-                email=data.get("email"),
-                church=data.get("church"),
+                lang=partner.lang,
+                title=partner.title,
+                firstname=partner.firstname,
+                lastname=partner.lastname,
+                phone_number=partner.phone_sanitized,
+                email=partner.email,
+                church=partner.church_id.name,
                 volunteer_roles=data.get("volunteer_roles"),
                 comments=data.get("comments"),
             ).send_mail(
-                request.env.user.partner_id.id,
+                partner.id,
                 email_values={"email_to": email_to},
                 force_send=True,
             )

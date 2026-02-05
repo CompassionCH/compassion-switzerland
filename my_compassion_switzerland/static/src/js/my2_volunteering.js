@@ -28,26 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
      * @returns {Object} - The data object to send to the backend
      */
     async function collectFormData() {
-      function getValueFromDocumentElementId(id) {
-        const el = document.getElementById(id);
-        return el ? el.value.trim() : "";
-      }
-
-      // Collect data from the form fields
-      const titleSelect = document.getElementById("title_select");
-      const title = titleSelect ? titleSelect.value : null;
-
-      const firstname = getValueFromDocumentElementId(
-        "volunteer_form_firstname"
-      );
-      const lastname = getValueFromDocumentElementId("volunteer_form_lastname");
-      const email = getValueFromDocumentElementId("volunteer_form_email");
-      const phone_number = getValueFromDocumentElementId(
-        "volunteer_form_phone_number"
-      );
-      const church = getValueFromDocumentElementId("volunteer_form_church");
-
-      // Collect all checked volunteer roles
       const volunteer_roles = Array.from(
         document.querySelectorAll('input[name="volunteer_roles"]:checked')
       ).map((cb) => cb.value);
@@ -56,33 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const commentsInput = document.querySelector('textarea[name="comments"]');
       const comments = commentsInput ? commentsInput.value : null;
 
-      const lang =
-        (odoo.session_info &&
-          odoo.session_info.user_context &&
-          odoo.session_info.user_context.lang) ||
-        "en_US";
-
-      // Validate inputs
-      if (!title) throw new Error(_t("Please select a title"));
-      if (!firstname) throw new Error(_t("Please enter your first name"));
-      if (!lastname) throw new Error(_t("Please enter your last name"));
-      if (!email) throw new Error(_t("Please enter your email address"));
-      if (!phone_number) throw new Error(_t("Please enter your phone number"));
       if (volunteer_roles.length === 0)
         throw new Error(_t("Please select one or more volunteering options"));
 
       return {
         // Prepare the data object to send to the backend
         data: {
-          title,
-          firstname,
-          lastname,
-          email,
-          phone_number,
-          church,
           volunteer_roles,
           comments,
-          lang,
         },
       };
     }
