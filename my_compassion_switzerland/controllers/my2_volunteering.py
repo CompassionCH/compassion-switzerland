@@ -129,7 +129,7 @@ class MyCompassionVolunteeringController(http.Controller):
                 lastname=partner.lastname,
                 phone_number=partner.phone_sanitized,
                 email=partner.email,
-                church=partner.church_id.name,
+                church=partner.church_id and partner.church_id.name,
                 volunteer_roles=data.get("volunteer_roles"),
                 comments=data.get("comments"),
             ).send_mail(
