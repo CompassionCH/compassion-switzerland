@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import http, _
+from odoo import _, http
 from odoo.http import request
 
 
