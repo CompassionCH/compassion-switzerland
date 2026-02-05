@@ -6,7 +6,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-from odoo import http
+from odoo import http, _
 from odoo.http import request
 
 
@@ -102,11 +102,11 @@ class MyCompassionVolunteeringController(http.Controller):
         data = kwargs.get("data", {})
 
         if not data.get("volunteer_roles"):
-            return {"success": False, "error": "Missing required volunteer roles"}
+            return {"success": False, "error": _("Missing required volunteer roles")}
 
         partner = request.env.user.partner_id
 
-        lang_code = partner.lang.split("_")[0] if "_" in partner.lang else "en"
+        lang_code = (partner.lang or "en").split("_")[0]
 
         # Fetch the appropriate recipient email based on the language as a dictionary
         recipients = request.env[
