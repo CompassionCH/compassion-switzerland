@@ -343,3 +343,8 @@ msgstr "Financement participatif"
 #: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_together
 msgid "TOGETHER is Compassion’s fundraising platform. Anyone can start their own fundraising campaign—individually or as part of a group project—to support development projects implemented by Compassion in the Global South. In just a few clicks, you can launch your own campaign, set a fundraising goal, and choose an end date. You can then invite family and friends via email, Facebook, Instagram, WhatsApp, and other channels to support your fundraising goal through financial contributions."
 msgstr "TOGETHER est la plateforme de financement participatif de Compassion. Chacun peut créer sa propre campagne de collecte de fonds (seul ou dans le cadre d’un projet collectif) pour des projets de développement qui sont déployés dans les pays du Sud par Compassion. En quelques clics, on lance son propre projet, on fixe son objectif et on détermine la date de fin. Ensuite, on invite sa famille et ses amis par e-mail, Facebook, Instagram, whatsapp, etc. à soutenir l’objectif de collecte par une participation financière."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
+msgid "Thank you for being a volunteer!"
+msgstr "Merci de vous engager bénévolement!"
