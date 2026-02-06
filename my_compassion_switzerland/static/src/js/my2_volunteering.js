@@ -19,31 +19,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const ToastService = require("my_compassion.toast_service");
     const rpc = require("web.rpc");
 
+    // Translation
+    const core = require("web.core");
+    const _t = core._t;
+
     /**
      * Collects and validates form data
      * @returns {Object} - The data object to send to the backend
      */
     async function collectFormData() {
-      function getValueFromDocumentElementId(id) {
-        const el = document.getElementById(id);
-        return el ? el.value.trim() : "";
-      }
-
-      // Collect data from the form fields
-      const titleInput = document.querySelector('input[name="title"]:checked');
-      const title = titleInput ? titleInput.value : null;
-
-      const firstname = getValueFromDocumentElementId(
-        "volunteer_form_firstname"
-      );
-      const lastname = getValueFromDocumentElementId("volunteer_form_lastname");
-      const email = getValueFromDocumentElementId("volunteer_form_email");
-      const phone_number = getValueFromDocumentElementId(
-        "volunteer_form_phone_number"
-      );
-      const church = getValueFromDocumentElementId("volunteer_form_church");
-
-      // Collect all checked volunteer roles
       const volunteer_roles = Array.from(
         document.querySelectorAll('input[name="volunteer_roles"]:checked')
       ).map((cb) => cb.value);
@@ -52,31 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const commentsInput = document.querySelector('textarea[name="comments"]');
       const comments = commentsInput ? commentsInput.value : null;
 
-      const lang =
-        (odoo.session_info &&
-          odoo.session_info.user_context &&
-          odoo.session_info.user_context.lang) ||
-        "en_US";
-
-      // Validate inputs
-      if (!title) throw new Error("Please select a title");
-      if (!firstname) throw new Error("Please enter your first name");
-      if (!lastname) throw new Error("Please enter your last name");
-      if (!email) throw new Error("Please enter your email address");
-      if (!phone_number) throw new Error("Please enter your phone number");
+      if (volunteer_roles.length === 0)
+        throw new Error(_t("Please select one or more volunteering options"));
 
       return {
         // Prepare the data object to send to the backend
         data: {
-          title,
-          firstname,
-          lastname,
-          email,
-          phone_number,
-          church,
           volunteer_roles,
           comments,
-          lang,
         },
       };
     }
@@ -101,6 +68,18 @@ document.addEventListener("DOMContentLoaded", function () {
      * - Shows toast messages for success or failure
      * @param {Event} event - Submit event
      */
+    function toggleFormLoading(form, isLoading) {
+      const loader = document.getElementById("volunteering-loader");
+
+      // Disable all form elements to prevent changes during submission.
+      for (const element of form.elements) {
+        element.disabled = isLoading;
+      }
+
+      // Toggle spinner visibility
+      loader?.classList.toggle("d-none", !isLoading);
+    }
+
     async function onSubmit(event) {
       // Prevent default form submission to handle the process manually
       event.preventDefault();
@@ -113,22 +92,37 @@ document.addEventListener("DOMContentLoaded", function () {
         return ToastService.error(error.message);
       }
 
+      // Start loading
+      toggleFormLoading(form, true);
+
       try {
         const result = await registerVolunteer(data);
         if (result.success) {
           ToastService.success(
-            "Thank you for your interest in volunteering! A confirmation email has been sent to you."
+            _t(
+              "Thank you for your interest in volunteering! A confirmation email has been sent to you."
+            )
           );
           form.reset();
         } else {
           ToastService.error(
-            "There was an issue with your submission. Please check your inputs and try again."
+            result.error
+              ? result.error
+              : _t(
+                  "There was an issue with your submission. Please check your inputs and try again."
+                )
           );
         }
       } catch (error) {
         ToastService.error(
-          "An error occurred while processing your request. Please try again or contact support."
+          error.message ||
+            _t(
+              "An error occurred while processing your request. Please try again or contact support."
+            )
         );
+      } finally {
+        // Stop loading
+        toggleFormLoading(form, false);
       }
     }
 

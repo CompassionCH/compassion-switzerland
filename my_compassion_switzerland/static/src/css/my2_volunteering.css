@@ -6,3 +6,36 @@
     height: 219px;
   }
 }
+/* Spinner Loading Overlay */
+.volunteering-form {
+  position: relative;
+  min-height: 200px; /* Ensure height for spinner if form is empty */
+}
+
+#volunteering-loader {
+  position: absolute; /* Changed from fixed to absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100; /* Ensure it sits on top of form fields */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px; /* Optional: matches standard rounded corners */
+}
+
+.spinner-rotate {
+  animation: custom-spin 1.5s infinite linear;
+}
+
+@keyframes custom-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
