@@ -113,9 +113,9 @@ class MyCompassionVolunteeringController(http.Controller):
         recipients = request.env[
             "res.config.settings"
         ].get_advocate_engagement_recipients()
-        email_to = (recipients.get(lang_code)
-                    or recipients["default"]
-                    or "info@compassion.ch")
+        email_to = (
+            recipients.get(lang_code) or recipients["default"] or "info@compassion.ch"
+        )
 
         # Send the mail template with context data
         template = (
