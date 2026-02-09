@@ -83,30 +83,57 @@ Page: My Compassion 2 Volunteering Page
                     t-set="volunteer"
                     t-value="engagement_type in partner.engagement_ids"
                   />
+                                    <!-- Engagement type = Prayer -->
                                     <t
-                    t-set="engagement_type"
-                    t-value="engagement_type"
-                  />
-                                    <t
-                    t-if="engagement_type.id == 19 and not is_prayer_subscribed"
+                    t-if="engagement_type.id == request.env.ref('partner_compassion.engagement_pray').id"
                   >
+                                        <t t-if="not is_prayer_subscribed">
+                                            <t
+                        t-set="internal_link_label"
+                      >Subscribe</t>
+                                            <t
+                        t-set="button_color"
+                        t-value="'mid-green'"
+                      />
+                                        </t>
+                                        <t t-else="">
+                                            <t
+                        t-set="internal_link_label"
+                      >Unsubscribe</t>
+                                            <t
+                        t-set="button_color"
+                        t-value="'mid-orange'"
+                      />
+                                        </t>
                                         <t
-                      t-set="internal_link_label"
-                    >Subscribe</t>
-                                        <t
-                      t-set="button_color"
-                      t-value="'mid-green'"
+                      t-set="description"
+                      t-value="engagement_type.my_compassion_description"
                     />
                                     </t>
+                                    <!-- If partner is volunteer of this engagement type -->
                                     <t
-                    t-elif="engagement_type.id == 19 and is_prayer_subscribed"
+                    t-elif="engagement_type in partner.engagement_ids"
                   >
+                                        <!-- if there is a thank you text, display it -->
                                         <t
-                      t-set="internal_link_label"
-                    >Unsubscribe</t>
+                      t-if="engagement_type.my_compassion_thank_you_text"
+                    >
+                                            <t
+                        t-set="description"
+                        t-value="engagement_type.my_compassion_thank_you_text"
+                      />
+                                        </t>
+                                        <t t-else="">
+                                            <t
+                        t-set="description"
+                      >Thank you for being a volunteer!</t>
+                                        </t>
+                                    </t>
+                                    <!-- Partner is not a volunteer of this engagement type -->
+                                    <t t-else="">
                                         <t
-                      t-set="button_color"
-                      t-value="'mid-orange'"
+                      t-set="description"
+                      t-value="engagement_type.my_compassion_description"
                     />
                                     </t>
                                 </t>

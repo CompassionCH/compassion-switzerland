@@ -345,6 +345,6 @@ msgid "TOGETHER is Compassion’s fundraising platform. Anyone can start their o
 msgstr "TOGETHER ist die Fundraising-Plattform von Compassion, auf der jede/r eine Spendenaktion starten kann – allein oder als Teil einer Gruppe – zur Unterstützung von Entwicklungsprojekten, die Compassion im globalen Süden umsetzt. Mit nur wenigen Klicks erstellst du deine persönliche Aktion: Du legst dein Spendenziel fest, wählst ein Enddatum und lädst dann Familie und Freunde ein, deine Aktion mit einer Spende zu unterstützen."
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Thank you for being a volunteer!"
-msgstr "Danke für deine Freiwilligenarbeit"
+msgstr "Danke für deine Freiwilligenarbeit!"

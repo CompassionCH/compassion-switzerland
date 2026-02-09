@@ -22,8 +22,8 @@ class MyCompassionVolunteeringController(http.Controller):
         """
         partner = request.env.user.partner_id
 
-        prayer_engagement = request.env["advocate.engagement"].search(
-            [("name", "=", "Prayer")], limit=1
+        prayer_engagement = request.env.ref(
+            "partner_compassion.engagement_pray", raise_if_not_found=False
         )
 
         is_prayer_subscribed = (
@@ -32,7 +32,7 @@ class MyCompassionVolunteeringController(http.Controller):
 
         engagement_types = request.env["advocate.engagement"].search(
             [("activate_for_my_compassion", "=", True)],
-            order="my_compassion_external_link desc, sequence",
+            order="sequence asc, my_compassion_external_link desc",
         )
 
         return request.render(
@@ -54,8 +54,8 @@ class MyCompassionVolunteeringController(http.Controller):
         """
         partner = request.env.user.partner_id
 
-        prayer_engagement = request.env["advocate.engagement"].search(
-            [("name", "=", "Prayer")], limit=1
+        prayer_engagement = request.env.ref(
+            "partner_compassion.engagement_pray", raise_if_not_found=False
         )
 
         is_prayer_subscribed = False
