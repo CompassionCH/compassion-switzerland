@@ -43,7 +43,9 @@ Page: My Compassion 2 Volunteering Card Component
         </div>
         <!-- Action buttons -->
         <div>
-            <t t-if="engagement_type.my_compassion_external_link">
+            <t
+        t-if="engagement_type.my_compassion_external_link and not volunteer"
+      >
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />
                     <t t-set="variation" t-value="'filled'" />
