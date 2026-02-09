@@ -41,6 +41,13 @@ class MyPortal(MyAccountController):
         )
         return values
 
+    def _generate_pdf_response(self, wizard):
+        wizard.get_report()
+        headers = Headers()
+        headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
+        data = b64decode(wizard.pdf_download)
+        return Response(data, content_type="application/pdf", headers=headers)
+
     @route("/my/download/<source>", type="http", auth="user", website=True)
     def download_file(self, source, **kw):
         partner = request.env.user.partner_id
@@ -58,11 +65,7 @@ class MyPortal(MyAccountController):
                     }
                 )
             )
-            wizard.get_report()
-            headers = Headers()
-            headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
-            data = b64decode(wizard.pdf_download)
-            return Response(data, content_type="application/pdf", headers=headers)
+            return self._generate_pdf_response(wizard)
         if source == "gift_bvr":
             child_id = int(kw["child_id"])
 
@@ -85,10 +88,27 @@ class MyPortal(MyAccountController):
                     }
                 )
             )
-            wizard.get_report()
-            headers = Headers()
-            headers.add("Content-Disposition", "attachment", filename=wizard.pdf_name)
-            data = b64decode(wizard.pdf_download)
-            return Response(data, content_type="application/pdf", headers=headers)
+            return self._generate_pdf_response(wizard)
+
+        if source == "csp_bvr":
+            csp_id = int(kw["csp_id"])
+
+            sponsorship = partner.sponsorship_ids.browse(csp_id)
+
+            wizard = (
+                request.env["print.sponsorship.bvr"]
+                .with_user(SUPERUSER_ID)
+                .with_context(
+                    active_ids=sponsorship.id, active_model="recurring.contract"
+                )
+                .sudo()
+                .create(
+                    {
+                        "pdf": True,
+                        "paper_format": "report_compassion.2bvr_sponsorship",
+                    }
+                )
+            )
+            return self._generate_pdf_response(wizard)
 
         return super().download_file(source, **kw)

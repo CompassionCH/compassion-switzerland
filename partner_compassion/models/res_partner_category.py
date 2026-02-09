@@ -12,16 +12,16 @@ class PartnerCategory(models.Model):
         if "partner_ids" in vals:
             tag_removed = old_partners - new_partners
             if tag_removed:
-                tag_removed.mapped("mass_mailing_contact_ids").write(
+                tag_removed.mapped("mass_mailing_contact_ids").delayable().write(
                     {"tag_ids": [(3, tag_id) for tag_id in self.ids]}
-                )
+                ).set(priority=100, channel="root.mailchimp").split(80).delay()
             tag_added = new_partners - old_partners
             prayer = self.env.ref("partner_compassion.res_partner_category_prayer")
             prayer_engagement = self.env.ref("partner_compassion.engagement_pray")
             if tag_added:
-                tag_added.mapped("mass_mailing_contact_ids").write(
+                tag_added.mapped("mass_mailing_contact_ids").delayable().write(
                     {"tag_ids": [(4, tag_id) for tag_id in self.ids]}
-                )
+                ).set(priority=100, channel="root.mailchimp").split(80).delay()
                 if prayer in self:
                     for partner in tag_added:
                         partner.engagement_ids += prayer_engagement
@@ -30,3 +30,19 @@ class PartnerCategory(models.Model):
                     for partner in tag_removed:
                         partner.engagement_ids -= prayer_engagement
         return True
+
+    def copy(self, default=None):
+        self.ensure_one()
+        default = dict(default or {})
+        new_name = self.name + " (copy)"
+        default.update({"name": new_name})
+        new_filter = False
+        if self.tag_filter_condition_id:
+            new_filter = self.tag_filter_condition_id.copy({"name": new_name})
+            default["tag_filter_condition_id"] = new_filter.id
+        new = super(PartnerCategory, self.with_context(lang=None)).copy(default)
+        for lang in self.env["res.lang"].search([]):
+            new.with_context(lang=lang.code).name = new_name
+            if new_filter:
+                new_filter.with_context(lang=lang.code).name = new_name
+        return new

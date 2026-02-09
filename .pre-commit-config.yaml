@@ -8,6 +8,7 @@ exclude: |
   ^base_cron_monitor/|
   ^gifts_payments/|
   ^mail_activity_to_crm_request/|
+  ^my_compassion_switzerland/|
   ^partner_communication_switzerland/|
   ^report_compassion/|
   ^sbc_switzerland/|

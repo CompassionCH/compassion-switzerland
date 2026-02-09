@@ -84,6 +84,49 @@ class Correspondence(models.Model):
         gmc_letter.unlink()
         return our_letter.write(vals)
 
+    def split_letter(self):
+        # Letters longer than 15 pages should be split
+        self.ensure_one()
+        max_page_num = 15
+        input_pdf = PdfFileReader(BytesIO(self.get_image()))
+        nb_pages = input_pdf.numPages
+        letters = self
+        pages = self.mapped("page_ids")
+        assert nb_pages == len(pages)
+        if nb_pages > max_page_num:
+            for start_page in range(0, nb_pages, max_page_num):
+                output_pdf = PdfFileWriter()
+                for i in range(start_page, min(start_page + max_page_num, nb_pages)):
+                    output_pdf.addPage(input_pdf.getPage(i))
+                letter_data = BytesIO()
+                output_pdf.write(letter_data)
+                letter_data.seek(0)
+                if start_page == 0:
+                    self.write({"letter_image": base64.b64encode(letter_data.read())})
+                    continue
+                letter_vals = self.copy_data()[0]
+                letter_vals.update(
+                    {
+                        "letter_image": base64.b64encode(letter_data.read()),
+                        "page_ids": [
+                            (6, 0, pages[start_page : start_page + max_page_num].ids)
+                        ],
+                    }
+                )
+                letters += self.env["correspondence"].create(letter_vals)
+            self.write(
+                {
+                    "page_ids": [(6, 0, pages[:max_page_num].ids)],
+                }
+            )
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Split Letters",
+            "res_model": "correspondence",
+            "view_mode": "tree,form",
+            "domain": [("id", "in", letters.ids)],
+        }
+
     def assign_supervisor(self):
         """
         This method assigns a supervisor for a letter.

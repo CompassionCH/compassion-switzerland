@@ -90,10 +90,6 @@ class ResPartner(models.Model):
         required=True,
         default="default",
     )
-    calendar = fields.Boolean(
-        help="Wants to receive the Compassion calendar.",
-        default=True,
-    )
     birthday_reminder = fields.Boolean(
         help="Indicates if the partner wants to receive a birthday "
         "reminder of his child.",

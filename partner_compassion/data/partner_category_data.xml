@@ -9,7 +9,23 @@
 
     <record id="res_partner_category_sponsor" model="res.partner.category">
         <field name="name">Sponsor</field>
-    </record>
+    <field name="smart" eval="True" />
+            <field name="tag_filter_sql_query">
+                SELECT rc.correspondent_id
+                FROM recurring_contract rc
+                WHERE rc.state = 'active'
+                AND rc.child_id IS NOT NULL
+                AND rc.type IN ('S', 'SC', 'SWP')
+                AND rc.correspondent_id IS NOT NULL
+                UNION
+                SELECT rc.partner_id
+                FROM recurring_contract rc
+                WHERE rc.state = 'active'
+                AND rc.child_id IS NOT NULL
+                AND rc.type IN ('S', 'SC', 'SWP')
+                AND rc.partner_id IS NOT NULL
+            </field>
+        </record>
 
     <record
   id="res_partner_category_ambassador"
@@ -34,7 +50,23 @@
 
     <record id="res_partner_category_old" model="res.partner.category">
         <field name="name">Old Sponsor</field>
-    </record>
+    <field name="smart" eval="True" />
+            <field name="tag_filter_sql_query">
+                SELECT DISTINCT p.id
+                FROM res_partner p
+                JOIN recurring_contract c ON c.partner_id = p.id
+                    OR c.correspondent_id = p.id
+                WHERE p.number_sponsorships = 0
+                  AND c.child_id IS NOT NULL
+                  AND c.state = 'terminated'
+                  AND NOT EXISTS (
+                    SELECT 1
+                    FROM recurring_contract rc
+                    WHERE rc.partner_id = p.id
+                      AND rc.state IN ('draft', 'waiting', 'active')
+                  );
+            </field>
+        </record>
 
     <record id="res_partner_category_prayer" model="res.partner.category">
         <field name="name">Prayer</field>
