@@ -184,7 +184,7 @@ Page: My Compassion 2 Volunteering Page
                           name="volunteer_roles"
                           style="cursor: pointer;"
                           t-att-id="'role_' + str(engagement.id)"
-                          t-att-value="engagement.name"
+                          t-att-value="engagement.my_compassion_label"
                         />
 
                                                 <label
