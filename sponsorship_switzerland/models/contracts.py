@@ -16,8 +16,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import mod10r
 
-from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
-
 logger = logging.getLogger(__name__)
 
 
@@ -189,7 +187,7 @@ class RecurringContracts(models.Model):
         commitment_number = str(self.commitment_number)
         bvr_reference += "0" * (5 - len(commitment_number)) + commitment_number
         # Type of gift
-        bvr_reference += str(GIFT_PRODUCTS_REF.index(product.default_code) + 1)
+        bvr_reference += str(product.sponsorship_gift_type_id.id)
         bvr_reference += "0" * 4
 
         if self.payment_mode_id and "LSV" in self.payment_mode_id.name:
@@ -199,7 +197,6 @@ class RecurringContracts(models.Model):
             company_bank = bank_obj.search(
                 [
                     ("partner_id", "=", user.company_id.partner_id.id),
-                    ("l10n_ch_isr_subscription_chf", "!=", False),
                     ("acc_type", "=", "iban"),
                 ],
                 limit=1,
@@ -317,7 +314,7 @@ class RecurringContracts(models.Model):
         Remove sponsor category if sponsor has no other active
         sponsorships.
         """
-        super()._on_sponsorship_finished()
+        res = super()._on_sponsorship_finished()
         sponsor_cat_id = self.env.ref(
             "partner_compassion.res_partner_category_sponsor"
         ).id
@@ -360,6 +357,7 @@ class RecurringContracts(models.Model):
                 sponsorship.correspondent_id.write(
                     {"category_id": [(3, sponsor_cat_id), (4, old_sponsor_cat_id)]}
                 )
+        return res
 
     def check_mandate_needed(self, old_payment_modes):
         """Change state of contract if payment is changed to/from LSV or DD."""

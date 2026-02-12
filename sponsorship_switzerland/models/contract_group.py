@@ -30,7 +30,7 @@ class ContractGroup(models.Model):
     #                              ORM METHODS                               #
     ##########################################################################
     @api.depends("payment_mode_id", "bvr_reference", "partner_id")
-    def name_get(self):
+    def _compute_display_name(self):
         res = list()
         for gr in self:
             name = ""
@@ -40,7 +40,7 @@ class ContractGroup(models.Model):
                 name += " " + gr.bvr_reference
             if name == "":
                 name = gr.partner_id.name + " " + str(gr.id)
-            res.append((gr.id, name))
+            gr.display_name = name
         return res
 
     def write(self, vals):

@@ -17,7 +17,7 @@ class PostponeWaitingReminderWizard(models.TransientModel):
     _description = "Postpone Waiting Reminder Wizard"
 
     sponsorship_id = fields.Many2one(
-        "recurring.contract", string="Sponsorship", required=True, readonly=False
+        "recurring.contract", string="Sponsorship", required=True
     )
     next_reminder = fields.Datetime(required=True)
     next_reminder_type = fields.Selection(

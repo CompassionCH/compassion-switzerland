@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Tailor Sponsorships to Compassion CH needs",
-    "version": "14.0.2.1.0",
+    "version": "18.0.1.0.0",
     "category": "Other",
     "author": "Compassion CH",
     "maintainers": ["ecino"],
@@ -42,17 +42,12 @@
         "sponsorship_sub_management",  # compassion-modules
         "account_banking_mandate",  # oca_addons/bank-payment
         "partner_compassion",  # compassion-switzerland
-        "account_statement_completion",  # compassion-accounting
-        "account_reconcile_compassion",
         "gift_compassion",  # compassion-modules
         "web_notify",  # oca_addons/web
         "sbc_compassion",  # compassion-modules
     ],
-    "demo": ["data/demo_journal.xml", "data/demo_account.xml"],
     "data": [
         "data/product.xml",
-        "data/pricelists.xml",
-        "data/completion_rules.xml",
         "data/sequence.xml",
         "data/partner_category_data.xml",
         "data/payment_modes.xml",
@@ -64,6 +59,6 @@
         "views/gift_compassion_view.xml",
         "views/product_template_view.xml",
     ],
-    "installable": False,
+    "installable": True,
     "auto_install": False,
 }

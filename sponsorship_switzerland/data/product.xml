@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
+<odoo noupdate="1">
     <!--
     Resource: product.template
     -->
-    <data noupdate="1">
         <!-- Sponsorship templates -->
         <record id="product_template_sponsorship" model="product.template">
             <field name="name">Sponsorship</field>
@@ -1103,5 +1102,4 @@
         search="[('code','=','5005')]"
       />
         </record>
-    </data>
 </odoo>

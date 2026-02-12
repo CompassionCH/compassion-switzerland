@@ -4,7 +4,7 @@
     id="view_recurring_contract_tree_compassion_switzerland"
     model="ir.ui.view"
   >
-        <field name="name">recurring.contract.compassion.tree</field>
+        <field name="name">recurring.contract.compassion.list</field>
         <field name="model">recurring.contract</field>
         <field
       name="inherit_id"
@@ -12,11 +12,11 @@
     />
         <field eval="18" name="priority" />
         <field name="arch" type="xml">
-            <tree position="attributes">
+            <list position="attributes">
                 <attribute
           name="decoration-danger"
         >state == 'mandate'</attribute>
-            </tree>
+            </list>
             <field name="origin_id" position="after">
                 <field name="previous_child_id" />
             </field>
@@ -36,13 +36,13 @@
           name="postpone_reminder"
           string="Postpone reminder"
           type="object"
-          attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"
+          invisible="next_waiting_reminder or state in ('active','terminated','cancelled')"
         />
             </header>
             <field name="activation_date" position="after">
                 <field
           name="next_waiting_reminder"
-          attrs="{'invisible': ['|', ('next_waiting_reminder', '=', False), ('state', 'in', ['active','terminated','cancelled'])]}"
+          invisible="next_waiting_reminder or state in ('active','terminated','cancelled')"
           style="color: red;"
         />
             </field>
@@ -129,7 +129,7 @@
   >
         <field name="name">Waiting mandate</field>
         <field name="res_model">recurring.contract</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field
       name="domain"
       eval="[('state', '=', 'mandate'), ('mandate_date', '&lt;', (DateTime.now() - timedelta(days=20)).strftime('%Y-%m-%d'))]"

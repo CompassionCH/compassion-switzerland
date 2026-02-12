@@ -19,7 +19,7 @@
             <xpath expr="//field[@name='vat']" position="after">
                 <field
           name="church_id"
-          attrs="{'invisible': ['|',('is_company','=',True),('is_church','=',True)]}"
+          invisible="is_company or is_church"
         />
             </xpath>
         </field>
@@ -38,9 +38,7 @@
                 <field name="is_restricted" />
             </field>
             <field name="category_id" position="attributes">
-                <attribute name="attrs">
-                    {'readonly': [('is_restricted', '=', True)]}
-                </attribute>
+                <attribute name="readonly">is_restricted</attribute>
             </field>
         </field>
     </record>

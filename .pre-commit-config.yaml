@@ -13,7 +13,6 @@ exclude: |
   ^report_compassion/|
   ^sbc_switzerland/|
   ^sms_939/|
-  ^sponsorship_switzerland/|
   ^website_switzerland/|
   ^wordpress_connector/|
   # END NOT INSTALLABLE ADDONS

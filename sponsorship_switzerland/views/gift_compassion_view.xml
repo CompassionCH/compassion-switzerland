@@ -5,7 +5,7 @@
         <field name="model">sponsorship.gift</field>
         <field name="inherit_id" ref="gift_compassion.view_gift_form" />
         <field name="arch" type="xml">
-            <field name="sponsorship_gift_type" position="after">
+            <field name="gift_type_id" position="after">
                 <field name="letter_id" />
             </field>
         </field>
