@@ -41,7 +41,6 @@
         "partner_communication_reminder",
         "label",
         "child_sync_wp",
-        "sms_939",  # compassion-modules
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
         "survival_sponsorship_compassion",
