@@ -42,7 +42,6 @@
         "sponsorship_sub_management",  # compassion-modules
         "account_banking_mandate",  # oca_addons/bank-payment
         "partner_compassion",  # compassion-switzerland
-        "account_statement_completion",  # compassion-accounting
         "account_reconcile_compassion",
         "gift_compassion",  # compassion-modules
         "web_notify",  # oca_addons/web
