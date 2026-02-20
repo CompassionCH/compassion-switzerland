@@ -605,6 +605,20 @@ class PartnerCommunication(models.Model):
         )
 
     def get_sponsorship_payment_slip_attachments(self, force_a4=False):
+        """
+        Generates PDF payment slips and bank forms for all of a partners
+        sponsorships.
+        -  Searches for all active sponsorships
+        -  Filters for all unpaid contracts  requiring manual payment
+            (BVR/Permanent Order)
+        -  Consolidates these sponsorships into a single payment slip
+        -  Renders single of double BVR report based on payment mode
+            and force_a4 flag
+        -  Attaches external LSV/DD bank authorization if used applicable
+
+        :param bool force_a4: Force double BVR layout
+        :return dict {attachment_name: [report_name, pdf_data]}
+        """
         self.ensure_one()
         account_payment_mode_obj = self.env["account.payment.mode"].with_context(
             lang="en_US"
@@ -617,7 +631,13 @@ class PartnerCommunication(models.Model):
         )
         bvr = self.env.ref("sponsorship_switzerland.payment_mode_bvr")
 
-        sponsorships = self.get_objects()
+        # Fetch ALL active sponsorships
+        sponsorships = self.env["recurring.contract"].search([
+            ("partner_id", "=", self.partner_id.id),
+            ("state", "in", ["active", "waiting"]),
+            ("sds_state", "in", ["active", "sub_waiting", "sub", "sub_accept"])
+        ])
+
         # Sponsorships included for payment slips
         bv_sponsorships = sponsorships.filtered(
             # 1. Needs to be payer
