@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_reconcile_outstanding_view,Access reconcile outstanding receipts Wizard,model_reconcile_outstanding_wizard,account.group_account_invoice,1,1,1,1
+access_postfinance_reconcile_log,access.postfinance.reconcile.log,model_postfinance_reconcile_log,account.group_account_manager,1,1,1,1
+access_postfinance_reconcile_log_billing,access.postfinance.reconcile.log.billing,model_postfinance_reconcile_log,account.group_account_invoice,1,0,0,0
