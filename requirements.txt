@@ -12,5 +12,5 @@ pypng
 pyqrcode
 pyquery
 pysftp
-wand
 pyyaml
+wand
