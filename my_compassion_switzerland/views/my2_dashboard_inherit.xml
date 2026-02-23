@@ -1,0 +1,27 @@
+<odoo>
+    <template
+    id="dashboard_volunteering_inherit"
+    inherit_id="my_compassion.dashboard_volunteering_vignette"
+  >
+        <xpath
+      expr="//t[@t-call='my_compassion.DashboardGridItem']"
+      position="inside"
+    >
+            <t t-if="partner.is_translator">
+                <t t-call="theme_compassion_2025.ThemedButtonComponent">
+                    <t t-set="variant" t-value="'default'" />
+                    <t t-set="variation" t-value="'filled'" />
+                    <t t-set="label">Translate a letter</t>
+                    <t t-set="icon" t-value="'pictogram-letter-writing'" />
+                    <t t-set="color" t-value="'mid-green'" />
+                    <t t-set="icon_color" t-value="'low-green'" />
+                    <t t-set="text_color" t-value="'pure-white'" />
+                    <t
+            t-set="href"
+            t-value="'https://translate.compassion.ch'"
+          />
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>
