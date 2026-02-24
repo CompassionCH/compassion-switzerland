@@ -31,7 +31,7 @@
         "data/engagement_types_data.xml",
         "data/mail_template_data.xml",
         "views/advocate_engagement_view.xml",
-        "views/my2_dashboard_inherit.xml",
+        "templates/my2_dashboard.xml",
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
         "views/advocate_engagement_notification_settings_view.xml",
