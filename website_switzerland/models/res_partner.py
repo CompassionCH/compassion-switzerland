@@ -25,6 +25,9 @@ class ResPartner(models.Model):
                 vals["zip_id"] = False
         # Mark child protection charter task done when charter is signed
         res = super().write(vals)
+        tasks_criminal = self.env.ref(
+            "website_switzerland.task_criminal"
+        ) + self.env.ref("muskathlon.task_criminal")
         if vals.get("date_agreed_child_protection_charter"):
             self.mapped("registration_ids.task_ids").filtered(
                 lambda t: t.task_id
@@ -32,7 +35,7 @@ class ResPartner(models.Model):
             ).write({"done": True})
         if vals.get("criminal_record"):
             self.mapped("registration_ids.task_ids").filtered(
-                lambda t: t.task_id == self.env.ref("muskathlon.task_criminal")
+                lambda t: t.task_id in tasks_criminal
             ).write({"done": True})
         return res
 
