@@ -37,4 +37,3 @@ class EventRegistration(models.Model):
                 lambda t: t.task_id == task_passport
             ).write({"done": True})
         return True
-g
