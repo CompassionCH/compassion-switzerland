@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- GENERAL GIFT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_gift_gen"
       model="product.template"
@@ -52,7 +52,7 @@
     </data>
 
     <!-- FAMILY GIFT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_gift_family"
       model="product.template"
@@ -106,7 +106,7 @@
     </data>
 
     <!-- BIRTHDAY GIFT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_gift_birthday"
       model="product.template"
