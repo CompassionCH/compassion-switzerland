@@ -12,9 +12,7 @@
                     <t t-set="variant" t-value="'default'" />
                     <t t-set="variation" t-value="'filled'" />
                     <t t-set="label">Translate a letter</t>
-                    <t t-set="icon" t-value="'pictogram-letter-writing'" />
                     <t t-set="color" t-value="'mid-green'" />
-                    <t t-set="icon_color" t-value="'low-green'" />
                     <t t-set="text_color" t-value="'pure-white'" />
                     <t
             t-set="href"
