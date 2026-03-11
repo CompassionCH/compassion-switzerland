@@ -24,14 +24,14 @@ Compassion CH Partners
 
 1. Upgrade Partners to Compassion Switzerland standards :
 
-   -  Add correspondence information
-   -  Redefines the views of the partners
-   -  Add partner geolocalization
+   - Add correspondence information
+   - Redefines the views of the partners
+   - Add partner geolocalization
 
 2. E-mail tracking :
 
-   -  Track the reception of message inside the thread
-   -  Restrict e-mail followers
+   - Track the reception of message inside the thread
+   - Restrict e-mail followers
 
 3. Add ambassador details information
 
@@ -63,19 +63,19 @@ Configuration
 For securely saving the partner data history (forget met), add the
 following parameters to your Odoo configuration file:
 
--  ``sftp_user`` : user for connecting on the server where the partner
-   data history is stored
--  ``sftp_pwd`` : password
--  ``sftp_ip`` : IP address of the server
--  ``sftp_port`` : SFTP Port used to connect
--  ``sftp_ssh_key`` : SFTP SSH key
--  ``partner_data_password`` : The password for encrypted ZIP file
-   containing erased partner history
+- ``sftp_user`` : user for connecting on the server where the partner
+  data history is stored
+- ``sftp_pwd`` : password
+- ``sftp_ip`` : IP address of the server
+- ``sftp_port`` : SFTP Port used to connect
+- ``sftp_ssh_key`` : SFTP SSH key
+- ``partner_data_password`` : The password for encrypted ZIP file
+  containing erased partner history
 
 Known issues / Roadmap
 ======================
 
--  Missing tests for mail_message and mail_thread
+- Missing tests for mail_message and mail_thread
 
 Bug Tracker
 ===========
@@ -98,9 +98,9 @@ Authors
 Contributors
 ------------
 
--  Emanuel Cino <ecino@compassion.ch>
--  Jonathan Guerne
--  Steve Ferry <steve_ferry@outlook.com>
+- Emanuel Cino <ecino@compassion.ch>
+- Jonathan Guerne
+- Steve Ferry <steve_ferry@outlook.com>
 
 Maintainers
 -----------

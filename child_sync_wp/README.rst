@@ -50,7 +50,7 @@ Authors
 Contributors
 ------------
 
--  Emanuel Cino <ecino@compassion.ch>
+- Emanuel Cino <ecino@compassion.ch>
 
 Maintainers
 -----------

@@ -166,11 +166,11 @@
         <field name="name">res.partner.zoom.attendee.tree</field>
         <field name="model">res.partner.zoom.attendee</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="partner_id" />
                 <field name="state" />
                 <field name="link_received" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="view_zoom_attendee_kanban" model="ir.ui.view">
