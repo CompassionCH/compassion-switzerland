@@ -36,6 +36,7 @@ Page: My Compassion 2 Volunteering Page
                                     following the link below or check how to get more
                                     involved in Compassion Switzerland through
                                     MyCompassion</t>
+                                <t t-set="align_text" t-value="'text-center'" />
 
                                 <t
                   t-set="btn_text"
@@ -79,7 +80,10 @@ Page: My Compassion 2 Volunteering Page
                                 <t
                   t-call="my_compassion_switzerland.volunteering_card_component"
                 >
-                  <t t-set="is_prayer" t-value="engagement_type == env.ref('partner_compassion.engagement_pray', raise_if_not_found=False)"/>
+                  <t
+                    t-set="is_prayer"
+                    t-value="engagement_type == env.ref('partner_compassion.engagement_pray', raise_if_not_found=False)"
+                  />
                                     <t
                     t-if="is_prayer and not is_prayer_subscribed"
                   >
