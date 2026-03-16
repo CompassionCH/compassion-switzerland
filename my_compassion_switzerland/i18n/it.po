@@ -522,11 +522,6 @@ msgid "Go to the volunteer platform"
 msgstr "Vai alla piattaforma dei volontari"
 
 #. module: my_compassion_switzerland
-#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after2
-msgid "Health check-ups and medical treatments."
-msgstr "Controlli sanitari e cure mediche"
-
-#. module: my_compassion_switzerland
 #: model:mail.template,subject:my_compassion_switzerland.email_template_volunteer_registration
 msgid "I want to get involved at Compassion Switzerland"
 msgstr "Desidero partecipare alle attività di Compassion Svizzera."
