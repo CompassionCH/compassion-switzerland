@@ -347,12 +347,12 @@ msgstr "TOGETHER est la plateforme de financement participatif de Compassion. Ch
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__activate_for_my_compassion
 msgid "Activate For My Compassion"
-msgstr "Activate For My Compassion"
+msgstr "Activer pour MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Activate for MyCompassion"
-msgstr "Activate For My Compassion"
+msgstr "Activer pour MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_de_email
@@ -372,7 +372,7 @@ msgstr "Engagement des soutiens (IT)"
 #. module: my_compassion_switzerland
 #: model:ir.model,name:my_compassion_switzerland.model_advocate_engagement
 msgid "Advocate Engagement"
-msgstr "Engagement de plaidoyer"
+msgstr "Engagement des soutiens"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
@@ -468,7 +468,7 @@ msgstr "Adresse e-mail à notifier lorsqu'un formulaire d'engagement des soutien
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_advocate_engagement_tree
 msgid "Engagement Types"
-msgstr "Engagement types"
+msgstr "Types d'engagement"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_notification_engagement_advocate
@@ -694,7 +694,7 @@ msgstr "Configurer la facture électronique maintenant"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Subscribe"
-msgstr "Subscribe"
+msgstr "Abonner"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -760,7 +760,7 @@ msgid ""
 "                                    involved in Compassion Switzerland through\n"
 "                                    MyCompassion"
 msgstr ""
-"FVous pouvez accéder à la plateforme des bénévoles en suivant le lien ci-dessous ou découvrir comment vous impliquer davantage  chez Compassion Suisse via  MyCompassion"
+"Vous pouvez accéder à la plateforme des bénévoles en suivant le lien ci-dessous ou découvrir comment vous impliquer davantage  chez Compassion Suisse via  MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering

@@ -488,7 +488,7 @@ msgstr "Emergenza in Etiopia"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "External Link"
-msgstr "eLink esterno"
+msgstr "Link esterno"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
@@ -514,7 +514,7 @@ msgstr "Per maggiori informazioni su come puoi contribuire ad aiutare i bambini 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Get Involved"
-msgstr "Impegnarsi "
+msgstr "Impegnarsi"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -623,12 +623,12 @@ msgstr "Descrizione My Compassion"
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
 msgid "My Compassion External Link"
-msgstr "Link Esterno My Compassion "
+msgstr "Link Esterno My Compassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_image
 msgid "My Compassion Image"
-msgstr "Immagine My Compassion "
+msgstr "Immagine My Compassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_internal_link
@@ -638,7 +638,7 @@ msgstr "Link Interno My Compassion"
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_label
 msgid "My Compassion Label"
-msgstr "Etichetta My Compassion "
+msgstr "Etichetta My Compassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -724,7 +724,7 @@ msgstr "Si è verificato un problema con la tua richiesta. Controlla i tuoi dati
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_inherit
 msgid "Translate a letter"
-msgstr "Translate a letter"
+msgstr "Traduci una lettera"
 
 #. module: my_compassion_switzerland
 #: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_dis

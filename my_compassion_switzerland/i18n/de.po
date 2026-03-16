@@ -492,7 +492,7 @@ msgstr "Äthiopien-Notfall"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "External Link"
-msgstr "externer Link"
+msgstr "Externer Link"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
@@ -755,7 +755,7 @@ msgid ""
 "Would you like to encourage others to support children?\n"
 "                                Are you particularly moved by the issue of extreme poverty and want to take action?"
 msgstr ""
-"Möchtest du andere ermutigen, Kinder zu unterstützen?\n "
+"Möchtest du andere ermutigen, Kinder zu unterstützen?\n"
 "Bewegt dich das Thema extreme Armut und möchtest du konkret etwas tun?"
 
 #. module: my_compassion_switzerland
