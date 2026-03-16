@@ -655,53 +655,53 @@ msgstr "Photo"
 #: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
 #, python-format
 msgid "Please select one or more volunteering options"
-msgstr "Bitte wähle eine oder mehrere Optionen aus"
+msgstr "Veuillez sélectionner une ou plusieurs options de bénévolat"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__activate_for_my_compassion
 msgid ""
 "Publish the engagement type as an available engagement type on the "
 "MyCompassion website"
-msgstr "Veröffentliche den Engagement-Typ als verfügbaren Engagement-Typ auf der MyCompassion-Website"
+msgstr "Publier le type d'engagement comme un type d'engagement disponible sur le site MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Questions or Comments"
-msgstr "Fragen oder Anmerkungen"
+msgstr "Questions ou commentaires"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Send"
-msgstr "Senden"
+msgstr "Envoyer"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__sequence
 msgid "Sequence"
-msgstr "Reihenfolge"
+msgstr "Séquence"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__sequence
 msgid ""
 "Sequence of the engagement type, used to order the engagement types in the "
 "MyCompassion website"
-msgstr "Reihenfolge des Engagement-Typs, wird zur Sortierung der Engagement-Typen auf der MyCompassion-Website verwendet"
+msgstr "Séquence du type d'engagement, utilisée pour ordonner les types d'engagement sur le site MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid "Set up E-Bill Now"
-msgstr "E-Bill jetzt einrichten"
+msgstr "Configurer la facture électronique maintenant"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Subscribe"
-msgstr "Abonnieren"
+msgstr "Subscribe"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid ""
 "Thank you for being a volunteer at\n"
 "                                    Compassion"
-msgstr "Herzlichen Dank, dass du dich bei Compassion freiwillig engagierst"
+msgstr "Merci d'être bénévole chez Compassion"
 
 #. module: my_compassion_switzerland
 #. openerp-web
@@ -710,7 +710,7 @@ msgstr "Herzlichen Dank, dass du dich bei Compassion freiwillig engagierst"
 msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
-msgstr "Herzlichen Dank für dein Interesse an einem freiwilligen Engagement! Eine Bestätigungs-E-Mail wurde an dich gesendet."
+msgstr "Merci de votre intérêt pour le bénévolat! Un e-mail de confirmation vous a été envoyé."
 
 #. module: my_compassion_switzerland
 #. openerp-web
@@ -719,29 +719,29 @@ msgstr "Herzlichen Dank für dein Interesse an einem freiwilligen Engagement! Ei
 msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
-msgstr "Es gab ein Problem mit deiner Eingabe. Bitte überprüfe deine Angaben und versuche es erneut."
+msgstr "Il y a eu un problème avec votre soumission. Veuillez vérifier vos entrées et réessayer."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_inherit
 msgid "Translate a letter"
-msgstr "Einen Brief übersetzen"
+msgstr "Traduire une lettre"
 
 #. module: my_compassion_switzerland
 #: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_dis
 #: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_fda
 #: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_hea
 msgid "Units"
-msgstr "Einheiten"
+msgstr "Unités"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Unsubscribe"
-msgstr "Abmelden"
+msgstr "Désabonner"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Volunteer with Compassion"
-msgstr "Freiwillig mithelfen"
+msgstr "S’engager bénévolement"
 
 
 #. module: my_compassion_switzerland
@@ -750,8 +750,7 @@ msgid ""
 "Would you like to encourage others to support children?\n"
 "                                Are you particularly moved by the issue of extreme poverty and want to take action?"
 msgstr ""
-"Möchtest du andere ermutigen, Kinder zu unterstützen?\n "
-"Bewegt dich das Thema extreme Armut und möchtest du konkret etwas tun?"
+"Vous souhaitez encourager d'autres personnes à soutenir des enfants ? Vous êtes particulièrement touché par la problématique de l’extrême pauvreté et vous souhaitez agir ?"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -761,7 +760,7 @@ msgid ""
 "                                    involved in Compassion Switzerland through\n"
 "                                    MyCompassion"
 msgstr ""
-"Folge dem Link unten, um zur Freiwilligen-Plattform zu gelangen, oder schau auf MyCompassion, wie du bei Compassion Schweiz mithelfen kannst."
+"FVous pouvez accéder à la plateforme des bénévoles en suivant le lien ci-dessous ou découvrir comment vous impliquer davantage  chez Compassion Suisse via  MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -770,21 +769,19 @@ msgid ""
 "                                translations, helping at events, prayer, or as an ambassador in your church or in the\n"
 "                                sports community."
 msgstr ""
-"Bei Compassion kannst du dich ehrenamtlich engagieren und deine Zeit und Talente für Kinder einsetzen. "
-"Ob durch Übersetzungen, bei Events, im Gebet, als Botschafter/in in deiner Kirche oder "
-"sogar im Sport – dein Einsatz macht einen echten Unterschied."
+"Vous pouvez devenir bénévole avec Compassion et mettre vos talents au service des enfants. Traductions, participation à des événements, prière, porte-parole de Compassion dans votre Église ou même dans le domaine du sport."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid ""
 "You selected E-Bill. To continue, please set up your E-Bill connection with "
 "Compassion."
-msgstr "Du hast E-Bill ausgewählt. Bitte richte deine E-Bill-Verbindung mit Compassion ein, um fortzufahren."
+msgstr "Vous avez sélectionné E-Bill. Pour continuer, veuillez configurer votre connexion E-Bill avec Compassion."
 
 #. module: my_compassion_switzerland
 #: model:product.template,thanks_name:my_compassion_switzerland.product_template_fund_fda
 msgid "business donation - see CWI"
-msgstr "Unternehmensspende - siehe CWI"
+msgstr "business donation - voir CWI"
 
 #. module: my_compassion_switzerland
 #: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
@@ -795,14 +792,14 @@ msgstr "E-Bill"
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
 msgid "food crisis"
-msgstr "Lebensmittelkrise"
+msgstr "crise alimentaire"
 
 #. module: my_compassion_switzerland
 #: model:product.template,thanks_name:my_compassion_switzerland.product_template_fund_dis
 msgid "for the Program Trauma Recovery Ethiopia"
-msgstr "für das Programm Trauma Recovery Äthiopien"
+msgstr "pour le programme de récupération après traumatisme en Éthiopie"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
-msgstr "Gesundheit in TG"
+msgstr "santé en TG"
