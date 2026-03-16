@@ -599,16 +599,11 @@ msgstr "En savoir plus"
 msgid "Lighting up children's eyes"
 msgstr "Faire briller les yeux des enfants"
 
-###########
-########################CONTINUE FROM HERE########################
-###########
-
-
 #. module: my_compassion_switzerland
 #: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
 #, python-format
 msgid "Missing required volunteer roles"
-msgstr "Fehlende erforderliche Freiwilligenrollen"
+msgstr "Rôles de bénévoles requis manquants"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -623,37 +618,37 @@ msgstr "My Compassion Alt Text"
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_description
 msgid "My Compassion Description"
-msgstr "My Compassion Beschreibung"
+msgstr "Description MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
 msgid "My Compassion External Link"
-msgstr "My Compassion Externer Link"
+msgstr "Lien externe MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_image
 msgid "My Compassion Image"
-msgstr "My Compassion Bild"
+msgstr "Image MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_internal_link
 msgid "My Compassion Internal Link"
-msgstr "My Compassion Interner Link"
+msgstr "Lien interne MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_label
 msgid "My Compassion Label"
-msgstr "My Compassion Bezeichnung"
+msgstr "Étiquette MyCompassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Name"
-msgstr "Name"
+msgstr "Nom"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Picture"
-msgstr "Bild"
+msgstr "Photo"
 
 #. module: my_compassion_switzerland
 #. openerp-web
