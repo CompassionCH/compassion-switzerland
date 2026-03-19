@@ -39,6 +39,7 @@
     "depends": [
         "l10n_ch",
         "mail",
+        "website_sale",
         # compassion-modules
         "crm_compassion",
         "partner_segmentation",
