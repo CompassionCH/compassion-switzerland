@@ -48,7 +48,7 @@
         "sponsorship_switzerland",
         "survival_sponsorship_compassion",
     ],
-    "external_dependencies": {"python": ["pysftp", "yaml"]},
+    "external_dependencies": {"python": ["pysftp", "pyyaml"]},
     "demo": [],
     "installable": False,
     "auto_install": True,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- CHURCH AMBASSADOR -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="partner_compassion.engagement_church"
       model="advocate.engagement"
@@ -34,7 +34,7 @@
     </data>
 
     <!-- EVENTS VOLUNTEER -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="partner_compassion.engagement_event"
       model="advocate.engagement"
@@ -65,7 +65,7 @@
     </data>
 
     <!-- SPORT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="partner_compassion.engagement_sport"
       model="advocate.engagement"
@@ -93,7 +93,7 @@
     </data>
 
     <!-- PRAYER -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="partner_compassion.engagement_pray"
       model="advocate.engagement"
@@ -122,7 +122,7 @@
     </data>
 
     <!-- LETTER TRANSLATION -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="partner_compassion.engagement_translation"
       model="advocate.engagement"
@@ -150,7 +150,7 @@
     </data>
 
     <!-- TOGETHER -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="partner_compassion.engagement_together"
       model="advocate.engagement"

@@ -24,9 +24,9 @@ Compassion CH PDF-Qweb Reports
 
 Add all Qweb-PDF reports used by Compassion CH for communications.
 
--  Childpacks
--  Sponsorship Payment Slips
--  Compassion letter layout
+- Childpacks
+- Sponsorship Payment Slips
+- Compassion letter layout
 
 **Table of contents**
 
@@ -54,7 +54,7 @@ Authors
 Contributors
 ------------
 
--  Emanuel Cino <ecino@compassion.ch>
+- Emanuel Cino <ecino@compassion.ch>
 
 Maintainers
 -----------
