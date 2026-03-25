@@ -7,6 +7,7 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from datetime import datetime, timedelta
 from enum import Enum
 
 from odoo import SUPERUSER_ID, api, fields, models
@@ -150,15 +151,61 @@ class ZoomAttendee(models.Model):
                     f"zoom_attendee_{lang}_id"
                 )
                 if user_id:
-                    attendee.activity_schedule(
-                        "mail.mail_activity_data_todo",
-                        summary="Sponsor wants to attend the next Zoom session",
-                        note="This person is not available for the upcoming zoom with "
-                        "new sponsors, but wants to attend the next one. No "
-                        "following session was found, please add him to "
-                        "participants once it's created.",
-                        user_id=user_id,
-                    )
+                    summary = "Sponsor wants to attend the next Zoom session"
+
+                    if attendee._schedule_task_followup(
+                        summary=summary, user_id=user_id
+                    ):
+                        attendee.activity_schedule(
+                            "mail.mail_activity_data_todo",
+                            summary=summary,
+                            note="This person is not available for the upcoming zoom with "
+                            "new sponsors, but wants to attend the next one. No "
+                            "following session was found, please add him to "
+                            "participants once it's created.",
+                            user_id=user_id,
+                        )
+
+    def _schedule_task_followup(self, summary: str, user_id: int) -> bool:
+        """
+        Notify staff once, and then post monthly reminders if participant was still not added to a zoom session.
+
+        :param summary: The title of the scheduled activity
+        :param user_id: The user id of the user to notify
+
+        :return: True or False
+        """
+        self.ensure_one()
+
+        model_id = self.env["ir.model"]._get(self._name).id
+        all_activities = (
+            self.env["mail.activity"]
+            .sudo()
+            .search(
+                [
+                    ("res_model_id", "=", model_id),
+                    ("res_name", "=", self.partner_id.name),
+                    ("summary", "=", summary),
+                ],
+                order="create_date desc",
+            )
+        )
+
+        if all_activities:
+            act = all_activities[0]
+            last_update = fields.Datetime.to_datetime(act.write_date)
+            if last_update < (datetime.now() - timedelta(days=30)):
+                self.message_post(
+                    body=f"<b>Monthly reminder: </b> The follow-up for "
+                    f"{self.partner_id.name} is still pending. "
+                    f"Please check if a new video session is available.",
+                    subtype_id=self.env.ref("mail.mt_note").id,
+                )
+                act.write({"note": act.note})
+            # There is already an activity created, don't create a new one
+            return False
+        # Safe to create first activity
+        return True
 
     def notify_user(self):
         self.ensure_one()

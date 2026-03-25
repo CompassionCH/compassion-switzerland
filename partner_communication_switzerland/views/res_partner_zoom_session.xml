@@ -149,6 +149,10 @@
               states="invited,confirmed,attended"
             />
                         <field name="optional_message" />
+                        <field
+              name="inform_me_for_next_zoom"
+              string="Inform about next Zoom meeting"
+            />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
