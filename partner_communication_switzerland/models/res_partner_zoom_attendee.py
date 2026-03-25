@@ -159,16 +159,17 @@ class ZoomAttendee(models.Model):
                         attendee.activity_schedule(
                             "mail.mail_activity_data_todo",
                             summary=summary,
-                            note="This person is not available for the upcoming zoom with "
-                            "new sponsors, but wants to attend the next one. No "
-                            "following session was found, please add him to "
-                            "participants once it's created.",
+                            note="This person is not available for the upcoming "
+                            "zoom with new sponsors, but wants to attend the "
+                            "next one. No following session was found, please "
+                            "add him to participants once it's created.",
                             user_id=user_id,
                         )
 
     def _schedule_task_followup(self, summary: str, user_id: int) -> bool:
         """
-        Notify staff once, and then post monthly reminders if participant was still not added to a zoom session.
+        Notify staff once, and then post monthly reminders if participant was
+        still not added to a zoom session.
 
         :param summary: The title of the scheduled activity
         :param user_id: The user id of the user to notify
@@ -201,7 +202,8 @@ class ZoomAttendee(models.Model):
                     f"Please check if a new video session is available.",
                     subtype_id=self.env.ref("mail.mt_note").id,
                 )
-                act.write({"note": act.note})
+                # update activity so write date updates
+                act.write({})
             # There is already an activity created, don't create a new one
             return False
         # Safe to create first activity
