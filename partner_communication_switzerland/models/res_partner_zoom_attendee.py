@@ -166,13 +166,12 @@ class ZoomAttendee(models.Model):
                             user_id=user_id,
                         )
 
-    def _schedule_task_followup(self, summary: str, user_id: int) -> bool:
+    def _schedule_task_followup(self, summary: str) -> bool:
         """
         Notify staff once, and then post monthly reminders if participant was
         still not added to a zoom session.
 
         :param summary: The title of the scheduled activity
-        :param user_id: The user id of the user to notify
 
         :return: True or False
         """
