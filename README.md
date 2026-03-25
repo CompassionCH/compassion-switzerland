@@ -19,6 +19,7 @@ addon | version | maintainers | summary
 [mail_template_mandrill](mail_template_mandrill/) | 18.0.1.0.0 |  | Mail Template Mandrill
 [mail_tracking_mandrill](mail_tracking_mandrill/) | 18.0.1.0.0 |  | Mail tracking integration trough Mandrill webhooks
 [partner_compassion](partner_compassion/) | 18.0.1.0.0 |  | Upgrade Partners for Compassion Switzerland
+[sponsorship_switzerland](sponsorship_switzerland/) | 18.0.1.0.0 | <a href='https://github.com/ecino'><img src='https://github.com/ecino.png' width='32' height='32' style='border-radius:50%;' alt='ecino'/></a> | Tailor Sponsorships to Compassion CH needs
 
 
 Unported addons
@@ -32,11 +33,11 @@ addon | version | maintainers | summary
 [base_cron_monitor](base_cron_monitor/) | 14.0.2.0.0 (unported) | <a href='https://github.com/ecino'><img src='https://github.com/ecino.png' width='32' height='32' style='border-radius:50%;' alt='ecino'/></a> | Monitor Scheduled and Automated Actions
 [gifts_payments](gifts_payments/) | 14.0.1.0.0 (unported) |  | Gifts payments
 [mail_activity_to_crm_request](mail_activity_to_crm_request/) | 14.0.1.0.0 (unported) | <a href='https://github.com/ecino'><img src='https://github.com/ecino.png' width='32' height='32' style='border-radius:50%;' alt='ecino'/></a> | Enable to convert activities to CRM requests
+[my_compassion_switzerland](my_compassion_switzerland/) | 14.0.1.0.1 (unported) |  | My Compassion Switzerland
 [partner_communication_switzerland](partner_communication_switzerland/) | 14.0.1.4.0 (unported) |  | Compassion CH Partner Communications
 [report_compassion](report_compassion/) | 14.0.1.3.2 (unported) |  | Compassion CH PDF-Qweb Reports
 [sbc_switzerland](sbc_switzerland/) | 14.0.1.1.0 (unported) |  | SBC Swizterland
 [sms_939](sms_939/) | 14.0.1.1.0 (unported) |  | 939 SMS Services
-[sponsorship_switzerland](sponsorship_switzerland/) | 14.0.2.1.0 (unported) | <a href='https://github.com/ecino'><img src='https://github.com/ecino.png' width='32' height='32' style='border-radius:50%;' alt='ecino'/></a> | Tailor Sponsorships to Compassion CH needs
 [website_switzerland](website_switzerland/) | 14.0.1.3.0 (unported) |  | Website - Compassion Switzerland custom views
 [wordpress_connector](wordpress_connector/) | 14.0.1.1.0 (unported) |  | Compassion CH Wordpress Connector
 
