@@ -159,6 +159,7 @@ class ZoomAttendee(models.Model):
                         "participants once it's created.",
                         user_id=user_id,
                     )
+            attendee.inform_me_for_next_zoom = False
 
     def notify_user(self):
         self.ensure_one()
