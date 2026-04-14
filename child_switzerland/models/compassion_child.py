@@ -68,6 +68,9 @@ class CompassionChild(models.Model):
     def _compute_qr_code(self):
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
         for child in self:
-            url = f"{base_url}" f"/sponsor_this_child?source=QR&child_id={child.id}"
+            url = (
+                f"{base_url}/sponsor_this_child?source=QR&child_id={child.id}"
+                f"&utm_medium=childpack_qr&utm_source=hold_campaign"
+            )
             qr = pyqrcode.create(url)
             child.qr_code_data = qr.png_as_base64_str(15, (0, 84, 166))
