@@ -67,7 +67,8 @@ class CompassionChild(models.Model):
 
     def _compute_qr_code(self):
         """
-        Computes a base64 PNG QR code linking to the child's MyCompassion 2.0 sponsorship page.
+        Computes a base64 PNG QR code linking to the child's
+        MyCompassion 2.0 sponsorship page.
 
         Context variables:
             - qr_utm_medium (str): The UTM medium (default: 'childpack_qr')
@@ -76,7 +77,8 @@ class CompassionChild(models.Model):
         """
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
 
-        # Fetch UTMs from the environment context, with the Childpack as the fallback default
+        # Fetch UTMs from the environment context, with the Childpack
+        # as the fallback default
         utm_medium = self.env.context.get("qr_utm_medium", "childpack_qr")
         utm_source = self.env.context.get("qr_utm_source", "hold_campaign")
         utm_campaign = self.env.context.get("qr_utm_campaign", "")
@@ -86,8 +88,6 @@ class CompassionChild(models.Model):
             utm_string += f"&utm_campaign={utm_campaign}"
 
         for child in self:
-            url = (
-                f"{base_url}/my2/new-sponsorship/{child.id}{utm_string}"
-            )
+            url = f"{base_url}/my2/new-sponsorship/{child.id}{utm_string}"
             qr = pyqrcode.create(url)
             child.qr_code_data = qr.png_as_base64_str(15, (0, 84, 166))
