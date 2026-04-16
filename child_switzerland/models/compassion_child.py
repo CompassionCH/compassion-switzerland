@@ -75,13 +75,14 @@ class CompassionChild(models.Model):
             - qr_utm_source (str): The UTM source (default: 'hold_campaign')
             - qr_utm_campaign (str): The UTM campaign (default: '')
         """
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        base_url = (
+            self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        ).rstrip("/")
 
-        # Fetch UTMs from the environment context, with the Childpack
-        # as the fallback default
-        utm_medium = self.env.context.get("qr_utm_medium", "childpack_qr")
-        utm_source = self.env.context.get("qr_utm_source", "hold_campaign")
-        utm_campaign = self.env.context.get("qr_utm_campaign", "")
+        # Fetch UTMs from the environment context with defaults
+        utm_medium = self.env.context.get("qr_utm_medium") or "childpack_qr"
+        utm_source = self.env.context.get("qr_utm_source") or "hold_campaign"
+        utm_campaign = self.env.context.get("qr_utm_campaign") or ""
 
         utm_string = f"?utm_medium={utm_medium}&utm_source={utm_source}"
         if utm_campaign:
