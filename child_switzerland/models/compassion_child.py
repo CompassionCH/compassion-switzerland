@@ -65,6 +65,7 @@ class CompassionChild(models.Model):
             except TypeError:
                 child.childpack_expiration = False
 
+    @api.depends_context("qr_utm_medium", "qr_utm_source", "qr_utm_campaign")
     def _compute_qr_code(self):
         """
         Computes a base64 PNG QR code linking to the child's
