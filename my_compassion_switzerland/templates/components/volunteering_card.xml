@@ -12,6 +12,8 @@ Page: My Compassion 2 Volunteering Card Component
     - engagement_type (object): The engagement type object containing the details for the volunteering opportunity.
     - internal_link_label (string): The label for the internal link button.
     - button_color (string): The color for the button when there is an internal link.
+    - volunteer (boolean): Indicates if the user is a volunteer of the specific engagement type.
+    - description (string): The description of the engagement
 -->
 <odoo>
     <template
@@ -36,15 +38,14 @@ Page: My Compassion 2 Volunteering Card Component
                 <t t-set="color" t-value="'core-blue'" />
                 <t t-set="show_underline" t-value="true" />
                 <t t-set="underline_color" t-value="'low-yellow'" />
-                <t
-          t-set="description"
-          t-value="engagement_type.my_compassion_description"
-        />
+                <t t-set="description" t-value="description" />
             </t>
         </div>
         <!-- Action buttons -->
         <div>
-            <t t-if="engagement_type.my_compassion_external_link">
+            <t
+        t-if="engagement_type.my_compassion_external_link and not volunteer"
+      >
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />
                     <t t-set="variation" t-value="'filled'" />
@@ -72,6 +73,7 @@ Page: My Compassion 2 Volunteering Card Component
           />
                 </t>
             </t>
+            <t t-elif="volunteer" />
             <t t-else="">
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />

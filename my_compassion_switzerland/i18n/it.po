@@ -798,3 +798,7 @@ msgstr "per il Programma Trauma Recovery Ethiopia"
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
 msgstr "salute in TG"
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Thank you for being a volunteer!"
+msgstr "Grazie per il tuo impegno come volontario!"
