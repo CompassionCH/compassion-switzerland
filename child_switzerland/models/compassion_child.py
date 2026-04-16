@@ -11,7 +11,7 @@ from datetime import timedelta
 
 import pyqrcode
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class CompassionChild(models.Model):
@@ -65,9 +65,31 @@ class CompassionChild(models.Model):
             except TypeError:
                 child.childpack_expiration = False
 
+    @api.depends_context("qr_utm_medium", "qr_utm_source", "qr_utm_campaign")
     def _compute_qr_code(self):
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        """
+        Computes a base64 PNG QR code linking to the child's
+        MyCompassion 2.0 sponsorship page.
+
+        Context variables:
+            - qr_utm_medium (str): The UTM medium (default: 'childpack_qr')
+            - qr_utm_source (str): The UTM source (default: 'hold_campaign')
+            - qr_utm_campaign (str): The UTM campaign (default: '')
+        """
+        base_url = (
+            self.env["ir.config_parameter"].sudo().get_param("web.external.url")
+        ).rstrip("/")
+
+        # Fetch UTMs from the environment context with defaults
+        utm_medium = self.env.context.get("qr_utm_medium") or "childpack_qr"
+        utm_source = self.env.context.get("qr_utm_source") or "hold_campaign"
+        utm_campaign = self.env.context.get("qr_utm_campaign") or ""
+
+        utm_string = f"?utm_medium={utm_medium}&utm_source={utm_source}"
+        if utm_campaign:
+            utm_string += f"&utm_campaign={utm_campaign}"
+
         for child in self:
-            url = f"{base_url}" f"/sponsor_this_child?source=QR&child_id={child.id}"
+            url = f"{base_url}/my2/new-sponsorship/{child.id}{utm_string}"
             qr = pyqrcode.create(url)
             child.qr_code_data = qr.png_as_base64_str(15, (0, 84, 166))
