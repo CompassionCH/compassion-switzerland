@@ -520,6 +520,11 @@ class RecurringContract(models.Model):
         :return: None
         """
         self.ensure_one()
+
+        # This pushes the new 'waiting' state and payment mode from Python cache to SQL
+        self.flush()
+        (self.partner_id | self.correspondent_id).flush()
+
         swiss = "partner_communication_switzerland."
         common = "partner_communication_compassion."
         new_dossier = self.env.ref(swiss + "config_onboarding_sponsorship_confirmation")

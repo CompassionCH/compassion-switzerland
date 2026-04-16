@@ -5,12 +5,12 @@ gender_guesser
 pandas
 pandas>=1.5.3
 pdf2image
-postfinancecheckout
+postfinancecheckout==5.2.2
 pyminizip
 PyPDF2
 pypng
 pyqrcode
 pyquery
 pysftp
+pyyaml
 wand
-yaml

@@ -63,9 +63,9 @@ Authors
 Contributors
 ------------
 
--  Emanuel Cino <ecino@compassion.ch>
--  Stéphane Eicher <eicher31@hotmail.com>
--  Michaël Sandoz <sandozmichael@hotmail.com>
+- Emanuel Cino <ecino@compassion.ch>
+- Stéphane Eicher <eicher31@hotmail.com>
+- Michaël Sandoz <sandozmichael@hotmail.com>
 
 Maintainers
 -----------

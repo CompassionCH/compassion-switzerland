@@ -29,10 +29,11 @@ class EventRegistration(models.Model):
 
         return registrations
 
-    def _inverse_passport(self):
-        super()._inverse_passport()
-        task_passport = self.env.ref("website_switzerland.task_passport")
-        for registration in self.filtered("passport"):
-            registration.task_ids.filtered(lambda t: t.task_id == task_passport).write(
-                {"done": True}
-            )
+    def write(self, vals):
+        super().write(vals)
+        if vals.get("passport"):
+            task_passport = self.env.ref("website_switzerland.task_passport")
+            self.mapped("task_ids").filtered(
+                lambda t: t.task_id == task_passport
+            ).write({"done": True})
+        return True

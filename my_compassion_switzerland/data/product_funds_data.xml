@@ -2,7 +2,7 @@
 <odoo>
     <!-- PRODUCT REGISTRATION -->
     <!-- WASH FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_fund_wtp"
       model="product.template"
@@ -158,7 +158,7 @@
     </data>
 
     <!-- UNSPONSORED CHILDREN FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_fund_usp"
       model="product.template"
@@ -302,7 +302,7 @@
     </data>
 
     <!-- HEALTH FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="product_template_fund_hea" model="product.template">
             <field name="name">health in TG</field>
             <!-- Header information -->
@@ -415,7 +415,7 @@
     </data>
 
     <!-- FOOD FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="product_template_fund_fda" model="product.template">
             <field name="name">food crisis</field>
             <!-- Header information -->
@@ -517,7 +517,7 @@
     </data>
 
     <!-- DISASTER FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="product_template_fund_dis" model="product.template">
             <field name="name">Ethiopia emergency</field>
             <!-- Header information -->
@@ -620,7 +620,7 @@
     </data>
 
     <!-- CHRISTMAS GIFT FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_fund_nol"
       model="product.template"
@@ -724,7 +724,7 @@
     </data>
 
     <!-- SURVIVAL FUND PRODUCT -->
-    <data noupdate="0">
+    <data noupdate="1">
         <record
       id="sponsorship_switzerland.product_template_fund_csp"
       model="product.template"

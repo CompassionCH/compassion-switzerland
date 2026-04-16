@@ -36,6 +36,7 @@ Page: My Compassion 2 Volunteering Page
                                     following the link below or check how to get more
                                     involved in Compassion Switzerland through
                                     MyCompassion</t>
+                                <t t-set="align_text" t-value="'text-center'" />
 
                                 <t
                   t-set="btn_text"

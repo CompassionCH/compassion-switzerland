@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
          * @private
          */
         _onPaymentMethodChange: function () {
-          const selectedText = this.$("#payment_method option:selected").text();
-          const isEBill = selectedText.includes("eBill");
+          const $selectedOption = this.$("#payment_method option:selected");
+          const isEBill = $selectedOption.data("payment-code") === "ebill";
 
           if (isEBill && !this._eBill.has_contract) {
             this.$("#ebill_setup_container").toggleClass("d-none", false);
