@@ -12,6 +12,7 @@ from datetime import timedelta
 import pyqrcode
 
 from odoo import fields, models
+from odoo.odoo import api
 
 
 class CompassionChild(models.Model):
