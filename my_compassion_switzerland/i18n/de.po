@@ -201,7 +201,7 @@ msgstr "Die Mitarbeitenden in den Kinderzentren kennen jedes Kind gut. Sie wähl
 #. module: my_compassion_switzerland
 #: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info3
 msgid "Lighting up children\'s eyes"
-msgstr "Leuchtende Kinderaugen"
+msgstr "Kinderaugen zum Strahlen bringen"
 
 #. module: my_compassion_switzerland
 #: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info3
@@ -343,3 +343,466 @@ msgstr "Fundraising-Aktion starten"
 #: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_together
 msgid "TOGETHER is Compassion’s fundraising platform. Anyone can start their own fundraising campaign—individually or as part of a group project—to support development projects implemented by Compassion in the Global South. In just a few clicks, you can launch your own campaign, set a fundraising goal, and choose an end date. You can then invite family and friends via email, Facebook, Instagram, WhatsApp, and other channels to support your fundraising goal through financial contributions."
 msgstr "TOGETHER ist die Fundraising-Plattform von Compassion, auf der jede/r eine Spendenaktion starten kann – allein oder als Teil einer Gruppe – zur Unterstützung von Entwicklungsprojekten, die Compassion im globalen Süden umsetzt. Mit nur wenigen Klicks erstellst du deine persönliche Aktion: Du legst dein Spendenziel fest, wählst ein Enddatum und lädst dann Familie und Freunde ein, deine Aktion mit einer Spende zu unterstützen."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__activate_for_my_compassion
+msgid "Activate For My Compassion"
+msgstr "Für MyCompassion aktivieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Activate for MyCompassion"
+msgstr "Für MyCompassion aktivieren"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_de_email
+msgid "Adv. engagement (DE)"
+msgstr "Adv. engagement (DE)"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_fr_email
+msgid "Adv. engagement (FR)"
+msgstr "Adv. engagement (FR)"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_it_email
+msgid "Adv. engagement (IT)"
+msgstr "Adv. engagement (IT)"
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_advocate_engagement
+msgid "Advocate Engagement"
+msgstr "Paten-Engagement"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
+msgid "Advocate engagement (Default)"
+msgstr "Paten-Engagement (Standard)"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Alt Text"
+msgstr "Alt-Text"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_alt_text
+msgid ""
+"Alt text for the image of the engagement type visible on the MyCompassion "
+"website"
+msgstr "Alt-Text für das Bild des Engagement-Typs, sichtbar auf der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid ""
+"An error occurred while processing your request. Please try again or contact"
+" support."
+msgstr "Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere den Support."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
+msgid "Apply as a Volunteer"
+msgstr "Freiwillig mithelfen"
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfiguration"
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Description"
+msgstr "Beschreibung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_description
+msgid "Description of engagement type visible on the MyCompassion website"
+msgstr "Beschreibung des Engagement-Typs, sichtbar auf der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__display_name
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
+msgid "E-Bill"
+msgstr "E-Bill"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in  "
+"any other languages."
+msgstr "E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-Formular in "
+"anderen Sprachen eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_fr_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in "
+"French."
+msgstr "E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-Formular auf "
+"Französisch eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_de_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in "
+"German."
+msgstr "E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-Formular auf Deutsch "
+"eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_it_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in "
+"Italian."
+msgstr "E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-Formular auf Italienisch "
+"eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_advocate_engagement_tree
+msgid "Engagement Types"
+msgstr "Engagement-Typen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_notification_engagement_advocate
+msgid "Engagement from advocates"
+msgstr "Engagement von Unterstützenden"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Engagement type"
+msgstr "Engagement-Typ"
+
+#. module: my_compassion_switzerland
+#: model:product.template,name:my_compassion_switzerland.product_template_fund_dis
+msgid "Ethiopia emergency"
+msgstr "Äthiopien-Notfall"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "External Link"
+msgstr "Externer Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
+msgid ""
+"External link for the engagement type which redirects from MyCompassion "
+"website to another website"
+msgstr "Externer Link für den Engagement-Typ, der von der MyCompassion-Website auf eine andere "
+"Website weiterleitet"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Find out how you can get involved:"
+msgstr "Entdecke hier die verschiedenen Möglichkeiten, wie du mithelfen kannst:"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"For more information on how to get involved in helping\n"
+"                            children in need, please fill out the form below and we will\n"
+"                            contact you as\n"
+"                            soon as possible."
+msgstr "Du möchtest mithelfen und noch mehr erfahren? Fülle einfach das Formular unten aus – wir melden uns so schnell wie möglich bei dir."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Get Involved"
+msgstr "Freiwillig mithelfen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Go to the volunteer platform"
+msgstr "Zur Freiwilligenplattform"
+
+#. module: my_compassion_switzerland
+#: model:mail.template,subject:my_compassion_switzerland.email_template_volunteer_registration
+msgid "I want to get involved at Compassion Switzerland"
+msgstr "Ich möchte mich bei Compassion Schweiz engagieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "I would like to volunteer for"
+msgstr "Ich möchte mich ehrenamtlich engagieren für"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__id
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__id
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_image
+msgid "Image for the engagement type visible on the MyCompassion website"
+msgstr "Bild für den Engagement-Typ, sichtbar auf der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Internal Link"
+msgstr "Interner Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_internal_link
+msgid ""
+"Internal link for the engagement type which sends a request to the Odoo "
+"server"
+msgstr "Interner Link für den Engagement-Typ, der eine Anfrage an den Odoo-Server sendet"
+
+#. module: my_compassion_switzerland
+#: code:addons/my_compassion_switzerland/models/advocate_engagement_notification_settings.py:0
+#, python-format
+msgid "Invalid email for %s: %s"
+msgstr "Ungültige E-Mailadresse für %s: %s"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__is_translator
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_users__is_translator
+msgid "Is Translator"
+msgstr "Ist Übersetzer/in"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Label"
+msgstr "Bezeichnung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_label
+msgid "Label used in MyCompassion website"
+msgstr "Bezeichnung, die auf der MyCompassion-Website verwendet wird"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement____last_update
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Letzte Änderung am"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
+msgid "Learn More"
+msgstr "Mehr erfahren"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info3
+msgid "Lighting up children's eyes"
+msgstr "Leuchtende Kinderaugen"
+
+#. module: my_compassion_switzerland
+#: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
+#, python-format
+msgid "Missing required volunteer roles"
+msgstr "Fehlende erforderliche Freiwilligenrollen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "My Compassion"
+msgstr "My Compassion"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_alt_text
+msgid "My Compassion Alt Text"
+msgstr "My Compassion Alt Text"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_description
+msgid "My Compassion Description"
+msgstr "My Compassion Beschreibung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
+msgid "My Compassion External Link"
+msgstr "My Compassion Externer Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_image
+msgid "My Compassion Image"
+msgstr "My Compassion Bild"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_internal_link
+msgid "My Compassion Internal Link"
+msgstr "My Compassion Interner Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_label
+msgid "My Compassion Label"
+msgstr "My Compassion Bezeichnung"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Name"
+msgstr "Name"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Picture"
+msgstr "Bild"
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid "Please select one or more volunteering options"
+msgstr "Bitte wähle eine oder mehrere Optionen aus"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__activate_for_my_compassion
+msgid ""
+"Publish the engagement type as an available engagement type on the "
+"MyCompassion website"
+msgstr "Veröffentliche den Engagement-Typ als verfügbaren Engagement-Typ auf der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Questions or Comments"
+msgstr "Fragen oder Anmerkungen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Send"
+msgstr "Senden"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__sequence
+msgid "Sequence"
+msgstr "Reihenfolge"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__sequence
+msgid ""
+"Sequence of the engagement type, used to order the engagement types in the "
+"MyCompassion website"
+msgstr "Reihenfolge des Engagement-Typs, wird zur Sortierung der Engagement-Typen auf der MyCompassion-Website verwendet"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
+msgid "Set up E-Bill Now"
+msgstr "E-Bill jetzt einrichten"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"Thank you for being a volunteer at\n"
+"                                    Compassion"
+msgstr "Herzlichen Dank, dass du dich bei Compassion freiwillig engagierst"
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid ""
+"Thank you for your interest in volunteering! A confirmation email has been "
+"sent to you."
+msgstr "Herzlichen Dank für dein Interesse an einem freiwilligen Engagement! Eine Bestätigungs-E-Mail wurde an dich gesendet."
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid ""
+"There was an issue with your submission. Please check your inputs and try "
+"again."
+msgstr "Es gab ein Problem mit deiner Eingabe. Bitte überprüfe deine Angaben und versuche es erneut."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_inherit
+msgid "Translate a letter"
+msgstr "Einen Brief übersetzen"
+
+#. module: my_compassion_switzerland
+#: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_dis
+#: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_fda
+#: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_hea
+msgid "Units"
+msgstr "Einheiten"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Unsubscribe"
+msgstr "Abmelden"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Volunteer with Compassion"
+msgstr "Freiwillig mithelfen"
+
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"Would you like to encourage others to support children?\n"
+"                                Are you particularly moved by the issue of extreme poverty and want to take action?"
+msgstr ""
+"Möchtest du andere ermutigen, Kinder zu unterstützen?\n"
+"Bewegt dich das Thema extreme Armut und möchtest du konkret etwas tun?"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"You can access the volunteer platform by\n"
+"                                    following the link below or check how to get more\n"
+"                                    involved in Compassion Switzerland through\n"
+"                                    MyCompassion"
+msgstr ""
+"Folge dem Link unten, um zur Freiwilligen-Plattform zu gelangen, oder schau auf MyCompassion, wie du bei Compassion Schweiz mithelfen kannst."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"You can volunteer for Compassion and use your skills to serve children — through\n"
+"                                translations, helping at events, prayer, or as an ambassador in your church or in the\n"
+"                                sports community."
+msgstr ""
+"Bei Compassion kannst du dich ehrenamtlich engagieren und deine Zeit und Talente für Kinder einsetzen. "
+"Ob durch Übersetzungen, bei Events, im Gebet, als Botschafter/in in deiner Kirche oder "
+"sogar im Sport – dein Einsatz macht einen echten Unterschied."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
+msgid ""
+"You selected E-Bill. To continue, please set up your E-Bill connection with "
+"Compassion."
+msgstr "Du hast E-Bill ausgewählt. Bitte richte deine E-Bill-Verbindung mit Compassion ein, um fortzufahren."
+
+#. module: my_compassion_switzerland
+#: model:product.template,thanks_name:my_compassion_switzerland.product_template_fund_fda
+msgid "business donation - see CWI"
+msgstr "Unternehmensspende - siehe CWI"
+
+#. module: my_compassion_switzerland
+#: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
+#: model:account.payment.mode,name:my_compassion_switzerland.payment_mode_ebill
+msgid "eBill"
+msgstr "E-Bill"
+
+#. module: my_compassion_switzerland
+#: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
+msgid "food crisis"
+msgstr "Lebensmittelkrise"
+
+#. module: my_compassion_switzerland
+#: model:product.template,thanks_name:my_compassion_switzerland.product_template_fund_dis
+msgid "for the Program Trauma Recovery Ethiopia"
+msgstr "für das Programm Trauma Recovery Äthiopien"
+
+#. module: my_compassion_switzerland
+#: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
+msgid "health in TG"
+msgstr "Gesundheit in TG"
