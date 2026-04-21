@@ -199,11 +199,6 @@ msgid "Staff at the Child Development Centers know every child well. They choose
 msgstr "Les collaborateurs de nos centres de développement de l’enfant connaissent personnellement les enfants et achètent un cadeau de Noël adapté, personnel, significatif et utile pour que chacun/e. Une belle façon de leur dire qu’ils ont de la valeur! Les cadeaux aident à couvrir des besoins vitaux là où c’est nécessaire et peuvent inclure par exemple des vêtements ou des chaussure, un animal de ferme, des produits d’hygiène ou du matériel scolaire."
 
 #. module: my_compassion_switzerland
-#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info3
-msgid "Lighting up children\'s eyes"
-msgstr "Des yeux d’enfants qui brillent"
-
-#. module: my_compassion_switzerland
 #: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info3
 msgid "At the Compassion Child Development Center in northern Peru, the Christmas party is one of the highlights of the year. Carefully prepared by Compassion staff, the celebration is an unforgettable day for the children and their families—full of laughter, gratitude, hope, and genuine community. Yamile (pictured) beams over her Christmas gift, which would not be possible without donations."
 msgstr "Dans un de nos centres de développement de l’enfant dans le nord du Pérou, la fête de Noël est l’un des plus beaux moments de l’année. L’événement est soigneusement préparé par les collaborateurs du centre et représente pour les enfants et leurs familles une journée inoubliable, pleine de rires, de gratitude, d’espoir et avec un véritable esprit de communauté. Yamile (sur la photo) rayonne devant son cadeau de Noël, rendu possible uniquement grâce à vos dons."
