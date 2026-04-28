@@ -83,8 +83,8 @@ class CompassionChild(models.Model):
 
         # Fetch UTMs from the environment context with defaults
         utm_params = {
-            "utm_medium": self.env.context.get("qr_utm_medium", "childpack_qr"),
-            "utm_source": self.env.context.get("qr_utm_source", "hold_campaign"),
+            "utm_medium": self.env.context.get("qr_utm_medium") or "childpack_qr",
+            "utm_source": self.env.context.get("qr_utm_source") or "hold_campaign",
         }
 
         # Add utm_campaign param only if provided
