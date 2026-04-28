@@ -8,6 +8,7 @@
 #
 ##############################################################################
 from datetime import timedelta
+from urllib.parse import urlencode
 
 import pyqrcode
 
@@ -81,15 +82,20 @@ class CompassionChild(models.Model):
         ).rstrip("/")
 
         # Fetch UTMs from the environment context with defaults
-        utm_medium = self.env.context.get("qr_utm_medium") or "childpack_qr"
-        utm_source = self.env.context.get("qr_utm_source") or "hold_campaign"
-        utm_campaign = self.env.context.get("qr_utm_campaign") or ""
+        utm_params = {
+            "utm_medium": self.env.context.get("qr_utm_medium") or "childpack_qr",
+            "utm_source": self.env.context.get("qr_utm_source") or "hold_campaign",
+        }
 
-        utm_string = f"?utm_medium={utm_medium}&utm_source={utm_source}"
+        # Add utm_campaign param only if provided
+        utm_campaign = self.env.context.get("qr_utm_campaign")
         if utm_campaign:
-            utm_string += f"&utm_campaign={utm_campaign}"
+            utm_params["utm_campaign"] = utm_campaign
+
+        # Safely encode dict to a URL query string
+        utm_params_encoded = urlencode(utm_params)
 
         for child in self:
-            url = f"{base_url}/my2/new-sponsorship/{child.id}{utm_string}"
+            url = f"{base_url}/my2/new-sponsorship/{child.id}?{utm_params_encoded}"
             qr = pyqrcode.create(url)
             child.qr_code_data = qr.png_as_base64_str(15, (0, 84, 166))
