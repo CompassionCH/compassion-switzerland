@@ -810,3 +810,13 @@ msgstr "Gesundheit in TG"
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Thank you for being a volunteer!"
 msgstr "Danke für deine Freiwilligenarbeit!"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_signup_form_inherit_ch
+msgid "How to register?"
+msgstr "Wie kann ich mich registrieren?"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_signup_form_inherit_ch
+msgid "Read our guide"
+msgstr "Anleitung lesen"
