@@ -453,7 +453,7 @@ class Contracts(models.Model):
 
             if sponsorship_type == "CSP":
                 country_code = form_data["country"]
-                product = False
+                product = self.env["product.product"]
 
                 if not country_code:
                     continent_key = form_data["continent"].lower()
@@ -517,9 +517,9 @@ class Contracts(models.Model):
                 notify_partner_field
             )
 
-        keys_to_remove = [k for k in custom_values.keys() if k.startswith("promoted_")]
-        for k in keys_to_remove:
-            custom_values.pop(k, None)
+        # remove promoted keys
+        for k in [k for k in custom_values if k.startswith("promoted_")]:
+            custom_values.pop(k)
 
         contract = super().message_new(msg_dict, custom_values)
         if notify_partner_id:
