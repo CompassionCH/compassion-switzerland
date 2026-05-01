@@ -35,6 +35,7 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
+        "mail",
         "sponsorship_compassion",
         "child_switzerland",
         "wordpress_configuration",

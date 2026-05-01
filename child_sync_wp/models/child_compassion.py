@@ -34,7 +34,7 @@ class CompassionChild(models.Model):
         res.append("I")
         return res
 
-    def add_to_wordpress(self, company_id=None):
+    def add_to_wordpress(self, company_id=None, wp=None):
         in_two_years = date.today() + relativedelta(years=2)
         valid_children = self.filtered(
             lambda c: c.state == "N"
@@ -56,8 +56,9 @@ class CompassionChild(models.Model):
                 f"to wordpress"
             )
 
-        wp_config = self.env["wordpress.configuration"].get_config(company_id)
-        wp = WPSync(wp_config)
+        if wp is None:
+            wp_config = self.env["wordpress.configuration"].get_config(company_id)
+            wp = WPSync(wp_config)
         return wp.upload_children(valid_children)
 
     def remove_from_wordpress(self):
@@ -132,7 +133,7 @@ class CompassionChild(models.Model):
                 channel="root.child_compassion",
                 description="Hold and push children to wordpress",
             )._hold_and_push_to_wordpress(company.id, global_pool)
-            return True
+        return True
 
     def _create_diverse_children_pool(self, take):
         global_pool = self.env["compassion.childpool.search"].create(
@@ -152,26 +153,38 @@ class CompassionChild(models.Model):
         return global_pool
 
     def _hold_and_push_to_wordpress(self, company_id, global_pool):
-        new_children = self._hold_children(global_pool)
-        valid_new_children = new_children._update_information_and_filter_invalid()
-        old_children = self.search(
-            [
-                ("state", "=", "I"),
-                ("hold_id.type", "!=", HoldType.NO_MONEY_HOLD.value),
-            ]
-        )
-        self._replace_children_in_wordpress(
-            company_id, old_children, valid_new_children
-        )
+        try:
+            new_children = self._hold_children(global_pool)
+            valid_new_children = new_children._update_information_and_filter_invalid()
+            old_children = self.search(
+                [
+                    ("state", "=", "I"),
+                    ("hold_id.type", "!=", HoldType.NO_MONEY_HOLD.value),
+                ]
+            )
+            self._replace_children_in_wordpress(
+                company_id, old_children, valid_new_children
+            )
+        except Exception as e:
+            logger.error("Critical failure in WordPress sync job", exc_info=True)
+            with self.pool.cursor() as cr:
+                env = api.Environment(cr, self.env.uid, self.env.context)
+                self.with_env(env)._notify_developer(
+                    f"The WordPress Sync background job crashed: {str(e)}"
+                )
+            raise
 
     def _update_information_and_filter_invalid(self):
         for child in self:
             try:
                 child.get_infos()
                 child.mapped("project_id").update_informations()
-            except UserError:
-                logger.error("Error updating child information: ", exc_info=True)
+            except Exception:
+                logger.error(
+                    f"Error updating child information for {child.id} ", exc_info=True
+                )
                 continue
+
         return self.filtered(
             lambda c: c.state == "N"
             and c.description_it
@@ -202,20 +215,97 @@ class CompassionChild(models.Model):
         return children
 
     def _replace_children_in_wordpress(self, company_id, old_children, new_children):
+        # Initiate WPSync once
+        wp_config = self.env["wordpress.configuration"].get_config(
+            company_id, raise_error=False
+        )
+        if not wp_config:
+            logger.error(f"Missing WP Config for company {company_id}")
+            return
+
+        try:
+            wp = WPSync(wp_config)
+        except Exception:
+            logger.error(
+                "Failed to authenticate WPSync before batching.", exc_info=True
+            )
+            return
+
         try:
             with self.env.cr.savepoint():
                 old_children.force_remove_from_wordpress(company_id)
-                # Put children 5 by 5 to avoid delays
-                for i in range(0, len(new_children), 5):
-                    try:
-                        new_children[i : i + 5].add_to_wordpress(company_id)
-                    except Exception:
-                        logger.error(
-                            "Failed adding a batch of children to" " wordpress: ",
-                            exc_info=True,
-                        )
-                        continue
+        except Exception:
+            logger.error(
+                "Error force removing old children from WordPress: ", exc_info=True
+            )
+            return
 
+        # Save points after each batch
+        # Put children 5 by 5 to avoid delays
+        failed_batches = 0
+        for i in range(0, len(new_children), 5):
+            try:
+                with self.env.cr.savepoint():
+                    new_children[i : i + 5].add_to_wordpress(
+                        company_id=company_id, wp=wp
+                    )
+            except Exception:
+                logger.error(
+                    "Failed adding a batch of children to wordpress: ",
+                    exc_info=True,
+                )
+                failed_batches += 1
+                continue
+        if failed_batches:
+            warning_msg = f"{failed_batches} batch(es) failed to upload to WordPress"
+            logger.warning(warning_msg)
+
+            # --- SEND EMAIL FOR PARTIAL FAILURE ---
+            with self.pool.cursor() as cr:
+                env = api.Environment(cr, self.env.uid, self.env.context)
+                self.with_env(env)._notify_developer(
+                    f"Partial Sync Failure: {warning_msg}. Check Odoo logs."
+                )
+
+        # Release holds
+        try:
+            with self.env.cr.savepoint():
                 old_children.mapped("hold_id").release_hold()
         except Exception:
             logger.error("Error when refreshing wordpress children.")
+
+    def _notify_developer(self, message: str) -> None:
+        """
+        Sends an email to the IT team regarding child a child sync issue
+        """
+
+        dev_email = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("child_wp.developer_email", "it@compassion.ch")
+        )
+
+        mail_values = {
+            "subject": "[URGENT] Odoo -> WordPress Sync Failure",
+            "body_html": f"""
+            <p>Hello Team,</p>
+            <p>The odoo scheduled action for syncing children to
+            WordPress has encountered a failure.</p>
+            <p><b>Error details:</b></p>
+            <pre>{message}</pre>
+            <p>Please trigger the job manually and resolve the problem ASAP!</p>
+            <br/>
+            <p><i>Thanks for your work & God bless you!</i></p>
+            """,
+            "email_to": dev_email,
+            "email_from": self.env.company.email or "noreply@compassion.ch",
+            "state": "outgoing",
+            "author_id": False,
+            "recipient_ids": [(5, 0, 0)],  # don't link to a partner
+        }
+
+        try:
+            mail = self.env["mail.mail"].sudo().create(mail_values)
+            mail.send()
+        except Exception:
+            logger.error("Failed to send developer notification email.", exc_info=True)
