@@ -56,10 +56,26 @@ class CompassionChild(models.Model):
                 f"to wordpress"
             )
 
+        if not valid_children:
+            return 0
+
         if wp is None:
             wp_config = self.env["wordpress.configuration"].get_config(company_id)
             wp = WPSync(wp_config)
-        return wp.upload_children(valid_children)
+
+        success_count = wp.upload_children(valid_children)
+
+        # Evaluate success of the upload and log appropriately
+        if isinstance(success_count, int) and success_count < len(valid_children):
+            err_msg = (
+                f"WPSync partial batch failure: "
+                f"Only {success_count}/{len(valid_children)} uploaded."
+            )
+            raise Exception(err_msg)
+        elif success_count is False or success_count is None:
+            raise Exception("WPSync total batch failure. Upload returned False/None.")
+
+        return success_count
 
     def remove_from_wordpress(self):
         try:
@@ -74,10 +90,11 @@ class CompassionChild(models.Model):
             logger.error(f"Error removing children from WordPress: {e}", exc_info=True)
             raise
 
-    def force_remove_from_wordpress(self, company_id=None):
+    def force_remove_from_wordpress(self, company_id=None, wp=None):
         try:
-            wp_config = self.env["wordpress.configuration"].get_config(company_id)
-            wp = WPSync(wp_config)
+            if wp is None:
+                wp_config = self.env["wordpress.configuration"].get_config(company_id)
+                wp = WPSync(wp_config)
             if wp.remove_all_children():
                 logger.info("ALL CHILDREN REMOVED")
                 self.write({"state": "N"})
@@ -231,7 +248,10 @@ class CompassionChild(models.Model):
 
         try:
             with self.env.cr.savepoint():
-                old_children.force_remove_from_wordpress(company_id)
+                old_children.force_remove_from_wordpress(
+                    company_id=company_id,
+                    wp=wp,
+                )
         except Exception as e:
             raise UserError(
                 f"Error force removing old children from WordPress: {e}"
@@ -241,20 +261,9 @@ class CompassionChild(models.Model):
         # Put children 5 by 5 to avoid delays
         failed_batches = 0
         for i in range(0, len(new_children), 5):
-            batch = new_children[i : i + 5]
             try:
                 with self.env.cr.savepoint():
-                    success_count = batch.add_to_wordpress(company_id=company_id, wp=wp)
-                    # check if every child was uploaded successfully
-                    if isinstance(success_count, int) and success_count < len(batch):
-                        raise Exception(
-                            f"WPSync partial batch failure: "
-                            f"Only {success_count}/{len(batch)} uploaded."
-                        )
-                    elif success_count is False or success_count is None:
-                        raise Exception(
-                            "WPSync total batch failure. " "Upload returned False/None."
-                        )
+                    new_children[i : i + 5].add_to_wordpress(company_id=company_id, wp=wp)
             except Exception:
                 logger.error(
                     "Failed adding a batch of children to wordpress: ",
@@ -262,6 +271,7 @@ class CompassionChild(models.Model):
                 )
                 failed_batches += 1
                 continue
+
         if failed_batches:
             warning_msg = f"{failed_batches} batch(es) failed to upload to WordPress"
             logger.warning(warning_msg)
