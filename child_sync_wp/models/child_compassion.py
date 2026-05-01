@@ -57,7 +57,7 @@ class CompassionChild(models.Model):
             )
 
         if not valid_children:
-            return 0
+            return 0, 0
 
         if wp is None:
             wp_config = self.env["wordpress.configuration"].get_config(company_id)
@@ -65,17 +65,7 @@ class CompassionChild(models.Model):
 
         success_count = wp.upload_children(valid_children)
 
-        # Evaluate success of the upload and log appropriately
-        if isinstance(success_count, int) and success_count < len(valid_children):
-            err_msg = (
-                f"WPSync partial batch failure: "
-                f"Only {success_count}/{len(valid_children)} uploaded."
-            )
-            raise Exception(err_msg)
-        elif success_count is False or success_count is None:
-            raise Exception("WPSync total batch failure. Upload returned False/None.")
-
-        return success_count
+        return success_count or 0, len(valid_children)
 
     def remove_from_wordpress(self):
         try:
@@ -259,11 +249,22 @@ class CompassionChild(models.Model):
 
         # Save points after each batch
         # Put children 5 by 5 to avoid delays
+        total_uploaded = 0
+        total_expected = 0
         failed_batches = 0
         for i in range(0, len(new_children), 5):
             try:
                 with self.env.cr.savepoint():
-                    new_children[i : i + 5].add_to_wordpress(company_id=company_id, wp=wp)
+                    success_count, valid_count = new_children[
+                        i : i + 5
+                    ].add_to_wordpress(company_id=company_id, wp=wp)
+                    total_uploaded += success_count
+                    total_expected += valid_count
+                    if success_count < valid_count:
+                        logger.warning(
+                            f"Batch {i} partial success: "
+                            f"{success_count}/{valid_count}"
+                        )
             except Exception:
                 logger.error(
                     "Failed adding a batch of children to wordpress: ",
@@ -272,16 +273,17 @@ class CompassionChild(models.Model):
                 failed_batches += 1
                 continue
 
-        if failed_batches:
-            warning_msg = f"{failed_batches} batch(es) failed to upload to WordPress"
+        if failed_batches > 0 or total_uploaded < total_expected:
+            warning_msg = (
+                f"Sync completed with issues: {failed_batches} failed batches, "
+                f"{total_uploaded}/{total_expected} children uploaded."
+            )
             logger.warning(warning_msg)
 
-            # send email for partial failure
+            # Send the email with partial failure
             with self.pool.cursor() as cr:
                 env = api.Environment(cr, self.env.uid, self.env.context)
-                self.with_env(env)._notify_developer(
-                    f"Partial Sync Failure: {warning_msg}. Check Odoo logs."
-                )
+                self.with_env(env)._notify_developer(warning_msg)
 
         # Release holds
         try:
