@@ -176,7 +176,7 @@ class CompassionChild(models.Model):
             logger.error("Critical failure in WordPress sync job", exc_info=True)
             with self.pool.cursor() as cr:
                 env = api.Environment(cr, self.env.uid, self.env.context)
-                self.with_env(env)._notify_developer(
+                self.with_env(env).with_company(company_id)._notify_developer(
                     f"The WordPress Sync background job crashed: {str(e)}"
                 )
             raise
@@ -283,7 +283,9 @@ class CompassionChild(models.Model):
             # Send the email with partial failure
             with self.pool.cursor() as cr:
                 env = api.Environment(cr, self.env.uid, self.env.context)
-                self.with_env(env)._notify_developer(warning_msg)
+                self.with_env(env).with_company(company_id)._notify_developer(
+                    warning_msg
+                )
 
         # Release holds
         try:
