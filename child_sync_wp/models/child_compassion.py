@@ -220,35 +220,41 @@ class CompassionChild(models.Model):
             company_id, raise_error=False
         )
         if not wp_config:
-            logger.error(f"Missing WP Config for company {company_id}")
-            return
+            raise UserError(f"Missing WP Config for company {company_id}")
 
         try:
             wp = WPSync(wp_config)
-        except Exception:
-            logger.error(
-                "Failed to authenticate WPSync before batching.", exc_info=True
-            )
-            return
+        except Exception as e:
+            raise UserError(
+                f"Failed to authenticate WPSync before batching: {e}"
+            ) from e
 
         try:
             with self.env.cr.savepoint():
                 old_children.force_remove_from_wordpress(company_id)
-        except Exception:
-            logger.error(
-                "Error force removing old children from WordPress: ", exc_info=True
-            )
-            return
+        except Exception as e:
+            raise UserError(
+                f"Error force removing old children from WordPress: {e}"
+            ) from e
 
         # Save points after each batch
         # Put children 5 by 5 to avoid delays
         failed_batches = 0
         for i in range(0, len(new_children), 5):
+            batch = new_children[i : i + 5]
             try:
                 with self.env.cr.savepoint():
-                    new_children[i : i + 5].add_to_wordpress(
-                        company_id=company_id, wp=wp
-                    )
+                    success_count = batch.add_to_wordpress(company_id=company_id, wp=wp)
+                    # check if every child was uploaded successfully
+                    if isinstance(success_count, int) and success_count < len(batch):
+                        raise Exception(
+                            f"WPSync partial batch failure: "
+                            f"Only {success_count}/{len(batch)} uploaded."
+                        )
+                    elif success_count is False or success_count is None:
+                        raise Exception(
+                            "WPSync total batch failure. " "Upload returned False/None."
+                        )
             except Exception:
                 logger.error(
                     "Failed adding a batch of children to wordpress: ",
@@ -260,7 +266,7 @@ class CompassionChild(models.Model):
             warning_msg = f"{failed_batches} batch(es) failed to upload to WordPress"
             logger.warning(warning_msg)
 
-            # --- SEND EMAIL FOR PARTIAL FAILURE ---
+            # send email for partial failure
             with self.pool.cursor() as cr:
                 env = api.Environment(cr, self.env.uid, self.env.context)
                 self.with_env(env)._notify_developer(
@@ -301,7 +307,6 @@ class CompassionChild(models.Model):
             "email_from": self.env.company.email or "noreply@compassion.ch",
             "state": "outgoing",
             "author_id": False,
-            "recipient_ids": [(5, 0, 0)],  # don't link to a partner
         }
 
         try:
