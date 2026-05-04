@@ -453,14 +453,32 @@ class Contracts(models.Model):
 
             if sponsorship_type == "CSP":
                 country_code = form_data["country"]
+                product = self.env["product.product"]
+
+                if not country_code:
+                    continent_key = form_data["continent"].lower()
+                    promoted_country = custom_values.get(f"promoted_{continent_key}")
+
+                    if promoted_country and promoted_country != "N/A":
+                        product = self.env["product.product"].search(
+                            [
+                                ("default_code", "=", f"csp_{promoted_country}"),
+                                ("survival_slot_number", ">", 0),
+                            ],
+                            limit=1,
+                        )
+                        if product:
+                            country_code = promoted_country
+
                 if not country_code:
                     country_code = self._get_neediest_csp_country_code(
                         form_data["continent"]
                     )
 
-                product = self.env["product.product"].search(
-                    [("default_code", "=", f"csp_{country_code}")], limit=1
-                )
+                if not product:
+                    product = self.env["product.product"].search(
+                        [("default_code", "=", f"csp_{country_code}")], limit=1
+                    )
                 ref = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
             else:
                 product = self.env["product.product"].search(
@@ -498,6 +516,11 @@ class Contracts(models.Model):
             notify_partner_id = self.env["res.config.settings"].get_param(
                 notify_partner_field
             )
+
+        # remove promoted keys
+        for k in [k for k in custom_values if k.startswith("promoted_")]:
+            custom_values.pop(k)
+
         contract = super().message_new(msg_dict, custom_values)
         if notify_partner_id:
             contract.message_post(
