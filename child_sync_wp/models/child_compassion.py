@@ -87,7 +87,7 @@ class CompassionChild(models.Model):
                 wp = WPSync(wp_config)
             if wp.remove_all_children():
                 logger.info("ALL CHILDREN REMOVED")
-                self.write({"state": "N"})
+                self.with_delay(channel="root.child_compassion").write({"state": "N"})
             return True
         except Exception as e:
             logger.error(
