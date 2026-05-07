@@ -9,7 +9,6 @@ exclude: |
   ^mail_activity_to_crm_request/|
   ^my_compassion_switzerland/|
   ^partner_communication_switzerland/|
-  ^report_compassion/|
   ^sbc_switzerland/|
   ^sms_939/|
   ^website_switzerland/|

@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Report for printing a letter on Compassion Paper -->
         <record id="report_anniversary_card" model="ir.actions.report">
             <field name="name">Anniversary Card</field>
@@ -110,25 +109,23 @@
                   }
             </t>
              <t t-set="address" t-value="False" />
-                          <t t-set="report_header_style">
-                            display: None;
-                          </t>
             <t t-call="web.html_container">
                     <t t-foreach="docs" t-as="o">
                         <t t-call="web.external_layout">
-
+                            <t t-set="disable_header" t-value="True" />
+                            <t t-set="disable_footer" t-value="True" />
                                 <t t-call="report_compassion.style" />
                                 <div class="body">
                                     <div id="date">
                                         <span
-                  t-raw="o.partner_id.date_communication"
+                  t-out="o.partner_id.date_communication"
                 />
                                     </div>
                                     <div id="title">
-                                        <b><span t-raw="o.subject" /></b>
+                                        <b><span t-out="o.subject" /></b>
                                     </div>
                                     <div id="body-content">
-                                        <span t-raw="o.body_html" />
+                                        <span t-out="o.body_html" />
                                         <div id="signature">
                                             <!-- 187 is equal to Sarah Maria Internal user ID -->
                                             <t
@@ -163,7 +160,7 @@
                                         <hr />
                                     </div>
                                     <span
-                t-raw="o.partner_id.short_address"
+                t-out="o.partner_id.short_address"
                 id="partner_address"
               />
                                 </div>
@@ -185,5 +182,4 @@
                     </t>
             </t>
         </template>
-    </data>
 </odoo>

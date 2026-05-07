@@ -27,7 +27,8 @@
         <t t-set="swissqr_position_top" t-value="position_top_even" />
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
-                <t t-set="report_header_style">display: none;</t>
+                <t t-set="disable_header" t-value="True" />
+                <t t-set="disable_footer" t-value="True" />
                 <t t-call="report_compassion.style" />
                 <t
           t-call="report_compassion.report_bvr_sponsorship_gift_document_2bvr"
@@ -105,7 +106,8 @@
     <!-- BVR page for sponsorship gift -->
     <template id="report_bvr_sponsorship_gift_document">
         <t t-call="web.external_layout">
-            <t t-set="report_header_style">display: none;</t>
+            <t t-set="disable_header" t-value="True" />
+                <t t-set="disable_footer" t-value="True" />
             <t t-call="report_compassion.style" />
             <t
         t-set="o"

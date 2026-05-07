@@ -16,13 +16,13 @@ from odoo.http import request
 
 
 class EmployeeImageController(http.Controller):
-    @http.route("/employee/image/<int:employee_id>/", auth="public")
-    def get_employee_image(self, employee_id):
+    @http.route("/employee/image/<string:uuid>/", auth="public")
+    def get_employee_image(self, uuid):
         """
         Retrieves the image for a given employee ID and returns it as a PNG image.
 
         Args:
-            employee_id (int)
+            uuid (char)
 
         Returns:
             werkzeug.wrappers.Response: A response object with the binary image data
@@ -30,7 +30,9 @@ class EmployeeImageController(http.Controller):
         Raises:
             werkzeug.exceptions.NotFound
         """
-        employee = request.env["hr.employee"].sudo().browse(employee_id)
+        employee = (
+            request.env["hr.employee"].sudo().search([("uuid", "=", uuid)], limit=1)
+        )
         if not employee.image_128:
             raise NotFound()
 

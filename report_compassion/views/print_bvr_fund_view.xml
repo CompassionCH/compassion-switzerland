@@ -12,7 +12,7 @@
                     <field name="amount" />
                     <field name="output_type" />
                 </group>
-                <group states="download">
+                <group invisible="state != 'download'">
                     <field name="file_name" invisible="1" />
                     <field name="file_download" filename="file_name" />
                 </group>

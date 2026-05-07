@@ -239,7 +239,7 @@
         <div id="letter">
             <div id="date" t-if="not print_header">
                 <span
-          t-raw="partner.date_communication"
+          t-out="partner.date_communication"
           style="float: left; margin-top: 10mm; min-width: 70mm;"
         />
             </div>
@@ -269,30 +269,31 @@
                     </div>
                     <hr />
                 </div>
-                <span t-raw="partner.address_name" />
+                <span t-out="partner.address_name" />
                 <br />
-                <span
-          t-raw="'&lt;br/&gt;'.join((partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"
-        />
+                <t t-foreach="(partner.contact_address or '').split('\n')" t-as="line">
+                    <span t-out="line"/>
+                    <br/>
+                </t>
                 <div
           id="date"
           t-if="print_header"
           t-attf-style="margin-top: #{'20' if display_pp else '25'}mm;"
         >
-                    <span t-raw="partner.date_communication" />
+                    <span t-out="partner.date_communication" />
                 </div>
             </div>
 
             <div id="title" t-if="print_subject" style="max-width: 80mm;">
-                <b><span t-raw="subject" /></b>
+                <b><span t-out="subject" /></b>
             </div>
 
             <div id="content">
                 <div id="success-story" t-if="success_story">
-                    <t t-raw="success_story.body" />
+                    <t t-out="success_story.body" />
                 </div>
                 <div id="body">
-                    <div t-raw="body_html" class="body_text" />
+                    <div t-out="body_html" class="body_text" />
                     <img
             t-if="show_signature"
             t-attf-src="data:image/jpg;base64,#{ user.digital_signature }"
@@ -301,7 +302,7 @@
                     <div
             t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm;"
           >
-                        <t t-raw="user.signature_letter" />
+                        <t t-out="user.signature_letter" />
                     </div>
                 </div>
             </div>
@@ -342,7 +343,8 @@
 
     <template id="partner_communication_document">
         <t t-call="web.external_layout">
-            <t t-set="report_header_style">display: none;</t>
+            <t t-set="disable_footer" t-value="1" />
+            <t t-set="disable_header" t-value="1" />
             <t t-call="report_compassion.communication_style" />
             <t t-call="report_compassion.partner_communication_document_page" />
         </t>
@@ -378,10 +380,10 @@
                                     </div>
                                     <hr />
                                 </div>
-                                <span t-raw="o.partner_id.address_name" />
+                                <span t-out="o.partner_id.address_name" />
                                 <br />
                                 <span
-            t-raw="'&lt;br/&gt;'.join((o.partner_id.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"
+            t-out="'&lt;br/&gt;'.join((o.partner_id.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"
           />
                             </div>
                 </t>

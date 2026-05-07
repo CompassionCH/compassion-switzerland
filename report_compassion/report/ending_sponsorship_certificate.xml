@@ -181,7 +181,7 @@
             >
                             Sponsored since (Female)
                         </t>
-                        <t t-raw="start_date" /> - <t t-raw="end_date" /></p>
+                        <t t-out="start_date" /> - <t t-out="end_date" /></p>
                 </div>
             </t>
         </t>

@@ -82,6 +82,7 @@
         search="[('code','=','5000')]"
       />
             <field name="default_code">gift_birthday</field>
+            <field name="sponsorship_gift_type_id" ref="sponsorship_compassion.gift_type_birthday" />
         </record>
         <record id="product_template_gift_gen" model="product.template">
             <field name="name">General Gift</field>
@@ -99,6 +100,7 @@
         search="[('code','=','5000')]"
       />
             <field name="default_code">gift_gen</field>
+            <field name="sponsorship_gift_type_id" ref="sponsorship_compassion.gift_type_gen" />
         </record>
         <record id="product_template_gift_family" model="product.template">
             <field name="name">Family Gift</field>
@@ -116,6 +118,7 @@
         search="[('code','=','5000')]"
       />
             <field name="default_code">gift_family</field>
+            <field name="sponsorship_gift_type_id" ref="sponsorship_compassion.gift_type_family" />
         </record>
         <record id="product_template_gift_project" model="product.template">
             <field name="name">Project Gift</field>
@@ -133,6 +136,7 @@
         search="[('code','=','5000')]"
       />
             <field name="default_code">gift_project</field>
+            <field name="sponsorship_gift_type_id" ref="sponsorship_compassion.gift_type_project" />
         </record>
         <record id="product_template_gift_graduation" model="product.template">
             <field name="name">Graduation Gift</field>
@@ -150,6 +154,7 @@
         search="[('code','=','5000')]"
       />
             <field name="default_code">gift_graduation</field>
+            <field name="sponsorship_gift_type_id" ref="sponsorship_compassion.gift_type_graduation" />
         </record>
 
         <!-- Funds templates -->
@@ -761,6 +766,7 @@
         name="property_account_expense_id"
         search="[('code','=','5000')]"
       />
+            <field name="sponsorship_gift_type_id" ref="sponsorship_compassion.gift_type_christmas" />
         </record>
         <record id="product_template_fund_ovc" model="product.template">
             <field name="name">"Highly Vulnerable Children" Fund</field>

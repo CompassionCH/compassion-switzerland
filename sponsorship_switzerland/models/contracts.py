@@ -206,7 +206,7 @@ class RecurringContracts(models.Model):
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
-        return False
+        return ""
 
     ##########################################################################
     #                            WORKFLOW METHODS                            #

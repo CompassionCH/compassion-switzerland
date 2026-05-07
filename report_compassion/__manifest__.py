@@ -29,16 +29,18 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "14.0.1.3.2",
+    "version": "18.0.1.0.1",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "sponsorship_switzerland",  # compassion-switzerland
+        "hr_switzerland",
         "report_wkhtmltopdf_param",  # addons_oca
         "l10n_ch",
         "crm_request",
+        "social_media",
     ],
     "external_dependencies": {"python": ["pyquery", "babel"]},
     "data": [
@@ -55,6 +57,7 @@
         "report/new_donors_card.xml",
         "report/tax_receipt.xml",
         "report/ending_sponsorship_certificate.xml",
+        "report/signatures.xml",
         "views/print_sponsorship_bvr_view.xml",
         "views/print_sponsorship_gift_bvr_view.xml",
         "views/print_bvr_fund_view.xml",
@@ -62,10 +65,17 @@
         "views/communication_config_view.xml",
         "views/generate_communication_wizard_view.xml",
         "views/print_tax_receipt_view.xml",
-        "views/report_assets.xml",
+        "views/res_company_view.xml",
         "data/tax_receipt_email_template.xml",
     ],
+    "assets": {
+        "web.report_assets_common": [
+            "report_compassion/static/scss/report.scss",
+            "report_compassion/static/scss/report_swissqr.scss",
+        ]
+    },
     "demo": [],
-    "installable": False,
+    "post_init_hook": "post_init_hook",
+    "installable": True,
     "auto_install": False,
 }

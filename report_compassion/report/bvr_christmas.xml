@@ -15,8 +15,8 @@
             t-set="product"
             t-value="docs.env['product.product'].browse([31])"
           />
-                     <!-- Hide header -->
-                <t t-set="report_header_style">display: none;</t>
+                        <t t-set="disable_header" t-value="True" />
+                    <t t-set="disable_footer" t-value="True" />
                 <t t-call="report_compassion.style" />
                     <t t-set="disable_scissors" t-value="True" />
                     <t t-foreach="docs" t-as="claim">

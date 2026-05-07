@@ -48,15 +48,17 @@ class ResPartnerBank(models.Model):
 
     def _get_partner_address_lines(self, partner):
         """Override to allow empty zip or city."""
-        line_1 = (
-            (partner and partner.street or "")
-            + " "
-            + (partner and partner.street2 or "")
-        )
-        line_2 = (
-            (partner and partner.zip or "") + " " + (partner and partner.city or "")
-        )
-        return line_1[:70], line_2[:70]
+        try:
+            temp_partner = partner.new(
+                partner.read(["street", "street2", "zip", "city"])[0]
+            )
+            if not temp_partner.zip:
+                temp_partner.zip = ""
+            if not temp_partner.city:
+                temp_partner.city = ""
+        except IndexError:
+            temp_partner = partner
+        return super()._get_partner_address_lines(temp_partner)
 
     def _eligible_for_qr_code(self, qr_method, debtor_partner, currency):
         # Always allow QR-generation
@@ -75,7 +77,7 @@ class ResPartnerBank(models.Model):
     ):
         # Don't check missing addresses
         if qr_method == "ch_qr":
-            if self._is_qr_iban() and not self._is_qr_reference(
+            if self.l10n_ch_qr_iban and not self._is_qr_reference(
                 structured_communication
             ):
                 return _(

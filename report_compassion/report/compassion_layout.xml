@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Custom css for PDF pages -->
         <template id="style">
             <style type="text/css">
@@ -43,9 +42,8 @@
                 }
 
                 /* Allow custom style for each report */
-                <t t-raw="custom_css" />
-                <t t-raw="custom_css_2" />
+                <t t-out="custom_css" />
+                <t t-out="custom_css_2" />
             </style>
         </template>
-    </data>
 </odoo>
