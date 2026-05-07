@@ -30,14 +30,12 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.bvr_due</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship" />
-        <field name="binding_model_id" ref="model_recurring_contract" />
-        <field name="binding_type">report</field>
     </record>
 
     <template id="bvr_sponsorship">
         <t t-call="web.html_container">
             <t t-set="swissqr_position_top" t-value="192" />
-            <t t-foreach="docs" t-as="doc">
+            <t t-foreach="group_contracts" t-as="doc">
                 <t
           t-call="report_compassion.report_bvr_sponsorship_document"
           t-lang="doc.partner_id.lang"
@@ -48,7 +46,7 @@
 
     <template id="single_bvr_sponsorship">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
+            <t t-foreach="group_contracts" t-as="doc">
                 <t t-set="disable_scissors" t-value="True" />
                 <t
           t-call="report_compassion.report_bvr_sponsorship_document"
@@ -60,7 +58,8 @@
 
     <template id="report_bvr_sponsorship_document">
         <t t-call="web.external_layout">
-            <t t-set="report_header_style">display: none;</t>
+            <t t-set="disable_header" t-value="True" />
+                <t t-set="disable_footer" t-value="True" />
             <t t-call="report_compassion.style" />
             <t
         t-set="o"
@@ -98,7 +97,8 @@
         <t t-set="qr_count" t-value="0" />
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
-                <t t-set="report_header_style">display: none;</t>
+                <t t-set="disable_header" t-value="True" />
+                <t t-set="disable_footer" t-value="True" />
                 <t t-call="report_compassion.style" />
                 <t
           t-call="report_compassion.report_bvr_sponsorship_document_2bvr"
@@ -113,7 +113,7 @@
 
     <!-- 2 BVR page for sponsorship -->
     <template id="report_bvr_sponsorship_document_2bvr">
-        <t t-foreach="docs" t-as="doc">
+        <t t-foreach="group_contracts" t-as="doc">
             <t
         t-set="o"
         t-value="doc.with_context({'lang':doc.partner_id.lang})"
@@ -162,7 +162,7 @@
             </t>
         </t>
         <t t-if="gifts">
-            <t t-foreach="docs" t-as="group">
+            <t t-foreach="group_contracts" t-as="group">
                 <t
           t-set="products"
           t-value="products or group_value[:1].get_sponsorship_gift_products()"
@@ -191,7 +191,8 @@
     <template id="bvr_due">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
-                <t t-set="report_header_style">display: none;</t>
+                <t t-set="disable_header" t-value="True" />
+                <t t-set="disable_footer" t-value="True" />
                 <t t-foreach="docs.mapped('partner_id')" t-as="partner">
                     <t
             t-call="report_compassion.report_bvr_due_document"
@@ -232,10 +233,11 @@
             Sponsorship due
             <t t-if="due">
                 <br />
-                CHF<t t-raw="due" />.-
+                CHF<t t-out="due" />.-
             </t>
         </t>
         <t t-set="amount" t-value="due" />
+        <t t-set="disable_scissors" t-value="True" />
         <t t-call="report_compassion.report_compassion_qr_slip" />
     </template>
 </odoo>

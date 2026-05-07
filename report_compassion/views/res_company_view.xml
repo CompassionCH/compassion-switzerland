@@ -1,0 +1,21 @@
+<odoo>
+    <record id="company_form" model="ir.ui.view">
+        <field name="model">res.company</field>
+        <field name="name">Company commercial translated fields</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_info']/group">
+                <group name="commercial_info" string="Commercial Translated Information">
+                    <field name="commercial_name" />
+                    <field name="commercial_street" />
+                    <field name="commercial_zip" />
+                    <field name="commercial_city" />
+                    <field name="commercial_phone" />
+                </group>
+            </xpath>
+            <field name="social_youtube" position="after">
+                <field name="social_vimeo" />
+            </field>
+        </field>
+    </record>
+</odoo>

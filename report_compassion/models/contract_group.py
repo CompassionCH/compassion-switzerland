@@ -11,6 +11,7 @@ import logging
 from datetime import datetime
 
 from babel.dates import format_date
+from markupsafe import Markup
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -102,7 +103,6 @@ class ContractGroup(models.Model):
             "date": "",
         }
         locale = self.partner_id.lang
-        context = {"lang": locale}
         if start and stop:
             start_date = format_date(date_start, format="MMMM yyyy", locale=locale)
             stop_date = format_date(date_stop, format="MMMM yyyy", locale=locale)
@@ -115,7 +115,9 @@ class ContractGroup(models.Model):
             vals["date"] = ""
         else:
             vals["payment_type"] = (
-                _("ISR") + " " + self.contract_ids[0].with_context(context).group_freq
+                _("ISR")
+                + " "
+                + self.contract_ids[0].with_context(lang=locale).group_freq
             )
         if number_sponsorship > 1:
             vals["subject"] += str(number_sponsorship) + " " + _("sponsorships")
@@ -129,12 +131,12 @@ class ContractGroup(models.Model):
             )
             vals["subject"] = ", ".join(product_name.mapped("thanks_name"))
 
-        return (
-            f"{vals['payment_type']} {vals['amount']}"
-            "<br/>"
-            f"{vals['subject']}"
-            "<br/>"
-            f"{vals['date']}"
+        return Markup("<br/>").join(
+            [
+                f"{vals['payment_type']} {vals['amount']}",
+                f"{vals['subject']}",
+                f"{vals['date']}",
+            ]
         )
 
     @api.model

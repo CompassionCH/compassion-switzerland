@@ -11,7 +11,7 @@ from datetime import date, datetime
 
 from babel.dates import format_date
 
-from odoo import _, models
+from odoo import models
 
 
 class ResPartner(models.Model):
@@ -31,6 +31,7 @@ class ResPartner(models.Model):
         """
         try:
             self.ensure_one()
+            year = int(year)
             start_date = date(year, 1, 1)
             end_date = date(year, 12, 31)
             invoice_lines = self.env["account.move.line"].search(
@@ -64,7 +65,7 @@ class ResPartner(models.Model):
     def _compute_date_communication(self):
         """City and date displayed in the top right of a letter for Yverdon"""
         today = datetime.today()
-        city = _("Yverdon-les-Bains")
+        city = self.env.company.commercial_city
         for partner in self:
             date = format_date(today, format="long", locale=partner.lang)
             formatted_date = f"le {date}" if "fr" in partner.lang else date

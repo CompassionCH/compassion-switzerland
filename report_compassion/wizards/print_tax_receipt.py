@@ -28,7 +28,7 @@ class PrintTaxReceipt(models.TransientModel):
     pdf_name = fields.Char(default="tax_receipt.pdf")
     pdf_download = fields.Binary(readonly=True)
 
-    @api.onchange
+    @api.onchange("year")
     def onchange_year(self):
         this_year = date.today().year
         if self.year >= this_year:
@@ -65,14 +65,16 @@ class PrintTaxReceipt(models.TransientModel):
                     "a time."
                 )
             )
-        report_ref = self.env.ref("report_compassion.tax_receipt_report").with_context(
+        report = self.env.ref("report_compassion.tax_receipt_report").with_context(
             lang=data["lang"]
         )
         if self.pdf:
             pdf_data = (
-                report_ref.with_context(must_skip_send_to_printer=True)
+                report.with_context(must_skip_send_to_printer=True)
                 .sudo()
-                ._render_qweb_pdf(records.ids, data=data)[0]
+                ._render_qweb_pdf(
+                    "report_compassion.tax_receipt_report", records.ids, data=data
+                )[0]
             )
             self.pdf_download = base64.encodebytes(pdf_data)
 
@@ -87,4 +89,4 @@ class PrintTaxReceipt(models.TransientModel):
                 "context": self.env.context,
             }
 
-        return report_ref.report_action(records.ids, data=data, config=False)
+        return report.report_action(records.ids, data=data, config=False)

@@ -43,14 +43,14 @@ body {
 
   .scissors_top {
     position: absolute;
-    top: -3mm;
+    top: -4mm;
     font-size: 18pt;
     color: black;
   }
 
   .scissors_bottom {
     position: absolute;
-    bottom: -5mm;
+    bottom: -4mm;
     font-size: 18pt;
     color: black;
   }
@@ -62,7 +62,7 @@ body {
   .scissors_right {
     position: absolute;
     top: 5mm;
-    left: 58mm;
+    left: 59mm;
     z-index: 10;
     font-size: 18pt;
     writing-mode: vertical-rl;

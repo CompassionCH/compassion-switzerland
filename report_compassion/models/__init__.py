@@ -9,9 +9,9 @@
 ##############################################################################
 
 from . import (
-    account_invoice,
     contract,
     contract_group,
+    hr_employee,
     partner_communication,
     partner_communication_config,
     report_bvr_fund,
@@ -20,4 +20,5 @@ from . import (
     report_tax_receipt,
     res_company,
     res_partner,
+    res_users,
 )

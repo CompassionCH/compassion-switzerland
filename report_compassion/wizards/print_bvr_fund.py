@@ -56,7 +56,7 @@ class PrintBvrFund(models.TransientModel):
             raise UserError(_("Please select a product to print the payment slip."))
 
         product_name = self.product_id.display_name or _("fund")
-        report_ref = self.env.ref("report_compassion.report_bvr_fund")
+        report = self.env.ref("report_compassion.report_bvr_fund")
         base_data = {
             "doc_ids": partners.ids,
             "product_id": self.product_id.id,
@@ -65,27 +65,31 @@ class PrintBvrFund(models.TransientModel):
         }
 
         if self.output_type == "pdf":
-            pdf_data = self._render_report_pdf(report_ref, partners.ids, base_data)
+            pdf_data = self._render_report_pdf(
+                "report_compassion.report_bvr_fund", partners.ids, base_data
+            )
             return self._prepare_download(f"{product_name}.pdf", pdf_data)
 
         if self.output_type == "zip":
-            zip_data = self._build_zip_content(partners, report_ref, base_data)
+            zip_data = self._build_zip_content(partners, base_data)
             return self._prepare_download(f"{product_name}.zip", zip_data)
 
-        return report_ref.report_action(partners.ids, data=base_data, config=False)
+        return report.report_action(partners.ids, data=base_data, config=False)
 
     def _render_report_pdf(self, report_ref, docids, data):
-        return report_ref.with_context(must_skip_send_to_printer=True)._render_qweb_pdf(
-            docids, data=data
-        )[0]
+        return (
+            self.env["ir.actions.report"]
+            .with_context(must_skip_send_to_printer=True)
+            ._render_qweb_pdf(report_ref, docids, data=data)[0]
+        )
 
-    def _build_zip_content(self, partners, report_ref, base_data):
+    def _build_zip_content(self, partners, base_data):
         buffer = BytesIO()
         with zipfile.ZipFile(buffer, mode="w") as zip_file:
             for partner in partners:
                 partner_data = dict(base_data, doc_ids=[partner.id])
                 pdf_data = self._render_report_pdf(
-                    report_ref, [partner.id], partner_data
+                    "report_compassion.report_bvr_fund", partner.ids, partner_data
                 )
                 pdf_filename = f"{partner.ref or partner.id}.pdf"
                 zip_file.writestr(pdf_filename, pdf_data)

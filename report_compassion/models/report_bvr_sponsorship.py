@@ -13,7 +13,7 @@ import logging
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import Warning as odooWarning
+from odoo.exceptions import UserError
 
 logger = logging.getLogger(__name__)
 
@@ -71,18 +71,21 @@ class BvrSponsorship(models.AbstractModel):
         )
         groups = sponsorships.mapped("group_id")
         if not groups or not months:
-            raise odooWarning(_("Selection not valid. No active sponsorship found."))
+            raise UserError(_("Selection not valid. No active sponsorship found."))
 
-        # Docs will contain the groups for which we have to print the payment
-        # slip : {'recurring.contract.group': 'recurring.contract' recordset}
-        docs = dict()
+        # group_contracts: {recurring.contract.group: recurring.contract recordset}
+        # docs: groups recordset (expected by web.external_layout / DIN5008)
+        group_contracts = dict()
         for group in groups:
-            docs[group] = sponsorships.filtered(lambda s, g=group: s.group_id == g)
+            group_contracts[group] = sponsorships.filtered(
+                lambda s, g=group: s.group_id == g
+            )
         final_data.update(
             {
                 "doc_model": report.model,  # recurring.contract.group
                 "doc_ids": groups.ids,
-                "docs": docs,
+                "docs": groups,  # proper recordset so external layouts can use docs[0]
+                "group_contracts": group_contracts,
                 "months": months,
             }
         )

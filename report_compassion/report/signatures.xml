@@ -1,0 +1,202 @@
+<odoo noupdate="1">
+<!-- This template is used to generate the signature of the user in the email template.
+     It is a copy from the gmail signatures of the team
+
+     - Input data:
+        - object: the user for which we want to generate the signature
+     -->
+    <template id="user_signature">
+        <t t-set="employee" t-value="object.employee_id"/>
+        <t t-set="company" t-value="object.company_id"/>
+        <table cellpadding="0" width="100%"
+               style="color: rgb(32, 33, 36); font-family: Arial, Helvetica, sans-serif; font-size: 14px; width: 600px; max-width: 600px;">
+            <tbody>
+                <tr>
+                    <td style="margin: 0.1px; padding: 0px;">
+                        <table cellpadding="0">
+                            <tbody>
+                                <tr>
+                                    <td t-if="employee.image_128" valign="top"
+                                        style="margin: 0.1px; padding: 0px 15px 0px 0px;">
+                                        <img t-att-src="object.image_url"
+                                             width="74" alt="photo-logo" style="display: block;" />
+                                    </td>
+                                    <td style="margin: 0.1px; padding: 0px;">
+                                        <table cellpadding="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 18.1px; line-height: 22.9px; font-family: Arial;">
+                                                        <span style="color: rgb(0, 0, 0); font: bold 18px Arial;" t-out="object.short_signature" /><span
+                                                            style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: Arial;">
+                                                        <br/>
+                                                    </span>
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="employee.job_title">
+                                                    <td style="margin: 0.1px; padding: 5px 0px 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 14.1px; line-height: 17.8px; font-family: Arial;">
+                                                        <span style="color: rgb(0, 0, 0); font-style: italic; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: Arial;"
+                                                              t-out="employee.job_title"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="margin: 0.1px; padding: 5px 0px 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 14.1px; line-height: 17.8px; font-family: Arial;">
+                                                        <span style="color: rgb(42, 94, 236); font: bold 14px Arial;" t-out="company.commercial_name"/>
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="company.commercial_phone">
+                                                    <td style="margin: 0.1px; padding: 5px 0px 0px;">
+                                                        <table cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/phone.png?t=99"
+                                                                             alt="" width="14"
+                                                                             style="display: block;"/>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
+                                                                        <a t-attf-href="tel:{{company.commercial_phone.replace(' ', '')}}"
+                                                                           target="_blank"
+                                                                           style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: Arial;" t-out="company.commercial_phone" />
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="margin: 0.1px; padding: 5px 0px 0px;">
+                                                        <table cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/email.png?t=bf"
+                                                                             alt="" width="14"
+                                                                             style="display: block;"/>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
+                                                                        <a href="https://img.newoldstamp.com/r/539418/e?id=1"
+                                                                           target="_blank"
+                                                                           style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: Arial;">
+                                                                            info@compassion.ch</a>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial; color: rgb(0, 0, 0);">
+                                                                        |
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/website.png?t=7c"
+                                                                             alt="" width="14"
+                                                                             style="display: block;"/>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
+                                                                        <a href="https://www.compassion.ch"
+                                                                           target="_blank"
+                                                                           style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: Arial;">
+                                                                            https://www.compassion.ch</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="margin: 0.1px; padding: 5px 0px 0px;">
+                                                        <table cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/address.png?t=76"
+                                                                             alt="" width="14"
+                                                                             style="display: block;"/>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
+                                                                        <span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: Arial;"><t t-out="company.commercial_street" />, <t t-out="company.commercial_zip" />, <t t-out="company.commercial_city" /></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="10"
+                                                        style="margin: 0.1px; padding: 0px; font-size: 0.1px; line-height: 0.1px; border-bottom: 1px solid rgb(1, 157, 255);"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="margin: 0.1px; padding: 10px 0px 0px;">
+                                                        <table cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <a t-att-href="company.social_facebook"
+                                                                           target="_blank">
+                                                                            <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/55.png?t=01"
+                                                                                 width="26"
+                                                                                 valign="top"
+                                                                                 alt="facebook"/>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <a t-att-href="company.social_youtube"
+                                                                           target="_blank">
+                                                                            <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/224.png?t=5d"
+                                                                                 width="26"
+                                                                                 valign="top"
+                                                                                 alt="youtube"/>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <a t-att-href="company.social_linkedin"
+                                                                           target="_blank">
+                                                                            <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/106.png?t=5b"
+                                                                                 width="26"
+                                                                                 valign="top"
+                                                                                 alt="linkedin"/>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <a t-att-href="company.social_instagram"
+                                                                           target="_blank">
+                                                                            <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/98.png?t=87"
+                                                                                 width="26"
+                                                                                 valign="top"
+                                                                                 alt="instagram"/>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
+                                                                        <a t-att-href="company.social_vimeo"
+                                                                           target="_blank">
+                                                                            <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/205.png?t=b8"
+                                                                                 width="26"
+                                                                                 valign="top"
+                                                                                 alt="vimeo"/>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="margin: 0.1px; padding: 10px 0px 0px; line-height: 1px; font-size: 1px;">
+                        <a t-attf-href="https://compassion.ch/mailbanner_{{object.env.lang[:2]}}" target="_blank">
+                            <img t-attf-src="https://www.compassion.ch/medias/banners/email_footer_{{object.env.lang}}.png" width="600"
+                                 alt="banner" style="outline: 0px;"/>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="margin: 0.1px; padding: 10px 0px 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: 16.5px; font-family: Arial; color: rgb(0, 0, 0);">
+                        <img src="https://newoldstamp.com/upload/Larry/1.png"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+</odoo>

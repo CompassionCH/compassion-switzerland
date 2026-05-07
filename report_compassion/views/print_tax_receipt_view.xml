@@ -10,7 +10,7 @@
                     <field name="year" widget="char" />
                     <field name="pdf" />
                 </group>
-                <group states="pdf">
+                <group invisible="state != 'pdf'">
                     <field name="pdf_name" invisible="1" />
                     <field name="pdf_download" filename="pdf_name" />
                 </group>

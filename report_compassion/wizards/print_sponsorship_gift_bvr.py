@@ -10,9 +10,7 @@
 import base64
 
 from odoo import _, fields, models
-from odoo.exceptions import Warning as odooWarning
-
-from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
+from odoo.exceptions import UserError
 
 
 class PrintSponsorshipBvr(models.TransientModel):
@@ -51,23 +49,21 @@ class PrintSponsorshipBvr(models.TransientModel):
         (single bvr / 2 bvr).
         :return: Generated report
         """
-        product_search = list()
+        gift_types = self.env["sponsorship.gift.type"]
         if self.birthday_gift:
-            product_search.append(GIFT_PRODUCTS_REF[0])
+            gift_types += self.env.ref("sponsorship_compassion.gift_type_birthday")
         if self.general_gift:
-            product_search.append(GIFT_PRODUCTS_REF[1])
+            gift_types += self.env.ref("sponsorship_compassion.gift_type_gen")
         if self.family_gift:
-            product_search.append(GIFT_PRODUCTS_REF[2])
+            gift_types += self.env.ref("sponsorship_compassion.gift_type_family")
         if self.project_gift:
-            product_search.append(GIFT_PRODUCTS_REF[3])
+            gift_types += self.env.ref("sponsorship_compassion.gift_type_project")
         if self.graduation_gift:
-            product_search.append(GIFT_PRODUCTS_REF[4])
-        if not product_search:
-            raise odooWarning(_("Please select at least one gift type."))
+            gift_types += self.env.ref("sponsorship_compassion.gift_type_graduation")
+        if not gift_types:
+            raise UserError(_("Please select at least one gift type."))
 
-        products = self.env["product.product"].search(
-            [("default_code", "in", product_search)]
-        )
+        products = gift_types.mapped("product_id.product_variant_id")
         data = {
             "doc_ids": self.env.context.get("active_ids"),
             "product_ids": products.ids,
@@ -80,9 +76,11 @@ class PrintSponsorshipBvr(models.TransientModel):
                 records.display_name if len(records) == 1 else _("gift payment slips")
             )
             self.pdf_name = name + ".pdf"
-            pdf_data = report_ref.with_context(
-                must_skip_send_to_printer=True
-            )._render_qweb_pdf(data["doc_ids"], data=data)[0]
+            pdf_data = (
+                self.env["ir.actions.report"]
+                .with_context(must_skip_send_to_printer=True)
+                ._render_qweb_pdf(report_name, data["doc_ids"], data=data)[0]
+            )
             self.pdf_download = base64.encodebytes(pdf_data)
             self.state = "pdf"
             return {
