@@ -1,0 +1,55 @@
+##############################################################################
+#
+#       ______ Releasing children from poverty      _
+#      / ____/___  ____ ___  ____  ____ ___________(_)___  ____
+#     / /   / __ \/ __ `__ \/ __ \/ __ `/ ___/ ___/ / __ \/ __ \
+#    / /___/ /_/ / / / / / / /_/ / /_/ (__  |__  ) / /_/ / / / /
+#    \____/\____/_/ /_/ /_/ .___/\__,_/____/____/_/\____/_/ /_/
+#                        /_/
+#
+#    Copyright (C) 2016-2024 Compassion CH (http://www.compassion.ch)
+#    @author: Clément Charmillot <ccharmillot@compassion.ch>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+{
+    "name": "Compassion CH External Auth",
+    "version": "18.0.1.0.0",
+    "category": "Compassion",
+    "author": "Compassion Switzerland",
+    "license": "AGPL-3",
+    "website": "https://github.com/CompassionCH/compassion-switzerland",
+    # PyJWT is already installed as part of Odoo core's transitive deps
+    # (odoo/addons/mail/tools/web_push.py imports it). We don't redeclare
+    # it here to avoid pip-resolver noise; if PyJWT were ever removed
+    # from the runtime, this module would also fail to import.
+    "external_dependencies": {},
+    "depends": [
+        "base",
+        "auth_totp",
+        # The main reason for this custom module is to allow 2FA authentication
+        # for xmlrpc api calls. This is why it depends on auth_totp.
+    ],
+    "data": [
+        "data/remove_expired_refresh_tokens_cron.xml",
+        "data/tokens_config.xml",
+        "security/res_groups.xml",
+        "security/ir.model.access.csv",
+    ],
+    "demo": [],
+    "installable": True,
+    "application": False,
+    "auto_install": False,
+}
