@@ -31,10 +31,9 @@
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
-    # PyJWT is already installed as part of Odoo core's transitive deps
-    # (odoo/addons/mail/tools/web_push.py imports it). We don't redeclare
-    # it here to avoid pip-resolver noise; if PyJWT were ever removed
-    # from the runtime, this module would also fail to import.
+    # PyJWT ships with Odoo core (used by mail/tools/web_push.py) and
+    # the server-auth stack, so no external_dependencies declaration
+    # is needed.
     "external_dependencies": {},
     "depends": [
         "base",

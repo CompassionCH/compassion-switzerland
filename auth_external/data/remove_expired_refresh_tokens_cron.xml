@@ -7,8 +7,6 @@
                 auth_external.refresh_tokens table to grow indefinitely</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
-            <!-- v18: ir.cron dropped `numbercall` (was -1 for unlimited);
-                 v18 crons run unlimited by default. -->
             <field name="model_id" ref="model_auth_external_refresh_tokens" />
             <field name="state">code</field>
             <field name="code">model.remove_expired_tokens()</field>

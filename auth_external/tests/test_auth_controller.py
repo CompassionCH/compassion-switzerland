@@ -14,15 +14,10 @@ from http import HTTPStatus
 from typing import Callable, Tuple, Union
 from xmlrpc.client import Fault, ServerProxy
 
-# v18: AbstractJWKBase removed — auth_external now uses PyJWT, where
-# signing keys are plain `bytes`. The type annotations below are
-# updated accordingly.
 from requests import Response
 
 from odoo.tests.common import HttpCase
 
-# v18: TIMESTEP, TOTP_SECRET_SIZE, hotp moved from
-# odoo.addons.auth_totp.models.res_users to .totp
 from odoo.addons.auth_totp.models.totp import TIMESTEP, TOTP_SECRET_SIZE, hotp
 
 from ..controllers.auth import AUTH_LOGIN_ROUTE, AUTH_LOGOUT_ROUTE, AUTH_REFRESH_ROUTE

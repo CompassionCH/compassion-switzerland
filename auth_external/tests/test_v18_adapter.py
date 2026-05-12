@@ -8,16 +8,11 @@
 #    @author: Noé Berdoz <nberdoz@compassion.ch>
 #
 ##############################################################################
-# auth_external tests for v18-specific adaptations.
-#
-# Sister file to test_auth_controller.py / test_refresh_tokens.py
-# (ports of v14 tests). This file contains tests for behaviour that
-# only exists in the v18 version of the module:
-#   - the ir.http thread-local stash for the Authorization header
-#     (needed because v18 borrow_request() unbinds request during
-#     XMLRPC dispatch)
-#   - PyJWT vs GehirnInc `jwt` behaviour: `sub` is a string in v18,
-#     was an int in v14
+# auth_external tests for the load-bearing invariants that don't
+# come from the v14 test suite ports:
+#   - ir.http thread-local stash for the Authorization header
+#   - JWT `sub` is serialised as a string (PyJWT requirement)
+#   - JWT signing key is read from odoo.conf when configured
 ##############################################################################
 import threading
 
@@ -29,14 +24,10 @@ from ..models import res_users as res_users_module
 @tagged("auth_external", "v18_adapter")
 class TestV18Adapter(TransactionCase):
     def test_ir_http_dispatch_stashes_authorization_header(self):
-        """Sanity check: after our ir.http override runs, the
-        Authorization header is available on the current thread."""
-        # We can't easily simulate a full HTTP dispatch in a
-        # TransactionCase, but the contract is simple: the attribute
-        # exists (default empty) so that res_users code can read it
-        # without AttributeError.
+        """The contract res_users.check / _check_credentials relies on:
+        `threading.current_thread().auth_external_authorization` holds
+        the inbound Authorization header during the request."""
         thread = threading.current_thread()
-        # Simulate ir_http._dispatch having run:
         thread.auth_external_authorization = "Bearer test-token"
         try:
             value = getattr(
@@ -48,14 +39,14 @@ class TestV18Adapter(TransactionCase):
             thread.auth_external_authorization = ""
 
     def test_jwt_sub_is_str_for_pyjwt_compat(self):
-        """PyJWT 2.x rejects non-string `sub` claims at decode time
-        with 'Subject must be a string'. We coerce in _generate_jwt;
-        this test pins the behaviour so a regression is caught early."""
+        """PyJWT rejects non-string `sub` claims at decode time;
+        _generate_jwt coerces. Pinning this so the cast isn't silently
+        dropped by a future refactor."""
         from datetime import datetime, timedelta, timezone
         admin = self.env.ref("base.user_admin")
         payload, _token = admin._generate_jwt(
             iss="test_issuer",
-            sub=admin.id,  # int — must come out as string in payload
+            sub=admin.id,
             aud=res_users_module.USER_ACCESS_AUD,
             exp=datetime.now(timezone.utc) + timedelta(minutes=5),
             key=b"test-key-for-unit-test-only-not-prod",
@@ -78,5 +69,4 @@ class TestV18Adapter(TransactionCase):
             if original is not None:
                 config["auth_external.jwt_key"] = original
             else:
-                # Restore by deleting if it was unset originally.
                 config.options.pop("auth_external.jwt_key", None)
