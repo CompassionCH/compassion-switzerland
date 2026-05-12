@@ -9,22 +9,13 @@
 #
 ##############################################################################
 # auth_external: ir.http override that stashes the request's
-# Authorization header in thread-local storage before dispatch.
+# Authorization header in thread-local storage before dispatch, so
+# res.users.check / _check_credentials can read it during XMLRPC
+# dispatch (where odoo.http.borrow_request() makes `request` unbound).
 #
-# Why: v18's `dispatch_rpc` wraps the dispatch in `borrow_request()`,
-# which POPS the request from the local stack. That means during
-# `security.check` → `res.users.check` for an XMLRPC call, `request`
-# is unbound and the Authorization header is inaccessible. v14 did
-# not have this wrapper, so the v14 module read the header straight
-# from `request.httprequest.headers`.
-#
-# The fix: read the header at ir.http._dispatch (where request is
-# still bound), stash it in `threading.current_thread()`. Our
-# `res.users.check` then reads it from the thread-local instead of
-# from the (potentially unbound) request.
-#
-# Thread-local key: `auth_external_authorization` (any non-Odoo-core
-# name avoids collision with `uid` / `dbname` already set by Odoo).
+# Thread-local key: `auth_external_authorization` — namespaced to
+# avoid collision with `uid` / `dbname` that Odoo already sets on the
+# current thread.
 ##############################################################################
 import threading
 
@@ -47,6 +38,6 @@ class IrHttp(models.AbstractModel):
         try:
             return super()._dispatch(endpoint)
         finally:
-            # Always clear to prevent cross-request leakage when a
-            # worker thread is reused.
+            # Clear to prevent cross-request leakage on reused worker
+            # threads.
             thread.auth_external_authorization = ""

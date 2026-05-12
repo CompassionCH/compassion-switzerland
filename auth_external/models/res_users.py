@@ -5,11 +5,6 @@ Issues HS256 JWT access + refresh tokens for external (typically SPA)
 clients, and lets those clients authenticate later RPC calls via a
 `Bearer` token in the `Authorization` header.
 
-Uses PyJWT (already shipped with Odoo core via `mail/tools/web_push.py`).
-The v14 module used the GehirnInc `jwt` PyPI package; we migrated to
-PyJWT because the two packages share the `jwt` Python namespace and
-PyJWT is used by Odoo core + the entire `server-auth` stack.
-
 Token-family / reuse-detection semantics live in `refresh_tokens.py`;
 this file is only signing, verification and the `_check_credentials`
 override that lets a Bearer token replace the password.
@@ -118,11 +113,10 @@ class ExternalAuthUsers(models.Model):
         :return: (payload, encoded_token) tuple.
         """
         now = datetime.now(timezone.utc)
-        # PyJWT 2.x requires `sub` to be a string (RFC 7519 §4.1.2:
-        # "the value MUST be a case-sensitive string"). v14's GehirnInc
-        # lib accepted any JSON-serialisable value (int worked); PyJWT
-        # is stricter, so we coerce. Callers (refresh / verify) get back
-        # str and must cast to int when comparing with uid.
+        # `sub` is coerced to str: RFC 7519 §4.1.2 mandates string
+        # subjects and PyJWT rejects non-strings on decode. Callers
+        # (refresh / verify) must cast back to int when comparing
+        # with a uid.
         payload = {
             # RFC 7519 §4.1 standard claims
             "iss": iss,
@@ -193,9 +187,9 @@ class ExternalAuthUsers(models.Model):
             _logger.info("JWT validation failed: %s", exc)
             raise AccessDenied() from exc
 
-        # PyJWT already verified `aud` and `iss`; we still verify `sub`
-        # ourselves because PyJWT has no `subject=` option. `sub` is
-        # always a string in the payload (see _generate_jwt); cast the
+        # PyJWT verifies `aud` and `iss` inline but has no `subject=`
+        # option, so we check `sub` ourselves. `sub` is always a
+        # string in the payload (see _generate_jwt); cast the
         # expected value for comparison.
         if sub is not None and payload.get("sub") != str(sub):
             _logger.info("JWT subject mismatch")
@@ -358,29 +352,17 @@ class ExternalAuthUsers(models.Model):
             )
             raise
 
-    # --------------------------------------------------------------- #
-    # _check_credentials override                                      #
-    # --------------------------------------------------------------- #
-    # In v18 the hook signature changed from
-    #   _check_credentials(self, password, user_agent_env)
-    # to
-    #   _check_credentials(self, credential, env) -> auth_info dict.
-    # Our override only adds the Bearer-token shortcut; password +
-    # TOTP single-shot is handled at the controller level (see
-    # controllers/auth.py::_authenticate_with_optional_totp) so this
-    # override stays thin and idiomatic.
-
     def _check_credentials(self, credential, env):
-        # Bearer-token shortcut: if the request carries a valid JWT
-        # access token, accept the user without invoking the password
-        # check (which would be expensive and not what the caller wants).
-        # Translation-Platform home page loads in <2s vs <4s with this.
+        # Bearer-token shortcut: a valid JWT access token bypasses the
+        # password check entirely. The Translation Platform home page
+        # loads in <2s vs <4s with this in place.
         #
-        # v18: read the Authorization header from the thread-local
-        # stash set up by ir_http._dispatch — see models/ir_http.py.
-        # During XMLRPC dispatch, `request` is unbound by
-        # borrow_request() so `request.httprequest.headers` is not
-        # accessible; the thread-local survives.
+        # The header is read from a thread-local rather than from
+        # request.httprequest.headers: XMLRPC dispatch unbinds the
+        # request via odoo.http.borrow_request(), so the request proxy
+        # is inaccessible from here on the RPC path. ir_http._dispatch
+        # stashes the header in the thread before dispatch — see
+        # models/ir_http.py.
         authorization_header = getattr(
             threading.current_thread(),
             "auth_external_authorization", "",
@@ -389,49 +371,32 @@ class ExternalAuthUsers(models.Model):
             token = authorization_header.split(" ", 1)[1]
             try:
                 self._check_access_token(token)
-                # mfa: 'skip' because the access token already
-                # encapsulates a prior successful (password + TOTP)
-                # auth.
+                # mfa=skip: the access token was issued only after a
+                # successful (password + TOTP) auth, so MFA does not
+                # need to be re-checked at this layer.
                 return {
                     "uid": self.env.user.id,
                     "auth_method": "jwt_bearer",
                     "mfa": "skip",
                 }
             except AccessDenied:
-                # Fall through — the Authorization header might
-                # belong to a different consumer of res.users.
+                # The Authorization header may belong to a different
+                # consumer of res.users — fall through to the standard
+                # password / OAuth chain.
                 pass
 
-        # Delegate everything else (password, OAuth, etc.) to the
-        # standard v18 chain.
         return super()._check_credentials(credential, env)
-
-    # --------------------------------------------------------------- #
-    # check classmethod override — cache-busting for TOTP / Bearer     #
-    # --------------------------------------------------------------- #
-    # v18 `check` is `@tools.ormcache('uid', 'passwd')`. The cache key
-    # doesn't include the TOTP code (which changes every 30s) nor the
-    # Authorization header (which expires). For users with TOTP enabled
-    # or a Bearer header on the request, we must clear the cache so the
-    # parent doesn't return a stale "valid" verdict.
 
     @classmethod
     def check(cls, db, uid, passwd):
-        # Bearer-token path: short-circuit the standard cached
-        # (uid,passwd) check. The webapp sends `passwd="None"` together
-        # with `Authorization: Bearer <jwt>`; the base check would
-        # reject the dummy password and the cache would never let us
-        # in. Validate the JWT directly instead.
+        # The webapp sends a dummy `passwd="None"` paired with an
+        # `Authorization: Bearer <jwt>` header. The cached base check
+        # is keyed on (uid, passwd) and would always reject the dummy
+        # password; short-circuit by validating the JWT directly and
+        # returning before the cache is consulted at all.
         #
-        # v18: see _check_credentials docstring for why we read from
-        # thread-local instead of request.httprequest.headers. The
-        # XMLRPC flow has request unbound during dispatch.
-        #
-        # v18 ormcache invalidation: v14 used
-        # `super().check.clear_cache(user)`; that attribute was removed
-        # in v18 (use `registry.clear_cache()` instead, which is too
-        # broad). The cleanest v18 pattern is to never touch the cache
-        # — just bypass `check` for Bearer.
+        # The header is read from the thread-local stash for the same
+        # reason as in _check_credentials (XMLRPC unbinds request).
         authorization_header = getattr(
             threading.current_thread(),
             "auth_external_authorization", "",
@@ -451,7 +416,6 @@ class ExternalAuthUsers(models.Model):
                     # through to the password path.
                     pass
 
-        # Password path — delegate to the cached base check.
         if not passwd:
             raise AccessDenied()
         return super().check(db, uid, passwd)
