@@ -551,7 +551,10 @@ if not_read:
         name="trg_date_id"
         ref="field_res_partner_zoom_session__date_start"
       />
-            <field name="filter_domain" eval="[('state', '=', 'planned')]" />
+            <field
+        name="filter_domain"
+        eval="[('state', '=', 'planned'),('date_send_link','=',False)]"
+      />
             <field name="trg_date_range">-2</field>
             <field name="trg_date_range_type">day</field>
             <field name="state">code</field>
