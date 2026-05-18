@@ -48,7 +48,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
             )
 
         portal.with_context(
-            {"create_communication": self.create_communication}
+            create_communication=self.create_communication
         ).action_apply()
 
         no_mail.mapped("partner_id").write({"email": False})
@@ -61,7 +61,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
                 "type": "ir.actions.act_window",
                 "res_model": "partner.communication.job",
                 "view_type": "form",
-                "view_mode": "tree,form",
+                "view_mode": "list,form",
                 "domain": [("id", "in", uid_communication.ids)],
             }
         return action

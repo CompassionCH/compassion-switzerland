@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record model="mail.template" id="m2m_welcome_template">
             <field
         name="name"
@@ -29,5 +28,4 @@
             <field name="email_template_id" ref="m2m_stop_template" />
             <field name="send_mode">partner_preference</field>
         </record>
-    </data>
 </odoo>

@@ -58,15 +58,15 @@
     </record>
 
     <record id="view_zoom_session_tree" model="ir.ui.view">
-        <field name="name">res.partner.zoom.session.tree</field>
+        <field name="name">res.partner.zoom.session.list</field>
         <field name="model">res.partner.zoom.session</field>
         <field name="arch" type="xml">
-            <tree decoration-primary="state == 'new'">
+            <list decoration-primary="state == 'new'">
                 <field name="date_start" />
                 <field name="lang" />
                 <field name="link" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -122,7 +122,7 @@
     <record id="action_zoom_session" model="ir.actions.act_window">
         <field name="name">Sponsor Video Conferences</field>
         <field name="res_model">res.partner.zoom.session</field>
-        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_mode">calendar,list,form</field>
         <field name="context">{'search_default_planned':1}</field>
     </record>
 
@@ -146,24 +146,17 @@
                         <field name="state" />
                         <field
               name="link_received"
-              states="invited,confirmed,attended"
+              invisible="state in ['missing', 'declined']"
             />
                         <field name="optional_message" />
                     </group>
                 </sheet>
-                <div class="oe_chatter">
-                    <field
-            name="message_follower_ids"
-            widget="mail_followers"
-          />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" />
-                </div>
+                <chatter/>
             </form>
         </field>
     </record>
     <record id="view_zoom_attendee_tree" model="ir.ui.view">
-        <field name="name">res.partner.zoom.attendee.tree</field>
+        <field name="name">res.partner.zoom.attendee.list</field>
         <field name="model">res.partner.zoom.attendee</field>
         <field name="arch" type="xml">
             <list>
@@ -181,7 +174,7 @@
                 <field name="partner_id" />
                 <field name="state" />
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_vignette">
                             <div class="oe_kanban_card">
                                 <a type="open">

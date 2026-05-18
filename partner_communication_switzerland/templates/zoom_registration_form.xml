@@ -83,7 +83,7 @@
     </record>
 
     <template id="zoom_registration_form" name="Zoom registration form">
-        <div class="oe_structure mt-4 pt-4">
+        <div class="mt-4 pt-4">
     <section
         class="s_website_form pt16 pb16 o_colored_level"
         data-vcss="001"
@@ -357,7 +357,7 @@
           </div>
         </form>
           <div class="s_website_form_end_message d-none">
-                            <div class="oe_structure">
+                            <div>
                                 <section
                 class="s_text_block pt64 pb64 o_colored_level o_cc o_cc2"
                 data-snippet="s_text_block"

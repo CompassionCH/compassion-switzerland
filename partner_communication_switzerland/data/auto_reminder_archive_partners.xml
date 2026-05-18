@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record
       id="auto_reminder_archive_partners_template"
       model="mail.template"
@@ -21,14 +20,13 @@
               href="/web#action=521&amp;active_id=895&amp;cids=1&amp;id=600&amp;menu_id=2029&amp;model=project.task&amp;view_type=form"
             >T0024</a>) and are considered invalid : </b>
                     <span style="font-family: 'miller';">
-                    % for partner in ctx.get('partners_to_archive'):
+                    <t t-foreach="ctx.get('partners_to_archive')" t-as="partner">
                         <p><a
-                href="/web#id=${partner.id}&amp;model=res.partner&amp;view_type=form"
-              >Ref ${partner.ref} - ${partner.name}</a></p>
-                    % endfor
+                t-attf-href="/web#id={{ partner.id }}&amp;model=res.partner&amp;view_type=form"
+              >Ref {{ partner.ref }} - {{ partner.name }}</a></p>
+                    </t>
                     </span>
                 </div>
             </field>
         </record>
-    </data>
 </odoo>

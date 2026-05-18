@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="tax_receipt_letter_template" model="mail.template">
             <field name="name">Tax Receipt cover letter</field>
             <field
@@ -8,29 +7,29 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field
         name="subject"
-      >Donation Receipt ${ctx.get('year', datetime.date.today().year-1)}</field>
+      >Donation Receipt {{ ctx.get('year', datetime.date.today().year-1) }}</field>
             <field name="body_html" type="html">
                 <div>
-                    % set partner = object.partner_id
-                    % set year = ctx.get('year', datetime.date.today().year-1)
-                    % set donation_amount = partner.get_receipt_text(year)
-                    % set partner = object.partner_id
+                    <t t-set="partner" t-value="object.partner_id"/>
+                    <t t-set="year" t-value="ctx.get('year', datetime.date.today().year-1)"/>
+                    <t t-set="donation_amount" t-value="partner.get_receipt_text(year)"/>
+                    <t t-set="partner" t-value="object.partner_id"/>
                 </div>
                 <div>
-                    ${partner.salutation},
+                    {{ partner.salutation }},
                     <br />
                     <br />
                     At the beginning of this year, Compassion Switzerland thank you for your support towards children living in extreme poverty.
                     <b
           >Nous vous faisons parvenir votre récapitulatif de dons pour l'année 2017, que vous pouvez joindre à votre déclaration d'impôts
-                        % if object.send_mode == 'digital':
+                        <t t-if="object.send_mode == 'digital'">
                             <!-- space --> (fichier annexé)
-                        % endif
+                        </t>
                         .
                     </b>
                     <br />
@@ -53,23 +52,22 @@
                     </ul>
                     <br />
                     <br />
-                    % if object.send_mode == 'physical':
-                        <h2>Your donations in ${year} add up to CHF <span
+                    <t t-if="object.send_mode == 'physical'">
+                        <h2>Your donations in {{ year }} add up to CHF <span
               style="font-family: 'miller';"
-            >${donation_amount}</span></h2>
+            >{{ donation_amount }}</span></h2>
                         <p
           >The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the association is recognized as a registered non profit organisation.
                         </p>
-                    % endif
-                    Encore une fois, merci de votre générosité. Nous vous prions de recevoir, ${partner.salutation[0].lower() + partner.salutation[1:]}, nos chaleureuses salutations.
-                    % if object.send_mode == 'digital':
+                    </t>
+                    Encore une fois, merci de votre générosité. Nous vous prions de recevoir, {{ partner.salutation[0].lower() + partner.salutation[1:] }}, nos chaleureuses salutations.
+                    <t t-if="object.send_mode == 'digital'">
                         <br />
                         <br />
                         <i
           >PS: En cas de problème de lecture de l'attestation, merci d'essayer de la lire avec le logiciel Adobe Reader (http://get.adobe.com/fr/reader)</i>
-                    % endif
+                    </t>
                 </div>
             </field>
         </record>
-    </data>
 </odoo>

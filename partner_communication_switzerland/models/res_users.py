@@ -8,11 +8,9 @@ class ResUsers(models.Model):
         create_mode = bool(self.env.context.get("create_user"))
         # Only override the rest behavior, not normal signup
         if create_mode:
-            super().action_reset_password()
+            return super().action_reset_password()
         else:
-            self.mapped("partner_id").signup_prepare(
-                signup_type="reset"
-            )
+            self.mapped("partner_id").signup_prepare(signup_type="reset")
             config = self.env.ref(
                 "partner_communication_switzerland.reset_password_email"
             )
@@ -24,3 +22,4 @@ class ResUsers(models.Model):
                         "auto_send": True,
                     }
                 )
+            return True

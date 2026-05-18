@@ -4,7 +4,6 @@
     <record id="onboarding_survey" model="survey.survey">
         <field name="title">Onboarding feedback</field>
         <field name="users_login_required" eval="False" />
-        <field name="state">open</field>
     </record>
     <record id="onbs_page1" model="survey.question">
         <field

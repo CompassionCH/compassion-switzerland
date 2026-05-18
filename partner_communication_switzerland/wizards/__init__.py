@@ -10,12 +10,9 @@
 
 from . import child_order_picture
 from . import end_contract_wizard
-
-# from . import generate_communication_wizard
 from . import sub_sponsorship_wizard
 from . import child_hold_wizard
 from . import portal_wizard
 from . import res_partner_create_portal_wizard
 from . import communication_test_cases_wizard
 from . import staff_notification_settings
-from . import onboarding_settings

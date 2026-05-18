@@ -7,6 +7,6 @@
   >
         <field name="name">Notify sponsor of new sponsorship</field>
         <field name="icon">fa-tasks</field>
-        <field name="res_model_id" ref="base.model_res_partner" />
+        <field name="res_model">res.partner</field>
     </record>
 </odoo>

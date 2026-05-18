@@ -21,7 +21,7 @@ class GenerateCommunicationWizard(models.TransientModel):
         required=True,
     )
     language = fields.Selection("_get_lang", default=lambda self: self.env.lang)
-    partner = fields.Many2one("res.partner", string="Partner", required=False)
+    partner = fields.Many2one("res.partner", required=False)
     partner_selected = fields.Boolean(compute="_compute_partner_selected", store=True)
     send_mode = fields.Selection(
         [("digital", _("By e-mail")), ("physical", _("Print report"))],

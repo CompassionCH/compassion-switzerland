@@ -1,5 +1,4 @@
 <odoo>
-    <data>
         <template id="assets_backend" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <link
@@ -24,5 +23,4 @@
         />
             </xpath>
         </template>
-    </data>
 </odoo>

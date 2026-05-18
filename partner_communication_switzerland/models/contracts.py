@@ -289,15 +289,13 @@ class RecurringContract(models.Model):
     def action_sub_reject(self):
         res = super().action_sub_reject()
         no_sub_config = self.env.ref("partner_communication_switzerland.planned_no_sub")
-        communications = self.with_context({}).send_communication(
-            no_sub_config, both=True
-        )
+        communications = self.send_communication(no_sub_config, both=True)
         if res:
             res = {
                 "name": communications[0].subject,
                 "type": "ir.actions.act_window",
                 "view_type": "form",
-                "view_mode": "tree,form",
+                "view_mode": "list,form",
                 "res_model": "partner.communication.job",
                 "domain": [("id", "in", communications.ids)],
                 "target": "current",
@@ -322,9 +320,9 @@ class RecurringContract(models.Model):
             module = "partner_communication_switzerland."
             other_csp_config = self.env.ref(module + "csp_mail")
             (
-                csp.filtered(lambda s: s.type != "CSP")
-                .with_context({})
-                .send_communication(other_csp_config, correspondent=False)
+                csp.filtered(lambda s: s.type != "CSP").send_communication(
+                    other_csp_config, correspondent=False
+                )
             )
 
         return res
@@ -559,7 +557,7 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                comms = self.with_context({}).send_communication(config, correspondent)
+                comms = self.send_communication(config, correspondent)
                 if config == wrpr_welcome:
                     comms.write({"send_mode": "sms"})
         return True
