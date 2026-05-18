@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime, timezone
 from typing import Callable, List, Optional
 
 from odoo import _, api, fields, models
@@ -153,17 +152,16 @@ class RefreshTokens(models.Model):
         Requires admin privileges to run. This function can be used in an
         emergency to revoke all the tokens for a user who acts suspiciously.
         """
-        user_tokens = self.search([("user_id", "=", user_id)])
-        nb_user_tokens = len(user_tokens)
-        nb_tokens_revoked = 0
-        for t in user_tokens:
-            if not t.is_revoked:
-                t.revoke()
-                nb_tokens_revoked += 1
+        active_tokens = self.search(
+            [("user_id", "=", user_id), ("is_revoked", "=", False)]
+        )
+        nb_tokens_revoked = len(active_tokens)
+        active_tokens.write({"is_revoked": True})
+        nb_user_tokens = self.search_count([("user_id", "=", user_id)])
         _logger.info(
-            f"""Revoked {nb_tokens_revoked} refresh_tokens for
-                      {user_id=} ({nb_user_tokens} total tokens in the database
-                      for this user, now all revoked)."""
+            "Revoked %d refresh_tokens for user_id=%s "
+            "(%d total tokens in the database for this user, now all revoked).",
+            nb_tokens_revoked, user_id, nb_user_tokens,
         )
 
     @api.model
@@ -173,17 +171,12 @@ class RefreshTokens(models.Model):
         expiration date is in the past. Token expiration can still be checked by
         verifying the exp field of the JWT, so this operation is safe.
         """
-        now = datetime.now(timezone.utc)
-        rts = self.sudo().search([])
-        removed_rts = 0
-        for rt in rts:
-            # odoo interprets datetimes as utc
-            rt_exp_utc = rt.exp.replace(tzinfo=timezone.utc)
-            if rt_exp_utc <= now:
-                rt.sudo().unlink()
-                removed_rts += 1
+        now = fields.Datetime.now()
+        expired = self.sudo().search([("exp", "<=", now)])
+        removed_rts = len(expired)
+        expired.unlink()
         remaining_rts = self.sudo().search_count([])
         _logger.info(
-            f"""RefreshTokens: removed {removed_rts} expired tokens, remains
-             {remaining_rts} in the db."""
+            "RefreshTokens: removed %d expired tokens, remains %d in the db.",
+            removed_rts, remaining_rts,
         )

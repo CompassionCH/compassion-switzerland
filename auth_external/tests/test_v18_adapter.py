@@ -23,20 +23,53 @@ from ..models import res_users as res_users_module
 
 @tagged("auth_external", "v18_adapter")
 class TestV18Adapter(TransactionCase):
-    def test_ir_http_dispatch_stashes_authorization_header(self):
-        """The contract res_users.check / _check_credentials relies on:
-        `threading.current_thread().auth_external_authorization` holds
-        the inbound Authorization header during the request."""
-        thread = threading.current_thread()
-        thread.auth_external_authorization = "Bearer test-token"
-        try:
-            value = getattr(
-                thread, "auth_external_authorization", "<missing>",
+    def test_ir_http_dispatch_stashes_and_clears_authorization_header(self):
+        """`_dispatch` must (a) stash the inbound Authorization header on
+        the current thread before calling the endpoint and (b) clear it
+        on return, otherwise a worker thread leaks the header from one
+        request to the next."""
+        from unittest.mock import patch, MagicMock
+        from odoo.addons.auth_external.models import ir_http as ir_http_module
+
+        captured = {}
+
+        def fake_endpoint(*args, **kwargs):
+            captured["mid_dispatch"] = getattr(
+                threading.current_thread(),
+                "auth_external_authorization", None,
             )
-            self.assertEqual(value, "Bearer test-token")
-            self.assertTrue(value.startswith("Bearer "))
-        finally:
-            thread.auth_external_authorization = ""
+            return "ok"
+
+        fake_request = MagicMock()
+        fake_request.httprequest.environ = {
+            "HTTP_AUTHORIZATION": "Bearer test-token",
+        }
+
+        IrHttp = self.env["ir.http"]
+        auth_ext_def_cls = ir_http_module.IrHttp
+        mro = type(IrHttp).__mro__
+        auth_idx = mro.index(auth_ext_def_cls)
+        parent_with_dispatch = next(
+            c for c in mro[auth_idx + 1:]
+            if "_dispatch" in c.__dict__
+        )
+
+        with patch.object(ir_http_module, "request", fake_request), \
+             patch.object(
+                 parent_with_dispatch, "_dispatch",
+                 classmethod(lambda cls, endpoint: endpoint()),
+             ):
+            type(IrHttp)._dispatch(fake_endpoint)
+
+        self.assertEqual(captured["mid_dispatch"], "Bearer test-token")
+        self.assertEqual(
+            getattr(
+                threading.current_thread(),
+                "auth_external_authorization", None,
+            ),
+            "",
+            "Authorization header must be cleared after dispatch returns",
+        )
 
     def test_jwt_sub_is_str_for_pyjwt_compat(self):
         """PyJWT rejects non-string `sub` claims at decode time;

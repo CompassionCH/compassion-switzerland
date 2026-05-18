@@ -31,7 +31,6 @@ from jwt import (
 
 from odoo import api, models, tools
 from odoo.exceptions import AccessDenied
-from odoo.http import request
 from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
@@ -212,6 +211,18 @@ class ExternalAuthUsers(models.Model):
                   "expires_at": iso8601}
         :raises AccessDenied: when the caller isn't allowed to issue
             tokens for `self`, or when a replay is detected.
+
+        Reuse-detection side effect:
+            When a replay is detected, this method commits the
+            in-flight transaction (`self.env.cr.commit()`) before
+            raising AccessDenied, the family revocation must
+            survive the rollback the raise would otherwise trigger.
+            Any other pending writes on the cursor will also be
+            committed early. The only caller today (the
+            `/auth/refresh` controller) has no other pending writes
+            at this point; avoid invoking this method from non-HTTP
+            contexts (cron, XMLRPC) that hold unrelated in-flight
+            state.
         """
         self.ensure_one()
 
@@ -227,11 +238,10 @@ class ExternalAuthUsers(models.Model):
         # Issuing brand-new tokens (no rt_old) requires password auth,
         # not Bearer auth. Otherwise a stolen access token could be used
         # to mint fresh ones, bypassing refresh-token rotation.
-        if (
-            "Authorization" in request.httprequest.headers
-            and request.httprequest.headers["Authorization"].startswith("Bearer ")
-            and rt_old is None
-        ):
+        auth_header = getattr(
+            threading.current_thread(), "auth_external_authorization", "",
+        )
+        if auth_header.startswith("Bearer ") and rt_old is None:
             _logger.info(
                 "User '%s' tried to refresh their auth token while being "
                 "authenticated with an auth token.", self.login,
@@ -250,11 +260,10 @@ class ExternalAuthUsers(models.Model):
                 raise AccessDenied()
 
             if rt_old_model.is_revoked:
-                # Replay of an already-rotated token: revoke the whole
-                # family. *Return* (not raise) AccessDenied so the family
-                # revocation transaction isn't rolled back.
-                rt_old_model.sudo().revoke_family()
                 user_id = rt_old_payload["sub"]
+                rt_old_model.sudo().revoke_family()
+                # Commit so the revocation survives the raise.
+                self.env.cr.commit()
                 _logger.warning(
                     "[RTRD] Refresh Token Reuse Detection: jti=%s user_id=%s "
                     "— revoking the whole token family. Either an attacker "
@@ -262,7 +271,7 @@ class ExternalAuthUsers(models.Model):
                     "reused a rotated token.",
                     rt_old_model.jti, user_id,
                 )
-                return AccessDenied
+                raise AccessDenied()
             rt_old_model.ensure_one()
             rt_old_model.sudo().revoke()
 
@@ -322,7 +331,7 @@ class ExternalAuthUsers(models.Model):
     def _check_refresh_token(self, token: str, sub: Any) -> dict:
         """Validate a refresh-token JWT and return its payload."""
         tokens_config = (
-            request.env["auth_external.tokens_config"].sudo().get_singleton()
+            self.env["auth_external.tokens_config"].sudo().get_singleton()
         )
         return self._parse_jwt_token(
             token,

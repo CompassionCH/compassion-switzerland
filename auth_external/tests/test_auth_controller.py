@@ -201,8 +201,14 @@ class TestAuthController(HttpCase):
         self, refresh_token: str
     ) -> None:
         resp = self.refresh(refresh_token, raw_response=True)
-        result = resp.json()["result"]
-        self.assertIn("odoo.exceptions.AccessDenied", result)
+        body = resp.json()
+        self.assertIn(
+            "error", body,
+            "Expected JSON-RPC error envelope, got: %r" % body,
+        )
+        self.assertEqual(
+            body["error"]["data"]["name"], "odoo.exceptions.AccessDenied",
+        )
 
     def login(
         self, login_data: dict, raw_response=False
