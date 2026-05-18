@@ -17,6 +17,8 @@
                 <a
           t-attf-href="https://compassion.ch{{ guide_lang_prefix }}/mycompassion/#inscrire"
           class="tiny-text bold text-core-blue"
+          target="_blank"
+          onclick="window.open(this.href, '_system'); return false;"
         >Read our guide</a>
             </div>
         </xpath>
