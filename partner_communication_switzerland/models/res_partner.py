@@ -86,7 +86,9 @@ class ResPartner(models.Model):
             if partner.title in certain_genders:
                 is_female = partner.gender == "F"
             else:
-                gender = gender_detector.get_gender(firstname, countries[partner.lang])
+                gender = gender_detector.get_gender(
+                    firstname, countries.get(partner.lang, "germany")
+                )
                 _logger.info("%s detected as %s", firstname, gender)
                 is_female = "female" in gender
             dear = (
@@ -488,7 +490,6 @@ class ResPartner(models.Model):
             donation_amount = partner.get_receipt(today.year - 1)
             if not donation_amount:
                 continue
-            self.env["partner.communication.job"].create(comm_vals)
             if (
                 partner.tax_certificate != "only_email"
                 and donation_amount > email_limit

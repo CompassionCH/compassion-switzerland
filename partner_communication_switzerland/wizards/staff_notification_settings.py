@@ -46,22 +46,16 @@ class StaffNotificationSettings(models.TransientModel):
     )
     invalid_mail_notify_ids = fields.Many2many(
         comodel_name="res.partner",
-        string="Invalid email",
         relation="invalid_mail_staff_notify_rel",
         column1="staff_id",
         column2="partner_id",
+        string="Invalid email",
         domain=[
             ("user_ids", "!=", False),
             ("user_ids.share", "=", False),
         ],
         readonly=False,
     )
-
-    def set_invalid_mail_notify_ids(self):
-        self.env["ir.config_parameter"].set_param(
-            "partner_communication_switzerland.invalid_mail_notify_ids",
-            ",".join(list(map(str, self.invalid_mail_notify_ids.ids))),
-        )
 
     def set_values(self):
         res = super().set_values()
@@ -81,11 +75,14 @@ class StaffNotificationSettings(models.TransientModel):
             "partner_communication_switzerland.zoom_attendee_en_id",
             str(self.zoom_attendee_en_id.id if self.zoom_attendee_en_id.id else 1),
         )
-        self.env["ir.config_parameter"].set_param(
+        self.env["ir.config_parameter"].sudo().set_param(
             "partner_communication_switzerland.new_donors_user",
             str(self.new_donors_user.id or 0),
         )
-        self.set_invalid_mail_notify_ids()
+        self.env["ir.config_parameter"].sudo().set_param(
+            "partner_communication_switzerland.invalid_mail_notify_ids",
+            ",".join(list(map(str, self.invalid_mail_notify_ids.ids))),
+        )
         return res
 
     @api.model
@@ -97,7 +94,6 @@ class StaffNotificationSettings(models.TransientModel):
                 "partner_communication_switzerland.new_donors_user", "0"
             )
         )
-        res.update({})
         res.update(
             {
                 "zoom_attendee_fr_id": int(
@@ -138,3 +134,17 @@ class StaffNotificationSettings(models.TransientModel):
         if partners:
             res["invalid_mail_notify_ids"] = list(map(int, partners.split(",")))
         return res
+
+
+class PhoneReformat(models.TransientModel):
+    _inherit = "reformat.all.phonenumbers"
+
+    # Avoids relational table clash
+    invalid_mail_notify_ids = fields.Many2many(
+        "res.partner",
+        compute="_compute_invalid_mail_notify_ids",
+    )
+
+    def _compute_invalid_mail_notify_ids(self):
+        for record in self:
+            record.invalid_mail_notify_ids = False

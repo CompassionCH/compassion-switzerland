@@ -364,7 +364,7 @@
         </record>
 
         <record id="sms_confirmation_email_1" model="mail.template">
-            <field name="name">SMS Sponsorship step1 confirmation</field>
+            <field name="name">Website Sponsorship step1 confirmation</field>
             <field
         name="model_id"
         ref="partner_communication.model_partner_communication_job"
@@ -380,15 +380,11 @@
             <field name="body_html" type="html">
                 <div>
                     <t t-set="sponsorship" t-value="object.get_objects()"/>
-                    <t t-set="request" t-value="sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])"/>
                     <t t-set="child" t-value="sponsorship.child_id"/>
                 </div>
                 <p>
                     You chose to invest in the life of {{ child.preferred_name }}. There are two more steps before {{ child.get('he') }} will be informed that you sponsor {{ child.get('him') }}, but you don't have to hurry. We have reserved the child so that you can take your time to complete the registration.
                     <br /><br />
-                    1. You can <a
-            t-attf-href="{{ request.full_url }}"
-          >click here</a> to complete your information and your payment option in the coming days.
                     <br />
                     2. Your sponsorship will be activated when we receive your first payment.
                     <br /><br />
@@ -415,7 +411,6 @@
                     <t t-set="sponsorship" t-value="object.get_objects()"/>
                     <t t-set="partner" t-value="sponsorship.partner_id"/>
                     <t t-set="child" t-value="sponsorship.child_id"/>
-                    <t t-set="request" t-value="sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])"/>
                 </div>
                 <p>
                     {{ partner.salutation }},
@@ -425,10 +420,6 @@
                     There are two more steps before {{ child.get('he') }} will be informed that you sponsor {{ child.get('him') }}.
                     Please consider finishing your request, to avoid making {{ child.preferred_name }} waiting too much for a sponsor.
                     <br /><br />
-                    1. <a
-            t-attf-href="{{ request.full_url }}"
-          >Click here</a> to complete your information and your payment option.
-                    <br />
                     2. Your sponsorship will be activated when we receive your first payment.
                     <br /><br />
                     In case you don't want to sponsor this child anymore, please contact us by e-mail or by phone at 024 434 21 24. In that case we will cancel your sponsorship and try to find another sponsor for {{ child.preferred_name }}.
@@ -459,7 +450,7 @@
       />
             <field
         name="email_from"
-      >"{{ object.user_id.company_id.address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="subject">Thank you for changing one life</field>

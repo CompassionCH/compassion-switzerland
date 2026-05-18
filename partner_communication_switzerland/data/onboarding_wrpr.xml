@@ -9,7 +9,7 @@
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -22,7 +22,6 @@
     <t t-set="firstname" t-value="sponsorships.mapped('child_id').get_list('preferred_name', 3, deine + 'n Patenkindern', False)"/>
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
- <t t-set="my_url" t-value="'https://stage.compassion.ch/im_livechat/support/2'"/>
 </div>
 <p>
     {{ partner.salutation }}
@@ -37,14 +36,14 @@
 <t t-if="sum(sponsorships.mapped('total_amount')) and partner in sponsorships.mapped('partner_id')">
     <p
           >Damit {{ "ihr eure" if plural else "du deine" }} Spende für die {{ sponsorships.get('Patenschaft') }} einrichten {{ "könnt, findet ihr" if plural else "kannst, findest du" }} hier den Einzahlungsschein: <a
-              t-attf-href="https://stage.compassion.ch/report/pdf/report_compassion.single_bvr_sponsorship/{{ str(sponsorships[:1].id) }}"
+              t-attf-href="{{object.env['ir.config_parameter'].sudo().get_param('web.external.url')}}/report/pdf/report_compassion.single_bvr_sponsorship/{{ str(sponsorships[:1].id) }}"
             >Einzahlungsschein</a>
         <t t-if="partner.parent_consent == 'not_submitted'">
 <br
             />und die Einverständniserklärung, die wir von {{ deine }}n Eltern unterschrieben benötigen:
 <a
-              href="https://stage.compassion.ch/partner_compassion/static/src/img/parental_consent_de_DE.pdf"
-            >https://stage.compassion.ch/partner_compassion/static/src/img/parental_consent_de_DE.pdf</a>
+              t-attf-href="{{object.env['ir.config_parameter'].sudo().get_param('web.external.url')}}/partner_compassion/static/src/img/parental_consent_de_DE.pdf"
+            >Dokument</a>
          </t>
     </p>
 </t>
@@ -54,9 +53,6 @@
 <p>Liebe Grüsse
 <br />Sarah
 <br />Tel: +41 (0)31 552 21 21
-<br />Fragen? {{ "Meldet ihr" if plural else "Melde dich" }} per Chat bei uns: <a
-            t-attf-href="{{ my_url }}"
-          >{{ my_url }}</a>
 </p>
         </field>
     </record>
@@ -71,12 +67,12 @@
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(signup_valid=True, create_user=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -86,20 +82,11 @@
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
     <t t-set="deine_patenkinder" t-value="'deine Patenkinder' if not plural else 'eure Patenkinder'"/>
-    <t t-set="chat_url" t-value="'https://stage.compassion.ch/im_livechat/support/2'"/>
     <t t-if="partner.user_ids.login_date">
-        <t t-set="my_url" t-value="'https://stage.compassion.ch/my/children'"/>
-        <t t-set="chat_url" t-value="my_url"/>
-    </t><t t-else="">
-        <t t-if="partner.email">
-            <t t-if="not partner.signup_url">
-                <t t-set="void" t-value="partner.action_signup_prepare()"/>
-                <t t-set="void" t-value="partner.env.clear()"/>
-            </t>
-            <t t-set="my_url" t-value="partner.signup_url"/>
-        </t><t t-else="">
-            <t t-set="my_url" t-value="'https://stage.compassion.ch/registration/' + partner.uuid + '?source=myaccount'"/>
-        </t>
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my2/children'"/>
+    </t>
+    <t t-else="">
+        <t t-set="my_url" t-value="partner._get_signup_url_for_action('/my2/children')"/>
     </t>
 </div>
 <p>
@@ -127,8 +114,7 @@ Wie bisher {{ "werdet ihr" if plural else "wirst du" }} alle Informationen zu {{
 <p>
 Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -145,12 +131,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(signup_valid=True, create_user=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -160,8 +146,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
     <t t-set="deine_patenkinder" t-value="'deine Patenkinder' if not plural else 'eure Patenkinder'"/>
-    <t t-set="my_url" t-value="'https://stage.compassion.ch/my/letter' if partner.user_ids.login_date else partner.signup_url"/>
-    <t t-set="chat_url" t-value="my_url if partner.user_ids.login_date else 'https://stage.compassion.ch/im_livechat/support/2'"/>
+    <t t-if="partner.user_ids.login_date">
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my2/children/letters/new'"/>
+    </t>
+    <t t-else="">
+        <t t-set="my_url" t-value="partner._get_signup_url_for_action('/my2/children/letters/new')"/>
+    </t>
 </div>
 <p>
 3/8:
@@ -181,8 +171,7 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
 </p>
 <p>Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -195,12 +184,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(signup_valid=True, create_user=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -214,8 +203,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     <t t-set="alumni_name" t-value="country.get_list('alumni_representative')"/>
     <t t-set="alumni_link" t-value="country.get_list('alumni_video_link', 1, 'https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion')"/>
     <t t-set="multi_link" t-value="alumni_link == 'https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion'"/>
-    <t t-set="my_url" t-value="'https://stage.compassion.ch/my/home' if partner.user_ids.login_date else partner.signup_url"/>
-    <t t-set="chat_url" t-value="my_url if partner.user_ids.login_date else 'https://stage.compassion.ch/im_livechat/support/2'"/>
+    <t t-if="partner.user_ids.login_date">
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my2/children'"/>
+    </t>
+    <t t-else="">
+            <t t-set="my_url" t-value="partner._get_signup_url_for_action('/my2/children')"/>
+    </t>
 </div>
 <p>4/8:
 <br />{{ partner.salutation }}
@@ -242,8 +235,7 @@ die Geschichte von {{ alumni_name }} an: <a
 </p>
 <p>Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -258,12 +250,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(signup_valid=True, create_user=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -273,8 +265,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
     <t t-set="deine_patenkinder" t-value="'deine Patenkinder' if not plural else 'eure Patenkinder'"/>
-    <t t-set="my_url" t-value="'https://stage.compassion.ch/my/home' if partner.user_ids.login_date else partner.signup_url"/>
-    <t t-set="chat_url" t-value="my_url if partner.user_ids.login_date else 'https://stage.compassion.ch/im_livechat/support/2'"/>
+    <t t-if="partner.user_ids.login_date">
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my2/children'"/>
+    </t>
+    <t t-else="">
+        <t t-set="my_url" t-value="partner._get_signup_url_for_action('/my2/children')"/>
+    </t>
 </div>
 <p>5/8:
 <br />{{ partner.salutation }}
@@ -289,8 +285,7 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
 </p>
 <p>Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -303,12 +298,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(create_user=True, signup_valid=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -318,9 +313,13 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
     <t t-set="deine_patenkinder" t-value="'deine Patenkinder' if not plural else 'eure Patenkinder'"/>
-    <t t-set="survey" t-value="object.env.ref('partner_compassion.partner_segmentation_survey').public_url"/>
-    <t t-set="my_url" t-value="'https://stage.compassion.ch/my/home' if partner.user_ids.login_date else partner.signup_url"/>
-    <t t-set="chat_url" t-value="my_url if partner.user_ids.login_date else 'https://stage.compassion.ch/im_livechat/support/2'"/>
+    <t t-set="survey" t-value="object.env.ref('partner_segmentation.partner_segmentation_survey').get_start_url()"/>
+    <t t-if="partner.user_ids.login_date">
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"/>
+    </t>
+    <t t-else="">
+        <t t-set="my_url" t-value="partner._get_signup_url_for_action()"/>
+    </t>
 </div>
 <p>6/8:
 <br />{{ partner.salutation }}
@@ -331,12 +330,11 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
 <p
         >Die Umfrage ist absolut vertraulich. Wir werden {{ deine }} persönlichen Daten niemals veröffentlichen oder ohne {{ deine }} Zustimmung an Dritte weitergeben.
 </p>
-<p>Also lass uns loslegen! <a t-attf-href="{{ survey }}">{{ survey }}</a>
+<p>Also lass uns loslegen! <a t-att-href="my_url + survey">{{ my_url }}</a>
 </p>
 <p>Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -349,12 +347,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(create_user=True, signup_valid=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -365,8 +363,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
     <t t-set="deine_patenkinder" t-value="'deine Patenkinder' if not plural else 'eure Patenkinder'"/>
-    <t t-set="my_url" t-value="'https://stage.compassion.ch/my/home' if partner.user_ids.login_date else partner.signup_url"/>
-    <t t-set="chat_url" t-value="my_url if partner.user_ids.login_date else 'https://stage.compassion.ch/im_livechat/support/2'"/>
+    <t t-if="partner.user_ids.login_date">
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my2/children'"/>
+    </t>
+    <t t-else="">
+        <t t-set="my_url" t-value="partner._get_signup_url_for_action('/my2/children')"/>
+    </t>
 </div>
 <p>7/8:
 <br />{{ partner.salutation }}
@@ -380,8 +382,7 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
 </p>
 <p>Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -394,12 +395,12 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
       />
         <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
 <div>
-    <t t-set="partner" t-value="object.partner_id"/>
+    <t t-set="partner" t-value="object.partner_id.with_context(create_user=True, signup_valid=True)"/>
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29"/>
@@ -409,24 +410,27 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     <t t-set="dir" t-value="'euch' if plural else 'dir'"/>
     <t t-set="dich" t-value="'euch' if plural else 'dich'"/>
     <t t-set="deine_patenkinder" t-value="'deine Patenkinder' if not plural else 'eure Patenkinder'"/>
-    <t t-set="survey" t-value="object.env.ref('partner_communication_switzerland.wrpr_onboarding_survey').public_url"/>
-    <t t-set="my_url" t-value="'https://stage.compassion.ch/my/home' if partner.user_ids.login_date else partner.signup_url"/>
-    <t t-set="chat_url" t-value="my_url if partner.user_ids.login_date else 'https://stage.compassion.ch/im_livechat/support/2'"/>
+    <t t-set="survey" t-value="object.env.ref('partner_communication_switzerland.wrpr_onboarding_survey').get_start_url()"/>
+    <t t-if="partner.user_ids.login_date">
+        <t t-set="my_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my2/children'" />
+    </t>
+    <t t-else="">
+        <t t-set="my_url" t-value="partner._get_signup_url_for_action('/my2/children')"/>
+    </t>
 </div>
 <p>8/8:
 <br />{{ partner.salutation }}
 </p>
 <p
         >{{ deine.title() }} Rückmeldung zum Start der {{ child.get('Patenschaft') }} ist uns wichtig. Es dauert knapp 1 Minute: <a
-            t-attf-href="{{ survey }}"
-          >{{ survey }}</a>
+            t-att-href="my_url + survey"
+          >{{ my_url }}</a>
 </p>
 <p>Vielen Dank fürs Ausfüllen!
 </p>
 <p>Liebe Grüsse<br />
 Sarah<br />
-Tel: +41 (0)31 552 21 21<br />
-Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
+Tel: +41 (0)31 552 21 21
 </p>
         </field>
     </record>
@@ -519,7 +523,7 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
     </record>
 
     <!-- Automations -->
-    <record id="action_wrpr_2" model="ir.actions.server">
+    <record id="wrpr_2_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step2</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -537,10 +541,10 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">1</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_2')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_2_action')])]" />
     </record>
 
-    <record id="action_wrpr_3" model="ir.actions.server">
+    <record id="wrpr_3_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step3</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -558,10 +562,10 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">2</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_3')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_3_action')])]" />
     </record>
 
-    <record id="action_wrpr_4" model="ir.actions.server">
+    <record id="wrpr_4_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step4</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -579,10 +583,10 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">3</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_4')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_4_action')])]" />
     </record>
 
-    <record id="action_wrpr_5" model="ir.actions.server">
+    <record id="wrpr_5_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step5</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -600,10 +604,10 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">4</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_5')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_5_action')])]" />
     </record>
 
-    <record id="action_wrpr_6" model="ir.actions.server">
+    <record id="wrpr_6_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step6</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -621,10 +625,10 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">5</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_6')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_6_action')])]" />
     </record>
 
-    <record id="action_wrpr_7" model="ir.actions.server">
+    <record id="wrpr_7_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step7</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -642,10 +646,10 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">6</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_7')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_7_action')])]" />
     </record>
 
-    <record id="action_wrpr_8" model="ir.actions.server">
+    <record id="wrpr_8_action" model="ir.actions.server">
         <field name="name">W&amp;P Onboarding: step8</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -663,6 +667,6 @@ Fragen? <a t-attf-href="{{ chat_url }}">{{ chat_url }}</a>
         <field name="filter_domain" eval="[('type', '=', 'SWP'),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','auto_digital']), ('onboarding_start_date', '!=', False),'|',('correspondent_id.mobile', '!=', False),('correspondent_id.phone', '!=', False),('correspondent_id.lang','not in',['it_IT','en_US']),('start_date', '>', datetime.today())]" />
         <field name="trg_date_range">7</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_8')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_8_action')])]" />
     </record>
 </odoo>

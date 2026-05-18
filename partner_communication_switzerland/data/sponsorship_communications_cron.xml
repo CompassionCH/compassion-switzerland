@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Reccuring CRONs that cannot be replaced by automated actions -->
         <record id="sponsorship_daily_communication_cron" model="ir.cron">
             <field name="name">Send daily sponsorship communication</field>
@@ -19,7 +18,6 @@
             <field name="code">model.generate_tax_receipts()</field>
             <field name="active" eval="False" />
         </record>
-    </data>
 
     <!-- Sponsorship anniversaries (1, 3, 5, 10 and 15 years) -->
     <record id="sponsorship_anniversary_1_communication_action" model="ir.actions.server">

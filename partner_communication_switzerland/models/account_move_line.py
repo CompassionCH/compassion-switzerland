@@ -10,8 +10,6 @@
 
 from odoo import models
 
-from odoo.addons.sponsorship_compassion.models.product_names import GIFT_CATEGORY
-
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
@@ -41,10 +39,8 @@ class AccountInvoiceLine(models.Model):
         # Special case for gifts : mention it's a gift even if several
         # different gifts are made.
         else:
-            categories = list(
-                set(self.with_context(lang="en_US").mapped("product_id.categ_name"))
-            )
-            if len(categories) == 1 and categories[0] == GIFT_CATEGORY:
+            categories = list(set(self.mapped("move_id.invoice_category")))
+            if len(categories) == 1 and categories[0] == "gift":
                 gift_template = self.env.ref(
                     "sponsorship_switzerland.product_template_fund_kdo"
                 )

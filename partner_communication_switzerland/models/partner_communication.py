@@ -18,8 +18,6 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.sponsorship_compassion.models.product_names import GIFT_PRODUCTS_REF
-
 _logger = logging.getLogger(__name__)
 
 
@@ -59,37 +57,6 @@ class PartnerCommunication(models.Model):
         for wizard in self:
             wizard.currency_id = chf.id
 
-    def filter_not_read(self):
-        """
-        Useful for checking if the communication was read by the sponsor.
-        Printed letters are always treated as read.
-        Returns only the communications that are not read.
-        """
-        not_read = self.env[self._name]
-        # Use a query to improve performance
-        query_sql = """
-            SELECT DISTINCT m.id
-            FROM mail_mail m
-            FULL JOIN mail_tracking_email tmail ON tmail.mail_id = m.id
-            FULL JOIN mail_tracking_event tevent ON tevent.tracking_email_id = tmail.id
-            WHERE m.id = %s
-            AND (
-                m.state IN ('exception', 'cancel')
-                OR tevent.event_type IN (
-                    'hard_bounce', 'soft_bounce', 'spam', 'reject')
-                OR tmail.state IN (
-                    'error', 'rejected', 'spam', 'bounced', 'soft-bounced')
-            )
-        """
-        for communication in self:
-            if communication.email_id:
-                self.env.cr.execute(query_sql, [communication.email_id.id])
-                if self.env.cr.rowcount:
-                    not_read += communication
-            elif communication.state == "done" and communication.send_mode == "digital":
-                not_read += communication
-        return not_read
-
     def get_birthday_bvr(self):
         """
         Attach birthday gift slip with background for sending by e-mail
@@ -101,9 +68,9 @@ class PartnerCommunication(models.Model):
         sponsorships = self.get_objects().filtered(lambda s: not s.birthday_paid)
         gifts_to = sponsorships[:1].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
-            birthday_gift = self.env["product.product"].search(
-                [("default_code", "=", GIFT_PRODUCTS_REF[0])], limit=1
-            )
+            birthday_gift = self.env.ref(
+                "sponsorship_compassion.gift_type_birthday"
+            ).product_id.product_variant_id
             attachments = sponsorships.get_bvr_gift_attachment(
                 birthday_gift, background
             )
@@ -118,9 +85,9 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
-        graduation = self.env["product.product"].search(
-            [("default_code", "=", GIFT_PRODUCTS_REF[4])], limit=1
-        )
+        graduation = self.env.ref(
+            "sponsorship_compassion.gift_type_graduation"
+        ).product_id.product_variant_id
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.get_bvr_gift_attachment(graduation, background)
@@ -135,9 +102,9 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
-        family = self.env["product.product"].search(
-            [("default_code", "=", GIFT_PRODUCTS_REF[2])], limit=1
-        )
+        family = self.env.ref(
+            "sponsorship_compassion.gift_type_family"
+        ).product_id.product_variant_id
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.get_bvr_gift_attachment(family, background)
@@ -152,8 +119,11 @@ class PartnerCommunication(models.Model):
         attachments = dict()
         background = self.send_mode and "physical" not in self.send_mode
         sponsorships = self.get_objects()
-        refs = [GIFT_PRODUCTS_REF[0], GIFT_PRODUCTS_REF[1], GIFT_PRODUCTS_REF[2]]
-        all_gifts = self.env["product.product"].search([("default_code", "in", refs)])
+        all_gifts = (
+            self.env["sponsorship.gift.type"]
+            .search([], limit=3, order="id asc")
+            .mapped("product_id.product_variant_id")
+        )
         gifts_to = sponsorships[0].gift_partner_id
         if sponsorships and gifts_to == self.partner_id:
             attachments = sponsorships.filtered(
@@ -176,9 +146,7 @@ class PartnerCommunication(models.Model):
             "doc_ids": self.partner_id.ids,
         }
         report_name = "report_compassion.bvr_fund"
-        pdf = self._get_pdf_from_data(
-            data, self.env.ref("report_compassion.report_bvr_fund")
-        )
+        pdf = self._get_pdf_from_data(data, "report_compassion.report_bvr_fund")
         return {product.name + ".pdf": [report_name, pdf]}
 
     def get_reminder_bvr(self):
@@ -228,9 +196,7 @@ class PartnerCommunication(models.Model):
             "doc_ids": sponsorships.ids,
             "disable_scissors": True,
         }
-        pdf = self._get_pdf_from_data(
-            data, self.env.ref("report_compassion.report_bvr_due")
-        )
+        pdf = self._get_pdf_from_data(data, "report_compassion.report_bvr_due")
         return {_("sponsorship due.pdf"): [report_name, pdf]}
 
     def get_label_from_sponsorship(self):
@@ -258,8 +224,7 @@ class PartnerCommunication(models.Model):
         label_data = {
             "doc_ids": sponsorships.ids,
         }
-        report = self.env.ref("label.dynamic_label")
-        pdf = self._get_pdf_from_data(label_data, report)
+        pdf = self._get_pdf_from_data(label_data, "label.dynamic_label")
         attachments[_("sponsorship labels.pdf")] = [report_name, pdf]
         return attachments
 
@@ -291,7 +256,7 @@ class PartnerCommunication(models.Model):
                 "background": self.send_mode != "physical",
             }
             pdf = self._get_pdf_from_data(
-                data, self.env.ref("report_compassion.report_2bvr_sponsorship")
+                data, "report_compassion.report_2bvr_sponsorship"
             )
             attachments.update({_("sponsorship payment slips.pdf"): [report_name, pdf]})
         # Attach gifts for correspondents
@@ -300,24 +265,17 @@ class PartnerCommunication(models.Model):
             if sponsorship.mapped(sponsorship.send_gifts_to) == self.partner_id:
                 pays_gift += sponsorship
         if pays_gift:
-            product_ids = (
-                self.env["product.product"]
-                .search(
-                    [
-                        (
-                            "default_code",
-                            "in",
-                            [GIFT_PRODUCTS_REF[0]] + GIFT_PRODUCTS_REF[2:4],
-                        )
-                    ]
-                )
-                .ids
+            all_gifts = (
+                self.env["sponsorship.gift.type"]
+                .search([], limit=3, order="id asc")
+                .mapped("product_id.product_variant_id")
             )
+            product_ids = all_gifts.ids
             report_name = "report_compassion.2bvr_gift_sponsorship"
             data = {"doc_ids": pays_gift.ids, "product_ids": product_ids}
             pdf = self._get_pdf_from_data(
                 data,
-                self.env.ref("report_compassion.report_2bvr_gift_sponsorship"),
+                "report_compassion.report_2bvr_gift_sponsorship",
             )
             attachments.update({_("sponsorship gifts.pdf"): [report_name, pdf]})
         return attachments
@@ -332,7 +290,7 @@ class PartnerCommunication(models.Model):
     def get_blank_communication_attachment(self):
         blank_communication = self._get_pdf_from_data(
             {"doc_ids": self.ids},
-            self.env.ref("report_compassion.report_blank_communication"),
+            "report_compassion.report_blank_communication",
         )
         return {
             "cover.pdf": ["report_compassion.blank_communication", blank_communication]
@@ -350,9 +308,7 @@ class PartnerCommunication(models.Model):
             "type": report_name,
             "doc_ids": children.ids,
         }
-        pdf = self._get_pdf_from_data(
-            data, self.sudo().env.ref("child_compassion.report_childpack_small")
-        )
+        pdf = self._get_pdf_from_data(data, "child_compassion.report_childpack_small")
         return {_("child dossier.pdf"): [report_name, pdf]}
 
     def get_end_sponsorship_certificate_new_version(self):
@@ -372,9 +328,7 @@ class PartnerCommunication(models.Model):
         }
         pdf = self._get_pdf_from_data(
             data,
-            self.sudo().env.ref(
-                "report_compassion.report_ending_sponsorship_certificate"
-            ),
+            "report_compassion.report_ending_sponsorship_certificate",
         )
         return {_("ending sponsorship certificate.pdf"): [report_name, pdf]}
 
@@ -386,9 +340,7 @@ class PartnerCommunication(models.Model):
             "year": self.env.context.get("year", date.today().year - 1),
             "lang": self.partner_id.lang,
         }
-        pdf = self._get_pdf_from_data(
-            data, self.env.ref("report_compassion.tax_receipt_report")
-        )
+        pdf = self._get_pdf_from_data(data, "report_compassion.tax_receipt_report")
         return {_("tax receipt.pdf"): [report_name, pdf]}
 
     def send(self):
@@ -673,16 +625,14 @@ class PartnerCommunication(models.Model):
         # Payment slips
         if bv_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
-            report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
+            report_ref = "report_compassion.report_2bvr_sponsorship"
             if (
                 bv_sponsorships.mapped("payment_mode_id") == permanent_order
                 and not force_a4
             ):
                 # One single slip is enough for permanent order.
                 report_name = "report_compassion.single_bvr_sponsorship"
-                report_ref = self.env.ref(
-                    "report_compassion.report_single_bvr_sponsorship"
-                )
+                report_ref = "report_compassion.report_single_bvr_sponsorship"
             data = {
                 "doc_ids": bv_sponsorships.ids,
                 "background": self.send_mode != "physical",
@@ -739,7 +689,7 @@ class PartnerCommunication(models.Model):
         for field_office in field_offices:
             pdf_data = self._get_pdf_from_data(
                 {"FO": field_office.field_office_id, "doc_ids": self.ids},
-                self.env.ref(data_name),
+                data_name,
             )
             attachments.update({field_office.name + ".pdf": [report_name, pdf_data]})
         return attachments
@@ -779,7 +729,7 @@ class PartnerCommunication(models.Model):
             report_name = "report_compassion.2bvr_sponsorship"
             data = {"doc_ids": csp.ids}
             pdf = self._get_pdf_from_data(
-                data, self.env.ref("report_compassion.report_2bvr_sponsorship")
+                data, "report_compassion.report_2bvr_sponsorship"
             )
             attachments.update({_("csp payment slips.pdf"): [report_name, pdf]})
         return attachments

@@ -13,7 +13,7 @@
       />
             <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="body_html" type="html">
@@ -57,7 +57,7 @@
       />
             <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="subject">Neu bei Compassion?</field>
@@ -110,7 +110,7 @@
       />
             <field
         name="email_from"
-      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field
@@ -223,7 +223,7 @@
         </record>
 
         <!-- BASE AUTOMATIONS  -->
-        <record id="action_new_donors_onboarding_1st_blog_post" model="ir.actions.server">
+        <record id="new_donors_onboarding_1st_blog_post_action" model="ir.actions.server">
             <field name="name">New Donors Onboarding: 1st blog post</field>
             <field name="model_id" ref="model_res_partner" />
             <field name="state">communication</field>
@@ -239,10 +239,10 @@
             <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','!=','en_US'),'|',('number_sponsorships','=',False),('number_sponsorships','=',0)]" />
             <field name="trg_date_range">1</field>
             <field name="trg_date_range_type">month</field>
-            <field name="action_server_ids" eval="[(6, 0, [ref('action_new_donors_onboarding_1st_blog_post')])]" />
+            <field name="action_server_ids" eval="[(6, 0, [ref('new_donors_onboarding_1st_blog_post_action')])]" />
         </record>
 
-        <record id="action_new_donors_onboarding_2nd_blog_post" model="ir.actions.server">
+        <record id="new_donors_onboarding_2nd_blog_post_action" model="ir.actions.server">
             <field name="name">New Donors Onboarding: 2nd blog post</field>
             <field name="model_id" ref="model_res_partner" />
             <field name="state">communication</field>
@@ -258,6 +258,6 @@
             <field name="filter_domain" eval="[('email', '!=', False),('opt_out', '=', False),('global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_new_donor_start_date', '!=', False),('lang','!=','en_US'),'|',('number_sponsorships','=',False),('number_sponsorships','=',0)]" />
             <field name="trg_date_range">2</field>
             <field name="trg_date_range_type">month</field>
-            <field name="action_server_ids" eval="[(6, 0, [ref('action_new_donors_onboarding_2nd_blog_post')])]" />
+            <field name="action_server_ids" eval="[(6, 0, [ref('new_donors_onboarding_2nd_blog_post_action')])]" />
         </record>
 </odoo>

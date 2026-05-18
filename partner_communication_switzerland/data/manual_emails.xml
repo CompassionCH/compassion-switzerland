@@ -20,7 +20,7 @@
                     We sent you a mail to the following address:
                     <br />
                     <br />
-                    <t t-raw="address"/>
+                    <t t-out="address"/>
                     <br />
                     <br />
                     Unfortunately it seems that it's not the right address. Would you be so kind and inform us about the changes, please.

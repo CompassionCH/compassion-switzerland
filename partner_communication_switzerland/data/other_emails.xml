@@ -184,8 +184,8 @@
       />
             <field
         name="email_from"
-      ><![CDATA["<t t-raw="object.partner_id.company_id.name"/>" <<t t-raw="object.partner_id.company_id.email or user.email"/>>]]></field>
-            <field name="email_to"><t t-raw="object.partner_id.email"/></field>
+      >"{{object.partner_id.company_id.name}}" &lt;{{object.partner_id.company_id.email or user.email}}>&gt;</field>
+            <field name="email_to">{{object.partner_id.email}}</field>
             <field name="subject">Password reset</field>
             <field
         name="body_html"
@@ -210,7 +210,7 @@
     <p>Best regards,</p>
 </div>
 <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
-    <t t-raw="user.signature"/>
+    <t t-out="user.signature"/>
     <p style="font-size: 11px; margin-top: 10px;">
         <strong>Sent by {{ user.company_id.name }} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
     </p>
