@@ -29,7 +29,7 @@ from jwt import (
     InvalidTokenError,
 )
 
-from odoo import api, models, tools
+from odoo import api, models
 from odoo.exceptions import AccessDenied
 from odoo.tools import config
 
@@ -64,8 +64,10 @@ def gen_signing_key() -> bytes:
         "make tokens survive restarts. The current ephemeral key is "
         "logged at DEBUG level."
     )
-    _logger.debug("auth_external ephemeral JWT key (base64): %s",
-                  base64.b64encode(secret).decode("ascii"))
+    _logger.debug(
+        "auth_external ephemeral JWT key (base64): %s",
+        base64.b64encode(secret).decode("ascii"),
+    )
     return secret
 
 
@@ -83,6 +85,7 @@ class InvalidTotp(AccessDenied):
     `_authenticate_with_optional_totp` helper raises this; we keep it
     here for callers that still want to distinguish it from a regular
     AccessDenied."""
+
     pass
 
 
@@ -231,7 +234,9 @@ class ExternalAuthUsers(models.Model):
             _logger.info(
                 "User '%s' (%d) tried to generate an auth token for user "
                 "with id %d.",
-                self.env.user.login, self.env.user.id, self.id,
+                self.env.user.login,
+                self.env.user.id,
+                self.id,
             )
             raise AccessDenied()
 
@@ -239,12 +244,15 @@ class ExternalAuthUsers(models.Model):
         # not Bearer auth. Otherwise a stolen access token could be used
         # to mint fresh ones, bypassing refresh-token rotation.
         auth_header = getattr(
-            threading.current_thread(), "auth_external_authorization", "",
+            threading.current_thread(),
+            "auth_external_authorization",
+            "",
         )
         if auth_header.startswith("Bearer ") and rt_old is None:
             _logger.info(
                 "User '%s' tried to refresh their auth token while being "
-                "authenticated with an auth token.", self.login,
+                "authenticated with an auth token.",
+                self.login,
             )
             raise AccessDenied()
 
@@ -262,31 +270,30 @@ class ExternalAuthUsers(models.Model):
             if rt_old_model.is_revoked:
                 user_id = rt_old_payload["sub"]
                 rt_old_model.sudo().revoke_family()
-                # Commit so the revocation survives the raise.
-                self.env.cr.commit()
+                # Commit so the revocation survives the raise; see
+                # docstring "Reuse-detection side effect" for the
+                # invariant this relies on.
+                self.env.cr.commit()  # pylint: disable=invalid-commit
                 _logger.warning(
                     "[RTRD] Refresh Token Reuse Detection: jti=%s user_id=%s "
                     "— revoking the whole token family. Either an attacker "
                     "is replaying a stolen token, or a client-side bug "
                     "reused a rotated token.",
-                    rt_old_model.jti, user_id,
+                    rt_old_model.jti,
+                    user_id,
                 )
                 raise AccessDenied()
             rt_old_model.ensure_one()
             rt_old_model.sudo().revoke()
 
         # All checks passed — mint the new pair.
-        tokens_config = (
-            self.env["auth_external.tokens_config"].sudo().get_singleton()
-        )
+        tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
 
         now_utc = datetime.now(timezone.utc)
         at_new_exp = now_utc + timedelta(
             hours=tokens_config.access_token_duration_hours
         )
-        rt_new_exp = now_utc + timedelta(
-            days=tokens_config.refresh_token_duration_days
-        )
+        rt_new_exp = now_utc + timedelta(days=tokens_config.refresh_token_duration_days)
 
         at_new_payload, at_new = self._generate_jwt(
             tokens_config.issuer_id,
@@ -305,11 +312,13 @@ class ExternalAuthUsers(models.Model):
 
         # Persist the new refresh-token row. Odoo stores Datetime fields
         # as naive UTC, so strip the tz.
-        rt_new_model = refresh_tokens.sudo().create({
-            "jti": rt_new_payload["jti"],
-            "exp": rt_new_exp.replace(tzinfo=None),
-            "user_id": self.env.user.id,
-        })
+        rt_new_model = refresh_tokens.sudo().create(
+            {
+                "jti": rt_new_payload["jti"],
+                "exp": rt_new_exp.replace(tzinfo=None),
+                "user_id": self.env.user.id,
+            }
+        )
         if rt_old is not None:
             rt_old_model.link_child(rt_new_model)
 
@@ -330,9 +339,7 @@ class ExternalAuthUsers(models.Model):
 
     def _check_refresh_token(self, token: str, sub: Any) -> dict:
         """Validate a refresh-token JWT and return its payload."""
-        tokens_config = (
-            self.env["auth_external.tokens_config"].sudo().get_singleton()
-        )
+        tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
         return self._parse_jwt_token(
             token,
             sub,
@@ -343,9 +350,7 @@ class ExternalAuthUsers(models.Model):
 
     def _check_access_token(self, token: str) -> None:
         """Validate an access-token JWT against the current request user."""
-        tokens_config = (
-            self.env["auth_external.tokens_config"].sudo().get_singleton()
-        )
+        tokens_config = self.env["auth_external.tokens_config"].sudo().get_singleton()
         try:
             self._parse_jwt_token(
                 token,
@@ -374,7 +379,8 @@ class ExternalAuthUsers(models.Model):
         # models/ir_http.py.
         authorization_header = getattr(
             threading.current_thread(),
-            "auth_external_authorization", "",
+            "auth_external_authorization",
+            "",
         )
         if authorization_header.startswith("Bearer "):
             token = authorization_header.split(" ", 1)[1]
@@ -392,7 +398,10 @@ class ExternalAuthUsers(models.Model):
                 # The Authorization header may belong to a different
                 # consumer of res.users — fall through to the standard
                 # password / OAuth chain.
-                pass
+                _logger.debug(
+                    "Bearer token rejected by auth_external; falling "
+                    "through to password / OAuth credential chain."
+                )
 
         return super()._check_credentials(credential, env)
 
@@ -408,7 +417,8 @@ class ExternalAuthUsers(models.Model):
         # reason as in _check_credentials (XMLRPC unbinds request).
         authorization_header = getattr(
             threading.current_thread(),
-            "auth_external_authorization", "",
+            "auth_external_authorization",
+            "",
         )
         if authorization_header.startswith("Bearer "):
             token = authorization_header.split(" ", 1)[1]
@@ -423,7 +433,10 @@ class ExternalAuthUsers(models.Model):
                 except AccessDenied:
                     # Header may be for some other consumer; fall
                     # through to the password path.
-                    pass
+                    _logger.debug(
+                        "Bearer token rejected by auth_external in "
+                        "check(); falling through to password path."
+                    )
 
         if not passwd:
             raise AccessDenied()

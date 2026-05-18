@@ -17,7 +17,7 @@ Compassion CH External Auth
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github
-    :target: https://github.com/CompassionCH/compassion-switzerland/tree/14.0/auth_external
+    :target: https://github.com/CompassionCH/compassion-switzerland/tree/18.0/auth_external
     :alt: CompassionCH/compassion-switzerland
 
 |badge1| |badge2| |badge3|
@@ -134,45 +134,26 @@ new key generated in the DEBUG logs.
 
 ``auth_external.jwt_key = <your_secret_key>``
 
-Known issues / Roadmap
-======================
+v18 notes
+---------
 
-Tokens in secure cookies
-------------------------
+This module uses **PyJWT** (the ``jwt`` PyPI package by José Padilla),
+already shipped via Odoo core (``mail/tools/web_push.py`` and the
+``server-auth`` stack). No additional Python dependency declaration is
+needed in the manifest. The v14 module used the GehirnInc ``jwt``
+package, which conflicts with PyJWT on the top-level ``jwt`` Python
+namespace and could not coexist.
 
-Currently, tokens are stored in the localStorage in the frontend. This
-is dangerous if the frontend contains an XSS vulnerability (token
-extraction). We should use Secure, HttpOnly, Strict=..., Domain=...,
-Path=...
+JWT subject claims are stored as strings (RFC 7519 §4.1.2). PyJWT 2.x
+rejects integer subjects at decode time; the module coerces user ids to
+strings on encode and back to ints on verify.
 
-https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security
-
-In the process of trying to store the tokens in HttpOnly cookies, I
-discovered that the XmlRpcClient library used by the frontend
-(``import { XmlRpcClient } from '@foxglove/xmlrpc';``) does not support
-the withCredentials property
-(https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials).
-This means that the access token cookie is not being sent with XmlRpc
-requests, and thus the server rejects them with AccessDenied. It would
-require substantial efforts to use another library or to re-implement
-the library with the required withCredentials property, so currently,
-the tokens remain stored in localStorage. This presents an important
-security vulnerability if an XSS vulnerability is discovered in the
-frontend. In that case, the tokens can be extracted by an attacker and
-used to make xmlrpc requests for the account of the victim. Significant
-care should thus be invested in testing the frontend for XSS
-vulnerabilities.
-
-JWT library
------------
-
-The library which is currently used seems to be abandoned :
-https://github.com/GehirnInc/python-jwt (No update since Apr 19, 2022).
-It is not clear if this library is already a dependency of odoo.
-
-Another possibility would be to switch to :
-https://github.com/jpadilla/pyjwt
+The module also overrides ``ir.http._dispatch`` to stash the request's
+``Authorization`` header in ``threading.current_thread()``. v18's
+``borrow_request()`` (used by ``dispatch_rpc``) makes the request
+inaccessible from ``res.users.check`` / ``_check_credentials`` during
+XMLRPC calls; the thread-local survives ``borrow_request`` and lets the
+Bearer-token shortcut work for XMLRPC too.
 
 Bug Tracker
 ===========
@@ -180,7 +161,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/CompassionCH/compassion-switzerland/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20auth_external%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20auth_external%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -205,6 +186,6 @@ Refresh tokens in OAuth 2.0
 Maintainers
 -----------
 
-This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/14.0/auth_external>`_ project on GitHub.
+This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/18.0/auth_external>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -20,7 +20,6 @@
 # external API stays a one-round trip.
 ##############################################################################
 import logging
-from typing import List, Tuple
 
 from odoo.exceptions import AccessDenied
 from odoo.http import Controller, request, route
@@ -34,14 +33,15 @@ AUTH_LOGOUT_ROUTE = "/auth/logout"
 
 
 class AuthController(Controller):
-    def _validate_fields_as_expected(self, fields: List[str], data: dict) -> None:
+    def _validate_fields_as_expected(self, fields: list[str], data: dict) -> None:
         """Reject the request if `data` does not contain *exactly* the
         expected `fields` (no more, no less)."""
         for f in fields:
             if f not in data:
                 _logger.info(
                     "Request failed because field '%s' was missing from "
-                    "the request data", f,
+                    "the request data",
+                    f,
                 )
                 raise AccessDenied()
         if len(fields) != len(data):
@@ -95,9 +95,11 @@ class AuthController(Controller):
 
         if user.totp_enabled:
             from ..models.res_users import InvalidTotp
+
             if not totp:
                 _logger.info(
-                    "Login denied for user %r: TOTP code required.", login,
+                    "Login denied for user %r: TOTP code required.",
+                    login,
                 )
                 raise InvalidTotp()
             try:
@@ -116,7 +118,7 @@ class AuthController(Controller):
             "auth_tokens": user_self.generate_external_auth_tokens(),
         }
 
-    def _validate_refresh_token(self, request) -> Tuple[str, dict]:
+    def _validate_refresh_token(self, request) -> tuple[str, dict]:
         """Validate that the request carries an authentic refresh token.
 
         :raises AccessDenied: if the body lacks `refresh_token`, or the
@@ -185,7 +187,8 @@ class AuthController(Controller):
             _logger.warning(
                 "user_id=%s requested logout but the refresh token "
                 "(jti=%s) was not found in the database. Very strange.",
-                user_id, jti,
+                user_id,
+                jti,
             )
             raise AccessDenied()
 
@@ -194,7 +197,8 @@ class AuthController(Controller):
                 "[RTRD] Refresh Token Reuse Detection on logout "
                 "(jti=%s, user_id=%s). We're about to revoke the family "
                 "anyway, but this is worrying — possible XSS exploit.",
-                jti, user_id,
+                jti,
+                user_id,
             )
 
         rt_model.sudo().revoke_family()

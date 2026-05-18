@@ -30,8 +30,8 @@ class IrHttp(models.AbstractModel):
     def _dispatch(cls, endpoint):
         thread = threading.current_thread()
         if request:
-            thread.auth_external_authorization = (
-                request.httprequest.environ.get("HTTP_AUTHORIZATION", "")
+            thread.auth_external_authorization = request.httprequest.environ.get(
+                "HTTP_AUTHORIZATION", ""
             )
         else:
             thread.auth_external_authorization = ""
