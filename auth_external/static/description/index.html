@@ -369,7 +369,7 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:c57687e60cab97d34e2d49877353abe3a55a5d449af2302bda9ba82cae2399ea
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/CompassionCH/compassion-switzerland/tree/14.0/auth_external"><img alt="CompassionCH/compassion-switzerland" src="https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/CompassionCH/compassion-switzerland/tree/18.0/auth_external"><img alt="CompassionCH/compassion-switzerland" src="https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github" /></a></p>
 <p>This module is intended to allow authentication and authorization to the
 odoo backend from various frontends (the first use-case is for the
 translation platform,
@@ -469,40 +469,23 @@ credentials (login, password, totp).</strong></p>
 of users accross server restarts. If you don’t have any, you will see a
 new key generated in the DEBUG logs.</p>
 <p><tt class="docutils literal">auth_external.jwt_key = &lt;your_secret_key&gt;</tt></p>
-</div>
-<div class="section" id="known-issues-roadmap">
-<h1>Known issues / Roadmap</h1>
-<div class="section" id="tokens-in-secure-cookies">
-<h2>Tokens in secure cookies</h2>
-<p>Currently, tokens are stored in the localStorage in the frontend. This
-is dangerous if the frontend contains an XSS vulnerability (token
-extraction). We should use Secure, HttpOnly, Strict=…, Domain=…,
-Path=…</p>
-<p><a class="reference external" href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies">https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies</a>
-<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security">https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#security</a></p>
-<p>In the process of trying to store the tokens in HttpOnly cookies, I
-discovered that the XmlRpcClient library used by the frontend
-(<tt class="docutils literal">import { XmlRpcClient } from '&#64;foxglove/xmlrpc';</tt>) does not support
-the withCredentials property
-(<a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials">https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials</a>).
-This means that the access token cookie is not being sent with XmlRpc
-requests, and thus the server rejects them with AccessDenied. It would
-require substantial efforts to use another library or to re-implement
-the library with the required withCredentials property, so currently,
-the tokens remain stored in localStorage. This presents an important
-security vulnerability if an XSS vulnerability is discovered in the
-frontend. In that case, the tokens can be extracted by an attacker and
-used to make xmlrpc requests for the account of the victim. Significant
-care should thus be invested in testing the frontend for XSS
-vulnerabilities.</p>
-</div>
-<div class="section" id="jwt-library">
-<h2>JWT library</h2>
-<p>The library which is currently used seems to be abandoned :
-<a class="reference external" href="https://github.com/GehirnInc/python-jwt">https://github.com/GehirnInc/python-jwt</a> (No update since Apr 19, 2022).
-It is not clear if this library is already a dependency of odoo.</p>
-<p>Another possibility would be to switch to :
-<a class="reference external" href="https://github.com/jpadilla/pyjwt">https://github.com/jpadilla/pyjwt</a></p>
+<div class="section" id="v18-notes">
+<h2>v18 notes</h2>
+<p>This module uses <strong>PyJWT</strong> (the <tt class="docutils literal">jwt</tt> PyPI package by José Padilla),
+already shipped via Odoo core (<tt class="docutils literal">mail/tools/web_push.py</tt> and the
+<tt class="docutils literal"><span class="pre">server-auth</span></tt> stack). No additional Python dependency declaration is
+needed in the manifest. The v14 module used the GehirnInc <tt class="docutils literal">jwt</tt>
+package, which conflicts with PyJWT on the top-level <tt class="docutils literal">jwt</tt> Python
+namespace and could not coexist.</p>
+<p>JWT subject claims are stored as strings (RFC 7519 §4.1.2). PyJWT 2.x
+rejects integer subjects at decode time; the module coerces user ids to
+strings on encode and back to ints on verify.</p>
+<p>The module also overrides <tt class="docutils literal">ir.http._dispatch</tt> to stash the request’s
+<tt class="docutils literal">Authorization</tt> header in <tt class="docutils literal">threading.current_thread()</tt>. v18’s
+<tt class="docutils literal">borrow_request()</tt> (used by <tt class="docutils literal">dispatch_rpc</tt>) makes the request
+inaccessible from <tt class="docutils literal">res.users.check</tt> / <tt class="docutils literal">_check_credentials</tt> during
+XMLRPC calls; the thread-local survives <tt class="docutils literal">borrow_request</tt> and lets the
+Bearer-token shortcut work for XMLRPC too.</p>
 </div>
 </div>
 <div class="section" id="bug-tracker">
@@ -510,7 +493,7 @@ It is not clear if this library is already a dependency of odoo.</p>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20auth_external%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20auth_external%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -534,7 +517,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </div>
 <div class="section" id="maintainers">
 <h2>Maintainers</h2>
-<p>This module is part of the <a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/tree/14.0/auth_external">CompassionCH/compassion-switzerland</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/CompassionCH/compassion-switzerland/tree/18.0/auth_external">CompassionCH/compassion-switzerland</a> project on GitHub.</p>
 <p>You are welcome to contribute.</p>
 </div>
 </div>

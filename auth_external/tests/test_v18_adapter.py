@@ -28,15 +28,17 @@ class TestV18Adapter(TransactionCase):
         the current thread before calling the endpoint and (b) clear it
         on return, otherwise a worker thread leaks the header from one
         request to the next."""
-        from unittest.mock import patch, MagicMock
-        from odoo.addons.auth_external.models import ir_http as ir_http_module
+        from unittest.mock import MagicMock, patch
+
+        from ..models import ir_http as ir_http_module
 
         captured = {}
 
         def fake_endpoint(*args, **kwargs):
             captured["mid_dispatch"] = getattr(
                 threading.current_thread(),
-                "auth_external_authorization", None,
+                "auth_external_authorization",
+                None,
             )
             return "ok"
 
@@ -50,22 +52,25 @@ class TestV18Adapter(TransactionCase):
         mro = type(IrHttp).__mro__
         auth_idx = mro.index(auth_ext_def_cls)
         parent_with_dispatch = next(
-            c for c in mro[auth_idx + 1:]
-            if "_dispatch" in c.__dict__
+            c for c in mro[auth_idx + 1 :] if "_dispatch" in c.__dict__
         )
 
-        with patch.object(ir_http_module, "request", fake_request), \
-             patch.object(
-                 parent_with_dispatch, "_dispatch",
-                 classmethod(lambda cls, endpoint: endpoint()),
-             ):
+        with (
+            patch.object(ir_http_module, "request", fake_request),
+            patch.object(
+                parent_with_dispatch,
+                "_dispatch",
+                classmethod(lambda cls, endpoint: endpoint()),
+            ),
+        ):
             type(IrHttp)._dispatch(fake_endpoint)
 
         self.assertEqual(captured["mid_dispatch"], "Bearer test-token")
         self.assertEqual(
             getattr(
                 threading.current_thread(),
-                "auth_external_authorization", None,
+                "auth_external_authorization",
+                None,
             ),
             "",
             "Authorization header must be cleared after dispatch returns",
@@ -76,6 +81,7 @@ class TestV18Adapter(TransactionCase):
         _generate_jwt coerces. Pinning this so the cast isn't silently
         dropped by a future refactor."""
         from datetime import datetime, timedelta, timezone
+
         admin = self.env.ref("base.user_admin")
         payload, _token = admin._generate_jwt(
             iss="test_issuer",
@@ -92,6 +98,7 @@ class TestV18Adapter(TransactionCase):
         gen_signing_key() returns those exact bytes (not an ephemeral
         random secret)."""
         from odoo.tools import config
+
         sentinel = "TEST-SENTINEL-KEY-do-not-use-in-prod"
         original = config.get("auth_external.jwt_key")
         try:

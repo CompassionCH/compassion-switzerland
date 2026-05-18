@@ -1,5 +1,6 @@
 import logging
-from typing import Callable, List, Optional
+from collections.abc import Callable
+from typing import Optional
 
 from odoo import _, api, fields, models
 
@@ -111,7 +112,7 @@ class RefreshTokens(models.Model):
         # revoke children
         revoke_list(self, lambda rt: rt.child_id)
 
-    def get_parents(self) -> List["RefreshTokens"]:
+    def get_parents(self) -> list["RefreshTokens"]:
         self.ensure_one()
 
         parents = []
@@ -122,7 +123,7 @@ class RefreshTokens(models.Model):
         parents.reverse()  # to get family in right order from root
         return parents
 
-    def get_children(self) -> List["RefreshTokens"]:
+    def get_children(self) -> list["RefreshTokens"]:
         self.ensure_one()
         children = []
         curr = self
@@ -131,7 +132,7 @@ class RefreshTokens(models.Model):
             children.append(curr)
         return children
 
-    def get_family(self) -> List["RefreshTokens"]:
+    def get_family(self) -> list["RefreshTokens"]:
         return [*self.get_parents(), self, *self.get_children()]
 
     def family_str(self) -> str:
@@ -161,7 +162,9 @@ class RefreshTokens(models.Model):
         _logger.info(
             "Revoked %d refresh_tokens for user_id=%s "
             "(%d total tokens in the database for this user, now all revoked).",
-            nb_tokens_revoked, user_id, nb_user_tokens,
+            nb_tokens_revoked,
+            user_id,
+            nb_user_tokens,
         )
 
     @api.model
@@ -178,5 +181,6 @@ class RefreshTokens(models.Model):
         remaining_rts = self.sudo().search_count([])
         _logger.info(
             "RefreshTokens: removed %d expired tokens, remains %d in the db.",
-            removed_rts, remaining_rts,
+            removed_rts,
+            remaining_rts,
         )
