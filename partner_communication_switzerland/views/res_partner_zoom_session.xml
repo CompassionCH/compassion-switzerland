@@ -37,9 +37,9 @@
                             <field
                 name="participant_ids"
                 widget="many2many_tags"
-                context="{'default_zoom_session_id': active_id}"
+                context="{'default_zoom_session_id': id}"
                 options="{'color_field': 'color'}"
-                domain="[('zoom_session_id', '=', active_id)]"
+                domain="[('zoom_session_id', '=', id)]"
               />
                         </group>
                         <group>
@@ -80,7 +80,6 @@
         event_open_popup="true"
         mode="month"
         color="lang"
-        quick_add="false"
       >
                 <field name="lang" />
                 <field name="link" />

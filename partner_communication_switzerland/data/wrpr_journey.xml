@@ -6,7 +6,7 @@
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -43,7 +43,7 @@
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -88,7 +88,7 @@
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -133,7 +133,7 @@
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -166,7 +166,7 @@
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -196,7 +196,7 @@ you can find the payment slip here: <a
 </p>
 </t>
 <t t-if="object.send_mode == 'digital'">
-    <t t-raw="object.user_id.signature"/>
+    <t t-out="object.user_id.signature"/>
 </t>
 </div>
         </field>
@@ -207,7 +207,7 @@ you can find the payment slip here: <a
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -249,7 +249,7 @@ Thank you for communicating your email address as soon as possible.
 </p>
 </t>
 <t t-if="object.send_mode == 'digital'">
-    <t t-raw="object.user_id.signature"/>
+    <t t-out="object.user_id.signature"/>
 </t>
 </div>
         </field>
@@ -262,7 +262,7 @@ Thank you for communicating your email address as soon as possible.
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -289,7 +289,7 @@ Thank you for communicating your email address as soon as possible.
         >Write&amp;Pray</a>
 </p><p>
             Thank you so much!
-    <t t-raw="object.user_id.signature"/>
+    <t t-out="object.user_id.signature"/>
 </p>
         </field>
     </record>
@@ -303,7 +303,7 @@ Thank you for communicating your email address as soon as possible.
         <field name="model_id" ref="model_partner_communication_job" />
         <field
       name="email_from"
-    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
+    >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name }}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="body_html" type="html">
@@ -458,7 +458,7 @@ Thank you for taking care of this quickly: <a
         <field name="interval_number">1</field>
         <field name="code">model.send_wrpr_contribution_reminder()</field>
     </record>
-    <record id="action_wrpr_anniversary_1" model="ir.actions.server">
+    <record id="wrpr_anniversary_1_automation_action" model="ir.actions.server">
         <field name="name">W&amp;P Journey - Send SMS anniversary 1 year</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -475,7 +475,7 @@ Thank you for taking care of this quickly: <a
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date" />
         <field name="trg_date_range">12</field>
         <field name="trg_date_range_type">month</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_wrpr_anniversary_1')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('wrpr_anniversary_1_automation_action')])]" />
     </record>
     <record id="wrpr_sponsorship_transformation_1" model="ir.cron">
         <field

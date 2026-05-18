@@ -24,7 +24,7 @@ class GenerateCommunicationWizard(models.TransientModel):
     partner = fields.Many2one("res.partner", required=False)
     partner_selected = fields.Boolean(compute="_compute_partner_selected", store=True)
     send_mode = fields.Selection(
-        [("digital", _("By e-mail")), ("physical", _("Print report"))],
+        [("digital", "By e-mail"), ("physical", "Print report")],
         default="digital",
     )
     child_ids = fields.Many2many("compassion.child", string="Selected children")

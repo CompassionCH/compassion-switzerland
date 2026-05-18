@@ -14,18 +14,18 @@
                 </t>
                 <t t-if="request.env.lang == 'de_DE'">
                     <t t-set="zoom_date">am <t
-              t-raw="session.get_date('date_start', 'dd. MMMM')"
-            /> um <t t-raw="session.get_date('date_start', 'HH:mm')" /> Uhr</t>
+              t-out="session.get_date('date_start', 'dd. MMMM')"
+            /> um <t t-out="session.get_date('date_start', 'HH:mm')" /> Uhr</t>
                 </t>
                 <t t-if="request.env.lang == 'it_IT'">
                     <t t-set="zoom_date">il <t
-              t-raw="session.get_date('date_start', 'dd. MMMM')"
-            /> a <t t-raw="session.get_date('date_start', 'HH:mm')" /> ora</t>
+              t-out="session.get_date('date_start', 'dd. MMMM')"
+            /> a <t t-out="session.get_date('date_start', 'HH:mm')" /> ora</t>
                 </t>
                 <t t-if="request.env.lang == 'en_US'">
                     <t t-set="zoom_date">on <t
-              t-raw="session.get_date('date_start', 'dd. MMMM')"
-            /> at <t t-raw="session.get_date('date_start', 'HH:mm')" /></t>
+              t-out="session.get_date('date_start', 'dd. MMMM')"
+            /> at <t t-out="session.get_date('date_start', 'HH:mm')" /></t>
                 </t>
                 <div class="container">
                     <div class="text-center pt-4 mb-4">

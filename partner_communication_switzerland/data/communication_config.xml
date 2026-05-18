@@ -295,7 +295,7 @@
       id="sms_registration_confirmation_1"
       model="partner.communication.config"
     >
-            <field name="name">SMS sponsorship confirmation step 1</field>
+            <field name="name">Website sponsorship confirmation step 1</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="sms_confirmation_email_1" />
             <field
@@ -308,7 +308,7 @@
       id="sms_registration_reminder"
       model="partner.communication.config"
     >
-            <field name="name">SMS sponsorship reminder</field>
+            <field name="name">Website sponsorship reminder</field>
             <field name="send_mode">auto_digital</field>
             <field name="email_template_id" ref="sms_reminder_email" />
             <field

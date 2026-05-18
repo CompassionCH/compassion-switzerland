@@ -58,7 +58,7 @@
                     <div class="page">
                         <t t-call="report_compassion.style" />
                         <div id="body" class="grey">
-                            <span t-raw="o.body_html" />
+                            <span t-out="o.body_html" />
                         </div>
                         <div
               id="map"

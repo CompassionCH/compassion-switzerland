@@ -41,7 +41,6 @@
         "partner_communication_reminder",
         "label",
         "child_sync_wp",
-        "sms_939",  # compassion-modules
         "auth_signup",  # source/addons
         "recurring_contract",  # compassion-accounting
         "survival_sponsorship_compassion",
@@ -51,12 +50,7 @@
     ],
     "external_dependencies": {
         "python": [
-            "wand",
-            "bs4",
             "pdf2image",
-            "babel",
-            "PyPDF2",
-            "pyquery",
             "gender_guesser",
         ],
     },
@@ -87,7 +81,6 @@
         "data/wrpr_journey.xml",
         "data/end_reasons.xml",
         "report/csp_picture.xml",
-        "views/assets.xml",
         "views/communication_job_view.xml",
         "views/download_child_pictures_view.xml",
         "views/end_contract_wizard_view.xml",

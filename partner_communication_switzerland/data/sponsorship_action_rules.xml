@@ -10,7 +10,7 @@
     -->
 
     <!-- Rule for sending reminder after SMS request received but step 2 is not completed. -->
-    <record id="action_sms_sponsorship_reminder" model="ir.actions.server">
+    <record id="sms_sponsorship_reminder_action" model="ir.actions.server">
         <field name="name">Website Sponsorship: Remind sponsorship confirmation</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">communication</field>
@@ -26,11 +26,11 @@
         <field name="filter_domain" eval="[('medium_id', '=', ref('utm.utm_medium_website')), ('group_id.payment_mode_id', '=', False), ('state', '=', 'draft')]" />
         <field name="trg_date_range">1</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_sms_sponsorship_reminder')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('sms_sponsorship_reminder_action')])]" />
     </record>
 
     <!-- Rule for sending unread B2S letters by post -->
-    <record id="action_unread_b2s_by_post_rule" model="ir.actions.server">
+    <record id="unread_b2s_by_post_rule_action" model="ir.actions.server">
         <field name="name">B2S letter: send unread letters by post</field>
         <field name="model_id" ref="sbc_compassion.model_correspondence" />
         <field name="state">code</field>
@@ -45,11 +45,11 @@
         <field name="filter_domain">[('communication_id.state', '=', 'done'), ('communication_id.send_mode', '=', 'digital')]</field>
         <field name="trg_date_range">3</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_unread_b2s_by_post_rule')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('unread_b2s_by_post_rule_action')])]" />
     </record>
 
     <!-- Rule for sending SUB proposal -->
-    <record id="action_sub_proposal_rule" model="ir.actions.server">
+    <record id="sub_proposal_rule_action" model="ir.actions.server">
         <field name="name">Sponsorship SUB Proposal</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">code</field>
@@ -67,9 +67,9 @@ records.with_delay(channel='root.partner_communication').send_communication(env.
         <field name="filter_domain">[('parent_id.sds_state','=','sub'),('state','=','draft')]</field>
         <field name="trg_date_range">6</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_sub_proposal_rule')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('sub_proposal_rule_action')])]" />
     </record>
-    <record id="action_sub_proposal_validation" model="ir.actions.server">
+    <record id="sub_proposal_validation_action" model="ir.actions.server">
         <field name="name">Sponsorship SUB Proposal validation</field>
         <field name="model_id" ref="model_recurring_contract" />
         <field name="state">code</field>
@@ -86,11 +86,11 @@ records.contract_waiting()
         <field name="filter_domain">[('parent_id','!=',False),('state','=','draft')]</field>
         <field name="trg_date_range">14</field>
         <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_sub_proposal_validation')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('sub_proposal_validation_action')])]" />
     </record>
 
     <!-- Rules for zoom sessions -->
-    <record id="action_zoom_session_attended_rule" model="ir.actions.server">
+    <record id="zoom_session_attended_rule_action" model="ir.actions.server">
         <field name="name">Visio Conferences: mark session as attended</field>
         <field name="model_id" ref="model_res_partner_zoom_session" />
         <field name="state">code</field>
@@ -102,6 +102,6 @@ records.contract_waiting()
         <field name="model_id" ref="model_res_partner_zoom_session" />
         <field name="trigger">on_time</field>
         <field name="trg_date_id" ref="field_res_partner_zoom_session__date_stop" />
-        <field name="action_server_ids" eval="[(6, 0, [ref('action_zoom_session_attended_rule')])]" />
+        <field name="action_server_ids" eval="[(6, 0, [ref('zoom_session_attended_rule_action')])]" />
     </record>
 </odoo>

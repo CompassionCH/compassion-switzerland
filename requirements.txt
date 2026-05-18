@@ -1,7 +1,5 @@
 # generated from manifests external_dependencies
-PyPDF2
 babel
-bs4
 gender_guesser
 pandas
 pdf2image
@@ -10,4 +8,3 @@ pypng
 pyqrcode
 pyquery
 pysftp
-wand
