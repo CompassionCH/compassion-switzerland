@@ -79,7 +79,7 @@ class SubSponsorshipWizard(models.TransientModel):
                 "name": communications[0].subject,
                 "type": "ir.actions.act_window",
                 "view_type": "form",
-                "view_mode": "tree,form",
+                "view_mode": "list,form",
                 "res_model": "partner.communication.job",
                 "domain": [("id", "in", communications.ids)],
                 "target": "current",

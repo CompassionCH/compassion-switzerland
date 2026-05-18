@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record model="ir.ui.view" id="res_partner_create_portal_wizard_form">
         <field name="name">res.partner.create.portal.wizard.form</field>
@@ -6,30 +6,16 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form>
-                <p
-        >If you comfirm this action, this partner will have an account on Odoo</p>
+                <p>If you comfirm this action, this partner will have an account on Odoo</p>
                 <group>
-                    <field name="create_communication" />
+                    <field name="create_communication"/>
                 </group>
                 <group>
-                    <field
-            name="config_id"
-            attrs="{'invisible': [('create_communication', '!=', True)]}"
-          />
+                    <field name="config_id" invisible="not create_communication"/>
                 </group>
                 <footer>
-                    <button
-            name="button_create_portal_user"
-            string="Confirm"
-            type="object"
-            class="oe_highlight"
-          />
-                    <button
-            name="button_cancel"
-            string="Cancel"
-            type="object"
-            class="oe_highlight"
-          />
+                    <button name="button_create_portal_user" string="Confirm" type="object" class="oe_highlight"/>
+                    <button name="button_cancel" string="Cancel" type="object" class="oe_highlight"/>
                 </footer>
             </form>
         </field>

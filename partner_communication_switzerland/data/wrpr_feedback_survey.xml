@@ -4,7 +4,6 @@
     <record id="wrpr_journey_survey" model="survey.survey">
         <field name="title">Write&amp;Pray Journey feedback</field>
         <field name="users_login_required" eval="False" />
-        <field name="state">open</field>
     </record>
     <record id="wrpr_journey_page1" model="survey.question">
         <field
@@ -23,7 +22,6 @@
     >As a Write &amp; Pray sponsor, do you feel like you are part of the global Compassion movement working against extreme poverty?</field>
         <field name="question_type">simple_choice</field>
         <field name="constr_mandatory" eval="True" />
-        <field name="column_nb">2</field>
         <field name="page_id" ref="wrpr_journey_page1" />
     </record>
     <record id="wrpr_journey_rating_1" model="survey.question.answer">
@@ -102,7 +100,6 @@
     >As a Write &amp; Pray sponsor, do you feel like you are part of the global Compassion movement working against extreme poverty?</field>
         <field name="question_type">simple_choice</field>
         <field name="constr_mandatory" eval="True" />
-        <field name="column_nb">2</field>
         <field name="page_id" ref="wrpr_journey_page1" />
     </record>
     <record id="wrpr_journey_referral_yes" model="survey.question.answer">

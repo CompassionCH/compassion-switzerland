@@ -1,36 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record model="ir.ui.view" id="generate_communication_wizard_ch_form">
         <field name="name">generate.communication.wizard.ch.form</field>
         <field name="model">partner.communication.generate.wizard</field>
-        <field
-      name="inherit_id"
-      ref="partner_communication.generate_communication_wizard_form"
-    />
+        <field name="inherit_id" ref="partner_communication.generate_communication_wizard_form"/>
         <field name="arch" type="xml">
             <field name="force_language" position="after">
-                <field
-          name="sms_provider_id"
-          attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"
-        />
-                <field
-          name="sms_length_estimation"
-          attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"
-        />
-                <field
-          name="sms_number_estimation"
-          attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"
-        />
-                <field name="currency_id" invisible="1" />
-                <field
-          name="sms_cost_estimation"
-          attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"
-          widget="monetary"
-          options="{'currency_field': 'currency_id'}"
-        />
-                <field
-          name="campaign_id"
-          attrs="{'invisible': ['|', ('customize_template', '=', False),('send_mode', '!=', 'sms')]}"
-        />
+                <field name="sms_provider_id" invisible="(not customize_template or send_mode != 'sms')"/>
+                <field name="sms_length_estimation" invisible="(not customize_template or send_mode != 'sms')"/>
+                <field name="sms_number_estimation" invisible="(not customize_template or send_mode != 'sms')"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="sms_cost_estimation" widget="monetary" options="{'currency_field': 'currency_id'}" invisible="(not customize_template or send_mode != 'sms')"/>
+                <field name="campaign_id" invisible="(not customize_template or send_mode != 'sms')"/>
             </field>
         </field>
     </record>

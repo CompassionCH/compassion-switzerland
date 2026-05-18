@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!--
         Sponsorship anniversary
         -->
@@ -11,31 +10,31 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >One year sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
+      >One year sponsoring {{ object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number()) }}</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
                     Congratulations!
                     <br />
                     <br />
-                    It's been one year that you joined ${firstname}'s family, by being ${child.get('he')} sponsor.
+                    It's been one year that you joined {{ firstname }}'s family, by being {{ child.get('he') }} sponsor.
                     <br />
                     <br />
-                    We would like to take this opportunity to thank you for your commitment and for the help you bring to ${firstname}.
+                    We would like to take this opportunity to thank you for your commitment and for the help you bring to {{ firstname }}.
                     Your support is a demonstration of God's love for children in need.
                     <br />
                     <br />
@@ -54,22 +53,22 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >Three years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
+      >Three years sponsoring {{ object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number()) }}</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
                     We would like to celebrate an anniversary with you!
@@ -78,8 +77,8 @@
                     It's been three years that you took action in Compassion Switzerland's goal: bring hope in the life of a child.
                     <br />
                     <br />
-                    Your support let ${firstname} have dreams ${child.get('he')} couldn't have otherwise.
-                    Thank you taking your relation with ${child.get('your sponsored child')} seriously.
+                    Your support let {{ firstname }} have dreams {{ child.get('he') }} couldn't have otherwise.
+                    Thank you taking your relation with {{ child.get('your sponsored child') }} seriously.
                     <br />
                     <br />
                     Thanks to your generosity, one child's life can be changed.
@@ -97,22 +96,22 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >Five years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
+      >Five years with {{ object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number()) }}</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
                     Congratulations for your five years of sponsorship!
@@ -121,7 +120,7 @@
                     In the name of the Compassion Switzerland team, I would like to thank you for your fidelity during all these years.
                     <br />
                     <br />
-                    Your sponsorship has a real impact on ${firstname}'s life, by giving ${child.get('him')} hope for ${child.get('his')} future.
+                    Your sponsorship has a real impact on {{ firstname }}'s life, by giving {{ child.get('him') }} hope for {{ child.get('his') }} future.
                     <br />
                     <br />
                     Thank you for your commitment which is helping freeing children from poverty in Jesus name!
@@ -139,28 +138,28 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >10 years with ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}!</field>
+      >10 years with {{ object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number()) }}!</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
-                    Can you imagine it's been already ten years that you started your sponsorship with ${firstname}? Congratulations!
+                    Can you imagine it's been already ten years that you started your sponsorship with {{ firstname }}? Congratulations!
                     <br />
                     <br />
-                    Thank you for your commitment to a child in need. ${child.get('he').title()} can become a Christian standing in ${child.get('his')} community with a solid faith.
+                    Thank you for your commitment to a child in need. {{ child.get('he').title() }} can become a Christian standing in {{ child.get('his') }} community with a solid faith.
                     <br />
                     <br />
                     We are grateful that you share our goal of freeing children from poverty in Jesus name.
@@ -178,30 +177,30 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >15 years sponsoring ${object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number())}</field>
+      >15 years sponsoring {{ object.get_objects().mapped('child_id').get_list('firstname', 3, object.get_objects().mapped('child_id').get_number()) }}</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
-                    This year, we would like to celebrate a special event with you: fifteen years of sponsorship with ${firstname}!
+                    This year, we would like to celebrate a special event with you: fifteen years of sponsorship with {{ firstname }}!
                     <br />
                     We are so grateful and would like to thank you for such a great commitment.
                     <br />
                     <br />
-                    Your sponsorship is a real blessing! Thanks to your support, ${child.get('your sponsored child')} can make the dreams God put in ${child.get('his')} heart come true.
+                    Your sponsorship is a real blessing! Thanks to your support, {{ child.get('your sponsored child') }} can make the dreams God put in {{ child.get('his') }} heart come true.
                     <br />
                     <br />
                     Thank you for your generosity and for the light you bring to a child in need!
@@ -224,28 +223,28 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
+      >Wish {{ object.get_objects().get('your sponsored child') }} a Happy Birthday !</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set firstname = child.get_list('firstname', 3, child.get_number())
-                    % set his = child.get('his')
-                    % set month = child[0].birthday_month
-                    % set hold_gifts = child.get_hold_gifts()
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
+                    <t t-set="his" t-value="child.get('his')"/>
+                    <t t-set="month" t-value="child[0].birthday_month"/>
+                    <t t-set="hold_gifts" t-value="child.get_hold_gifts()"/>
                 </div>
                 <p>
-                    In ${month} ${child.get('your sponsored child')} will celebrate ${his} birthday. We would like to encourage you to write a few lines wishing ${firstname} a happy birthday on this special day.
+                    In {{ month }} {{ child.get('your sponsored child') }} will celebrate {{ his }} birthday. We would like to encourage you to write a few lines wishing {{ firstname }} a happy birthday on this special day.
                     <br />
                     <br />
-                    In advance, thank you for taking just 2 minutes to express your love to ${firstname} .
+                    In advance, thank you for taking just 2 minutes to express your love to {{ firstname }} .
                     <br />
                     <br />
                     If you want to write online, you can choose a birthday card we have prepared for you and even send a picture. The link (in French) is the following: https://www.compassion.ch/fr/parrainage/ecrire/ecrivez-une-lettre-directement-en-ligne.html
@@ -254,12 +253,12 @@
                     Compassion can also write the birthday card on your behalf if you wish. In this case, please contact us.
                     <br />
                     <br />
-                    % if not hold_gifts:
+                    <t t-if="not hold_gifts">
                         You can also make a little birthday gift if you like. You can make the payment with the payment slip attached or directly online, using this link (in French): https://www.compassion.ch/fr/parrainage/donner.html
-                    % endif
+                    </t>
                     <br />
                     <br />
-                    Compassion thank you for your precious support toward ${firstname} !
+                    Compassion thank you for your precious support toward {{ firstname }} !
                 </p>
             </field>
         </record>
@@ -278,14 +277,14 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >Wish ${object.get_objects().get('your sponsored child')} a Happy Birthday !</field>
+      >Wish {{ object.get_objects().get('your sponsored child') }} a Happy Birthday !</field>
             <field name="body_html" type="html">
                 <p>To define</p>
             </field>
@@ -302,31 +301,31 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field name="subject">Your new sponsorship</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorships = object.get_objects()
-                    % set child = sponsorships.mapped('child_id')
-                    % set previous = sponsorships.mapped('parent_id.child_id')
-                    % set previous_name = previous.get_list('preferred_name', 3, '', translate=False)
-                    % set name = child.get_list('preferred_name', 3, child.get_number(), False)
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                    <t t-set="previous" t-value="sponsorships.mapped('parent_id.child_id')"/>
+                    <t t-set="previous_name" t-value="previous.get_list('preferred_name', 3, '', translate=False)"/>
+                    <t t-set="name" t-value="child.get_list('preferred_name', 3, child.get_number(), False)"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
-                    We recently informed you that ${previous.get('your sponsored child')}, ${previous_name} ${previous.get('is')} no longer participating in the sponsorship program.  As mentioned in the previous letter, we are happy to send you the documents for ${name}.  ${child.get('he').title()} ${'lives' if len(child) == 1 else 'live'} in ${child.get_list('project_id.country_id.name')} and like ${previous_name}, ${name} ${child.get('is')} growing up in extreme poverty.  In the documents attached, you will find additional information about ${child.get('him')}.
+                    We recently informed you that {{ previous.get('your sponsored child') }}, {{ previous_name }} {{ previous.get('is') }} no longer participating in the sponsorship program.  As mentioned in the previous letter, we are happy to send you the documents for {{ name }}.  {{ child.get('he').title() }} {{ 'lives' if len(child) == 1 else 'live' }} in {{ child.get_list('project_id.country_id.name') }} and like {{ previous_name }}, {{ name }} {{ child.get('is') }} growing up in extreme poverty.  In the documents attached, you will find additional information about {{ child.get('him') }}.
                     <br />
                     <br />
-                    For ${name}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in ${child.get('his')} life.  You will soon receive an introductory letter from ${name}.
+                    For {{ name }}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in {{ child.get('his') }} life.  You will soon receive an introductory letter from {{ name }}.
                     <br />
                     <br />
-                    Thank you again for your previous commitment to ${previous_name} and your new sponsorship for ${name}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 031 552 21 25 or by e-mail at info@compassion.ch
+                    Thank you again for your previous commitment to {{ previous_name }} and your new sponsorship for {{ name }}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 031 552 21 25 or by e-mail at info@compassion.ch
                     <br />
                     <br />
                     Yours sincerely
@@ -341,17 +340,17 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
       >Your request to end the sponsorship program</field>
             <field name="body_html" type="html">
                 <p>
-                    ${object.partner_id.salutation},
+                    {{ object.partner_id.salutation }},
                     <br />
                     <br />
                     With this letter we would like to thank you for the support you brought to a child in need.
@@ -372,23 +371,23 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field name="subject">Thank you for your sponsorship!</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorship = object.get_objects()
-                    % set request = sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])
-                    % set child = sponsorship.child_id
+                    <t t-set="sponsorship" t-value="object.get_objects()"/>
+                    <t t-set="request" t-value="sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])"/>
+                    <t t-set="child" t-value="sponsorship.child_id"/>
                 </div>
                 <p>
-                    You chose to invest in the life of ${child.preferred_name}. There are two more steps before ${child.get('he')} will be informed that you sponsor ${child.get('him')}, but you don't have to hurry. We have reserved the child so that you can take your time to complete the registration.
+                    You chose to invest in the life of {{ child.preferred_name }}. There are two more steps before {{ child.get('he') }} will be informed that you sponsor {{ child.get('him') }}, but you don't have to hurry. We have reserved the child so that you can take your time to complete the registration.
                     <br /><br />
                     1. You can <a
-            href="${request.full_url}"
+            t-attf-href="{{ request.full_url }}"
           >click here</a> to complete your information and your payment option in the coming days.
                     <br />
                     2. Your sponsorship will be activated when we receive your first payment.
@@ -405,34 +404,34 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field name="subject">Your sponsored child awaits!</field>
             <field name="body_html" type="html">
                 <div>
-                    % set sponsorship = object.get_objects()
-                    % set partner = sponsorship.partner_id
-                    % set child = sponsorship.child_id
-                    % set request = sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])
+                    <t t-set="sponsorship" t-value="object.get_objects()"/>
+                    <t t-set="partner" t-value="sponsorship.partner_id"/>
+                    <t t-set="child" t-value="sponsorship.child_id"/>
+                    <t t-set="request" t-value="sponsorship.env['sms.child.request'].search([('sponsorship_id', '=', sponsorship.id)])"/>
                 </div>
                 <p>
-                    ${partner.salutation},
+                    {{ partner.salutation }},
                     <br /><br />
-                    3 days ago, you chose to invest in the life of ${child.preferred_name}.
+                    3 days ago, you chose to invest in the life of {{ child.preferred_name }}.
                     <br /><br />
-                    There are two more steps before ${child.get('he')} will be informed that you sponsor ${child.get('him')}.
-                    Please consider finishing your request, to avoid making ${child.preferred_name} waiting too much for a sponsor.
+                    There are two more steps before {{ child.get('he') }} will be informed that you sponsor {{ child.get('him') }}.
+                    Please consider finishing your request, to avoid making {{ child.preferred_name }} waiting too much for a sponsor.
                     <br /><br />
                     1. <a
-            href="${request.full_url}"
+            t-attf-href="{{ request.full_url }}"
           >Click here</a> to complete your information and your payment option.
                     <br />
                     2. Your sponsorship will be activated when we receive your first payment.
                     <br /><br />
-                    In case you don't want to sponsor this child anymore, please contact us by e-mail or by phone at 024 434 21 24. In that case we will cancel your sponsorship and try to find another sponsor for ${child.preferred_name}.
+                    In case you don't want to sponsor this child anymore, please contact us by e-mail or by phone at 024 434 21 24. In that case we will cancel your sponsorship and try to find another sponsor for {{ child.preferred_name }}.
                     <br /><br />
                     Best regards
                 </p>
@@ -446,7 +445,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -460,15 +459,15 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="subject">Thank you for changing one life</field>
             <field name="body_html" type="html">
                 <p>
-                    % set partner = object.partner_id
-                    % set sponsorships = object.get_objects()
-                    ${partner.salutation}
+                    <t t-set="partner" t-value="object.partner_id"/>
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    {{ partner.salutation }}
                 </p>
                 <p>
                     We recently informed you by email about the end of the sponsorship.
@@ -503,5 +502,4 @@
         name="attachments_function"
       >get_end_sponsorship_certificate</field>
         </record>
-    </data>
 </odoo>

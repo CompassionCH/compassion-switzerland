@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Mail templates -->
         <record
       id="mail_onboarding_sponsorship_confirmation"
@@ -14,7 +13,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -31,23 +30,23 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="body_html" type="html">
                 <p>
-                    % set partner = object.partner_id
-                    % set child = object.get_objects().mapped('child_id')
-                    ${partner.salutation}
+                    <t t-set="partner" t-value="object.partner_id"/>
+                    <t t-set="child" t-value="object.get_objects().mapped('child_id')"/>
+                    {{ partner.salutation }}
                 </p>
                 <p>
-                    We recently sent you an email to ${partner.email}, which doesn't seem to have reached you. Could you please let us know if you have a different email address. If our email went to the spam folder, could you please add compassion@compassion.ch to your address book? This way you will receive all the important information about ${child.get('your sponsored child')} in the future.
+                    We recently sent you an email to {{ partner.email }}, which doesn't seem to have reached you. Could you please let us know if you have a different email address. If our email went to the spam folder, could you please add compassion@compassion.ch to your address book? This way you will receive all the important information about {{ child.get('your sponsored child') }} in the future.
                 </p>
                 <p>
                     Below is the communication we sent you:
                 </p>
                 <span>
-                    ${object.env.ref('partner_communication_switzerland.mail_onboarding_sponsorship_confirmation').generate_email(object.id, ['body_html'])['body_html'].replace(partner.salutation, '').strip().replace('&lt;p&gt;&lt;/p&gt;', '') | safe}
+                    <t t-raw="object.env.ref('partner_communication_switzerland.mail_onboarding_sponsorship_confirmation').generate_email(object.id, ['body_html'])['body_html'].replace(partner.salutation, '').strip().replace('&lt;p&gt;&lt;/p&gt;', '')"/>
                 </span>
             </field>
         </record>
@@ -61,7 +60,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -75,7 +74,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -89,7 +88,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -103,7 +102,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -117,7 +116,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -131,24 +130,24 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="body_html" type="html">
                 <p>
-                    % set session = object.get_objects()
-                    ${object.partner_id.salutation}
+                    <t t-set="session" t-value="object.get_objects()"/>
+                    {{ object.partner_id.salutation }}
                 </p>
                 <p>
-                    Thank you for registering for the video conference for new sponsors. We look forward to meeting you online on ${session.get_date('date_start', 'dd. MMMM')}, showing you what your sponsorship is doing, and answering your questions.
+                    Thank you for registering for the video conference for new sponsors. We look forward to meeting you online on {{ session.get_date('date_start', 'dd. MMMM') }}, showing you what your sponsorship is doing, and answering your questions.
                 </p>
                 <p>
-                    Here is the link to attend the online meeting at ${session.get_date('date_start', 'HH:mm')}: ${session.link}
+                    Here is the link to attend the online meeting at {{ session.get_date('date_start', 'HH:mm') }}: {{ session.link }}
                 </p>
                 <p>
-                    Meeting ID: ${session.meeting_id}
+                    Meeting ID: {{ session.meeting_id }}
                     <br />
-                    Passcode: ${session.passcode}
+                    Passcode: {{ session.passcode }}
                 </p>
                 <p>
                     We'll be happy if you turn on the camera at the beginning of the meeting so we can see your face. You can also turn it off afterwards if you prefer. The sound quality is best if all participants mute their microphone when they are not speaking.
@@ -160,7 +159,7 @@
                     Best regards and see you soon!
                 </p>
                 <div>
-                    ${object.user_id.signature | safe}
+                    <t t-raw="object.user_id.signature"/>
                 </div>
             </field>
         </record>
@@ -174,7 +173,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -191,19 +190,19 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
             <field name="body_html" type="html">
                 <p>
-                    % set session = object.get_objects().zoom_session_id
-                    ${object.partner_id.salutation}
+                    <t t-set="session" t-value="object.get_objects().zoom_session_id"/>
+                    {{ object.partner_id.salutation }}
                 </p>
                 <p>
                     Thank you for your interest in the informational and sharing video conference for new sponsors.
                 </p>
                 <p>
-                    The meeting will take place on ${session.get_date('date_start', 'dd. MMMM')} at ${session.get_date('date_start', 'HH:mm')} online.
+                    The meeting will take place on {{ session.get_date('date_start', 'dd. MMMM') }} at {{ session.get_date('date_start', 'HH:mm') }} online.
                 </p>
                 <p>
                     We will send you all the information regarding the connection to this meeting a few days before by email or will contact you in case you have chosen a later date.
@@ -212,7 +211,7 @@
                     Sincerely.
                 </p>
                 <div>
-                    ${object.user_id.signature | safe}
+                    <t t-raw="object.user_id.signature"/>
                 </div>
             </field>
         </record>
@@ -224,7 +223,7 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.with_context(lang=object.partner_id.lang).address_name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field name="use_default_to" eval="True" />
         </record>
@@ -421,116 +420,105 @@
         </record>
 
         <!-- Automations -->
+        <record id="action_onboarding_step1" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: step1</field>
+            <field name="model_id" ref="model_recurring_contract" />
+            <field name="state">communication</field>
+            <field name="usage">base_automation</field>
+            <field name="config_id" ref="config_onboarding_step1" />
+            <field name="partner_field">correspondent_id</field>
+        </record>
         <record id="onboarding_step1_automation" model="base.automation">
             <field name="name">Sponsorship Onboarding: step1</field>
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
-      />
-            <field
-        name="filter_domain"
-        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
-      />
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">5</field>
             <field name="trg_date_range_type">day</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_step1')])]" />
+        </record>
+
+        <record id="action_onboarding_step2" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: step2</field>
+            <field name="model_id" ref="model_recurring_contract" />
             <field name="state">communication</field>
-            <field name="config_id" ref="config_onboarding_step1" />
+            <field name="usage">base_automation</field>
+            <field name="config_id" ref="config_onboarding_step2" />
             <field name="partner_field">correspondent_id</field>
         </record>
         <record id="onboarding_step2_automation" model="base.automation">
             <field name="name">Sponsorship Onboarding: step2</field>
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
-      />
-            <field
-        name="filter_domain"
-        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
-      />
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">8</field>
             <field name="trg_date_range_type">day</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_step2')])]" />
+        </record>
+
+        <record id="action_onboarding_step3" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: step3</field>
+            <field name="model_id" ref="model_recurring_contract" />
             <field name="state">communication</field>
-            <field name="config_id" ref="config_onboarding_step2" />
+            <field name="usage">base_automation</field>
+            <field name="config_id" ref="config_onboarding_step3" />
             <field name="partner_field">correspondent_id</field>
         </record>
         <record id="onboarding_step3_automation" model="base.automation">
             <field name="name">Sponsorship Onboarding: step3</field>
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
-      />
-            <field
-        name="filter_domain"
-        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
-      />
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">12</field>
             <field name="trg_date_range_type">day</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_step3')])]" />
+        </record>
+
+        <record id="action_onboarding_step4" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: step4</field>
+            <field name="model_id" ref="model_recurring_contract" />
             <field name="state">communication</field>
-            <field name="config_id" ref="config_onboarding_step3" />
+            <field name="usage">base_automation</field>
+            <field name="config_id" ref="config_onboarding_step4" />
             <field name="partner_field">correspondent_id</field>
         </record>
         <record id="onboarding_step4_automation" model="base.automation">
             <field name="name">Sponsorship Onboarding: step4</field>
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
-      />
-            <field
-        name="filter_domain"
-        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
-      />
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">15</field>
             <field name="trg_date_range_type">day</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_step4')])]" />
+        </record>
+
+        <record id="action_onboarding_step5" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: step5</field>
+            <field name="model_id" ref="model_recurring_contract" />
             <field name="state">communication</field>
-            <field name="config_id" ref="config_onboarding_step4" />
+            <field name="usage">base_automation</field>
+            <field name="config_id" ref="config_onboarding_step5" />
             <field name="partner_field">correspondent_id</field>
         </record>
         <record id="onboarding_step5_automation" model="base.automation">
             <field name="name">Sponsorship Onboarding: step5</field>
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date"
-      />
-            <field
-        name="filter_domain"
-        eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]"
-      />
+            <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">18</field>
             <field name="trg_date_range_type">day</field>
-            <field name="state">communication</field>
-            <field name="config_id" ref="config_onboarding_step5" />
-            <field name="partner_field">correspondent_id</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_step5')])]" />
         </record>
-        <record
-      id="onboarding_confirmation_not_read_automation"
-      model="base.automation"
-    >
-            <field
-        name="name"
-      >Sponsorship Onboarding: sponsorship confirmation not read</field>
+        <record id="action_onboarding_confirmation_not_read" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: sponsorship confirmation not read</field>
             <field name="model_id" ref="model_partner_communication_job" />
-            <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="partner_communication.field_partner_communication_job__sent_date"
-      />
-            <field
-        name="filter_domain"
-        eval="[('config_id', '=', ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation')),('state', '=', 'done'), ('send_mode', '=', 'digital')]"
-      />
-            <field name="trg_date_range">2</field>
-            <field name="trg_date_range_type">day</field>
             <field name="state">code</field>
+            <field name="usage">base_automation</field>
             <field name="code">
 not_read = records.filter_not_read()
 if not_read:
@@ -538,26 +526,34 @@ if not_read:
     new_comms.refresh_text()
             </field>
         </record>
-        <record
-      id="onboarding_zoom_reminder_automation"
-      model="base.automation"
-    >
-            <field
-        name="name"
-      >Sponsorship Onboarding: send online meeting reminder</field>
-            <field name="model_id" ref="model_res_partner_zoom_session" />
+        <record id="onboarding_confirmation_not_read_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: sponsorship confirmation not read</field>
+            <field name="model_id" ref="model_partner_communication_job" />
             <field name="trigger">on_time</field>
-            <field
-        name="trg_date_id"
-        ref="field_res_partner_zoom_session__date_start"
-      />
-            <field name="filter_domain" eval="[('state', '=', 'planned')]" />
-            <field name="trg_date_range">-2</field>
+            <field name="trg_date_id" ref="partner_communication.field_partner_communication_job__sent_date" />
+            <field name="filter_domain" eval="[('config_id', '=', ref('partner_communication_switzerland.config_onboarding_sponsorship_confirmation')),('state', '=', 'done'), ('send_mode', '=', 'digital')]" />
+            <field name="trg_date_range">2</field>
             <field name="trg_date_range_type">day</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_confirmation_not_read')])]" />
+        </record>
+
+        <record id="action_onboarding_zoom_reminder" model="ir.actions.server">
+            <field name="name">Sponsorship Onboarding: send online meeting reminder</field>
+            <field name="model_id" ref="model_res_partner_zoom_session" />
             <field name="state">code</field>
+            <field name="usage">base_automation</field>
             <field name="code">
 records.send_reminder_or_link()
             </field>
         </record>
-    </data>
+        <record id="onboarding_zoom_reminder_automation" model="base.automation">
+            <field name="name">Sponsorship Onboarding: send online meeting reminder</field>
+            <field name="model_id" ref="model_res_partner_zoom_session" />
+            <field name="trigger">on_time</field>
+            <field name="trg_date_id" ref="field_res_partner_zoom_session__date_start" />
+            <field name="filter_domain" eval="[('state', '=', 'planned')]" />
+            <field name="trg_date_range">-2</field>
+            <field name="trg_date_range_type">day</field>
+            <field name="action_server_ids" eval="[(6, 0, [ref('action_onboarding_zoom_reminder')])]" />
+        </record>
 </odoo>

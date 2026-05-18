@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- End of year payment slips -->
         <record id="email_yearly_payment_slips" model="mail.template">
             <field name="name">Yearly payment slips</field>
@@ -9,50 +8,50 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="use_default_to" eval="True" />
             <field name="reply_to">info@compassion.ch</field>
             <field name="subject">Your payment slips for 2018</field>
             <field name="body_html" type="html">
                 <div>
-                    % set partner = object.partner_id
-                    % set sponsorships = object.get_objects()
-                    % set fully_managed = sponsorships.filtered('fully_managed')
-                    % set correspondents = partner.mapped('contracts_correspondant').intersect(sponsorships)
-                    % set payers = partner.mapped('contracts_paid').intersect(sponsorships)
-                    % set payment_modes = sponsorships.mapped('payment_mode_id')
-                    % set bvr = payment_modes.intersect(object.env.ref('sponsorship_switzerland.payment_mode_bvr'))
-                    % set months_paid = max(sponsorships.mapped('months_paid'))
-                    % set children = fully_managed.union(correspondents).mapped('child_id')
-                    % if payers and bvr:
-                        % set children = fully_managed.union(correspondents, payers).mapped('child_id')
-                    % endif
-                    % set firstname = children.get_list('preferred_name', 3, 'your sponsored children', False)
+                    <t t-set="partner" t-value="object.partner_id"/>
+                    <t t-set="sponsorships" t-value="object.get_objects()"/>
+                    <t t-set="fully_managed" t-value="sponsorships.filtered('fully_managed')"/>
+                    <t t-set="correspondents" t-value="partner.mapped('contracts_correspondant').intersect(sponsorships)"/>
+                    <t t-set="payers" t-value="partner.mapped('contracts_paid').intersect(sponsorships)"/>
+                    <t t-set="payment_modes" t-value="sponsorships.mapped('payment_mode_id')"/>
+                    <t t-set="bvr" t-value="payment_modes.intersect(object.env.ref('sponsorship_switzerland.payment_mode_bvr'))"/>
+                    <t t-set="months_paid" t-value="max(sponsorships.mapped('months_paid'))"/>
+                    <t t-set="children" t-value="fully_managed.union(correspondents).mapped('child_id')"/>
+                    <t t-if="payers and bvr">
+                        <t t-set="children" t-value="fully_managed.union(correspondents, payers).mapped('child_id')"/>
+                    </t>
+                    <t t-set="firstname" t-value="children.get_list('preferred_name', 3, 'your sponsored children', False)"/>
                 </div>
                 <p>
-                    ${partner.salutation},
+                    {{ partner.salutation }},
                     <br />
                     <br />
-                    First of all, we want to thank you warmly for your precious commitment towards ${firstname}.
-                    Through your support you are giving ${children.get('him')} hope and a future!
+                    First of all, we want to thank you warmly for your precious commitment towards {{ firstname }}.
+                    Through your support you are giving {{ children.get('him') }} hope and a future!
                     <br />
                     Attached to this letter you will find the following documents :
                     <ul>
-                        % if bvr and sponsorships.must_pay_next_year() and (fully_managed or payers):
+                        <t t-if="bvr and sponsorships.must_pay_next_year() and (fully_managed or payers)">
                             <li
             >Payment slips for the payment of your sponsorship for 2018</li>
-                        % endif
-                        % if fully_managed or correspondents:
+                        </t>
+                        <t t-if="fully_managed or correspondents">
                             <li
             >Payment slips for the gifts (birthday gift, general gift and family gift)</li>
-                        % endif
+                        </t>
                     </ul>
-                    % if fully_managed or correspondents:
-                        Gifts to ${children.get('your sponsored child')} are optional. Please do not feel obligated to make one.
+                    <t t-if="fully_managed or correspondents">
+                        Gifts to {{ children.get('your sponsored child') }} are optional. Please do not feel obligated to make one.
                         Your sponsorship is already a wonderful gift and we are very thankful for that!
                         <br />
                         <br />
-                    % endif
+                    </t>
                     Should you lose your payment slips or if you wish to have more, please contact us and we will be happy to send them to you.
                     We are also available for further questions.
                     <br />
@@ -69,19 +68,19 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field name="subject">Thank you for your engagement</field>
             <field name="body_html" type="html">
                 <div>
-                    % set hold = object.get_objects()
-                    % set owner = object.partner_id.firstname
+                    <t t-set="hold" t-value="object.get_objects()"/>
+                    <t t-set="owner" t-value="object.partner_id.firstname"/>
                 </div>
                 <p>
-                    Dear ${owner},
+                    Dear {{ owner }},
                     <br />
                     <br />
                         Thank you to support a child survival program from Compassion.
@@ -132,19 +131,19 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field name="subject">Welcome to the Compassion portal</field>
             <field name="body_html" type="html">
                 <div>
-                    % set partner = object.partner_id
-                    % set user = object.get_objects()
+                    <t t-set="partner" t-value="object.partner_id"/>
+                    <t t-set="user" t-value="object.get_objects()"/>
                 </div>
                 <p>
-                    ${partner.salutation},
+                    {{ partner.salutation }},
                     <br />
                     <br />
                     You have been given access to the Compassion portal.
@@ -152,7 +151,7 @@
                     <br />
                     Your login account data is:
                     <ul>
-                        <li>Username: ${user.login or ''}</li>
+                        <li>Username: {{ user.login or '' }}</li>
                         <li>Access link: <a
                 href="https://my.compassion.ch/my/home"
                 style="color: skyblue; text-decoration: underline;"
@@ -162,7 +161,7 @@
                     <br />
                     <br />
                     <div style="margin:0 auto; text-align: center;"><a
-              href="${user.signup_url + '&amp;redirect=/my/home'}"
+              t-attf-href="{{ user.signup_url + '&amp;redirect=/my/home' }}"
               style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6;
                        border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none;
                        background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px"
@@ -185,8 +184,8 @@
       />
             <field
         name="email_from"
-      ><![CDATA["${object.partner_id.company_id.name|safe}" <${(object.partner_id.company_id.email or user.email)|safe}>]]></field>
-            <field name="email_to">${object.partner_id.email|safe}</field>
+      ><![CDATA["<t t-raw="object.partner_id.company_id.name"/>" <<t t-raw="object.partner_id.company_id.email or user.email"/>>]]></field>
+            <field name="email_to"><t t-raw="object.partner_id.email"/></field>
             <field name="subject">Password reset</field>
             <field
         name="body_html"
@@ -195,25 +194,25 @@
     <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
         <tbody><tr>
             <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
-                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${user.company_id.name}">
+                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="{{ user.company_id.name }}">
             </td>
         </tr></tbody>
     </table>
 </div>
 <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
-    <p>Dear ${object.partner_id.name},</p>
+    <p>Dear {{ object.partner_id.name }},</p>
     <p>A password reset was requested for the Compassion account linked to this email.</p>
     <p>You may change your password by following this link which will remain valid during 24 hours:</p>
     <div style="text-align: center; margin-top: 16px;">
-        <a href="${object.partner_id.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px">Change password</a>
+        <a href="{{ object.partner_id.signup_url }}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px">Change password</a>
     </div>
     <p>If you do not expect this, you can safely ignore this email.</p>
     <p>Best regards,</p>
 </div>
 <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
-    ${user.signature | safe}
+    <t t-raw="user.signature"/>
     <p style="font-size: 11px; margin-top: 10px;">
-        <strong>Sent by ${user.company_id.name} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
+        <strong>Sent by {{ user.company_id.name }} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
     </p>
 </div>]]></field>
         </record>
@@ -226,39 +225,38 @@
       />
             <field
         name="email_from"
-      >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
+      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
             <field
         name="partner_to"
-      >${object.partner_id and object.partner_id.email and object.partner_id.id or False }</field>
+      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field
         name="subject"
-      >You received a letter from ${object.get_objects().mapped('child_id').get_list('firstname', 3, 'your children')}!</field>
+      >You received a letter from {{ object.get_objects().mapped('child_id').get_list('firstname', 3, 'your children') }}!</field>
             <field name="body_html" type="html">
                 <div>
-                    % set letter = object.get_objects()
-                    % set child = letter.mapped('child_id')
-                    % set s = '' if len(child) == 1 else 's'
+                    <t t-set="letter" t-value="object.get_objects()"/>
+                    <t t-set="child" t-value="letter.mapped('child_id')"/>
+                    <t t-set="s" t-value="'' if len(child) == 1 else 's'"/>
                 </div>
                 <p>
-                    ${object.partner_id.salutation}
-                    You received a letter from ${child.get_list('firstname', 3, child.get_number())} some time ago.
+                    {{ object.partner_id.salutation }}
+                    You received a letter from {{ child.get_list('firstname', 3, child.get_number()) }} some time ago.
                     Due to technical issues on our side, we are not sure that you received the e-mail we sent and are therefore sending it again.
-                    We apologize for the inconvenience and hope you will enjoy reading the letter${s}.
+                    We apologize for the inconvenience and hope you will enjoy reading the letter{{ s }}.
                     <br />
-                    % if object.send_mode == 'digital':
+                    <t t-if="object.send_mode == 'digital'">
                         Download your letters here:
                         <ul>
-                            % for l in letter.filtered('read_url').mapped('read_url')[:1]:
+                            <t t-foreach="letter.filtered('read_url').mapped('read_url')[:1]" t-as="l">
                             <li>
-                                <a href='${l.read_url}'>${l.read_url}</a>
+                                <a href='{{ l.read_url }}'>{{ l.read_url }}</a>
                             </li>
-                            % endfor
+                            </t>
                         </ul>
                         <br />
-                    % endif
+                    </t>
                 </p>
             </field>
         </record>
-    </data>
 </odoo>

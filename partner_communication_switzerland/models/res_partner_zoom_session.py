@@ -135,7 +135,7 @@ class ZoomSession(models.Model):
             "name": _("Participants"),
             "type": "ir.actions.act_window",
             "view_type": "form",
-            "view_mode": "kanban,tree,form",
+            "view_mode": "kanban,list,form",
             "res_model": "res.partner.zoom.attendee",
             "context": self.env.context,
             "domain": [("zoom_session_id", "=", self.id)],

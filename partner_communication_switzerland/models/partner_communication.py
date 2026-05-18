@@ -52,7 +52,7 @@ class PartnerCommunication(models.Model):
                 if employee.job_id.with_context(lang="en_US").name == "Church rep":
                     user_id = ambassador.id
 
-        super(PartnerCommunication, self.with_user(user_id)).schedule_call()
+        return super(PartnerCommunication, self.with_user(user_id)).schedule_call()
 
     def _compute_currency(self):
         chf = self.env.ref("base.CHF")
@@ -203,7 +203,8 @@ class PartnerCommunication(models.Model):
                 pdf_form = base64.b64encode(
                     requests.get(
                         f"https://compassion.ch/wp-content/uploads/documents_compassion/"
-                        f"Formulaire_LSV_DD_{lang}.pdf"
+                        f"Formulaire_LSV_DD_{lang}.pdf",
+                        timeout=3,
                     ).content
                 )
                 return {
@@ -697,7 +698,8 @@ class PartnerCommunication(models.Model):
             pdf_form = base64.b64encode(
                 requests.get(
                     f"https://compassion.ch/wp-content/uploads/documents_compassion/"
-                    f"Formulaire_LSV_DD_{lang}.pdf"
+                    f"Formulaire_LSV_DD_{lang}.pdf",
+                    timeout=3,
                 ).content
             )
             attachments.update(

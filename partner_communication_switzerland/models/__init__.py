@@ -16,7 +16,6 @@ from . import partner_communication
 from . import account_move
 from . import account_move_line
 from . import payment_order
-from . import staff_notifications_settings
 from . import res_users
 from . import thankyou_config
 from . import res_partner_zoom_session

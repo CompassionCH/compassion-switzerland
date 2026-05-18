@@ -4,7 +4,6 @@
     <record id="wrpr_onboarding_survey" model="survey.survey">
         <field name="title">Write&amp;Pray Onboarding feedback</field>
         <field name="users_login_required" eval="False" />
-        <field name="state">open</field>
     </record>
     <record id="wrpr_onbs_page1" model="survey.question">
         <field
@@ -20,7 +19,6 @@
     >How have you experienced the start of your sponsorship</field>
         <field name="question_type">simple_choice</field>
         <field name="constr_mandatory" eval="True" />
-        <field name="column_nb">2</field>
         <field name="page_id" ref="wrpr_onbs_page1" />
     </record>
     <record id="wrpr_onbs_rating_1" model="survey.question.answer">

@@ -11,13 +11,13 @@
         </field>
     </record>
 
-    <!-- Extend the tree view to include Tracked URL column -->
+    <!-- Extend the list view to include Tracked URL column -->
     <record id="view_link_tracker_tree" model="ir.ui.view">
-        <field name="name">link.tracker.tree</field>
+        <field name="name">link.tracker.list</field>
         <field name="model">link.tracker</field>
         <field name="inherit_id" ref="link_tracker.link_tracker_view_tree" />
         <field name="arch" type="xml">
-            <xpath expr="//tree//field[@name='url']" position="after">
+            <xpath expr="//list//field[@name='url']" position="after">
                 <field name="short_url" string="Tracked URL" />
             </xpath>
         </field>
