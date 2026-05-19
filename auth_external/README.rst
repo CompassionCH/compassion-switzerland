@@ -128,11 +128,29 @@ References
 Configuration
 =============
 
-Please add a JWT token in your odoo.conf in order to allow reconnection
-of users accross server restarts. If you don't have any, you will see a
-new key generated in the DEBUG logs.
+Please add a JWT signing key to your ``odoo.conf`` to keep external
+client sessions alive across server restarts. This module only issues
+JWTs for clients authenticating via the ``/auth/*`` endpoints (e.g. the
+translation-platform SPA), so regular Odoo web users are not affected.
+Without a configured key, the module generates a fresh ephemeral one at
+every startup, invalidating every issued JWT and forcing every external
+client user to re-login.
 
-``auth_external.jwt_key = <your_secret_key>``
+The key **must** be under the ``[options]`` section header. Odoo's
+config parser silently ignores keys outside of it:
+
+.. code:: ini
+
+   [options]
+   auth_external.jwt_key = <your_secret_key>
+
+If the key is missing or in the wrong section, you'll see this on
+startup (ERROR level), and the ephemeral key itself is logged at DEBUG
+level:
+
+::
+
+   ERROR ... auth_external.jwt_key not configured under [options] in odoo.conf. Using an ephemeral key. [...]
 
 v18 notes
 ---------
