@@ -58,11 +58,13 @@ def gen_signing_key() -> bytes:
     if conf_key:
         return conf_key.encode("utf-8")
     secret = secrets.token_bytes(256)
-    _logger.warning(
-        "No JWT key found in config, generating an ephemeral one. "
-        "Set `auth_external.jwt_key = <random string>` in odoo.conf to "
-        "make tokens survive restarts. The current ephemeral key is "
-        "logged at DEBUG level."
+    _logger.error(
+        "auth_external.jwt_key not configured under [options] in odoo.conf. "
+        "Using an ephemeral key. All JWT  tokens will be invalidated on "
+        "the next Odoo restart, forcing all external client user to "
+        "re-login. Please add `auth_external.jwt_key = <random string>` "
+        "under the [options] section of odoo config file. "
+        "The current ephemeral key is logged at DEBUG level."
     )
     _logger.debug(
         "auth_external ephemeral JWT key (base64): %s",

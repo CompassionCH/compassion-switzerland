@@ -465,10 +465,25 @@ credentials (login, password, totp).</strong></p>
 </div>
 <div class="section" id="configuration">
 <h1>Configuration</h1>
-<p>Please add a JWT token in your odoo.conf in order to allow reconnection
-of users accross server restarts. If you don’t have any, you will see a
-new key generated in the DEBUG logs.</p>
-<p><tt class="docutils literal">auth_external.jwt_key = &lt;your_secret_key&gt;</tt></p>
+<p>Please add a JWT signing key to your <tt class="docutils literal">odoo.conf</tt> to keep external
+client sessions alive across server restarts. This module only issues
+JWTs for clients authenticating via the <tt class="docutils literal">/auth/*</tt> endpoints (e.g. the
+translation-platform SPA), so regular Odoo web users are not affected.
+Without a configured key, the module generates a fresh ephemeral one at
+every startup, invalidating every issued JWT and forcing every external
+client user to re-login.</p>
+<p>The key <strong>must</strong> be under the <tt class="docutils literal">[options]</tt> section header. Odoo’s
+config parser silently ignores keys outside of it:</p>
+<pre class="code ini literal-block">
+<span class="k">[options]</span><span class="w">
+</span><span class="na">auth_external.jwt_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;your_secret_key&gt;</span>
+</pre>
+<p>If the key is missing or in the wrong section, you’ll see this on
+startup (ERROR level), and the ephemeral key itself is logged at DEBUG
+level:</p>
+<pre class="literal-block">
+ERROR ... auth_external.jwt_key not configured under [options] in odoo.conf. Using an ephemeral key. [...]
+</pre>
 <div class="section" id="v18-notes">
 <h2>v18 notes</h2>
 <p>This module uses <strong>PyJWT</strong> (the <tt class="docutils literal">jwt</tt> PyPI package by José Padilla),
