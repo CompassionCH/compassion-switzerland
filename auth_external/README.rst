@@ -44,21 +44,21 @@ A typical user session plays out as follows:
    activated 2FA), the server returns an object which includes (not
    exhaustive) :
 
-   -  A JWT ``access_token`` which will be used to authorize the
-      following xmlrpc requests. This token contains a Message
-      Authentication Code produced using the
-      ``access_token_signing_key``, which allows to verify the
-      authenticity of this token (without keeping state on the server
-      for each token). This token remains valid a few hours
-      (configurable through ``auth_external.tokens_config``).
-   -  A JWT ``refresh_token`` which will be used to refresh the
-      ``access_token`` (and also the ``refresh_token``). This is
-      described below. This token remains valid a few days/weeks. This
-      duration of validity determines the maximum period during which a
-      user can not use the application and still remain "connected". If
-      the user regularly uses the application, the tokens are refreshed
-      and they could remain "connected" indefinetly without needing to
-      re-submit their credentials.
+   - A JWT ``access_token`` which will be used to authorize the
+     following xmlrpc requests. This token contains a Message
+     Authentication Code produced using the
+     ``access_token_signing_key``, which allows to verify the
+     authenticity of this token (without keeping state on the server for
+     each token). This token remains valid a few hours (configurable
+     through ``auth_external.tokens_config``).
+   - A JWT ``refresh_token`` which will be used to refresh the
+     ``access_token`` (and also the ``refresh_token``). This is
+     described below. This token remains valid a few days/weeks. This
+     duration of validity determines the maximum period during which a
+     user can not use the application and still remain "connected". If
+     the user regularly uses the application, the tokens are refreshed
+     and they could remain "connected" indefinetly without needing to
+     re-submit their credentials.
 
 2. The user uses their ``access_token`` to make xmlrpc requests to the
    odoo backend.
@@ -189,7 +189,7 @@ Credits
 Authors
 -------
 
-* Compassion Switzerland
+* Compassion CH
 
 Other credits
 -------------
@@ -197,9 +197,9 @@ Other credits
 Refresh tokens in OAuth 2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  https://www.rfc-editor.org/rfc/rfc6749#section-1.5
--  https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
--  https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/
+- https://www.rfc-editor.org/rfc/rfc6749#section-1.5
+- https://web.archive.org/web/20240930214312/https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
+- https://web.archive.org/web/20240828080645/https://auth0.com/blog/securing-single-page-applications-with-refresh-token-rotation/
 
 Maintainers
 -----------
