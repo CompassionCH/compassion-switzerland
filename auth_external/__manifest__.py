@@ -28,7 +28,7 @@
     "name": "Compassion CH External Auth",
     "version": "18.0.1.0.0",
     "category": "Compassion",
-    "author": "Compassion Switzerland",
+    "author": "Compassion CH",
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     # PyJWT ships with Odoo core (used by mail/tools/web_push.py) and
