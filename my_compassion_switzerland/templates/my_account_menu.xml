@@ -1,0 +1,13 @@
+<odoo>
+    <template
+      id="my_account_crowdfunding"
+      name="My account Crowdfunding"
+      inherit_id="my_compassion.my_account_menu"
+    >
+      <xpath expr="//a[@href='/my/letter']" position="after">
+        <t t-if="request.env.user.partner_id.crowdfunding_project_count">
+          <a href="/my/together" role="menuitem" class="dropdown-item">Together</a>
+        </t>
+      </xpath>
+    </template>
+</odoo>

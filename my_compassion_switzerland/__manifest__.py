@@ -21,6 +21,7 @@
         "partner_compassion",
         "ebill_postfinance_recipient_subscription",
         "sponsorship_switzerland",
+        "crowdfunding_compassion",
     ],
     "data": [
         "security/ir.model.access.csv",

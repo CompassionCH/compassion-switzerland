@@ -144,7 +144,12 @@ class PhoneReformat(models.TransientModel):
         "res.partner",
         compute="_compute_invalid_mail_notify_ids",
     )
+    new_participant_notify_ids = fields.Many2many(
+        "res.partner",
+        compute="_compute_invalid_mail_notify_ids",
+    )
 
     def _compute_invalid_mail_notify_ids(self):
         for record in self:
             record.invalid_mail_notify_ids = False
+            record.new_participant_notify_ids = False
