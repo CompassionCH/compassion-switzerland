@@ -41,7 +41,7 @@ class StaffNotificationSettings(models.TransientModel):
         domain=[("share", "=", False)],
         readonly=False,
     )
-    new_donors_user = fields.Many2one(
+    new_donors_user_id = fields.Many2one(
         "res.users", "User to notify on new donors onboarding opt out", readonly=False
     )
     invalid_mail_notify_ids = fields.Many2many(
@@ -77,7 +77,7 @@ class StaffNotificationSettings(models.TransientModel):
         )
         self.env["ir.config_parameter"].sudo().set_param(
             "partner_communication_switzerland.new_donors_user",
-            str(self.new_donors_user.id or 0),
+            str(self.new_donors_user_id.id or 0),
         )
         self.env["ir.config_parameter"].sudo().set_param(
             "partner_communication_switzerland.invalid_mail_notify_ids",
@@ -89,11 +89,6 @@ class StaffNotificationSettings(models.TransientModel):
     def get_values(self):
         res = super().get_values()
         param_obj = self.env["ir.config_parameter"].sudo()
-        new_donors_user_id = int(
-            param_obj.get_param(
-                "partner_communication_switzerland.new_donors_user", "0"
-            )
-        )
         res.update(
             {
                 "zoom_attendee_fr_id": int(
@@ -124,7 +119,13 @@ class StaffNotificationSettings(models.TransientModel):
                     or 0
                 )
                 or False,
-                "new_donors_user": new_donors_user_id,
+                "new_donors_user_id": int(
+                    param_obj.get_param(
+                        "partner_communication_switzerland.new_donors_user", None
+                    )
+                    or 0
+                )
+                or False,
             }
         )
         res["invalid_mail_notify_ids"] = False
@@ -132,7 +133,9 @@ class StaffNotificationSettings(models.TransientModel):
             "partner_communication_switzerland.invalid_mail_notify_ids", False
         )
         if partners:
-            res["invalid_mail_notify_ids"] = list(map(int, partners.split(",")))
+            res["invalid_mail_notify_ids"] = [
+                (6, 0, list(map(int, partners.split(","))))
+            ]
         return res
 
 

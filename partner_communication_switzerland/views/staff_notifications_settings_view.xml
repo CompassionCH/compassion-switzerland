@@ -18,7 +18,7 @@
       >
                 <setting>
                     <field name="invalid_mail_notify_ids" />
-                    <field name="new_donors_user" />
+                    <field name="new_donors_user_id" />
                 </setting>
                 <setting string="Sponsor Video Conferences">
                     <field name="zoom_attendee_fr_id" />
