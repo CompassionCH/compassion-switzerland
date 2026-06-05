@@ -340,6 +340,22 @@ class ResPartner(models.Model):
         res.pop("name", False)
         return res
 
+    def _inverse_name(self):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. When the written name still matches the stored
+        firstname/lastname combination, we keep them as they are instead of
+        re-splitting the name. This prevents corrupting couple names like
+        "Pascal und Simea Hedinger" (firstname="Pascal und Simea",
+        lastname="Hedinger") into firstname="Pascal", lastname="und Simea
+        Hedinger" when the unchanged name is written back (e.g. by the
+        website checkout during an online donation).
+        """
+        to_split = self.filtered(
+            lambda p: p.name != p._get_computed_name(p.lastname, p.firstname)
+        )
+        super(ResPartner, to_split)._inverse_name()
+
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         """Extends to use trigram search."""
