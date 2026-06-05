@@ -346,9 +346,9 @@ class ResPartner(models.Model):
         computations. When the written name still matches the stored
         firstname/lastname combination, we keep them as they are instead of
         re-splitting the name. This prevents corrupting couple names like
-        "Pascal und Simea Hedinger" (firstname="Pascal und Simea",
-        lastname="Hedinger") into firstname="Pascal", lastname="und Simea
-        Hedinger" when the unchanged name is written back (e.g. by the
+        "John und Jane Smith" (firstname="John und Jane",
+        lastname="Smith") into firstname="John", lastname="und Jane
+        Smith" when the unchanged name is written back (e.g. by the
         website checkout during an online donation).
         """
         to_split = self.filtered(
