@@ -129,7 +129,11 @@ class ContractGroup(models.Model):
         self, invoicing_date, contracts, skip_suspended=True
     ):
         # Avoids generating invoices for Donors of Compassion in CH
-        if set(contracts.mapped("partner_id.id")).intersection({22585,}):
+        if set(contracts.mapped("partner_id.id")).intersection(
+            {
+                22585,
+            }
+        ):
             return True
         return super()._should_skip_invoice_generation(
             invoicing_date, contracts, skip_suspended

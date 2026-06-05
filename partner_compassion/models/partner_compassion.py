@@ -352,9 +352,11 @@ class ResPartner(models.Model):
         website checkout during an online donation).
         """
         to_split = self.filtered(
-            lambda p: p.name != p._get_computed_name(p.lastname, p.firstname)
+            lambda p: (p.name or "")
+            != (p._get_computed_name(p.lastname, p.firstname) or "")
         )
-        super(ResPartner, to_split)._inverse_name()
+        if to_split:
+            super(ResPartner, to_split)._inverse_name()
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
