@@ -41,6 +41,6 @@ class WebsiteSaleWithoutState(WebsiteSale):
         res["contact_titles"] = (
             request.env["res.partner.title"]
             .sudo()
-            .search([("website_published", "=", True)])
+            .search([("is_shown_on_public_forms", "=", True)])
         )
         return res
