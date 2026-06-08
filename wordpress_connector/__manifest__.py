@@ -44,7 +44,6 @@
         "crm_compassion",
         "crm_request",
         "partner_compassion",
-        "website_sponsorship",
         "sponsorship_switzerland",
         "survival_sponsorship_compassion",
     ],
