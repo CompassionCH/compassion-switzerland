@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record
+      id="email_template_quality_test_notification"
+      model="mail.template"
+    >
+            <field name="name">Quality Test – Run Required</field>
+            <field name="model_id" ref="quality_test_compassion.model_quality_test" />
+            <field
+        name="subject"
+      >Action Required: Quality Test "{{ object.name }}" needs a new run</field>
+            <field
+        name="email_to"
+      >{{ object.responsible_id.email }}</field>
+            <field name="body_html" type="html">
+<div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333;">
+    <p>Hello {{ object.responsible_id.name }},</p>
+    <p>
+        The quality test <strong>{{ object.name }}</strong> requires a new test run
+        for the following reason(s):
+    </p>
+    <ul>
+        % for reason in ctx.get('notification_reasons', []):
+            <li>${reason}</li>
+        % endfor
+    </ul>
+    % if object.description:
+        <p><strong>Test Description:</strong></p>
+        <div style="margin-left: 1em;">${object.description | safe}</div>
+    % endif
+    <p>
+        Please log in to Odoo and record a new test run as soon as possible.
+    </p>
+    <p>Best regards,<br />Compassion Switzerland – Quality Team</p>
+</div>
+            </field>
+            <field name="auto_delete" eval="True" />
+        </record>
+    </data>
+</odoo>

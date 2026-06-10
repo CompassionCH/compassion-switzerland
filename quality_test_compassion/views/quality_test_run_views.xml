@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Module Version inline Tree (used inside test run form) -->
+    <record id="view_quality_test_module_version_tree" model="ir.ui.view">
+        <field name="name">quality.test.module.version.tree</field>
+        <field name="model">quality.test.module.version</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="module_id" readonly="1" />
+                <field name="version" readonly="1" />
+                <field name="current_version" readonly="1" />
+                <field
+          name="version_changed"
+          widget="boolean"
+          readonly="1"
+          optional="show"
+        />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Test Run Tree View -->
+    <record id="view_quality_test_run_tree" model="ir.ui.view">
+        <field name="name">quality.test.run.tree</field>
+        <field name="model">quality.test.run</field>
+        <field name="arch" type="xml">
+            <tree
+        decoration-danger="result == 'fail'"
+        decoration-success="result == 'pass'"
+      >
+                <field name="date" />
+                <field name="test_id" />
+                <field name="test_department_id" />
+                <field name="test_responsible_id" widget="many2one_avatar_user" />
+                <field name="result" widget="badge" />
+                <field name="task_id" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Test Run Form View -->
+    <record id="view_quality_test_run_form" model="ir.ui.view">
+        <field name="name">quality.test.run.form</field>
+        <field name="model">quality.test.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+            name="action_create_task"
+            string="Open Fix Task"
+            type="object"
+            class="btn-warning"
+            attrs="{'invisible': [('result', '!=', 'fail')]}"
+            icon="fa-wrench"
+          />
+                    <field
+            name="result"
+            widget="statusbar"
+            statusbar_visible="pass,fail"
+          />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="test_id" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Test Run">
+                            <field name="date" />
+                            <field
+                name="result"
+                widget="radio"
+                options="{'horizontal': True}"
+              />
+                            <field
+                name="task_id"
+                attrs="{'invisible': [('task_id', '=', False)]}"
+                readonly="1"
+              />
+                        </group>
+                        <group string="Test Info">
+                            <field name="test_responsible_id" readonly="1" />
+                            <field name="test_department_id" readonly="1" />
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="comment" nolabel="1" />
+                    </group>
+                    <notebook>
+                        <page
+              string="Module Versions"
+              name="module_versions"
+              attrs="{'invisible': [('module_version_ids', '=', [])]}"
+            >
+                            <field
+                name="module_version_ids"
+                view_id="view_quality_test_module_version_tree"
+                widget="one2many_list"
+              />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Test Run Search View -->
+    <record id="view_quality_test_run_search" model="ir.ui.view">
+        <field name="name">quality.test.run.search</field>
+        <field name="model">quality.test.run</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="test_id" />
+                <field name="test_responsible_id" />
+                <field name="test_department_id" />
+                <filter
+          string="Failing"
+          name="failing"
+          domain="[('result', '=', 'fail')]"
+        />
+                <filter
+          string="Passing"
+          name="passing"
+          domain="[('result', '=', 'pass')]"
+        />
+                <filter
+          string="Has Fix Task"
+          name="has_task"
+          domain="[('task_id', '!=', False)]"
+        />
+                <group expand="1" string="Group By">
+                    <filter
+            name="groupby_test"
+            string="Quality Test"
+            context="{'group_by': 'test_id'}"
+          />
+                    <filter
+            name="groupby_result"
+            string="Result"
+            context="{'group_by': 'result'}"
+          />
+                    <filter
+            name="groupby_department"
+            string="Department"
+            context="{'group_by': 'test_department_id'}"
+          />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action for Test Runs -->
+    <record id="action_quality_test_run" model="ir.actions.act_window">
+        <field name="name">Test Runs</field>
+        <field name="res_model">quality.test.run</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_quality_test_run_tree" />
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem
+    id="menu_quality_test_run"
+    name="Test Runs"
+    parent="quality_test_views.menu_quality_test_root"
+    action="action_quality_test_run"
+    sequence="20"
+  />
+
+</odoo>
