@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_quality_test_category_user,quality.test.category user,model_quality_test_category,base.group_user,1,0,0,0
+access_quality_test_category_manager,quality.test.category manager,model_quality_test_category,base.group_system,1,1,1,1
 access_quality_test_user,quality.test user,model_quality_test,base.group_user,1,0,0,0
 access_quality_test_manager,quality.test manager,model_quality_test,base.group_system,1,1,1,1
 access_quality_test_run_user,quality.test.run user,model_quality_test_run,base.group_user,1,1,1,0

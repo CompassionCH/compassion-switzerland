@@ -14,6 +14,11 @@ class QualityTest(models.Model):
     _order = "name"
 
     name = fields.Char(string="Name", required=True, tracking=True)
+    category_id = fields.Many2one(
+        "quality.test.category",
+        string="Category",
+        tracking=True,
+    )
     state = fields.Selection(
         [
             ("draft", "Draft"),

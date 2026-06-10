@@ -19,6 +19,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "data/quality_test_category_data.xml",
         "data/mail_template_quality_test.xml",
         "data/quality_test_cron.xml",
         "views/quality_test_views.xml",

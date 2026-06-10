@@ -17,6 +17,7 @@
           decoration-success="state == 'active'"
           decoration-muted="state == 'retired'"
         />
+                <field name="category_id" />
                 <field name="department_id" />
                 <field name="responsible_id" widget="many2one_avatar_user" />
                 <field name="last_run_date" />
@@ -93,6 +94,7 @@
                         <group string="General">
                             <field name="responsible_id" widget="many2one_avatar_user" />
                             <field name="department_id" />
+                            <field name="category_id" />
                         </group>
                         <group string="Last Run">
                             <field name="last_run_date" />
@@ -157,6 +159,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name" />
+                <field name="category_id" />
                 <field name="responsible_id" />
                 <field name="department_id" />
                 <filter
@@ -191,6 +194,11 @@
           domain="[('last_run_date', '=', False)]"
         />
                 <group expand="1" string="Group By">
+                    <filter
+            name="groupby_category"
+            string="Category"
+            context="{'group_by': 'category_id'}"
+          />
                     <filter
             name="groupby_state"
             string="Status"
