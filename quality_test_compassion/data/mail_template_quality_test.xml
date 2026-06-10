@@ -37,5 +37,36 @@
             </field>
             <field name="auto_delete" eval="True" />
         </record>
+        <record
+      id="email_template_quality_test_run_fail"
+      model="mail.template"
+    >
+            <field name="name">Quality Test – Failing Run Recorded</field>
+            <field name="model_id" ref="quality_test_compassion.model_quality_test_run" />
+            <field
+        name="subject"
+      >Failing Quality Test Run: "{{ object.test_id.name }}"</field>
+            <field
+        name="email_to"
+      >{{ object.test_id.responsible_id.email }}</field>
+            <field name="body_html" type="html">
+<div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333;">
+    <p>Hello {{ object.test_id.responsible_id.name }},</p>
+    <p>
+        A test run for <strong>{{ object.test_id.name }}</strong> recorded on
+        <strong>{{ object.date }}</strong> has <span style="color: #d9534f;"><strong>failed</strong></span>.
+    </p>
+    % if object.comment:
+        <p><strong>Notes:</strong></p>
+        <div style="margin-left: 1em;">{{ object.comment }}</div>
+    % endif
+    <p>
+        Please investigate and record a passing run once the issue is resolved.
+    </p>
+    <p>Best regards,<br />Compassion Switzerland – Quality Team</p>
+</div>
+            </field>
+            <field name="auto_delete" eval="True" />
+        </record>
     </data>
 </odoo>

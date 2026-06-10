@@ -61,7 +61,23 @@ class QualityTestRun(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
+        for record in records:
+            if record.result == "fail":
+                record._send_fail_notification()
         return records
+
+    def _send_fail_notification(self):
+        """Send an email to the responsible when a failing test run is recorded."""
+        self.ensure_one()
+        responsible = self.test_id.responsible_id
+        if not responsible or not responsible.email:
+            return
+        template = self.env.ref(
+            "quality_test_compassion.email_template_quality_test_run_fail",
+            raise_if_not_found=False,
+        )
+        if template:
+            template.send_mail(self.id, force_send=True)
 
     def action_create_task(self):
         """Create a project.task to track the resolution of a failing test."""
