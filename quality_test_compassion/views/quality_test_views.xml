@@ -9,9 +9,14 @@
             <tree
         decoration-danger="last_run_result == 'fail'"
         decoration-success="last_run_result == 'pass'"
-        decoration-muted="not last_run_date"
+        decoration-muted="state == 'retired' or not last_run_date"
       >
                 <field name="name" />
+                <field name="state" widget="badge"
+          decoration-info="state == 'draft'"
+          decoration-success="state == 'active'"
+          decoration-muted="state == 'retired'"
+        />
                 <field name="department_id" />
                 <field name="responsible_id" widget="many2one_avatar_user" />
                 <field name="last_run_date" />
@@ -29,10 +34,35 @@
             <form>
                 <header>
                     <button
+            name="action_activate"
+            string="Activate"
+            type="object"
+            class="btn-primary"
+            attrs="{'invisible': [('state', '!=', 'draft')]}"
+          />
+                    <button
             name="action_create_run"
             string="Record New Test Run"
             type="object"
             class="btn-primary"
+            attrs="{'invisible': [('state', '!=', 'active')]}"
+          />
+                    <button
+            name="action_retire"
+            string="Retire"
+            type="object"
+            attrs="{'invisible': [('state', 'not in', ['draft', 'active'])]}"
+          />
+                    <button
+            name="action_reset_to_draft"
+            string="Reset to Draft"
+            type="object"
+            attrs="{'invisible': [('state', '=', 'draft')]}"
+          />
+                    <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="draft,active,retired"
           />
                 </header>
                 <sheet>
@@ -52,10 +82,14 @@
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Quality Test Name" />
+                            <field
+                name="name"
+                placeholder="Quality Test Name"
+                attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
+              />
                         </h1>
                     </div>
-                    <group>
+                    <group attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}">
                         <group string="General">
                             <field name="responsible_id" widget="many2one_avatar_user" />
                             <field name="department_id" />
@@ -76,6 +110,7 @@
                 name="description"
                 widget="html"
                 placeholder="Describe the steps to execute this quality test..."
+                attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
               />
                         </page>
                         <page string="Related Modules" name="modules">
@@ -83,17 +118,24 @@
                 name="module_ids"
                 widget="many2many_tags"
                 options="{'no_create': True}"
+                attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
               />
                         </page>
                         <page string="Notification Rules" name="rules">
-                            <group string="Time-Based Rule">
+                            <group
+                string="Time-Based Rule"
+                attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
+              >
                                 <field name="rule_delay" />
                                 <field
                   name="delay_days"
                   attrs="{'invisible': [('rule_delay', '=', False)], 'required': [('rule_delay', '=', True)]}"
                 />
                             </group>
-                            <group string="Module Update Rule">
+                            <group
+                string="Module Update Rule"
+                attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
+              >
                                 <field name="rule_module_update" />
                             </group>
                         </page>
@@ -118,6 +160,22 @@
                 <field name="responsible_id" />
                 <field name="department_id" />
                 <filter
+          string="Draft"
+          name="draft"
+          domain="[('state', '=', 'draft')]"
+        />
+                <filter
+          string="Active"
+          name="active_state"
+          domain="[('state', '=', 'active')]"
+        />
+                <filter
+          string="Retired"
+          name="retired"
+          domain="[('state', '=', 'retired')]"
+        />
+                <separator />
+                <filter
           string="Failing"
           name="failing"
           domain="[('last_run_result', '=', 'fail')]"
@@ -133,6 +191,11 @@
           domain="[('last_run_date', '=', False)]"
         />
                 <group expand="1" string="Group By">
+                    <filter
+            name="groupby_state"
+            string="Status"
+            context="{'group_by': 'state'}"
+          />
                     <filter
             name="groupby_department"
             string="Department"

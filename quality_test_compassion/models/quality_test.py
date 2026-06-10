@@ -14,6 +14,20 @@ class QualityTest(models.Model):
     _order = "name"
 
     name = fields.Char(string="Name", required=True, tracking=True)
+    state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("active", "Active"),
+            ("retired", "Retired"),
+        ],
+        string="Status",
+        default="draft",
+        required=True,
+        tracking=True,
+        help="Draft: test is being prepared and can be freely edited.\n"
+        "Active: test is locked for editing; test runs can be recorded.\n"
+        "Retired: test is no longer relevant and cannot receive new runs.",
+    )
     description = fields.Html(string="Description")
     responsible_id = fields.Many2one(
         "res.users",
@@ -96,6 +110,13 @@ class QualityTest(models.Model):
     def action_create_run(self):
         """Open a new test run form pre-linked to this quality test."""
         self.ensure_one()
+        if self.state != "active":
+            raise UserError(
+                _(
+                    "Test runs can only be recorded for active quality tests. "
+                    "Please activate the test first."
+                )
+            )
         run = self.env["quality.test.run"].create(
             {
                 "test_id": self.id,
@@ -133,11 +154,34 @@ class QualityTest(models.Model):
             "context": {"default_test_id": self.id},
         }
 
+    def action_activate(self):
+        """Move the test from draft to active, locking it for editing."""
+        for rec in self:
+            if rec.state == "draft":
+                rec.state = "active"
+
+    def action_retire(self):
+        """Mark the test as retired – it will no longer accept new runs."""
+        for rec in self:
+            if rec.state in ("draft", "active"):
+                rec.state = "retired"
+
+    def action_reset_to_draft(self):
+        """Return a retired or active test to draft for rework."""
+        for rec in self:
+            if rec.state in ("active", "retired"):
+                rec.state = "draft"
+
     def check_rules_and_notify(self):
         """Check all quality tests against their notification rules and send
         emails to responsible users when a new test run is required."""
         tests = self.search(
-            ["|", ("rule_delay", "=", True), ("rule_module_update", "=", True)]
+            [
+                ("state", "=", "active"),
+                "|",
+                ("rule_delay", "=", True),
+                ("rule_module_update", "=", True),
+            ]
         )
         for test in tests:
             test._evaluate_rules()
