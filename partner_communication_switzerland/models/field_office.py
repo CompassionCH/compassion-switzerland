@@ -17,3 +17,12 @@ class FieldOffice(models.Model):
     alumni_representative = fields.Char()
     alumni_video_link = fields.Char(translate=True)
     alumni_gender = fields.Selection([("M", "Male"), ("F", "Female")])
+
+    # TPL 2026 fields
+    director_gender = fields.Selection([("M", "Male"), ("F", "Female")])
+    tpl_prayer = fields.Char("Prayer", translate=True)
+    tpl_praise = fields.Char("Praise", translate=True)
+    tpl_looking_forward = fields.Char("Looking forward", translate=True)
+    tpl_nb_fcps_with_intervention = fields.Integer("FCPs with intervention")
+    tpl_nb_years_partnership = fields.Integer("Years partnership")
+    tpl_nb_participants = fields.Integer("Participants")

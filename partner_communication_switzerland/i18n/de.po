@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Compassion Odoo 14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-30 09:14+0000\n"
+"POT-Creation-Date: 2026-06-10 07:36+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step1
@@ -34,6 +34,11 @@ msgstr ""
 #: model:partner.communication.config,mobile_notification_title:partner_communication_switzerland.wrpr_contribution_reminder_config
 msgid "${object.child_id.preferred_name}"
 msgstr "${object.child_id.preferred_name}"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "(internal use:"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
@@ -299,6 +304,14 @@ msgstr ""
 "    ${object.user_id.short_signature | safe}\n"
 "  </p>\n"
 " "
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid ""
+"<b>\n"
+"                Impacts on the center:\n"
+"            </b>"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
@@ -688,93 +701,119 @@ msgid ""
 "    % set sponsorships = object.get_objects()\n"
 "    % set fully_managed = sponsorships.filtered('fully_managed')\n"
 "    % set ns = namespace(correspondents = object.env['recurring.contract'])\n"
+"   % set is_payer = partner in sponsorships.mapped(\"partner_id\")\n"
+"\n"
 "    % for s in sponsorships:\n"
-"    % set gp = s.mapped(s.send_gifts_to)\n"
-"    % if gp == partner:\n"
-"    % set ns.correspondents = ns.correspondents + s\n"
-"    % endif \n"
-"    % endfor \n"
+"        % set gp = s.mapped(s.send_gifts_to)\n"
+"\n"
+"        % if gp == partner:\n"
+"            % set ns.correspondents = ns.correspondents + s\n"
+"        % endif\n"
+"    % endfor\n"
+"\n"
 "    % set payers = partner.mapped('contracts_paid').intersect(sponsorships)\n"
 "    % set payment_modes = sponsorships.mapped('payment_mode_id')\n"
 "    % set bvr = payment_modes.intersect(object.env.ref('sponsorship_switzerland.payment_mode_bvr'))\n"
-"    % set op = "
-"payment_modes.intersect(object.env.ref('sponsorship_switzerland.payment_mode_permanent_order'))                    \n"
+"    % set op = payment_modes.intersect(object.env.ref('sponsorship_switzerland.payment_mode_permanent_order'))\n"
 "    % set months_paid = max(sponsorships.mapped('months_paid'))\n"
 "    % set children = fully_managed.union(ns.correspondents).mapped('child_id')\n"
-"    % if payers and (bvr or op):\n"
-"    % set children = fully_managed.union(ns.correspondents, payers).mapped('child_id')\n"
-"    % endif \n"
 "    % set firstname = children.get_list('preferred_name', 3, 'many children', False)\n"
+" % set number_children = object.env[\"partner.communication.job\"].get_snippet('number_children') | striptags | safe\n"
+"    % set number_fcps = object.env[\"partner.communication.job\"].get_snippet('number_fcps') | striptags | safe\n"
+"    % set number_countries = object.env[\"partner.communication.job\"].get_snippet('number_countries') | striptags | safe\n"
+"\n"
+"    % if payers and (bvr or op):\n"
+"        % set children = fully_managed.union(ns.correspondents, payers).mapped('child_id')\n"
+"    % endif\n"
 "</div>\n"
-"<img src=\"https://compassion.ch/medias/compassion_bv_24.jpg\" alt=\"merci pour votre soutien\" border=\"0\" "
-"style=\"border-style:none;vertical-align:middle;display: block; margin: auto; margin-bottom: 60px;\">\n"
+"    % if object.send_mode == \"digital\":\n"
+"        <img src=\"https://compassion.ch/medias/banners/CC-EC0534-MyLastDay-01-2506.jpg\" alt=\"merci pour votre soutien\" "
+"style=\"border-style:none;vertical-align:middle;display:block;margin: auto; margin-bottom: 60px; width: 100%; max-width: "
+"600px; height: auto;\" width=\"600\" height=\"0\">\n"
+"    % endif\n"
 "<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
 "serif;\">\n"
 "    ${partner.salutation},\n"
 "</p>\n"
 "<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\"><b style=\"font-weight:bolder;\">We wish you and your loved ones a happy new year full of hope! </b></p>\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
 "serif;\">\n"
-"    <b style=\"font-weight:bolder;\">Thank you very much for investing in the life of ${firstname}</b>. Your commitment "
-"makes a difference in ${children.get('his')} ${\"life\" if len(children) == 1 else \"lives\"} and that of $"
-"{children.get('his')} ${\"family\" if len(children) == 1 else \"families\"} - as it did for Lillian and so many other "
-"children living in poverty.\n"
+"    <b style=\"font-weight:bolder;\">Thank you for choosing to invest in ${firstname}’s life.</b> Your commitment and "
+"support will have a lasting impact on ${children.get('his')} life and ${children.get('his')} loved ones, just as it did "
+"for Jennifer and so many other children in need.\n"
 "</p>\n"
 "<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
 "serif;\">\n"
-"Lillian is a mother and she leads sponsor visits at Compassion Uganda. She lost her mother when she was 3 months old, and "
-"her father when she was 5 months old. Abused and exploited by the other wives of her polygamous father, she was thrown out "
-"of the house at the age of 16. <br>\n"
-"It was when she reread the uplifting words of her Compassion sponsor that she reconsidered her decision to take her own "
-"life. She went back to the child development center, where she was taken in by a family. Lillian went on and did well at "
-"school and in her studies, earning two Masters degrees: one in communications and the other in international relations.\n"
+"    Jennifer still remembers the very first time she walked into the Compassion child development center. “I was seven. I "
+"felt scared and shy. They served us a warm meal – rice, chicken, and lentils – and I can still remember its smell. From "
+"that moment on, I felt at home.”\n"
 "</p>\n"
 "<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
 "serif;\">\n"
-"  <b style=\"font-weight:bolder;\">Enclosed you will find:</b>\n"
-"  </p>\n"
-"  <ul style=\"margin:0px 0 1rem 0;\">\n"
-"   % if bvr and sponsorships.must_pay_next_year() and (fully_managed or payers):\n"
-"   <li>\n"
-"    The payment slips for the sponsorship contribution for ${str(datetime.date.today().year+1)}.\n"
-"   </li>\n"
-"   % endif \n"
-"       \n"
-"% if fully_managed or ns.correspondents:\n"
-"   <li>\n"
-"    Three payment slips per child for optional birthday and family gifts as well as project gifts for $"
-"{str(datetime.date.today().year+1)}.\n"
-"   </li>\n"
-"   % endif\n"
-"  </ul>\n"
-"   % if fully_managed or ns.correspondents:\n"
-"\t<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
-"serif;\">\n"
-"These \"gift\" donations are an additional option, as the sponsorship is already a wonderful gift!\n"
-"</p>\n"
-"% endif \n"
-"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
-"serif;\">\n"
-"The payment slips with the QR code can be scanned directly with you banking app.\n"
+"    But what changed her life wasn’t just hot meals and school supplies. It was  a caring community, the presence of the "
+"Church, and faith slowly taking root in her heart. Every day, the staff gently spoke truth over her life: “You are loved. "
+"You are precious. God has a purpose for you.”\n"
+"% if object.send_mode == \"digital\":\n"
 "</p>\n"
 "<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
 "serif;\">\n"
-"We are happy to answer any questions you may have.\n"
+"% endif\n"
+"    Today, Jennifer is studying family social work and has returned as a teacher to the very Compassion center that once "
+"welcomed her.\n"
 "</p>\n"
-"  <p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\"></p>\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
 "serif;\">\n"
-"    Thank you for taking part in over 70 years of compassion. Thanks to you, our other sponsors, and over 8600 child "
-"projects in 27 countries, 2.3 million children are currently being supported and encouraged!\n"
-"  </p>\n"
-"  <p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
-"serif;\">\n"
-"   We wish you a wonderful Advent season and send you our warmest greetings.\n"
-"  </p>\n"
-"  % if object.send_mode == \"digital\":\n"
-"  <p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
-"serif;\">\n"
-"    Sarah Maria Herrendorff and the Compassion Team\n"
-"    <br><br>\n"
+"  <b style=\"font-weight:bolder;\">Attached you will find:</b>\n"
 "</p>\n"
+"<ul style=\"margin:0px 0 1rem 0;\">\n"
+"    % if bvr and is_payer:\n"
+"        <li>\n"
+"            payment slips for your sponsorship for the year ${str(datetime.date.today().year+1)}\n"
+"        </li>\n"
+"    % endif\n"
+"    <li>\n"
+"        three additional slips per sponsored child, should you wish to bless them with a birthday gift, support $"
+"{firstname}’s family, or contribute to the child development center during the year ${str(datetime.date.today().year+1)}\n"
+"    </li>\n"
+"</ul>\n"
+"   % if bvr and is_payer:\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\">\n"
+"    You also have the option to set up a standing order for your sponsorship contributions if you wish.\n"
+"</p>\n"
+"% endif\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\">\n"
+"    Please note that any “gift” donations are entirely optional - there is absolutely no obligation. Your sponsorship "
+"alone is already a beautiful and generous gift! If you happen to misplace your payment slips or would like additional "
+"ones, please don’t hesitate to contact us at 031 552 21 25 or at info@compassion.ch.\n"
+"% if object.send_mode == \"digital\":\n"
+"</p>\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\">\n"
+"% endif\n"
+"    We remain at your disposal for any further questions regarding your sponsorship.\n"
+"</p>\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\">\n"
+"    <b style=\"font-weight:bolder;\">Thank you for being part of the Compassion family.</b> Your generosity, together with "
+"other sponsors and the work of more than ${number_fcps} child development centers in ${number_countries} countries, is "
+"bringing hope and encouragement to ${number_children} million children today.\n"
+"</p>\n"
+"<p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\">\n"
+"   Wishing you a peaceful Advent season.\n"
+"</p>\n"
+"\n"
+"% if object.send_mode == \"digital\":\n"
+"    <p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, "
+"sans-serif;\">\n"
+"        ${object.user_id.sudo().signature | safe}\n"
+"    </p>\n"
 "% endif"
 msgstr ""
 "<div>\n"
@@ -890,6 +929,109 @@ msgstr ""
 "        ${object.user_id.sudo().signature | safe}    \n"
 "    </p>\n"
 "% endif\n"
+
+#. module: partner_communication_switzerland
+#: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_anniversary_5
+#, fuzzy
+#| msgid ""
+#| "<div>\n"
+#| "   % set sponsorships = object.get_objects()\n"
+#| "                    \n"
+#| "% set child = sponsorships.mapped('child_id')\n"
+#| "                    \n"
+#| "% set firstname = child.get_list('preferred_name', 3, child.get_number(), False)\n"
+#| "  </div>\n"
+#| "  <p>\n"
+#| "Congratulations! It’s been 5 years since you’ve been supporting ${firstname}! On behalf of the entire team at "
+#| "Compassion Switzerland, we would like to thank you for your commitment to a child in extreme poverty.\n"
+#| "   <br>\n"
+#| "   <br>\n"
+#| "   Your sponsorship has a great impact on the development of this child. It enables ${child.get('him')} to live a life "
+#| "without extreme poverty but with dignity and real hope. ${firstname} is one of 2,3 million children currently supported "
+#| "by Compassion’s sponsorship program. Thank you for working together with us.\n"
+#| "   <br>\n"
+#| "   <br>\n"
+#| "   Yours sincerely.\n"
+#| "   <br>\n"
+#| "  </p>\n"
+#| " "
+msgid ""
+"<div style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   % set sponsorships = object.get_objects()\n"
+"                    \n"
+"% set child = sponsorships.mapped('child_id')\n"
+"                    \n"
+"% set firstname = child.get_list('preferred_name', 3, child.get_number(), False)\n"
+"  </div>\n"
+"  <p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-"
+"serif;\">\n"
+"Congratulations! It’s been 5 years since you’ve been supporting ${firstname}! On behalf of the entire team at Compassion "
+"Switzerland, we would like to thank you for your commitment to a child in extreme poverty.\n"
+"   <br>\n"
+"   <br>\n"
+"   Your sponsorship has a great impact on the development of this child. It enables ${child.get('him')} to live a life "
+"without extreme poverty but with dignity and real hope. ${firstname} is one of 2,3 million children currently supported by "
+"Compassion’s sponsorship program. Thank you for working together with us.\n"
+"   <br>\n"
+"   <br>\n"
+"   Yours sincerely.\n"
+"   <br>\n"
+"  </p>\n"
+" % if object.send_mode == 'digital':\n"
+"    <p style=\"margin:0px 0px 10px 0px;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, "
+"sans-serif;\">\n"
+"        ${object.user_id.signature | safe}\n"
+"    </p>\n"
+"% endif\n"
+msgstr ""
+"<div>\n"
+"    % set sponsorships = object.get_objects()\n"
+"    % set child = sponsorships.mapped('child_id')\n"
+"    % set partner = object.partner_id\n"
+"    % set plural = partner.title.plural or partner.title.id == 29\n"
+"    % set du = 'ihr' if plural else 'du'\n"
+"    % set dein = 'euer' if plural else 'dein'\n"
+"    % set deine = 'eure' if plural else 'deine'\n"
+"    % set firstname = child.get_list('preferred_name', 3, deine + \" Patenkinder\", False)\n"
+"    % set number_years = object.get_snippet('number_years') | striptags | safe\n"
+"    % set number_children = object.get_snippet('number_children') | striptags | safe\n"
+"    % set number_fcps = object.get_snippet('number_fcps') | striptags | safe\n"
+"    % set number_countries = object.get_snippet('number_countries') | striptags | safe\n"
+"    % set years_uc = object.get_snippet('years_uc') | striptags | safe\n"
+"    % set years_lc = object.get_snippet('years_lc') | striptags | safe\n"
+"</div>\n"
+"<p>\n"
+"    ${object.partner_id.salutation},\n"
+"</p>\n"
+"<p>\n"
+"    Herzlichen Glückwunsch!\n"
+"</p>\n"
+"<p>\n"
+"    Seit 5 Jahren unterstützt ${du} ${firstname} und ${'hilft' if plural else 'hilfst'} mit, ${child.get('ihn')} aus "
+"extremer Armut zu befreien.\n"
+"</p>\n"
+"<p>\n"
+"    Durch die Patenschaft für ${firstname} ${'schenkt' if plural else 'schenkst'} ${du} ${child.get('ihm')} aber auch "
+"Mut, eigene Träume zu haben und diese zu verfolgen.\n"
+"</p>\n"
+"<p>\n"
+"    Danke für ${deine} wertvolle Treue.\n"
+"</p>\n"
+"<p>\n"
+"    % if len(child) == 1:\n"
+"        ${firstname} ${child.get('is')} eines\n"
+"    % else:\n"
+"        ${deine.title()} Patenkinder sind Teil\n"
+"    % endif\n"
+"    von den zurzeit mehr als ${number_children} Millionen Kindern, ${\"welches\" if len(child) == 1 else \"welche\"} durch "
+"eine Patin oder einen Paten von Compassion unterstützt wird.\n"
+"</p>\n"
+"<p>\n"
+"    Gemeinsam verändern wir das Leben von Kindern - eins nach dem anderen.\n"
+"</p>\n"
+"<p>\n"
+"    Liebe Grüsse\n"
+"</p>\n"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.compassion_reset_password_email
@@ -1070,76 +1212,70 @@ msgid ""
 "    % set event = registration.event_id.compassion_event_id\n"
 "    % set country = event.country_id\n"
 "</div>\n"
-"<p style=\"font-size:13px;margin:0px 0 1rem 0;font-family:'Lucida Grande', Helvetica, Verdana, Arial, sans-serif\">\n"
+"<p>\n"
 "    ${partner.informal_salutation},\n"
-"    <br>\n"
-"    <br>\n"
+"</p>\n"
+"<p>\n"
 "    WELCOME to the Muskathlon ${event.name} from&nbsp;${event.get_date('start_date', 'd')} until $"
 "{event.get_date('end_date', 'date_full')} - your extreme commitment against extreme poverty!\n"
-"    <br>\n"
-"    <br>\n"
-"    The Muskathlon is organized by 4M Switzerland and 4M Germany in cooperation with the Christian charity for children,\n"
-"    Compassion, and offers you the extraordinary opportunity to take part in the fight against child poverty and its\n"
-"    consequences and at the same time take part in a sporting challenge on another continent.\n"
-"    <br>\n"
-"    <br>\n"
+"</p>\n"
+"<p>\n"
+"    The Muskathlon is organized by 4M Switzerland and 4M Germany in cooperation with the Christian charity for children, "
+"Compassion, and offers you the extraordinary opportunity to take part in the fight against child poverty and its "
+"consequences and at the same time take part in a sporting challenge on another continent.\n"
+"</p>\n"
+"<p>\n"
 "    You will make the difference and experience that hope is stronger than poverty!\n"
-"    <br>\n"
-"    <br>\n"
-"    With your registration a very special and great adventure has begun for you. We want to give you the best possible\n"
-"    support and give you all the information and tips you need for your Muskathlon. Start with the preparation and read\n"
-"    the \"Information Letter\" which is deposited on your profile. In the following months, we will provide you with more\n"
-"    information material and remind you when to do what.\n"
-"    <br>\n"
-"    <br>\n"
+"</p>\n"
+"<p>\n"
+"    With your registration a very special and great adventure has begun for you. We want to give you the best possible "
+"support and give you all the information and tips you need for your Muskathlon. Start with the preparation and read the "
+"\"Information Letter\" which is deposited on your profile. In the following months, we will provide you with more "
+"information material and remind you when to do what.\n"
+"</p>\n"
+"<p>\n"
 "    Soon you will receive mail from us with the invoice for the travel costs, various flyers and your training shirt.\n"
-"    <br>\n"
-"    <br>\n"
+"</p>\n"
+"<p>\n"
 "    Please activate your account and setup your password by clicking on this button:\n"
 "</p>\n"
 "<div style=\"font-size:13px;font-family:'Lucida Grande', Helvetica, Verdana, Arial, sans-serif;margin:0 auto; text-align: "
 "center;\">\n"
-"    <a href=\"${user.signup_url.replace('erp.compassion.ch', 'muskathlon-philippinen.ch/fr_CH') + '&amp;redirect=/my/"
-"events'}\" style=\"text-decoration:none;background-color:transparent;color:rgb(124, 123, 173);padding: 12px 18px; font-"
-"size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-"
+"    <a href=\"${user.signup_url.replace('erp.compassion', 'muskathlon-kilimanjaro') + '&redirect=/my/muskathlon'}\"\n"
+"       style=\"text-decoration:none;background-color:transparent;color:rgb(124, 123, 173);padding: 12px 18px; font-size: "
+"12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-"
 "bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; "
 "background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px\">\n"
 "        Activate my account\n"
 "    </a>\n"
 "</div>\n"
-"<p style=\"font-size:13px;margin:0px 0 1rem 0;font-family:'Lucida Grande', Helvetica, Verdana, Arial, sans-serif;\">\n"
+"<>\n"
 "    Here are your access data:\n"
-"    <br>\n"
-"    <br>\n"
 "</p>\n"
 "<ul style=\"margin:0px 0 1rem 0;\">\n"
 "    <li>\n"
 "        Username: ${user.login or ''}\n"
 "    </li>\n"
 "    <li>\n"
-"        Access link:\n"
-"        <a href=\"hhttp://muskathlon-philippinen.ch/my/events\" style=\"text-decoration:none;background-"
-"color:transparent;color:rgb(124, 123, 173);\">\n"
-"            https://http://muskathlon-philippinen.ch/my/events\n"
-"        </a>\n"
+"        Access link: <a href=\"https://mycompassion.ch/my/muskathlon\">mycompassion.ch/my/muskathlon</a>\n"
 "    </li>\n"
 "</ul>\n"
-"<p style=\"font-size:13px;margin:0px 0 1rem 0;font-family:'Lucida Grande', Helvetica, Verdana, Arial, sans-serif;\">\n"
+"<p>\n"
 "    If any questions arise, please do not hesitate to contact us.\n"
-"    <br>\n"
-"    <br>\n"
-"    For questions about organization and travel: Fabio Lechner, f.lechner@4m-switzerland.ch, 078 712 43 48\n"
-"    <br>\n"
-"    <br>\n"
-"    For questions about Compassion and sponsorships: Colin Ward, cward@compassion.ch, 076 588 57 56\n"
-"    <br>\n"
-"    <br>\n"
+"</p>\n"
+"<p>\n"
+"    For questions about organization and travel: Nathalie Schranz, n.schranz@4m-switzerland.ch, 079 507 92 40\n"
+"</p>\n"
+"<p>\n"
+"    For questions about Compassion and sponsorships: Colin Ward, cward@compassion.ch, 077 261 36 76\n"
+"</p>\n"
+"<p>\n"
 "    Regards\n"
+"</p>\n"
+"<p>\n"
+"    Nathalie, 4M Switzerland\n"
 "    <br>\n"
-"    <br>\n"
-"    Fabio, 4M Switzerland\n"
-"    <br>\n"
-"    Colin, Compassion Switzerland\n"
+"    Colin, Compassion\n"
 "</p>"
 msgstr ""
 "<div style=\"font-size:13px;font-family:'Lucida Grande', Helvetica, Verdana, Arial, sans-serif\">\n"
@@ -5594,107 +5730,6 @@ msgstr ""
 "</p>\n"
 
 #. module: partner_communication_switzerland
-#: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_anniversary_5
-#, fuzzy
-#| msgid ""
-#| "<div>\n"
-#| "   % set sponsorships = object.get_objects()\n"
-#| "                    \n"
-#| "% set child = sponsorships.mapped('child_id')\n"
-#| "                    \n"
-#| "% set firstname = child.get_list('preferred_name', 3, child.get_number(), False)\n"
-#| "  </div>\n"
-#| "  <p>\n"
-#| "Congratulations! It’s been 5 years since you’ve been supporting ${firstname}! On behalf of the entire team at "
-#| "Compassion Switzerland, we would like to thank you for your commitment to a child in extreme poverty.\n"
-#| "   <br>\n"
-#| "   <br>\n"
-#| "   Your sponsorship has a great impact on the development of this child. It enables ${child.get('him')} to live a life "
-#| "without extreme poverty but with dignity and real hope. ${firstname} is one of 2,3 million children currently supported "
-#| "by Compassion’s sponsorship program. Thank you for working together with us.\n"
-#| "   <br>\n"
-#| "   <br>\n"
-#| "   Yours sincerely.\n"
-#| "   <br>\n"
-#| "  </p>\n"
-#| " "
-msgid ""
-"<div>\n"
-"   % set sponsorships = object.get_objects()\n"
-"                    \n"
-"% set child = sponsorships.mapped('child_id')\n"
-"                    \n"
-"% set firstname = child.get_list('preferred_name', 3, child.get_number(), False)\n"
-"  </div>\n"
-"  <p>\n"
-"Congratulations! It’s been 5 years since you’ve been supporting ${firstname}! On behalf of the entire team at Compassion "
-"Switzerland, we would like to thank you for your commitment to a child in extreme poverty.\n"
-"   <br>\n"
-"   <br>\n"
-"   Your sponsorship has a great impact on the development of this child. It enables ${child.get('him')} to live a life "
-"without extreme poverty but with dignity and real hope. ${firstname} is one of 2,3 million children currently supported by "
-"Compassion’s sponsorship program. Thank you for working together with us.\n"
-"   <br>\n"
-"   <br>\n"
-"   Yours sincerely.\n"
-"   <br>\n"
-"  </p>\n"
-" % if object.send_mode == 'digital':\n"
-"    <p>\n"
-"        ${object.user_id.signature | safe}\n"
-"    </p>\n"
-"% endif\n"
-msgstr ""
-"<div>\n"
-"    % set sponsorships = object.get_objects()\n"
-"    % set child = sponsorships.mapped('child_id')\n"
-"    % set partner = object.partner_id\n"
-"    % set plural = partner.title.plural or partner.title.id == 29\n"
-"    % set du = 'ihr' if plural else 'du'\n"
-"    % set dein = 'euer' if plural else 'dein'\n"
-"    % set deine = 'eure' if plural else 'deine'\n"
-"    % set firstname = child.get_list('preferred_name', 3, deine + \" Patenkinder\", False)\n"
-"    % set number_years = object.get_snippet('number_years') | striptags | safe\n"
-"    % set number_children = object.get_snippet('number_children') | striptags | safe\n"
-"    % set number_fcps = object.get_snippet('number_fcps') | striptags | safe\n"
-"    % set number_countries = object.get_snippet('number_countries') | striptags | safe\n"
-"    % set years_uc = object.get_snippet('years_uc') | striptags | safe\n"
-"    % set years_lc = object.get_snippet('years_lc') | striptags | safe\n"
-"</div>\n"
-"<p>\n"
-"    ${object.partner_id.salutation},\n"
-"</p>\n"
-"<p>\n"
-"    Herzlichen Glückwunsch!\n"
-"</p>\n"
-"<p>\n"
-"    Seit 5 Jahren unterstützt ${du} ${firstname} und ${'hilft' if plural else 'hilfst'} mit, ${child.get('ihn')} aus "
-"extremer Armut zu befreien.\n"
-"</p>\n"
-"<p>\n"
-"    Durch die Patenschaft für ${firstname} ${'schenkt' if plural else 'schenkst'} ${du} ${child.get('ihm')} aber auch "
-"Mut, eigene Träume zu haben und diese zu verfolgen.\n"
-"</p>\n"
-"<p>\n"
-"    Danke für ${deine} wertvolle Treue.\n"
-"</p>\n"
-"<p>\n"
-"    % if len(child) == 1:\n"
-"        ${firstname} ${child.get('is')} eines\n"
-"    % else:\n"
-"        ${deine.title()} Patenkinder sind Teil\n"
-"    % endif\n"
-"    von den zurzeit mehr als ${number_children} Millionen Kindern, ${\"welches\" if len(child) == 1 else \"welche\"} durch "
-"eine Patin oder einen Paten von Compassion unterstützt wird.\n"
-"</p>\n"
-"<p>\n"
-"    Gemeinsam verändern wir das Leben von Kindern - eins nach dem anderen.\n"
-"</p>\n"
-"<p>\n"
-"    Liebe Grüsse\n"
-"</p>\n"
-
-#. module: partner_communication_switzerland
 #: model:mail.template,body_html:partner_communication_switzerland.email_sponsorship_sub_dossier_new
 msgid ""
 "<div>\n"
@@ -7521,6 +7556,16 @@ msgid "Dear friends of Compassion"
 msgstr "Das Team von Compassion"
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Deceased caregivers:"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Deceased siblings:"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_attendee__state__declined
 msgid "Declined"
 msgstr "Abgesagt"
@@ -7531,9 +7576,29 @@ msgid "Delivery preference for Child Letters"
 msgstr "Bevorzugte Zustellung für Kinderbriefe"
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Description:"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Destroyed or lost personal belongings:"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
+msgid "Details"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_attendee__state__missing
 msgid "Didn't show up"
 msgstr "Ist nicht aufgetaucht"
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__director_gender
+msgid "Director Gender"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_account_move__display_name
@@ -7670,6 +7735,11 @@ msgid "Excellent"
 msgstr "Sehr gut"
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_nb_fcps_with_intervention
+msgid "FCPs with intervention"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__failed_message_ids
 msgid "Failed Messages"
 msgstr "Fehlgeschlagene Nachrichten"
@@ -7712,6 +7782,7 @@ msgstr "Familie 4 Kind Thema"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__compassion_field_office__alumni_gender__f
+#: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__compassion_field_office__director_gender__f
 msgid "Female"
 msgstr "Weiblich"
 
@@ -7853,6 +7924,11 @@ msgid "Group By..."
 msgstr "Gruppieren nach ..."
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Home condition:"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:survey.question,title:partner_communication_switzerland.onbs_question_rating
 #: model:survey.question,title:partner_communication_switzerland.wrpr_onbs_question_rating
 msgid "How have you experienced the start of your sponsorship"
@@ -7944,6 +8020,11 @@ msgid "If you comfirm this action, this partner will have an account on Odoo"
 msgstr "Wenn du diese Aktion bestätigst, hat dieser Partner ein Konto bei Odoo"
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Impact on the center program:"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:survey.question,description:partner_communication_switzerland.wrpr_journey_page1
 msgid ""
 "In our fight against poverty, we want to constantly improve. Thank you for helping us to do this. Your feedback is "
@@ -8004,6 +8085,17 @@ msgstr "Informationen über die Umstände, in denen mein Patenkind lebt (Kinderz
 #: model:survey.question.answer,value:partner_communication_switzerland.wrpr_journey_ilike_3
 msgid "Information, articles, videos from Compassion"
 msgstr "Informationen, Artikel, Videos von Compassion"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Infrastructure:"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
+msgid "Internal notes"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:survey.question.answer,value:partner_communication_switzerland.onbs_dontlike_1
@@ -8202,6 +8294,11 @@ msgid "Link Tracker"
 msgstr "Link Tracker"
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_looking_forward
+msgid "Looking forward"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_new_donors_onboarding_postcard_and_magazine
 msgid "Magazine"
 msgstr "Magazin"
@@ -8228,6 +8325,7 @@ msgstr "Reißverschluss machen"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__compassion_field_office__alumni_gender__m
+#: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__compassion_field_office__director_gender__m
 msgid "Male"
 msgstr "Junge"
 
@@ -8456,6 +8554,11 @@ msgid "Number of unread messages"
 msgstr "Anzahl ungelesene Nachrichten"
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Occurred on:"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_child_old_firstname
 msgid "Old Firstname"
 msgstr "Alter Vorname"
@@ -8561,6 +8664,7 @@ msgstr "Anderes:"
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/res_partner_zoom_session.py:0
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_nb_participants
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__participant_ids
 #, python-format
 msgid "Participants"
@@ -8621,6 +8725,13 @@ msgid "Phone"
 msgstr "Telefon"
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+#, fuzzy
+#| msgid "No physical communication"
+msgid "Physical condition:"
+msgstr "Keine physische Kommunikation"
+
+#. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/wizards/child_order_picture.py:0
 #, python-format
 msgid "Picture ordered."
@@ -8655,6 +8766,16 @@ msgstr "Plural"
 #: model:ir.model,name:partner_communication_switzerland.model_portal_wizard_user
 msgid "Portal User Config"
 msgstr "Portalbenutzer Konfiguration"
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_praise
+msgid "Praise"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_prayer
+msgid "Prayer"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.child_order_picture_wizard_form
@@ -8816,6 +8937,16 @@ msgstr "Senden an"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_sent_to_4m
 msgid "Sent to 4M"
 msgstr "Gesendet an 4M"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Seriously injured caregivers:"
+msgstr ""
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "Seriously injured siblings:"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__date_start
@@ -9318,6 +9449,11 @@ msgstr ""
 "% endif"
 
 #. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.field_office_alumni_view
+msgid "TPL"
+msgstr ""
+
+#. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_partner_create_portal_wizard
 msgid "Take a partner and make it a odoo user"
 msgstr "Nimm einen Partner und mach ihn zu einem Odoo-Nutzer"
@@ -9555,6 +9691,13 @@ msgstr "Typ"
 #: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner_zoom_attendee__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Art der aufgezeichneten Ausnahmeaktivität."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+#, fuzzy
+#| msgid "Type"
+msgid "Type:"
+msgstr "Typ"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_config_source_id
@@ -9970,6 +10113,13 @@ msgid "Wrong e-mail address"
 msgstr "Ungültige E-Mail-Adresse"
 
 #. module: partner_communication_switzerland
+#: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_nb_years_partnership
+#, fuzzy
+#| msgid "Yes partially"
+msgid "Years partnership"
+msgstr "ja teilweise"
+
+#. module: partner_communication_switzerland
 #: model:survey.question.answer,value:partner_communication_switzerland.wrpr_journey_referral_yes
 msgid "Yes"
 msgstr "Ja"
@@ -10023,7 +10173,9 @@ msgstr "${\"Euer\" if object.partner_id.title.plural or object.partner_id.title.
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.email_yearly_payment_slips
-msgid "Your payment slips for ${str(datetime.date.today().year+1)}"
+#, fuzzy
+#| msgid "Your payment slips for ${str(datetime.date.today().year+1)}"
+msgid "Your payment slips for ${str(datetime.date.today().year)}"
 msgstr "Einzahlungsscheine für ${str(datetime.date.today().year+1)}"
 
 #. module: partner_communication_switzerland
@@ -10146,6 +10298,11 @@ msgstr "wähle eine Kommunikation"
 #, python-format
 msgid "csp payment slips.pdf"
 msgstr "csp-zahlungsscheine.pdf"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
+msgid "details"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
@@ -11110,3 +11267,378 @@ msgstr "um"
 
 #~ msgid "todo"
 #~ msgstr "Reminder Videokonferenz"
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_bangladesh
+msgid "Please pray for our country during this season of national leadership transition. Pray for peace, unity, across our nation and for leaders who will serve with integrity a heart for others."
+msgstr "Bitte betet für unser Land in dieser Zeit des Regierungswechsels. Betet für Frieden und Einheit in unserem ganzen Land und für Politiker, die mit Integrität und einem Herz für andere dienen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_bangladesh
+msgid "We praise God for his faithful guidance during recent leadership transitions at Compassion Bangladesh. Changes were carried out smoothly and with wisdom, and his guidance and provision were evident throughout."
+msgstr "Wir danken Gott für seine treue Führung während des kürzlichen Leitungswechsels bei Compassion Bangladesch. Die Veränderungen konnten in Ruhe und mit viel Weisheit umgesetzt werden – Gottes Führung und Versorgung waren dabei deutlich spürbar."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_bangladesh
+msgid "We look forward to strengthening how we serve children by improving the way we plan and manage resources, including new tools to guide planning and support financial management. This will help local partners to serve with excellence and help us reach more children more quickly with greater impact."
+msgstr "Wir freuen uns darauf, unsere Arbeit für Kinder weiter zu stärken, indem wir Ressourcen gezielter einsetzen. So können unsere lokalen Partner noch wirkungsvoller arbeiten und mehr Kinder nachhaltig begleiten."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_bf
+msgid "Please pray for the restoration of lasting peace in our country. Many families have been displaced by conflict, and we long to see them return home to rebuild their lives and communities with hope and security."
+msgstr "Bitte betet für Frieden in unserem Land. Viele Familien wurden durch Konflikte vertrieben, und wir hoffen, dass sie sicher in ihre Heimat zurückkehren und ihr Leben und ihre Gemeinschaften wieder aufbauen können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_bf
+msgid "Praise God for strengthening our relationship with the government this year. This partnership has opened doors for greater collaboration and helped us serve more effectively, bringing encouragement to our team and the communities we support."
+msgstr "Wir danken Gott für die verstärkte Zusammenarbeit mit der Regierung. Dadurch konnten neue Möglichkeiten entstehen, um Familien und Kinder noch wirkungsvoller zu unterstützen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_bf
+msgid "In the coming year, we look forward to seeing peace established across the land and more young people succeed in their studies and careers, grow in their health and come to know Christ personally. We believe these opportunities will empower them to build a sustainable future, contribute positively to society and become agents of transformation in their communities."
+msgstr "Wir hoffen, im kommenden Jahr erleben zu dürfen, wie sich im ganzen Land Frieden einstellt und immer mehr junge Menschen Erfolg in Studium und Beruf haben und Jesus Christus persönlich kennenlernen. Wir glauben, dass diese Möglichkeiten sie befähigen werden, eine nachhaltige Zukunft aufzubauen und ihre Gemeinschaften positiv zu prägen und zu verändern."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_bo
+msgid "We have a new president serving from November 2025 through 2030. As our country navigates a challenging economic situation, please join us in praying for our leaders — that they will be guided by the Holy Spirit with wisdom, compassion and a heart for those in need."
+msgstr "Seit November 2025 hat unser Land einen neuen Präsidenten, der bis 2030 im Amt sein wird. Bitte betet angesichts der schwierigen wirtschaftlichen Lage für die Leitenden unseres Landes – dass der Heilige Geist sie mit Weisheit, Mitgefühl und einem Herz für Menschen in Not leitet."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_bo
+msgid "The staff in Bolivia have shown remarkable commitment to Compassion’s ministry. Even as their families faced similar challenges, they continued to serve faithfully. We thank God for their dedication and lift up their families in prayer."
+msgstr "Die Mitarbeitenden von Compassion Bolivien haben in den vergangenen Monaten grossen Einsatz gezeigt. Obwohl viele ihrer eigenen Familien mit ähnlichen Herausforderungen konfrontiert waren, dienten sie weiterhin treu. Wir danken Gott für ihre Hingabe und beten auch für ihre Familien."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_bo
+msgid "Global Compassion leaders are committed to strengthening how we serve children to help release them from poverty in Jesus’ name. Please pray for Compassion Bolivia to guide local churches to support children in ways that fit their unique context."
+msgstr "Die Leitenden von Compassion International setzen sich dafür ein, unseren Dienst an Kindern zu stärken, um sie in Jesu Namen aus Armut zu befreien. Bitte betet dafür, dass Compassion Bolivien die lokalen Partnerkirchen dabei begleiten kann, Kinder passend zu ihrem Lebensumfeld zu fördern."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_br
+msgid "Please pray for our new expansion area deep in the Amazon. Reaching these communities often requires long journeys by boat, small plane or canoe. This will be our new adventure to serve even more vulnerable kids in this remote region of Brazil."
+msgstr "Bitte betet für unser neues Einsatzgebiet tief im Amazonas. Viele dieser abgelegenen Gemeinden sind nur nach langen Reisen mit Boot, Kleinflugzeug oder Kanu erreichbar. Wir freuen uns darauf, noch mehr Kinder in Not in dieser entlegenen Region Brasiliens zu begleiten."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_br
+msgid "We praise the Lord for all the amazing work that Compassion's church partners have been doing and for the thousands of kids impacted by the program and child protection initiatives."
+msgstr "Wir danken Gott für die wunderbare Arbeit unserer Partnerkirchen und für die vielen Kinder, die von den Programmen und den Initiativen zum Kinderschutz profitieren können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_br
+msgid "We look forward to seeing how Compassion will impact vulnerable children living in forgotten places across our vast country, such as the Amazon jungle."
+msgstr "Wir hoffen, dass Compassion auch künftig Kinder in vergessenen Regionen unseres grossen Landes – wie im Amazonasgebiet – unterstützen und fördern kann."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_co
+msgid "The most vulnerable communities in our country are often those most affected by violence. Please pray that the local church can continue to reach children and families in remote and underserved areas of Colombia despite increasing violence. Pray also that more young people will finish school and go on to higher education so they are not drawn into recruitment by armed groups."
+msgstr "Bitte betet für die Regionen Kolumbiens, die besonders von Gewalt und Unsicherheit geprägt sind. Betet dafür, dass lokale Kirchen weiterhin Kinder und Familien in abgelegenen Gebieten erreichen können. Betet auch, dass junge Menschen die Schule abschliessen und eine Ausbildung absolvieren können, damit sie nicht von bewaffneten Gruppen rekrutiert werden."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_co
+msgid "Praise God for his wisdom and power, which enabled us to carry out a wide-reaching effort to better understand the needs of children and youths. This new approach is helping churches connect more deeply with children and respond more effectively as they support them in overcoming poverty in Jesus' name."
+msgstr "Wir danken Gott für seine Weisheit und Führung bei einem neuen Projekt, das uns hilft, die Bedürfnisse von Kindern und Jugendlichen noch besser zu verstehen. Dadurch können unsere Partnerkirchen Kinder gezielter begleiten und sie wirksam dabei unterstützen, Armut im Namen Jesu zu überwinden."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_co
+msgid "We plan to reach more children living in poverty in remote areas such as Chocó, Tumaco and La Guajira — including Afro-descendant and Indigenous communities — by partnering with local churches already serving these areas."
+msgstr "Wir möchten mehr Kinder erreichen, die in abgelegenen Gebieten wie Chocó, Tumaco und La Guajira in Armut leben – darunter auch afrokolumbianische und indigene Gemeinschaften –, indem wir mit lokalen Kirchen zusammenarbeiten, die bereits in diesen Gebieten tätig sind."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_dr
+msgid "Pray that God will guide us to find creative ways to support Christians who want to serve children living in poverty in the Dominican Republic, equipping them with the resources they need — training, tools, partnerships and funding — to disciple children in every area of life."
+msgstr "Bitte betet dafür, dass Gott uns kreative Wege zeigt, um Kirchen zu unterstützen, die sich für Kinder in Armut in der Dominikanischen Republik einsetzen. Betet, dass sie die nötigen Schulungen, Werkzeuge, Partnerschaften und finanziellen Mittel erhalten, um Kinder zu begleiten."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_dr
+msgid "We thank the Lord for allowing us to celebrate 55 years of serving children and families living in poverty in the Dominican Republic."
+msgstr "Wir danken Gott dafür, dass wir seit 55 Jahren Kinder und Familien in Armut in der Dominikanischen Republik begleiten dürfen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_dr
+msgid "We look forward to supporting children's ministry in 50 churches in communities without sponsorship support. This will include providing materials for Sunday school, training for church leaders and creative ways to involve parents in their children's development."
+msgstr "Im kommenden Jahr wollen wir den Kinderdienst von 50 Kirchen in Regionen unterstützen, in denen es noch kein Patenschaftsprogramm gibt – unter anderem durch Material für den Kindergottesdienst, Schulungen für Gemeindeleitende und neue Möglichkeiten, Eltern aktiv in die Entwicklung ihrer Kinder einzubeziehen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ec
+msgid "Please pray that we may continue to bring hope, joy, peace and life to the children and youths we serve alongside the local church. May everything we do reflect his love and expand his kingdom among the most vulnerable, shining a light in every community we serve."
+msgstr "Bitte betet dafür, dass wir gemeinsam mit den lokalen Kirchen weiterhin Hoffnung, Freude und Frieden zu Kindern und Jugendlichen bringen können. Möge alles, was wir tun, Gottes Liebe widerspiegeln und besonders den verletzlichsten Menschen Hoffnung schenken."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ec
+msgid "Throughout this year, we have witnessed God's guidance, care, provision and unfailing love. Despite the many challenges our country has faced, God has faithfully protected the children and youths in our programs. We have seen him in every circumstance — from the daily welcome of each child embraced with love to the miracles in the lives of the most vulnerable."
+msgstr "Wir danken Gott für seine treue Führung, Versorgung und Liebe im vergangenen Jahr. Trotz vieler Herausforderungen in unserem Land hat er die Kinder und Jugendlichen in unseren Programmen bewahrt und uns immer wieder seine Nähe gezeigt – durch kleine Alltagsmomente und grosse Wunder im Leben der Kinder."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ec
+msgid "We pray that God will help us remain faithful to the calling he has given us and keep him at the center of all we do. May he continue to use us to bring hope and release children from poverty in Jesus’ name."
+msgstr "Wir wollen unserer Berufung auch in Zukunft treu bleiben und Gott in den Mittelpunkt unseres Handelns stellen. Möge er uns weiterhin gebrauchen, um Kindern Hoffnung zu schenken und sie im Namen Jesu aus Armut zu befreien."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_es
+msgid "Let's pray that God provides protection and provision for communities facing food insecurity and opens the way for children and youths in El Salvador to access education, nutrition and new opportunities."
+msgstr "Bitte betet dafür, dass Gott Familien und Gemeinschaften schützt, die von Ernährungsunsicherheit betroffen sind, und Kindern und Jugendlichen in El Salvador Zugang zu Bildung, gesunder Ernährung und neue Perspektiven schenkt."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_es
+msgid "Praise God that Compassion is equipping our local church partners with new ways to better understand the needs of the children in their care — listening through regular surveys to see where help is needed most and responding with proven initiatives that will make the greatest impact. This empowers us to break the cycle of poverty and despair in young people's lives."
+msgstr "Wir danken Gott dafür, dass Compassion unsere lokalen Partnerkirchen dabei unterstützt, die Bedürfnisse der Kinder noch besser zu verstehen und gezielter auf sie einzugehen. Durch bewährte Programme und neue Ansätze können Kinder wirksamer begleitet und der Kreislauf aus Armut und Hoffnungslosigkeit durchbrochen werden."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_es
+msgid "In the coming year, we look forward to working more closely with Christ-centered denominational leaders, mobilizing the Church toward Bible-based discipleship."
+msgstr "Wir freuen uns darauf, im kommenden Jahr enger mit Kirchenleitenden zusammenzuarbeiten und die Kirche zu mobilisieren, Jüngerschaft auf biblischer Basis aufzubauen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_et
+msgid "Concerns around security in some areas of the country are affecting people’s movement and daily life. Please pray for peace to prevail throughout the nation — from north to south, from east to west, and from central areas to remote communities."
+msgstr "Bitte betet für Frieden in unserem Land. Sicherheitsprobleme in verschiedenen Regionen beeinträchtigen das tägliche Leben vieler Menschen und schränken ihre Bewegungsfreiheit ein. Möge Frieden ganz Äthiopien erreichen – vom Norden bis zum Süden, von den Städten bis in abgelegene Gemeinden."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_et
+msgid "Praise God for the unwavering commitment of Ethiopian churches to serve children, families and vulnerable people in every season."
+msgstr "Wir danken Gott für den treuen Einsatz der äthiopischen Kirchen, die Kindern, Familien und besonders vulnerablen Menschen in jeder Situation dienen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_et
+msgid "We long to see a growing movement of local churches sponsoring children in poverty with the resources they have, however small. Please pray for a fresh movement of the Holy Spirit to guide, lead and empower Compassion Ethiopia and the local churches in this work."
+msgstr "Wir wünschen uns, dass immer mehr lokale Kirchen Kinder in Armut mit den Mitteln unterstützen, die ihnen zur Verfügung stehen, selbst wenn diese klein sind. Bitte betet für eine neue Bewegung des Heiligen Geistes, um Compassion Äthiopien und die lokalen Partnerkirchen in diesem Dienst neu zu stärken, zu leiten und zu erfüllen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_gh
+msgid "Please pray for wisdom and excellence in all we do. May God guide us to steward resources faithfully, strengthen partnerships, and ensure that every child encounters the love of Christ in a tangible and life-changing way."
+msgstr "Bitte betet für Weisheit und Gelingen in allem, was wir tun. Möge Gott uns dabei helfen, Ressourcen verantwortungsvoll einzusetzen, Partnerschaften zu stärken und sicherzustellen, dass jedes Kind die Liebe Christi auf greifbare und lebensverändernde Weise erlebt."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_gh
+msgid "We celebrate God’s goodness for a memorable and successful commemoration of 20 years of Compassion’s ministry in Ghana. We rejoice in the remarkable progress we see in the lives of those we serve. Children and youths are growing in their faith, excelling in their studies and experiencing improved health. Caregivers are gaining strength, dignity and renewed purpose. Each testimony is a powerful witness to God’s provision and grace at work."
+msgstr "Wir danken Gott für 20 Jahre Compassion in Ghana und für die vielen sichtbaren Veränderungen im Leben der Kinder und Familien, die wir begleiten dürfen. Kinder und Jugendliche wachsen im Glauben, machen Fortschritte in der Schule und sind gesundheitlich besser versorgt. Auch Eltern oder Betreuungspersonen gewinnen Kraft, Würde und neue Perspektiven. Jedes Zeugnis ist ein eindrucksvoller Beweis für Gottes Fürsorge und Gnade, die hier am Werk sind."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_gh
+msgid "With God’s help and your continued partnership, we aim to reach more vulnerable communities and deepen our impact in caring for children. We believe the year ahead will bring greater transformation, renewed hope and lasting change for many more children and families."
+msgstr "Mit Gottes Hilfe und eurer Partnerschaft wollen wir noch mehr benachteiligte Gemeinschaften erreichen und unsere Arbeit für Kinder verstärken. Wir sind überzeugt, dass das kommende Jahr für noch viel mehr Kinder und Familien neue Hoffnung und tiefgreifende, nachhaltige Veränderungen mit sich bringen wird."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_gu
+msgid "Please join us in praying for God’s guidance and favor as this church-led movement grows and expands. Our desire is for all children living in vulnerable circumstances in Guatemala to be supported to grow and experience lasting transformation."
+msgstr "Die Arbeit von Compassion in Guatemala wächst – bitte betet mit uns für Gottes Führung und Segen. Unser Wunsch ist es, dass alle Kinder, die in Guatemala in schwierigen Lebensumständen leben, Unterstützung erhalten, gestärkt werden und nachhaltige Veränderung erfahren."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_gu
+msgid "We celebrate God’s faithfulness this year as we have made meaningful progress that will help our church partners and national office to reach more children and better respond to their needs."
+msgstr "Wir danken Gott für seine Treue im vergangenen Jahr und für die Fortschritte, die es unseren Partnerkirchen und unserem Landesbüro ermöglichen, noch mehr Kinder zu erreichen und besser auf ihre Bedürfnisse einzugehen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_gu
+msgid "We are excited to see our church partners taking ownership of the sustainability of their ministries. In the coming year, we look forward to strengthening their capacity and ability to mobilize resources, helping their impact to last for generations."
+msgstr "Es begeistert uns zu sehen, wie unsere Partnerkirchen immer mehr Verantwortung für die langfristige Wirkung ihrer Arbeit übernehmen. Im kommenden Jahr möchten wir sie weiter darin stärken, lokale Ressourcen zu mobilisieren und ihre Arbeit nachhaltig für kommende Generationen aufzubauen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ha
+msgid "Please pray for peace, stability and renewed hope in Haiti and for God’s continued protection and strength over our staff, church partners and the children and families we serve. May the Lord guide us with wisdom as we navigate ongoing challenges and remain faithful to our mission of releasing children from poverty in Jesus’ name."
+msgstr "Bitte betet für Frieden, Stabilität und neue Hoffnung in Haiti sowie für Gottes Schutz und Kraft für unsere Mitarbeitenden, Partnerkirchen und die Kinder und Familien, die wir begleiten. Möge Gott uns Weisheit schenken, damit wir trotz vieler Herausforderungen unserem Auftrag treu bleiben und Kinder im Namen Jesu aus Armut befreien können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ha
+msgid "We praise God for his faithfulness throughout a difficult year, as we have seen great resilience among our church partners and meaningful progress in the lives of the children and youths despite many challenges. God has also opened doors for deeper community engagement, strengthened partnerships and provided the resources needed to continue serving the most vulnerable."
+msgstr "Wir danken Gott für seine Treue in einem schwierigen Jahr. Trotz vieler Herausforderungen erleben wir grosse Widerstandskraft bei unseren Partnerkirchen und ermutigende Fortschritte im Leben von Kindern und Jugendlichen. Gott hat neue Türen geöffnet, Partnerschaften gestärkt und die nötigen Ressourcen geschenkt, um den Schwächsten weiterhin zu helfen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ha
+msgid "In the coming year, we are committed to strengthening our partnerships with local churches across Haiti. By walking closely with our partners — listening, equipping and supporting them — we will deepen unity and collaboration, extend our reach and see greater transformation of children and youths living in poverty in Haiti."
+msgstr "Im kommenden Jahr möchten wir unsere Partnerschaften mit lokalen Kirchen in ganz Haiti weiter stärken. Indem wir unseren Partnern eng zur Seite stehen, ihnen zuhören, sie befähigen und unterstützen, werden wir die Einheit und Zusammenarbeit vertiefen, unser Wirkungsgebiet vergrössern und tiefgreifendere Veränderung bei den in Armut lebenden Kindern und Jugendlichen in Haiti bewirken."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ho
+msgid "Pray for God's guidance and wisdom for the Compassion Honduras national office as we continue to serve staff, support church partners in their ministries to children and youths, and reach children and families living in poverty."
+msgstr "Bitte betet für Gottes Führung und Weisheit für das Landesbüro von Compassion Honduras, während wir Mitarbeitende unterstützen, Partnerkirchen begleiten und Kinder und Familien in Armut erreichen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ho
+msgid "We are grateful for the Church in our country, which is willing to step out of its comfort zone to share the message of salvation with those in need. We also thank the Lord for the progress made with an initial group of church partners who are building new capacity to better understand and respond to the needs of children, youths and families in their communities."
+msgstr "Wir danken Gott für die Kirchen in unserem Land, die bereit sind, ihre Komfortzone zu verlassen, um Menschen in Not Hoffnung weiterzugeben. Besonders dankbar sind wir für die Fortschritte bei Partnerkirchen, die lernen, die Bedürfnisse von Kindern, Jugendlichen und Familien noch besser zu verstehen und gezielter darauf einzugehen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ho
+msgid "We continue to identify new areas of need and partner with churches to reach the most vulnerable children and support their holistic development."
+msgstr "Wir ermitteln weiterhin neue Gebiete, in denen Hilfe benötigt wird, und arbeiten mit Kirchen zusammen, um die am stärksten benachteiligten Kinder zu erreichen und ihre ganzheitliche Entwicklung zu fördern."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_id
+msgid "Pray that more youths will have access to higher education or vocational training and that together with parents and Compassion's church partners, we can support them with the resources they need."
+msgstr "Bitte betet dafür, dass noch mehr Jugendliche Zugang zu einer Hochschule oder einer Berufsausbildung erhalten. Gemeinsam mit Eltern und unseren Partnerkirchen möchten wir sie mit den nötigen Ressourcen unterstützen, damit sie ihre Zukunft gestalten können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_id
+msgid "We are establishing new partnerships with local churches in Papua and Toraja, expanding our ministry into tribal areas and reaching some of the most vulnerable communities in east Indonesia."
+msgstr "Wir sind dankbar für neue Partnerschaften mit lokalen Kirchen in Papua und Toraja. Dadurch können wir unsere Arbeit auf abgelegene Stammesgebiete im Osten Indonesiens ausweiten und besonders vulnerable Gemeinschaften erreichen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_id
+msgid "We look forward to seeing more children sponsored and more young people finishing the program strong."
+msgstr "Wir freuen uns darauf, zu sehen, wie noch mehr Kinder durch Patenschaften unterstützt werden und viele junge Menschen das Compassion-Programm erfolgreich abschliessen können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ke
+msgid "Pray for wisdom as we build strategic partnerships with other like-minded ministries and organizations to best support children in need. Pray for young people facing limited job opportunities and the challenges that come with this, including mental health struggles. Pray also for the country’s economic situation to improve and for peaceful elections in 2027."
+msgstr "Bitte betet um Weisheit im Aufbau von strategischen Partnerschaften mit Organisationen und Werken, die unsere Vision teilen, Kinder in Not bestmöglich zu unterstützen. Betet auch für junge Menschen, die mit fehlenden Arbeitsmöglichkeiten und den damit verbundenen Herausforderungen – auch im Bereich der psychischen Gesundheit – konfrontiert sind. Zudem bitten wir um Gebet für eine Verbesserung der wirtschaftlichen Situation und für friedliche Wahlen im Jahr 2027."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ke
+msgid "I am delighted to share that Compassion International Kenya was named NGO of the Year at Kenya's 2025 NGO Awards. This is a testament to God’s hand on the work we do and an encouragement to continue faithfully serving babies, children, young people and their families."
+msgstr "Wir sind begeistert, dass Compassion Kenia bei den NGO Auszeichnungen 2025 in Kenia als „NGO des Jahres“ ausgezeichnet wurde. Diese Anerkennung ermutigt uns, weiterhin treu für Kinder, Jugendliche und Familien einzusetzen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ke
+msgid "In the past two years, we have partnered with academic and technical institutions to provide short-term, market-relevant skills training for youths. So far, more than 1,500 young people have graduated with certified skills, enabling them to earn an income while continuing their studies."
+msgstr "In den vergangenen zwei Jahren konnten wir gemeinsam mit Bildungs- und Fachinstitutionen praxisnahe Berufsausbildungen für Jugendliche anbieten. Bereits mehr als 1’500 junge Menschen haben zertifizierte Abschlüsse erhalten und dadurch neue Möglichkeiten geschaffen, Einkommen zu erzielen und gleichzeitig ihre Ausbildung fortzusetzen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_lk
+msgid "May our partnerships lead to lasting transformation in the lives of children and communities."
+msgstr "Bitte betet dafür, dass unsere Partnerschaften zu einer nachhaltigen Veränderung im Leben der Kinder und Gemeinschaften führen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_lk
+msgid "We’re grateful for the unwavering commitment of our Compassion Sri Lanka national office team and local partners."
+msgstr "Wir sind Gott so dankbar für die grosse Treue und das starke Engagement unseres Compassion-Teams in Sri Lanka sowie unserer lokalen Partnerkirchen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_lk
+msgid "We look forward to seeing even greater impact as the program grows stronger and children's and young people's lives are transformed."
+msgstr "Wir freuen uns darauf, durch das Compassion-Programm noch mehr Kinder und Jugendliche nachhaltig zu stärken und zu erleben, wie sich ihr Leben positiv verändert."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_me
+msgid "Pray that violence in our country will decrease so that children can safely attend their Compassion centers and the church can provide the care they need. Pray also for Compassion staff to travel safely as they support and train churches to strengthen programs for children."
+msgstr "Bitte betet dafür, dass die Gewalt in unserem Land abnimmt, damit Kinder die Kinderzentren sicher besuchen können und die Kirchen ihnen die Unterstützung und Fürsorge geben können, die sie dringend brauchen. Betet auch um Schutz für die Mitarbeitenden von Compassion, wenn sie auf Reisen sind und Kirchen begleiten, stärken und schulen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_me
+msgid "Praise God that this year we've been able to introduce a new approach that helps us to listen more closely to children, ensuring their voices are heard as plans are made to support their growth and well-being."
+msgstr "Wir sind Gott dankbar für die erfolgreiche Umsetzung eines neuen Konzeptes, das uns befähigt, den Kindern noch besser zuhören zu können und sicherzustellen, dass ihre Stimmen gehört werden, auch wenn es um die Planung ihrer Zukunft und um ihre gesunde Entwicklung geht."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_me
+msgid "In the coming year, we look forward to having more financial resources for the sponsorship program and expand into new ways of supporting children and families."
+msgstr "Im kommenden Jahr freuen wir uns darauf, dass wieder genügend finanzielle Mittel bereitstehen werden, um das Patenschaftsprogramm weiterzuführen und neue Möglichkeiten zu schaffen, Kinder und Familien noch umfassender zu unterstützen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ni
+msgid "Please pray for God's protection over the Church and that it will continue to faithfully carry out its mission. Pray also for the emotional and spiritual well-being of our staff as they navigate a challenging environment. Ask God to guard and guide us, giving wisdom and discernment in every decision, so Compassion Nicaragua can continue to operate under his grace and favor."
+msgstr "Bitte betet dafür, dass Gott seine schützende Hand über die Kirche hält und sie ihren Auftrag weiterhin treu erfüllen kann. Betet auch für das emotionale und geistliche Wohlergehen unserer Mitarbeitenden, die täglich in einem herausfordernden Umfeld dienen. Bittet Gott um seinen Schutz, seine Führung sowie um Weisheit und Unterscheidungsvermögen in allen Entscheidungen, damit Compassion Nicaragua auch weiterhin unter seiner Gnade wirken und Kinder und Familien unterstützen kann."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ni
+msgid "We glorify God for the work of our partner churches as they faithfully minister and care for each child, bringing meaningful impact to their lives. We also praise God for his faithfulness in sustaining Compassion's work in Nicaragua through the teamwork of our staff while maintaining a strong, trusted presence in the country."
+msgstr "Wir preisen Gott für die Arbeit unserer Partnerkirchen, die den Kindern treu dienen, sie begleiten und fürsorglich unterstützen. Durch ihren Einsatz erleben viele Kinder echte Hoffnung und nachhaltige Veränderung in ihrem Leben. Wir danken Gott auch für seine Treue, mit der er die Arbeit von Compassion in Nicaragua trägt. Durch das engagierte Zusammenspiel unserer Mitarbeitenden konnte Compassion weiterhin verlässlich wirken und eine vertrauensvolle Präsenz im Land bewahren."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ni
+msgid "We are encouraged to see so many churches trusting God, embracing his work, and reaching more children and youths in poverty as new churches grow within their communities. It is rewarding to witness the lasting impact, as young people and families use what they have learned to earn an income and serve others in their churches and communities."
+msgstr "Es ermutigt uns, so viele Kirchen zu sehen, die Gott vertrauen und ihren Dienst an Kindern und Jugendlichen, die in Armut leben, vergrössern, und wie dadurch neue Gemeinden entstehen. Besonders bewegend ist es, die Wirkung unserer Arbeit zu sehen: Junge Menschen und Familien nutzen das Gelernte, um ihren Lebensunterhalt zu verdienen und anderen in ihren Kirchen und Gemeinschaften zu dienen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_pe
+msgid "Pray for the Lord’s care and wisdom over the children, church partners and staff this year as Peru moves forward following the recent elections. Pray for peace across the country and for leaders who will protect and care for children and youths."
+msgstr "Bitte betet in diesem Jahr für Gottes Schutz und Weisheit für die Kinder, unsere Partnerkirchen und Mitarbeitenden. Betet, dass Peru nach den jüngsten Wahlen Frieden erfährt und für verantwortungsvolle Führungspersonen, die Kinder und Jugendliche schützen und fördern."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_pe
+msgid "We thank God for the opportunity to work in Indigenous communities, supporting our church partners as they meet the needs of children and youths. We pray that the Lord will help us to be a strong support to these communities."
+msgstr "Wir danken Gott für die Möglichkeit, in indigenen Gemeinschaften tätig zu sein und unsere Partnerkirchen dabei zu unterstützen, auf die Bedürfnisse von Kindern und Jugendlichen einzugehen. Betet dafür, dass wir diesen Gemeinschaften eine wertvolle Unterstützung sein können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_pe
+msgid "We are encouraged to see how our new program framework is helping Compassion and the church partners to better understand children's needs. We want to support our church partners as they respond to those needs and bring meaningful impact to children's lives."
+msgstr "Es ermutigt uns zu sehen, wie unser neues Programmkonzept Compassion und den Partnerkirchen hilft, die Bedürfnisse der Kinder besser zu verstehen. Wir möchten unsere Partnerkirchen darin stärken, auf diese Bedürfnisse einzugehen und das Leben von Kindern nachhaltig zu prägen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ph
+msgid "Pray for our church partners and the teams supporting them as they manage the new initiatives and responsibilities. Pray also for the well-being of our staff and church volunteers, especially as they respond during times of disaster."
+msgstr "Bitte betet für unsere Partnerkirchen und die Teams, die sie begleiten, während sie neue Aufgaben und Projekte übernehmen. Betet auch für das Wohlergehen unserer Mitarbeitenden und freiwilligen Helferinnen und Helfer – besonders dann, wenn sie in Zeiten von Katastrophen Unterstützung leisten."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ph
+msgid "We are thankful for the graduates of our program who are investing in and discipling the next generation of proactive young leaders. We look forward to continuing to develop initiatives that grow and sustain these efforts."
+msgstr "Wir sind dankbar für die Absolventinnen und Absolventen unseres Programms, die sich in die nächste Generation junger Leiterinnen und Leiter investieren und sie begleiten. Wir freuen uns darauf, weitere Initiativen zu entwickeln, die dieses Engagement stärken und langfristig fördern."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ph
+msgid "We are preparing for expansion into the tribal regions by partnering with churches in Mindanao in the southern Philippines from 2027 onward. Pray that God will grant wisdom, cultural sensitivity and discernment as we partner with Indigenous communities."
+msgstr "Ab 2027 bereiten wir uns darauf vor, gemeinsam mit Kirchen auf Mindanao im Süden der Philippinen auch in Stammesregionen tätig zu werden. Bitte betet um Weisheit, kulturelle Sensibilität und geistliches Unterscheidungsvermögen, während wir Partnerschaften mit indigenen Gemeinschaften aufbauen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_rw
+msgid "Pray for our church partners in Rwanda as they work through a national government compliance process required across the country. May the Lord grant them wisdom, guidance and the financial provision needed to meet all regulatory requirements with excellence."
+msgstr "Bitte betet für unsere Partnerkirchen in Ruanda, während sie die landesweiten behördlichen Anforderungen umsetzen. Möge Gott ihnen Weisheit, Führung und die nötigen finanziellen Mittel schenken, damit sie alle Vorgaben sorgfältig und erfolgreich erfüllen können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_rw
+msgid "We are grateful that the planning and monitoring workshops for our new program framework — which uses technology to survey children and discover their greatest needs before responding with proven initiatives — were successful and that our team is now well equipped to support church partners as they better understand and support children's needs."
+msgstr "Wir sind dankbar, dass die Planungs- und Auswertungsworkshops für unser neues Programmkonzept erfolgreich durchgeführt wurden. Mithilfe von Technologie werden die Bedürfnisse der Kinder gezielt erfasst, um ihnen die passende Unterstützung bieten zu können. Unser Team kann damit die Partnerkirchen unterstützen, um die Kinder noch besser zu verstehen und individuell zu fördern."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_rw
+msgid "We look forward to guiding church partners through our new planning process to identify and respond to children's needs as they develop clear three-year plans to better support children and families."
+msgstr "Wir freuen uns darauf, die Partnerkirchen im neuen Planungsprozess zu begleiten, damit sie die Bedürfnisse von Kindern und Familien erkennen und mit klaren Dreijahresplänen nachhaltig darauf eingehen können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_tg
+msgid "Pray for five children who are suffering from cancer and undergoing chemotherapy; ask God for healing and strength. Pray also for security and stability in the northern region, where families face ongoing threats of violence."
+msgstr "Bitte betet für fünf Kinder, die an Krebs erkrankt sind und derzeit eine Chemotherapie erhalten. Bittet Gott um Heilung, Kraft und Trost für sie und ihre Familien. Betet auch für Sicherheit und Stabilität im Norden des Landes, wo viele Familien weiterhin von Gewalt bedroht sind."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_tg
+msgid "We praise God for his faithfulness in strengthening our partnerships and expanding transformational initiatives for children and youths. This year, we have seen tangible progress: 1,346 youths earned their “baccalauréat” (final high school diploma), with pass rates significantly higher than the national average."
+msgstr "Wir preisen Gott für seine Treue, durch die unsere Partnerschaften gestärkt und lebensverändernde Angebote für Kinder und Jugendliche weiter ausgebaut werden konnten. In diesem Jahr konnten 1’346 Jugendliche ihr Schulabschlussdiplom erfolgreich empfangen. Sie erzielten deutlich bessere Ergebnisse als der nationale Durchschnitt."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_tg
+msgid "We look forward to strengthening how we empower young people, especially by growing programs that prepare them for higher education, STEM careers, entrepreneurship and leadership. We are excited to see more graduates become change makers — sparks of hope in their communities."
+msgstr "Wir möchten junge Menschen noch stärker fördern, insbesondere durch den Ausbau von Programmen, die sie auf ein Hochschulstudium, MINT-Berufe, Unternehmertum und Führungsaufgaben vorbereiten. Wir freuen uns darauf, dass immer mehr Absolventen zu Wegbereitern des Wandels und zu Hoffnungsträgern in ihren Gemeinschaften werden."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_th
+msgid "Please pray for safety and security of the children and youths and for stability along the Thailand-Myanmar border."
+msgstr "Bitte betet für die Sicherheit der Kinder und Jugendlichen sowie für Stabilität entlang der Grenze zwischen Thailand und Myanmar."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_th
+msgid "We thank God for his grace and mercy, which allows us to continue reaching more youths and children in need through our partner churches. We also thank our valued supporters for their heart and generosity in joining the ministry."
+msgstr "Wir danken Gott für seine Gnade und Barmherzigkeit, die es uns ermöglichen, gemeinsam mit unseren Partnerkirchen weiterhin Kinder und Jugendliche in Not zu erreichen. Ebenso danken wir allen Unterstützerinnen und Unterstützern für ihre Grosszügigkeit und dafür, dass sie diesen Dienst mittragen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_th
+msgid "We look forward to reaching more children and youths in need and welcoming them into our program to support their growth and development."
+msgstr "Wir freuen uns darauf, noch mehr Kinder und Jugendliche in Not in unser Programm aufzunehmen und sie in ihrer Entwicklung und ihrem Wachstum zu begleiten."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_tz
+msgid "Please join us in praying for lasting peace in our nation as we continue to navigate post-election tensions. Pray for the Church in Tanzania to be strengthened and united as they advance God's kingdom."
+msgstr "Bitte betet mit uns für anhaltenden Frieden in unserem Land, während wir weiterhin die Spannungen nach den Wahlen bewältigen. Betet auch dafür, dass die Kirche in Tansania gestärkt und geeint wird, damit sie Gottes Reich kraftvoll weiterbauen kann."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_tz
+msgid "We are grateful that Compassion International Tanzania has successfully transitioned from a nongovernmental organization to a faith-based organization and to have obtained charitable status. These milestones will help Compassion International Tanzania continue our mission and live out our faith, while the new charitable status will provide tax savings that allow us to better serve children living in poverty."
+msgstr "Wir sind Gott dankbar, dass Compassion International Tansania den Übergang von einer Nichtregierungsorganisation (NGO) zu einer glaubensbasierten Organisation erfolgreich abschliessen und zudem den Status der Gemeinnützigkeit erhalten konnte. Diese wichtigen Meilensteine helfen uns, unseren Auftrag weiterhin treu auszuführen und durch steuerliche Entlastungen noch mehr Kinder in Armut zu erreichen und zu unterstützen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_tz
+msgid "In the coming year, we aim to equip and empower local church partners by implementing targeted initiatives that address their most pressing needs. This will also help provide clearer insight to guide decisions and the care they provide to children."
+msgstr "Im kommenden Jahr möchten wir unsere Partnerkirchen gezielt stärken und fördern, indem wir Initiativen umsetzen, die auf ihre dringendsten Bedürfnisse eingehen. Gleichzeitig sollen dadurch bessere Grundlagen geschaffen werden, um Entscheidungen zu treffen und Kinder noch gezielter zu begleiten und zu unterstützen."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_prayer:child_compassion.field_office_ug
+msgid "Pray for consistent peace in northeastern Uganda, especially in the Karamoja region, so children and youths can safely participate in programs without disruption. Ongoing conflict in the area — including cattle raiding and intercommunity violence — continues to affect families, displace communities and disrupt daily life."
+msgstr "Bitte betet für anhaltenden Frieden im Nordosten Ugandas, besonders in der Region Karamoja, damit Kinder und Jugendliche sicher an den Programmen teilnehmen können. Die bestehenden Konflikte – darunter Viehdiebstähle und Gewalt zwischen Gemeinschaften – belasten viele Familien, vertreiben Menschen aus ihren Dörfern und erschweren den Alltag."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_praise:child_compassion.field_office_ug
+msgid "We thank God for peaceful national elections. While we are not involved in politics, stability and peace are essential for serving children and supporting effective programs."
+msgstr "Wir danken Gott für die friedlich verlaufenen nationalen Wahlen. Auch wenn wir uns nicht politisch engagieren, sind Frieden und Stabilität entscheidend, um Kinder wirksam begleiten und unterstützen zu können."
+
+#. module: partner_communication_switzerland
+#: model_terms:compassion.field.office,tpl_looking_forward:child_compassion.field_office_ug
+msgid "We look forward to strengthening our efforts to reach children in remote and hard to reach areas where the need is greatest. In these communities, many children face serious health challenges that affect their ability to survive and thrive. As we step into these areas, we are excited to help change the story of these communities through improved health support and care for children."
+msgstr "Wir freuen uns darauf, unsere Arbeit in abgelegenen und schwer erreichbaren Regionen weiter auszubauen, wo die Not besonders gross ist. Viele Kinder leiden dort unter schweren gesundheitlichen Herausforderungen, die ihre Entwicklung und ihr Überleben gefährden. Wir freuen uns darauf, diesen Gemeinschaften mit besserer Gesundheitsversorgung und liebevoller Begleitung neue Hoffnung schenken zu können."
