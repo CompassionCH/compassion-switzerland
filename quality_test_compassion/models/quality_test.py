@@ -105,6 +105,7 @@ class QualityTest(models.Model):
         help="Send an email to the responsible when one of the related modules "
         "has been updated since the last test run.",
     )
+    last_notification = fields.Datetime()
 
     @api.depends("test_run_ids")
     def _compute_run_count(self):
@@ -207,11 +208,14 @@ class QualityTest(models.Model):
         reasons = []
 
         if self.rule_delay and self.delay_days > 0:
-            if not self.last_run_date:
+            threshold = fields.Datetime.now() - timedelta(days=self.delay_days)
+            notification_due = (
+                not self.last_notification or self.last_notification < threshold
+            )
+            if not self.last_run_date and notification_due:
                 reasons.append("No test run has ever been recorded.")
             else:
-                threshold = fields.Datetime.now() - timedelta(days=self.delay_days)
-                if self.last_run_date < threshold:
+                if self.last_run_date < threshold and notification_due:
                     days_ago = (fields.Datetime.now() - self.last_run_date).days
                     reasons.append(
                         f"Last run was {days_ago} day(s) ago "
@@ -240,9 +244,18 @@ class QualityTest(models.Model):
         outdated = self.env["ir.module.module"].browse()
         last_run = self.last_run_id
         for version_rec in last_run.module_version_ids:
-            current_version = version_rec.module_id.installed_version or ""
-            if current_version and current_version != version_rec.version:
-                outdated |= version_rec.module_id
+            module = version_rec.module_id
+            current_version = module.installed_version or ""
+            notification_due = (
+                not self.last_notification
+                or abs((module.write_date - self.last_notification).days) > 7
+            )
+            if (
+                current_version
+                and current_version != version_rec.version
+                and notification_due
+            ):
+                outdated |= module
         return outdated
 
     def _send_notification_email(self, reasons):
@@ -256,3 +269,4 @@ class QualityTest(models.Model):
             template.with_context(notification_reasons=reasons).send_mail(
                 self.id, force_send=True
             )
+            self.last_notification = fields.Datetime.now()
