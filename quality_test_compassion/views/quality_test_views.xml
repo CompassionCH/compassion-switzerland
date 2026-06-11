@@ -248,11 +248,43 @@
         </field>
     </record>
 
+    <!-- Category Views -->
+    <record id="view_quality_test_category_tree" model="ir.ui.view">
+        <field name="name">quality.test.category.tree</field>
+        <field name="model">quality.test.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_quality_test_category_form" model="ir.ui.view">
+        <field name="name">quality.test.category.form</field>
+        <field name="model">quality.test.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quality_test_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">quality.test.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
     <!-- Menu Items -->
     <menuitem
     id="menu_quality_test_root"
     name="Quality Tests"
     sequence="90"
+    web_icon="quality_test_compassion,static/description/icon.png"
     groups="base.group_user"
   />
     <menuitem
@@ -261,6 +293,13 @@
     parent="menu_quality_test_root"
     action="action_quality_test"
     sequence="10"
+  />
+    <menuitem
+    id="menu_quality_test_category"
+    name="Categories"
+    parent="menu_quality_test_root"
+    action="action_quality_test_category"
+    sequence="30"
   />
 
 </odoo>
