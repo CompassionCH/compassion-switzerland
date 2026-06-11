@@ -119,10 +119,7 @@
                         <field name="comment" widget="html" nolabel="1" />
                     </group>
                     <notebook>
-                        <page
-              string="Module Versions"
-              name="module_versions"
-            >
+                        <page string="Module Versions" name="module_versions">
                             <field
                 name="module_version_ids"
                 view_id="view_quality_test_module_version_tree"
