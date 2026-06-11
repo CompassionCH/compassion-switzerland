@@ -105,16 +105,27 @@ class QualityTestRun(models.Model):
 
         sequence_by_test = {}
         if test_ids:
-            data = self.read_group(
-                [("test_id", "in", list(test_ids))],
-                ["test_id", "sequence:max"],
-                ["test_id"],
+            # Lock parent tests to make sequence allocation atomic per test.
+            self.env.cr.execute(
+                """
+                SELECT id
+                FROM quality_test
+                WHERE id = ANY(%s)
+                ORDER BY id
+                FOR UPDATE
+                """,
+                [sorted(test_ids)],
             )
-            sequence_by_test = {
-                row["test_id"][0]: row["sequence"] or 0
-                for row in data
-                if row.get("test_id")
-            }
+            self.env.cr.execute(
+                """
+                SELECT test_id, COALESCE(MAX(sequence), 0)
+                FROM quality_test_run
+                WHERE test_id = ANY(%s)
+                GROUP BY test_id
+                """,
+                [sorted(test_ids)],
+            )
+            sequence_by_test = dict(self.env.cr.fetchall())
 
         for vals in vals_list:
             test_id = vals.get("test_id", default_test_id)
