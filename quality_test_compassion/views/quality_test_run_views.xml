@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <tree editable="bottom">
                 <field name="module_id" readonly="1" />
-                <field name="version" readonly="1" />
+                <field name="version" />
                 <field name="current_version" readonly="1" />
                 <field
           name="version_changed"
@@ -31,6 +31,10 @@
       >
                 <field name="date" />
                 <field name="test_id" />
+                <field name="instance" widget="badge"
+          decoration-info="instance == 'stage'"
+          decoration-success="instance == 'production'"
+        />
                 <field name="test_department_id" />
                 <field name="test_responsible_id" widget="many2one_avatar_user" />
                 <field name="result" widget="badge" />
@@ -70,6 +74,11 @@
                         <group string="Test Run">
                             <field name="date" />
                             <field
+                name="instance"
+                widget="radio"
+                options="{'horizontal': True}"
+              />
+                            <field
                 name="result"
                 widget="radio"
                 options="{'horizontal': True}"
@@ -92,12 +101,13 @@
                         <page
               string="Module Versions"
               name="module_versions"
-              attrs="{'invisible': [('module_version_ids', '=', [])]}"
+              attrs="{'invisible': [('module_version_ids', '=', []), ('instance', '=', 'production')]}"
             >
                             <field
                 name="module_version_ids"
                 view_id="view_quality_test_module_version_tree"
                 widget="one2many_list"
+                attrs="{'readonly': [('instance', '=', 'production')]}"
               />
                         </page>
                     </notebook>
@@ -120,6 +130,17 @@
                 <field name="test_responsible_id" />
                 <field name="test_department_id" />
                 <filter
+          string="Production"
+          name="production"
+          domain="[('instance', '=', 'production')]"
+        />
+                <filter
+          string="Stage"
+          name="stage"
+          domain="[('instance', '=', 'stage')]"
+        />
+                <separator />
+                <filter
           string="Failing"
           name="failing"
           domain="[('result', '=', 'fail')]"
@@ -135,6 +156,11 @@
           domain="[('task_id', '!=', False)]"
         />
                 <group expand="1" string="Group By">
+                    <filter
+            name="groupby_instance"
+            string="Instance"
+            context="{'group_by': 'instance'}"
+          />
                     <filter
             name="groupby_test"
             string="Quality Test"

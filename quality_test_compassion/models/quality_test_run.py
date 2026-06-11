@@ -29,6 +29,17 @@ class QualityTestRun(models.Model):
         required=True,
         tracking=True,
     )
+    instance = fields.Selection(
+        [("production", "Production"), ("stage", "Stage")],
+        string="Instance",
+        required=True,
+        default="production",
+        tracking=True,
+        help="Instance on which the test was performed.\n"
+        "Production: module versions are captured automatically.\n"
+        "Stage: module versions are not auto-filled and can be set manually, "
+        "as the stage may run a newer version than production.",
+    )
     comment = fields.Text(string="Notes")
     task_id = fields.Many2one(
         "project.task",
@@ -41,7 +52,6 @@ class QualityTestRun(models.Model):
         "quality.test.module.version",
         "run_id",
         string="Module Versions",
-        readonly=True,
     )
 
     # Computed fields for convenience
@@ -57,6 +67,12 @@ class QualityTestRun(models.Model):
         related="test_id.department_id",
         store=True,
     )
+
+    @api.onchange("instance")
+    def _onchange_instance(self):
+        """Clear module versions when switching to stage; they must be set manually."""
+        if self.instance == "stage":
+            self.module_version_ids = [(5, 0, 0)]
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -215,16 +215,19 @@ class QualityTest(models.Model):
                     )
 
         if self.rule_module_update and self.last_run_id:
-            outdated = self._get_outdated_modules()
-            if outdated:
-                module_names = ", ".join(outdated.mapped("name"))
-                reasons.append(
-                    _(
-                        "The following modules have been updated since the last "
-                        "test run: %s.",
-                        module_names,
+            if self.last_run_id.instance == "stage":
+                pass  # Stage runs may have newer versions; rule does not apply.
+            else:
+                outdated = self._get_outdated_modules()
+                if outdated:
+                    module_names = ", ".join(outdated.mapped("name"))
+                    reasons.append(
+                        _(
+                            "The following modules have been updated since the last "
+                            "test run: %s.",
+                            module_names,
+                        )
                     )
-                )
 
         if reasons:
             self._send_notification_email(reasons)
