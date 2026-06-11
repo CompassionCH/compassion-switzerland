@@ -9,12 +9,26 @@ class QualityTestRun(models.Model):
     _description = "Quality Test Run"
     _order = "date desc"
     _inherit = ["mail.thread"]
+    _sql_constraints = [
+        (
+            "quality_test_run_test_sequence_uniq",
+            "unique(test_id, sequence)",
+            "The run sequence must be unique per quality test.",
+        )
+    ]
 
     test_id = fields.Many2one(
         "quality.test",
         string="Quality Test",
         required=True,
         ondelete="cascade",
+        index=True,
+    )
+    sequence = fields.Integer(
+        string="Run #",
+        required=True,
+        readonly=True,
+        copy=False,
         index=True,
     )
     user_id = fields.Many2one(
@@ -82,11 +96,49 @@ class QualityTestRun(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        default_test_id = self.env.context.get("default_test_id")
+        test_ids = set()
+        for vals in vals_list:
+            if not vals.get("test_id") and default_test_id:
+                vals["test_id"] = default_test_id
+            if vals.get("test_id"):
+                test_ids.add(vals["test_id"])
+
+        sequence_by_test = {}
+        if test_ids:
+            data = self.read_group(
+                [("test_id", "in", list(test_ids))],
+                ["test_id", "sequence:max"],
+                ["test_id"],
+            )
+            sequence_by_test = {
+                row["test_id"][0]: row["sequence_max"] or 0
+                for row in data
+                if row.get("test_id")
+            }
+
+        for vals in vals_list:
+            test_id = vals.get("test_id")
+            if test_id and not vals.get("sequence"):
+                next_sequence = sequence_by_test.get(test_id, 0) + 1
+                vals["sequence"] = next_sequence
+                sequence_by_test[test_id] = next_sequence
+
         records = super().create(vals_list)
         for record in records:
             if record.result == "fail":
                 record._send_fail_notification()
         return records
+
+    @api.depends("test_id.name", "sequence")
+    def _compute_display_name(self):
+        for rec in self:
+            if rec.test_id and rec.sequence:
+                rec.display_name = f"{rec.test_id.name} - #{rec.sequence}"
+            elif rec.test_id:
+                rec.display_name = rec.test_id.name
+            else:
+                rec.display_name = _("New Test Run")
 
     def _send_fail_notification(self):
         """Send an email to the responsible when a failing test run is recorded."""

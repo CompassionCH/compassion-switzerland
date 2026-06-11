@@ -30,6 +30,7 @@
         decoration-danger="result == 'fail'"
         decoration-success="result == 'pass'"
       >
+                <field name="sequence" />
                 <field name="date" />
                 <field name="test_id" />
                 <field name="user_id" widget="many2one_avatar_user" />
@@ -88,6 +89,7 @@
                     </div>
                     <group>
                         <group string="Test Run">
+                            <field name="sequence" />
                             <field name="date" />
                             <field
                 name="user_id"
