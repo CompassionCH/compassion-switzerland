@@ -72,7 +72,7 @@
         <field name="model">partner.communication.config</field>
         <field name="inherit_id" ref="partner_communication.communication_config_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='button_box']/button[1]" position="before">
+            <xpath expr="//div[@name='button_box']/field[1]" position="before">
                 <button name="open_test_case_wizard" type="object" icon="fa-edit" string="Test cases"/>
             </xpath>
             <field name="attachments_function" position="before">
