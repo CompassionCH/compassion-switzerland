@@ -49,8 +49,8 @@
       />
             <field
         name="subject"
-      >Failing Quality Test Run: "{{ object.test_id.name }}"</field>
-            <field name="email_to">{{ object.test_id.user_id.email }}</field>
+      >Failing Quality Test Run: "${ object.test_id.name }"</field>
+            <field name="email_to">${ object.test_id.user_id.email }</field>
             <field name="body_html" type="html">
 <div
           style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333;"
