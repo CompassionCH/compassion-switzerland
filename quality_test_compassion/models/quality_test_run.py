@@ -17,6 +17,12 @@ class QualityTestRun(models.Model):
         ondelete="cascade",
         index=True,
     )
+    user_id = fields.Many2one(
+        "res.users",
+        string="Tester",
+        required=True,
+        default=lambda self: self.env.user,
+    )
     date = fields.Datetime(
         string="Date",
         default=fields.Datetime.now,
@@ -98,28 +104,6 @@ class QualityTestRun(models.Model):
     def action_create_task(self):
         """Create a project.task to track the resolution of a failing test."""
         self.ensure_one()
-        if self.result != "fail":
-            return
-        if self.task_id:
-            return self._open_task()
-
-        task = self.env["project.task"].create(
-            {
-                "name": _("Fix failing quality test: %s", self.test_id.name),
-                "description": _(
-                    "A test run recorded on %(date)s has failed.\n\nNotes:\n%(comment)s",
-                    date=self.date,
-                    comment=self.comment or "",
-                ),
-                "user_ids": self.test_id.responsible_id
-                and [(4, self.test_id.responsible_id.id)]
-                or [],
-            }
-        )
-        self.task_id = task
-        return self._open_task()
-
-    def _open_task(self):
         return {
             "type": "ir.actions.act_window",
             "name": _("Fix Task"),
@@ -127,4 +111,13 @@ class QualityTestRun(models.Model):
             "res_id": self.task_id.id,
             "view_mode": "form",
             "target": "current",
+            "context": {
+                "default_name": f"Fix failing quality test: {self.test_id.name}",
+                "default_description": f"A test run recorded on {self.date} has failed.\n\nNotes:\n{self.comment}s",
+                "default_user_id": self.test_id.responsible_id.id,
+                "default_project_id": self.env["project.project"]
+                .search([], limit=1)
+                .id,
+                "default_partner_id": self.env.user.partner_id.id,
+            },
         }

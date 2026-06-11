@@ -40,6 +40,7 @@ class QualityTest(models.Model):
         required=True,
         default=lambda self: self.env.user,
         tracking=True,
+        domain=[("share", "=", False)],
     )
     department_id = fields.Many2one(
         "hr.department",
@@ -54,6 +55,7 @@ class QualityTest(models.Model):
         string="Related Modules",
         domain=[("state", "=", "installed")],
         help="Installed modules that affect the outcome of this test.",
+        ondelete="cascade",
     )
     test_run_ids = fields.One2many(
         "quality.test.run",
@@ -203,9 +205,7 @@ class QualityTest(models.Model):
             else:
                 threshold = fields.Datetime.now() - timedelta(days=self.delay_days)
                 if self.last_run_date < threshold:
-                    days_ago = (
-                        fields.Datetime.now() - self.last_run_date
-                    ).days
+                    days_ago = (fields.Datetime.now() - self.last_run_date).days
                     reasons.append(
                         _(
                             "Last run was %d day(s) ago (max allowed: %d days).",

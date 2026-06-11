@@ -12,7 +12,9 @@
         decoration-muted="state == 'retired' or not last_run_date"
       >
                 <field name="name" />
-                <field name="state" widget="badge"
+                <field
+          name="state"
+          widget="badge"
           decoration-info="state == 'draft'"
           decoration-success="state == 'active'"
           decoration-muted="state == 'retired'"
@@ -90,9 +92,14 @@
               />
                         </h1>
                     </div>
-                    <group attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}">
+                    <group
+            attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
+          >
                         <group string="General">
-                            <field name="responsible_id" widget="many2one_avatar_user" />
+                            <field
+                name="responsible_id"
+                widget="many2one_avatar_user"
+              />
                             <field name="department_id" />
                             <field name="category_id" />
                         </group>

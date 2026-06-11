@@ -20,7 +20,7 @@ class QualityTestModuleVersion(models.Model):
         "ir.module.module",
         string="Module",
         required=True,
-        ondelete="restrict",
+        ondelete="cascade",
     )
     version = fields.Char(
         string="Version at Test Time",

@@ -31,12 +31,17 @@
       >
                 <field name="date" />
                 <field name="test_id" />
-                <field name="instance" widget="badge"
+                <field
+          name="instance"
+          widget="badge"
           decoration-info="instance == 'stage'"
           decoration-success="instance == 'production'"
         />
                 <field name="test_department_id" />
-                <field name="test_responsible_id" widget="many2one_avatar_user" />
+                <field
+          name="test_responsible_id"
+          widget="many2one_avatar_user"
+        />
                 <field name="result" widget="badge" />
                 <field name="task_id" optional="show" />
             </tree>
@@ -189,11 +194,11 @@
         <field name="view_id" ref="view_quality_test_run_tree" />
     </record>
 
-    <!-- Menu Item -->
+    <!-- Menu ItIem -->
     <menuitem
     id="menu_quality_test_run"
     name="Test Runs"
-    parent="quality_test_views.menu_quality_test_root"
+    parent="menu_quality_test_root"
     action="action_quality_test_run"
     sequence="20"
   />
