@@ -189,7 +189,7 @@ class QualityTestRun(models.Model):
                 "default_quality_test_run_id": self.id,
                 "default_user_id": self.test_id.user_id.id,
                 "default_project_id": self.env["project.project"]
-                .search([], limit=1)
+                .search([], order="sequence, id", limit=1)
                 .id,
                 "default_partner_id": self.env.user.partner_id.id,
             },

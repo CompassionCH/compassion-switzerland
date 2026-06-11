@@ -1,10 +1,13 @@
 # Copyright 2026 Compassion CH
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
 from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class QualityTest(models.Model):
@@ -188,7 +191,14 @@ class QualityTest(models.Model):
             ]
         )
         for test in tests:
-            test._evaluate_rules()
+            try:
+                test._evaluate_rules()
+            except Exception:
+                _logger.exception(
+                    "Quality test notification check failed for test %s (%s)",
+                    test.id,
+                    test.display_name,
+                )
 
     def _evaluate_rules(self):
         """Evaluate notification rules for a single quality test and send
