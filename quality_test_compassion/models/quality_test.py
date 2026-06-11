@@ -212,8 +212,9 @@ class QualityTest(models.Model):
             notification_due = (
                 not self.last_notification or self.last_notification < threshold
             )
-            if not self.last_run_date and notification_due:
-                reasons.append("No test run has ever been recorded.")
+            if not self.last_run_date:
+                if notification_due:
+                    reasons.append("No test run has ever been recorded.")
             else:
                 if self.last_run_date < threshold and notification_due:
                     days_ago = (fields.Datetime.now() - self.last_run_date).days
@@ -248,7 +249,7 @@ class QualityTest(models.Model):
             current_version = module.installed_version or ""
             notification_due = (
                 not self.last_notification
-                or abs((module.write_date - self.last_notification).days) > 7
+                or (fields.Datetime.now() - self.last_notification).days > 7
             )
             if (
                 current_version
