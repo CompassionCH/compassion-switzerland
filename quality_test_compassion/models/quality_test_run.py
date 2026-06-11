@@ -92,7 +92,11 @@ class QualityTestRun(models.Model):
     def _onchange_instance(self):
         """Clear module versions when switching to stage; they must be set manually."""
         if self.instance == "stage":
-            self.module_version_ids = [(5, 0, 0)]
+            for module in self.module_version_ids:
+                module.version = False
+        elif self.instance == "production":
+            for module in self.module_version_ids:
+                module.version = module.module_id.installed_version
 
     @api.model_create_multi
     def create(self, vals_list):

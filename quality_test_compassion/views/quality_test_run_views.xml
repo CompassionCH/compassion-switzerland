@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-    <!-- Module Version inline Tree (used inside test run form) -->
-    <record id="view_quality_test_module_version_tree" model="ir.ui.view">
-        <field name="name">quality.test.module.version.tree</field>
-        <field name="model">quality.test.module.version</field>
-        <field name="arch" type="xml">
-            <tree editable="bottom">
-                <field name="module_id" readonly="1" />
-                <field name="version" />
-                <field name="current_version" readonly="1" />
-                <field
-          name="version_changed"
-          widget="boolean"
-          readonly="1"
-          optional="show"
-        />
-            </tree>
-        </field>
-    </record>
-
     <!-- Test Run Tree View -->
     <record id="view_quality_test_run_tree" model="ir.ui.view">
         <field name="name">quality.test.run.tree</field>
@@ -120,11 +100,27 @@
                     <group string="Notes">
                         <field name="comment" widget="html" nolabel="1" />
                     </group>
-                    <field
-            name="module_version_ids"
-            view_id="view_quality_test_module_version_tree"
-            attrs="{'readonly': [('instance', '=', 'production')], 'invisible': [('instance', '!=', 'production')]}"
-          />
+                    <field name="module_version_ids">
+                        <tree
+              editable="bottom"
+              decoration-danger="version_changed"
+              create="false"
+            >
+                <field name="module_id" readonly="1" force_save="1" />
+                <field
+                name="version"
+                attrs="{'readonly': [('instance', '=', 'production')]}"
+              />
+                <field name="current_version" readonly="1" />
+                <field
+                name="version_changed"
+                widget="boolean"
+                readonly="1"
+                attrs="{'invisible': [('instance', '!=', 'production')]}"
+              />
+                            <field name="instance" invisible="1" />
+            </tree>
+                    </field>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />

@@ -142,7 +142,7 @@ class QualityTest(models.Model):
                         0,
                         {
                             "module_id": module.id,
-                            "version": module.installed_version or "",
+                            "version": module.installed_version,
                         },
                     )
                     for module in self.module_ids

@@ -24,7 +24,6 @@ class QualityTestModuleVersion(models.Model):
     )
     version = fields.Char(
         string="Version at Test Time",
-        required=True,
     )
     current_version = fields.Char(
         string="Current Version",
@@ -35,9 +34,12 @@ class QualityTestModuleVersion(models.Model):
         compute="_compute_current_version",
         help="True if the module version has changed since this test run.",
     )
+    instance = fields.Selection(related="run_id.instance")
 
     def _compute_current_version(self):
         for rec in self:
             current = rec.module_id.installed_version or ""
             rec.current_version = current
-            rec.version_changed = bool(current) and current != rec.version
+            rec.version_changed = (
+                current and current != rec.version and rec.instance == "production"
+            )
