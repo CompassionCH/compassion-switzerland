@@ -26,11 +26,6 @@ class ProjectTask(models.Model):
         return tasks
 
     def write(self, vals):
-        previous_runs = self.mapped("quality_test_run_id")
         result = super().write(vals)
         self._sync_quality_test_run_links()
-        if "quality_test_run_id" in vals:
-            (previous_runs - self.mapped("quality_test_run_id")).filtered(
-                lambda run: run.task_id in self
-            ).write({"task_id": False})
         return result

@@ -120,16 +120,11 @@
                     <group string="Notes">
                         <field name="comment" widget="html" nolabel="1" />
                     </group>
-                    <notebook>
-                        <page string="Module Versions" name="module_versions">
-                            <field
-                name="module_version_ids"
-                view_id="view_quality_test_module_version_tree"
-                widget="one2many_list"
-                attrs="{'readonly': [('instance', '=', 'production')]}"
-              />
-                        </page>
-                    </notebook>
+                    <field
+            name="module_version_ids"
+            view_id="view_quality_test_module_version_tree"
+            attrs="{'readonly': [('instance', '=', 'production')], 'invisible': [('instance', '!=', 'production')]}"
+          />
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />

@@ -34,7 +34,7 @@ class QualityTest(models.Model):
         "Retired: test is no longer relevant and cannot receive new runs.",
     )
     description = fields.Html(string="Description")
-    responsible_id = fields.Many2one(
+    user_id = fields.Many2one(
         "res.users",
         string="Responsible",
         required=True,
@@ -198,17 +198,14 @@ class QualityTest(models.Model):
 
         if self.rule_delay and self.delay_days > 0:
             if not self.last_run_date:
-                reasons.append(_("No test run has ever been recorded."))
+                reasons.append("No test run has ever been recorded.")
             else:
                 threshold = fields.Datetime.now() - timedelta(days=self.delay_days)
                 if self.last_run_date < threshold:
                     days_ago = (fields.Datetime.now() - self.last_run_date).days
                     reasons.append(
-                        _(
-                            "Last run was %d day(s) ago (max allowed: %d days).",
-                            days_ago,
-                            self.delay_days,
-                        )
+                        f"Last run was {days_ago} day(s) ago "
+                        f"(max allowed: {self.delay_days} days).",
                     )
 
         if self.rule_module_update and self.last_run_id:
@@ -219,11 +216,8 @@ class QualityTest(models.Model):
                 if outdated:
                     module_names = ", ".join(outdated.mapped("name"))
                     reasons.append(
-                        _(
-                            "The following modules have been updated since the last "
-                            "test run: %s.",
-                            module_names,
-                        )
+                        "The following modules have been updated since the last "
+                        f"test run: {module_names}."
                     )
 
         if reasons:
@@ -248,10 +242,7 @@ class QualityTest(models.Model):
             "quality_test_compassion.email_template_quality_test_notification",
             raise_if_not_found=False,
         )
-        if not template:
-            raise UserError(
-                _("Email template for quality test notification not found.")
+        if template:
+            template.with_context(notification_reasons=reasons).send_mail(
+                self.id, force_send=True
             )
-        template.with_context(notification_reasons=reasons).send_mail(
-            self.id, force_send=True
-        )

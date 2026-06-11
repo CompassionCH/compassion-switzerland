@@ -9,4 +9,4 @@ class QualityTestCategory(models.Model):
     _description = "Quality Test Category"
     _order = "name"
 
-    name = fields.Char(string="Name", required=True, translate=True)
+    name = fields.Char(string="Name", required=True)

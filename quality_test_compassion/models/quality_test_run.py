@@ -78,7 +78,7 @@ class QualityTestRun(models.Model):
     test_responsible_id = fields.Many2one(
         "res.users",
         string="Responsible",
-        related="test_id.responsible_id",
+        related="test_id.user_id",
         store=True,
     )
     test_department_id = fields.Many2one(
@@ -99,10 +99,9 @@ class QualityTestRun(models.Model):
         default_test_id = self.env.context.get("default_test_id")
         test_ids = set()
         for vals in vals_list:
-            if not vals.get("test_id") and default_test_id:
-                vals["test_id"] = default_test_id
-            if vals.get("test_id"):
-                test_ids.add(vals["test_id"])
+            test_id = vals.get("test_id", default_test_id)
+            if test_id:
+                test_ids.add(test_id)
 
         sequence_by_test = {}
         if test_ids:
@@ -112,13 +111,13 @@ class QualityTestRun(models.Model):
                 ["test_id"],
             )
             sequence_by_test = {
-                row["test_id"][0]: row["sequence_max"] or 0
+                row["test_id"][0]: row["sequence"] or 0
                 for row in data
                 if row.get("test_id")
             }
 
         for vals in vals_list:
-            test_id = vals.get("test_id")
+            test_id = vals.get("test_id", default_test_id)
             if test_id and not vals.get("sequence"):
                 next_sequence = sequence_by_test.get(test_id, 0) + 1
                 vals["sequence"] = next_sequence
@@ -143,14 +142,12 @@ class QualityTestRun(models.Model):
     def _send_fail_notification(self):
         """Send an email to the responsible when a failing test run is recorded."""
         self.ensure_one()
-        responsible = self.test_id.responsible_id
-        if not responsible or not responsible.email:
-            return
+        responsible = self.test_responsible_id
         template = self.env.ref(
             "quality_test_compassion.email_template_quality_test_run_fail",
             raise_if_not_found=False,
         )
-        if template:
+        if responsible != self.user_id and responsible.email and template:
             template.send_mail(self.id, force_send=True)
 
     def action_create_task(self):
@@ -179,7 +176,7 @@ class QualityTestRun(models.Model):
                     f"Notes:\n{self.comment or ''}"
                 ),
                 "default_quality_test_run_id": self.id,
-                "default_user_id": self.test_id.responsible_id.id,
+                "default_user_id": self.test_id.user_id.id,
                 "default_project_id": self.env["project.project"]
                 .search([], limit=1)
                 .id,

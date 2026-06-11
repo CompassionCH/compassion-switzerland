@@ -21,7 +21,7 @@
         />
                 <field name="category_id" />
                 <field name="department_id" />
-                <field name="responsible_id" widget="many2one_avatar_user" />
+                <field name="user_id" widget="many2one_avatar_user" />
                 <field name="last_run_date" />
                 <field name="last_run_result" />
                 <field name="run_count" string="# Runs" />
@@ -97,7 +97,7 @@
           >
                         <group string="General">
                             <field
-                name="responsible_id"
+                name="user_id"
                 widget="many2one_avatar_user"
               />
                             <field name="department_id" />
@@ -167,7 +167,7 @@
             <search>
                 <field name="name" />
                 <field name="category_id" />
-                <field name="responsible_id" />
+                <field name="user_id" />
                 <field name="department_id" />
                 <filter
           string="Draft"
@@ -219,7 +219,7 @@
                     <filter
             name="groupby_responsible"
             string="Responsible"
-            context="{'group_by': 'responsible_id'}"
+            context="{'group_by': 'user_id'}"
           />
                     <filter
             name="groupby_result"
