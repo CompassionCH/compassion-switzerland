@@ -124,10 +124,15 @@ class QualityTest(models.Model):
                     "Please activate the test first."
                 )
             )
-        run = self.env["quality.test.run"].create(
-            {
-                "test_id": self.id,
-                "module_version_ids": [
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("New Test Run"),
+            "res_model": "quality.test.run",
+            "view_mode": "form",
+            "target": "current",
+            "context": {
+                "default_test_id": self.id,
+                "default_module_version_ids": [
                     (
                         0,
                         0,
@@ -138,15 +143,7 @@ class QualityTest(models.Model):
                     )
                     for module in self.module_ids
                 ],
-            }
-        )
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("New Test Run"),
-            "res_model": "quality.test.run",
-            "res_id": run.id,
-            "view_mode": "form",
-            "target": "current",
+            },
         }
 
     def action_view_runs(self):

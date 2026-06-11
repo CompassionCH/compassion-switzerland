@@ -45,7 +45,7 @@
           />
                     <button
             name="action_create_run"
-            string="Record New Test Run"
+            string="Add test run"
             type="object"
             class="btn-primary"
             attrs="{'invisible': [('state', '!=', 'active')]}"

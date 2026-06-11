@@ -46,7 +46,7 @@ class QualityTestRun(models.Model):
         "Stage: module versions are not auto-filled and can be set manually, "
         "as the stage may run a newer version than production.",
     )
-    comment = fields.Text(string="Notes")
+    comment = fields.Html(string="Notes")
     task_id = fields.Many2one(
         "project.task",
         string="Fix Task",
