@@ -122,7 +122,6 @@
                         <page
               string="Module Versions"
               name="module_versions"
-              attrs="{'invisible': [('module_version_ids', '=', []), ('instance', '=', 'production')]}"
             >
                             <field
                 name="module_version_ids"
