@@ -213,9 +213,8 @@
     <menuitem
     id="menu_quality_test_run"
     name="Test Runs"
-    parent="menu_quality_test_root"
+    parent="project.menu_main_pm"
     action="action_quality_test_run"
-    sequence="20"
   />
 
 </odoo>

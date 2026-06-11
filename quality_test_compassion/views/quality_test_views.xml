@@ -281,23 +281,15 @@
 
     <!-- Menu Items -->
     <menuitem
-    id="menu_quality_test_root"
-    name="Quality Tests"
-    sequence="90"
-    web_icon="quality_test_compassion,static/description/icon.png"
-    groups="base.group_user"
-  />
-    <menuitem
     id="menu_quality_test_list"
     name="Quality Tests"
-    parent="menu_quality_test_root"
+    parent="project.menu_main_pm"
     action="action_quality_test"
-    sequence="10"
   />
     <menuitem
     id="menu_quality_test_category"
-    name="Categories"
-    parent="menu_quality_test_root"
+    name="Quality Test Categories"
+    parent="project.menu_project_config"
     action="action_quality_test_category"
     sequence="30"
   />
