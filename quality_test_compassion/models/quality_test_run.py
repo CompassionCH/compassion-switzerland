@@ -104,6 +104,15 @@ class QualityTestRun(models.Model):
     def action_create_task(self):
         """Create a project.task to track the resolution of a failing test."""
         self.ensure_one()
+        if self.task_id:
+            return {
+                "type": "ir.actions.act_window",
+                "name": _("Fix Task"),
+                "res_model": "project.task",
+                "res_id": self.task_id.id,
+                "view_mode": "form",
+                "target": "current",
+            }
         return {
             "type": "ir.actions.act_window",
             "name": _("Fix Task"),
@@ -113,7 +122,11 @@ class QualityTestRun(models.Model):
             "target": "current",
             "context": {
                 "default_name": f"Fix failing quality test: {self.test_id.name}",
-                "default_description": f"A test run recorded on {self.date} has failed.\n\nNotes:\n{self.comment}s",
+                "default_description": (
+                    f"A test run recorded on {self.date} has failed.\n\n"
+                    f"Notes:\n{self.comment or ''}"
+                ),
+                "default_quality_test_run_id": self.id,
                 "default_user_id": self.test_id.responsible_id.id,
                 "default_project_id": self.env["project.project"]
                 .search([], limit=1)

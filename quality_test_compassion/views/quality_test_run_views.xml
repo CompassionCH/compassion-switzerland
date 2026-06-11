@@ -31,6 +31,7 @@
       >
                 <field name="date" />
                 <field name="test_id" />
+                <field name="user_id" widget="many2one_avatar_user" />
                 <field
           name="instance"
           widget="badge"
@@ -78,6 +79,10 @@
                     <group>
                         <group string="Test Run">
                             <field name="date" />
+                            <field
+                name="user_id"
+                widget="many2one_avatar_user"
+              />
                             <field
                 name="instance"
                 widget="radio"
@@ -132,6 +137,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="test_id" />
+                <field name="user_id" />
                 <field name="test_responsible_id" />
                 <field name="test_department_id" />
                 <filter
@@ -170,6 +176,11 @@
             name="groupby_test"
             string="Quality Test"
             context="{'group_by': 'test_id'}"
+          />
+                    <filter
+            name="groupby_tester"
+            string="Tester"
+            context="{'group_by': 'user_id'}"
           />
                     <filter
             name="groupby_result"
