@@ -11,7 +11,7 @@ import logging
 
 from markupsafe import escape
 
-from odoo import api, fields, models
+from odoo import api, fields, models, Command
 
 _logger = logging.getLogger(__name__)
 
@@ -223,9 +223,6 @@ class AccountInvoice(models.Model):
         product = self.env["product.product"]
         if fund:
             product = product.search([("default_code", "=", fund)], limit=1)
-        analytic_default = self.env["account.analytic.default"].account_get(product.id)
-        analytic_id = analytic_default.analytic_id.id
-        analytic_tag_ids = analytic_default.analytic_tag_ids.ids
         gift_account = self.env["account.account"].search([("code", "=", "6003")])
         sponsorship = self.env["recurring.contract"]
         if child_code:
@@ -254,10 +251,8 @@ class AccountInvoice(models.Model):
         self.with_context(check_move_validity=False).write(
             {
                 "invoice_line_ids": [
-                    (5, 0, 0),
-                    (
-                        0,
-                        0,
+                    Command.clear(),
+                    Command.create(
                         {
                             "move_id": self.id,
                             "product_id": product.id,
@@ -268,8 +263,6 @@ class AccountInvoice(models.Model):
                             "quantity": 1,
                             "price_unit": float(amount),
                             "price_subtotal": float(amount),
-                            "analytic_account_id": analytic_id,
-                            "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
                         },
                     ),
                 ],
