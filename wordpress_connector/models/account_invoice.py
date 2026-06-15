@@ -121,14 +121,14 @@ class AccountInvoice(models.Model):
             child_code,
         )
         partner = self.env["res.partner"].browse(partner_id)
-        if partner.contact_type == "attached":
-            if partner.type == "email_alias":
+        if partner.parent_id:
+            if partner.type == "email_alias": # TODO NiP: SEE IF WE STILL NEED THIS EMAIL_ALIAS
                 # In this case we want to link to the main partner
-                partner = partner.contact_id
+                partner = partner.parent_id
                 partner_id = partner.id
             else:
                 # We unarchive the partner to make it visible
-                partner.write({"active": True, "contact_id": False})
+                partner.write({"active": True, "parent_id": False})
         payment_mode = self.env["account.payment.mode"].search(
             [("name", "=", payment_mode_name), ("active", "=", True)]
         )
@@ -298,8 +298,8 @@ class AccountInvoice(models.Model):
         }
         account_payment = self.env["account.payment"].create(payment_vals)
         account_payment.action_post()
-        for account in account_payment.line_ids.account_id:
-            (account_payment.line_ids + self.line_ids).filtered_domain(
+        for account in account_payment.move_id.line_ids.mapped("account_id"):
+            (account_payment.move_id.line_ids + self.line_ids).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).with_delay(channel="root.accounting", priority=500).reconcile()
         return True
