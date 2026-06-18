@@ -648,11 +648,16 @@ class PartnerCommunication(models.Model):
             and (
                 # 2. Permanent Order is always included (full standing order)
                 s.payment_mode_id == permanent_order
-                # 3. BVR only if not already paid (a brand-new sponsorship with
-                #    no invoice yet counts as unpaid)
+                # 3. BVR only if not already paid (no posted invoice yet -
+                #    brand-new or cancelled-only - counts as unpaid)
                 or (
                     s.payment_mode_id == bvr
-                    and not (s.period_paid and s.invoice_line_ids)
+                    and not (
+                        s.period_paid
+                        and s.invoice_line_ids.filtered(
+                            lambda line: line.move_id.state == "posted"
+                        )
+                    )
                 )
             )
             # (LSV/DD are debited automatically and match neither mode above,
