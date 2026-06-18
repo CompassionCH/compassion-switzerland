@@ -609,12 +609,14 @@ class PartnerCommunication(models.Model):
         Generates PDF payment slips and bank forms for all of a partner's
         sponsorships.
         -  Searches for all active sponsorships
-        -  Filters for all unpaid contracts requiring manual payment
-            (BVR/Permanent Order)
+        -  BVR: includes unpaid contracts (a brand-new sponsorship whose
+            invoice is not generated yet counts as unpaid)
+        -  Permanent Order: includes the full standing order, regardless of
+            paid state
         -  Consolidates these sponsorships into a single payment slip
         -  Renders single or double BVR report based on payment mode
             and force_a4 flag
-        -  Attaches external LSV/DD bank authorization if  applicable
+        -  Attaches external LSV/DD bank authorization if applicable
 
         :param bool force_a4: Force double BVR layout
         :return dict {attachment_name: [report_name, pdf_data]}
@@ -640,41 +642,30 @@ class PartnerCommunication(models.Model):
             ]
         )
 
-        # Sponsorships included for payment slips
-        bv_sponsorships = sponsorships.filtered(
-            # 1. Needs to be payer
-            lambda s: s.partner_id == self.partner_id
-            and
-            # 2. Permanent Order/BVR are always included
-            s.payment_mode_id in (permanent_order, bvr)
-            # The sponsorship amount must be set
-            and s.total_amount
-            # 3. LSV/DD are never included
-            and s.payment_mode_id not in lsv_dd_modes
-            # 4. If already paid they are not included
-            and not s.period_paid
-        )
-
-        # If other sponsorships were already paid by Permanent Order, they
-        # don't need a payment slip (they can update their Order)
-        bv_sponsorships -= (
-            sponsorships.filtered(
-                lambda s: s.partner_id == self.partner_id
-                and s.payment_mode_id == permanent_order
+        slip_sponsorships = sponsorships.filtered(
+            # 1. The sponsorship amount must be set
+            lambda s: s.total_amount
+            and (
+                # 2. Permanent Order is always included (full standing order)
+                s.payment_mode_id == permanent_order
+                # 3. BVR only if not already paid (a brand-new sponsorship with
+                #    no invoice yet counts as unpaid)
+                or (
+                    s.payment_mode_id == bvr
+                    and not (s.period_paid and s.invoice_line_ids)
+                )
             )
-            .mapped("group_id.contract_ids")
-            .filtered(
-                lambda s: s.state in ("active", "waiting") and s not in bv_sponsorships
-            )
+            # (LSV/DD are debited automatically and match neither mode above,
+            #  so they are never included)
         )
 
         attachments = {}
         # Payment slips
-        if bv_sponsorships:
+        if slip_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
             report_ref = self.env.ref("report_compassion.report_2bvr_sponsorship")
             if (
-                bv_sponsorships.mapped("payment_mode_id") == permanent_order
+                slip_sponsorships.mapped("payment_mode_id") == permanent_order
                 and not force_a4
             ):
                 # One single slip is enough for permanent order.
@@ -683,7 +674,7 @@ class PartnerCommunication(models.Model):
                     "report_compassion.report_single_bvr_sponsorship"
                 )
             data = {
-                "doc_ids": bv_sponsorships.ids,
+                "doc_ids": slip_sponsorships.ids,
                 "background": self.send_mode != "physical",
             }
             pdf = self._get_pdf_from_data(data, report_ref)
