@@ -30,12 +30,14 @@ class ResUser(models.Model):
         with an AccessError for non-officer employees.
         """
         super().__init__(pool, cr)
-        type(self).SELF_READABLE_FIELDS = type(self).SELF_READABLE_FIELDS + [
-            "digital_signature"
-        ]
-        type(self).SELF_WRITEABLE_FIELDS = type(self).SELF_WRITEABLE_FIELDS + [
-            "digital_signature"
-        ]
+        if "digital_signature" not in type(self).SELF_READABLE_FIELDS:
+            type(self).SELF_READABLE_FIELDS = type(self).SELF_READABLE_FIELDS + [
+                "digital_signature"
+            ]
+        if "digital_signature" not in type(self).SELF_WRITEABLE_FIELDS:
+            type(self).SELF_WRITEABLE_FIELDS = type(self).SELF_WRITEABLE_FIELDS + [
+                "digital_signature"
+            ]
 
     def asterisk_connect(self, log=True):
         for user in self.filtered("connect_agent"):
