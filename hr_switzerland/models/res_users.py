@@ -23,6 +23,22 @@ class ResUser(models.Model):
     )
     digital_signature = fields.Binary("Handwritten signature")
 
+    def __init__(self, pool, cr):
+        """Allow users to read/write their own digital signature on their
+        profile, even without HR Officer rights. Without this, the field
+        breaks res.users self-read bypass and the whole profile page fails
+        with an AccessError for non-officer employees.
+        """
+        super().__init__(pool, cr)
+        if "digital_signature" not in type(self).SELF_READABLE_FIELDS:
+            type(self).SELF_READABLE_FIELDS = type(self).SELF_READABLE_FIELDS + [
+                "digital_signature"
+            ]
+        if "digital_signature" not in type(self).SELF_WRITEABLE_FIELDS:
+            type(self).SELF_WRITEABLE_FIELDS = type(self).SELF_WRITEABLE_FIELDS + [
+                "digital_signature"
+            ]
+
     def asterisk_connect(self, log=True):
         for user in self.filtered("connect_agent"):
             try:
