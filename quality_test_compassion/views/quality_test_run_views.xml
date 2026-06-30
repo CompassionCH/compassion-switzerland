@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Test Run List View -->
+    <record id="view_quality_test_run_tree" model="ir.ui.view">
+        <field name="name">quality.test.run.tree</field>
+        <field name="model">quality.test.run</field>
+        <field name="arch" type="xml">
+            <list
+        create="false"
+        decoration-danger="result == 'fail'"
+        decoration-success="result == 'pass'"
+      >
+                <field name="sequence" />
+                <field name="date" />
+                <field name="test_id" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field
+          name="instance"
+          widget="badge"
+          decoration-info="instance == 'stage'"
+          decoration-success="instance == 'production'"
+        />
+                <field name="test_department_id" />
+                <field
+          name="test_responsible_id"
+          widget="many2one_avatar_user"
+        />
+                <field name="result" widget="badge" />
+                <field name="task_id" optional="show" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Test Run Form View -->
+    <record id="view_quality_test_run_form" model="ir.ui.view">
+        <field name="name">quality.test.run.form</field>
+        <field name="model">quality.test.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+            name="action_create_task"
+            string="Open Fix Task"
+            type="object"
+            class="btn-warning"
+            invisible="result != 'fail'"
+            icon="fa-wrench"
+          />
+                </header>
+                <sheet>
+                    <widget
+            name="web_ribbon"
+            title="Passed"
+            bg_color="bg-success"
+            invisible="result != 'pass'"
+          />
+                    <widget
+            name="web_ribbon"
+            title="Failed"
+            bg_color="bg-danger"
+            invisible="result != 'fail'"
+          />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="test_id" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Test Run">
+                            <field name="sequence" />
+                            <field name="date" />
+                            <field
+                name="user_id"
+                widget="many2one_avatar_user"
+              />
+                            <field
+                name="instance"
+                widget="radio"
+                options="{'horizontal': True}"
+              />
+                            <field
+                name="result"
+                widget="radio"
+                options="{'horizontal': True}"
+                class="oe_edit_only"
+              />
+                            <field
+                name="task_id"
+                invisible="not task_id"
+                readonly="1"
+              />
+                        </group>
+                        <group string="Test Info">
+                            <field name="test_responsible_id" readonly="1" />
+                            <field name="test_department_id" readonly="1" />
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="comment" widget="html" nolabel="1" />
+                    </group>
+                    <field name="module_version_ids">
+                        <list
+              editable="bottom"
+              decoration-danger="version_changed"
+              create="false"
+            >
+                <field name="module_id" readonly="1" force_save="1" />
+                <field
+                name="version"
+                readonly="instance == 'production'"
+              />
+                <field name="current_version" readonly="1" />
+                <field
+                name="version_changed"
+                widget="boolean"
+                readonly="1"
+                invisible="instance != 'production'"
+              />
+                            <field name="instance" invisible="1" />
+            </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Test Run Search View -->
+    <record id="view_quality_test_run_search" model="ir.ui.view">
+        <field name="name">quality.test.run.search</field>
+        <field name="model">quality.test.run</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="test_id" />
+                <field name="user_id" />
+                <field name="test_responsible_id" />
+                <field name="test_department_id" />
+                <filter
+          string="Production"
+          name="production"
+          domain="[('instance', '=', 'production')]"
+        />
+                <filter
+          string="Stage"
+          name="stage"
+          domain="[('instance', '=', 'stage')]"
+        />
+                <separator />
+                <filter
+          string="Failing"
+          name="failing"
+          domain="[('result', '=', 'fail')]"
+        />
+                <filter
+          string="Passing"
+          name="passing"
+          domain="[('result', '=', 'pass')]"
+        />
+                <filter
+          string="Has Fix Task"
+          name="has_task"
+          domain="[('task_id', '!=', False)]"
+        />
+                <group expand="1" string="Group By">
+                    <filter
+            name="groupby_instance"
+            string="Instance"
+            context="{'group_by': 'instance'}"
+          />
+                    <filter
+            name="groupby_test"
+            string="Quality Test"
+            context="{'group_by': 'test_id'}"
+          />
+                    <filter
+            name="groupby_tester"
+            string="Tester"
+            context="{'group_by': 'user_id'}"
+          />
+                    <filter
+            name="groupby_result"
+            string="Result"
+            context="{'group_by': 'result'}"
+          />
+                    <filter
+            name="groupby_department"
+            string="Department"
+            context="{'group_by': 'test_department_id'}"
+          />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action for Test Runs -->
+    <record id="action_quality_test_run" model="ir.actions.act_window">
+        <field name="name">Test Runs</field>
+        <field name="res_model">quality.test.run</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_quality_test_run_tree" />
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem
+    id="menu_quality_test_run"
+    name="Test Runs"
+    parent="project.menu_main_pm"
+    action="action_quality_test_run"
+  />
+
+</odoo>
