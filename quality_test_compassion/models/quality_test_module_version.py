@@ -26,11 +26,9 @@ class QualityTestModuleVersion(models.Model):
         string="Version at Test Time",
     )
     current_version = fields.Char(
-        string="Current Version",
         compute="_compute_current_version",
     )
     version_changed = fields.Boolean(
-        string="Version Changed",
         compute="_compute_current_version",
         help="True if the module version has changed since this test run.",
     )

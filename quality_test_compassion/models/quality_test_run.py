@@ -38,20 +38,17 @@ class QualityTestRun(models.Model):
         default=lambda self: self.env.user,
     )
     date = fields.Datetime(
-        string="Date",
         default=fields.Datetime.now,
         required=True,
         readonly=True,
     )
     result = fields.Selection(
         [("pass", "Pass"), ("fail", "Fail")],
-        string="Result",
         required=True,
         tracking=True,
     )
     instance = fields.Selection(
         [("production", "Production"), ("stage", "Stage")],
-        string="Instance",
         required=True,
         default="production",
         tracking=True,

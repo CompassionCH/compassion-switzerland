@@ -16,7 +16,7 @@ class QualityTest(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "name"
 
-    name = fields.Char(string="Name", required=True, tracking=True)
+    name = fields.Char(required=True, tracking=True)
     category_id = fields.Many2one(
         "quality.test.category",
         string="Category",
@@ -36,7 +36,7 @@ class QualityTest(models.Model):
         "Active: test is locked for editing; test runs can be recorded.\n"
         "Retired: test is no longer relevant and cannot receive new runs.",
     )
-    description = fields.Html(string="Description")
+    description = fields.Html()
     user_id = fields.Many2one(
         "res.users",
         string="Responsible",

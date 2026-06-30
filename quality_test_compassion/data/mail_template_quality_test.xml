@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
-        <record
+<odoo noupdate="1">
+    <record
       id="email_template_quality_test_notification"
       model="mail.template"
     >
-            <field name="name">Quality Test – Run Required</field>
-            <field
-        name="model_id"
-        ref="quality_test_compassion.model_quality_test"
-      />
-            <field
-        name="subject"
-      >Action Required: Quality Test "${ object.name }" needs a new run</field>
-            <field name="use_default_to" eval="True" />
-            <field name="body_html" type="html">
+        <field name="name">Quality Test – Run Required</field>
+        <field
+      name="model_id"
+      ref="quality_test_compassion.model_quality_test"
+    />
+        <field
+      name="subject"
+    >Action Required: Quality Test "${ object.name }" needs a new run</field>
+        <field name="use_default_to" eval="True" />
+        <field name="body_html" type="html">
 <div
           style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333;"
         >
@@ -38,20 +37,20 @@
     </p>
     <p>Best regards,<br />Compassion Switzerland – Quality Team</p>
 </div>
-            </field>
-            <field name="auto_delete" eval="True" />
-        </record>
-        <record id="email_template_quality_test_run_fail" model="mail.template">
-            <field name="name">Quality Test – Failing Run Recorded</field>
-            <field
-        name="model_id"
-        ref="quality_test_compassion.model_quality_test_run"
-      />
-            <field
-        name="subject"
-      >Failing Quality Test Run: "${ object.test_id.name }"</field>
-            <field name="email_to">${ object.test_id.user_id.email }</field>
-            <field name="body_html" type="html">
+        </field>
+        <field name="auto_delete" eval="True" />
+    </record>
+    <record id="email_template_quality_test_run_fail" model="mail.template">
+        <field name="name">Quality Test – Failing Run Recorded</field>
+        <field
+      name="model_id"
+      ref="quality_test_compassion.model_quality_test_run"
+    />
+        <field
+      name="subject"
+    >Failing Quality Test Run: "${ object.test_id.name }"</field>
+        <field name="email_to">${ object.test_id.user_id.email }</field>
+        <field name="body_html" type="html">
 <div
           style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #333;"
         >
@@ -71,8 +70,7 @@
     </p>
     <p>Best regards,<br />Compassion Switzerland – Quality Team</p>
 </div>
-            </field>
-            <field name="auto_delete" eval="True" />
-        </record>
-    </data>
+        </field>
+        <field name="auto_delete" eval="True" />
+    </record>
 </odoo>
