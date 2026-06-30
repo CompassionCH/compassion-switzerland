@@ -7,7 +7,7 @@
     "development_status": "Beta",
     "category": "Quality",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
-    "author": "Compassion Switzerland",
+    "author": "Compassion CH",
     "maintainers": ["ecino"],
     "license": "AGPL-3",
     "installable": True,
