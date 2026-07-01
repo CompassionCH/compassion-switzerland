@@ -107,23 +107,6 @@ class ImportLettersHistory(models.Model):
                 others += letter
         super(ImportLettersHistory, others)._compute_nber_letters()
 
-    def unlink(self):
-        running_job = self.env["queue.job"].search_count(
-            [
-                ("model_name", "=", self._name),
-                ("state", "not in", ["done", "failed", "cancelled"]),
-                ("record_ids", "in", self.ids),
-            ]
-        )
-        if running_job:
-            raise UserError(
-                _(
-                    "The import is currently analyzing files and cannot be removed. "
-                    "Try again later."
-                )
-            )
-        return super().unlink()
-
     def _get_connection(self):
         key = self.env.ref("sbc_switzerland.nas_ssh_key").value
         share = self.env.ref("sbc_switzerland.share_on_nas").value

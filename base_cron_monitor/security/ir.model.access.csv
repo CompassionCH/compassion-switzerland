@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_server_action_monitor_user,server.action.monitor user,model_server_action_monitor,base.group_user,1,0,0,1
-access_server_action_monitor_admin,server.action.monitor admin,model_server_action_monitor,base.group_system,1,1,1,1

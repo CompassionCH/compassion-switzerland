@@ -68,7 +68,6 @@
         "data/communication_config.xml",
         "data/sponsorship_communications_cron.xml",
         "data/ir.advanced.translation.csv",
-        "data/queue_job.xml",
         "data/sponsorship_action_rules.xml",
         "data/m2m_sponsorship_comm.xml",
         "report/onboarding_photo_by_post.xml",

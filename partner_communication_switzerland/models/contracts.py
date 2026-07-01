@@ -208,15 +208,15 @@ class RecurringContract(models.Model):
                 and sponsorship.partner_id.birthday_reminder
             )
             send_to_correspondent = sponsorship.correspondent_id.birthday_reminder
-            sponsorship.with_delay(
+            sponsorship.with_delay_sh(
+                "send_communication",
+                communication,
+                send_to_correspondent,
+                send_to_payer and send_to_correspondent,
                 channel="root.partner_communication",
                 identity_key=f"{sponsorship._name}."
                 f"send_birthday_reminder.{sponsorship.id}",
                 priority=50,
-            ).send_communication(
-                communication,
-                correspondent=send_to_correspondent,
-                both=send_to_payer and send_to_correspondent,
             )
 
     @api.model
@@ -382,11 +382,12 @@ class RecurringContract(models.Model):
         )
         if new_sponsorships:
             # Invoices must be generated before sending the dossier
-            new_sponsorships.with_delay(
+            new_sponsorships.with_delay_sh(
+                "_new_dossier",
                 channel="root.partner_communication",
                 identity_key=f"{self._name}.send_new_dossier.{new_sponsorships.ids}",
                 eta=fields.Datetime.now() + relativedelta(seconds=3),
-            )._new_dossier()
+            )
 
         csp = self.filtered(
             lambda s: "6014"
@@ -397,11 +398,14 @@ class RecurringContract(models.Model):
             module = "partner_communication_switzerland."
             other_csp_config = self.env.ref(module + "csp_mail")
             (
-                csp.with_delay(
+                csp.with_delay_sh(
+                    "send_communication",
+                    other_csp_config,
+                    False,
                     channel="root.partner_communication",
                     identity_key=f"{self._name}.send_csp_mail.{csp.ids}",
                     eta=fields.Datetime.now() + relativedelta(seconds=3),
-                ).send_communication(other_csp_config, correspondent=False)
+                )
             )
 
         return res
@@ -448,11 +452,13 @@ class RecurringContract(models.Model):
             if wrpr.last_letter > 545 or (
                 not wrpr.sponsor_letter_ids and start_days > 545
             ):
-                wrpr.with_delay(
+                wrpr.with_delay_sh(
+                    "send_communication",
+                    letter_reminder,
                     channel="root.partner_communication",
                     identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
                     priority=50,
-                ).send_communication(letter_reminder)
+                )
         return True
 
     @api.model

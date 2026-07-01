@@ -99,15 +99,19 @@ class ZoomSession(models.Model):
                 lambda p: p.state in ("invited", "confirmed")
             ):
                 if participant.state in ["invited"]:
-                    participant.with_delay(
+                    participant.with_delay_sh(
+                        "send_communication",
+                        ZoomCommunication.REMINDER.value,
                         channel="root.partner_communication",
                         identity_key=f"send_zoom_reminder.{participant.id}",
-                    ).send_communication(ZoomCommunication.REMINDER.value)
+                    )
                 elif participant.state in ["confirmed"]:
-                    participant.with_delay(
+                    participant.with_delay_sh(
+                        "send_communication",
+                        ZoomCommunication.LINK.value,
                         channel="root.partner_communication",
                         identity_key=f"send_zoom_link.{participant.id}",
-                    ).send_communication(ZoomCommunication.LINK.value)
+                    )
             zoom.date_send_link = fields.Datetime.now()
         return True
 
