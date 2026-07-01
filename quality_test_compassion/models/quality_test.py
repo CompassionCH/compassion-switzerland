@@ -4,7 +4,7 @@
 import logging
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -136,13 +136,11 @@ class QualityTest(models.Model):
             "context": {
                 "default_test_id": self.id,
                 "default_module_version_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
                             "module_id": module.id,
                             "version": module.installed_version,
-                        },
+                        }
                     )
                     for module in self.module_ids
                 ],
@@ -213,13 +211,16 @@ class QualityTest(models.Model):
             )
             if not self.last_run_date:
                 if notification_due:
-                    reasons.append("No test run has ever been recorded.")
+                    reasons.append(_("No test run has ever been recorded."))
             else:
                 if self.last_run_date < threshold and notification_due:
                     days_ago = (fields.Datetime.now() - self.last_run_date).days
                     reasons.append(
-                        f"Last run was {days_ago} day(s) ago "
-                        f"(max allowed: {self.delay_days} days).",
+                        _(
+                            "Last run was %(days_ago)s day(s) ago "
+                            "(max allowed: %(max_days)s days)."
+                        )
+                        % {"days_ago": days_ago, "max_days": self.delay_days}
                     )
 
         if self.rule_module_update and self.last_run_id:
@@ -230,8 +231,11 @@ class QualityTest(models.Model):
                 if outdated:
                     module_names = ", ".join(outdated.mapped("name"))
                     reasons.append(
-                        "The following modules have been updated since the last "
-                        f"test run: {module_names}."
+                        _(
+                            "The following modules have been updated since the last "
+                            "test run: %s."
+                        )
+                        % module_names
                     )
 
         if reasons:
@@ -243,13 +247,13 @@ class QualityTest(models.Model):
         self.ensure_one()
         outdated = self.env["ir.module.module"].browse()
         last_run = self.last_run_id
+        notification_due = (
+            not self.last_notification
+            or (fields.Datetime.now() - self.last_notification).days > 7
+        )
         for version_rec in last_run.module_version_ids:
             module = version_rec.module_id
             current_version = module.installed_version or ""
-            notification_due = (
-                not self.last_notification
-                or (fields.Datetime.now() - self.last_notification).days > 7
-            )
             if (
                 current_version
                 and current_version != version_rec.version

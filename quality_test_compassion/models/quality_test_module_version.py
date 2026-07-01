@@ -1,7 +1,7 @@
 # Copyright 2026 Compassion CH
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class QualityTestModuleVersion(models.Model):
@@ -34,6 +34,7 @@ class QualityTestModuleVersion(models.Model):
     )
     instance = fields.Selection(related="run_id.instance")
 
+    @api.depends("module_id.installed_version", "version", "instance")
     def _compute_current_version(self):
         for rec in self:
             current = rec.module_id.installed_version or ""
