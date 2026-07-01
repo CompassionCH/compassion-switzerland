@@ -26,6 +26,13 @@ class ProjectTask(models.Model):
         return tasks
 
     def write(self, vals):
+        if "quality_test_run_id" in vals and not vals["quality_test_run_id"]:
+            for task in self:
+                if (
+                    task.quality_test_run_id
+                    and task.quality_test_run_id.task_id == task
+                ):
+                    task.quality_test_run_id.task_id = False
         result = super().write(vals)
         self._sync_quality_test_run_links()
         return result
