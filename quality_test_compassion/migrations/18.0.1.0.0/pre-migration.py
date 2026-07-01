@@ -37,8 +37,11 @@ def migrate(cr, version):
     cr.execute(
         """
         UPDATE ir_ui_view
-        SET arch_db = replace(arch_db::text, '"t-raw"', '"t-out"')::jsonb
-        WHERE arch_db::text LIKE '%"t-raw"%'
+        SET arch_db = replace(
+                replace(arch_db::text, '"t-raw"', '"t-out"'),
+                't-raw=', 't-out='
+            )::jsonb
+        WHERE (arch_db::text LIKE '%"t-raw"%' OR arch_db::text LIKE '%t-raw=%')
           AND NOT EXISTS (
               SELECT 1 FROM ir_model_data d
               WHERE d.model = 'ir.ui.view' AND d.res_id = ir_ui_view.id
