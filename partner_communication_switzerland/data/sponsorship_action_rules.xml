@@ -55,8 +55,8 @@
         <field name="state">code</field>
         <field name="usage">base_automation</field>
         <field name="code">
-records.with_delay(channel='root.partner_communication').send_communication(env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True)
-records.with_delay(channel='root.partner_communication').send_communication(env.ref('partner_communication_switzerland.config_onboarding_photo_by_post'), both=True)
+records.with_delay_sh("send_communication", env.ref('partner_communication_switzerland.planned_sub_dossier'), both=True, channel='root.partner_communication')
+records.with_delay_sh("send_communication", env.ref('partner_communication_switzerland.config_onboarding_photo_by_post'), both=True, channel='root.partner_communication')
         </field>
     </record>
     <record id="sub_proposal_rule" model="base.automation">

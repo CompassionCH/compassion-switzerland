@@ -463,9 +463,14 @@ class ResPartner(models.Model):
         )
         partner_ids = [row[0] for row in self.env.cr.fetchall()]
         partners = self.env["res.partner"].browse(partner_ids)
-        partners.delayable()._generate_tax_receipt_jobs(config).set(
-            priority=50, channel="root.partner_communication"
-        ).split(50, chain=True).delay()
+        partners.with_delay_sh(
+            "_generate_tax_receipt_jobs",
+            config,
+            priority=50,
+            channel="root.partner_communication",
+            split=50,
+            chain=True,
+        )
         return True
 
     def _generate_tax_receipt_jobs(self, config):
@@ -649,11 +654,12 @@ class ResPartner(models.Model):
                     in_one_month,
                     wp_young.birthdate_date.replace(year=in_one_month.year),
                 )
-                wp_young.with_delay(
+                wp_young.with_delay_sh(
+                    "transform_wp_sponsorships",
                     eta=delay,
                     priority=50,
                     identity_key=f"{self._name}.wp_transformation_call.{wp_young.id}",
-                ).transform_wp_sponsorships()
+                )
         return True
 
     def transform_wp_sponsorships(self):
