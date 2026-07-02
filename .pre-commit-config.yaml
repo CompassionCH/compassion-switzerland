@@ -4,12 +4,10 @@ exclude: |
   ^account_reconcile_checkout/|
   ^account_switzerland/|
   ^bank_statement_import_compassion/|
-  ^base_cron_monitor/|
   ^gifts_payments/|
   ^mail_activity_to_crm_request/|
   ^my_compassion_switzerland/|
   ^sbc_switzerland/|
-  ^sms_939/|
   ^website_switzerland/|
   ^wordpress_connector/|
   # END NOT INSTALLABLE ADDONS

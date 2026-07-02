@@ -129,10 +129,12 @@ class ZoomAttendee(models.Model):
             if attendee.inform_me_for_next_zoom:
                 attendee.inform_about_next_session()
             elif attendee.zoom_session_id.date_send_link:
-                attendee.with_user(SUPERUSER_ID).with_delay(
+                attendee.with_user(SUPERUSER_ID).with_delay_sh(
+                    "send_communication",
+                    ZoomCommunication.LINK.value,
                     channel="root.partner_communication",
                     identity_key=f"send_zoom_link.{attendee.id}",
-                ).send_communication(ZoomCommunication.LINK.value)
+                )
             if attendee.optional_message:
                 attendee.notify_user()
         return res

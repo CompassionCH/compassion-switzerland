@@ -182,11 +182,8 @@ class AccountInvoice(models.Model):
                 ),
             }
         )
-        invoice.with_delay(
-            channel="root.accounting",
-            priority=5,
-            identity_key=f"{self._name}.pay_wordpress_invoice.{invoice.id}",
-        ).pay_wordpress_invoice(
+        invoice.with_delay_sh(
+            "pay_wordpress_invoice",
             fund,
             child_code,
             wp_origin,
@@ -195,6 +192,9 @@ class AccountInvoice(models.Model):
             utm_medium,
             utm_campaign,
             payment_mode.id,
+            channel="root.accounting",
+            priority=5,
+            identity_key=f"{self._name}.pay_wordpress_invoice.{invoice.id}",
         )
         return invoice.id
 
@@ -308,5 +308,5 @@ class AccountInvoice(models.Model):
         for account in account_payment.line_ids.account_id:
             (account_payment.line_ids + self.line_ids).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
-            ).with_delay(channel="root.accounting", priority=500).reconcile()
+            ).with_delay_sh("reconcile", channel="root.accounting", priority=500)
         return True

@@ -317,11 +317,14 @@ class Contracts(models.Model):
                 f"campaign: {utm_campaign}",
                 user_id=21,  # EMA
             )
-        return self.with_delay(
+        return self.with_delay_sh(
+            "create_sponsorship_job",
+            sponsorship_vals,
+            form_data,
             channel="root.accounting",
             priority=5,
             identity_key=f"{self._name}.create_wordpress_sponsorship.{child_local_id}",
-        ).create_sponsorship_job(sponsorship_vals, form_data)
+        )
 
     ##########################################################################
     #                             PRIVATE METHODS                            #

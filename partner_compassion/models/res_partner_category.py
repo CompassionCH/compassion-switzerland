@@ -14,18 +14,26 @@ class PartnerCategory(models.Model):
             if tag_removed:
                 contacts = tag_removed.mapped("mass_mailing_contact_ids")
                 if contacts:
-                    contacts.delayable().write(
-                        {"tag_ids": [(3, tag_id) for tag_id in self.ids]}
-                    ).set(priority=100, channel="root.mailchimp").split(80).delay()
+                    contacts.with_delay_sh(
+                        "write",
+                        {"tag_ids": [(3, tag_id) for tag_id in self.ids]},
+                        priority=100,
+                        channel="root.mailchimp",
+                        split=80,
+                    )
             tag_added = new_partners - old_partners
             prayer = self.env.ref("partner_compassion.res_partner_category_prayer")
             prayer_engagement = self.env.ref("partner_compassion.engagement_pray")
             if tag_added:
                 contacts = tag_added.mapped("mass_mailing_contact_ids")
                 if contacts:
-                    contacts.delayable().write(
-                        {"tag_ids": [(4, tag_id) for tag_id in self.ids]}
-                    ).set(priority=100, channel="root.mailchimp").split(80).delay()
+                    contacts.with_delay_sh(
+                        "write",
+                        {"tag_ids": [(4, tag_id) for tag_id in self.ids]},
+                        priority=100,
+                        channel="root.mailchimp",
+                        split=80,
+                    )
                 if prayer in self:
                     for partner in tag_added:
                         partner.engagement_ids += prayer_engagement

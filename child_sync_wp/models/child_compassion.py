@@ -129,10 +129,13 @@ class CompassionChild(models.Model):
             global_pool = self.with_company(company.id)._create_diverse_children_pool(
                 int(take)
             )
-            self.with_delay(
+            self.with_delay_sh(
+                "_hold_and_push_to_wordpress",
+                company.id,
+                global_pool,
                 channel="root.child_compassion",
                 description="Hold and push children to wordpress",
-            )._hold_and_push_to_wordpress(company.id, global_pool)
+            )
             return True
 
     def _create_diverse_children_pool(self, take):
