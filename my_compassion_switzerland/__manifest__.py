@@ -38,6 +38,7 @@
         "views/advocate_engagement_notification_settings_view.xml",
         "templates/my2_new_sponsorship_wizard_ebill.xml",
         "templates/my_account_menu.xml",
+        "templates/my2_signup_form.xml",
     ],
     "assets": {
         "web.assets_frontend": [
