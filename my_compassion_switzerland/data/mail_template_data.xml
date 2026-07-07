@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record
       id="email_template_volunteer_registration"
       model="mail.template"
@@ -44,5 +43,4 @@
             <field name="email_to">info@compassion.ch</field>
             <field name="auto_delete" eval="True" />
         </record>
-    </data>
 </odoo>

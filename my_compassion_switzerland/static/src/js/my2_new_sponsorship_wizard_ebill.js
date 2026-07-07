@@ -14,8 +14,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   odoo.define(
     "my_compassion_switzerland.new_sponsorship_wizard_ebill",
     function (require) {
-      "use strict";
-
       var publicWidget = require("web.public.widget");
       var rpc = require("web.rpc");
       var ajax = require("web.ajax");
