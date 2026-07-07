@@ -44,6 +44,7 @@
         "web.assets_frontend": [
             "my_compassion_switzerland/static/src/css/my2_volunteering.css",
             "my_compassion_switzerland/static/src/js/my2_volunteering.js",
+            "my_compassion_switzerland/static/src/js/my2_new_sponsorship_wizard_ebill.js",
         ],
     },
     "installable": True,
