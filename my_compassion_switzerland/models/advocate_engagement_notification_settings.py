@@ -59,7 +59,7 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
                 raise exceptions.ValidationError(
                     _(
                         "Invalid email for %(field)s: %(email)s",
-                        field=field_name,
+                        field=self._fields[field_name].string,
                         email=value,
                     )
                 )
