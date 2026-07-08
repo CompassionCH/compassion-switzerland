@@ -16,10 +16,6 @@ Page: My Compassion 2 Volunteering Page
 -->
 <odoo>
     <template id="my2_volunteering" name="My Compassion 2 Volunteering Page">
-        <link
-      rel="stylesheet"
-      href="/my_compassion_switzerland/static/src/css/my2_volunteering.css"
-    />
         <t t-call="website.layout">
             <div class="site-wrapper">
                 <div class="container">
@@ -222,9 +218,5 @@ Page: My Compassion 2 Volunteering Page
                 </div>
             </div>
         </t>
-        <script
-      type="text/javascript"
-      src="/my_compassion_switzerland/static/src/js/my2_volunteering.js"
-    />
     </template>
 </odoo>

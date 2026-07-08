@@ -57,7 +57,11 @@ class AdvocateEngagementNotificationSettings(models.TransientModel):
             stripped_value = value.strip()
             if not self._is_valid_email(stripped_value):
                 raise exceptions.ValidationError(
-                    _("Invalid email for %s: %s") % (field_name, value)
+                    _(
+                        "Invalid email for %(field)s: %(email)s",
+                        field=self._fields[field_name].string,
+                        email=value,
+                    )
                 )
             if stripped_value != value:
                 self[field_name] = stripped_value
