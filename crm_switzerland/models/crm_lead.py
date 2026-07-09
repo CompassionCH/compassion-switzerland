@@ -12,3 +12,29 @@ class Lead(models.Model):
     def onchange_partner_id(self):
         if self.partner_id.email:
             self.email_from = self.partner_id.email
+
+    def _sync_church_salesperson(self):
+        for lead in self:
+            church = lead.partner_id
+            if not church.is_church or not lead.user_id:
+                continue
+            church.with_delay_sh(
+                "sync_salesperson_from_lead",
+                lead.user_id.id,
+                lead.id,
+                identity_key=(
+                    f"res.partner.sync_salesperson_from_lead.{church.id}.{lead.id}"
+                ),
+            )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        leads = super().create(vals_list)
+        leads._sync_church_salesperson()
+        return leads
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "user_id" in vals:
+            self._sync_church_salesperson()
+        return res
