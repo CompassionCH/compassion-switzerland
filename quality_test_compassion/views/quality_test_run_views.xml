@@ -13,6 +13,7 @@
                 <field name="sequence" />
                 <field name="date" />
                 <field name="test_id" />
+                <field name="tested_at_version" />
                 <field name="user_id" widget="many2one_avatar_user" />
                 <field
           name="instance"
@@ -20,7 +21,6 @@
           decoration-info="instance == 'stage'"
           decoration-success="instance == 'production'"
         />
-                <field name="test_department_id" />
                 <field
           name="test_responsible_id"
           widget="many2one_avatar_user"
@@ -92,11 +92,21 @@
                         </group>
                         <group string="Test Info">
                             <field name="test_responsible_id" readonly="1" />
-                            <field name="test_department_id" readonly="1" />
+                            <field
+                name="is_same_procedure_as_test"
+                invisible="1"
+              />
+                            <field name="tested_at_version" />
                         </group>
                     </group>
                     <group string="Notes">
                         <field name="comment" widget="html" nolabel="1" />
+                    </group>
+                    <group
+            string="Test procedure (at time of test run)"
+            invisible="is_same_procedure_as_test"
+          >
+                        <field name="description" nolabel="1" />
                     </group>
                     <field name="module_version_ids">
                         <list
@@ -134,7 +144,6 @@
                 <field name="test_id" />
                 <field name="user_id" />
                 <field name="test_responsible_id" />
-                <field name="test_department_id" />
                 <filter
           string="Production"
           name="production"
@@ -181,11 +190,6 @@
             name="groupby_result"
             string="Result"
             context="{'group_by': 'result'}"
-          />
-                    <filter
-            name="groupby_department"
-            string="Department"
-            context="{'group_by': 'test_department_id'}"
           />
                 </group>
             </search>

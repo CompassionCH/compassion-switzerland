@@ -22,6 +22,7 @@
         "data/quality_test_category_data.xml",
         "data/mail_template_quality_test.xml",
         "data/quality_test_cron.xml",
+        "data/ir_sequence.xml",
         "views/project_task_views.xml",
         "views/quality_test_views.xml",
         "views/quality_test_run_views.xml",

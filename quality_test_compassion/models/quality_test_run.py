@@ -24,6 +24,12 @@ class QualityTestRun(models.Model):
         ondelete="cascade",
         index=True,
     )
+    test_version = fields.Char(related="test_id.test_version")
+    tested_at_version = fields.Char(readonly=True)
+    is_same_procedure_as_test = fields.Boolean(
+        compute="_compute_is_same_procedure_as_test"
+    )
+    description = fields.Html(compute="_compute_description")
     sequence = fields.Integer(
         string="Run #",
         required=True,
@@ -78,12 +84,23 @@ class QualityTestRun(models.Model):
         related="test_id.user_id",
         store=True,
     )
-    test_department_id = fields.Many2one(
-        "hr.department",
-        string="Department",
-        related="test_id.department_id",
-        store=True,
-    )
+
+    def _compute_is_same_procedure_as_test(self):
+        for rec in self:
+            rec.is_same_procedure_as_test = rec.test_version == rec.tested_at_version
+
+    def _compute_description(self):
+        for rec in self:
+            rec.description = (
+                self.env["quality.test.version"]
+                .search(
+                    [
+                        ("test_id", "=", rec.test_id.id),
+                        ("version", "=", rec.tested_at_version),
+                    ]
+                )
+                .description
+            )
 
     @api.onchange("instance")
     def _onchange_instance(self):
@@ -137,6 +154,7 @@ class QualityTestRun(models.Model):
 
         records = super().create(vals_list)
         for record in records:
+            record.tested_at_version = record.test_id.test_version
             if record.result == "fail":
                 record._send_fail_notification()
         return records
