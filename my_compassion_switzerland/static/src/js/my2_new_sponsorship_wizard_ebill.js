@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /*
  * Extends the existing NewSponsorshipWizard with eBill functionality.
  * Detects when the user selects "eBill" as a payment method, shows the

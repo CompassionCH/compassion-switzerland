@@ -32,6 +32,7 @@ Page: My Compassion 2 Volunteering Page
                                     following the link below or check how to get more
                                     involved in Compassion Switzerland through
                                     MyCompassion</t>
+                                <t t-set="align_text" t-value="'text-center'" />
 
                                 <t
                   t-set="btn_text"
@@ -76,30 +77,52 @@ Page: My Compassion 2 Volunteering Page
                   t-call="my_compassion_switzerland.volunteering_card_component"
                 >
                                     <t
-                    t-set="engagement_type"
-                    t-value="engagement_type"
+                    t-set="volunteer"
+                    t-value="engagement_type in partner.engagement_ids"
                   />
+                        <t
+                    t-set="description"
+                    t-value="engagement_type.my_compassion_description"
+                  />
+                                    <!-- Engagement type = Prayer -->
                                     <t
-                    t-if="engagement_type.name == 'Prayer' and not is_prayer_subscribed"
+                    t-if="engagement_type.id == request.env.ref('partner_compassion.engagement_pray').id"
                   >
-                                        <t
-                      t-set="internal_link_label"
-                    >Subscribe</t>
-                                        <t
-                      t-set="button_color"
-                      t-value="'mid-green'"
-                    />
+                                        <t t-if="not is_prayer_subscribed">
+                                            <t
+                        t-set="internal_link_label"
+                      >Subscribe</t>
+                                            <t
+                        t-set="button_color"
+                        t-value="'mid-green'"
+                      />
+                                        </t>
+                                        <t t-else="">
+                                            <t
+                        t-set="internal_link_label"
+                      >Unsubscribe</t>
+                                            <t
+                        t-set="button_color"
+                        t-value="'mid-orange'"
+                      />
+                                        </t>
                                     </t>
-                                    <t
-                    t-elif="engagement_type.name == 'Prayer' and is_prayer_subscribed"
-                  >
+                                    <!-- If partner is volunteer of this engagement type and not prayer -->
+                                    <t t-elif="volunteer">
+                                        <!-- if there is a thank you text, display it -->
                                         <t
-                      t-set="internal_link_label"
-                    >Unsubscribe</t>
-                                        <t
-                      t-set="button_color"
-                      t-value="'mid-orange'"
-                    />
+                      t-if="engagement_type.my_compassion_thank_you_text"
+                    >
+                                            <t
+                        t-set="description"
+                        t-value="engagement_type.my_compassion_thank_you_text"
+                      />
+                                        </t>
+                                        <t t-else="">
+                                            <t
+                        t-set="description"
+                      >Thank you for being a volunteer!</t>
+                                        </t>
                                     </t>
                                 </t>
                             </div>
@@ -148,25 +171,30 @@ Page: My Compassion 2 Volunteering Page
                     t-foreach="engagement_types"
                     t-as="engagement"
                   >
-                                        <div class="form-check">
-                                            <input
-                        class="form-check-input"
-                        type="checkbox"
-                        name="volunteer_roles"
-                        style="cursor: pointer;"
-                        t-att-id="'role_' + str(engagement.id)"
-                        t-att-value="engagement.my_compassion_label"
-                      />
-                                            <label
-                        class="form-check-label text-pure-white"
-                        t-att-for="'role_' + str(engagement.id)"
-                        style="cursor: pointer;"
-                      >
-                                                <span
-                          t-field="engagement.my_compassion_label"
+                                        <t
+                      t-if="engagement not in partner.engagement_ids"
+                    >
+                                            <div class="form-check">
+                                                <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="volunteer_roles"
+                          style="cursor: pointer;"
+                          t-att-id="'role_' + str(engagement.id)"
+                          t-att-value="engagement.my_compassion_label"
                         />
-                                            </label>
-                                        </div>
+
+                                                <label
+                          class="form-check-label text-pure-white"
+                          t-att-for="'role_' + str(engagement.id)"
+                          style="cursor: pointer;"
+                        >
+                                                    <span
+                            t-field="engagement.name"
+                          />
+                                                </label>
+                                            </div>
+                                        </t>
                                     </t>
                                 </div>
                             </t>
