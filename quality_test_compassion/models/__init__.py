@@ -5,3 +5,4 @@ from . import project_task
 from . import quality_test
 from . import quality_test_run
 from . import quality_test_module_version
+from . import quality_test_version

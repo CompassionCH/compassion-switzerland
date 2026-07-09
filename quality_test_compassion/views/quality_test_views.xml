@@ -11,6 +11,7 @@
         decoration-success="last_run_result == 'pass'"
         decoration-muted="state == 'retired' or not last_run_date"
       >
+                <field name="sequence" />
                 <field name="name" />
                 <field
           name="state"
@@ -20,8 +21,8 @@
           decoration-muted="state == 'retired'"
         />
                 <field name="category_id" />
-                <field name="department_id" />
                 <field name="user_id" widget="many2one_avatar_user" />
+                <field name="test_version" />
                 <field name="last_run_date" />
                 <field name="last_run_result" />
                 <field name="run_count" string="# Runs" />
@@ -89,7 +90,9 @@
                 name="name"
                 placeholder="Quality Test Name"
                 attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
+                class="oe_inline"
               />
+                            <field name="test_version" class="oe_inline ml-2" />
                         </h1>
                     </div>
                     <group
@@ -100,7 +103,6 @@
                 name="user_id"
                 widget="many2one_avatar_user"
               />
-                            <field name="department_id" />
                             <field name="category_id" />
                         </group>
                         <group string="Last Run">
@@ -168,7 +170,6 @@
                 <field name="name" />
                 <field name="category_id" />
                 <field name="user_id" />
-                <field name="department_id" />
                 <filter
           string="Draft"
           name="draft"
@@ -210,11 +211,6 @@
             name="groupby_state"
             string="Status"
             context="{'group_by': 'state'}"
-          />
-                    <filter
-            name="groupby_department"
-            string="Department"
-            context="{'group_by': 'department_id'}"
           />
                     <filter
             name="groupby_responsible"

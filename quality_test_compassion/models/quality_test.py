@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -14,9 +15,21 @@ class QualityTest(models.Model):
     _name = "quality.test"
     _description = "Quality Test"
     _inherit = ["mail.thread", "mail.activity.mixin"]
-    _order = "name"
+    _order = "category_id,sequence"
 
     name = fields.Char(string="Name", required=True, tracking=True)
+    sequence = fields.Char(
+        index=True,
+        readonly=True,
+        default=lambda self: self.env["ir.sequence"].next_by_code("QTSEQ"),
+        required=True,
+    )
+    test_version = fields.Char(
+        tracking=True,
+        readonly=True,
+        default="1.0",
+        required=True,
+    )
     category_id = fields.Many2one(
         "quality.test.category",
         string="Category",
@@ -36,7 +49,7 @@ class QualityTest(models.Model):
         "Active: test is locked for editing; test runs can be recorded.\n"
         "Retired: test is no longer relevant and cannot receive new runs.",
     )
-    description = fields.Html(string="Description")
+    description = fields.Html(string="Description", required=True)
     user_id = fields.Many2one(
         "res.users",
         string="Responsible",
@@ -44,11 +57,6 @@ class QualityTest(models.Model):
         default=lambda self: self.env.user,
         tracking=True,
         domain=[("share", "=", False)],
-    )
-    department_id = fields.Many2one(
-        "hr.department",
-        string="Department",
-        tracking=True,
     )
     module_ids = fields.Many2many(
         "ir.module.module",
@@ -106,6 +114,10 @@ class QualityTest(models.Model):
         "has been updated since the last test run.",
     )
     last_notification = fields.Datetime()
+
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = rec.name + " " + rec.test_version
 
     @api.depends("test_run_ids")
     def _compute_run_count(self):
@@ -167,6 +179,20 @@ class QualityTest(models.Model):
         for rec in self:
             if rec.state == "draft":
                 rec.state = "active"
+                version_exists = self.env["quality.test.version"].search_count(
+                    [("test_id", "=", rec.id), ("version", "=", rec.test_version)]
+                )
+                if rec.run_count and version_exists:
+                    rec.test_version = str(
+                        float_round(float(rec.test_version) + 0.1, 1)
+                    )
+                self.env["quality.test.version"].create(
+                    {
+                        "version": rec.test_version,
+                        "description": rec.description,
+                        "test_id": rec.id,
+                    }
+                )
 
     def action_retire(self):
         """Mark the test as retired – it will no longer accept new runs."""
@@ -179,6 +205,17 @@ class QualityTest(models.Model):
         for rec in self:
             if rec.state in ("active", "retired"):
                 rec.state = "draft"
+                # Delete versions that have no recorded runs
+                runs = self.env["quality.test.run"].search_count(
+                    [
+                        ("test_id", "=", rec.id),
+                        ("tested_at_version", "=", rec.test_version),
+                    ]
+                )
+                if not runs:
+                    self.env["quality.test.version"].search(
+                        [("test_id", "=", rec.id), ("version", "=", rec.test_version)]
+                    ).unlink()
 
     def check_rules_and_notify(self):
         """Check all quality tests against their notification rules and send
