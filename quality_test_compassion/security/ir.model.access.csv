@@ -7,3 +7,5 @@ access_quality_test_run_user,quality.test.run user,model_quality_test_run,projec
 access_quality_test_run_manager,quality.test.run manager,model_quality_test_run,project.group_project_manager,1,1,1,1
 access_quality_test_module_version_user,quality.test.module.version user,model_quality_test_module_version,project.group_project_user,1,0,0,0
 access_quality_test_module_version_manager,quality.test.module.version manager,model_quality_test_module_version,project.group_project_manager,1,1,1,1
+access_quality_test_version_user,quality.test.version user,model_quality_test_version,project.group_project_user,1,0,0,0
+access_quality_test_version_manager,quality.test.version manager,model_quality_test_version,project.group_project_manager,1,1,1,1
