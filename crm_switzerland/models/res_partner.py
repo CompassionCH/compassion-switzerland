@@ -17,10 +17,14 @@ class ResPartner(models.Model):
                     ]
                 )
                 opportunities.write({"email_from": vals["email"]})
-        if "user_id" in vals:
+        if "user_id" in vals and not self.env.context.get(
+            "skip_church_salesperson_sync"
+        ):
             # Propagate the salesperson change to the related crm.lead of
             # churches (simple push, no candidate arbitration: an explicit
             # edit on the church itself is already a deliberate decision).
+            # skip_church_salesperson_sync avoids bouncing straight back
+            # here through crm.lead's own write() override.
             for partner in self.filtered("is_church"):
                 opportunities = self.env["crm.lead"].search(
                     [
@@ -28,7 +32,9 @@ class ResPartner(models.Model):
                         ("user_id", "=", partner.user_id.id),
                     ]
                 )
-                opportunities.write({"user_id": vals["user_id"]})
+                opportunities.with_context(skip_church_salesperson_sync=True).write(
+                    {"user_id": vals["user_id"]}
+                )
         super().write(vals)
         return True
 
@@ -52,9 +58,13 @@ class ResPartner(models.Model):
 
     def _is_church_engagement(self, user):
         employee = self._church_salesperson_employee(user)
-        return bool(
-            employee and employee.department_id.name == CHURCH_ENGAGEMENT_DEPARTMENT
-        )
+        if not employee or not employee.department_id:
+            return False
+        # department.name is translatable: compare in a fixed language so
+        # this doesn't silently break once a fr_CH/de_DE translation for
+        # "Church Engagement" gets added.
+        department_name = employee.department_id.with_context(lang="en_US").name
+        return department_name == CHURCH_ENGAGEMENT_DEPARTMENT
 
     def resolve_church_salesperson(self, candidate):
         """Decide the church's salesperson given a candidate coming from one
@@ -112,7 +122,12 @@ class ResPartner(models.Model):
 
     def _notify_daniel_no_church_salesperson(self, context_note=""):
         self.ensure_one()
-        daniel = self.env["res.users"].search([("login", "=", "dmuller")], limit=1)
+        daniel_login = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("crm_switzerland.church_salesperson_fallback_login", "dmuller")
+        )
+        daniel = self.env["res.users"].search([("login", "=", daniel_login)], limit=1)
         if not daniel:
             return
         activity_type = self.env.ref("mail.mail_activity_data_todo")

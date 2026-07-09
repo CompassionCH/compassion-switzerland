@@ -14,6 +14,8 @@ class Lead(models.Model):
             self.email_from = self.partner_id.email
 
     def _sync_church_salesperson(self):
+        if self.env.context.get("skip_church_salesperson_sync"):
+            return
         for lead in self:
             church = lead.partner_id
             if not church.is_church or not lead.user_id:
