@@ -8,12 +8,29 @@
 #
 ##############################################################################
 import logging
-from datetime import datetime
+import random
+from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
+from odoo.osv.expression import AND, OR
 from odoo.tools import file_open
 
 _logger = logging.getLogger(__name__)
+
+# Non-translation recipients, used as the random fallback pool when a
+# birthday reminder can't otherwise resolve a recipient (e.g. unconfigured
+# language). Kept as a tuple of config_parameter keys rather than hardcoded
+# names so it stays correct if responsibilities are reassigned later.
+ADVOCATE_BIRTHDAY_FALLBACK_PARAMS = (
+    "partner_compassion.advocate_birthday_fr_id",
+    "partner_compassion.advocate_birthday_de_id",
+    "partner_compassion.advocate_birthday_it_id",
+    "partner_compassion.advocate_birthday_en_id",
+)
+# Engagement type names (translated to en_US for a stable comparison,
+# see AdvocateDetails._translation_engagements) routed to the dedicated
+# translation-volunteer recipient regardless of language.
+TRANSLATION_ENGAGEMENT_NAMES = ("Translation", "Speaker Translator")
 
 try:
     from pandas.tseries.offsets import BDay
@@ -222,38 +239,90 @@ class AdvocateDetails(models.Model):
     def set_active(self):
         return self.write({"state": "active", "end_date": False, "break_end": False})
 
+    def _translation_engagements(self):
+        # These records aren't shipped as module data (no stable xmlid to
+        # rely on), so match by name in a fixed language rather than by id.
+        return (
+            self.env["advocate.engagement"]
+            .with_context(lang="en_US")
+            .search([("name", "in", list(TRANSLATION_ENGAGEMENT_NAMES))])
+        )
+
+    def _advocate_birthday_recipient_id(self, advocate):
+        """Resolve which res.partner should be notified of this advocate's
+        upcoming birthday: the dedicated translation recipient for
+        translation-engagement advocates, otherwise whoever is configured
+        for the advocate's language. Falls back to a random pick among the
+        general (non-translation) recipients rather than dropping the
+        reminder when nothing is configured for the case at hand."""
+        icp = self.env["ir.config_parameter"].sudo()
+        if advocate.engagement_ids & self._translation_engagements():
+            param = "partner_compassion.advocate_birthday_translation_id"
+        else:
+            lang = (advocate.partner_id.lang or "")[:2]
+            param = f"partner_compassion.advocate_birthday_{lang}_id"
+        partner_id = int(icp.get_param(param, 0) or 0)
+        if partner_id:
+            return partner_id
+
+        fallback_ids = {
+            int(icp.get_param(p, 0) or 0) for p in ADVOCATE_BIRTHDAY_FALLBACK_PARAMS
+        }
+        fallback_ids.discard(0)
+        return random.choice(list(fallback_ids)) if fallback_ids else False
+
     def advocate_cron(self):
         three_open_days = datetime.today() + BDay(3)
-        birthday_advocates = self.search(
+        target_dates = [three_open_days]
+        # A birthday landing on Sat/Sun is never exactly "3 business days"
+        # from any weekday, so it would otherwise never be reminded at
+        # all. Bundle the weekend into Friday's run (the last business day
+        # before it) instead.
+        if three_open_days.weekday() == 4:  # Friday
+            target_dates.append(three_open_days + timedelta(days=1))
+            target_dates.append(three_open_days + timedelta(days=2))
+
+        domain = AND(
             [
-                ("state", "in", ["active", "on_break"]),
-                ("birthdate", "like", three_open_days.strftime("-%m-%d")),
+                [("state", "in", ["active", "on_break"])],
+                OR(
+                    [
+                        [("birthdate", "like", d.strftime("-%m-%d"))]
+                        for d in target_dates
+                    ]
+                ),
             ]
         )
-        birthday_advocates = birthday_advocates.filtered(
-            lambda a: a.engagement_ids
-            != self.env.ref("partner_compassion.engagement_sport")
-        )
+        birthday_advocates = self.search(domain)
         for advocate in birthday_advocates:
-            lang = advocate.partner_id.lang[:2]
-            notify_partner_id = (
-                self.env["res.config.settings"]
-                .sudo()
-                .get_param(f"advocate_birthday_{lang}_id")
-            )
-            preferred_name = advocate.partner_id.preferred_name
-            date = advocate.partner_id.get_date("birthdate_date", "d MMMM")
-            display_name = advocate.display_name
-            advocate.message_post(
-                body=_(
-                    "This is a reminder that %(advocate_name)s will have birthday "
-                    "on %(birthdate)s."
-                ).format({"advocate_name": preferred_name, "birthdate": date}),
-                subject=_("[%s] Advocate birthday reminder") % display_name,
-                partner_ids=[notify_partner_id],
-                subtype_xmlid="mail.mt_comment",
-                content_subtype="html",
-            )
+            try:
+                notify_partner_id = self._advocate_birthday_recipient_id(advocate)
+                if not notify_partner_id:
+                    _logger.warning(
+                        "No recipient configured for advocate birthday "
+                        "reminder (advocate.details %s)",
+                        advocate.id,
+                    )
+                    continue
+                preferred_name = advocate.partner_id.preferred_name
+                date = advocate.partner_id.get_date("birthdate_date", "d MMMM")
+                display_name = advocate.display_name
+                advocate.message_post(
+                    body=_(
+                        "This is a reminder that %(advocate_name)s will have "
+                        "birthday on %(birthdate)s."
+                    )
+                    % {"advocate_name": preferred_name, "birthdate": date},
+                    subject=_("[%s] Advocate birthday reminder") % display_name,
+                    partner_ids=[notify_partner_id],
+                    subtype_xmlid="mail.mt_comment",
+                    content_subtype="html",
+                )
+            except Exception:
+                _logger.exception(
+                    "Failed to send birthday reminder for advocate.details %s",
+                    advocate.id,
+                )
         break_advocates = self.search(
             [
                 ("state", "=", "on_break"),
