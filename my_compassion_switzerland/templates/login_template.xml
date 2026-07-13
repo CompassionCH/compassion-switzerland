@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Legacy login layout used by the Muskathlon and Together websites (not by
+    the MyCompassion portal, which ships its own website-scoped login).
+-->
+<odoo>
+  <template id="register_layout" name="Register link">
+    <h4 class="font-weight-bold text-uppercase mb-4">Signup</h4>
+    <p class="text-primary">
+            If you are not yet registered, you can create an account by clicking on the button below.
+        </p>
+    <p class="text-primary">
+            If you already have a Compassion App account, you can use the same credentials to log in.
+        </p>
+    <a href="/web/signup?redirect=/my/home" class="btn btn-primary">Signup now</a>
+  </template>
+  <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
+  <template id="login_layout" inherit_id="website.login_layout">
+    <xpath expr="t" position="replace">
+      <t t-call="website.layout">
+        <div class="container mt-5 mx-auto">
+          <div class="container-content">
+            <h1
+              class="text-uppercase text-center mb-5 text-primary"
+              style="font-size: calc(100% + 1vw + 1vh);"
+            >
+                            Welcome to
+                            <span
+              class="font-weight-bold"
+              t-out="request.httprequest.host"
+            />
+                        </h1>
+            <div class="row justify-content-center">
+              <div class="col-md-4 mx-4 order-md-2 order-lg-2">
+                <h4 class="font-weight-bold text-uppercase flex-fill mb-4">Log in</h4>
+                <div class="flex-fill" t-out="0" />
+              </div>
+              <div class="col-md-4 mx-4 order-md-1 mt-4 mt-md-0">
+                <t t-call="my_compassion_switzerland.register_layout" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-center mt-5">
+                    Need help?
+                    <a href="/contactus">Contact us</a>
+                </p>
+      </t>
+    </xpath>
+  </template>
+  <template id="override_error_message" inherit_id="auth_signup.signup">
+    <xpath expr="//p[@class='alert alert-danger']" position="replace">
+      <p class="alert alert-danger" t-if="error" role="alert">
+                Registration failed. If the problem persists, please contact support.
+            </p>
+    </xpath>
+  </template>
+  <template id="password_field" inherit_id="web.login">
+    <xpath expr="//input[@name='password']" position="inside">
+      <i
+        class="fa fa-eye"
+        id="eye_password"
+        style="position: absolute; right: 10px; top: 60%;cursor: pointer;"
+      />
+    </xpath>
+  </template>
+</odoo>
