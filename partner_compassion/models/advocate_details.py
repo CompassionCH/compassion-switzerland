@@ -316,7 +316,6 @@ class AdvocateDetails(models.Model):
                     subject=_("[%s] Advocate birthday reminder") % display_name,
                     partner_ids=[notify_partner_id],
                     subtype_xmlid="mail.mt_comment",
-                    content_subtype="html",
                 )
             except Exception:
                 _logger.exception(
