@@ -12,6 +12,8 @@ import logging
 from base64 import b64decode
 from unittest import mock
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields
 from odoo.tools import file_open
 
@@ -453,3 +455,65 @@ class TestSponsorship(BaseSponsorshipTest):
         self.assertEqual(len(all_contract_comm), 2)
 
         self.assertIsNot(sc_contract, False)
+
+    @mock.patch(mock_update_hold)
+    def test_wrpr_letter_reminder_guard_t3306(self, hold_mock):
+        """T3306: the W&P letter-writing reminder must not be re-sent to a
+        sponsor already reminded within the last month. The reminder condition
+        is permanent (sending it doesn't make the sponsor write a letter), so
+        without a guard a repeatedly firing cron floods sponsors (in prod it
+        created 56'000+ jobs for 57 sponsors over a weekend).
+        """
+        hold_mock.return_value = True
+
+        child = self.create_child(self.ref(12))
+        sponsorship = self.create_contract(
+            {
+                "partner_id": self.michel.id,
+                "group_id": self.sp_group.id,
+                "child_id": child.id,
+                "type": "SWP",
+            },
+            [{"amount": 50.0}],
+        )
+        # Make the sponsorship eligible: active, started > 545 days ago and no
+        # letter ever written by the sponsor.
+        sponsorship.write(
+            {
+                "state": "active",
+                "start_date": fields.Datetime.now() - relativedelta(days=600),
+            }
+        )
+        sponsorship.correspondent_id.global_communication_delivery_preference = (
+            "digital"
+        )
+        contract_model = self.env["recurring.contract"]
+        identity_key = f"recurring.contract.send_wrpr_letter_reminder.{sponsorship.id}"
+
+        def reminders_enqueued():
+            return self.env["queue.job"].search_count(
+                [("identity_key", "=", identity_key)]
+            )
+
+        # First cron run: the eligible sponsor is reminded exactly once.
+        contract_model.send_wrpr_letter_reminder()
+        self.assertEqual(reminders_enqueued(), 1)
+
+        # The queued job creates the reminder communication. Simulate that and
+        # drop the queued job so a new enqueue would be detectable.
+        reminder_config = self.env.ref(
+            "partner_communication_switzerland.sponsorship_wrpr_reminder"
+        )
+        self.env["partner.communication.job"].create(
+            {
+                "config_id": reminder_config.id,
+                "partner_id": sponsorship.correspondent_id.id,
+                "object_ids": str(sponsorship.id),
+                "body_html": "<p>reminder</p>",
+            }
+        )
+        self.env["queue.job"].search([("identity_key", "=", identity_key)]).unlink()
+
+        # Second cron run within the month: the sponsor must now be skipped.
+        contract_model.send_wrpr_letter_reminder()
+        self.assertEqual(reminders_enqueued(), 0)
