@@ -27,10 +27,7 @@ ADVOCATE_BIRTHDAY_FALLBACK_PARAMS = (
     "partner_compassion.advocate_birthday_it_id",
     "partner_compassion.advocate_birthday_en_id",
 )
-# Engagement type names (translated to en_US for a stable comparison,
-# see AdvocateDetails._translation_engagements) routed to the dedicated
-# translation-volunteer recipient regardless of language.
-TRANSLATION_ENGAGEMENT_NAMES = ("Translation", "Speaker Translator")
+SPEAKER_TRANSLATOR_XMLID = "partner_compassion.engagement_speaker_translator"
 
 try:
     from pandas.tseries.offsets import BDay
@@ -240,23 +237,34 @@ class AdvocateDetails(models.Model):
         return self.write({"state": "active", "end_date": False, "break_end": False})
 
     def _translation_engagements(self):
-        # These records aren't shipped as module data (no stable xmlid to
-        # rely on), so match by name in a fixed language rather than by id.
-        return (
-            self.env["advocate.engagement"]
-            .with_context(lang="en_US")
-            .search([("name", "in", list(TRANSLATION_ENGAGEMENT_NAMES))])
+        # "Translation" is shipped module data (stable xmlid). "Speaker
+        # Translator" isn't (it was created directly in the database) but
+        # has been given a stable xmlid by a migration
+        # (see migrations/18.0.1.0.1) so both are referenced by id here,
+        # never by matching a (translatable, environment-dependent) name.
+        engagements = self.env.ref("partner_compassion.engagement_translation")
+        speaker_translator = self.env.ref(
+            SPEAKER_TRANSLATOR_XMLID, raise_if_not_found=False
         )
+        if speaker_translator:
+            engagements |= speaker_translator
+        return engagements
 
-    def _advocate_birthday_recipient_id(self, advocate):
+    def _advocate_birthday_recipient_id(self, advocate, translation_engagements=None):
         """Resolve which res.partner should be notified of this advocate's
         upcoming birthday: the dedicated translation recipient for
         translation-engagement advocates, otherwise whoever is configured
         for the advocate's language. Falls back to a random pick among the
         general (non-translation) recipients rather than dropping the
-        reminder when nothing is configured for the case at hand."""
+        reminder when nothing is configured for the case at hand.
+
+        :param translation_engagements: pass this in when calling in a loop
+            (e.g. from advocate_cron) to avoid a repeated search per advocate.
+        """
+        if translation_engagements is None:
+            translation_engagements = self._translation_engagements()
         icp = self.env["ir.config_parameter"].sudo()
-        if advocate.engagement_ids & self._translation_engagements():
+        if advocate.engagement_ids & translation_engagements:
             param = "partner_compassion.advocate_birthday_translation_id"
         else:
             lang = (advocate.partner_id.lang or "")[:2]
@@ -294,9 +302,12 @@ class AdvocateDetails(models.Model):
             ]
         )
         birthday_advocates = self.search(domain)
+        translation_engagements = self._translation_engagements()
         for advocate in birthday_advocates:
             try:
-                notify_partner_id = self._advocate_birthday_recipient_id(advocate)
+                notify_partner_id = self._advocate_birthday_recipient_id(
+                    advocate, translation_engagements
+                )
                 if not notify_partner_id:
                     _logger.warning(
                         "No recipient configured for advocate birthday "
