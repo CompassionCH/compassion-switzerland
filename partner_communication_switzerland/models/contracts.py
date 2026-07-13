@@ -436,40 +436,50 @@ class RecurringContract(models.Model):
 
     @api.model
     def send_wrpr_letter_reminder(self):
+        # Eligible = W&P sponsorships started more than 1.5 years ago whose
+        # sponsor hasn't written a letter in the last 545 days.
+        limit = fields.Datetime.now() - relativedelta(days=545)
         wrprs = self.search(
             [
                 ("type", "=", "SWP"),
                 ("state", "=", "active"),
+                ("start_date", "<=", limit),
             ]
         )
+        wrote_recently = self.env["correspondence"].read_group(
+            [
+                ("sponsorship_id", "in", wrprs.ids),
+                ("direction", "=", "Supporter To Beneficiary"),
+                ("scanned_date", ">=", limit.date()),
+            ],
+            ["sponsorship_id"],
+            ["sponsorship_id"],
+        )
+        wrote_ids = {group["sponsorship_id"][0] for group in wrote_recently}
+
         letter_reminder = self.env.ref(
             "partner_communication_switzerland.sponsorship_wrpr_reminder"
         )
         comms = self.env["partner.communication.job"]
         one_month_ago = fields.Datetime.now() - relativedelta(months=1)
-        for wrpr in wrprs:
-            start_days = (fields.Datetime.now() - wrpr.start_date).days
-            if wrpr.last_letter > 545 or (
-                not wrpr.sponsor_letter_ids and start_days > 545
-            ):
-                # Skip sponsors
-                # already reminded within the last month.
-                already_reminded = comms.search_count(
-                    [
-                        ("config_id", "=", letter_reminder.id),
-                        ("partner_id", "=", wrpr.correspondent_id.id),
-                        ("object_ids", "like", wrpr.id),
-                        ("state", "!=", "cancel"),
-                        ("create_date", ">=", one_month_ago),
-                    ]
-                )
-                if already_reminded:
-                    continue
-                wrpr.with_delay(
-                    channel="root.partner_communication",
-                    identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
-                    priority=50,
-                ).send_communication(letter_reminder)
+        for wrpr in wrprs.filtered(lambda w: w.id not in wrote_ids):
+            # Skip sponsors already reminded within the last month
+            already_reminded = comms.search_count(
+                [
+                    ("config_id", "=", letter_reminder.id),
+                    ("partner_id", "=", wrpr.correspondent_id.id),
+                    ("object_ids", "like", wrpr.id),
+                    ("state", "!=", "cancel"),
+                    ("create_date", ">=", one_month_ago),
+                ]
+            )
+            if already_reminded:
+                continue
+            wrpr.with_delay(
+                channel="root.partner_communication",
+                identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
+                priority=50,
+            ).send_communication(letter_reminder)
         return True
 
     @api.model
