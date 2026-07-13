@@ -436,25 +436,53 @@ class RecurringContract(models.Model):
 
     @api.model
     def send_wrpr_letter_reminder(self):
+        # Eligible = W&P sponsorships started more than 1.5 years ago whose
+        # sponsor hasn't written a letter in the last 545 days.
+        limit = fields.Datetime.now() - relativedelta(days=545)
         wrprs = self.search(
             [
                 ("type", "=", "SWP"),
                 ("state", "=", "active"),
+                ("start_date", "<=", limit),
             ]
         )
+        wrote_recently = self.env["correspondence"].read_group(
+            [
+                ("sponsorship_id", "in", wrprs.ids),
+                ("direction", "=", "Supporter To Beneficiary"),
+                ("scanned_date", ">=", limit.date()),
+            ],
+            ["sponsorship_id"],
+            ["sponsorship_id"],
+        )
+        wrote_ids = {group["sponsorship_id"][0] for group in wrote_recently}
+
         letter_reminder = self.env.ref(
             "partner_communication_switzerland.sponsorship_wrpr_reminder"
         )
-        for wrpr in wrprs:
-            start_days = (fields.Datetime.now() - wrpr.start_date).days
-            if wrpr.last_letter > 545 or (
-                not wrpr.sponsor_letter_ids and start_days > 545
-            ):
-                wrpr.with_delay(
-                    channel="root.partner_communication",
-                    identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
-                    priority=50,
-                ).send_communication(letter_reminder)
+        eligible = wrprs.filtered(lambda w: w.id not in wrote_ids)
+
+        # At most one letter-writing reminder per correspondent per month.
+        recent_reminders = self.env["partner.communication.job"].search(
+            [
+                ("config_id", "=", letter_reminder.id),
+                ("partner_id", "in", eligible.mapped("correspondent_id").ids),
+                ("state", "!=", "cancel"),
+                ("create_date", ">=", fields.Datetime.now() - relativedelta(months=1)),
+            ]
+        )
+        reminded_partners = set(recent_reminders.mapped("partner_id").ids)
+
+        for wrpr in eligible:
+            correspondent = wrpr.correspondent_id
+            if correspondent.id in reminded_partners:
+                continue
+            reminded_partners.add(correspondent.id)
+            wrpr.with_delay(
+                channel="root.partner_communication",
+                identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
+                priority=50,
+            ).send_communication(letter_reminder)
         return True
 
     @api.model
