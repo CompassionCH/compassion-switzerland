@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "My Compassion Switzerland",
-    "version": "18.0.1.0.3",
+    "version": "18.0.1.0.4",
     "category": "Website",
     "author": "Daniel Palumbo",
     "development_status": "Beta",
