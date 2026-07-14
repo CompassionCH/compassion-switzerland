@@ -56,7 +56,7 @@
     </xpath>
   </template>
   <template id="password_field" inherit_id="web.login">
-    <xpath expr="//input[@name='password']" position="inside">
+    <xpath expr="//input[@name='password']" position="after">
       <i
         class="fa fa-eye"
         id="eye_password"

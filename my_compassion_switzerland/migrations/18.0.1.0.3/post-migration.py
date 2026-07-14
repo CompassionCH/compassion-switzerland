@@ -36,6 +36,8 @@ def migrate(cr, version):
     theme = env["ir.module.module"].search(
         [("name", "=", "theme_compassion_2025")], limit=1
     )
+    if not theme:
+        return
     websites = env["website"].search([("theme_id", "=", theme.id)])
     if websites:
         websites.write(SWISS_FOOTER_LINKS)

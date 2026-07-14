@@ -27,7 +27,8 @@ def migrate(cr, version):
     """The portal settings moved from instance-global system parameters to
     per-website fields (a multi-company instance runs one portal website per
     country). Write the Swiss values on the MyCompassion websites and drop the
-    now-unused parameters.
+    now-unused parameters. This module only installs on the Swiss instance,
+    so every flagged website here is Swiss.
     """
     env = api.Environment(cr, SUPERUSER_ID, {})
     websites = env["website"].search([("is_my_compassion", "=", True)])
