@@ -37,6 +37,6 @@ class Lead(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        if "user_id" in vals:
+        if "user_id" in vals or "partner_id" in vals:
             self._sync_church_salesperson()
         return res
