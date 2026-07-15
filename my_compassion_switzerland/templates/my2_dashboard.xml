@@ -1,12 +1,18 @@
 <odoo>
-    <template
-    id="dashboard_volunteering_inherit"
-    inherit_id="my_compassion.dashboard_volunteering_vignette"
-  >
-        <xpath
-      expr="//t[@t-call='my_compassion.DashboardGridItem']"
-      position="inside"
-    >
+    <template id="dashboard_volunteering_vignette">
+        <t t-call="my_compassion.DashboardGridItem">
+            <t t-call="theme_compassion_2025.VignetteComponent">
+                <t
+          t-set="image"
+          t-value="'/theme_compassion_2025/static/src/img/snippets/library_image_13.jpg'"
+        />
+                <t t-set="title">Volunteers</t>
+                <t t-set="subtitle">Commit to serving the most vulnerable</t>
+                <t t-set="icon" t-value="'pictogram-local-empowerment-partnership'" />
+                <t t-set="color" t-value="'low-green'" />
+                <t t-set="bg_color" t-value="'high-green'" />
+                <t t-set="href" t-value="'/my2/volunteering'" />
+            </t>
             <t t-if="partner.is_translator">
                 <t t-call="theme_compassion_2025.ThemedButtonComponent">
                     <t t-set="variant" t-value="'default'" />
@@ -20,6 +26,6 @@
           />
                 </t>
             </t>
-        </xpath>
+        </t>
     </template>
 </odoo>
