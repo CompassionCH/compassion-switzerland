@@ -53,6 +53,17 @@ class StaffNotificationSettings(models.TransientModel):
         ],
         config_parameter="partner_compassion.advocate_birthday_en_id",
     )
+    advocate_birthday_translation_id = fields.Many2one(
+        "res.partner",
+        "Advocate birthday (Translation volunteers)",
+        domain=[
+            ("user_ids", "!=", False),
+            ("user_ids.share", "=", False),
+        ],
+        config_parameter="partner_compassion.advocate_birthday_translation_id",
+        help="Notified for translation-engagement advocates regardless of "
+        "their language, instead of the language-based recipients above.",
+    )
     potential_advocate_fr = fields.Many2one(
         "res.users",
         "Potential advocate FR",
