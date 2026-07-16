@@ -27,31 +27,31 @@ portal for Compassion Switzerland, focusing on volunteer engagement.
 
 **Key Features:**
 
--  **Volunteer Dashboard**: Adds a new portal page at
-   ``/my2/volunteering`` to display all volunteering opportunities.
--  **Rich Engagement Cards**: Extends the ``advocate.engagement`` model
-   to support rich content (images, translatable labels, descriptions)
-   for displaying opportunities on the website.
--  **Prayer Subscription**: Allows users to subscribe to or unsubscribe
-   from the 'Prayer' engagement directly from the dashboard with a
-   single click.
--  **Volunteer Registration Form**: Includes a comprehensive form for
-   users to register their interest in volunteering. Submissions trigger
-   a notification email to the appropriate department based on the
-   user's language.
--  **Portal Security**: Ensures that only engagement types explicitly
-   marked as "Activate for My Compassion" are visible to portal users.
--  **eBill Payment Option**: Injects an "eBill" payment method into the
-   new-sponsorship wizard, backed by the PostFinance
-   recipient-subscription workflow
-   (``ebill_postfinance_recipient_subscription``).
--  **Portal Grafts**: A "Translate a letter" button on the dashboard
-   volunteering vignette for letter translators, a "Together"
-   crowdfunding link in the account menu for campaign participants, and
-   a "How to register?" guide link on the signup page.
--  **Swiss Donation Catalog**: Seeds the fund and gift products (with
-   images, impact statements and translations) shown on the MyCompassion
-   giving pages.
+- **Volunteer Dashboard**: Adds a new portal page at
+  ``/my2/volunteering`` to display all volunteering opportunities.
+- **Rich Engagement Cards**: Extends the ``advocate.engagement`` model
+  to support rich content (images, translatable labels, descriptions)
+  for displaying opportunities on the website.
+- **Prayer Subscription**: Allows users to subscribe to or unsubscribe
+  from the 'Prayer' engagement directly from the dashboard with a single
+  click.
+- **Volunteer Registration Form**: Includes a comprehensive form for
+  users to register their interest in volunteering. Submissions trigger
+  a notification email to the appropriate department based on the user's
+  language.
+- **Portal Security**: Ensures that only engagement types explicitly
+  marked as "Activate for My Compassion" are visible to portal users.
+- **eBill Payment Option**: Injects an "eBill" payment method into the
+  new-sponsorship wizard, backed by the PostFinance
+  recipient-subscription workflow
+  (``ebill_postfinance_recipient_subscription``).
+- **Portal Grafts**: A "Translate a letter" button on the dashboard
+  volunteering vignette for letter translators, a "Together"
+  crowdfunding link in the account menu for campaign participants, and a
+  "How to register?" guide link on the signup page.
+- **Swiss Donation Catalog**: Seeds the fund and gift products (with
+  images, impact statements and translations) shown on the MyCompassion
+  giving pages.
 
 **Table of contents**
 
@@ -88,15 +88,15 @@ To configure the volunteering opportunities displayed on the website:
 4. Check the box **Activate for MyCompassion**.
 5. Fill in the website-specific fields:
 
-   -  **Picture**: The main image for the volunteering card.
-   -  **Alt Text**: Accessibility text for the image.
-   -  **Label**: The title of the card.
-   -  **Description**: The text content of the card.
-   -  **External Link / Internal Link**: Define the behavior of the
-      call-to-action button. An internal link is used for special
-      actions like the prayer subscription, while an external link can
-      point to another website for more information. If neither is set,
-      the button will link to the registration form on the same page.
+   - **Picture**: The main image for the volunteering card.
+   - **Alt Text**: Accessibility text for the image.
+   - **Label**: The title of the card.
+   - **Description**: The text content of the card.
+   - **External Link / Internal Link**: Define the behavior of the
+     call-to-action button. An internal link is used for special actions
+     like the prayer subscription, while an external link can point to
+     another website for more information. If neither is set, the button
+     will link to the registration form on the same page.
 
 To enable the eBill option in the new-sponsorship wizard:
 
@@ -113,10 +113,10 @@ Usage
 Once configured, authenticated portal users can navigate to the
 ``/my2/volunteering`` page on the website. From there, they can:
 
--  View the available volunteering opportunities.
--  Subscribe to or unsubscribe from the Prayer letter.
--  Fill out the registration form to express their interest in other
-   volunteering roles.
+- View the available volunteering opportunities.
+- Subscribe to or unsubscribe from the Prayer letter.
+- Fill out the registration form to express their interest in other
+  volunteering roles.
 
 Bug Tracker
 ===========
@@ -139,8 +139,8 @@ Authors
 Contributors
 ------------
 
--  Daniel Palumbo dpalumbo@compassion.ch
--  Noé Berdoz nberdoz@compassion.ch
+- Daniel Palumbo dpalumbo@compassion.ch
+- Noé Berdoz nberdoz@compassion.ch
 
 Maintainers
 -----------

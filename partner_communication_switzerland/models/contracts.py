@@ -526,8 +526,8 @@ class RecurringContract(models.Model):
         self.ensure_one()
 
         # This pushes the new 'waiting' state and payment mode from Python cache to SQL
-        self.flush()
-        (self.partner_id | self.correspondent_id).flush()
+        self.flush_recordset(["state", "payment_mode_id"])
+        (self.partner_id | self.correspondent_id).flush_recordset()
 
         swiss = "partner_communication_switzerland."
         common = "partner_communication_compassion."
