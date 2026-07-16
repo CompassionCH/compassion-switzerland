@@ -52,6 +52,37 @@ class PartnerCommunication(models.Model):
 
         return super(PartnerCommunication, self.with_user(user_id)).schedule_call()
 
+    def _ensure_employee_signer(self):
+        """Event thank-you letters must be signed by an employee: the event's
+        Responsible is often external (church rep, partner contact). Fall back
+        to an employee among the event staff, then to the configured default
+        signer, keeping the original user as last resort.
+        """
+        for job in self:
+            if not job.event_id or not job.user_id or job.user_id.employee_ids:
+                continue
+            employee = (
+                self.env["hr.employee"]
+                .sudo()
+                .search([("user_id", "in", job.event_id.user_ids.ids)], limit=1)
+            )
+            if employee.user_id:
+                job.user_id = employee.user_id
+                continue
+            default_signer_id = self.env["res.config.settings"].get_param(
+                "event_thank_you_default_signer_id"
+            )
+            if default_signer_id:
+                job.user_id = default_signer_id
+            else:
+                _logger.warning(
+                    "No employee found to sign the thank you letter for event "
+                    "%s (job #%s) - keeping non-employee user %s as signer.",
+                    job.event_id.display_name,
+                    job.id,
+                    job.user_id.display_name,
+                )
+
     def _compute_currency(self):
         chf = self.env.ref("base.CHF")
         for wizard in self:
