@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "SBC Swizterland",
-    "version": "14.0.1.1.0",
+    "version": "18.0.1.0.0",
     "category": "Other",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
@@ -44,7 +44,6 @@
         "python": [
             "PyPDF2",
             "pysftp",
-            "wand",
         ]
     },
     "data": [
@@ -62,5 +61,5 @@
         "reports/translation_reports_view.xml",
     ],
     "demo": [],
-    "installable": False,
+    "installable": True,
 }

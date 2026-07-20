@@ -8,14 +8,11 @@
 ##############################################################################
 import logging
 
+from psycopg2 import sql
+
 from odoo import fields, models, tools
 
 _logger = logging.getLogger(__name__)
-
-try:
-    from wand.image import Image as WandImage
-except ImportError:
-    _logger.warning("Please wand to use SBC module")
 
 
 class TranslationDailyReport(models.Model):
@@ -62,10 +59,7 @@ class TranslationDailyReport(models.Model):
 
     def _compute_letter_image(self):
         for report in self.filtered("correspondence_id"):
-            pdf = self.correspondence_id.get_image()
-            if pdf:
-                with WandImage(blob=pdf, resolution=75) as letter_image:
-                    report.letter_image = letter_image.make_blob("jpg").encode("base64")
+            report.letter_image = report.correspondence_id.page_ids[0].final_page_image
 
     def _date_format(self):
         """
@@ -82,33 +76,35 @@ class TranslationDailyReport(models.Model):
         :return: None
         """
         tools.drop_view_if_exists(self.env.cr, self._table)
-        date_format = self._date_format()
-        # We disable the check for SQL injection. The only risk of sql
-        # injection is from 'self._table' which is not controlled by an
-        # external source.
-        # pylint:disable=E8103
-        self.env.cr.execute(
-            (
-                """
-                CREATE OR REPLACE VIEW %s AS
-                """
-                % self._table
-                + """
+        date_trunc_value, date_output_format = self._date_format()
+
+        query = sql.SQL(
+            """
+            CREATE OR REPLACE VIEW {table} AS
             -- Super query making windows over monthly data, for cumulative
             -- numbers
             -- http://www.postgresqltutorial.com/postgresql-window-function/
-            SELECT
-              c.id, c.new_translator_id, c.src_translation_lang_id AS src_lang,
-              c.translation_language_id AS dst_lang,
-              l1.name || ' to ' || l2.name AS language,
-              to_char(date_trunc(%s, c.translate_date), %s) AS study_date,
-              c.sponsorship_id, c.id AS correspondence_id, c.direction,
-              c.translate_date
+            SELECT c.id,
+                   c.new_translator_id,
+                   c.src_translation_lang_id AS src_lang,
+                   c.translation_language_id AS dst_lang,
+                   (l1.name->>'en_US')::text || ' to '
+                       || (l2.name->>'en_US')::text AS language,
+                   to_char(date_trunc({date_trunc}, c.translate_date),
+                           {date_format})
+                       AS study_date,
+                   c.sponsorship_id,
+                   c.id AS correspondence_id,
+                   c.direction,
+                   c.translate_date
             FROM correspondence c
-            JOIN res_lang_compassion l1 ON c.src_translation_lang_id = l1.id
-            JOIN res_lang_compassion l2 ON c.translation_language_id = l2.id
+                     JOIN res_lang_compassion l1 ON c.src_translation_lang_id = l1.id
+                     JOIN res_lang_compassion l2 ON c.translation_language_id = l2.id
             WHERE new_translator_id IS NOT NULL
-        """
-            ),
-            date_format,
+            """
+        ).format(
+            table=sql.Identifier(self._table),
+            date_trunc=sql.Literal(date_trunc_value),
+            date_format=sql.Literal(date_output_format),
         )
+        self.env.cr.execute(query)

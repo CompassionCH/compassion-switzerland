@@ -18,8 +18,7 @@ from pathlib import Path
 
 from paramiko.ssh_exception import SSHException
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 from odoo.tools.config import config
 
 logger = logging.getLogger(__name__)
@@ -105,7 +104,7 @@ class ImportLettersHistory(models.Model):
                     letter.nber_letters = len(sftp.listdir(letter.import_folder_path))
             except (FileNotFoundError, TypeError, SSHException):
                 others += letter
-        super(ImportLettersHistory, others)._compute_nber_letters()
+        return super(ImportLettersHistory, others)._compute_nber_letters()
 
     def _get_connection(self):
         key = self.env.ref("sbc_switzerland.nas_ssh_key").value
