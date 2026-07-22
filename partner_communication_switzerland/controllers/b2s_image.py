@@ -35,7 +35,7 @@ class B2sControllerSwitzerland(RestController):
         :param file_type: can force to use the PDF even though stored as ZIP.
         :return: file data for user
         """
-        res = super().handler_b2s_image(id, disposition, file_type)
+        res = super().handler_b2s_image(id, disposition)
         correspondence_obj = request.env["correspondence"].sudo()
         correspondence = correspondence_obj.search([("uuid", "=", id)])
         if correspondence.communication_id and request.env.user.share:
