@@ -202,7 +202,24 @@ class RecurringContract(models.Model):
 
     @api.model
     def _send_birthday_reminders(self, sponsorships, communication):
+        # The daily cron may fire more than once a day. Skip any
+        # sponsorship that already got this reminder in the last week.
+        recent = fields.Datetime.to_string(datetime.now() - relativedelta(days=7))
+        recent_jobs = self.env["partner.communication.job"].search(
+            [
+                ("config_id", "=", communication.id),
+                ("date", ">=", recent),
+            ]
+        )
+        already_reminded = {
+            int(obj_id)
+            for job in recent_jobs
+            for obj_id in (job.object_ids or "").split(",")
+            if obj_id.strip().isdigit()
+        }
         for sponsorship in sponsorships:
+            if sponsorship.id in already_reminded:
+                continue
             send_to_payer = (
                 sponsorship.send_gifts_to == "partner_id"
                 and sponsorship.partner_id.birthday_reminder
