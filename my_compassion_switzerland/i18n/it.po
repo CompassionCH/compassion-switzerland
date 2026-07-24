@@ -47,6 +47,16 @@ msgstr ""
 " a espletare i propri bisogni all'aperto."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid ""
+"<br/>\n"
+"                                A payment slip is available for download for each of\n"
+"                                your sponsored children."
+msgstr ""
+"<br/>\n"
+"                                Puoi scaricare un bollettino di versamento per ciascun bambino che sostieni."
+
+#. module: my_compassion_switzerland
 #: model:mail.template,body_html:my_compassion_switzerland.email_template_volunteer_registration
 msgid ""
 "<div style=\"font-family:Arial, sans-serif;font-size: 14px; line-height: 1.5; color: #333;\">\n"
@@ -348,6 +358,11 @@ msgstr ""
 "                <br/>\n"
 "(traduzioni, imbustamento, presenza agli eventi, portavoce nella\n"
 "tua chiesa o sport per i bambini)."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid "Download your tax receipt"
+msgstr "Scarica la tua ricevuta fiscale"
 
 #. module: my_compassion_switzerland
 #: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_fda
@@ -751,6 +766,13 @@ msgid "My Compassion Thank You Text"
 msgstr ""
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid ""
+"My donation\n"
+"                                    details"
+msgstr "Dettagli della mia donazione"
+
+#. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Name"
 msgstr "Nome"
@@ -1086,3 +1108,9 @@ msgstr "Crisi alimentare"
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
 msgstr "salute in TG"
+
+#. module: my_compassion_switzerland
+#. odoo-python
+#: code:addons/my_compassion_switzerland/controllers/my_account.py:0
+msgid "tax_receipt"
+msgstr "ricevuta_fiscale"

@@ -49,6 +49,16 @@ msgstr ""
 "sanitären Einrichtungen oder verrichten ihre Notdurft im Freien."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid ""
+"<br/>\n"
+"                                A payment slip is available for download for each of\n"
+"                                your sponsored children."
+msgstr ""
+"<br/>Für jedes deiner Patenkinder ist ein Einzahlungsschein zum Download "
+"verfügbar."
+
+#. module: my_compassion_switzerland
 #: model:mail.template,body_html:my_compassion_switzerland.email_template_volunteer_registration
 msgid ""
 "<div style=\"font-family:Arial, sans-serif;font-size: 14px; line-height: 1.5; color: #333;\">\n"
@@ -352,6 +362,11 @@ msgstr ""
 "                <br/>\n"
 "                Entdecke die verschiedenen Möglichkeiten, wie du mithelfen "
 "kannst:"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid "Download your tax receipt"
+msgstr "Steuerbescheinigung herunterladen"
 
 #. module: my_compassion_switzerland
 #: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_fda
@@ -748,6 +763,13 @@ msgid "My Compassion Thank You Text"
 msgstr ""
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid ""
+"My donation\n"
+"                                    details"
+msgstr "Meine Spendenbescheinigung"
+
+#. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Name"
 msgstr "Name"
@@ -1081,3 +1103,9 @@ msgstr ""
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
 msgstr ""
+
+#. module: my_compassion_switzerland
+#. odoo-python
+#: code:addons/my_compassion_switzerland/controllers/my_account.py:0
+msgid "tax_receipt"
+msgstr "Steuerbescheinigung"

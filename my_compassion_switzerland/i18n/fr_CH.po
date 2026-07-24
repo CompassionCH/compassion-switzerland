@@ -47,6 +47,16 @@ msgstr ""
 "insuffisantes ou font leurs besoins en plein air."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid ""
+"<br/>\n"
+"                                A payment slip is available for download for each of\n"
+"                                your sponsored children."
+msgstr ""
+"<br/>Un bulletin de versement est disponible en téléchargement pour chacun "
+"de vos enfants parrainés."
+
+#. module: my_compassion_switzerland
 #: model:mail.template,body_html:my_compassion_switzerland.email_template_volunteer_registration
 msgid ""
 "<div style=\"font-family:Arial, sans-serif;font-size: 14px; line-height: 1.5; color: #333;\">\n"
@@ -351,6 +361,11 @@ msgstr ""
 "                Traductions, mise sous pli, présence lors d'événements, être "
 "porte-parole dans\n"
 "                votre église ou courir pour les enfants."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid "Download your tax receipt"
+msgstr "Télécharger votre attestation fiscale"
 
 #. module: my_compassion_switzerland
 #: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_fda
@@ -751,6 +766,13 @@ msgid "My Compassion Thank You Text"
 msgstr ""
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
+msgid ""
+"My donation\n"
+"                                    details"
+msgstr "Détails de mon don"
+
+#. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Name"
 msgstr "Nom"
@@ -1089,3 +1111,9 @@ msgstr ""
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
 msgstr ""
+
+#. module: my_compassion_switzerland
+#. odoo-python
+#: code:addons/my_compassion_switzerland/controllers/my_account.py:0
+msgid "tax_receipt"
+msgstr "attestation_fiscale"
