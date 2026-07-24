@@ -373,6 +373,11 @@ msgid "E-Bill"
 msgstr ""
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid "Email"
+msgstr "E-mail"
+
+#. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_default_email
 #: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
 msgid ""
@@ -522,6 +527,14 @@ msgid "How to register?"
 msgstr "Comment s'inscrire ?"
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid ""
+"I\n"
+"                                        would like to receive reminders of the children\n"
+"                                        birthdays"
+msgstr "Je veux recevoir des rappels d'anniversaire de mes enfants parrainés"
+
+#. module: my_compassion_switzerland
 #: model:mail.template,subject:my_compassion_switzerland.email_template_volunteer_registration
 msgid "I want to get involved at Compassion Switzerland"
 msgstr "Je souhaite m'engager auprès de Compassion Suisse"
@@ -535,6 +548,18 @@ msgstr ""
 "Je souhaite participer à la mission de Compassion\n"
 "par un engagement bénévole, merci de me contacter\n"
 "( traductions de lettres, aide lors d'événements, prière, sport )."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid "I would like to receive the Compassion Newsletter"
+msgstr "Je veux recevoir la Newsletter de Compassion"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid ""
+"I would like to receive the sponsorship anniversary\n"
+"                                        card"
+msgstr "Je veux recevoir une carte d'anniversaire de mon parrainage"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -630,6 +655,11 @@ msgstr "Label utilisé sur le site web MyCompassion"
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
 msgid "Learn More"
 msgstr "En savoir plus"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid "Letter"
+msgstr "Lettre"
 
 #. module: my_compassion_switzerland
 #: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info3
@@ -734,6 +764,11 @@ msgstr "Besoin d'aide ?"
 #: model:ir.model,name:my_compassion_switzerland.model_new_sponsorship_wizard
 msgid "New Sponsorship Wizard"
 msgstr "Assistant Nouveau Parrainage"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid "None"
+msgstr "Aucun"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after2
@@ -873,6 +908,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid "Subscribe"
 msgstr "Abonner"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
+msgid "Tax Delivery Preference"
+msgstr "Mode de réception souhaité pour l'attestation de dons"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering

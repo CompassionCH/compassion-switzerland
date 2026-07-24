@@ -43,6 +43,7 @@
         "templates/my2_new_sponsorship_wizard.xml",
         "templates/my_account_menu.xml",
         "templates/my2_signup_form.xml",
+        "templates/my2_user_settings.xml",
     ],
     "assets": {
         "web.assets_frontend": [
