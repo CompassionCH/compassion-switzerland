@@ -754,9 +754,9 @@ class ResPartner(models.Model):
             mm_vals["active"] = False
         if "opt_out" in vals:
             subscription_ids = sudo.mapped(
-                "mass_mailing_contact_ids.subscription_list_ids"
+                "mass_mailing_contact_ids.subscription_ids"
             ).ids
-            mm_vals["subscription_list_ids"] = [
+            mm_vals["subscription_ids"] = [
                 (1, sub_id, {"opt_out": vals["opt_out"]}) for sub_id in subscription_ids
             ]
         if mm_vals and self.mapped("mass_mailing_contact_ids"):
