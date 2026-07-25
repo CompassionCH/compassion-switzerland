@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Swiss download surfaces of the donations page: the tax receipt form with its
+    fiscal year selector, the hint about the payment slips of the sponsorship list
+    and the payment slip button of every sponsorship item. They all download from
+    the Swiss /my/download/<source> route.
+-->
+<odoo>
+  <template
+    id="my2_donations_swiss_documents"
+    inherit_id="my_compassion.my2_my_donations_page"
+  >
+    <xpath expr="//div[@name='donations_details']" position="inside">
+      <div class="mt-4 mb-4">
+        <h3 id="tax_title" class="text-dark-blue">
+                                    My donation
+                                    details
+                                </h3>
+        <div class="d-flex flex-column">
+          <!-- Allows the partner to download its tax receipt for a selected year -->
+          <form id="tax_receipt_form" action="/my/download/tax_receipt" class="mb-3">
+            <div class="d-flex flex-row align-items-end">
+              <t t-call="theme_compassion_2025.FormFieldComponent">
+                <t t-set="label">Download your tax receipt</t>
+                <t t-set="top_class" t-value="'me-2'" />
+                <t t-call="theme_compassion_2025.SelectComponent">
+                  <t t-set="name" t-value="'year'" />
+                  <t t-set="id" t-value="'year'" />
+                  <t
+                    t-foreach="range(int(current_year) - 1, first_year - 1, -1)"
+                    t-as="fiscal_year"
+                  >
+                    <option t-att-value="fiscal_year">
+                      <t t-out="fiscal_year" />
+                    </option>
+                  </t>
+                </t>
+              </t>
+              <t t-call="theme_compassion_2025.ThemedButtonComponent">
+                <t t-set="variant" t-value="'compact'" />
+                <t t-set="variation" t-value="'filled'" />
+                <t t-set="icon" t-value="'icon-download01'" />
+                <t t-set="color" t-value="'dark-blue'" />
+                <t t-set="icon_color" t-value="'low-yellow'" />
+              </t>
+            </div>
+          </form>
+        </div>
+      </div>
+    </xpath>
+    <xpath expr="//span[@name='donations_sponsorships_hint']" position="inside">
+      <br />
+                                A payment slip is available for download for each of
+                                your sponsored children.
+                            </xpath>
+  </template>
+  <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
+  <template
+    id="sponsorship_donation_item_swiss_payment_slip"
+    inherit_id="my_compassion.SponsorshipDonationItem"
+  >
+    <xpath
+      expr="//t[@t-if='product_template']//t[@t-set='secondary_buttons_data']"
+      position="replace"
+    >
+      <t
+        t-set="secondary_buttons_data"
+        t-value="[
+                {
+                    'icon': 'download01',
+                    'color': 'low-blue',
+                    'action': 'link',
+                    'href': '/my/download/csp_bvr?csp_id=' + str(sponsorship.id),
+                }
+            ]"
+      />
+    </xpath>
+    <xpath
+      expr="//t[@t-else='']//t[@t-set='secondary_buttons_data']"
+      position="replace"
+    >
+      <t
+        t-set="secondary_buttons_data"
+        t-value="[
+            {
+                'icon': 'download01',
+                'color': 'low-blue',
+                'action': 'link',
+                'href': '/my/download/gift_bvr?child_id=' + str(sponsorship.child_id.id),
+            }
+        ]"
+      />
+    </xpath>
+  </template>
+</odoo>

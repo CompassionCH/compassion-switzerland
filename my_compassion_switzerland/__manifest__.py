@@ -22,6 +22,7 @@
         "ebill_postfinance_recipient_subscription",
         "sponsorship_switzerland",
         "crowdfunding_compassion",
+        "report_compassion",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -43,6 +44,8 @@
         "templates/my2_new_sponsorship_wizard.xml",
         "templates/my_account_menu.xml",
         "templates/my2_signup_form.xml",
+        "templates/my2_user_settings.xml",
+        "templates/my2_donations.xml",
     ],
     "assets": {
         "web.assets_frontend": [
