@@ -10,8 +10,11 @@
 import logging
 from datetime import date
 
+from psycopg2 import OperationalError
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
 from odoo.tools import relativedelta
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
@@ -173,6 +176,13 @@ class CompassionChild(models.Model):
                 company_id, old_children, valid_new_children
             )
         except Exception as e:
+            if (
+                isinstance(e, OperationalError)
+                and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
+            ):
+                # Transient conflict with a concurrent write: queue_job
+                # retries the job, no need to alert the developer.
+                raise
             logger.error("Critical failure in WordPress sync job", exc_info=True)
             with self.pool.cursor() as cr:
                 env = api.Environment(cr, self.env.uid, self.env.context)
