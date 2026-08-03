@@ -103,20 +103,6 @@
     </template>
 
     <template
-    id="childpack_swiss_with_qr"
-    inherit_id="child_compassion.childpack_document"
-  >
-        <xpath expr="//div[@class='photo']" position="before">
-            <img
-        class="qrcode"
-        t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}"
-        alt="QR Code to online sponsorship form"
-        t-if="full"
-      />
-        </xpath>
-    </template>
-
-    <template
     id="childpack_swiss"
     inherit_id="child_compassion.childpack_document"
   >
