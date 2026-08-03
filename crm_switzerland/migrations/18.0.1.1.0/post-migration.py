@@ -25,8 +25,6 @@ def migrate(env, version):
             .with_context(active_test=False)
             .search([("partner_id", "=", church.id), ("user_id", "!=", False)])
         )
-        if not leads:
-            continue
         changed = False
         for lead in leads:
             new_salesperson, _notify = church.resolve_church_salesperson(lead.user_id)
