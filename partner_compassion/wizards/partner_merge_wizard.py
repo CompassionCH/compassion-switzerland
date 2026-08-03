@@ -59,7 +59,7 @@ class PartnerMergeWizard(models.TransientModel):
             if new_email and email != new_email:
                 self.dst_partner_id.copy(
                     {
-                        "contact_id": self.dst_partner_id.id,
+                        "parent_id": self.dst_partner_id.id,
                         "email": email,
                         "type": "email_alias",
                     }

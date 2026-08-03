@@ -18,4 +18,7 @@
     <record id="engagement_together" model="advocate.engagement">
         <field name="name">Together</field>
     </record>
+    <record id="engagement_speaker_translator" model="advocate.engagement">
+        <field name="name">Speaker Translator</field>
+    </record>
 </odoo>

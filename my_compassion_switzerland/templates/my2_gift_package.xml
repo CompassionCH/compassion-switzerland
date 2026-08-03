@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Adds the Swiss payment brands (Twint, PostFinance) to the checkout brand
+    row of the gift package page.
+-->
+<odoo>
+  <template
+    id="gift_package_swiss_payment_brands"
+    inherit_id="my_compassion.my2_gift_package_page"
+  >
+    <xpath expr="//div[@name='checkout_payment_brands']" position="inside">
+      <img
+        alt="Twint"
+        class="px-1 col-3"
+        src="/my_compassion_switzerland/static/src/img/twint.png"
+      />
+      <img
+        alt="PostFinance"
+        class="px-1 col-3"
+        src="/my_compassion_switzerland/static/src/img/post_finance.png"
+      />
+    </xpath>
+  </template>
+</odoo>

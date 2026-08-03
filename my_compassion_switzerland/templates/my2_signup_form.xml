@@ -1,0 +1,26 @@
+<odoo>
+    <!-- Add a "How to register?" link to the MyCompassion signup form,
+         pointing to the public guide on compassion.ch. -->
+    <template
+    id="my2_signup_form_inherit_ch"
+    inherit_id="my_compassion.my2_signup_form"
+    website_id="my_compassion.my2_website"
+  >
+        <xpath expr="//a[@href='/contactus']/.." position="after">
+            <!-- Registration guide -->
+            <t
+        t-set="guide_lang_prefix"
+        t-value="'/de' if request.env.lang == 'de_DE' else ('/it' if request.env.lang == 'it_IT' else '')"
+      />
+            <div class="mt-3 text-center tiny-text text-mid-grey">
+                How to register?
+                <a
+          t-attf-href="https://compassion.ch{{ guide_lang_prefix }}/mycompassion/#inscrire"
+          class="tiny-text bold text-core-blue"
+          target="_blank"
+          onclick="window.open(this.href, '_system'); return false;"
+        >Read our guide</a>
+            </div>
+        </xpath>
+    </template>
+</odoo>

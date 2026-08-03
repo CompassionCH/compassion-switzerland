@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- List View -->
+    <record id="view_quality_test_tree" model="ir.ui.view">
+        <field name="name">quality.test.tree</field>
+        <field name="model">quality.test</field>
+        <field name="arch" type="xml">
+            <list
+        decoration-danger="last_run_result == 'fail'"
+        decoration-success="last_run_result == 'pass'"
+        decoration-muted="state == 'retired' or not last_run_date"
+      >
+                <field name="sequence" />
+                <field name="name" />
+                <field
+          name="state"
+          widget="badge"
+          decoration-info="state == 'draft'"
+          decoration-success="state == 'active'"
+          decoration-muted="state == 'retired'"
+        />
+                <field name="category_id" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="test_version" />
+                <field name="last_run_date" />
+                <field name="last_run_result" />
+                <field name="run_count" string="# Runs" />
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_quality_test_form" model="ir.ui.view">
+        <field name="name">quality.test.form</field>
+        <field name="model">quality.test</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+            name="action_activate"
+            string="Activate"
+            type="object"
+            class="btn-primary"
+            invisible="state != 'draft'"
+          />
+                    <button
+            name="action_create_run"
+            string="Add test run"
+            type="object"
+            class="btn-primary"
+            invisible="state != 'active'"
+          />
+                    <button
+            name="action_retire"
+            string="Retire"
+            type="object"
+            invisible="state not in ('draft', 'active')"
+          />
+                    <button
+            name="action_reset_to_draft"
+            string="Reset to Draft"
+            type="object"
+            invisible="state == 'draft'"
+          />
+                    <field
+            name="state"
+            widget="statusbar"
+            statusbar_visible="draft,active,retired"
+          />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+              name="action_view_runs"
+              type="object"
+              class="oe_stat_button"
+              icon="fa-list"
+            >
+                            <field
+                name="run_count"
+                widget="statinfo"
+                string="Test Runs"
+              />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field
+                name="name"
+                placeholder="Quality Test Name"
+                readonly="state in ('active', 'retired')"
+                class="oe_inline"
+              />
+                            <field name="test_version" class="oe_inline ml-2" />
+                        </h1>
+                    </div>
+                    <group
+            readonly="state in ('active', 'retired')"
+          >
+                        <group string="General">
+                            <field
+                name="user_id"
+                widget="many2one_avatar_user"
+              />
+                            <field name="category_id" />
+                        </group>
+                        <group string="Last Run">
+                            <field name="last_run_date" />
+                            <field
+                name="last_run_result"
+                decoration-danger="last_run_result == 'fail'"
+                decoration-success="last_run_result == 'pass'"
+                widget="badge"
+              />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field
+                name="description"
+                widget="html"
+                placeholder="Describe the steps to execute this quality test..."
+                readonly="state in ('active', 'retired')"
+              />
+                        </page>
+                        <page string="Related Modules" name="modules">
+                            <field
+                name="module_ids"
+                widget="many2many_tags"
+                options="{'no_create': True}"
+                readonly="state in ('active', 'retired')"
+              />
+                        </page>
+                        <page string="Notification Rules" name="rules">
+                            <group
+                string="Time-Based Rule"
+                readonly="state in ('active', 'retired')"
+              >
+                                <field name="rule_delay" />
+                                <field
+                  name="delay_days"
+                  invisible="not rule_delay"
+                  required="rule_delay"
+                />
+                            </group>
+                            <group
+                string="Module Update Rule"
+                readonly="state in ('active', 'retired')"
+              >
+                                <field name="rule_module_update" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_quality_test_search" model="ir.ui.view">
+        <field name="name">quality.test.search</field>
+        <field name="model">quality.test</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="category_id" />
+                <field name="user_id" />
+                <filter
+          string="Draft"
+          name="draft"
+          domain="[('state', '=', 'draft')]"
+        />
+                <filter
+          string="Active"
+          name="active_state"
+          domain="[('state', '=', 'active')]"
+        />
+                <filter
+          string="Retired"
+          name="retired"
+          domain="[('state', '=', 'retired')]"
+        />
+                <separator />
+                <filter
+          string="Failing"
+          name="failing"
+          domain="[('last_run_result', '=', 'fail')]"
+        />
+                <filter
+          string="Passing"
+          name="passing"
+          domain="[('last_run_result', '=', 'pass')]"
+        />
+                <filter
+          string="Never Tested"
+          name="never_tested"
+          domain="[('last_run_date', '=', False)]"
+        />
+                <group expand="1" string="Group By">
+                    <filter
+            name="groupby_category"
+            string="Category"
+            context="{'group_by': 'category_id'}"
+          />
+                    <filter
+            name="groupby_state"
+            string="Status"
+            context="{'group_by': 'state'}"
+          />
+                    <filter
+            name="groupby_responsible"
+            string="Responsible"
+            context="{'group_by': 'user_id'}"
+          />
+                    <filter
+            name="groupby_result"
+            string="Last Result"
+            context="{'group_by': 'last_run_result'}"
+          />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_quality_test" model="ir.actions.act_window">
+        <field name="name">Quality Tests</field>
+        <field name="res_model">quality.test</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_quality_test_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first quality test
+            </p>
+            <p>
+                Define quality tests to track critical processes and ensure
+                they are regularly verified.
+            </p>
+        </field>
+    </record>
+
+    <!-- Category Views -->
+    <record id="view_quality_test_category_tree" model="ir.ui.view">
+        <field name="name">quality.test.category.tree</field>
+        <field name="model">quality.test.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_quality_test_category_form" model="ir.ui.view">
+        <field name="name">quality.test.category.form</field>
+        <field name="model">quality.test.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_quality_test_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">quality.test.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem
+    id="menu_quality_test_list"
+    name="Quality Tests"
+    parent="project.menu_main_pm"
+    action="action_quality_test"
+  />
+    <menuitem
+    id="menu_quality_test_category"
+    name="Quality Test Categories"
+    parent="project.menu_project_config"
+    action="action_quality_test_category"
+    sequence="30"
+  />
+
+</odoo>

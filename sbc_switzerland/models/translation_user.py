@@ -14,8 +14,9 @@ class Partner(models.Model):
         return translators
 
     def toggle_active(self):
-        super().toggle_active()
+        res = super().toggle_active()
         self.send_communication(self.env.ref("sbc_switzerland.translator_goodbye"))
+        return res
 
     def unlink(self):
         self.send_communication(self.env.ref("sbc_switzerland.translator_goodbye"))

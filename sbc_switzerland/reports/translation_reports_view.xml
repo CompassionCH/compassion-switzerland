@@ -93,12 +93,12 @@
         </field>
     </record>
 
-    <!-- Tree views -->
+    <!-- List views -->
     <record id="view_translation_daily_report_tree" model="ir.ui.view">
-        <field name="name">translation.daily.report.tree</field>
+        <field name="name">translation.daily.report.list</field>
         <field name="model">translation.daily.report</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="study_date" />
                 <field name="translator_id" />
                 <field name="src_lang" />
@@ -107,7 +107,7 @@
                 <field name="sponsorship_id" />
                 <field name="sponsor" />
                 <field name="field_office_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -166,7 +166,7 @@
       eval="[
             (5, 0, 0),
             (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_translation_daily_report_graph')}),
-            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_translation_daily_report_tree')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_translation_daily_report_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('view_translation_daily_report_form')}),
             ]"
     />
@@ -185,7 +185,7 @@
       eval="[
             (5, 0, 0),
             (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_translation_daily_report_graph')}),
-            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_translation_daily_report_tree')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_translation_daily_report_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('view_translation_daily_report_form')}),
             ]"
     />
@@ -200,7 +200,7 @@
       eval="[
             (5, 0, 0),
             (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_translation_daily_report_graph')}),
-            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_translation_daily_report_tree')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_translation_daily_report_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('view_translation_daily_report_form')}),
             ]"
     />

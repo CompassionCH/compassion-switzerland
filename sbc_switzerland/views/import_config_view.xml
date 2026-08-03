@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Form Definition -->
     <record id="import_letters_config_form_folder_path" model="ir.ui.view">

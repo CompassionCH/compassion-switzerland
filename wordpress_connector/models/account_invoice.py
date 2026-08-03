@@ -121,14 +121,10 @@ class AccountInvoice(models.Model):
             child_code,
         )
         partner = self.env["res.partner"].browse(partner_id)
-        if partner.contact_type == "attached":
-            if partner.type == "email_alias":
-                # In this case we want to link to the main partner
-                partner = partner.contact_id
-                partner_id = partner.id
-            else:
-                # We unarchive the partner to make it visible
-                partner.write({"active": True, "contact_id": False})
+        if partner.parent_id and partner.type == "email_alias":
+            # In this case we want to link to the main partner
+            partner = partner.parent_id
+            partner_id = partner.id
         payment_mode = self.env["account.payment.mode"].search(
             [("name", "=", payment_mode_name), ("active", "=", True)]
         )
@@ -223,9 +219,6 @@ class AccountInvoice(models.Model):
         product = self.env["product.product"]
         if fund:
             product = product.search([("default_code", "=", fund)], limit=1)
-        analytic_default = self.env["account.analytic.default"].account_get(product.id)
-        analytic_id = analytic_default.analytic_id.id
-        analytic_tag_ids = analytic_default.analytic_tag_ids.ids
         gift_account = self.env["account.account"].search([("code", "=", "6003")])
         sponsorship = self.env["recurring.contract"]
         if child_code:
@@ -241,8 +234,8 @@ class AccountInvoice(models.Model):
             )
             if not sponsorship:
                 raise ValueError(
-                    "No sponsorship found for child %s and partner %s"
-                    % (child_code, self.partner_id.id)
+                    f"No sponsorship found for child {child_code} and "
+                    f"partner {self.partner_id.ref}"
                 )
         source_id = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
         medium_id = self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1)
@@ -268,8 +261,6 @@ class AccountInvoice(models.Model):
                             "quantity": 1,
                             "price_unit": float(amount),
                             "price_subtotal": float(amount),
-                            "analytic_account_id": analytic_id,
-                            "analytic_tag_ids": [(6, 0, analytic_tag_ids)],
                         },
                     ),
                 ],
@@ -305,8 +296,10 @@ class AccountInvoice(models.Model):
         }
         account_payment = self.env["account.payment"].create(payment_vals)
         account_payment.action_post()
-        for account in account_payment.line_ids.account_id:
-            (account_payment.line_ids + self.line_ids).filtered_domain(
+        for account in account_payment.payment_line_ids.move_line_id.account_id:
+            (
+                account_payment.payment_line_ids.move_line_id + self.line_ids
+            ).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).with_delay_sh("reconcile", channel="root.accounting", priority=500)
         return True

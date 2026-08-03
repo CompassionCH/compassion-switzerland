@@ -24,20 +24,24 @@ class B2sControllerSwitzerland(RestController):
     # pylint: disable=redefined-builtin
     # Changed 'attachment' to 'inline' :
     # doesn't download the PDF anymore and opens it in a window
-    def handler_b2s_image(self, id=None, disposition="inline", file_type=None):
+    def handler_b2s_image(
+        self, letter_uuid=None, id=None, disposition="inline", file_type=None, **kwargs
+    ):
         """
         URL for downloading a correspondence PDF
         (or ZIP when multiple letters are attached).
         Find the associated communication and mark all related letters
         as opened and read.
-        :param id: uuid of the correspondence holding the data.
+        :param letter_uuid: uuid of the correspondence.
+        :param id: legacy alias for letter_uuid.
         :param disposition: "inline" to show in browser or None to download.
         :param file_type: can force to use the PDF even though stored as ZIP.
         :return: file data for user
         """
-        res = super().handler_b2s_image(id, disposition, file_type)
+        uuid = letter_uuid or id
+        res = super().handler_b2s_image(letter_uuid=uuid, disposition=disposition)
         correspondence_obj = request.env["correspondence"].sudo()
-        correspondence = correspondence_obj.search([("uuid", "=", id)])
+        correspondence = correspondence_obj.search([("uuid", "=", uuid)])
         if correspondence.communication_id and request.env.user.share:
             all_letters = correspondence.communication_id.get_objects()
             all_letters.write({"email_read": datetime.now()})

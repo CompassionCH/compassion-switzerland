@@ -8,4 +8,5 @@
 #
 ##############################################################################
 
+from . import test_advocate_birthday
 from . import test_partner_compassion

@@ -327,6 +327,24 @@ class ResPartner(models.Model):
         res.pop("name", False)
         return res
 
+    def _inverse_name(self):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. When the written name still matches the stored
+        firstname/lastname combination, we keep them as they are instead of
+        re-splitting the name. This prevents corrupting couple names like
+        "John und Jane Smith" (firstname="John und Jane",
+        lastname="Smith") into firstname="John", lastname="und Jane
+        Smith" when the unchanged name is written back (e.g. by the
+        website checkout during an online donation).
+        """
+        to_split = self.filtered(
+            lambda p: (p.name or "")
+            != (p._get_computed_name(p.lastname, p.firstname) or "")
+        )
+        if to_split:
+            return super(ResPartner, to_split)._inverse_name()
+
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
         """Extends to use trigram search."""
@@ -736,9 +754,9 @@ class ResPartner(models.Model):
             mm_vals["active"] = False
         if "opt_out" in vals:
             subscription_ids = sudo.mapped(
-                "mass_mailing_contact_ids.subscription_list_ids"
+                "mass_mailing_contact_ids.subscription_ids"
             ).ids
-            mm_vals["subscription_list_ids"] = [
+            mm_vals["subscription_ids"] = [
                 (1, sub_id, {"opt_out": vals["opt_out"]}) for sub_id in subscription_ids
             ]
         if mm_vals and self.mapped("mass_mailing_contact_ids"):

@@ -1,0 +1,50 @@
+<!--
+  Adds the volunteering opt-in to the communication step of the base
+  New-Sponsorship wizard. The checkbox feeds new.sponsorship.wizard.volunteering
+  and ends up on res.partner.interested_for_volunteering (partner_compassion).
+-->
+<odoo>
+  <template
+    id="new_sponsorship_wizard_volunteering"
+    inherit_id="my_compassion.my2_new_sponsorship_wizard_communication_details"
+    name="New Sponsorship Wizard Volunteering Opt-in"
+  >
+    <xpath
+      expr="//t[@t-call='theme_compassion_2025.FormFieldComponent']
+                   [.//t[@t-set='input_id' and @t-value=&quot;'lead_source'&quot;]]"
+      position="after"
+    >
+      <input type="hidden" name="volunteering" value="" />
+      <t t-call="theme_compassion_2025.FormFieldComponent">
+        <t t-set="top_class" t-value="'my-3'" />
+        <t t-set="label">Volunteering</t>
+        <div class="d-flex align-items-center">
+          <input
+            type="checkbox"
+            id="volunteering"
+            name="volunteering"
+            class="flex-shrink-0"
+            t-att-checked="wizard.volunteering"
+          />
+          <label class="ms-3 mb-0 body-small bold" t-att-for="'volunteering'">
+                    I wish to volunteer my time (letter translations, events, prayer, ...).
+                    Please contact me.
+                </label>
+        </div>
+        <div class="mt-2 p-4 bg-high-eggshell rounded-lg body-small">
+                Do you want to inspire other people to sponsor a child?
+                Does the situation of children in need particularly touch you and you want to take action?
+                <br />
+                <br />
+                You can volunteer for Compassion and thereby place your talents at the service of the most
+                destitute children
+                on the planet.
+                <br />
+                <br />
+                Translations, stuffing envelopes, presence at events, being a spokesperson in
+                your church or running for the children.
+            </div>
+      </t>
+    </xpath>
+  </template>
+</odoo>
