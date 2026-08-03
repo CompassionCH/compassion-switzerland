@@ -18,7 +18,7 @@ class Lead(models.Model):
             return
         for lead in self:
             church = lead.partner_id
-            if not church.is_church or not lead.user_id:
+            if not church.is_church:
                 continue
             church.with_delay_sh(
                 "sync_salesperson_from_lead",
