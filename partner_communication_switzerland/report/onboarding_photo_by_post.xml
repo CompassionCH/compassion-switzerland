@@ -38,7 +38,7 @@
                 }
                 #map {
                     position: absolute;
-                    top: 80mm;
+                    top: 74mm;
                     left: 135mm;
                     width: 60mm;
                     height: 60mm;
