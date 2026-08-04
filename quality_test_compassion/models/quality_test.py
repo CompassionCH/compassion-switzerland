@@ -5,7 +5,7 @@ import logging
 from datetime import timedelta
 
 from odoo import Command, _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_round
 
 _logger = logging.getLogger(__name__)
@@ -57,6 +57,22 @@ class QualityTest(models.Model):
         default=lambda self: self.env.user,
         tracking=True,
         domain=[("share", "=", False)],
+    )
+    parent_id = fields.Many2one(
+        "quality.test",
+        string="Parent",
+        index=True,
+        ondelete="set null",
+        tracking=True,
+        help="Test that must be performed before this one, when several tests "
+        "are chained from a business perspective "
+        "(e.g. 'Hold children' before 'Sponsor a child').",
+    )
+    child_ids = fields.One2many(
+        "quality.test",
+        "parent_id",
+        string="Follow-up Tests",
+        help="Tests that must be performed after this one.",
     )
     module_ids = fields.Many2many(
         "ir.module.module",
@@ -131,6 +147,13 @@ class QualityTest(models.Model):
         for rec in self:
             runs = rec.test_run_ids.sorted("date", reverse=True)
             rec.last_run_id = runs[:1]
+
+    @api.constrains("parent_id")
+    def _check_parent_id(self):
+        if self._has_cycle():
+            raise ValidationError(
+                _("You cannot create a recursive chain of quality tests.")
+            )
 
     def action_create_run(self):
         """Open a new test run form pre-linked to this quality test."""

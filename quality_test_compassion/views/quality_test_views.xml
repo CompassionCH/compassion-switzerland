@@ -21,6 +21,7 @@
           decoration-muted="state == 'retired'"
         />
                 <field name="category_id" />
+                <field name="parent_id" optional="hide" />
                 <field name="user_id" widget="many2one_avatar_user" />
                 <field name="test_version" />
                 <field name="last_run_date" />
@@ -102,6 +103,11 @@
                 widget="many2one_avatar_user"
               />
                             <field name="category_id" />
+                            <field
+                                name="parent_id"
+                                domain="[('id', '!=', id)]"
+                                options="{'no_create': True}"
+                            />
                         </group>
                         <group string="Last Run">
                             <field name="last_run_date" />
@@ -168,6 +174,7 @@
                 <field name="name" />
                 <field name="category_id" />
                 <field name="user_id" />
+                <field name="parent_id" />
                 <filter
           string="Draft"
           name="draft"
@@ -214,6 +221,11 @@
             name="groupby_responsible"
             string="Responsible"
             context="{'group_by': 'user_id'}"
+          />
+                    <filter
+            name="groupby_parent"
+            string="Parent"
+            context="{'group_by': 'parent_id'}"
           />
                     <filter
             name="groupby_result"
