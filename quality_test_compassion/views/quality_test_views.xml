@@ -158,6 +158,33 @@
                                 <field name="rule_module_update" />
                             </group>
                         </page>
+                        <page string="Follow-up Tests" name="child_tests">
+                            <field name="child_ids" readonly="1">
+                                <list>
+                                    <field name="sequence" />
+                                    <field name="name" />
+                                    <field
+                                        name="state"
+                                        widget="badge"
+                                        decoration-info="state == 'draft'"
+                                        decoration-success="state == 'active'"
+                                        decoration-muted="state == 'retired'"
+                                    />
+                                    <field name="category_id" />
+                                    <field
+                                        name="user_id"
+                                        widget="many2one_avatar_user"
+                                    />
+                                    <field name="last_run_date" />
+                                    <field
+                                        name="last_run_result"
+                                        decoration-danger="last_run_result == 'fail'"
+                                        decoration-success="last_run_result == 'pass'"
+                                        widget="badge"
+                                    />
+                                </list>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>
