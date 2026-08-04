@@ -76,6 +76,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="ambassador_id" />
+                <field name="child_country_id" />
             </field>
             <filter name="physical" position="after">
                 <separator />
@@ -112,6 +113,12 @@
           name="ambassador"
           domain="[]"
           context="{'group_by':'ambassador_id'}"
+        />
+                <filter
+          string="Country"
+          name="country"
+          domain="[]"
+          context="{'group_by':'child_country_id'}"
         />
             </filter>
         </field>
