@@ -15,7 +15,7 @@ from datetime import date, datetime
 import requests
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -29,6 +29,38 @@ class PartnerCommunication(models.Model):
     currency_id = fields.Many2one(
         "res.currency", compute="_compute_currency", readonly=False
     )
+    child_country_id = fields.Many2one(
+        "res.country",
+        "Child country",
+        store=True,
+        index=True,
+        compute="_compute_child_country",
+    )
+
+    @api.depends("object_ids", "model")
+    def _compute_child_country(self):
+        for job in self:
+            country = self.env["res.country"]
+            if job.model == "compassion.child" and job.object_ids:
+                first_id = job.object_ids.strip("[]").split(",")[0].strip()
+                if first_id.isdigit():
+                    child = self.env["compassion.child"].browse(int(first_id)).exists()
+                    country = child.field_office_id.country_id
+            job.child_country_id = country
+
+    def _print_batch(self):
+        biennial = self.env.ref("partner_communication_compassion.biennial")
+        if biennial in self.mapped("config_id"):
+            biennials = self.filtered(lambda j: j.config_id == biennial).sorted(
+                key=lambda j: (
+                    j.child_country_id.name or "",
+                    j.partner_id.ref or "",
+                    j.partner_id.id,
+                )
+            )
+            others = self.filtered(lambda j: j.config_id != biennial)
+            self = others + biennials
+        return super()._print_batch()
 
     def schedule_call(self):
         self.ensure_one()

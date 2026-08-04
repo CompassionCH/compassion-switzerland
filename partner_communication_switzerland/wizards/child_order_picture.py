@@ -58,6 +58,15 @@ class CompassionHold(models.TransientModel):
     def print_pictures(self):
         return self._get_pictures(_print=True)
 
+    def _sorted_sponsorships(self):
+        return self.sponsorship_ids.sorted(
+            key=lambda s: (
+                s.child_id.field_office_id.country_id.name or "",
+                s.child_id.sponsor_ref or "",
+                s.child_id.local_id or "",
+            )
+        )
+
     def _get_pictures(self, _print=False):
         """
         Generate child pictures with white frame and make a downloadable
@@ -65,12 +74,13 @@ class CompassionHold(models.TransientModel):
         :param _print: Set to true for PDF generation instead of ZIP file.
         :return: Window Action
         """
-        sponsorships = self.sponsorship_ids[:NUMBER_LIMIT]
+        sponsorships = self._sorted_sponsorships()[:NUMBER_LIMIT]
+        children = sponsorships.mapped("child_id")
         if _print:
             report = self.env.ref("child_compassion.report_child_picture")
-            res = report.report_action(sponsorships.mapped("child_id.id"), config=False)
+            res = report.report_action(children.ids, config=False)
         else:
-            self.download_data = self._make_zip()
+            self.download_data = self._make_zip(children)
             res = {
                 "type": "ir.actions.act_window",
                 "view_type": "form",
@@ -86,14 +96,12 @@ class CompassionHold(models.TransientModel):
             s.message_post(body=_("Picture ordered."))
         return res
 
-    def _make_zip(self):
+    def _make_zip(self, children):
         """
         Create a zip file with all pictures
-        :param self:
         :return: b64_data of the generated zip file
         """
         zip_buffer = BytesIO()
-        children = self.mapped("sponsorship_ids.child_id")[:NUMBER_LIMIT]
         with ZipFile(zip_buffer, "w") as zip_data:
             report_ref = self.env.ref(
                 "child_compassion.report_child_picture"
@@ -105,7 +113,8 @@ class CompassionHold(models.TransientModel):
                 pdf_temp_file.write(pdf_data)
                 pages = convert_from_path(pdf_temp_file.name)
                 for child, page in zip(children, pages, strict=False):
-                    fname = str(child.sponsor_ref) + "_" + str(child.local_id) + ".jpg"
+                    country = child.field_office_id.country_id.name or "ZZ"
+                    fname = f"{country}_{child.sponsor_ref}_{child.local_id}.jpg"
                     temp_img_path = os.path.join(tempfile.gettempdir(), fname)
                     page.save(temp_img_path, "JPEG")
                     with open(temp_img_path, "rb") as img_file:
