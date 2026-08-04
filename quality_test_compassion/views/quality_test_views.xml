@@ -288,6 +288,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name" />
+                <field name="parent_id" />
             </list>
         </field>
     </record>
@@ -300,6 +301,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
+                        <field name="parent_id" domain="[('id', '!=', id)]" />
                     </group>
                 </sheet>
             </form>
