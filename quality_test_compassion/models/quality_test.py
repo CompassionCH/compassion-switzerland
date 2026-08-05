@@ -117,7 +117,9 @@ class QualityTest(models.Model):
 
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = rec.name + " " + rec.test_version
+            name = rec.name or ""
+            display = f"{rec.sequence} - {name}".strip()
+            rec.display_name = display if display else _("New Quality Test")
 
     @api.depends("test_run_ids")
     def _compute_run_count(self):

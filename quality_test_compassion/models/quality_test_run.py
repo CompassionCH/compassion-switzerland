@@ -25,7 +25,7 @@ class QualityTestRun(models.Model):
         index=True,
     )
     test_version = fields.Char(related="test_id.test_version")
-    tested_at_version = fields.Char(readonly=True)
+    tested_at_version = fields.Char("Protocol version", readonly=True)
     is_same_procedure_as_test = fields.Boolean(
         compute="_compute_is_same_procedure_as_test"
     )

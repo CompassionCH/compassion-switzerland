@@ -106,7 +106,6 @@
                     </group>
                     <group
             string="Test procedure (at time of test run)"
-            attrs="{'invisible': [('is_same_procedure_as_test', '=', True)]}"
           >
                         <field name="description" nolabel="1" />
                     </group>

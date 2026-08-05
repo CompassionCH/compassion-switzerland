@@ -90,9 +90,7 @@
                 name="name"
                 placeholder="Quality Test Name"
                 attrs="{'readonly': [('state', 'in', ['active', 'retired'])]}"
-                class="oe_inline"
               />
-                            <field name="test_version" class="oe_inline ml-2" />
                         </h1>
                     </div>
                     <group
@@ -117,6 +115,9 @@
                     </group>
                     <notebook>
                         <page string="Description" name="description">
+                            <group>
+                                <field name="test_version" />
+                            </group>
                             <field
                 name="description"
                 widget="html"
