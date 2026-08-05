@@ -114,6 +114,7 @@ class CompassionHold(models.TransientModel):
                 pages = convert_from_path(pdf_temp_file.name)
                 for child, page in zip(children, pages, strict=False):
                     country = child.field_office_id.country_id.name or "ZZ"
+                    country = child.field_office_id.country_id.name or "ZZ"
                     fname = f"{country}_{child.sponsor_ref}_{child.local_id}.jpg"
                     temp_img_path = os.path.join(tempfile.gettempdir(), fname)
                     page.save(temp_img_path, "JPEG")

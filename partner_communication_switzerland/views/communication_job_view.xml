@@ -65,6 +65,12 @@
                 <filter string="Event" name="event" domain="[]" context="{'group_by':'event_id'}"/>
                 <filter string="Ambassador" name="ambassador" domain="[]" context="{'group_by':'ambassador_id'}"/>
                 <filter string="Country" name="country" domain="[]" context="{'group_by':'child_country_id'}"/>
+                <filter
+          string="Country"
+          name="country"
+          domain="[]"
+          context="{'group_by':'child_country_id'}"
+        />
             </filter>
         </field>
     </record>
