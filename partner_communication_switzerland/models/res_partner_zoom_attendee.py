@@ -19,6 +19,8 @@ COLOR_MAPPING = {
     "missing": 6,
 }
 
+MESSAGE_ACTIVITY_SUMMARY = "Participant registered for the zoom session with a message"
+
 
 class ZoomCommunication(Enum):
     REGISTRATION = (
@@ -167,13 +169,22 @@ class ZoomAttendee(models.Model):
         self.ensure_one()
         lang = self.partner_id.lang[:2]
         user_id = self.env["res.config.settings"].get_param(f"zoom_attendee_{lang}_id")
-        if user_id:
-            self.activity_schedule(
-                "mail.mail_activity_data_todo",
-                summary="Participant registered for the zoom session with a message",
-                note=self.optional_message,
-                user_id=user_id,
-            )
+        if not user_id:
+            return
+        activity_type = self.env.ref("mail.mail_activity_data_todo")
+        already_notified = self.activity_ids.filtered(
+            lambda a: a.activity_type_id == activity_type
+            and a.user_id.id == user_id
+            and a.summary == MESSAGE_ACTIVITY_SUMMARY
+        )
+        if already_notified:
+            return
+        self.activity_schedule(
+            "mail.mail_activity_data_todo",
+            summary=MESSAGE_ACTIVITY_SUMMARY,
+            note=self.optional_message,
+            user_id=user_id,
+        )
 
     def send_communication(self, config_name):
         """Send a communication to a Zoom participant"""
