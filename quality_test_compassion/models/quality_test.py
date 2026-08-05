@@ -118,8 +118,7 @@ class QualityTest(models.Model):
     def _compute_display_name(self):
         for rec in self:
             name = rec.name or ""
-            version = rec.test_version or ""
-            display = f"{name} {version}".strip()
+            display = f"{rec.sequence} - {name}".strip()
             rec.display_name = display if display else _("New Quality Test")
 
     @api.depends("test_run_ids")

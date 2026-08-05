@@ -104,7 +104,6 @@
                     </group>
                     <group
             string="Test procedure (at time of test run)"
-            invisible="is_same_procedure_as_test"
           >
                         <field name="description" nolabel="1" />
                     </group>
