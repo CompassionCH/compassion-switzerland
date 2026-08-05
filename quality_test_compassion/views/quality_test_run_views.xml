@@ -98,6 +98,7 @@
                 name="is_same_procedure_as_test"
                 invisible="1"
               />
+                            <field name="test_version" invisible="1" />
                             <field name="tested_at_version" />
                         </group>
                     </group>

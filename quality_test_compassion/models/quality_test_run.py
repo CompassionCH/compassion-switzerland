@@ -88,10 +88,16 @@ class QualityTestRun(models.Model):
         store=True,
     )
 
+    @api.onchange("test_id")
+    def onchange_test_version(self):
+        if self.test_version:
+            self.tested_at_version = self.test_version
+
     def _compute_is_same_procedure_as_test(self):
         for rec in self:
             rec.is_same_procedure_as_test = rec.test_version == rec.tested_at_version
 
+    @api.depends("test_id", "tested_at_version")
     def _compute_description(self):
         for rec in self:
             rec.description = (
