@@ -30,7 +30,7 @@
 {
     "name": "Compassion CH Partners",
     "summary": "Upgrade Partners for Compassion Switzerland",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "development_status": "Production/Stable",
     "category": "Partner Management",
     "author": "Compassion CH",
@@ -69,7 +69,6 @@
     "external_dependencies": {"python": ["pandas", "pyminizip", "pysftp"]},
     "data": [
         "security/ir.model.access.csv",
-        "security/criminal_record_groups.xml",
         "data/partner_category_data.xml",
         "data/partner_title_data.xml",
         "data/advocate_engagement_data.xml",
