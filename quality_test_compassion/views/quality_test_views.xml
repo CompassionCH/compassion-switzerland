@@ -120,16 +120,51 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Description" name="description">
+                        <page string="Test Steps" name="steps">
                             <group>
                                 <field name="test_version" />
                             </group>
                             <field
-                name="description"
-                widget="html"
-                placeholder="Describe the steps to execute this quality test..."
-                readonly="state in ('active', 'retired')"
-              />
+                                name="step_ids"
+                                readonly="state in ('active', 'retired')"
+                            >
+                                <list>
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                </list>
+                                <form>
+                                    <div class="oe_title mb-4">
+                                        <label for="name" class="o_form_label" />
+                                        <h1>
+                                            <field
+                                                name="name"
+                                                placeholder="e.g. Hold a child"
+                                            />
+                                        </h1>
+                                    </div>
+                                    <separator string="Instructions" />
+                                    <field
+                                        name="description"
+                                        widget="html"
+                                        nolabel="1"
+                                        placeholder="Detailed instructions to perform this step..."
+                                    />
+                                    <separator string="Expected Results" />
+                                    <div class="text-muted mb-2">
+                                        What must be observed for this step to
+                                        be considered successful.
+                                    </div>
+                                    <field name="expected_result_ids" nolabel="1">
+                                        <list editable="bottom">
+                                            <field
+                                                name="name"
+                                                string="Expected Results"
+                                                placeholder="e.g. The child appears in the hold list"
+                                            />
+                                        </list>
+                                    </field>
+                                </form>
+                            </field>
                         </page>
                         <page string="Related Modules" name="modules">
                             <field

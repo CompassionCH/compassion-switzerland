@@ -28,9 +28,13 @@
             <li>{{ reason }}</li>
         {% endfor %}
     </ul>
-    {% if object.description %}
-        <p><strong>Test Description:</strong></p>
-        <div style="margin-left: 1em;">{{ object.description }}</div>
+    {% if object.step_ids %}
+        <p><strong>Test Steps:</strong></p>
+        <ol style="margin-left: 1em;">
+            {% for step in object.step_ids %}
+                <li>{{ step.name }}</li>
+            {% endfor %}
+        </ol>
     {% endif %}
     <p>
         Please log in to Odoo and record a new test run as soon as possible.
@@ -61,6 +65,17 @@
               style="color: #d9534f;"
             ><strong>failed</strong></span>.
     </p>
+    {% if object.failed_result_ids %}
+        <p><strong>Failed expected results:</strong></p>
+        <ul style="margin-left: 1em;">
+            {% for line in object.failed_result_ids %}
+                <li>
+                    <strong>{{ line.step_name }}</strong>: {{ line.name }}
+                    {% if line.comment %}<br />{{ line.comment }}{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {% if object.comment %}
         <p><strong>Notes:</strong></p>
         <div style="margin-left: 1em;">{{ object.comment }}</div>

@@ -1,7 +1,8 @@
 # Copyright 2026 Compassion CH
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class QualityTestCategory(models.Model):
@@ -16,14 +17,18 @@ class QualityTestCategory(models.Model):
         ondelete="set null",
     )
 
-    @api.depends("name", "parent_id")
+    @api.depends("name", "parent_id.display_name")
     def _compute_display_name(self):
+        """Name the category by its complete path."""
         for rec in self:
-            rec.display_name = rec._get_full_name()
+            if rec.parent_id:
+                rec.display_name = f"{rec.parent_id.display_name} / {rec.name}"
+            else:
+                rec.display_name = rec.name
 
-    def _get_full_name(self):
-        """Return the complete category path."""
-        self.ensure_one()
-        if self.parent_id:
-            return f"{self.parent_id._get_full_name()} / {self.name}"
-        return self.name
+    @api.constrains("parent_id")
+    def _check_parent_id(self):
+        if self._has_cycle():
+            raise ValidationError(
+                _("You cannot create a recursive chain of categories.")
+            )

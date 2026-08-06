@@ -16,11 +16,19 @@ class QualityTest(models.Model):
     _description = "Quality Test"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "category_id,sequence"
+    _sql_constraints = [
+        (
+            "quality_test_sequence_uniq",
+            "unique(sequence)",
+            "The test number must be unique.",
+        )
+    ]
 
     name = fields.Char(required=True, tracking=True)
     sequence = fields.Char(
         index=True,
         readonly=True,
+        copy=False,
         default=lambda self: self.env["ir.sequence"].next_by_code("QTSEQ"),
         required=True,
     )
@@ -49,7 +57,14 @@ class QualityTest(models.Model):
         "Active: test is locked for editing; test runs can be recorded.\n"
         "Retired: test is no longer relevant and cannot receive new runs.",
     )
-    description = fields.Html(required=True)
+    step_ids = fields.One2many(
+        "quality.test.step",
+        "test_id",
+        string="Test Steps",
+        domain=[("version_id", "=", False)],
+        copy=True,
+        help="Steps to perform, with the results expected for each of them.",
+    )
     user_id = fields.Many2one(
         "res.users",
         string="Responsible",
@@ -173,6 +188,7 @@ class QualityTest(models.Model):
             "target": "current",
             "context": {
                 "default_test_id": self.id,
+                "default_result_ids": self._get_run_result_commands(),
                 "default_module_version_ids": [
                     Command.create(
                         {
@@ -201,6 +217,7 @@ class QualityTest(models.Model):
         """Move the test from draft to active, locking it for editing."""
         for rec in self:
             if rec.state == "draft":
+                rec._check_steps_defined()
                 rec.state = "active"
                 version_exists = self.env["quality.test.version"].search_count(
                     [("test_id", "=", rec.id), ("version", "=", rec.test_version)]
@@ -209,13 +226,62 @@ class QualityTest(models.Model):
                     rec.test_version = str(
                         float_round(float(rec.test_version) + 0.1, 1)
                     )
-                self.env["quality.test.version"].create(
+                version = self.env["quality.test.version"].create(
                     {
                         "version": rec.test_version,
-                        "description": rec.description,
                         "test_id": rec.id,
                     }
                 )
+                rec.step_ids.copy({"version_id": version.id})
+
+    def _check_steps_defined(self):
+        """Ensure the procedure is complete enough to be executed."""
+        self.ensure_one()
+        if not self.step_ids:
+            raise UserError(
+                _("Please define at least one test step before activating '%s'.")
+                % self.display_name
+            )
+        incomplete_steps = self.step_ids.filtered(
+            lambda step: not step.expected_result_ids
+        )
+        if incomplete_steps:
+            raise UserError(
+                _("The following steps have no expected result: %s")
+                % ", ".join(incomplete_steps.mapped("name"))
+            )
+
+    def _get_version_record(self, version=None):
+        """Return the version record holding the procedure of a given version."""
+        self.ensure_one()
+        return self.env["quality.test.version"].search(
+            [
+                ("test_id", "=", self.id),
+                ("version", "=", version or self.test_version),
+            ],
+            limit=1,
+        )
+
+    def _get_run_result_commands(self, version=None):
+        """Build the result lines to fill in during a run of the given version."""
+        self.ensure_one()
+        commands = []
+        version_record = self._get_version_record(version)
+        for step in version_record.step_ids:
+            for expected in step.expected_result_ids:
+                commands.append(
+                    Command.create(
+                        {
+                            "step_id": step.id,
+                            "expected_result_id": expected.id,
+                            "sequence": len(commands),
+                            "step_name": step.name,
+                            "step_description": step.description,
+                            "name": expected.name,
+                        }
+                    )
+                )
+        return commands
 
     def action_retire(self):
         """Mark the test as retired – it will no longer accept new runs."""
