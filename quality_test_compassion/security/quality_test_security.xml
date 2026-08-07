@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Compassion CH
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <!-- Once a step is copied onto a quality.test.version, it is the frozen
+         procedure that past test runs were executed against. Project users may
+         freely edit the draft procedure (version_id not set), but must not
+         rewrite history. Managers keep full access through the permissive
+         rules below, since group_project_manager implies group_project_user
+         and group rules are OR'ed together. -->
+
+    <record id="quality_test_step_user_rule" model="ir.rule">
+        <field name="name">Quality Test Step: users only edit unversioned steps</field>
+        <field name="model_id" ref="model_quality_test_step" />
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]" />
+        <field name="perm_read" eval="False" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">[('version_id', '=', False)]</field>
+    </record>
+
+    <record id="quality_test_step_manager_rule" model="ir.rule">
+        <field name="name">Quality Test Step: managers edit all steps</field>
+        <field name="model_id" ref="model_quality_test_step" />
+        <field name="groups" eval="[(4, ref('project.group_project_manager'))]" />
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="quality_test_expected_result_user_rule" model="ir.rule">
+        <field
+            name="name"
+        >Quality Test Expected Result: users only edit unversioned results</field>
+        <field name="model_id" ref="model_quality_test_expected_result" />
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]" />
+        <field name="perm_read" eval="False" />
+        <field name="perm_create" eval="False" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="domain_force">[('step_id.version_id', '=', False)]</field>
+    </record>
+
+    <record id="quality_test_expected_result_manager_rule" model="ir.rule">
+        <field
+            name="name"
+        >Quality Test Expected Result: managers edit all results</field>
+        <field name="model_id" ref="model_quality_test_expected_result" />
+        <field name="groups" eval="[(4, ref('project.group_project_manager'))]" />
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+</odoo>
