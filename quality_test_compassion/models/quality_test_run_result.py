@@ -1,7 +1,7 @@
 # Copyright 2026 Compassion CH
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 def reduce_results(results):
@@ -44,3 +44,20 @@ class QualityTestRunResult(models.Model):
     name = fields.Char(string="Expected Result", required=True, readonly=True)
     result = fields.Selection([("pass", "Pass"), ("fail", "Fail")])
     comment = fields.Text(string="Notes")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._notify_failed_runs()
+        return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "result" in vals:
+            self._notify_failed_runs()
+        return result
+
+    def _notify_failed_runs(self):
+        """Warn the responsible when checking an expected result makes a run fail."""
+        checked = self.filtered("result")
+        checked.run_step_id.run_id._send_fail_notification()
