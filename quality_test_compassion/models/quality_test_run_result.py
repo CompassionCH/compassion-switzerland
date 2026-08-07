@@ -42,8 +42,5 @@ class QualityTestRunResult(models.Model):
     sequence = fields.Integer(readonly=True)
     step_name = fields.Char(related="run_step_id.name", string="Step")
     name = fields.Char(string="Expected Result", required=True, readonly=True)
-    result = fields.Selection(
-        [("pass", "Pass"), ("fail", "Fail")],
-        string="Result",
-    )
+    result = fields.Selection([("pass", "Pass"), ("fail", "Fail")])
     comment = fields.Text(string="Notes")
