@@ -150,12 +150,12 @@
                                         placeholder="Detailed instructions to perform this step..."
                                     />
                                     <separator string="Expected Results" />
-                                    <div class="text-muted mb-2">
-                                        What must be observed for this step to
-                                        be considered successful.
-                                    </div>
                                     <field name="expected_result_ids" nolabel="1">
                                         <list editable="bottom">
+                                            <field
+                                                name="sequence"
+                                                widget="handle"
+                                            />
                                             <field
                                                 name="name"
                                                 string="Expected Results"

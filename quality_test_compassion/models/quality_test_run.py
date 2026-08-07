@@ -5,6 +5,8 @@ from markupsafe import Markup
 
 from odoo import _, api, fields, models
 
+from .quality_test_run_result import reduce_results
+
 
 class QualityTestRun(models.Model):
     _name = "quality.test.run"
@@ -28,11 +30,11 @@ class QualityTestRun(models.Model):
     )
     test_version = fields.Char(related="test_id.test_version")
     tested_at_version = fields.Char("Protocol version", readonly=True)
-    result_ids = fields.One2many(
-        "quality.test.run.result",
+    step_ids = fields.One2many(
+        "quality.test.run.step",
         "run_id",
-        string="Test Results",
-        help="Expected results to check while performing the test.",
+        string="Test Procedure",
+        help="Steps to perform, with the results expected for each of them.",
     )
     failed_result_ids = fields.Many2many(
         "quality.test.run.result",
@@ -63,9 +65,8 @@ class QualityTestRun(models.Model):
         compute="_compute_result",
         store=True,
         tracking=True,
-        help="Outcome of the run, derived from the expected results checked "
-        "along the test procedure. It stays empty until all of them are "
-        "checked.",
+        help="Outcome of the run, derived from the results of its steps. It "
+        "stays empty until every expected result is checked.",
     )
     fail_notification_sent = fields.Boolean(
         readonly=True,
@@ -105,25 +106,19 @@ class QualityTestRun(models.Model):
         store=True,
     )
 
-    @api.depends("result_ids.result")
+    @api.depends("step_ids.result_ids.result")
     def _compute_failed_result_ids(self):
         for rec in self:
-            failed = rec.result_ids.filtered(lambda line: line.result == "fail")
+            failed = rec.step_ids.result_ids.filtered(
+                lambda line: line.result == "fail"
+            )
             rec.failed_result_ids = failed
             rec.failed_result_count = len(failed)
 
-    @api.depends("result_ids.result")
+    @api.depends("step_ids.result")
     def _compute_result(self):
-        """Derive the overall result from the expected results of the procedure.
-
-        The run has no result as long as an expected result is left unchecked.
-        """
         for rec in self:
-            results = rec.result_ids.mapped("result")
-            if results and all(results):
-                rec.result = "fail" if "fail" in results else "pass"
-            else:
-                rec.result = False
+            rec.result = reduce_results(rec.step_ids.mapped("result"))
 
     @api.onchange("instance")
     def _onchange_instance(self):
@@ -168,7 +163,6 @@ class QualityTestRun(models.Model):
             )
             sequence_by_test = dict(self.env.cr.fetchall())
 
-        tests = {test.id: test for test in self.env["quality.test"].browse(test_ids)}
         for vals in vals_list:
             test_id = vals.get("test_id", default_test_id)
             if not test_id:
@@ -177,22 +171,19 @@ class QualityTestRun(models.Model):
                 next_sequence = sequence_by_test.get(test_id, 0) + 1
                 vals["sequence"] = next_sequence
                 sequence_by_test[test_id] = next_sequence
-            test = tests[test_id]
+            test = self.env["quality.test"].browse(test_id)
             # Freeze the procedure the run is about to follow.
             vals["tested_at_version"] = test.test_version
-            if not vals.get("result_ids"):
-                vals["result_ids"] = test._get_run_result_commands()
+            if not vals.get("step_ids"):
+                vals["step_ids"] = test._get_run_step_commands()
 
         records = super().create(vals_list)
-        for record in records:
-            if record.result == "fail":
-                record._send_fail_notification()
+        records._send_fail_notification()
         return records
 
     def write(self, vals):
         result = super().write(vals)
-        for record in self.filtered(lambda run: run.result == "fail"):
-            record._send_fail_notification()
+        self._send_fail_notification()
         return result
 
     @api.depends("test_id.name", "sequence")
@@ -207,17 +198,21 @@ class QualityTestRun(models.Model):
 
     def _send_fail_notification(self):
         """Send an email to the responsible when a failing test run is recorded."""
-        self.ensure_one()
-        if self.fail_notification_sent:
-            return
-        responsible = self.test_responsible_id
         template = self.env.ref(
             "quality_test_compassion.email_template_quality_test_run_fail",
             raise_if_not_found=False,
         )
-        if responsible != self.user_id and responsible.email and template:
-            self.fail_notification_sent = True
-            template.send_mail(self.id, force_send=True)
+        if not template:
+            return
+        to_notify = self.filtered(
+            lambda run: run.result == "fail"
+            and not run.fail_notification_sent
+            and run.test_responsible_id != run.user_id
+            and run.test_responsible_id.email
+        )
+        to_notify.fail_notification_sent = True
+        for run in to_notify:
+            template.send_mail(run.id, force_send=True)
 
     def _get_failure_description(self):
         """Describe what went wrong during the run, for the fix task."""
@@ -233,7 +228,9 @@ class QualityTestRun(models.Model):
         if self.failed_result_ids:
             failed_lines = Markup("")
             for line in self.failed_result_ids:
-                failed_lines += Markup("<li><b>%(step)s</b>: %(expected)s%(notes)s</li>") % {
+                failed_lines += Markup(
+                    "<li><b>%(step)s</b>: %(expected)s%(notes)s</li>"
+                ) % {
                     "step": line.step_name,
                     "expected": line.name,
                     "notes": Markup("<br/>%s") % line.comment if line.comment else "",

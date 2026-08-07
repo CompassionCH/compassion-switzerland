@@ -188,7 +188,7 @@ class QualityTest(models.Model):
             "target": "current",
             "context": {
                 "default_test_id": self.id,
-                "default_result_ids": self._get_run_result_commands(),
+                "default_step_ids": self._get_run_step_commands(),
                 "default_module_version_ids": [
                     Command.create(
                         {
@@ -262,25 +262,36 @@ class QualityTest(models.Model):
             limit=1,
         )
 
-    def _get_run_result_commands(self, version=None):
-        """Build the result lines to fill in during a run of the given version."""
+    def _get_run_step_commands(self, version=None):
+        """Build the procedure to follow during a run of the given version.
+
+        Tests activated before their procedure started being frozen have no
+        version to read it from; they follow the procedure as it stands.
+        """
         self.ensure_one()
         commands = []
-        version_record = self._get_version_record(version)
-        for step in version_record.step_ids:
-            for expected in step.expected_result_ids:
-                commands.append(
-                    Command.create(
-                        {
-                            "step_id": step.id,
-                            "expected_result_id": expected.id,
-                            "sequence": len(commands),
-                            "step_name": step.name,
-                            "step_description": step.description,
-                            "name": expected.name,
-                        }
-                    )
+        steps = self._get_version_record(version).step_ids or self.step_ids
+        for position, step in enumerate(steps):
+            commands.append(
+                Command.create(
+                    {
+                        "step_id": step.id,
+                        "sequence": position,
+                        "name": step.name,
+                        "description": step.description,
+                        "result_ids": [
+                            Command.create(
+                                {
+                                    "expected_result_id": expected.id,
+                                    "sequence": index,
+                                    "name": expected.name,
+                                }
+                            )
+                            for index, expected in enumerate(step.expected_result_ids)
+                        ],
+                    }
                 )
+            )
         return commands
 
     def action_retire(self):

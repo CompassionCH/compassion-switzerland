@@ -6,6 +6,7 @@ from . import quality_test
 from . import quality_test_step
 from . import quality_test_expected_result
 from . import quality_test_run
+from . import quality_test_run_step
 from . import quality_test_run_result
 from . import quality_test_module_version
 from . import quality_test_version

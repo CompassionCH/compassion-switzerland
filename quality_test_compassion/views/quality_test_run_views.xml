@@ -100,33 +100,63 @@
                         </group>
                     </group>
                     <separator string="Test Procedure" />
-                    <field name="result_ids" nolabel="1">
+                    <field name="step_ids" nolabel="1">
                         <list
-                            editable="bottom"
                             create="false"
                             delete="false"
                             decoration-danger="result == 'fail'"
                             decoration-success="result == 'pass'"
                         >
                             <field name="sequence" column_invisible="1" />
-                            <field name="step_name" readonly="1" force_save="1" />
-                            <field
-                                name="step_description"
-                                readonly="1"
-                                force_save="1"
-                                optional="show"
-                            />
                             <field name="name" readonly="1" force_save="1" />
-                            <field
-                                name="result"
-                                widget="radio"
-                                options="{'horizontal': True}"
-                            />
-                            <field
-                                name="comment"
-                                placeholder="What went wrong?"
-                            />
+                            <field name="checked_summary" />
+                            <field name="result" widget="badge" />
                         </list>
+                        <form>
+                            <div class="oe_title mb-4">
+                                <h1><field name="name" readonly="1" /></h1>
+                            </div>
+                            <separator
+                                string="Instructions"
+                                invisible="not description"
+                            />
+                            <field
+                                name="description"
+                                widget="html"
+                                nolabel="1"
+                                readonly="1"
+                                invisible="not description"
+                            />
+                            <separator string="Expected Results" />
+                            <field name="result_ids" nolabel="1">
+                                <list
+                                    editable="bottom"
+                                    create="false"
+                                    delete="false"
+                                    decoration-danger="result == 'fail'"
+                                    decoration-success="result == 'pass'"
+                                >
+                                    <field
+                                        name="sequence"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="name"
+                                        readonly="1"
+                                        force_save="1"
+                                    />
+                                    <field
+                                        name="result"
+                                        widget="radio"
+                                        options="{'horizontal': True}"
+                                    />
+                                    <field
+                                        name="comment"
+                                        placeholder="What went wrong?"
+                                    />
+                                </list>
+                            </field>
+                        </form>
                     </field>
                     <group string="Notes">
                         <field name="comment" widget="html" nolabel="1" />
