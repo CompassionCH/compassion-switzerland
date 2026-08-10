@@ -2,7 +2,7 @@ This module fills in the **PR URI** field of a task automatically when a pull
 request is opened, or renamed, on any repository of the GitHub organisation.
 
 The task is identified by its code (`T0000`), which is read at the beginning of
-the pull request title, or at the begining of the branch name.
+the pull request title, or at the beginning of the branch name.
 
 | Pull request                       | Linked task |
 | ---------------------------------- | ----------- |

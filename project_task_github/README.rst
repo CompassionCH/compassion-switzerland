@@ -27,7 +27,7 @@ pull request is opened, or renamed, on any repository of the GitHub
 organisation.
 
 The task is identified by its code (``T0000``), which is read at the
-beginning of the pull request title, or at the begining of the branch
+beginning of the pull request title, or at the beginning of the branch
 name.
 
 ==================================== ===========
