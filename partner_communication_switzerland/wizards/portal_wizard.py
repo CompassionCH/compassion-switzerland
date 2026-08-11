@@ -24,32 +24,28 @@ class PortalWizard(models.TransientModel):
         "partner.communication.config", readonly=False
     )
 
-    def _default_user_ids(self):
-        # set the values of the users created in the super method
-        res = super()._default_user_ids()
-        for _x, _y, vals in res:
-            vals["invitation_config_id"] = self.invitation_config_id.id
-        return res
-
 
 class PortalWizardUser(models.TransientModel):
     _inherit = "portal.wizard.user"
 
     uid_communication_id = fields.Many2one("partner.communication.job", readonly=False)
 
-    def action_apply(self):
-        res = super().action_apply()
+    def action_grant_access(self):
+        """Send our own invitation communication instead of the portal e-mail.
 
-        self.mapped("partner_id").sudo().signup_prepare()
+        The signup token is prepared by the super() call, which also disables
+        the standard portal e-mail (see partner_compassion `_send_email`).
+        """
+        res = super().action_grant_access()
 
         if self.env.context.get("create_communication"):
-            for wizard_line in self:
-                wizard_line.create_uid_communication()
+            self.create_uid_communication()
 
         return res
 
     def create_uid_communication(self):
         """create a communication that contain a login url"""
+        self.ensure_one()
         if not self.env.user.email:
             raise UserError(
                 _(
@@ -57,12 +53,16 @@ class PortalWizardUser(models.TransientModel):
                     " your User Preferences to send emails."
                 )
             )
-        self.ensure_one()
+
+        # user_id only depends on partner_id, so it is not recomputed when
+        # the user was just created by the portal access grant.
+        self.invalidate_recordset(["user_id"])
+        user = self.user_id
 
         self.uid_communication_id = self.env["partner.communication.job"].create(
             {
-                "partner_id": self.user_id.partner_id.id,
-                "object_ids": self.user_id.id,
+                "partner_id": user.partner_id.id,
+                "object_ids": user.id,
                 "config_id": self.wizard_id.invitation_config_id.id,
             }
         )

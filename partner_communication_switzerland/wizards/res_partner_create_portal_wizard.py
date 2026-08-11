@@ -10,6 +10,7 @@
 
 
 from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class ResPartnerCreatePortalWizard(models.TransientModel):
@@ -32,11 +33,19 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
     )
 
     def button_create_portal_user(self):
+        self.ensure_one()
         portal = self.env["portal.wizard"].create(
             {"invitation_config_id": self.config_id.id}
         )
-        users_portal = portal.mapped("user_ids")
-        users_portal.write({"in_portal": True})
+        # Partners already having an access are skipped: granting it twice
+        # raises an error in the standard portal wizard.
+        users_portal = portal.user_ids.filtered(
+            lambda u: not u.is_portal and not u.is_internal
+        )
+        if not users_portal:
+            raise UserError(
+                _("The selected partners already have an access to the portal.")
+            )
 
         # create a temporary fake email address for partner without email,
         # their accounts have to be activate manually
@@ -47,15 +56,17 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
                 partner.firstname[0].lower() + partner.lastname.lower() + "@cs.local"
             )
 
-        portal.with_context(
+        # The standard wizard grants the access one partner at a time.
+        for portal_user in users_portal.with_context(
             create_communication=self.create_communication
-        ).action_apply()
+        ):
+            portal_user.action_grant_access()
 
         no_mail.mapped("partner_id").write({"email": False})
 
         action = True
         if self.create_communication:
-            uid_communication = portal.mapped("user_ids.uid_communication_id")
+            uid_communication = users_portal.mapped("uid_communication_id")
             action = {
                 "name": _("Communications"),
                 "type": "ir.actions.act_window",
