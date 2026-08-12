@@ -10,7 +10,6 @@
 
 
 from odoo import _, fields, models
-from odoo.exceptions import UserError
 
 
 class ResPartnerCreatePortalWizard(models.TransientModel):
@@ -37,19 +36,18 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
         portal = self.env["portal.wizard"].create(
             {"invitation_config_id": self.config_id.id}
         )
-        # Partners already having an access are skipped: granting it twice
-        # raises an error in the standard portal wizard.
-        users_portal = portal.user_ids.filtered(
+        users_portal = portal.user_ids
+        # Only partners without an access can be granted one: doing it twice
+        # raises an error in the standard portal wizard. The invitation is
+        # still created for every selected partner, which allows sending the
+        # link again to someone who already has an account.
+        to_grant = users_portal.filtered(
             lambda u: not u.is_portal and not u.is_internal
         )
-        if not users_portal:
-            raise UserError(
-                _("The selected partners already have an access to the portal.")
-            )
 
         # create a temporary fake email address for partner without email,
         # their accounts have to be activate manually
-        no_mail = users_portal.filtered(lambda u: not u.email)
+        no_mail = to_grant.filtered(lambda u: not u.email)
         for user in no_mail:
             partner = user.partner_id
             user.email = (
@@ -57,15 +55,16 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
             )
 
         # The standard wizard grants the access one partner at a time.
-        for portal_user in users_portal.with_context(
-            create_communication=self.create_communication
-        ):
+        for portal_user in to_grant:
             portal_user.action_grant_access()
-
-        no_mail.mapped("partner_id").write({"email": False})
 
         action = True
         if self.create_communication:
+            # Partners that already had an access did not go through
+            # action_grant_access, which is what prepares the signup token.
+            (users_portal - to_grant).mapped("partner_id").sudo().signup_prepare()
+            for portal_user in users_portal:
+                portal_user.create_uid_communication()
             uid_communication = users_portal.mapped("uid_communication_id")
             action = {
                 "name": _("Communications"),
@@ -75,6 +74,10 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
                 "view_mode": "list,form",
                 "domain": [("id", "in", uid_communication.ids)],
             }
+
+        # done last so that the communications are created while the fake
+        # address is still set on the partner
+        no_mail.mapped("partner_id").write({"email": False})
         return action
 
     def button_cancel(self):

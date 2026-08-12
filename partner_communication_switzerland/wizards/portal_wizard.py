@@ -30,21 +30,13 @@ class PortalWizardUser(models.TransientModel):
 
     uid_communication_id = fields.Many2one("partner.communication.job", readonly=False)
 
-    def action_grant_access(self):
-        """Send our own invitation communication instead of the portal e-mail.
-
-        The signup token is prepared by the super() call, which also disables
-        the standard portal e-mail (see partner_compassion `_send_email`).
-        """
-        res = super().action_grant_access()
-
-        if self.env.context.get("create_communication"):
-            self.create_uid_communication()
-
-        return res
-
     def create_uid_communication(self):
-        """create a communication that contain a login url"""
+        """create a communication that contain a login url
+
+        Called by the creation wizard for every selected partner, whether the
+        portal access was just granted or already existed. The standard portal
+        e-mail is never sent (see partner_compassion `_send_email`).
+        """
         self.ensure_one()
         if not self.env.user.email:
             raise UserError(
