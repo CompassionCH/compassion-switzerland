@@ -39,7 +39,7 @@ class PaymentAcquirer(models.Model):
                 ),
                 ("state", "not in", ["done", "cancel", "error"]),
             ],
-            order="create_date desc",
+            order="create_date asc",
             limit=limit,
         )
         for tx in transactions:
@@ -51,7 +51,7 @@ class PaymentAcquirer(models.Model):
                 # _postfinance_form_validate locks the row with FOR UPDATE NOWAIT.
                 # Commit per transaction so progress survives a cron timeout and
                 # the lock is not held for the whole run.
-                self.env.cr.commit()
+                self.env.cr.commit()  # pylint: disable=invalid-commit
             except Exception:
                 self.env.cr.rollback()
                 _logger.exception(
