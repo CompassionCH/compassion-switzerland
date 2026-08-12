@@ -8,7 +8,11 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+import logging
+
 from odoo import models
+
+_logger = logging.getLogger(__name__)
 
 
 class PaymentTransaction(models.Model):
@@ -20,6 +24,10 @@ class PaymentTransaction(models.Model):
         Temporary fix for Odoo 14.0.
         Must be removed after the next migration if resolved in newer Odoo version.
         """
+        # Core Odoo logs nothing per record here, so a hang in the
+        # "Post process payment transactions" cron leaves no trace of which
+        # transaction it stopped on.
+        _logger.info("Post-processing payment transaction(s) %s", self.ids)
         available_langs = self.env["res.lang"].search([]).mapped("code")
         current_lang = self.env.lang or "de_DE"
         if current_lang not in available_langs:
