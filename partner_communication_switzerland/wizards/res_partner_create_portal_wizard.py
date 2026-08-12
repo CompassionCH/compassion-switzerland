@@ -10,6 +10,7 @@
 
 
 from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class ResPartnerCreatePortalWizard(models.TransientModel):
@@ -37,10 +38,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
             {"invitation_config_id": self.config_id.id}
         )
         users_portal = portal.user_ids
-        # Only partners without an access can be granted one: doing it twice
-        # raises an error in the standard portal wizard. The invitation is
-        # still created for every selected partner, which allows sending the
-        # link again to someone who already has an account.
+        # granting an access twice raises an error in the standard wizard
         to_grant = users_portal.filtered(
             lambda u: not u.is_portal and not u.is_internal
         )
@@ -48,6 +46,17 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
         # create a temporary fake email address for partner without email,
         # their accounts have to be activate manually
         no_mail = to_grant.filtered(lambda u: not u.email)
+        unnamed = no_mail.filtered(
+            lambda u: not u.partner_id.firstname or not u.partner_id.lastname
+        )
+        if unnamed:
+            raise UserError(
+                _(
+                    "Please fill in the missing names, or set an e-mail "
+                    "address, for: %s",
+                    ", ".join(unnamed.mapped("partner_id.display_name")),
+                )
+            )
         for user in no_mail:
             partner = user.partner_id
             user.email = (
@@ -60,8 +69,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
 
         action = True
         if self.create_communication:
-            # Partners that already had an access did not go through
-            # action_grant_access, which is what prepares the signup token.
+            # action_grant_access, skipped here, is what prepares the token
             (users_portal - to_grant).mapped("partner_id").sudo().signup_prepare()
             for portal_user in users_portal:
                 portal_user.create_uid_communication()
@@ -75,8 +83,7 @@ class ResPartnerCreatePortalWizard(models.TransientModel):
                 "domain": [("id", "in", uid_communication.ids)],
             }
 
-        # done last so that the communications are created while the fake
-        # address is still set on the partner
+        # done last: the communications need the address still set
         no_mail.mapped("partner_id").write({"email": False})
         return action
 
