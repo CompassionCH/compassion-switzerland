@@ -613,7 +613,17 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                comms = self.send_communication(config, correspondent)
-                if config == wrpr_welcome:
-                    comms.write({"send_mode": "sms"})
+                try:
+                    with self.env.cr.savepoint():
+                        comms = self.send_communication(config, correspondent)
+                        if config == wrpr_welcome:
+                            comms.write({"send_mode": "sms"})
+                except Exception:
+                    logger.exception(
+                        "Failed to send onboarding communication '%s' for "
+                        "sponsorship %s, continuing with the remaining "
+                        "onboarding communications.",
+                        config.name,
+                        self.id,
+                    )
         return True
