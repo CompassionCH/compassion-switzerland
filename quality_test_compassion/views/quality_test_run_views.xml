@@ -105,9 +105,7 @@
                     <group string="Notes">
                         <field name="comment" widget="html" nolabel="1" />
                     </group>
-                    <group
-            string="Test procedure (at time of test run)"
-          >
+                    <group string="Test procedure (at time of test run)">
                         <field name="description" nolabel="1" />
                     </group>
                     <field name="module_version_ids">
