@@ -1,3 +1,4 @@
+import html
 import json
 import logging
 import re
@@ -31,7 +32,8 @@ def _fix_body(body):
     for line in body.split("\n"):
         match = PRAGMA_IF_RE.match(line)
         if match:
-            line = f'{match["indent"]}<t t-if="{match["expr"]}">'
+            expr = html.escape(match["expr"].strip(), quote=True)
+            line = f'{match["indent"]}<t t-if="{expr}">'
         lines.append(line)
     return "\n".join(lines)
 
