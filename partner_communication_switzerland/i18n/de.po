@@ -7256,12 +7256,14 @@ msgstr ""
 "Armut einsetzt?"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "Attached you will find a payment slip for the annual sponsorship payment"
 msgstr "Im Anhang {findet} den Einzahlungsschein"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "Attached you will find the LSV or Direct Debit authorization form to fill in if you haven't already done it!"
@@ -7270,6 +7272,7 @@ msgstr ""
 "zurückzusenden"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "Attached you will find the payment slips for the sponsorship payment"
@@ -7338,6 +7341,7 @@ msgid "Body"
 msgstr "Nachrichtentext"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:0
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__partner_communication_test_cases_wizard__send_mode__digital
 #, python-format
@@ -7432,6 +7436,7 @@ msgid "Communication templates"
 msgstr "Kommunikationsvorlagen"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/res_partner_create_portal_wizard.py:0
 #, python-format
 msgid "Communications"
@@ -7478,6 +7483,7 @@ msgid "Create depart communication"
 msgstr "Abfahrtskommunikation erstellen"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_partner.py:0
 #, python-format
 msgid "Create odoo user"
@@ -7654,6 +7660,7 @@ msgid "Edit participants"
 msgstr "Teilnehmer bearbeiten"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #. openerp-web
 #: code:addons/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js:0
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_email
@@ -7672,6 +7679,7 @@ msgid "Email Signature"
 msgstr "E-Mail Signatur"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 #, python-format
 msgid "Email invalid! An error occurred: "
@@ -7773,6 +7781,7 @@ msgid "Filename"
 msgstr "Dateiname"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #. openerp-web
 #: code:addons/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js:0
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_firstname
@@ -7911,6 +7920,7 @@ msgid "How have you experienced the start of your sponsorship"
 msgstr "Wie hat dir der Start der Patenschaft gefallen?"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #. openerp-web
 #: code:addons/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js:0
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__inform_me_for_next_zoom
@@ -8221,6 +8231,7 @@ msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #. openerp-web
 #: code:addons/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js:0
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_lastname
@@ -8463,6 +8474,7 @@ msgid "No Physical Letter"
 msgstr "Kein physischer Brief"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:0
 #, python-format
 msgid "No partner selected"
@@ -8484,6 +8496,7 @@ msgid "Not completely"
 msgstr "nicht vollständig"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "Notify partner of new sponsorship"
@@ -8572,6 +8585,7 @@ msgid "Onboarding photo by post"
 msgstr "Onboarding-Foto per Post"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "Onboarding postcard cannot be sent for unverified partners."
@@ -8588,6 +8602,7 @@ msgstr ""
 "Ein Jahr - Patenschaft für ${prenom}"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 #, python-format
 msgid "Opt-out"
@@ -8599,6 +8614,7 @@ msgid "Optional Message"
 msgstr "Zusätzliche Nachricht"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #. openerp-web
 #: code:addons/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js:0
 #, python-format
@@ -8639,6 +8655,7 @@ msgid "Other (specify):"
 msgstr "Anderes:"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_partner_zoom_session.py:0
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_nb_participants
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__participant_ids
@@ -8669,6 +8686,7 @@ msgid "Partner Subject"
 msgstr "Partner Thema"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 #, python-format
 msgid "Partner Unsubscribed from marketing e-mails"
@@ -8693,6 +8711,7 @@ msgid "Period Paid"
 msgstr "Bezahlter Zeitraum"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #. openerp-web
 #: code:addons/partner_communication_switzerland/static/src/js/zoom_registration_form_snippet.js:0
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_phone
@@ -8708,6 +8727,7 @@ msgid "Physical condition:"
 msgstr "Keine physische Kommunikation"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/child_order_picture.py:0
 #, python-format
 msgid "Picture ordered."
@@ -8720,6 +8740,7 @@ msgid "Planned"
 msgstr "Geplant"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "Please find attached a payment slip to set up a standing order for your monthly donation of {amount} CHF."
@@ -8759,6 +8780,7 @@ msgid "Print Photos"
 msgstr "Fotos drucken"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:0
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__partner_communication_test_cases_wizard__send_mode__physical
 #, python-format
@@ -9552,12 +9574,14 @@ msgid "The answer you entered has an invalid format."
 msgstr "Ihre Antwort hat ein ungültiges Format."
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 #, python-format
 msgid "The email couldn't be sent due to invalid address"
 msgstr "Die E-Mail konnte aufgrund einer ungültigen Adresse nicht gesendet werden"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 #, python-format
 msgid "The email was marked as spam by the partner"
@@ -9593,12 +9617,14 @@ msgid "The letters from my sponsored child"
 msgstr "die Briefe von meinem Patenkind"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication_config.py:0
 #, python-format
 msgid "The selected partner is not a donor but this test case requires one. Please, pick a donor."
 msgstr ""
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_users.py:0
 #, python-format
 msgid "The team of Compassion"
@@ -9891,6 +9917,7 @@ msgid "W&P sponsorship transformation"
 msgstr "W&P Sponsoring Transformation"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 #, python-format
 msgid ""
@@ -9913,12 +9940,14 @@ msgstr ""
 "Gab es etwas, was dir weniger gefallen hat (mir hat alles gefallen/ich denke, einige Dinge könnten verbessert werden)?"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "We thank you in advance for adding your monthly support of {amount} CHF to your existing standing order."
 msgstr "Bitte füge deine monatliche Unterstützung in Höhe von CHF {amount} zu deinem bestehenden Dauerauftrag hinzu."
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 #, python-format
 msgid "We will continue to withdraw the amount for the sponsorship from your account."
@@ -10126,6 +10155,7 @@ msgid "You have successfully been unsubscribe from further Compassion's mailing.
 msgstr "Du hast dich erfolgreich abgemeldet."
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/portal_wizard.py:0
 #, python-format
 msgid "You must have an email address in your User Preferences to send emails."
@@ -10242,6 +10272,7 @@ msgid "am"
 msgstr "am"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_users.py:0
 #, python-format
 msgid "and the team of Compassion"
@@ -10253,12 +10284,14 @@ msgid "at"
 msgstr "bei"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "bank authorization form.pdf"
 msgstr "Bankermächtigungsformular.pdf"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "child dossier.pdf"
@@ -10270,6 +10303,7 @@ msgid "choose a communication"
 msgstr "wähle eine Kommunikation"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "csp payment slips.pdf"
@@ -10281,6 +10315,7 @@ msgid "details"
 msgstr ""
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "ending sponsorship certificate.pdf"
@@ -10292,6 +10327,7 @@ msgid "il"
 msgstr "il"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_users.py:0
 #, python-format
 msgid "mo-thu: 9am-2pm"
@@ -10308,30 +10344,35 @@ msgid "ora"
 msgstr "ora"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "sponsorship due.pdf"
 msgstr "Patenschaft Zahlung.pdf"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "sponsorship gifts.pdf"
 msgstr "Patenschaftsgeschenke.pdf"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "sponsorship labels.pdf"
 msgstr "Patenschaft labels.pdf"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "sponsorship payment slips.pdf"
 msgstr "einzahlungsscheine.pdf"
 
 #. module: partner_communication_switzerland
+#. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 #, python-format
 msgid "tax receipt.pdf"
@@ -11191,6 +11232,7 @@ msgstr "um"
 #~ msgid "Another sponsor for ${object.get_objects().mapped('child_id').get_list('preferred_name', translate=False)}"
 #~ msgstr "Ein anderer Pate für ${object.get_objects().mapped('child_id').get_list('preferred_name', translate=False)}"
 
+#. odoo-python
 #, python-format
 #~ msgid "Attached you will find the payment slip that will allow you to increase your current standing order to CHF %s.-"
 #~ msgstr "Im Anhang {findet} den Einzahlungsschein, damit {du} den laufenden Dauerauftrag auf CHF %s.- erhöhen {kannst}"
