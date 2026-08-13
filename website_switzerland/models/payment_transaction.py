@@ -37,3 +37,14 @@ class PaymentTransaction(models.Model):
                     self = self.with_context(lang=lang)
                     break
         return super()._post_process_after_done()
+
+    # T3374 diagnostics: the cron blocks for 120s somewhere inside
+    # _post_process_after_done. These mark the entry of each step, so the last
+    # line logged before the silence identifies it. Remove once diagnosed.
+    def _check_amount_and_confirm_order(self):
+        _logger.info("T3374 confirm order %s", self.sale_order_ids.ids)
+        return super()._check_amount_and_confirm_order()
+
+    def _invoice_sale_orders(self):
+        _logger.info("T3374 invoice order %s", self.sale_order_ids.ids)
+        return super()._invoice_sale_orders()
