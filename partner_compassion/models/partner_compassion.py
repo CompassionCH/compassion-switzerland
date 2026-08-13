@@ -183,7 +183,8 @@ class ResPartner(models.Model):
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
-    @api.depends("signup_type")
+    # the token payload holds the linked users, so creating one changes the url
+    @api.depends("signup_type", "user_ids")
     def _compute_signup_url(self):
         for partner in self:
             partner.signup_url = partner._get_signup_url()
