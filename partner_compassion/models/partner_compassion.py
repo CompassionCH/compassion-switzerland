@@ -173,10 +173,21 @@ class ResPartner(models.Model):
         compute="_compute_is_young",
         help="Tells whether the partner has less than 25 years.",
     )
+    signup_url = fields.Char(
+        compute="_compute_signup_url",
+        help="Kept for our mail templates: Odoo 18 replaced this field by the "
+        "_get_signup_url() method. res.users inherits it through its "
+        "delegation to res.partner.",
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    @api.depends("signup_type")
+    def _compute_signup_url(self):
+        for partner in self:
+            partner.signup_url = partner._get_signup_url()
+
     def _compute_has_majority(self):
         for record in self:
             record.has_majority = record.age >= self.MAJORITY_AGE
