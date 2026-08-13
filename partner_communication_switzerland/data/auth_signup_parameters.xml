@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+
+    <!-- Odoo 18 defaults to 4 hours, we kept 1 day since the 14.0 -->
+    <record id="reset_password_validity" model="ir.config_parameter">
+        <field name="key">auth_signup.reset_password.validity.hours</field>
+        <field name="value">24</field>
+    </record>
+
+</odoo>

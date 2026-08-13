@@ -58,6 +58,7 @@
         "security/ir.model.access.csv",
         "security/access_rules.xml",
         "data/activity_data.xml",
+        "data/auth_signup_parameters.xml",
         "data/other_emails.xml",
         "data/form_data.xml",
         "data/sponsorship_planned_emails.xml",
