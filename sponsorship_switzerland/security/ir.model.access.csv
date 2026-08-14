@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_postpone_waiting_reminder_wizard,Access postpone waiting reminder wizard,model_postpone_waiting_reminder_wizard,child_compassion.group_sponsorship,1,1,1,1
+access_gift_letter_import_wizard,Access gift letter import wizard,model_gift_letter_import_wizard,child_compassion.group_sponsorship,1,1,1,1
