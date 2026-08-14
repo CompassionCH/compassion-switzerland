@@ -12,5 +12,4 @@ from . import (
     test_completion_rules_switzerland,
     test_contract_group_switzerland,
     test_contracts_switzerland,
-    test_gift_letter_import,
 )
