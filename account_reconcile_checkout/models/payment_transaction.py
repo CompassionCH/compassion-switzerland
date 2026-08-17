@@ -21,6 +21,33 @@ class PaymentTransaction(models.Model):
 
     _inherit = "payment.transaction"
 
+    # The paid module tests these before its own 'PENDING'/'AUTHORIZED' branches,
+    # so _set_transaction_pending() is never reached and the transaction stays in
+    # 'draft' for the whole payment. Odoo keys its "a payment has been initiated"
+    # protections on ('pending', 'authorized', 'done'), so none of them fire: the
+    # cart stays mutable and every Pay click mints another transaction (T3378).
+    _postfinance_odoo_pending_states = (
+        "CREATE",
+        "PENDING",
+        "CONFIRMED",
+        "PROCESSING",
+        "AUTHORIZED",
+        "COMPLETED",
+    )
+
+    def _postfinance_sync_odoo_state(self):
+        for tx in self:
+            postfinance_state = tx.postfinance_state
+            if postfinance_state in self._postfinance_odoo_pending_states:
+                if tx.state == "draft":
+                    # Not _set_transaction_pending(): sale's override of it emails
+                    # an order confirmation to the donor on every Pay click.
+                    tx.write({"state": "pending"})
+            elif postfinance_state in ("FAILED", "DECLINE") and tx.state == "pending":
+                # _set_transaction_cancel() only accepts draft/authorized, so a
+                # failed payment would stay stuck in 'pending'.
+                tx.write({"state": "cancel"})
+
     def _postfinance_form_validate(self, data):
         """Take the row lock in a savepoint before letting the paid module run.
 
@@ -52,4 +79,6 @@ class PaymentTransaction(models.Model):
             raise
         # We now hold the lock, so the paid module's own FOR UPDATE NOWAIT is a
         # no-op within this same transaction.
-        return super()._postfinance_form_validate(data)
+        res = super()._postfinance_form_validate(data)
+        self._postfinance_sync_odoo_state()
+        return res
