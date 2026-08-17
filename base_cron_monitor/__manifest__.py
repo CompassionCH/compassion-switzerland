@@ -11,7 +11,7 @@
     "author": "Compassion Switzerland",
     "maintainers": ["ecino"],
     "license": "AGPL-3",
-    "installable": True,
+    "installable": False,
     "data": [
         "security/ir.model.access.csv",
         "views/server_action_monitor.xml",
