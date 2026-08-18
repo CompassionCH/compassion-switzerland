@@ -20,8 +20,8 @@ class PaymentAcquirer(models.Model):
     _inherit = "payment.acquirer"
 
     def postfinance_form_generate_values(self, tx_values):
-        """Mark the transaction as pending before the donor leaves for the gateway.
-        """
+        """Mark the transaction as pending before the donor leaves for the
+        gateway."""
         res = super().postfinance_form_generate_values(tx_values)
         self.env["payment.transaction"].search(
             [("reference", "=", tx_values.get("reference")), ("state", "=", "draft")]
