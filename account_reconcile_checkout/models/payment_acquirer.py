@@ -19,6 +19,27 @@ class PaymentAcquirer(models.Model):
 
     _inherit = "payment.acquirer"
 
+    def postfinance_form_generate_values(self, tx_values):
+        """Mark the transaction as pending before the donor leaves for the gateway.
+
+        The paid module only moves a transaction out of 'draft' when the gateway
+        answers back, and by then it reports FULFILL, which takes its own branch -
+        so 'pending' was never set. Odoo keys every "a payment has been initiated"
+        protection on ('pending', 'authorized', 'done'), and get_last_transaction()
+        drops draft records entirely, so the cart stayed editable for the whole
+        payment and an already-paid order could still be emptied (T3378).
+
+        Core calls this from render(), right after the transaction is created and
+        just before the redirect, which is the last point we control on our side.
+        """
+        res = super().postfinance_form_generate_values(tx_values)
+        # Not _set_transaction_pending(): sale's override of it emails an order
+        # confirmation to the donor on every Pay click.
+        self.env["payment.transaction"].search(
+            [("reference", "=", tx_values.get("reference")), ("state", "=", "draft")]
+        ).write({"state": "pending"})
+        return res
+
     def cron_update_postfinance_state(self, limit=200, days=30):
         """Replaces the paid module implementation, which scanned every
         PostFinance transaction ever created, made one API call per record with

@@ -22,10 +22,10 @@ class PaymentTransaction(models.Model):
     _inherit = "payment.transaction"
 
     # The paid module tests these before its own 'PENDING'/'AUTHORIZED' branches,
-    # so _set_transaction_pending() is never reached and the transaction stays in
-    # 'draft' for the whole payment. Odoo keys its "a payment has been initiated"
-    # protections on ('pending', 'authorized', 'done'), so none of them fire: the
-    # cart stays mutable and every Pay click mints another transaction (T3378).
+    # so _set_transaction_pending() is never reached. The cart lock itself is armed
+    # earlier, in payment_acquirer.postfinance_form_generate_values (T3378); this
+    # mapping keeps the state in step with the gateway afterwards - above all the
+    # FAILED/DECLINE case, which is what releases the cart for a retry.
     _postfinance_odoo_pending_states = (
         "CREATE",
         "PENDING",
@@ -47,6 +47,24 @@ class PaymentTransaction(models.Model):
                 # _set_transaction_cancel() only accepts draft/authorized, so a
                 # failed payment would stay stuck in 'pending'.
                 tx.write({"state": "cancel"})
+            elif tx.state == "done" and tx.acquirer_reference:
+                tx._cancel_superseded_transactions()
+
+    def _cancel_superseded_transactions(self):
+        """The paid module reuses one gateway transaction across Pay clicks and
+        cancels the rows it replaces, but only those still in 'draft'. Since we now
+        set 'pending' before the redirect, they no longer match that search and
+        would hang forever.
+        """
+        self.ensure_one()
+        self.search(
+            [
+                ("id", "!=", self.id),
+                ("acquirer_reference", "=", self.acquirer_reference),
+                ("acquirer_id.provider", "=", "postfinance"),
+                ("state", "in", ["draft", "pending"]),
+            ]
+        ).write({"state": "cancel"})
 
     def _postfinance_form_validate(self, data):
         """Take the row lock in a savepoint before letting the paid module run.
