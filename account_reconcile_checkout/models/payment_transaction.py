@@ -22,10 +22,10 @@ class PaymentTransaction(models.Model):
     _inherit = "payment.transaction"
 
     # The paid module tests these before its own 'PENDING'/'AUTHORIZED' branches,
-    # so _set_transaction_pending() is never reached. The cart lock itself is armed
-    # earlier, in payment_acquirer.postfinance_form_generate_values (T3378); this
-    # mapping keeps the state in step with the gateway afterwards - above all the
-    # FAILED/DECLINE case, which is what releases the cart for a retry.
+    # so _set_transaction_pending() is never reached and the transaction stays in
+    # 'draft' for the whole payment. Odoo keys its "a payment has been initiated"
+    # protections on ('pending', 'authorized', 'done'), so none of them fire: the
+    # cart stays mutable and every Pay click mints another transaction (T3378).
     _postfinance_odoo_pending_states = (
         "CREATE",
         "PENDING",
