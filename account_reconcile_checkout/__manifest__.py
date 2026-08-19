@@ -41,6 +41,7 @@
     "external_dependencies": {"python": ["postfinancecheckout==5.2.2"]},
     "data": [
         "security/ir.model.access.csv",
+        "data/ir_cron_data.xml",
         "views/reconcile_outstanding_wizard_view.xml",
     ],
     "auto_install": False,
