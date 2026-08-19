@@ -19,6 +19,15 @@ class PaymentAcquirer(models.Model):
 
     _inherit = "payment.acquirer"
 
+    def postfinance_form_generate_values(self, tx_values):
+        """Mark the transaction as pending before the donor leaves for the
+        gateway."""
+        res = super().postfinance_form_generate_values(tx_values)
+        self.env["payment.transaction"].search(
+            [("reference", "=", tx_values.get("reference")), ("state", "=", "draft")]
+        ).write({"state": "pending"})
+        return res
+
     def cron_update_postfinance_state(self, limit=200, days=30):
         """Replaces the paid module implementation, which scanned every
         PostFinance transaction ever created, made one API call per record with
