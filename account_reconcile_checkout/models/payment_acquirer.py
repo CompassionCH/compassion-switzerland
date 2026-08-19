@@ -8,7 +8,7 @@
 ##############################################################################
 import logging
 
-from odoo import fields, models
+from odoo import _, models
 
 _logger = logging.getLogger(__name__)
 
@@ -28,18 +28,26 @@ class PaymentAcquirer(models.Model):
         ).write({"state": "pending"})
         return res
 
-    def cron_update_postfinance_state(self, limit=200, days=30):
+    def cron_update_postfinance_state(self, limit=200):
         """Replaces the paid module implementation, which scanned every
         PostFinance transaction ever created, made one API call per record with
         no limit, and never committed - so a run killed by the cron timeout
         threw away all its work and started over from scratch next time.
+
+        No age cutoff: a payment the gateway never resolved is precisely the one
+        we have to keep asking about, and any rolling window strands it the day
+        it ages out.
+
+        Least recently checked first, because validating writes the gateway
+        state back: whatever this run touches sorts last next time, so a batch
+        that keeps failing cannot hold the slots and hide older payments. A
+        payment nobody has looked at yet still comes before anything the
+        previous run already checked.
         """
-        cutoff = fields.Datetime.subtract(fields.Datetime.now(), days=days)
         transactions = self.env["payment.transaction"].search(
             [
                 ("acquirer_id.provider", "=", "postfinance"),
                 ("acquirer_reference", "!=", False),
-                ("create_date", ">=", cutoff),
                 "|",
                 (
                     "postfinance_state",
@@ -48,7 +56,7 @@ class PaymentAcquirer(models.Model):
                 ),
                 ("state", "not in", ["done", "cancel", "error"]),
             ],
-            order="create_date asc",
+            order="write_date asc",
             limit=limit,
         )
         for tx in transactions:
@@ -61,8 +69,22 @@ class PaymentAcquirer(models.Model):
                 # Commit per transaction so progress survives a cron timeout and
                 # the lock is not held for the whole run.
                 self.env.cr.commit()  # pylint: disable=invalid-commit
-            except Exception:
+            except Exception as error:
                 self.env.cr.rollback()
                 _logger.exception(
                     "Error while updating PostFinance transaction %s", tx.id
                 )
+                # The rollback also undid the write that validating does, so the
+                # record would keep its old write_date, be picked first again on
+                # every run and block every other unresolved payment. Record the
+                # failed attempt in its own transaction so the queue moves on.
+                try:
+                    tx.write(
+                        {"state_message": _("PostFinance sweep failed: %s") % error}
+                    )
+                    self.env.cr.commit()  # pylint: disable=invalid-commit
+                except Exception:
+                    self.env.cr.rollback()
+                    _logger.exception(
+                        "Could not record the failed sweep of transaction %s", tx.id
+                    )
