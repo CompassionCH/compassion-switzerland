@@ -47,7 +47,7 @@ class PaymentTransaction(models.Model):
                 # _set_transaction_cancel() only accepts draft/authorized, so a
                 # failed payment would stay stuck in 'pending'.
                 tx.write({"state": "cancel"})
-            elif tx.state == "done" and tx.acquirer_reference:
+            if tx.state == "done" and tx.acquirer_reference:
                 tx._cancel_superseded_transactions()
 
     def _cancel_superseded_transactions(self):
