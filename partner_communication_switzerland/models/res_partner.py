@@ -16,8 +16,6 @@ from gender_guesser.detector import Detector
 
 from odoo import _, api, fields, models
 
-from odoo.addons.auth_signup.models.res_partner import now
-
 _logger = logging.getLogger(__name__)
 
 
@@ -534,9 +532,8 @@ class ResPartner(models.Model):
         # handle on reset at a time to allow redirection to work properly
         self.ensure_one()
 
-        # use signup prepare to generate a token valid 1 day for password reset
-        expiration = now(days=+1)
-        self.sudo().signup_prepare(signup_type="reset", expiration=expiration)
+        # validity now comes from auth_signup.reset_password.validity.hours
+        self.sudo().signup_prepare(signup_type="reset")
 
         # create but does not send the communication for password reset
         config = self.env.ref("partner_communication_switzerland.reset_password_email")
