@@ -42,6 +42,8 @@
     "data": [
         "security/ir.model.access.csv",
         "data/ir_cron_data.xml",
+        "data/ir_config_parameter.xml",
+        "views/postfinance_confirmation.xml",
         "views/reconcile_outstanding_wizard_view.xml",
     ],
     "auto_install": False,
