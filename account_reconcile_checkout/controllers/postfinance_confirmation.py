@@ -6,6 +6,8 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from urllib.parse import urlparse
+
 from odoo import http
 from odoo.http import request
 
@@ -31,7 +33,7 @@ class PostFinanceConfirmation(PostFinanceController):
         response = super().postfinance_form_feedback(txnId=txnId, **post)
         next_url = getattr(response, "headers", {}).get("Location") or ""
         # Only the normal hand-off, never the module's own error page.
-        if not next_url.endswith("/payment/process"):
+        if urlparse(next_url).path.rstrip("/") != "/payment/process":
             return response
         if PaymentProcessing.get_payment_transaction_ids():
             return response
