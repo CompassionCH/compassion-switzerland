@@ -3,7 +3,9 @@
  <function model="ir.model.fields" name="formbuilder_whitelist">
         <value>res.partner</value>
         <value eval="[
-            'title'
+            'title',
+            'firstname',
+            'lastname',
         ]" />
     </function>
 </odoo>

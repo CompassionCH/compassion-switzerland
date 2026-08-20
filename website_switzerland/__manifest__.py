@@ -9,19 +9,17 @@
 # pylint: disable=C8101
 {
     "name": "Website - Compassion Switzerland custom views",
-    "version": "14.0.1.3.0",
+    "version": "18.0.1.0.0",
     "category": "Website",
     "author": "Compassion Switzerland",
     "development_status": "Beta",
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
-        "my_compassion_segmentation",
-        "theme_compassion",
+        "my_compassion",
         "partner_communication_switzerland",
         "website_crm_request",
         "muskathlon",
-        "partner_segmentation",
         "crowdfunding_compassion",
     ],
     "data": [
@@ -33,15 +31,12 @@
         "data/event_type_mail.xml",
         "data/event_registration_task.xml",
         "data/res_lang.xml",
-        "data/website_menu.xml",
         "data/form_data.xml",
         "templates/footer.xml",
         "templates/contact_us.xml",
-        "templates/my_account_menu.xml",
         "templates/website_cart.xml",
         "templates/my_tasks_forms.xml",
-        "templates/my_donations.xml",
     ],
-    "installable": False,
+    "installable": True,
     "auto_install": False,
 }
