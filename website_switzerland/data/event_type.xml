@@ -3,10 +3,7 @@
             <field name="name">Group visit</field>
             <field name="has_seats_limitation" eval="True" />
             <field name="seats_max">30</field>
-            <field name="use_mail_schedule" eval="True" />
             <field name="event_type_mail_ids" eval="[]" />
-            <field name="use_ticket" eval="True" />
-            <field name="auto_confirm" eval="False" />
             <field name="compassion_event_type">tour</field>
             <field
         name="stage_ids"

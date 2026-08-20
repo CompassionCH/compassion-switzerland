@@ -3,7 +3,6 @@
     <!-- Group visit medical survey -->
     <record id="group_visit_medical_survey" model="survey.survey">
         <field name="title">Medical survey</field>
-        <field name="state">open</field>
     </record>
     <record model="survey.question" id="gpms_page1">
         <field name="title">Your health</field>
@@ -67,7 +66,6 @@
      <!-- Group visit feedback -->
     <record id="group_visit_feedback_survey" model="survey.survey">
         <field name="title">Group visit feedback survey</field>
-        <field name="state">open</field>
         <field name="description" type="html">
 <section class="s_text_block">
         <div class="container">

@@ -1,7 +1,5 @@
 from odoo import models
 
-from odoo.addons.http_routing.models.ir_http import slug
-
 
 class RegistrationTaskRel(models.Model):
     _inherit = "event.registration.task.rel"
@@ -13,6 +11,7 @@ class RegistrationTaskRel(models.Model):
         task_criminal = self.env.ref("website_switzerland.task_criminal")
         task_passport = self.env.ref("website_switzerland.task_passport")
         task_medic = self.env.ref("website_switzerland.task_medical_survey")
+        slug = self.env["ir.http"]._slug
         for task in self:
             if task.task_id == travel_contract:
                 task.task_url = (
