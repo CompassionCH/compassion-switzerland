@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record id="event_type_group_visit" model="event.type">
             <field name="name">Group visit</field>
             <field name="has_seats_limitation" eval="True" />
@@ -19,5 +18,4 @@
         ref="group_visit_feedback_survey"
       />
         </record>
-    </data>
 </odoo>

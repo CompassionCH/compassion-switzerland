@@ -6,7 +6,7 @@ from odoo.addons.http_routing.models.ir_http import slug
 class RegistrationTaskRel(models.Model):
     _inherit = "event.registration.task.rel"
 
-    def _compute_task_url(self):
+    def _compute_task_url(self):  # pylint: disable=missing-return
         super()._compute_task_url()
         travel_contract = self.env.ref("website_switzerland.task_sign_travel")
         task_charter = self.env.ref("website_switzerland.task_sign_child_protection")

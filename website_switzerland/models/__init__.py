@@ -1,4 +1,3 @@
-from . import theme_compassion
 from . import partner_communication_job
 from . import sale_order_line
 from . import registration_task

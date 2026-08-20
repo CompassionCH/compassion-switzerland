@@ -10,7 +10,6 @@
         <xpath expr="//div[@id='footer']" position="replace">
     <div
         id="footer"
-        class="oe_structure oe_structure_solo"
         t-ignore="true"
         t-if="not no_footer"
         style=""
@@ -91,7 +90,6 @@
             <div class="o_colored_level col-lg-3">
             </div>
             <div class="o_colored_level col-lg-3">
-              <div class="oe_structure" />
             </div>
           </div>
         </div>

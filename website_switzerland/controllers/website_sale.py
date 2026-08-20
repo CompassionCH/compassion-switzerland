@@ -1,4 +1,3 @@
-from odoo.exceptions import UserError
 from odoo.http import request, route
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
@@ -6,7 +5,8 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleWithoutState(WebsiteSale):
     # TODO move firstname+name split in partner_compassion module
-    # TODO add mobile number in address form otherwise the phone field may stay empty (also in partner_compassion)
+    # TODO add mobile number in address form otherwise the phone field may stay empty
+    #  (also in partner_compassion)
     def values_preprocess(self, order, mode, values):
         values["name"] = values["firstname"] + " " + values["lastname"]
         return super().values_preprocess(order, mode, values)
