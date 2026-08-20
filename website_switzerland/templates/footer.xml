@@ -83,7 +83,7 @@
             <div class="o_colored_level col-lg-3">
               <p t-translation="off">© <span
                     t-esc="datetime.date.today().year"
-                  /> <span t-esc="request.env.company.address_name" /></p>
+                  /> <span t-esc="request.env.company.commercial_name" /></p>
             </div>
             <div class="o_colored_level col-lg-3">
             </div>

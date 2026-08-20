@@ -8,12 +8,12 @@
     active="False"
   >
         <!-- Replace intro sentence -->
-        <xpath expr="//section[@class='s_text_block']//p[1]" position="replace">
+        <xpath expr="//p[@class='lead']" position="replace">
             <p>Contact us using the form below.<br />
 We'll do our best to get back to you as soon as possible. </p>
         </xpath>
         <!-- Replace Contact form with CRM Request form -->
-        <xpath expr="//div[@name='mail_button']" position="replace">
+        <xpath expr="//section[@class='s_website_form']" position="replace">
             <span
         class="hidden"
         data-for="contactus_form"

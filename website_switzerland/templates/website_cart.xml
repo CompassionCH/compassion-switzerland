@@ -5,61 +5,63 @@
         <xpath expr="//select[@name='state_id']/.." position="attributes">
             <attribute name="t-attf-class">d-none</attribute>
         </xpath>
-        <xpath expr="//select[@name='state_id']" position="attributes">
-            <attribute name="name">old_state_id</attribute>
+        <xpath expr="//div[@id='div_street2']" position="replace" />
+        <xpath expr="//input[@name='required_fields']" position="attributes">
+            <attribute name="t-att-value"></attribute>
+        </xpath>
+        <xpath expr="//input[@name='phone']" position="attributes">
+            <attribute name="t-att-value">partner_sudo.phone or partner_sudo.mobile</attribute>
         </xpath>
         <xpath expr="//input[@name='name']/.." position="replace">
             <t
         t-set="checkout_title"
-        t-value="checkout and checkout['title'] or '0'"
+        t-value="partner_sudo.title"
       />
-            <t t-set="title_id" t-value="int(checkout_title)" />
-            <div
-        t-attf-class="form-group #{error.get('title') and 'o_has_error' or ''} col-lg-6"
-        id="div_title"
-      >
-                    <label class="col-form-label" for="title">Title</label>
+            <t t-set="title_id" t-value="checkout_title.id" />
+            <div class="form-group col-lg-6" id="div_title">
+                    <label class="col-form-label" for="title_select">Title</label>
                         <select
           name="title"
-          id="title"
-          t-attf-class="form-control #{error.get('title') and 'is-invalid' or ''}"
-          t-att-value="title_name"
+          id="title_select"
+          class="form-control"
+          t-att-value="checkout_title.name or ''"
         >
-                            <t t-foreach="contact_titles" t-as="title">
+                            <option value="" disabled="" t-att-selected="not title_id">Select a title...</option>
+                            <t t-foreach="contact_titles" t-as="contact_title">
 
-                                <t t-esc="title.id" />
+                                <t t-esc="contact_title.id" />
                                                 <option
-              t-att-value="title.id"
-              t-att-selected="title_id == title.id"
+              t-att-value="contact_title.id"
+              t-att-selected="title_id == contact_title.id"
             >
-                                                    <t t-esc="title.name" />
+                                                    <t t-esc="contact_title.name" />
                                                 </option>
                                             </t>
                         </select>
                 </div>
 
             <div
-        t-attf-class="form-group #{error.get('firstname') and 'o_has_error' or ''} col-lg-12 div_name"
+        class="form-group col-lg-12 div_name"
       >
-                <label class="col-form-label" for="firstname">Firstname</label>
+                <label class="col-form-label" for="o_firstname">Firstname</label>
                 <input
           type="text"
           name="firstname"
-          id="firstname"
-          t-attf-class="form-control #{error.get('firstname') and 'is-invalid' or ''}"
-          t-att-value="'firstname' in checkout and checkout['firstname']"
+          id="o_firstname"
+          class="form-control"
+          t-att-value="partner_sudo.firstname if partner_sudo else ''"
         />
             </div>
             <div
-        t-attf-class="form-group #{error.get('lastname') and 'o_has_error' or ''} col-lg-12 div_name"
+        class="form-group col-lg-12 div_name"
       >
-                <label class="col-form-label" for="lastname">Lastname</label>
+                <label class="col-form-label" for="o_lastname">Lastname</label>
                 <input
           type="text"
           name="lastname"
-          id="lastname"
-          t-attf-class="form-control #{error.get('lastname') and 'is-invalid' or ''}"
-          t-att-value="'lastname' in checkout and checkout['lastname']"
+          id="o_lastname"
+          class="form-control"
+          t-att-value="partner_sudo.lastname if partner_sudo else ''"
         />
             </div>
         </xpath>
@@ -70,50 +72,19 @@
     inherit_id="website_sale.cart_lines"
   >
         <xpath
-      expr="//span[@t-field='line.product_id.image_128']"
-      position="replace"
+      expr="//div[@t-field='line.product_id.image_128']"
+      position="attributes"
     >
-            <img
-        t-att-src="image_data_uri(line.image)"
-        class="rounded o_image_64_max"
-      />
+            <attribute name="t-field">line.image</attribute>
         </xpath>
     </template>
 
-    <template
-    id="cart_summary_participant_picture"
-    inherit_id="website_sale.cart"
-  >
+    <template id="checkout_participant_picture" inherit_id="website_sale.checkout_layout">
         <xpath
       expr="//span[@t-field='line.product_id.image_128']"
-      position="replace"
-    >
-            <img
-        t-att-src="image_data_uri(line.image)"
-        class="rounded o_image_64_max"
-      />
-        </xpath>
-        <!-- Remove trailing decimal notation when quantity is an integer. -->
-        <xpath
-      expr="//table[@id='cart_products']/tbody/tr/td[hasclass('td-qty')]"
-      position="replace"
-    >
-            <td class='td-qty' align="center">
-                <div
-          t-esc="int(line.product_uom_qty) if line.product_uom_qty.is_integer() else line.product_uom_qty"
-        />
-            </td>
-        </xpath>
-    </template>
-    <!-- Convert to int when displaying if we can to avoid floating point precision issues. -->
-    <template id="cart_lines" inherit_id="website_sale.cart_lines">
-        <xpath
-      expr="//table[@id='cart_products']/tbody/t/tr/td[hasclass('td-qty')]/div/input"
       position="attributes"
     >
-            <attribute
-        name="t-att-value"
-      >round(line.product_uom_qty, 5) == int(line.product_uom_qty) and int(line.product_uom_qty) or line.product_uom_qty</attribute>
+            <attribute name="t-field">line.image</attribute>
         </xpath>
     </template>
 </odoo>
