@@ -29,7 +29,9 @@ class PostFinanceConfirmation(PostFinanceController):
         what made testers pay a second time (T3378).
         """
         response = super().postfinance_form_feedback(txnId=txnId, **post)
-        if not getattr(response, "headers", {}).get("Location"):
+        next_url = getattr(response, "headers", {}).get("Location") or ""
+        # Only the normal hand-off, never the module's own error page.
+        if not next_url.endswith("/payment/process"):
             return response
         if PaymentProcessing.get_payment_transaction_ids():
             return response
