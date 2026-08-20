@@ -55,7 +55,7 @@ def migrate(cr, version):
             )
 
     method = env["account.payment.method"].search(
-        [("code", "=", "postfinance")], limit=1
+        [("code", "=", "postfinance"), ("payment_type", "=", "inbound")], limit=1
     )
     if not method:
         method = env["account.payment.method"].create(
