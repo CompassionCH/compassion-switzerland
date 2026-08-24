@@ -23,6 +23,7 @@
         "sponsorship_switzerland",
         "crowdfunding_compassion",
         "report_compassion",
+        "payment_postfinance_flex",  # paid-addons
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -32,7 +33,9 @@
         "data/product_gifts_data.xml",
         "data/engagement_types_data.xml",
         "data/mail_template_data.xml",
+        "data/ir_config_parameter.xml",
         "views/advocate_engagement_view.xml",
+        "templates/postfinance_confirmation.xml",
         "templates/login_template.xml",
         "templates/contact_info.xml",
         "templates/my2_gift_package.xml",

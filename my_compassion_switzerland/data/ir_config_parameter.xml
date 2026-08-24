@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Set to the scheme of the app build serving this database, e.g.
+         mycompassion://payment/done. Empty leaves the browser to be closed by
+         hand, which is what older apps need. -->
+    <record id="app_return_url" model="ir.config_parameter">
+        <field name="key">my_compassion_switzerland.app_return_url</field>
+        <field name="value" />
+    </record>
+</odoo>
