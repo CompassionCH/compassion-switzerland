@@ -288,12 +288,48 @@ class ResPartner(models.Model):
             if not vals:
                 return True
         if vals.get("interested_for_volunteering"):
-            # Notify volunteer staff
-            for partner in self.filtered(lambda p: not p.advocate_details_id):
-                advocate_lang = partner.lang[:2]
-                notify_user = self.env["res.config.settings"].get_param(
-                    f"potential_advocate_{advocate_lang}"
-                )
+            # Notify volunteer staff, once, of a partner who just said yes.
+            #
+            # Only the ones the flag is new for: it is written by more than
+            # the form that asks for it (the Wordpress connector, an import,
+            # a staff member re-saving the record), and re-announcing an
+            # advocate we already know about would put a second todo on
+            # someone's list for nothing.
+            #
+            # This ran on write() only and never on create(), which for
+            # years meant it never ran at all for a web signup - everything
+            # about the partner arrived in one create(). The fast checkout
+            # creates the partner before it knows who they are and writes
+            # the rest afterwards, so this is now a live notification.
+            newly_interested = self.filtered(
+                lambda p: not p.advocate_details_id
+                and not p.interested_for_volunteering
+            )
+            settings = self.env["res.config.settings"]
+            for partner in newly_interested:
+                # lang is deliberately left empty on this model, so a partner
+                # created by a web flow has none of their own - the language
+                # they are being served in is the next best answer.
+                advocate_lang = (partner.lang or self.env.lang or "")[:2]
+                param = f"potential_advocate_{advocate_lang}"
+                if param not in settings._fields:
+                    # There is a recipient setting for French, German and
+                    # Italian and for nothing else, and asking for a setting
+                    # that does not exist raises rather than answering
+                    # (res.config.settings._get_classified_fields). So an
+                    # English-speaking sponsor - or one who has told us no
+                    # language at all - used to take the whole write down
+                    # with them. Logged rather than silently dropped: it
+                    # means a volunteer offer nobody was told about.
+                    logger.warning(
+                        "No potential-volunteer recipient is configured for"
+                        " language %r; partner %s offered to volunteer and"
+                        " no one was notified.",
+                        advocate_lang,
+                        partner.id,
+                    )
+                    continue
+                notify_user = settings.get_param(param)
                 if notify_user:
                     partner.activity_schedule(
                         "mail.mail_activity_data_todo",
