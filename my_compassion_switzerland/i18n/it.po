@@ -788,6 +788,11 @@ msgid "New Sponsorship Wizard"
 msgstr "Assistente Nuovo Sostegno"
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid "No payment has been made yet."
+msgstr ""
+
+#. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
 msgid "None"
 msgstr "Nessuno"
@@ -869,6 +874,11 @@ msgstr "Domande o commenti"
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_signup_form_inherit_ch
 msgid "Read our guide"
 msgstr "Leggi la nostra guida"
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_recurring_contract
+msgid "Recurring contract"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.override_error_message
@@ -1027,6 +1037,42 @@ msgid "Volunteers"
 msgstr "Volontari"
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
+msgid "We are sending you a validation code by email. This can take a moment."
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
+msgid ""
+"We could not start the E-Bill setup. Please try again, or choose\n"
+"              another payment method."
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"We will send you the direct debit authorisation to sign and\n"
+"                    return. Once your bank has it, the monthly amount is\n"
+"                    collected automatically."
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"We will send you the payment details for the method you\n"
+"                    chose. Your sponsorship starts as soon as we receive the\n"
+"                    first payment."
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"We will send you the payment details so you can set up the\n"
+"                    standing order with your bank. Your sponsorship starts as\n"
+"                    soon as we receive the first payment."
+msgstr ""
+
+#. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_before1
 msgid ""
 "Weather-related disasters have increased fivefold in the last 50 years."
@@ -1079,6 +1125,14 @@ msgid ""
 msgstr ""
 "Hai selezionato E-Bill. Per continuare, configura il tuo collegamento E-Bill"
 " con Compassion."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"Your E-Bill connection with Compassion is set up. Your first\n"
+"                    invoice will arrive in your bank's E-Bill inbox, where you\n"
+"                    approve it - nothing is debited before you do."
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info1
