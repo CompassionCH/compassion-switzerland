@@ -83,18 +83,44 @@ class TestVolunteeringActivity(SwissCheckoutCase):
         self.assertTrue(nameless_lang.interested_for_volunteering)
 
     def test_a_language_without_a_recipient_does_not_break_the_write(self):
-        """A recipient can be configured for French, German and Italian and
-        for nothing else, and asking the settings for one that does not
-        exist raises instead of answering - so an English-speaking sponsor
-        used to take the whole write down with them the moment this path
-        became reachable."""
+        """A recipient setting exists for French, German, Italian and
+        English and for nothing else, and asking the settings for one that
+        is not even a defined field raises instead of answering - so a
+        sponsor in any other language used to take the whole write down
+        with them the moment this path became reachable.
+
+        Every language actually active on this database now has a
+        recipient (see the English test below) - not because the guard
+        stopped mattering, but because it now only matters for the next
+        language to be installed. Spanish is activated here, inside the
+        test's own rolled-back transaction, purely to have one of those to
+        write onto a partner without also touching the live database.
+        """
+        self.env["res.lang"]._activate_lang("es_ES")
+        no_recipient_partner = self.env["res.partner"].create(
+            {"firstname": "Sin", "lastname": "Idioma", "lang": "es_ES"}
+        )
+        no_recipient_partner.write({"interested_for_volunteering": True})
+        self.assertTrue(no_recipient_partner.interested_for_volunteering)
+        # nobody to tell, so nobody is told - and the opt-in is still saved
+        self.assertFalse(self._potential_volunteer_activities(no_recipient_partner))
+
+    def test_an_english_speaker_notifies_the_configured_recipient(self):
+        """English is the fallback for the fast checkout's placeholder
+        partners, who have no language of their own until the details form
+        is filled in - so it is the language most sponsors will actually
+        resolve to, not an edge case."""
+        self.env["ir.config_parameter"].sudo().set_param(
+            "partner_communication_switzerland.potential_advocate_en",
+            str(self.env.user.id),
+        )
         english = self.env["res.partner"].create(
             {"firstname": "English", "lastname": "Speaker", "lang": "en_US"}
         )
         english.write({"interested_for_volunteering": True})
-        self.assertTrue(english.interested_for_volunteering)
-        # nobody to tell, so nobody is told - and the opt-in is still saved
-        self.assertFalse(self._potential_volunteer_activities(english))
+        activities = self._potential_volunteer_activities(english)
+        self.assertEqual(len(activities), 1)
+        self.assertEqual(activities.user_id, self.env.user)
 
 
 @tagged("post_install", "-at_install")
