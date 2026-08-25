@@ -400,7 +400,7 @@
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
-            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']),('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">5</field>
             <field name="trg_date_range_type">day</field>
             <field name="action_server_ids" eval="[(6, 0, [ref('onboarding_step1_action')])]" />
@@ -419,7 +419,7 @@
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
-            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('parent_id','=',False),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">8</field>
             <field name="trg_date_range_type">day</field>
             <field name="action_server_ids" eval="[(6, 0, [ref('onboarding_step2_action')])]" />
@@ -438,7 +438,7 @@
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
-            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">12</field>
             <field name="trg_date_range_type">day</field>
             <field name="action_server_ids" eval="[(6, 0, [ref('onboarding_step3_action')])]" />
@@ -457,7 +457,7 @@
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
-            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">15</field>
             <field name="trg_date_range_type">day</field>
             <field name="action_server_ids" eval="[(6, 0, [ref('onboarding_step4_action')])]" />
@@ -476,7 +476,7 @@
             <field name="model_id" ref="model_recurring_contract" />
             <field name="trigger">on_time</field>
             <field name="trg_date_id" ref="partner_communication_switzerland.field_recurring_contract__onboarding_start_date" />
-            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('origin_id.type', '!=', 'transfer'),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
+            <field name="filter_domain" eval="[('type', 'in', ['S','SC']),('state', 'not in', ['cancelled','terminated','draft']),('is_first_sponsorship', '=', True),('correspondent_id.email', '!=', False),('correspondent_id.global_communication_delivery_preference', 'not in', ['physical','none']), ('onboarding_start_date', '!=', False),('correspondent_id.lang','!=','en_US')]" />
             <field name="trg_date_range">18</field>
             <field name="trg_date_range_type">day</field>
             <field name="action_server_ids" eval="[(6, 0, [ref('onboarding_step5_action')])]" />

@@ -1,5 +1,4 @@
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <!-- Group visit e-mails -->
         <record
       id="group_visit_step1_config"
@@ -222,5 +221,4 @@
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
-    </data>
 </odoo>
