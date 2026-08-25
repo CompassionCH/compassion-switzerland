@@ -1,32 +1,56 @@
 <!--
-  Adds the volunteering opt-in to the communication step of the base
-  New-Sponsorship wizard. The checkbox feeds new.sponsorship.wizard.volunteering
-  and ends up on res.partner.interested_for_volunteering (partner_compassion).
+  Adds the volunteering opt-in to the new-sponsorship flow. The checkbox ends
+  up on res.partner.interested_for_volunteering (partner_compassion), which
+  is what notifies the volunteer staff of a potential advocate.
+
+  Target:
+  - my_compassion.my2_new_sponsorship_details_form — the "Who shall we thank?"
+    form of the fast checkout.
+
+  Why there, and not on a wizard step any more:
+  the opt-in used to live on the wizard's communication-details step, which
+  the fast checkout no longer runs in any flow (see
+  new.sponsorship.wizard.STEPS_CONFIGS / _get_step_xmlids: the public flows
+  substitute that step, the logged-in flows never listed it). Asking it on the
+  checkout page instead would defeat the point of that page, which is to hold
+  nothing but what is needed to pay. The details form is asked of exactly the
+  audience that used to see the checkbox - public signups, standard and
+  Write&Pray alike - only after the payment step rather than before it.
+
+  Consequence, and it is the intended one: the flag now arrives in a write to
+  an existing partner instead of in its create() values, which is what finally
+  makes partner_compassion's "Potential volunteer" activity fire (it only ever
+  looked at write()). See partner_compassion/models/partner_compassion.py.
 -->
 <odoo>
   <template
     id="new_sponsorship_wizard_volunteering"
-    inherit_id="my_compassion.my2_new_sponsorship_wizard_communication_details"
-    name="New Sponsorship Wizard Volunteering Opt-in"
+    inherit_id="my_compassion.my2_new_sponsorship_details_form"
+    name="New Sponsorship Details Volunteering Opt-in"
   >
-    <xpath
-      expr="//t[@t-call='theme_compassion_2025.FormFieldComponent']
-                   [.//t[@t-set='input_id' and @t-value=&quot;'lead_source'&quot;]]"
-      position="after"
-    >
-      <input type="hidden" name="volunteering" value="" />
+    <!-- After the optional-address disclosure, so the two required fields
+         the form exists for stay at the top and this stays an extra. -->
+    <xpath expr="//details" position="after">
       <t t-call="theme_compassion_2025.FormFieldComponent">
         <t t-set="top_class" t-value="'my-3'" />
         <t t-set="label">Volunteering</t>
         <div class="d-flex align-items-center">
+          <!-- No companion hidden input, unlike the wizard's own checkboxes:
+               this form is posted by the browser, not serialized by the
+               wizard JS, and a repeated field name would make Odoo read the
+               hidden empty value instead of the ticked one. -->
           <input
             type="checkbox"
-            id="volunteering"
+            id="details_volunteering"
             name="volunteering"
+            value="1"
             class="flex-shrink-0"
-            t-att-checked="wizard.volunteering"
+            t-att-checked="details_prefill.get('volunteering')"
           />
-          <label class="ms-3 mb-0 body-small bold" t-att-for="'volunteering'">
+          <label
+            class="ms-3 mb-0 body-small bold"
+            t-att-for="'details_volunteering'"
+          >
                     I wish to volunteer my time (letter translations, events, prayer, ...).
                     Please contact me.
                 </label>
