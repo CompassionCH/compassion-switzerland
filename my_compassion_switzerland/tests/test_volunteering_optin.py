@@ -6,14 +6,15 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
-import re
-
 from odoo.tests import tagged
 from odoo.tests.common import HttpCase
 
+from odoo.addons.my_compassion.controllers.my2_sponsorships import (
+    OWN_SIGNUPS_SESSION_KEY,
+)
+
 from .common import SwissCheckoutCase
 
-CSRF_RE = re.compile(r'name="csrf_token"\s+value="([^"]+)"')
 ADVOCATE_PARAM = "partner_communication_switzerland.potential_advocate_fr"
 
 
@@ -125,12 +126,15 @@ class TestVolunteeringActivity(SwissCheckoutCase):
 
 @tagged("post_install", "-at_install")
 class TestVolunteeringOptIn(HttpCase, SwissCheckoutCase):
-    """Where the opt-in is asked now that no wizard step asks it.
+    """Where the opt-in is asked now: the public "All set" summary page.
 
-    It used to live on the wizard's communication-details step, which the
-    fast checkout no longer runs in any flow. Its audience is unchanged -
-    public signups - only the moment moved, from before the payment to the
-    post-payment details form.
+    It used to live on the wizard's communication-details step, then on the
+    post-payment "Who shall we thank?" details form; both no longer ask it.
+    Its audience is unchanged - public signups - only the moment moved
+    again, from the details form to the summary shown once that form is
+    done. That page has no form of its own, so the checkbox posts itself to
+    /my2/new-sponsorship/volunteering on change instead of waiting to be
+    collected by a submit button.
     """
 
     def setUp(self):
@@ -139,97 +143,89 @@ class TestVolunteeringOptIn(HttpCase, SwissCheckoutCase):
             ADVOCATE_PARAM, str(self.env.user.id)
         )
         self.signup = self._make_ch_signup(self.ebill_mode)
+        # The details form is already done by the time the "All set" page
+        # (and its checkbox) exists for a sponsor to see.
+        self.signup.partner_id._my2_replace_placeholder_name("Jeanne", "Dupont")
 
-    def _open_form(self):
-        token = self.signup._my2_issue_details_token()
+    def _own_signup_session(self):
+        """A session that proves this browser is the one that checked out.
+
+        The real-world proof for a not-yet-authenticated visitor on this
+        page - see MyCompassionNewSponsorshipController
+        ._issue_details_token, which the volunteering route's own gate
+        mirrors.
+        """
+        self.authenticate(
+            None, None, session_extra={OWN_SIGNUPS_SESSION_KEY: [self.signup.id]}
+        )
+
+    def _post_optin(self, volunteering):
+        return self.make_jsonrpc_request(
+            "/my2/new-sponsorship/volunteering",
+            {"sponsorship_id": self.signup.id, "volunteering": volunteering},
+        )
+
+    def test_the_all_set_page_shows_the_opt_in(self):
+        self._own_signup_session()
         page = self.url_open(
             f"/my2/new-sponsorship/thank-you?sponsorship_id={self.signup.id}"
-            f"&details_token={token}"
         )
         self.assertEqual(page.status_code, 200)
-        csrf = CSRF_RE.search(page.text)
-        self.assertTrue(csrf, "the details form should carry a csrf token")
-        return page.text, csrf.group(1), token
-
-    def _post_details(self, csrf, token, **fields_):
-        values = {
-            "csrf_token": csrf,
-            "sponsorship_id": self.signup.id,
-            "details_token": token,
-            "firstname": "Jeanne",
-            "lastname": "Dupont",
-            # A landline on purpose: partner_compassion re-files a Swiss
-            # mobile number onto res.partner.mobile (check_phone_and_mobile),
-            # which would make an assertion on phone say nothing useful.
-            "phone": "+41 21 123 45 67",
-        }
-        values.update(fields_)
-        return self.url_open(
-            "/my2/new-sponsorship/complete-details",
-            data=values,
-            allow_redirects=False,
-        )
-
-    def test_the_details_form_asks_the_opt_in(self):
-        html, _csrf, _token = self._open_form()
-        self.assertIn('name="volunteering"', html)
-        self.assertIn('id="details_volunteering"', html)
-
-    def test_the_form_asks_it_only_once(self):
-        """A repeated field name would make Odoo read the wrong value: it
-        keeps the first one it sees, so a companion hidden input would win
-        over the ticked box."""
-        html, _csrf, _token = self._open_form()
-        self.assertEqual(html.count('name="volunteering"'), 1)
+        self.assertIn('id="all_set_volunteering"', page.text)
 
     def test_ticking_it_opts_the_sponsor_in_and_notifies_the_staff(self):
-        _html, csrf, token = self._open_form()
-        response = self._post_details(csrf, token, volunteering="1")
-        self.assertEqual(response.status_code, 303)
+        self._own_signup_session()
+        result = self._post_optin(True)
+        self.assertTrue(result["success"])
         partner = self.signup.partner_id
         self.assertTrue(partner.interested_for_volunteering)
         self.assertEqual(len(self._potential_volunteer_activities(partner)), 1)
 
     def test_the_staff_is_told_the_sponsors_real_name(self):
-        """The flag is written after the name, so the to-do names a person
-        rather than the checkout placeholder."""
-        _html, csrf, token = self._open_form()
-        self._post_details(csrf, token, volunteering="1")
+        """setUp already replaced the placeholder before the checkbox could
+        even be shown, so the to-do this schedules should always name a
+        person, never the checkout placeholder."""
+        self._own_signup_session()
+        self._post_optin(True)
         partner = self.signup.partner_id
         self.assertFalse(partner.my2_name_placeholder)
         activity = self._potential_volunteer_activities(partner)
         self.assertEqual(len(activity), 1)
         self.assertIn("Dupont", partner.name)
 
-    def test_leaving_it_alone_opts_nobody_in(self):
-        _html, csrf, token = self._open_form()
-        response = self._post_details(csrf, token)
-        self.assertEqual(response.status_code, 303)
-        partner = self.signup.partner_id
-        self.assertFalse(partner.interested_for_volunteering)
-        self.assertFalse(self._potential_volunteer_activities(partner))
-        # the rest of the form still saved
-        self.assertEqual(partner.phone, "+41 21 123 45 67")
-        self.assertFalse(partner.my2_name_placeholder)
-
-    def test_an_unticked_box_never_overwrites_an_earlier_yes(self):
-        """The sponsor may have said yes somewhere else entirely; this form
-        is an opt-in, not a preference page."""
+    def test_unticking_it_opts_the_sponsor_back_out(self):
+        """Unlike the old details-form field this replaced, this also
+        accepts taking a tick back: the checkbox reflects live state on a
+        page the sponsor can act from, not a one-shot form."""
         self.signup.partner_id.write({"interested_for_volunteering": True})
-        _html, csrf, token = self._open_form()
-        self._post_details(csrf, token)
-        self.assertTrue(self.signup.partner_id.interested_for_volunteering)
-
-    def test_the_tick_survives_a_bounced_submission(self):
-        """A missing required field re-renders the form; nothing the sponsor
-        already answered may be lost on the way."""
-        _html, csrf, token = self._open_form()
-        response = self._post_details(csrf, token, phone="", volunteering="1")
-        self.assertEqual(response.status_code, 200)
-        checkbox = re.search(r'<input[^>]*name="volunteering"[^>]*>', response.text)
-        self.assertTrue(checkbox, "the form should come back with its checkbox")
-        self.assertIn("checked", checkbox.group(0))
+        self._own_signup_session()
+        result = self._post_optin(False)
+        self.assertTrue(result["success"])
         self.assertFalse(self.signup.partner_id.interested_for_volunteering)
+
+    def test_a_foreign_session_cannot_opt_someone_else_in(self):
+        """No own-signup session and no authenticated match: a bare
+        sponsorship_id in the request must not be enough to write anything -
+        the same gate the details-form token enforces for that page."""
+        result = self._post_optin(True)
+        self.assertFalse(result["success"])
+        self.assertFalse(self.signup.partner_id.interested_for_volunteering)
+
+    def test_the_authenticated_sponsor_can_also_opt_in(self):
+        """The other accepted proof, alongside the own-signup session: the
+        sponsor came back already logged in rather than through the
+        checkout session that created this signup."""
+        user = self.env["res.users"].create(
+            {
+                "name": "Jeanne Dupont",
+                "login": "jeanne-volunteer@example.org",
+                "partner_id": self.signup.partner_id.id,
+            }
+        )
+        self.authenticate(user.login, user.login)
+        result = self._post_optin(True)
+        self.assertTrue(result["success"])
+        self.assertTrue(self.signup.partner_id.interested_for_volunteering)
 
 
 @tagged("post_install", "-at_install")

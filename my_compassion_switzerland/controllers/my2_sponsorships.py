@@ -6,28 +6,53 @@
 #    The licence is in the file __manifest__.py
 #
 ##############################################################################
+from odoo import http
+from odoo.http import request
+
 from odoo.addons.my_compassion.controllers.my2_sponsorships import (
+    OWN_SIGNUPS_SESSION_KEY,
     MyCompassionNewSponsorshipController,
+    MyCompassionSponsorshipPayment,
 )
 
 
 class MyCompassionNewSponsorshipControllerSwitzerland(
     MyCompassionNewSponsorshipController
 ):
-    # A classmethod where the shared implementation is a staticmethod, so
-    # that super() can reach it: the two are called the same way (through the
-    # instance), and this is the only shape that composes if a third module
-    # ever adds a field of its own here too.
-    @classmethod
-    def _details_form_values(cls, post):
-        """Read the Swiss volunteering opt-in out of the details form too.
+    @http.route(
+        "/my2/new-sponsorship/volunteering",
+        type="json",
+        auth="public",
+        website=True,
+    )
+    def sponsorship_volunteering_optin(
+        self, sponsorship_id=None, volunteering=None, **kwargs
+    ):
+        """Sets the Swiss volunteering opt-in from the "All set" page.
 
-        The one field templates/my2_new_sponsorship_wizard.xml adds to that
-        form. Carried through the shared plumbing untouched: it ends up in
-        the values recurring.contract._my2_apply_details saves, and - when a
-        required field comes back empty - in the prefill that re-renders the
-        form, so the tick survives the bounce.
+        That page (my_compassion.my2_new_sponsorship_thank_you_page, the
+        request.env.user._is_public() branch) has no form of its own to post
+        through - it is a summary, not a step - so the checkbox posts here
+        by itself instead, on change. Gated the same way the details-form
+        token is (see MyCompassionNewSponsorshipController
+        ._issue_details_token): proof of having gone through this exact
+        checkout in this browser, or being the authenticated sponsor. A bare
+        sponsorship_id in the request proves nothing on its own.
+
+        Unlike the old details-form field this replaces, this also accepts
+        unticking: the checkbox now reflects live state on a page the
+        sponsor can act from, not a one-shot form, so taking back an
+        accidental tick should work the same as giving one.
         """
-        values = super()._details_form_values(post)
-        values["volunteering"] = bool(post.get("volunteering"))
-        return values
+        sponsorship = self._fetch_signup(sponsorship_id)
+        owns_signup = sponsorship.id in (
+            request.session.get(OWN_SIGNUPS_SESSION_KEY) or []
+        )
+        if not owns_signup and not MyCompassionSponsorshipPayment._is_sponsorship_user(
+            sponsorship
+        ):
+            return {"success": False}
+        sponsorship.partner_id.sudo().write(
+            {"interested_for_volunteering": bool(volunteering)}
+        )
+        return {"success": True}

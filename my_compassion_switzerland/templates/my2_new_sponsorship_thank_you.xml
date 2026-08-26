@@ -33,7 +33,7 @@ Page: My Compassion 2 – New Sponsorship Thank You - no payment taken yet
     inherit_id="my_compassion.my2_new_sponsorship_thank_you_page"
     name="New Sponsorship Thank You - Payment Still To Come"
   >
-    <xpath expr="//div[hasclass('thank-you-child-profile')]" position="after">
+    <xpath expr="//div[hasclass('mx-4')]" position="after">
       <t
         t-set="pending_payment_kind"
         t-value="sponsorship._my2_ch_pending_payment_kind()"

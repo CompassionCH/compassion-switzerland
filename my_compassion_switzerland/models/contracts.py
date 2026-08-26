@@ -71,21 +71,3 @@ class RecurringContract(models.Model):
             if mode == self.env.ref(xml_id, raise_if_not_found=False):
                 return kind
         return CH_PENDING_PAYMENT_METHODS.get(mode.payment_method_id.code, "other")
-
-    def _my2_apply_details(self, values):
-        """Also save the volunteering opt-in of the Swiss details form.
-
-        Written after the shared implementation rather than merged into its
-        own write, on purpose: it runs once the sponsor's real name is in
-        place, so the "Potential volunteer" activity partner_compassion
-        schedules from this write names a person instead of a placeholder.
-
-        Only ever an opt-in. An unticked box leaves the flag alone, the same
-        way the shared implementation leaves every empty field alone, so a
-        sponsor who says nothing here never has a "no" written over a "yes"
-        they gave somewhere else.
-        """
-        partner = super()._my2_apply_details(values)
-        if values.get("volunteering") and not partner.interested_for_volunteering:
-            partner.sudo().write({"interested_for_volunteering": True})
-        return partner

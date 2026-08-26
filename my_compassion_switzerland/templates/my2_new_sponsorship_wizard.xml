@@ -4,71 +4,116 @@
   is what notifies the volunteer staff of a potential advocate.
 
   Target:
-  - my_compassion.my2_new_sponsorship_details_form — the "Who shall we thank?"
-    form of the fast checkout.
+  - my_compassion.my2_new_sponsorship_thank_you_page — the public-visitor
+    "All set" summary shown once the sponsor's name is in (their placeholder
+    partner is replaced, see res.partner._my2_on_placeholder_name_replaced),
+    below the child card (standard flow) or the Write&amp;Pray first-timer
+    "write your first letter" card (wap-preferences-card) when that one
+    renders instead.
 
-  Why there, and not on a wizard step any more:
+  Why there, and not the checkout page or the details form any more:
   the opt-in used to live on the wizard's communication-details step, which
   the fast checkout no longer runs in any flow (see
   new.sponsorship.wizard.STEPS_CONFIGS / _get_step_xmlids: the public flows
-  substitute that step, the logged-in flows never listed it). Asking it on the
-  checkout page instead would defeat the point of that page, which is to hold
-  nothing but what is needed to pay. The details form is asked of exactly the
-  audience that used to see the checkbox - public signups, standard and
-  Write&Pray alike - only after the payment step rather than before it.
+  substitute that step, the logged-in flows never listed it). Asking it on
+  the checkout page would defeat the point of that page, which is to hold
+  nothing but what is needed to pay. It briefly lived on the post-payment
+  "Who shall we thank?" details form instead - same audience, moved from
+  before the payment to after it - but moved again onto this summary once it
+  existed: it reads better as "one more thing you can do" alongside the
+  finished sponsorship than as one more required-adjacent field on a form
+  whose only two required fields are name and phone.
 
-  Consequence, and it is the intended one: the flag now arrives in a write to
-  an existing partner instead of in its create() values, which is what finally
-  makes partner_compassion's "Potential volunteer" activity fire (it only ever
-  looked at write()). See partner_compassion/models/partner_compassion.py.
+  This page has no <form> of its own (it is a summary, not a step), so the
+  checkbox posts itself via /my2/new-sponsorship/volunteering on change
+  (my2_new_sponsorship_wizard_volunteering.js) instead of waiting for a
+  submit button - see controllers/my2_sponsorships.py
+  ::sponsorship_volunteering_optin for the write and its access gate.
+
+  Consequence, and it is the intended one: the flag arrives in a write to an
+  existing partner, which is what finally makes partner_compassion's
+  "Potential volunteer" activity fire (it only ever looked at write()). See
+  partner_compassion/models/partner_compassion.py.
 -->
 <odoo>
   <template
     id="new_sponsorship_wizard_volunteering"
-    inherit_id="my_compassion.my2_new_sponsorship_details_form"
-    name="New Sponsorship Details Volunteering Opt-in"
+    inherit_id="my_compassion.my2_new_sponsorship_thank_you_page"
+    name="New Sponsorship All Set Volunteering Opt-in"
   >
-    <!-- After the optional-address disclosure, so the two required fields
-         the form exists for stay at the top and this stays an extra. -->
-    <xpath expr="//details" position="after">
-      <t t-call="theme_compassion_2025.FormFieldComponent">
-        <t t-set="top_class" t-value="'my-3'" />
-        <t t-set="label">Volunteering</t>
-        <div class="d-flex align-items-center">
-          <!-- No companion hidden input, unlike the wizard's own checkboxes:
-               this form is posted by the browser, not serialized by the
-               wizard JS, and a repeated field name would make Odoo read the
-               hidden empty value instead of the ticked one. -->
+    <xpath expr="//div[hasclass('wap-preferences-card')]" position="after">
+      <div
+        class="w-100 mb-1 mt-3 text-dark-blue body-small bold text-center"
+      >Want to do more?</div>
+      <div class="my-3">
+        <label
+          for="all_set_volunteering"
+          class="toggle-card w-100 d-flex align-items-center p-3 rounded rounded-lg bg-light-green border border-mid-grey"
+        >
           <input
             type="checkbox"
-            id="details_volunteering"
-            name="volunteering"
-            value="1"
-            class="flex-shrink-0"
-            t-att-checked="details_prefill.get('volunteering')"
+            id="all_set_volunteering"
+            class="d-none"
+            data-action="volunteering-optin"
+            t-att-data-sponsorship-id="sponsorship.id"
+            t-att-checked="sponsorship.partner_id.interested_for_volunteering"
           />
-          <label
-            class="ms-3 mb-0 body-small bold"
-            t-att-for="'details_volunteering'"
-          >
-                    I wish to volunteer my time (letter translations, events, prayer, ...).
-                    Please contact me.
-                </label>
-        </div>
-        <div class="mt-2 p-4 bg-high-eggshell rounded-lg body-small">
-                Do you want to inspire other people to sponsor a child?
-                Does the situation of children in need particularly touch you and you want to take action?
-                <br />
-                <br />
-                You can volunteer for Compassion and thereby place your talents at the service of the most
-                destitute children
-                on the planet.
-                <br />
-                <br />
-                Translations, stuffing envelopes, presence at events, being a spokesperson in
-                your church or running for the children.
+          <span
+            class="toggle-card-check me-3 flex-shrink-0 d-flex align-items-center justify-content-center rounded-circle bg-mid-green text-pure-white tiny-text bold"
+          >✓</span>
+          <span class="flex-grow-1">
+            <span class="d-block text-dark-blue very-tiny-text bold">Volunteer with us</span>
+            <span class="d-block text-mid-grey very-tiny-text">Letter translations, events, prayer, and more.</span>
+          </span>
+        </label>
+        <a
+          href="#"
+          class="d-inline-block mt-2 very-tiny-text bold text-core-blue"
+          data-bs-toggle="modal"
+          data-bs-target="#volunteering-info-modal"
+        >What could I help with?</a>
+      </div>
+      <!-- Volunteering info modal -->
+      <div
+        class="modal fade"
+        id="volunteering-info-modal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="volunteering-info-modal-title"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content border-0">
+            <div class="modal-body">
+              <button
+                type="button"
+                class="btn-close mt-3 me-3 icon-x-circle body-large text-mid-grey"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+              <div class="px-4 pt-2 pb-4">
+                <div
+                  id="volunteering-info-modal-title"
+                  class="mb-2 text-dark-blue body-large bold"
+                >Volunteering for compassion</div>
+                <div class="body-small">
+                            Do you want to inspire other people to sponsor a child?
+                            Does the situation of children in need particularly touch you and you want to take action?
+                            <br />
+                            <br />
+                            You can volunteer for Compassion and thereby place your talents at the service of the most
+                            destitute children
+                            on the planet.
+                            <br />
+                            <br />
+                            Translations, stuffing envelopes, presence at events, being a spokesperson in
+                            your church or running for the children.
+                        </div>
+              </div>
             </div>
-      </t>
+          </div>
+        </div>
+      </div>
     </xpath>
   </template>
 </odoo>
