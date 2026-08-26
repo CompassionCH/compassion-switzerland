@@ -87,7 +87,7 @@ class ResUsers(models.Model):
                         "name": f"{user.preferred_name} {user.lastname}"
                         if user.firstname
                         else _("The team of Compassion"),
-                        "email": user.email if user.firstname else "info@compassion.ch",
+                        "email": "info@compassion.ch",
                         "lang": lang,
                         "lang_short": lang[:2],
                         "team": _("and the team of Compassion")
@@ -98,10 +98,6 @@ class ResUsers(models.Model):
                         "company_name": user.company_id.address_name,
                         "phone_link": phone_link.get(lang),
                         "phone": phone.get(lang),
-                        "mobile": employee.mobile_phone,
-                        "mobile_link": (employee.mobile_phone or "")
-                        .replace(" ", "")
-                        .replace("(0)", ""),
                         "facebook": facebook.get(lang),
                         "employee_image_url": employee_image_url,
                     }
@@ -117,8 +113,6 @@ class ResUsers(models.Model):
                         "company_name": user.company_id.address_name,
                         "phone_link": phone_link.get(lang),
                         "phone": phone.get(lang),
-                        "mobile": "",
-                        "mobile_link": "",
                         "facebook": facebook.get(lang),
                     }
 
@@ -126,8 +120,6 @@ class ResUsers(models.Model):
                     template.remove("#bern")
                 else:
                     template.remove("#yverdon")
-                if not employee.mobile_phone:
-                    template.remove(".work_mobile")
                 if not employee:
                     template.remove("#photo")
                 user.signature = template.html().format(**values)
