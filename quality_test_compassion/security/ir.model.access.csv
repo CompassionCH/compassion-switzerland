@@ -9,3 +9,11 @@ access_quality_test_module_version_user,quality.test.module.version user,model_q
 access_quality_test_module_version_manager,quality.test.module.version manager,model_quality_test_module_version,project.group_project_manager,1,1,1,1
 access_quality_test_version_user,quality.test.version user,model_quality_test_version,project.group_project_user,1,0,1,1
 access_quality_test_version_manager,quality.test.version manager,model_quality_test_version,project.group_project_manager,1,1,1,1
+access_quality_test_step_user,quality.test.step user,model_quality_test_step,project.group_project_user,1,1,1,1
+access_quality_test_step_manager,quality.test.step manager,model_quality_test_step,project.group_project_manager,1,1,1,1
+access_quality_test_expected_result_user,quality.test.expected.result user,model_quality_test_expected_result,project.group_project_user,1,1,1,1
+access_quality_test_expected_result_manager,quality.test.expected.result manager,model_quality_test_expected_result,project.group_project_manager,1,1,1,1
+access_quality_test_run_step_user,quality.test.run.step user,model_quality_test_run_step,project.group_project_user,1,1,1,0
+access_quality_test_run_step_manager,quality.test.run.step manager,model_quality_test_run_step,project.group_project_manager,1,1,1,1
+access_quality_test_run_result_user,quality.test.run.result user,model_quality_test_run_result,project.group_project_user,1,1,1,0
+access_quality_test_run_result_manager,quality.test.run.result manager,model_quality_test_run_result,project.group_project_manager,1,1,1,1

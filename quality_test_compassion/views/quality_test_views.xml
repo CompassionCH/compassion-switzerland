@@ -21,6 +21,7 @@
           decoration-muted="state == 'retired'"
         />
                 <field name="category_id" />
+                <field name="parent_id" optional="hide" />
                 <field name="user_id" widget="many2one_avatar_user" />
                 <field name="test_version" />
                 <field name="last_run_date" />
@@ -102,6 +103,11 @@
                 widget="many2one_avatar_user"
               />
                             <field name="category_id" />
+                            <field
+                                name="parent_id"
+                                domain="[('id', '!=', id)]"
+                                options="{'no_create': True}"
+                            />
                         </group>
                         <group string="Last Run">
                             <field name="last_run_date" />
@@ -114,16 +120,51 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Description" name="description">
+                        <page string="Test Steps" name="steps">
                             <group>
                                 <field name="test_version" />
                             </group>
                             <field
-                name="description"
-                widget="html"
-                placeholder="Describe the steps to execute this quality test..."
-                readonly="state in ('active', 'retired')"
-              />
+                                name="step_ids"
+                                readonly="state in ('active', 'retired')"
+                            >
+                                <list>
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                </list>
+                                <form>
+                                    <div class="oe_title mb-4">
+                                        <label for="name" class="o_form_label" />
+                                        <h1>
+                                            <field
+                                                name="name"
+                                                placeholder="e.g. Hold a child"
+                                            />
+                                        </h1>
+                                    </div>
+                                    <separator string="Instructions" />
+                                    <field
+                                        name="description"
+                                        widget="html"
+                                        nolabel="1"
+                                        placeholder="Detailed instructions to perform this step..."
+                                    />
+                                    <separator string="Expected Results" />
+                                    <field name="expected_result_ids" nolabel="1">
+                                        <list editable="bottom">
+                                            <field
+                                                name="sequence"
+                                                widget="handle"
+                                            />
+                                            <field
+                                                name="name"
+                                                string="Expected Results"
+                                                placeholder="e.g. The child appears in the hold list"
+                                            />
+                                        </list>
+                                    </field>
+                                </form>
+                            </field>
                         </page>
                         <page string="Related Modules" name="modules">
                             <field
@@ -152,6 +193,33 @@
                                 <field name="rule_module_update" />
                             </group>
                         </page>
+                        <page string="Follow-up Tests" name="child_tests">
+                            <field name="child_ids" readonly="1">
+                                <list>
+                                    <field name="sequence" />
+                                    <field name="name" />
+                                    <field
+                                        name="state"
+                                        widget="badge"
+                                        decoration-info="state == 'draft'"
+                                        decoration-success="state == 'active'"
+                                        decoration-muted="state == 'retired'"
+                                    />
+                                    <field name="category_id" />
+                                    <field
+                                        name="user_id"
+                                        widget="many2one_avatar_user"
+                                    />
+                                    <field name="last_run_date" />
+                                    <field
+                                        name="last_run_result"
+                                        decoration-danger="last_run_result == 'fail'"
+                                        decoration-success="last_run_result == 'pass'"
+                                        widget="badge"
+                                    />
+                                </list>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>
@@ -168,6 +236,7 @@
                 <field name="name" />
                 <field name="category_id" />
                 <field name="user_id" />
+                <field name="parent_id" />
                 <filter
           string="Draft"
           name="draft"
@@ -216,6 +285,11 @@
             context="{'group_by': 'user_id'}"
           />
                     <filter
+            name="groupby_parent"
+            string="Parent"
+            context="{'group_by': 'parent_id'}"
+          />
+                    <filter
             name="groupby_result"
             string="Last Result"
             context="{'group_by': 'last_run_result'}"
@@ -249,6 +323,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name" />
+                <field name="parent_id" />
             </list>
         </field>
     </record>
@@ -261,6 +336,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
+                        <field name="parent_id" domain="[('id', '!=', id)]" />
                     </group>
                 </sheet>
             </form>
