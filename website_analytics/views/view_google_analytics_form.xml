@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+    <record id="view_google_analytics_form" model="ir.ui.view">
+        <field name="name">google.analytics.data.form</field>
+        <field name="model">google.analytics.data</field>
+        <field name="arch" type="xml">
+            <form string="Google Analytics Data">
+                <sheet>
+                    <group>
+                        <div class="oe_title mb-3">
+                            <h1><field
+                  name="name"
+                  nolabel="1"
+                  placeholder="Name"
+                /></h1>
+                            <button
+                name="%(action_google_analytics_data_line_graph)d"
+                type="action"
+                class="btn btn-primary mt-3"
+              >
+                                <i class="fa fa-bar-chart" /> Graph
+
+                            </button>
+                        </div>
+
+                        <div class="mt-2">
+                            <h3>
+                                <div class="d-flex flex-row">
+                                    <field
+                    name="start_date"
+                    nolabel="1"
+                    placeholder="Start"
+                  />
+                                    <span class="mx-2">-</span>
+                                    <field
+                    name="end_date"
+                    nolabel="1"
+                    placeholder="End"
+                  />
+                                </div>
+                            </h3>
+
+
+                            <div class="d-flex flex-row">
+
+                                <div class="flex-column">
+                                    <label
+                    for="device_category"
+                    class="font-weight-bold"
+                    nolabel="1"
+                  >Device
+                                        Category</label>
+                                    <field
+                    name="device_category"
+                    nolabel="1"
+                    class="form-control mr-5"
+                  />
+                                </div>
+
+                                <div class="flex-column">
+                                    <label
+                    for="language"
+                    class="font-weight-bold"
+                  >language</label>
+                                    <field
+                    name="language"
+                    nolabel="1"
+                    class="form-control mr-5"
+                  />
+                                </div>
+                                <div class="flex-column">
+                                    <label
+                    for="min_view"
+                    class="font-weight-bold"
+                  >Minimum views</label>
+                                    <field
+                    type="number"
+                    name="min_view"
+                    nolabel="1"
+                    class="form-control"
+                  />
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <notebook>
+                            <page
+                string="Analytics Details"
+                name="analytics_details"
+              >
+                                <field
+                  name="report_lines"
+                  nolabel="1"
+                  context="{'default_report_id': active_id}"
+                >
+                                    <tree string="Report Lines">
+                                        <field name="url" />
+                                        <field name="device" />
+                                        <field
+                      name="page_views_total"
+                      sum="Total Page Views"
+                    />
+                                        <field
+                      name="active_users_total"
+                      sum="Total Active Users"
+                    />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
