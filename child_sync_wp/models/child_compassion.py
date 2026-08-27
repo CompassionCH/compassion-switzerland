@@ -297,13 +297,6 @@ class CompassionChild(models.Model):
                     warning_msg
                 )
 
-        # Release holds
-        try:
-            with self.env.cr.savepoint():
-                old_children.mapped("hold_id").release_hold()
-        except Exception:
-            logger.error("Error when refreshing wordpress children.")
-
     def _notify_developer(self, message: str) -> None:
         """
         Sends an email to the IT team regarding child a child sync issue
