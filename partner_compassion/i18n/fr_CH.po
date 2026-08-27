@@ -189,6 +189,17 @@ msgstr ""
 " langue."
 
 #. module: partner_compassion
+#: model:ir.model.fields,help:partner_compassion.field_reformat_all_phonenumbers__potential_advocate_en
+#: model:ir.model.fields,help:partner_compassion.field_res_config_settings__potential_advocate_en
+msgid ""
+"Recipient for English-speaking sponsors specifically - including the "
+"fast checkout's placeholder partners, who default to English until the "
+"details form gives them a language. Not a catch-all: a sponsor in any "
+"other language still notifies no one, the same as before this field "
+"existed."
+msgstr ""
+
+#. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.view_partner_form_compassion_contact
 msgid "Alternate address"
 msgstr ""
@@ -1172,6 +1183,12 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__potential_advocate_de
 msgid "Potential advocate DE"
+msgstr ""
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_reformat_all_phonenumbers__potential_advocate_en
+#: model:ir.model.fields,field_description:partner_compassion.field_res_config_settings__potential_advocate_en
+msgid "Potential advocate EN"
 msgstr ""
 
 #. module: partner_compassion

@@ -56,6 +56,10 @@
                             <label for="potential_advocate_it" class="col-lg-3 o_light_label"/>
                             <field name="potential_advocate_it"/>
                         </div>
+                        <div class="row">
+                            <label for="potential_advocate_en" class="col-lg-3 o_light_label"/>
+                            <field name="potential_advocate_en"/>
+                        </div>
                     </div>
                 </setting>
             </xpath>

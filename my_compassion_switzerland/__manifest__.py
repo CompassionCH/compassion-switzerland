@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "My Compassion Switzerland",
-    "version": "18.0.1.0.6",
+    "version": "18.0.1.0.7",
     "category": "Website",
     "author": "Daniel Palumbo",
     "development_status": "Beta",
@@ -45,6 +45,7 @@
         "views/advocate_engagement_notification_settings_view.xml",
         "templates/my2_new_sponsorship_wizard_ebill.xml",
         "templates/my2_new_sponsorship_wizard.xml",
+        "templates/my2_new_sponsorship_thank_you.xml",
         "templates/my_account_menu.xml",
         "templates/my2_signup_form.xml",
         "templates/my2_user_settings.xml",
@@ -55,6 +56,7 @@
             "my_compassion_switzerland/static/src/css/my2_volunteering.css",
             "my_compassion_switzerland/static/src/js/my2_volunteering.js",
             "my_compassion_switzerland/static/src/js/my2_new_sponsorship_wizard_ebill.js",
+            "my_compassion_switzerland/static/src/js/my2_new_sponsorship_wizard_volunteering.js",
         ],
     },
     "installable": True,

@@ -192,6 +192,8 @@ msgid ""
 "An error occurred while processing your request. Please try again or contact"
 " support."
 msgstr ""
+"Beim Verarbeiten deiner Anfrage ist ein Fehler aufgetreten. Bitte versuche "
+"es erneut oder kontaktiere den Support."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
@@ -328,6 +330,8 @@ msgid ""
 "Displayed thank you message to the volunteer if they are engaged in this "
 "engagement type"
 msgstr ""
+"Dem Freiwilligen angezeigter Dankestext, wenn er in diesem Engagement-Typ "
+"aktiv ist"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_after1
@@ -386,7 +390,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid "E-Bill"
-msgstr ""
+msgstr "E-Bill"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
@@ -438,6 +442,8 @@ msgstr ""
 msgid ""
 "Email addresses to notify when an advocate engagement form is submitted"
 msgstr ""
+"E-Mail-Adressen, an die Benachrichtigungen gesendet werden, wenn ein "
+"Formular für Botschafter-Engagement eingereicht wird"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_advocate_engagement_tree
@@ -630,7 +636,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/my_compassion_switzerland/models/advocate_engagement_notification_settings.py:0
 msgid "Invalid email for %(field)s: %(email)s"
-msgstr ""
+msgstr "Ungültige E-Mail für %(field)s: %(email)s"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__is_translator
@@ -720,7 +726,7 @@ msgstr "medizinische Unterstützung in Ländern ohne Krankenversicherung"
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
 msgid "Missing required volunteer roles"
-msgstr ""
+msgstr "Fehlende erforderliche Freiwilligenrollen"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -760,7 +766,7 @@ msgstr "My Compassion Etikett"
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_thank_you_text
 msgid "My Compassion Thank You Text"
-msgstr ""
+msgstr "MyCompassion-Dankestext"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -783,6 +789,11 @@ msgstr "Brauchst du Hilfe?"
 #: model:ir.model,name:my_compassion_switzerland.model_new_sponsorship_wizard
 msgid "New Sponsorship Wizard"
 msgstr "Assistent für neue Patenschaften"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid "No payment has been made yet."
+msgstr "Es wurde noch keine Zahlung geleistet."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
@@ -813,17 +824,22 @@ msgid ""
 "                    <br/>\n"
 "                    024 434 21 24"
 msgstr ""
+"Bitte kontaktiere Compassion für Unterstützung unter:\n"
+"                    <br/>\n"
+"                    info@compassion.ch\n"
+"                    <br/>\n"
+"                    031 552 21 21"
 
 #. module: my_compassion_switzerland
 #. odoo-javascript
 #: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
 msgid "Please select one or more volunteering options"
-msgstr ""
+msgstr "Bitte wähle eine oder mehrere Freiwilligenoptionen aus"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
 msgid "PostFinance"
-msgstr ""
+msgstr "PostFinance"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after1
@@ -866,6 +882,11 @@ msgstr "Fragen oder Kommentare"
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_signup_form_inherit_ch
 msgid "Read our guide"
 msgstr "Anleitung lesen"
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_recurring_contract
+msgid "Recurring contract"
+msgstr "Wiederkehrender Vertrag"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.override_error_message
@@ -951,6 +972,8 @@ msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
 msgstr ""
+"Vielen Dank für dein Interesse an der Freiwilligenarbeit! Eine Bestätigungs-"
+"E-Mail wurde dir gesendet."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before3
@@ -966,6 +989,8 @@ msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
 msgstr ""
+"Bei deiner Eingabe ist ein Problem aufgetreten. Bitte prüfe deine Angaben "
+"und versuche es erneut."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
@@ -979,7 +1004,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my_account_crowdfunding
 msgid "Together"
-msgstr ""
+msgstr "TOGETHER"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after4
@@ -994,7 +1019,7 @@ msgstr "Einen Brief übersetzen"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
 msgid "Twint"
-msgstr ""
+msgstr "Twint"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1004,7 +1029,7 @@ msgstr "Abmelden"
 #. module: my_compassion_switzerland
 #: model:mail.template,name:my_compassion_switzerland.email_template_volunteer_registration
 msgid "Volunteer Registration"
-msgstr ""
+msgstr "Freiwilligenregistrierung"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1021,6 +1046,54 @@ msgstr "Freiwilligenarbeit"
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
 msgid "Volunteers"
 msgstr "Freiwillig mithelfen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
+msgid "We are sending you a validation code by email. This can take a moment."
+msgstr ""
+"Wir senden dir einen Bestätigungscode per E-Mail. Das kann einen Moment "
+"dauern."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
+msgid ""
+"We could not start the E-Bill setup. Please try again, or choose\n"
+"              another payment method."
+msgstr ""
+"Die Einrichtung von E-Bill konnte nicht gestartet werden. Bitte versuche es "
+"erneut oder wähle eine andere Zahlungsmethode."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"We will send you the direct debit authorisation to sign and\n"
+"                    return. Once your bank has it, the monthly amount is\n"
+"                    collected automatically."
+msgstr ""
+"Wir senden dir die Lastschrift-Ermächtigung zur Unterzeichnung und "
+"Rücksendung. Sobald deine Bank sie erhalten hat, wird der monatliche Betrag "
+"automatisch abgebucht."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"We will send you the payment details for the method you\n"
+"                    chose. Your sponsorship starts as soon as we receive the\n"
+"                    first payment."
+msgstr ""
+"Wir senden dir die Zahlungsdetails für die gewählte Methode. Deine "
+"Patenschaft beginnt, sobald wir die erste Zahlung erhalten."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"We will send you the payment details so you can set up the\n"
+"                    standing order with your bank. Your sponsorship starts as\n"
+"                    soon as we receive the first payment."
+msgstr ""
+"Wir senden dir die Zahlungsdetails, damit du den Dauerauftrag bei deiner "
+"Bank einrichten kannst. Deine Patenschaft beginnt, sobald wir die erste "
+"Zahlung erhalten."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_before1
@@ -1077,6 +1150,17 @@ msgstr ""
 "Verbindung für Compassion ein."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+msgid ""
+"Your E-Bill connection with Compassion is set up. Your first\n"
+"                    invoice will arrive in your bank's E-Bill inbox, where you\n"
+"                    approve it - nothing is debited before you do."
+msgstr ""
+"Deine E-Bill-Verbindung mit Compassion ist eingerichtet. Deine erste "
+"Rechnung erscheint in deinem E-Bill-Postfach deiner Bank, wo du sie "
+"freigibst – es wird nichts vorab belastet."
+
+#. module: my_compassion_switzerland
 #: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info1
 msgid ""
 "Your donation ensures your sponsored child receives a Christmas gift. You "
@@ -1092,20 +1176,20 @@ msgstr ""
 #: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
 #: model:account.payment.mode,name:my_compassion_switzerland.payment_mode_ebill
 msgid "eBill"
-msgstr ""
+msgstr "eBill"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
 msgid "food crisis"
-msgstr ""
+msgstr "Lebensmittelkrise"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
-msgstr ""
+msgstr "Gesundheit in TG"
 
 #. module: my_compassion_switzerland
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
-msgstr "Steuerbescheinigung"
+msgstr "tax_receipt"
