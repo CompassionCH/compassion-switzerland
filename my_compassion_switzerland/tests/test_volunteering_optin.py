@@ -203,6 +203,19 @@ class TestVolunteeringOptIn(HttpCase, SwissCheckoutCase):
         self.assertTrue(result["success"])
         self.assertFalse(self.signup.partner_id.interested_for_volunteering)
 
+    def test_a_stringified_false_does_not_opt_the_sponsor_in(self):
+        """volunteering must be an actual JSON boolean: a naive
+        bool(volunteering) would coerce the non-empty *string* "false" to
+        True, silently opting a sponsor in while the caller's intent (and
+        the {"success": True} it would still get back) looked like an
+        opt-out. type="json" routes do not enforce a schema, so a caller
+        sending the wrong JSON type is a real, reachable case, not just a
+        hypothetical."""
+        self._own_signup_session()
+        result = self._post_optin("false")
+        self.assertFalse(result["success"])
+        self.assertFalse(self.signup.partner_id.interested_for_volunteering)
+
     def test_a_foreign_session_cannot_opt_someone_else_in(self):
         """No own-signup session and no authenticated match: a bare
         sponsorship_id in the request must not be enough to write anything -
