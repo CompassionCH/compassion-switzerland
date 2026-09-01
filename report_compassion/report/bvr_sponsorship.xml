@@ -129,9 +129,10 @@
             t-value="o.get_communication(date_split[0], date_split[-1], doc_value)"
           />
                     <t
-            t-set="comm_qr"
-            t-value="communication.replace('&lt;br/&gt;', ', ')"
+            t-set="communication_plain"
+            t-value="o.get_communication(date_split[0], date_split[-1], doc_value, plain=True)"
           />
+                    <t t-set="comm_qr" t-value="communication_plain" />
                     <t
             t-set="amount"
             t-value="o.get_amount(date_split[0], date_split[-1], doc_value)"

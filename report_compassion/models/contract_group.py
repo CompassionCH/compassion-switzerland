@@ -81,13 +81,16 @@ class ContractGroup(models.Model):
                 result.append(month_start + " - " + month)
             return result
 
-    def get_communication(self, start, stop, sponsorships):
+    def get_communication(self, start, stop, sponsorships, plain=False):
         """
         Get the communication to print on the payment slip for sponsorship
         :param start: the month start for which we print the payment slip (string)
         :param stop: the month stop for which we print the payment slip (string)
         :param sponsorships: recordset of sponsorships for which to print the
                              payment slips
+        :param plain: return a single-line, comma-separated plain string
+        instead of a <br/>-separated Markup, for contexts that can't render
+        real HTML - built directly from the unescaped parts.
         :return: string of the communication
         """
         self.ensure_one()
@@ -131,7 +134,8 @@ class ContractGroup(models.Model):
             )
             vals["subject"] = ", ".join(product_name.mapped("thanks_name"))
 
-        return Markup("<br/>").join(
+        sep = ", " if plain else Markup("<br/>")
+        return sep.join(
             [
                 f"{vals['payment_type']} {vals['amount']}",
                 f"{vals['subject']}",

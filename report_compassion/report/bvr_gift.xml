@@ -61,9 +61,10 @@
           t-value="o.get_gift_communication(product)"
         />
                 <t
-          t-set="comm_qr"
-          t-value="communication.replace('&lt;br/&gt;', ', ')"
+          t-set="communication_plain"
+          t-value="o.get_gift_communication(product, plain=True)"
         />
+                <t t-set="comm_qr" t-value="communication_plain" />
                 <t
           t-set="reference"
           t-value="o.get_gift_bvr_reference(product)"
@@ -136,7 +137,7 @@
           />
                     <t
             t-set="comm_qr"
-            t-value="communication.replace('&lt;br/&gt;', ', ')"
+            t-value="o.get_gift_communication(product, plain=True)"
           />
                     <t t-set="amount" t-value="False" />
                 </t>

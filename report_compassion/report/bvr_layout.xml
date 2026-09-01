@@ -275,7 +275,7 @@
                     style="font-size: 35px; font-family: monospace; font-weight: 400"
                     t-esc="u'\u2191'"
             />
-            <span t-esc="str(communication).replace('&lt;br/&gt;', ', ')" />
+            <span t-esc="communication_plain" />
             <span
                     style="font-size: 35px; font-family: monospace; font-weight: 400"
                     t-esc="u'\u2191'"
@@ -291,7 +291,7 @@
                     style="font-size: 35px; font-family: monospace; font-weight: 400"
                     t-esc="u'\u2193'"
             />
-            <span t-esc="str(communication).replace('&lt;br/&gt;', ', ')" />
+            <span t-esc="communication_plain" />
             <span
                     style="font-size: 35px; font-family: monospace; font-weight: 400"
                     t-esc="u'\u2193'"
