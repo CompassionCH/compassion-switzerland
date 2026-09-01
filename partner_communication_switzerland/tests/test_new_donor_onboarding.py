@@ -20,7 +20,7 @@ class TestNewDonorOnboarding(HttpCase):
         cls.admin.groups_id |= cls.env.ref("account.group_account_invoice")
 
         cls.env["res.lang"]._activate_lang("fr_CH")
-        cls.env["ir.default"].set("res.partner", "lang", "fr_CH")
+        cls.env["ir.default"].set("res.partner", "lang", "fr_CH", user_id=True)
 
         cls.first_blog_post = cls.env.ref(
             "partner_communication_switzerland"

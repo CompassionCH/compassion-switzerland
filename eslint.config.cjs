@@ -48,7 +48,7 @@ const config = [{
         },
 
         ecmaVersion: 2024,
-        sourceType: "script",
+        sourceType: "module",
     },
 
     rules: {
@@ -220,15 +220,12 @@ const config = [{
     },
 
 }, {
-    files: [
-        "**/*.esm.js",
-        "my_compassion_switzerland/**/*.js",
-        "partner_communication_switzerland/**/*.js",
-    ],
+    // The last file still written against the legacy odoo.define() loader.
+    files: ["account_switzerland/**/*.js"],
 
     languageOptions: {
         ecmaVersion: 2024,
-        sourceType: "module",
+        sourceType: "script",
     },
 }];
 
