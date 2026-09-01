@@ -220,7 +220,11 @@ const config = [{
     },
 
 }, {
-    files: ["**/*.esm.js", "my_compassion_switzerland/**/*.js"],
+    files: [
+        "**/*.esm.js",
+        "my_compassion_switzerland/**/*.js",
+        "partner_communication_switzerland/**/*.js",
+    ],
 
     languageOptions: {
         ecmaVersion: 2024,
