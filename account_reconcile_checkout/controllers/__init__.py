@@ -8,3 +8,4 @@
 ##############################################################################
 
 from . import postfinance_confirmation
+from . import website_sale_payment

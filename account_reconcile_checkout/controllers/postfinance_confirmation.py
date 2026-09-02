@@ -15,6 +15,22 @@ from odoo.addons.payment.controllers.portal import PaymentProcessing
 from odoo.addons.payment_postfinance_flex.controllers.main import PostFinanceController
 
 
+def release_postfinance_attempt(confirm_id=None):
+    """Cancel the PostFinance payment this session started, if still pending.
+
+    Both callers are public routes, so the record always comes from the session;
+    confirm_id may only confirm it, never select it.
+    """
+    attempt = request.session.get("__website_sale_last_tx_id")
+    if not attempt:
+        return
+    if confirm_id is not None and str(confirm_id or "") != str(attempt):
+        return
+    request.env["payment.transaction"].sudo().browse(attempt).exists().filtered(
+        lambda tx: tx.acquirer_id.provider == "postfinance"
+    )._postfinance_abandon_pending()
+
+
 class PostFinanceConfirmation(PostFinanceController):
     """Override of the paid module payment_postfinance_flex, which must not be
     modified directly (proprietary licence)."""
@@ -32,7 +48,7 @@ class PostFinanceConfirmation(PostFinanceController):
         """
         response = super().postfinance_form_feedback(txnId=txnId, **post)
         if request.httprequest.path == self._failed_url:
-            self._abandon_transaction(txnId)
+            release_postfinance_attempt(txnId)
         next_url = getattr(response, "headers", {}).get("Location") or ""
         # Only the normal hand-off, never the module's own error page.
         if urlparse(next_url).path.rstrip("/") != "/payment/process":
@@ -46,19 +62,6 @@ class PostFinanceConfirmation(PostFinanceController):
                 "app_return_url": self._app_return_url_if_enabled(),
             },
         )
-
-    def _abandon_transaction(self, txn_id):
-        """The gateway only sends the donor here once the attempt is over.
-
-        Public route: the attempt comes from the session, txnId may only confirm
-        it and never select a record.
-        """
-        attempt = request.session.get("__website_sale_last_tx_id")
-        if not attempt or str(txn_id or "") != str(attempt):
-            return
-        request.env["payment.transaction"].sudo().browse(attempt).exists().filtered(
-            lambda tx: tx.acquirer_id.provider == "postfinance"
-        )._postfinance_abandon_pending()
 
     def _app_return_url_if_enabled(self):
         """Off until an app version registering the scheme is live: older ones

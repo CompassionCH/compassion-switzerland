@@ -37,6 +37,7 @@
     "depends": [
         "account",
         "payment_postfinance_flex",  # paid-addons
+        "website_sale",
     ],
     "external_dependencies": {"python": ["postfinancecheckout==5.2.2"]},
     "data": [

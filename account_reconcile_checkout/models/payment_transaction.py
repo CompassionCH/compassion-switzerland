@@ -46,7 +46,7 @@ class PaymentTransaction(models.Model):
             elif postfinance_state in ("FAILED", "DECLINE") and tx.state == "pending":
                 # _set_transaction_cancel() only accepts draft/authorized, so a
                 # failed payment would stay stuck in 'pending'.
-                tx.write({"state": "cancel"})
+                tx.write({"state": "cancel", "date": fields.Datetime.now()})
             elif postfinance_state == "FULFILL" and tx.state == "cancel":
                 # Paid after we gave up on it. Only the last attempt may be
                 # revived, so two workers racing cannot both book the payment.
@@ -67,8 +67,13 @@ class PaymentTransaction(models.Model):
     def _postfinance_abandon_pending(self):
         """PostFinance stays PENDING for minutes after a cancel, and a pending
         transaction makes website_sale drop the cart from the session (T3428).
+
+        The date matters: payment_status_poll skips transactions without one, and
+        the donor gets "we cannot find your payment" instead of the cancellation.
         """
-        self.filtered(lambda tx: tx.state == "pending").write({"state": "cancel"})
+        self.filtered(lambda tx: tx.state == "pending").write(
+            {"state": "cancel", "date": fields.Datetime.now()}
+        )
 
     def _sibling_transactions(self):
         """The paid module reuses one gateway transaction across Pay clicks."""
