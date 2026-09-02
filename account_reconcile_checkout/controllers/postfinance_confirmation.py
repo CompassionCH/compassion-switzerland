@@ -48,12 +48,17 @@ class PostFinanceConfirmation(PostFinanceController):
         )
 
     def _abandon_transaction(self, txn_id):
-        """The gateway only sends the donor here once the attempt is over."""
+        """The gateway only sends the donor here once the attempt is over.
+
+        Public route, caller-controlled id: only release what this session started.
+        """
         if not str(txn_id or "").isdigit():
             return
-        request.env["payment.transaction"].sudo().browse(
-            int(txn_id)
-        ).exists()._postfinance_abandon_pending()
+        if int(txn_id) not in PaymentProcessing.get_payment_transaction_ids():
+            return
+        request.env["payment.transaction"].sudo().browse(int(txn_id)).exists().filtered(
+            lambda tx: tx.acquirer_id.provider == "postfinance"
+        )._postfinance_abandon_pending()
 
     def _app_return_url_if_enabled(self):
         """Off until an app version registering the scheme is live: older ones
