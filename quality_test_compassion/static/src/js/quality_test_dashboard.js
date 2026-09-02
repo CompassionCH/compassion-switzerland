@@ -45,7 +45,7 @@ class QualityTestDashboard extends Component {
   openCard(card) {
     this.actionService.doAction({
       context: {},
-      domain: card.domain || [],
+      domain: card.click_domain || card.domain || [],
       name: card.action_name || card.title,
       res_model: "quality.test",
       target: "current",

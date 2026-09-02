@@ -116,11 +116,12 @@ class QualityTest(models.Model):
 
     @api.model
     def _build_dashboard_card(
-        self, key, step_label, title, count, total, domain, color
+        self, key, step_label, title, count, total, domain, color, click_domain=None
     ):
         percentage = (count / total * 100) if total else 0.0
         return {
             "action_name": title,
+            "click_domain": click_domain or domain,
             "color": color,
             "count": count,
             "domain": domain,
@@ -146,6 +147,8 @@ class QualityTest(models.Model):
         total_domain = [("state", "!=", "retired")]
         draft_domain = [("state", "=", "draft")]
         executed_domain = total_domain + [("run_count", ">", 0)]
+        untested_domain = total_domain + [("run_count", "=", 0)]
+        failed_domain = total_domain + [("last_run_result", "=", "fail")]
         passed_domain = total_domain + [("last_run_result", "=", "pass")]
         total = self.search_count(total_domain)
         draft_count = self.search_count(draft_domain)
@@ -160,6 +163,7 @@ class QualityTest(models.Model):
                 total,
                 draft_domain,
                 "primary",
+                draft_domain,
             ),
             self._build_dashboard_card(
                 "executed",
@@ -169,6 +173,7 @@ class QualityTest(models.Model):
                 total,
                 executed_domain,
                 "info",
+                untested_domain,
             ),
             self._build_dashboard_card(
                 "passed",
@@ -178,6 +183,7 @@ class QualityTest(models.Model):
                 total,
                 passed_domain,
                 "success",
+                failed_domain,
             ),
         ]
         return {

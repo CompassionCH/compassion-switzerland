@@ -50,11 +50,20 @@ class TestQualityTestDashboard(TransactionCase):
         self.assertEqual(cards["executed"]["count"], 2)
         self.assertEqual(cards["passed"]["count"], 1)
         self.assertEqual(cards["validated"]["domain"], [("state", "=", "draft")])
+        self.assertEqual(cards["validated"]["click_domain"], [("state", "=", "draft")])
         self.assertEqual(
             cards["executed"]["domain"],
             [("state", "!=", "retired"), ("run_count", ">", 0)],
         )
         self.assertEqual(
+            cards["executed"]["click_domain"],
+            [("state", "!=", "retired"), ("run_count", "=", 0)],
+        )
+        self.assertEqual(
             cards["passed"]["domain"],
             [("state", "!=", "retired"), ("last_run_result", "=", "pass")],
+        )
+        self.assertEqual(
+            cards["passed"]["click_domain"],
+            [("state", "!=", "retired"), ("last_run_result", "=", "fail")],
         )
