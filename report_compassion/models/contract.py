@@ -32,7 +32,14 @@ class AccountInvoice(models.Model):
 class Contract(models.Model):
     _inherit = "recurring.contract"
 
-    def get_gift_communication(self, product):
+    def get_gift_communication(self, product, plain=False):
+        """
+        :param plain: return a single-line, comma-separated plain string
+        instead of a <br/>-separated Markup, for contexts (e.g. the printed
+        BVR communication line) that can't render real HTML - building it
+        directly from the unescaped parts avoids round-tripping the Markup
+        value through escape/unescape.
+        """
         self.ensure_one()
         lang = self.mapped(self.send_gifts_to).lang
         child = self.child_id.with_context(lang=lang)
@@ -52,17 +59,15 @@ class Contract(models.Model):
             else "",
         }
         if "Birthday" in product.with_context(lang="en_US").name:
-            communication = Markup("<br/>").join(
-                [
-                    f"{vals['firstname']} ({vals['local_id']})",
-                    f"{vals['product']}",
-                    f"{vals['birthdate']}",
-                ]
-            )
+            parts = [
+                f"{vals['firstname']} ({vals['local_id']})",
+                f"{vals['product']}",
+                f"{vals['birthdate']}",
+            ]
         else:
-            communication = Markup("<br/>").join(
-                [f"{vals['firstname']} ({vals['local_id']})", f"{vals['product']}"]
-            )
+            parts = [f"{vals['firstname']} ({vals['local_id']})", f"{vals['product']}"]
+        sep = ", " if plain else Markup("<br/>")
+        communication = sep.join(parts)
         gift_threshold = self.env["gift.threshold.settings"].search(
             [("product_id", "=", product.id)], limit=1
         )
@@ -75,7 +80,7 @@ class Contract(models.Model):
                 "de_DE": f"CHF {min_amount}.- bis max. {max_amount}.- pro Jahr",
                 "it_IT": f"Importo tra CHF {min_amount}.- e {max_amount}.- per anno",
             }
-            communication += Markup("<br/>") + f"{amount_limit[lang]}"
+            communication += sep + f"{amount_limit[lang]}"
         return communication
 
     @api.model
