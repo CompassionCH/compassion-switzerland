@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="quality_test_compassion.QualityTestDashboard">
+        <div class="o_quality_test_dashboard">
+            <div class="o_quality_test_dashboard_header">
+                <h1 class="o_quality_test_dashboard_title">
+                    <t t-esc="env._t('Status update')" />
+                </h1>
+                <p class="o_quality_test_dashboard_subtitle">
+                    <t t-esc="subtitle" />
+                </p>
+            </div>
+            <div t-if="state.loading" class="o_quality_test_dashboard_loading">
+                <t t-esc="env._t('Loading dashboard…')" />
+            </div>
+            <div t-else="" class="o_quality_test_dashboard_cards">
+                <t t-foreach="state.cards" t-as="card" t-key="card.key">
+                    <button
+                        type="button"
+                        t-attf-class="o_quality_test_dashboard_card o_quality_test_dashboard_card--#{card.color}"
+                        t-on-click="() => this.openCard(card)"
+                    >
+                        <div>
+                            <p class="o_quality_test_dashboard_step">
+                                <t t-esc="card.step_label" />
+                            </p>
+                            <h2 class="o_quality_test_dashboard_card_title">
+                                <t t-esc="card.title" />
+                            </h2>
+                        </div>
+                        <div class="o_quality_test_dashboard_metric_value">
+                            <t t-esc="formatPercentage(card.percentage)" />
+                        </div>
+                        <div class="o_quality_test_dashboard_metric_ratio">
+                            <t t-esc="card.count" /> / <t t-esc="state.total" />
+                        </div>
+                        <div class="o_quality_test_dashboard_metric_status">
+                            <strong>
+                                <t t-esc="env._t('Status:')" />
+                            </strong>
+                            <span> </span>
+                            <t t-esc="card.status" />
+                        </div>
+                    </button>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

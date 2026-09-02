@@ -13,6 +13,7 @@
     "installable": True,
     "depends": [
         "base",
+        "bus",
         "hr",
         "mail",
         "project",
@@ -27,6 +28,13 @@
         "views/quality_test_views.xml",
         "views/quality_test_run_views.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "quality_test_compassion/static/src/js/quality_test_dashboard.js",
+            "quality_test_compassion/static/src/scss/quality_test_dashboard.scss",
+            "quality_test_compassion/static/src/xml/quality_test_dashboard.xml",
+        ],
+    },
     "external_dependencies": {
         "python": [],
         "bin": [],

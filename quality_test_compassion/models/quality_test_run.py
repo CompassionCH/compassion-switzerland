@@ -157,7 +157,18 @@ class QualityTestRun(models.Model):
             record.tested_at_version = record.test_id.test_version
             if record.result == "fail":
                 record._send_fail_notification()
+        self.env["quality.test"]._notify_dashboard_update()
         return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        self.env["quality.test"]._notify_dashboard_update()
+        return result
+
+    def unlink(self):
+        result = super().unlink()
+        self.env["quality.test"]._notify_dashboard_update()
+        return result
 
     @api.depends("test_id.name", "sequence")
     def _compute_display_name(self):

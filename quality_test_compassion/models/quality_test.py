@@ -114,6 +114,92 @@ class QualityTest(models.Model):
     )
     last_notification = fields.Datetime()
 
+    @api.model
+    def _notify_dashboard_update(self):
+        self.env["bus.bus"]._sendone(
+            "quality_test_dashboard", "quality_test_dashboard_updated", {}
+        )
+
+    @api.model
+    def _build_dashboard_card(self, key, step_label, title, count, total, domain, color):
+        percentage = (count / total * 100) if total else 0.0
+        return {
+            "action_name": title,
+            "color": color,
+            "count": count,
+            "domain": domain,
+            "key": key,
+            "percentage": percentage,
+            "status": self._get_dashboard_status(key, count, total),
+            "step_label": step_label,
+            "title": title,
+        }
+
+    @api.model
+    def _get_dashboard_status(self, key, count, total):
+        remaining = max(total - count, 0)
+        status_by_key = {
+            "validated": _("Remaining to validate: %s") % remaining,
+            "executed": _("Without any test run yet: %s") % remaining,
+            "passed": _("Not passing yet: %s") % remaining,
+        }
+        return status_by_key[key]
+
+    @api.model
+    def get_dashboard_metrics(self):
+        total_domain = [("state", "!=", "retired")]
+        validated_domain = [("state", "!=", "draft"), ("state", "!=", "retired")]
+        total = self.search_count(total_domain)
+        cards = [
+            self._build_dashboard_card(
+                "validated",
+                _("Step 1"),
+                _("Tests validated"),
+                self.search_count(validated_domain),
+                total,
+                validated_domain,
+                "primary",
+            ),
+            self._build_dashboard_card(
+                "executed",
+                _("Step 2"),
+                _("Tests executed"),
+                self.search_count(total_domain + [("run_count", ">", 0)]),
+                total,
+                total_domain + [("run_count", ">", 0)],
+                "info",
+            ),
+            self._build_dashboard_card(
+                "passed",
+                _("Step 3"),
+                _("Tests validated (Pass)"),
+                self.search_count(total_domain + [("last_run_result", "=", "pass")]),
+                total,
+                total_domain + [("last_run_result", "=", "pass")],
+                "success",
+            ),
+        ]
+        return {
+            "cards": cards,
+            "total": total,
+        }
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._notify_dashboard_update()
+        return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        self._notify_dashboard_update()
+        return result
+
+    def unlink(self):
+        result = super().unlink()
+        self.env["quality.test"]._notify_dashboard_update()
+        return result
+
     @api.depends("name", "test_version")
     def _compute_display_name(self):
         for rec in self:
