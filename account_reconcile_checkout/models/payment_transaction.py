@@ -48,8 +48,12 @@ class PaymentTransaction(models.Model):
                 # failed payment would stay stuck in 'pending'.
                 tx.write({"state": "cancel"})
             elif postfinance_state == "FULFILL" and tx.state == "cancel":
-                # Paid after we gave up on it, unless a sibling already booked it.
-                if "done" not in tx._sibling_transactions().mapped("state"):
+                # Paid after we gave up on it. Only the last attempt may be
+                # revived, so two workers racing cannot both book the payment.
+                siblings = tx._sibling_transactions()
+                if "done" not in siblings.mapped("state") and tx.id > max(
+                    siblings.ids, default=0
+                ):
                     tx.write(
                         {
                             "state": "done",
