@@ -147,8 +147,7 @@ class QualityTest(models.Model):
     def _get_state_label_map(self):
         languages = {self.env.lang, "en_US", "fr_CH", "fr_FR"}
         mapping = {
-            value.casefold(): value
-            for value, _label in self._fields["state"].selection
+            value.casefold(): value for value, _label in self._fields["state"].selection
         }
         for lang in filter(None, languages):
             field_data = self.with_context(lang=lang).fields_get(["state"])["state"]
@@ -260,7 +259,9 @@ class QualityTest(models.Model):
             "direction": (
                 "positive"
                 if percentage_delta > 0
-                else "negative" if percentage_delta < 0 else "neutral"
+                else "negative"
+                if percentage_delta < 0
+                else "neutral"
             ),
             "label": _("%(points).1f pts (%(count)+d)")
             % {
