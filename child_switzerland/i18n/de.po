@@ -16,6 +16,11 @@ msgstr ""
 
 #. module: child_switzerland
 #: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
+msgid "<span>No photo registered for this child</span>"
+msgstr "<span>Kein Foto für dieses Kind vorhanden</span>"
+
+#. module: child_switzerland
+#: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
 msgid "<span>boy</span>"
 msgstr "<span>Junge</span>"
 

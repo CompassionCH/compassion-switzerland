@@ -53,6 +53,13 @@
                             max-height: 100%;
                             margin: auto;
                         }
+                        .photo .no-photo {
+                            margin-top: 55mm;
+                            text-align: center;
+                            font-style: italic;
+                            font-size: 11pt;
+                            color: #666666;
+                        }
                         .summary {
                             position: absolute;
                             left: 118mm;
@@ -90,6 +97,9 @@
               t-if="o.fullshot"
               t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"
             />
+                        <p t-if="not o.fullshot" class="no-photo">
+                            <span>No photo registered for this child</span>
+                        </p>
                     </div>
                     <div class="summary">
                         <span t-field="o.preferred_name" class="name" />
