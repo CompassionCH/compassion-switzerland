@@ -37,6 +37,11 @@
         "templates/website_cart.xml",
         "templates/my_tasks_forms.xml",
     ],
+    "assets": {
+        "web.assets_tests": [
+            "website_switzerland/static/tests/tours/event_registration_setup.js",
+        ],
+    },
     "installable": True,
     "auto_install": False,
 }
