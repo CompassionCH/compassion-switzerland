@@ -31,6 +31,8 @@ class PostFinanceConfirmation(PostFinanceController):
         what made testers pay a second time (T3378).
         """
         response = super().postfinance_form_feedback(txnId=txnId, **post)
+        if request.httprequest.path == self._failed_url:
+            self._abandon_transaction(txnId)
         next_url = getattr(response, "headers", {}).get("Location") or ""
         # Only the normal hand-off, never the module's own error page.
         if urlparse(next_url).path.rstrip("/") != "/payment/process":
@@ -44,6 +46,19 @@ class PostFinanceConfirmation(PostFinanceController):
                 "app_return_url": self._app_return_url_if_enabled(),
             },
         )
+
+    def _abandon_transaction(self, txn_id):
+        """The gateway only sends the donor here once the attempt is over.
+
+        Public route: the attempt comes from the session, txnId may only confirm
+        it and never select a record.
+        """
+        attempt = request.session.get("__website_sale_last_tx_id")
+        if not attempt or str(txn_id or "") != str(attempt):
+            return
+        request.env["payment.transaction"].sudo().browse(attempt).exists().filtered(
+            lambda tx: tx.acquirer_id.provider == "postfinance"
+        )._postfinance_abandon_pending()
 
     def _app_return_url_if_enabled(self):
         """Off until an app version registering the scheme is live: older ones

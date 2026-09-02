@@ -10,7 +10,7 @@ import logging
 
 from psycopg2 import OperationalError
 
-from odoo import models
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -47,23 +47,48 @@ class PaymentTransaction(models.Model):
                 # _set_transaction_cancel() only accepts draft/authorized, so a
                 # failed payment would stay stuck in 'pending'.
                 tx.write({"state": "cancel"})
+            elif postfinance_state == "FULFILL" and tx.state == "cancel":
+                # Paid after we gave up on it. Only the last attempt may be
+                # revived, so two workers racing cannot both book the payment.
+                siblings = tx._sibling_transactions()
+                if "done" not in siblings.mapped("state") and tx.id > max(
+                    siblings.ids, default=0
+                ):
+                    tx.write(
+                        {
+                            "state": "done",
+                            "date": fields.Datetime.now(),
+                            "state_message": "",
+                        }
+                    )
             if tx.state == "done" and tx.acquirer_reference:
                 tx._cancel_superseded_transactions()
 
-    def _cancel_superseded_transactions(self):
-        """The paid module reuses one gateway transaction across Pay clicks and
-        cancels the rows it replaces, but only those still in 'draft'. Since we now
-        set 'pending' before the redirect, they no longer match that search and
-        would hang forever.
+    def _postfinance_abandon_pending(self):
+        """PostFinance stays PENDING for minutes after a cancel, and a pending
+        transaction makes website_sale drop the cart from the session (T3428).
         """
+        self.filtered(lambda tx: tx.state == "pending").write({"state": "cancel"})
+
+    def _sibling_transactions(self):
+        """The paid module reuses one gateway transaction across Pay clicks."""
         self.ensure_one()
-        self.search(
+        if not self.acquirer_reference:
+            return self.browse()
+        return self.search(
             [
                 ("id", "!=", self.id),
                 ("acquirer_reference", "=", self.acquirer_reference),
                 ("acquirer_id.provider", "=", "postfinance"),
-                ("state", "in", ["draft", "pending"]),
             ]
+        )
+
+    def _cancel_superseded_transactions(self):
+        """The paid module only cancels superseded rows still in 'draft', so
+        since T3378 they would hang forever.
+        """
+        self._sibling_transactions().filtered(
+            lambda tx: tx.state in ("draft", "pending")
         ).write({"state": "cancel"})
 
     def _postfinance_form_validate(self, data):
