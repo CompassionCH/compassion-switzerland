@@ -10,7 +10,7 @@ from odoo import http
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
-from .postfinance_confirmation import release_postfinance_attempt
+from .postfinance_confirmation import release_postfinance_attempt, store_checkout_url
 
 
 class WebsiteSalePostFinance(WebsiteSale):
@@ -25,3 +25,11 @@ class WebsiteSalePostFinance(WebsiteSale):
         """
         release_postfinance_attempt()
         return super().payment(**post)
+
+    @http.route()
+    def payment_transaction(self, *args, **kwargs):
+        """Remember this page, to return the donor here if they cancel."""
+        res = super().payment_transaction(*args, **kwargs)
+        if res:
+            store_checkout_url()
+        return res
