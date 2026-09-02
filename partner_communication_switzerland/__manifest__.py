@@ -97,6 +97,12 @@
         "templates/zoom_registration_form.xml",
         "templates/onboarding_unsubscribe.xml",
     ],
+    "assets": {
+        "web.assets_tests": [
+            "partner_communication_switzerland/static/tests/tours/"
+            "new_donor_onboarding.js",
+        ],
+    },
     "demo": [],
     "installable": True,
     "auto_install": False,
