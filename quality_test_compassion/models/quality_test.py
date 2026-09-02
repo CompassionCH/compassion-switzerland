@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
-from collections import defaultdict
 from datetime import timedelta
 
 from odoo import Command, _, api, fields, models
@@ -116,15 +115,12 @@ class QualityTest(models.Model):
     last_notification = fields.Datetime()
 
     @api.model
-    def _build_dashboard_card(
-        self, key, step_label, title, count, total, domain, color, deltas
-    ):
+    def _build_dashboard_card(self, key, step_label, title, count, total, domain, color):
         percentage = (count / total * 100) if total else 0.0
         return {
             "action_name": title,
             "color": color,
             "count": count,
-            "deltas": deltas,
             "domain": domain,
             "key": key,
             "percentage": percentage,
@@ -137,207 +133,55 @@ class QualityTest(models.Model):
     def _get_dashboard_status(self, key, count, total):
         remaining = max(total - count, 0)
         status_by_key = {
-            "draft": _("Still in draft: %s") % remaining,
-            "executed": _("Without any test run yet: %s") % remaining,
-            "passed": _("Not passing yet: %s") % remaining,
+            "validated": _("%s draft test(s) remaining.") % remaining,
+            "executed": _("%s test(s) without any run yet.") % remaining,
+            "passed": _("%s test(s) not passing yet.") % remaining,
         }
         return status_by_key[key]
 
     @api.model
-    def _get_state_label_map(self):
-        languages = {self.env.lang, "en_US", "fr_CH"}
-        mapping = {
-            value.casefold(): value for value, _label in self._fields["state"].selection
-        }
-        for lang in filter(None, languages):
-            field_data = self.with_context(lang=lang).fields_get(["state"])["state"]
-            for value, label in field_data["selection"]:
-                mapping[label.casefold()] = value
-                mapping[value.casefold()] = value
-        return mapping
-
-    @api.model
-    def _get_state_by_test_at(self, reference_date):
-        tests = self.search([("create_date", "<=", reference_date)])
-        states = {test.id: test.state for test in tests}
-        if not tests:
-            return states
-        label_map = self._get_state_label_map()
-        self.env["mail.message"].flush_model(["model", "res_id", "date"])
-        self.env["mail.tracking.value"].flush_model(
-            ["field_id", "mail_message_id", "old_value_char", "new_value_char"]
-        )
-        self.env.cr.execute(
-            """
-            SELECT mm.res_id, mtv.old_value_char, mtv.new_value_char
-            FROM mail_tracking_value mtv
-            JOIN mail_message mm ON mm.id = mtv.mail_message_id
-            JOIN ir_model_fields imf ON imf.id = mtv.field_id
-            WHERE mm.model = %s
-              AND mm.res_id = ANY(%s)
-              AND imf.model = %s
-              AND imf.name = 'state'
-              AND mm.date > %s
-            ORDER BY mm.res_id, mm.date DESC, mtv.id DESC
-            """,
-            [self._name, tests.ids, self._name, reference_date],
-        )
-        tracking_by_test = defaultdict(list)
-        for res_id, old_value, new_value in self.env.cr.fetchall():
-            tracking_by_test[res_id].append((old_value, new_value))
-        for test in tests:
-            state = test.state
-            for old_value, new_value in tracking_by_test.get(test.id, []):
-                old_state = label_map.get((old_value or "").casefold())
-                new_state = label_map.get((new_value or "").casefold())
-                if new_state == state and old_state:
-                    state = old_state
-            states[test.id] = state
-        return states
-
-    @api.model
-    def _get_run_snapshot_at(self, reference_date, test_ids):
-        if not test_ids:
-            return set(), set()
-        self.env["quality.test.run"].flush_model(["test_id", "date", "result"])
-        self.env.cr.execute(
-            """
-            SELECT DISTINCT test_id
-            FROM quality_test_run
-            WHERE test_id = ANY(%s)
-              AND date <= %s
-            """,
-            [test_ids, reference_date],
-        )
-        executed_ids = {row[0] for row in self.env.cr.fetchall()}
-        self.env.cr.execute(
-            """
-            SELECT DISTINCT ON (test_id) test_id, result
-            FROM quality_test_run
-            WHERE test_id = ANY(%s)
-              AND date <= %s
-            ORDER BY test_id, date DESC, id DESC
-            """,
-            [test_ids, reference_date],
-        )
-        passed_ids = {
-            test_id for test_id, result in self.env.cr.fetchall() if result == "pass"
-        }
-        return executed_ids, passed_ids
-
-    @api.model
-    def _get_dashboard_snapshot_at(self, reference_date):
-        state_by_test = self._get_state_by_test_at(reference_date)
-        active_test_ids = [
-            test_id for test_id, state in state_by_test.items() if state != "retired"
-        ]
-        draft_count = sum(1 for state in state_by_test.values() if state == "draft")
-        executed_ids, passed_ids = self._get_run_snapshot_at(
-            reference_date, active_test_ids
-        )
-        return {
-            "draft": draft_count,
-            "executed": len(executed_ids),
-            "passed": len(passed_ids),
-            "total": len(active_test_ids),
-        }
-
-    @api.model
-    def _get_dashboard_delta(self, current_snapshot, previous_snapshot, key):
-        current_total = current_snapshot["total"]
-        previous_total = previous_snapshot["total"]
-        current_percentage = (
-            current_snapshot[key] / current_total * 100 if current_total else 0.0
-        )
-        previous_percentage = (
-            previous_snapshot[key] / previous_total * 100 if previous_total else 0.0
-        )
-        percentage_delta = round(current_percentage - previous_percentage, 1)
-        count_delta = current_snapshot[key] - previous_snapshot[key]
-        return {
-            "count_delta": count_delta,
-            "direction": (
-                "positive"
-                if percentage_delta > 0
-                else "negative"
-                if percentage_delta < 0
-                else "neutral"
-            ),
-            "label": _("%(points).1f pts (%(count)+d)")
-            % {
-                "count": count_delta,
-                "points": percentage_delta,
-            },
-            "percentage_delta": percentage_delta,
-        }
-
-    @api.model
-    def _get_dashboard_deltas(
-        self, current_snapshot, week_snapshot, month_snapshot, key
-    ):
-        return [
-            {
-                "key": "week",
-                "label": _("Since last week"),
-                **self._get_dashboard_delta(current_snapshot, week_snapshot, key),
-            },
-            {
-                "key": "month",
-                "label": _("Since last month"),
-                **self._get_dashboard_delta(current_snapshot, month_snapshot, key),
-            },
-        ]
-
-    @api.model
     def get_dashboard_metrics(self):
-        now = fields.Datetime.now()
-        current_snapshot = self._get_dashboard_snapshot_at(now)
-        week_snapshot = self._get_dashboard_snapshot_at(now - timedelta(days=7))
-        month_snapshot = self._get_dashboard_snapshot_at(now - timedelta(days=30))
-        total = current_snapshot["total"]
+        total_domain = [("state", "!=", "retired")]
+        draft_domain = [("state", "=", "draft")]
+        executed_domain = total_domain + [("run_count", ">", 0)]
+        passed_domain = total_domain + [("last_run_result", "=", "pass")]
+        total = self.search_count(total_domain)
+        draft_count = self.search_count(draft_domain)
+        validated_count = max(total - draft_count, 0)
+        today_label = fields.Date.context_today(self).strftime("%d.%m")
         cards = [
             self._build_dashboard_card(
-                "draft",
+                "validated",
                 _("Step 1"),
-                _("Tests to validate"),
-                current_snapshot["draft"],
+                _("Tests validated"),
+                validated_count,
                 total,
-                [("state", "=", "draft")],
+                draft_domain,
                 "primary",
-                self._get_dashboard_deltas(
-                    current_snapshot, week_snapshot, month_snapshot, "draft"
-                ),
             ),
             self._build_dashboard_card(
                 "executed",
                 _("Step 2"),
                 _("Tests executed"),
-                current_snapshot["executed"],
+                self.search_count(executed_domain),
                 total,
-                [("state", "!=", "retired"), ("run_count", ">", 0)],
+                executed_domain,
                 "info",
-                self._get_dashboard_deltas(
-                    current_snapshot, week_snapshot, month_snapshot, "executed"
-                ),
             ),
             self._build_dashboard_card(
                 "passed",
                 _("Step 3"),
-                _("Tests passed"),
-                current_snapshot["passed"],
+                _("Tests validated (Pass)"),
+                self.search_count(passed_domain),
                 total,
-                [("state", "!=", "retired"), ("last_run_result", "=", "pass")],
+                passed_domain,
                 "success",
-                self._get_dashboard_deltas(
-                    current_snapshot, week_snapshot, month_snapshot, "passed"
-                ),
             ),
         ]
         return {
             "cards": cards,
-            "generated_at": fields.Datetime.to_string(now),
-            "subtitle": _("Refresh the page to update the figures."),
-            "title": _("Quality tests dashboard"),
+            "subtitle": _("Key metrics (3 validation stages)"),
+            "title": _("Status update %s") % today_label,
             "total": total,
         }
 

@@ -1,57 +1,59 @@
 .o_quality_test_dashboard {
-  padding: 24px;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 48px 32px 64px;
 
   .o_quality_test_dashboard_header {
-    margin-bottom: 24px;
+    margin-bottom: 56px;
   }
 
   .o_quality_test_dashboard_title {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: #2f5be7;
-    font-size: 2.2rem;
-    font-weight: 700;
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
   }
 
   .o_quality_test_dashboard_subtitle {
     margin: 0;
-    color: var(--body-color, #1f2937);
-    font-size: 1.125rem;
-    font-weight: 600;
-  }
-
-  .o_quality_test_dashboard_timestamp {
-    margin: 8px 0 0;
-    color: #64748b;
-    font-size: 0.95rem;
+    color: #032b69;
+    font-size: 1.15rem;
+    font-weight: 800;
   }
 
   .o_quality_test_dashboard_cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
   }
 
   .o_quality_test_dashboard_card {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    min-height: 360px;
-    padding: 24px;
-    border: 1px solid #dbe3f2;
-    border-top-width: 8px;
-    border-radius: 20px;
-    background: #fff;
+    gap: 20px;
+    min-height: 400px;
+    padding: 28px 26px 24px;
+    border: 1px solid #d4ddeb;
+    border-top-width: 10px;
+    border-radius: 0 0 18px 18px;
+    background: #fbfcff;
     text-align: left;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
+    box-shadow: none;
     transition:
       transform 0.2s ease,
-      box-shadow 0.2s ease;
+      border-color 0.2s ease;
 
     &:hover,
     &:focus {
       transform: translateY(-2px);
-      box-shadow: 0 14px 32px rgb(15 23 42 / 10%);
+      border-color: #b8c8e2;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #2f5be7;
+      outline-offset: 3px;
     }
   }
 
@@ -70,14 +72,14 @@
   .o_quality_test_dashboard_step {
     margin: 0 0 4px;
     color: #0b397a;
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 800;
   }
 
   .o_quality_test_dashboard_card_title {
     margin: 0;
-    font-size: 1.9rem;
-    font-weight: 700;
+    font-size: 1.45rem;
+    font-weight: 800;
     line-height: 1.2;
   }
 
@@ -104,60 +106,55 @@
   }
 
   .o_quality_test_dashboard_metric_value {
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: clamp(2.8rem, 4vw, 3.4rem);
+    font-weight: 800;
     line-height: 1;
   }
 
   .o_quality_test_dashboard_metric_ratio {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1.1;
-  }
-
-  .o_quality_test_dashboard_deltas {
-    display: grid;
-    gap: 8px;
-  }
-
-  .o_quality_test_dashboard_delta {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
-
-  .o_quality_test_dashboard_delta--positive {
-    background: rgb(16 185 129 / 10%);
-    color: #047857;
-  }
-
-  .o_quality_test_dashboard_delta--negative {
-    background: rgb(239 68 68 / 10%);
-    color: #b91c1c;
-  }
-
-  .o_quality_test_dashboard_delta--neutral {
-    background: rgb(148 163 184 / 12%);
-    color: #475569;
-  }
-
-  .o_quality_test_dashboard_delta_value {
-    white-space: nowrap;
   }
 
   .o_quality_test_dashboard_metric_status {
     margin-top: auto;
-    color: var(--body-color, #1f2937);
+    color: #243b63;
     font-size: 1rem;
+    line-height: 1.35;
+
+    strong {
+      color: #032b69;
+      font-weight: 800;
+    }
   }
 
   .o_quality_test_dashboard_loading {
     padding: 32px 0;
     color: var(--body-color, #1f2937);
     font-size: 1rem;
+  }
+
+  @media (max-width: 1100px) {
+    .o_quality_test_dashboard_cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 32px 20px 40px;
+
+    .o_quality_test_dashboard_header {
+      margin-bottom: 32px;
+    }
+
+    .o_quality_test_dashboard_cards {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .o_quality_test_dashboard_card {
+      min-height: 320px;
+    }
   }
 }
