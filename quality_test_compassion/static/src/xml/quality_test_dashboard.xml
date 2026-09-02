@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div t-if="state.loading" class="o_quality_test_dashboard_loading">
-                <t t-esc="env._t('Loading dashboard…')" />
+                <span>Loading dashboard…</span>
             </div>
             <div t-else="" class="o_quality_test_dashboard_cards">
                 <t t-foreach="state.cards" t-as="card" t-key="card.key">
@@ -52,10 +52,7 @@
                             </t>
                         </div>
                         <div class="o_quality_test_dashboard_metric_status">
-                            <strong>
-                                <t t-esc="env._t('Status:')" />
-                            </strong>
-                            <span> </span>
+                            <strong>Status: </strong>
                             <t t-esc="card.status" />
                         </div>
                     </button>

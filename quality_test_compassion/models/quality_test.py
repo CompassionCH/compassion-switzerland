@@ -145,7 +145,7 @@ class QualityTest(models.Model):
 
     @api.model
     def _get_state_label_map(self):
-        languages = {self.env.lang, "en_US", "fr_CH", "fr_FR"}
+        languages = {self.env.lang, "en_US", "fr_CH"}
         mapping = {
             value.casefold(): value for value, _label in self._fields["state"].selection
         }
