@@ -13,7 +13,6 @@
     "installable": True,
     "depends": [
         "base",
-        "bus",
         "hr",
         "mail",
         "project",

@@ -8,7 +8,7 @@
   .o_quality_test_dashboard_title {
     margin-bottom: 8px;
     color: #2f5be7;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
   }
 
@@ -17,6 +17,12 @@
     color: var(--body-color, #1f2937);
     font-size: 1.125rem;
     font-weight: 600;
+  }
+
+  .o_quality_test_dashboard_timestamp {
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 0.95rem;
   }
 
   .o_quality_test_dashboard_cards {
@@ -29,13 +35,14 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    min-height: 320px;
+    min-height: 360px;
     padding: 24px;
     border: 1px solid #dbe3f2;
     border-top-width: 8px;
     border-radius: 20px;
     background: #fff;
     text-align: left;
+    cursor: pointer;
     box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
     transition:
       transform 0.2s ease,
@@ -106,6 +113,40 @@
     font-size: 2rem;
     font-weight: 700;
     line-height: 1.1;
+  }
+
+  .o_quality_test_dashboard_deltas {
+    display: grid;
+    gap: 8px;
+  }
+
+  .o_quality_test_dashboard_delta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .o_quality_test_dashboard_delta--positive {
+    background: rgb(16 185 129 / 10%);
+    color: #047857;
+  }
+
+  .o_quality_test_dashboard_delta--negative {
+    background: rgb(239 68 68 / 10%);
+    color: #b91c1c;
+  }
+
+  .o_quality_test_dashboard_delta--neutral {
+    background: rgb(148 163 184 / 12%);
+    color: #475569;
+  }
+
+  .o_quality_test_dashboard_delta_value {
+    white-space: nowrap;
   }
 
   .o_quality_test_dashboard_metric_status {

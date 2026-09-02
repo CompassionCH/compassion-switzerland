@@ -4,10 +4,13 @@
         <div class="o_quality_test_dashboard">
             <div class="o_quality_test_dashboard_header">
                 <h1 class="o_quality_test_dashboard_title">
-                    <t t-esc="env._t('Status update')" />
+                    <t t-esc="state.title" />
                 </h1>
                 <p class="o_quality_test_dashboard_subtitle">
-                    <t t-esc="subtitle" />
+                    <t t-esc="state.subtitle" />
+                </p>
+                <p t-if="generatedAtLabel" class="o_quality_test_dashboard_timestamp">
+                    <t t-esc="generatedAtLabel" />
                 </p>
             </div>
             <div t-if="state.loading" class="o_quality_test_dashboard_loading">
@@ -33,6 +36,20 @@
                         </div>
                         <div class="o_quality_test_dashboard_metric_ratio">
                             <t t-esc="card.count" /> / <t t-esc="state.total" />
+                        </div>
+                        <div class="o_quality_test_dashboard_deltas">
+                            <t t-foreach="card.deltas" t-as="delta" t-key="delta.key">
+                                <div
+                                    t-attf-class="o_quality_test_dashboard_delta o_quality_test_dashboard_delta--#{delta.direction}"
+                                >
+                                    <span class="o_quality_test_dashboard_delta_label">
+                                        <t t-esc="delta.label" />
+                                    </span>
+                                    <span class="o_quality_test_dashboard_delta_value">
+                                        <t t-esc="formatDelta(delta.percentage_delta)" />
+                                    </span>
+                                </div>
+                            </t>
                         </div>
                         <div class="o_quality_test_dashboard_metric_status">
                             <strong>
