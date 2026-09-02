@@ -121,7 +121,9 @@ class QualityTest(models.Model):
         )
 
     @api.model
-    def _build_dashboard_card(self, key, step_label, title, count, total, domain, color):
+    def _build_dashboard_card(
+        self, key, step_label, title, count, total, domain, color
+    ):
         percentage = (count / total * 100) if total else 0.0
         return {
             "action_name": title,
