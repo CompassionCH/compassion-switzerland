@@ -114,6 +114,85 @@ class QualityTest(models.Model):
     )
     last_notification = fields.Datetime()
 
+    @api.model
+    def _build_dashboard_card(
+        self, key, step_label, title, count, total, domain, color, click_domain=None
+    ):
+        percentage = (count / total * 100) if total else 0.0
+        return {
+            "action_name": title,
+            "click_domain": click_domain or domain,
+            "color": color,
+            "count": count,
+            "domain": domain,
+            "key": key,
+            "percentage": percentage,
+            "status": self._get_dashboard_status(key, count, total),
+            "step_label": step_label,
+            "title": title,
+        }
+
+    @api.model
+    def _get_dashboard_status(self, key, count, total):
+        remaining = max(total - count, 0)
+        status_by_key = {
+            "validated": _("%s draft test(s) remaining.") % remaining,
+            "executed": _("%s test(s) without any run yet.") % remaining,
+            "passed": _("%s test(s) not passing yet.") % remaining,
+        }
+        return status_by_key[key]
+
+    @api.model
+    def get_dashboard_metrics(self):
+        total_domain = [("state", "!=", "retired")]
+        draft_domain = [("state", "=", "draft")]
+        executed_domain = total_domain + [("run_count", ">", 0)]
+        untested_domain = total_domain + [("run_count", "=", 0)]
+        failed_domain = total_domain + [("last_run_result", "=", "fail")]
+        passed_domain = total_domain + [("last_run_result", "=", "pass")]
+        total = self.search_count(total_domain)
+        draft_count = self.search_count(draft_domain)
+        validated_count = max(total - draft_count, 0)
+        today_label = fields.Date.context_today(self).strftime("%d.%m")
+        cards = [
+            self._build_dashboard_card(
+                "validated",
+                _("Step 1"),
+                _("Tests validated"),
+                validated_count,
+                total,
+                draft_domain,
+                "primary",
+                draft_domain,
+            ),
+            self._build_dashboard_card(
+                "executed",
+                _("Step 2"),
+                _("Tests executed"),
+                self.search_count(executed_domain),
+                total,
+                executed_domain,
+                "info",
+                untested_domain,
+            ),
+            self._build_dashboard_card(
+                "passed",
+                _("Step 3"),
+                _("Tests validated (Pass)"),
+                self.search_count(passed_domain),
+                total,
+                passed_domain,
+                "success",
+                failed_domain,
+            ),
+        ]
+        return {
+            "cards": cards,
+            "subtitle": _("Key metrics (3 validation stages)"),
+            "title": _("Status update %s") % today_label,
+            "total": total,
+        }
+
     @api.depends("name", "test_version")
     def _compute_display_name(self):
         for rec in self:
