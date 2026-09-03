@@ -15,6 +15,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__printer_tray_id
+msgid "Paper Source"
+msgstr "Source de papier"
+
+#. module: child_switzerland
+#: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
+msgid "<span>No photo registered for this child</span>"
+msgstr "<span>Aucune photo enregistrée pour cet enfant</span>"
+
+#. module: child_switzerland
 #: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
 msgid "<span>boy</span>"
 msgstr "<span>garçon</span>"

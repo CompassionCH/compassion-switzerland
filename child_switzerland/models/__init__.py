@@ -12,6 +12,7 @@ from . import (
     child_fcp_property,
     compassion_child,
     compassion_project,
+    ir_actions_report,
     report_childpack,
     res_country,
 )
