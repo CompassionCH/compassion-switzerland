@@ -232,9 +232,9 @@
     />
         <t t-set="communication">
             Sponsorship due
-            <t t-if="due">
+            <t t-if="due" t-translation="off">
                 <br />
-                CHF<t t-out="due" />.-
+                CHF <t t-out="due" />.-
             </t>
         </t>
         <t t-set="amount" t-value="due" />

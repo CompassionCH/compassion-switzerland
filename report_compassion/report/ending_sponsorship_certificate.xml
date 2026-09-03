@@ -19,7 +19,7 @@
       t-set="base_url"
       t-value="env['ir.config_parameter'].sudo().get_param('web.base.url')"
     />
-        <t t-set="custom_css">
+        <t t-set="custom_css" t-translation="off">
             @font-face {
                 font-family: montserratBold;
                 src: url(<t

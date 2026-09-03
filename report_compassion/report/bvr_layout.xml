@@ -52,11 +52,11 @@
                         t-esc="u'\u2704'"
                 />
                 <span class="scissors_right" t-esc="u'\u2704'" />
-                <span class="swissqr_text title title_zone">Receipt</span><br />
+                <span class="swissqr_text title title_zone">Receipt</span><br t-translation="off"/>
                 <div class="receipt_information_zone">
-                    <span class="swissqr_text title">Payable to</span><br />
+                    <span class="swissqr_text title">Payable to</span><br t-translation="off"/>
                     <t t-if="qr_iban">
-                        <span class="swissqr_text content" t-field="bank_account.l10n_ch_qr_iban"/><br/>
+                        <span class="swissqr_text content" t-field="bank_account.l10n_ch_qr_iban"/><br t-translation="off"/>
                     </t>
                     <t t-else="">
                         <span
@@ -79,19 +79,19 @@
                     <span
                             class="swissqr_text content"
                             t-field="bank_account.company_id.city"
-                    /><br />
+                    /><br t-translation="off"/>
 
-                    <span class="swissqr_text title">Reference</span><br />
+                    <span class="swissqr_text title">Reference</span><br t-translation="off"/>
                     <span
                             class="swissqr_text content"
                             t-esc="o.env['account.move'].space_qrr_reference(reference)"
-                    /><br />
+                    /><br t-translation="off"/>
 
-                    <span class="swissqr_text title">Payable by</span><br />
+                    <span class="swissqr_text title">Payable by</span><br t-translation="off"/>
                     <span
                             class="swissqr_text content"
                             t-field="partner.commercial_partner_id.name"
-                    /><br />
+                    /><br t-translation="off"/>
                     <span
                             class="swissqr_text content"
                             t-field="partner.country_id.code"
@@ -100,18 +100,18 @@
                     <span
                             class="swissqr_text content"
                             t-field="partner.city"
-                    /><br />
+                    /><br t-translation="off"/>
                 </div>
                 <div id="receipt_amount_zone" class="receipt_amount_zone">
                     <div class="column">
-                        <span class="swissqr_text title">Currency</span><br />
+                        <span class="swissqr_text title">Currency</span><br t-translation="off"/>
                         <span
                                 class="swissqr_text content"
                                 t-field="bank_account.currency_id.name"
                         />
                     </div>
                     <div class="column" t-if="formatted_amount">
-                        <span class="swissqr_text title">Amount</span><br />
+                        <span class="swissqr_text title">Amount</span><br t-translation="off"/>
                         <span
                                 class="swissqr_text content"
                                 t-esc="formatted_amount"
@@ -134,7 +134,7 @@
                 <div>
                     <span
                             class="swissqr_text title title_zone"
-                    >Payment part</span><br />
+                    >Payment part</span><br t-translation="off"/>
                     <img
                             class="swissqr"
                             t-att-src="bank_account.build_qr_code_url(amount, comm_qr, reference, bank_account.currency_id, partner)"
@@ -148,9 +148,9 @@
                             id="indications_zone"
                             class="swissqr_column_right indication_zone"
                     >
-                        <span class="swissqr_text title">Payable to</span><br />
+                        <span class="swissqr_text title">Payable to</span><br t-translation="off"/>
                         <t t-if="qr_iban">
-                            <span class="swissqr_text content" t-field="bank_account.l10n_ch_qr_iban"/><br/>
+                            <span class="swissqr_text content" t-field="bank_account.l10n_ch_qr_iban"/><br t-translation="off"/>
                         </t>
                         <t t-else="">
                             <span
@@ -180,17 +180,16 @@
                         /><br />
 
                         <t t-if="bank_account.l10n_ch_qr_iban">
-                            <span class="swissqr_text title">Reference</span><br
-                        />
+                            <span class="swissqr_text title">Reference</span><br t-translation="off"/>
                             <span
                                     class="swissqr_text content"
                                     t-esc="o.env['account.move'].space_qrr_reference(reference)"
-                            /><br />
+                            /><br t-translation="off"/>
                         </t>
 
                         <span
                                 class="swissqr_text title"
-                        >Additional information</span><br />
+                        >Additional information</span><br t-translation="off"/>
                         <div style="max-width: 70mm;">
                             <span
                                     class="swissqr_text content"
@@ -203,13 +202,13 @@
                                     t-if="bank_account.l10n_ch_qr_iban"
                             />
                         </div>
-                        <br />
+                        <br t-translation="off"/>
 
-                        <span class="swissqr_text title">Payable by</span><br />
+                        <span class="swissqr_text title">Payable by</span><br t-translation="off"/>
                         <span
                                 class="swissqr_text content"
                                 t-field="partner.commercial_partner_id.name"
-                        /><br />
+                        /><br t-translation="off"/>
                         <span
                                 class="swissqr_text content"
                                 t-field="partner.street"
@@ -217,7 +216,7 @@
                         <span
                                 class="swissqr_text content"
                                 t-field="partner.street2"
-                        /><br />
+                        /><br t-translation="off"/>
                         <span
                                 class="swissqr_text content"
                                 t-field="partner.country_id.code"
@@ -229,32 +228,31 @@
                         <span
                                 class="swissqr_text content"
                                 t-field="partner.city"
-                        /><br />
+                        /><br t-translation="off"/>
 
                         <span
                                 class="swissqr_text title"
                                 t-if="date_due"
-                        >Due date</span><br />
+                        >Due date</span><br t-translation="off"/>
                         <span
                                 class="swissqr_text content"
                                 t-esc="date_due"
                                 t-if="date_due"
-                        /><br />
+                        /><br t-translation="off"/>
                     </div>
                     <div
                             id="amount_zone"
                             class="swissqr_column_left amount_zone"
                     >
                         <div class="column">
-                            <span class="swissqr_text title">Currency</span><br
-                        />
+                            <span class="swissqr_text title">Currency</span><br t-translation="off"/>
                             <span
                                     class="swissqr_text content"
                                     t-field="bank_account.currency_id.name"
                             />
                         </div>
                         <div class="column" t-if="formatted_amount">
-                            <span class="swissqr_text title">Amount</span><br />
+                            <span class="swissqr_text title">Amount</span><br t-translation="off"/>
                             <span
                                     class="swissqr_text content"
                                     t-esc="formatted_amount"

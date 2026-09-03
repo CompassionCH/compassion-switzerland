@@ -1,4 +1,4 @@
-<odoo noupdate="1">
+<odoo>
         <!-- Report for printing a letter on Compassion Paper -->
         <record id="report_anniversary_card" model="ir.actions.report">
             <field name="name">Anniversary Card</field>
@@ -9,7 +9,7 @@
         </record>
 
         <template id="anniversary_card">
-         <t t-set="custom_css">
+         <t t-set="custom_css" t-translation="off">
                 .container {
                     font-family: "NeighbourSans";
                     margin-top: -5mm;
@@ -33,13 +33,13 @@
                 }
                 #body-content {
                     width: 100%;
-                    margin-top: 8mm;
+                    margin-top: 5mm;
                 }
                 #signature {
                     display: block;
                     float: right;
                     position: relative;
-                    top: -10mm;
+                    top: -12mm;
                 }
 
                 .expedition {
@@ -141,7 +141,7 @@
                                                 <span
                       style="font-weight: bold"
                     >Sarah Maria Herrendorff</span>
-                                                <br />
+                                                <br t-translation="off"/>
                                                 <span
                     >and the team from Compassion</span>
                                             </p>
@@ -165,18 +165,16 @@
               />
                                 </div>
                                 <div id="footer">
-                                    <span class="blue">COMPASSION</span>
+                                    <span class="blue" t-translation="off">COMPASSION</span>
                                     <span
               >Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>
-                                    <br />
+                                    <br t-translation="off"/>
                                     <span class="blue">TÉL</span>
                                     <span>.: 031 552 21 25 </span>
                                     <span class="blue">MAIL</span>
-                                    <span>: info@compassion.ch </span>
-                                    <span class="blue">WWW</span>
-                                    <span>.compassion.ch </span>
-                                    <span class="blue">CCP/PC</span>
-                                    <span> 17-312562-0</span>
+                                    <span t-translation="off">: info@compassion.ch </span>
+                                    <span class="blue" t-translation="off">WWW</span>
+                                    <span t-translation="off">.compassion.ch </span>
                                 </div>
                         </t>
                     </t>
