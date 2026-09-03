@@ -19,29 +19,31 @@ from odoo.addons.payment_postfinance_flex.controllers.main import PostFinanceCon
 CHECKOUT_URL_SESSION_KEY = "__postfinance_checkout_url"
 
 
-def release_postfinance_attempt(confirm_id=None):
-    """Cancel the PostFinance payment this session started, if still pending.
+def session_postfinance_attempt(confirm_id=None):
+    """The PostFinance payment this session started, if confirm_id matches it.
 
     Both callers are public routes, so the record always comes from the session;
-    confirm_id may only confirm it, never select it. Returns what was released.
+    confirm_id may only confirm it, never select it.
     """
     attempt = request.session.get("__website_sale_last_tx_id")
     if not attempt:
         return request.env["payment.transaction"]
     if confirm_id is not None and str(confirm_id or "") != str(attempt):
         return request.env["payment.transaction"]
-    released = (
+    return (
         request.env["payment.transaction"]
         .sudo()
         .browse(attempt)
         .exists()
-        .filtered(
-            lambda tx: tx.acquirer_id.provider == "postfinance"
-            and tx.state == "pending"
-        )
+        .filtered(lambda tx: tx.acquirer_id.provider == "postfinance")
     )
-    released._postfinance_abandon_pending()
-    return released
+
+
+def release_postfinance_attempt(confirm_id=None):
+    """Cancel that payment if it is still pending, and return it either way."""
+    attempt = session_postfinance_attempt(confirm_id)
+    attempt._postfinance_abandon_pending()
+    return attempt
 
 
 def store_checkout_url():
@@ -80,9 +82,10 @@ class PostFinanceConfirmation(PostFinanceController):
         """
         response = super().postfinance_form_feedback(txnId=txnId, **post)
         if request.httprequest.path == self._failed_url:
-            if release_postfinance_attempt(txnId):
-                # Back to the payment methods rather than the dead-end status
-                # page: the donor cancelled to pick a different one (T3428).
+            attempt = release_postfinance_attempt(txnId)
+            # On ownership, not on having cancelled it ourselves: the gateway
+            # often reports FAILED here, so super() already did (T3428).
+            if attempt and attempt.state != "done":
                 return werkzeug.utils.redirect(checkout_url())
         next_url = getattr(response, "headers", {}).get("Location") or ""
         # Only the normal hand-off, never the module's own error page.
