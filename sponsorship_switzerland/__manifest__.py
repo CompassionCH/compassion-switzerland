@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Tailor Sponsorships to Compassion CH needs",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Other",
     "author": "Compassion CH",
     "maintainers": ["ecino"],
@@ -55,6 +55,7 @@
         "views/res_partner_view.xml",
         "views/contract_view.xml",
         "views/postpone_waiting_reminder_wizard_view.xml",
+        "views/gift_letter_import_wizard_view.xml",
         "views/correspondence_view.xml",
         "views/gift_compassion_view.xml",
         "views/product_template_view.xml",
