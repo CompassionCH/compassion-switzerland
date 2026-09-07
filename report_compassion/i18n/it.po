@@ -175,7 +175,7 @@ msgstr ""
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
 msgid "Best regards"
-msgstr ""
+msgstr "Cordiali saluti,"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__birthday_gift
