@@ -14,3 +14,4 @@ from . import test_hold_expiration
 from . import test_lifecycle_events
 from . import test_onboarding
 from . import test_new_donor_onboarding
+from . import test_create_a_sponsorship
