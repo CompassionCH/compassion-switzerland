@@ -23,6 +23,12 @@ class ResPartner(models.Model):
         """Formats the donation amount for the tax receipt."""
         return f"{self.get_receipt(year):,.2f}".replace(".00", ".-").replace(",", "'")
 
+    def get_donations_intro(self):
+        self.ensure_one()
+        return self.env["ir.advanced.translation"].get(
+            "Your donations in", plural=getattr(self, "plural", False)
+        )
+
     def get_receipt(self, year):
         """
         Return the amount paid from the partner in the given year

@@ -893,11 +893,6 @@ msgid "You must give a product in data to print this report."
 msgstr ""
 
 #. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
-msgid "Your donations in"
-msgstr "Vos dons en"
-
-#. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
 msgid ""
 "Your precious commitment has given dignity to this child, helped him to "

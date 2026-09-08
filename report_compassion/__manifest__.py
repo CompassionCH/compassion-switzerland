@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "18.0.1.0.5",
+    "version": "18.0.1.0.6",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -41,6 +41,7 @@
         "l10n_ch",
         "crm_request",
         "social_media",
+        "advanced_translation",  # ir.advanced.translation
     ],
     "external_dependencies": {"python": ["pyquery", "babel"]},
     "data": [
