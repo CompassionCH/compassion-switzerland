@@ -292,11 +292,9 @@ class ContractGroup(models.Model):
     ##########################################################################
     #                             PRIVATE METHODS                            #
     ##########################################################################
-    def _build_invoice_gen_data(self, invoicing_date, invoicer, gift_wizard=False):
+    def _build_invoice_gen_data(self, invoicing_date, gift_wizard=False):
         """Inherit to add BVR ref and mandate"""
-        inv_data = super()._build_invoice_gen_data(
-            invoicing_date, invoicer, gift_wizard
-        )
+        inv_data = super()._build_invoice_gen_data(invoicing_date, gift_wizard)
         ref = self.with_context(lang=self.partner_id.lang)._compute_ref(
             invoicing_date, gift_wizard
         )
