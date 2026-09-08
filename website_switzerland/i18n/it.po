@@ -2561,12 +2561,6 @@ msgid ""
 msgstr ""
 "https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_en"
 
-#. module: website_switzerland
-#: code:addons/website_switzerland/controllers/my_account.py:0
-#, python-format
-msgid "tax_receipt"
-msgstr "ricevuta_fiscale"
-
 #~ msgid "Fill urgency contact information"
 #~ msgstr "Riempi le informazioni di contatto per l'urgenza"
 
