@@ -888,6 +888,12 @@ msgstr ""
 
 #. module: report_compassion
 #. odoo-python
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+msgid "tax_receipt"
+msgstr "attestation_fiscale"
+
+#. module: report_compassion
+#. odoo-python
 #: code:addons/report_compassion/models/report_bvr_fund.py:0
 msgid "You must give a product in data to print this report."
 msgstr ""
