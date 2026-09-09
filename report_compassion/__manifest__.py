@@ -43,7 +43,13 @@
         "social_media",
         "advanced_translation",  # ir.advanced.translation
     ],
-    "external_dependencies": {"python": ["pyquery", "babel"]},
+    "external_dependencies": {
+        "python": [
+            "pyquery",
+            "babel",
+            "rlpycairo",
+        ]
+    },
     "data": [
         "security/ir.model.access.csv",
         "report/compassion_layout.xml",
