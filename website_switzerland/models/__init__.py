@@ -4,3 +4,4 @@ from . import registration_task
 from . import res_partner
 from . import event_registration
 from . import survey_user_input
+from . import theme_utils
