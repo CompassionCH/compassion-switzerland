@@ -99,8 +99,7 @@
     ],
     "assets": {
         "web.assets_tests": [
-            "partner_communication_switzerland/static/tests/tours/"
-            "new_donor_onboarding.js",
+            "partner_communication_switzerland/static/tests/tours/*.js",
         ],
     },
     "demo": [],
