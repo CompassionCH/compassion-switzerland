@@ -45,7 +45,7 @@
   >
     <xpath expr="//div[hasclass('wap-preferences-card')]" position="after">
       <div
-        class="w-100 mb-1 mt-3 text-dark-blue body-small bold text-center"
+        class="w-100 mb-1 mt-3 text-dark-blue body-small bold text-center text-lg-start"
       >Want to do more?</div>
       <div class="my-3">
         <label
@@ -89,14 +89,14 @@
             <div class="modal-body">
               <button
                 type="button"
-                class="btn-close mt-3 me-3 icon-x-circle body-large text-mid-grey"
+                class="btn-close position-absolute top-0 end-0 mt-3 me-3 icon-x-circle body-large text-mid-grey"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               />
-              <div class="px-4 pt-2 pb-4">
+              <div class="m-4">
                 <div
                   id="volunteering-info-modal-title"
-                  class="mb-2 text-dark-blue body-large bold"
+                  class="text-dark-blue body-large bold"
                 >Volunteering for compassion</div>
                 <div class="body-small">
                             Do you want to inspire other people to sponsor a child?
