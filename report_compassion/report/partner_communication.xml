@@ -200,6 +200,7 @@
           t-set="show_signature"
           t-value="o.show_signature and user.digital_signature"
         />
+                <t t-set="signature_letter" t-value="user.signature_letter" />
                 <t
           t-set="product"
           t-value="o.product_id.with_context(lang=partner.lang)"
@@ -303,7 +304,7 @@
                     <div
             t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm;"
           >
-                        <t t-out="user.signature_letter" />
+                        <t t-out="signature_letter" />
                     </div>
                 </div>
             </div>

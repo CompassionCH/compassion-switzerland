@@ -77,6 +77,10 @@ class PrintTaxReceipt(models.TransientModel):
                 )[0]
             )
             self.pdf_download = base64.encodebytes(pdf_data)
+            self.pdf_name = (
+                self.with_context(lang=data["lang"]).env._("tax_receipt")
+                + f"_{self.year}.pdf"
+            )
 
             self.state = "pdf"
             return {

@@ -42,11 +42,7 @@ class ResUsers(models.Model):
                 parts.append(employee.name)
                 if employee.department_id:
                     parts.append(employee.department_id.name)
-            parts.append(
-                user.sudo().company_id.name.split(" ")[0]
-                + " "
-                + user.sudo().company_id.country_id.name
-            )
+            parts.append(user.sudo().company_id._get_signature_closing_line())
             user.signature_letter = br.join(parts)
 
     def _compute_image_url(self):

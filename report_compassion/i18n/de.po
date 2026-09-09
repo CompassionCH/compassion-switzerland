@@ -173,7 +173,7 @@ msgstr ""
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
 msgid "Best regards"
-msgstr ""
+msgstr "Herzliche Grüsse,"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__birthday_gift
@@ -500,7 +500,9 @@ msgstr "Zuletzt aktualisiert am"
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
 msgid "May God bless you richly."
-msgstr " "
+msgstr ""
+"Nochmals vielen Dank für deine Grosszügigkeit. Gemeinsam mit dir wollen "
+"wir die Welt verändern, ein Kind nach dem anderen."
 
 #. module: report_compassion
 #: model:ir.actions.report,name:report_compassion.report_childpack_mini
@@ -892,14 +894,15 @@ msgstr ""
 
 #. module: report_compassion
 #. odoo-python
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+msgid "tax_receipt"
+msgstr "Steuerbescheinigung"
+
+#. module: report_compassion
+#. odoo-python
 #: code:addons/report_compassion/models/report_bvr_fund.py:0
 msgid "You must give a product in data to print this report."
 msgstr ""
-
-#. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
-msgid "Your donations in"
-msgstr "<t t-out=\"'Eure' if partner.plural else 'Deine'\"/> Spenden im Jahr "
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
