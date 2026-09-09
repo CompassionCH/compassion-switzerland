@@ -45,7 +45,7 @@
   >
     <xpath expr="//div[hasclass('wap-preferences-card')]" position="after">
       <div
-        class="w-100 mb-1 mt-3 text-dark-blue body-small bold text-center text-lg-start"
+        class="w-100 mb-1 mt-3 mt-lg-0 text-dark-blue body-small bold text-center text-lg-start"
       >Want to do more?</div>
       <div class="my-3">
         <label
