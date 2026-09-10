@@ -217,23 +217,24 @@
         <t t-if="print_header">
             <div id="header">
                 <div id="logo">
-                    <t t-set="lang" t-value="'multilingual.jpg'" />
+                    <t t-set="logo_lang" t-value="'multilingual.jpg'" />
                     <t t-if="o and o.partner_id">
                         <!-- If generating communication header, partner is in o -->
                         <t t-set="partner" t-value="o.partner_id" />
                     </t>
-                    <!-- When generating tax_receipt, partner is defined but width is to be adapted -->
+                    <!-- Use the language the document is actually being rendered in
+                         (not the partner's own stored language, which can differ) -->
                     <t
-            t-if="partner and partner.lang and partner.lang.split('_')[0] in ['fr', 'en', 'de', 'it']"
+            t-if="env.context.get('lang') and env.context.get('lang').split('_')[0] in ['fr', 'en', 'de', 'it']"
           >
                         <t
-              t-set="lang"
-              t-value="partner.lang.split('_')[0] + '.png'"
+              t-set="logo_lang"
+              t-value="env.context.get('lang').split('_')[0] + '.png'"
             />
                     </t>
                     <img
             t-attf-style="width: 80%"
-            t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{lang}"
+            t-attf-src="/report_compassion/static/img/Swiss_logo_blue_wtagline_#{logo_lang}"
           />
                 </div>
             </div>
@@ -271,9 +272,14 @@
                     </div>
                     <hr />
                 </div>
-                <span t-out="partner.address_name" />
-                <br />
-                <t t-foreach="(partner.contact_address or '').split('\n')" t-as="line">
+                <!-- short_address (title + name + address, all localized in the
+                     document's rendering language) rather than the stored
+                     address_name, which is frozen in the partner's own
+                     language for postal-sending purposes -->
+                <t
+          t-foreach="(partner.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')"
+          t-as="line"
+        >
                     <span t-out="line"/>
                     <br/>
                 </t>
@@ -299,7 +305,7 @@
                     <img
             t-if="show_signature"
             t-att-src="image_data_uri(user.digital_signature)"
-            style="width: 45mm; margin-left: -15mm;"
+            style="width: 45mm;"
           />
                     <div
             t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm;"
