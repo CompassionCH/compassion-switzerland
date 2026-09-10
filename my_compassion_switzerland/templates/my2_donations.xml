@@ -36,25 +36,6 @@
                   </t>
                 </t>
               </t>
-              <t t-call="theme_compassion_2025.FormFieldComponent">
-                <t t-set="label">Language</t>
-                <t t-set="top_class" t-value="'me-2'" />
-                <t t-call="theme_compassion_2025.SelectComponent">
-                  <t t-set="name" t-value="'lang'" />
-                  <t t-set="id" t-value="'lang'" />
-                  <t
-                    t-foreach="request.env['res.lang'].sudo().get_installed()"
-                    t-as="lang_entry"
-                  >
-                    <option
-                      t-att-value="lang_entry[0]"
-                      t-att-selected="lang_entry[0] == request.env.lang"
-                    >
-                      <t t-out="lang_entry[1]" />
-                    </option>
-                  </t>
-                </t>
-              </t>
               <t t-call="theme_compassion_2025.ThemedButtonComponent">
                 <t t-set="variant" t-value="'compact'" />
                 <t t-set="variation" t-value="'filled'" />

@@ -11,7 +11,6 @@ import base64
 from datetime import date
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 
 class PrintTaxReceipt(models.TransientModel):
@@ -51,24 +50,15 @@ class PrintTaxReceipt(models.TransientModel):
         """
         model = "res.partner"
         records = self.env[model].browse(self.env.context.get("active_ids"))
+        # Render in whichever language the caller (portal session or backend
+        # user) is currently browsing in, rather than the partner's own
+        # stored language - avoids downloading a document in a language the
+        # requester doesn't necessarily read.
         data = {
             "doc_ids": records.ids,
             "year": self.year,
+            "lang": self.env.lang,
         }
-        context_lang = self.env.context.get("tax_receipt_lang")
-        if context_lang:
-            data["lang"] = context_lang
-        else:
-            lang = records.mapped("lang")
-            if len(lang) == 1:
-                data["lang"] = lang[0]
-            else:
-                raise UserError(
-                    _(
-                        "You can only generate tax certificate for one language at "
-                        "a time."
-                    )
-                )
         report = self.env.ref("report_compassion.tax_receipt_report").with_context(
             lang=data["lang"]
         )
