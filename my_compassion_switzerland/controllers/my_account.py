@@ -53,12 +53,11 @@ class MyAccountControllerSwitzerland(MyAccountController):
             wizard = (
                 request.env["print.tax_receipt"]
                 .with_user(SUPERUSER_ID)
-                .with_context(active_ids=partner.ids)
+                .with_context(active_ids=partner.ids, tax_receipt_lang=lang)
                 .create(
                     {
                         "pdf": True,
                         "year": year,
-                        "lang": lang,
                         "pdf_name": _("tax_receipt") + f"_{year}.pdf",
                     }
                 )
