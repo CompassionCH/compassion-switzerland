@@ -43,9 +43,6 @@
     <template id="tax_receipt_content">
         <div>
             <br />
-            <br />
-            <br />
-            <br />
             <h2>
                 <t t-out="object.get_donations_intro()"/> <t t-out="year"/> add up to CHF <t t-out="object.get_receipt_text(year)"/>
             </h2>

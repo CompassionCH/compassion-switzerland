@@ -299,7 +299,7 @@
                     <img
             t-if="show_signature"
             t-att-src="image_data_uri(user.digital_signature)"
-            style="width: 40%; margin-left: -15mm;"
+            style="width: 45mm; margin-left: -15mm;"
           />
                     <div
             t-attf-style="margin-top: #{ 10 if not show_signature else 0 }mm;"
