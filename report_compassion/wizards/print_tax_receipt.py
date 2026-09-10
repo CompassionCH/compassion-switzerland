@@ -27,6 +27,12 @@ class PrintTaxReceipt(models.TransientModel):
     pdf = fields.Boolean()
     pdf_name = fields.Char(default="tax_receipt.pdf")
     pdf_download = fields.Binary(readonly=True)
+    lang = fields.Selection(
+        selection=lambda self: self.env["res.lang"].get_installed(),
+        string="Language",
+        help="Language the tax receipt is printed in. Defaults to the "
+        "partner's language when left empty.",
+    )
 
     @api.onchange("year")
     def onchange_year(self):
@@ -55,16 +61,19 @@ class PrintTaxReceipt(models.TransientModel):
             "doc_ids": records.ids,
             "year": self.year,
         }
-        lang = records.mapped("lang")
-        if len(lang) == 1:
-            data["lang"] = lang[0]
+        if self.lang:
+            data["lang"] = self.lang
         else:
-            raise UserError(
-                _(
-                    "You can only generate tax certificate for one language at "
-                    "a time."
+            lang = records.mapped("lang")
+            if len(lang) == 1:
+                data["lang"] = lang[0]
+            else:
+                raise UserError(
+                    _(
+                        "You can only generate tax certificate for one language at "
+                        "a time."
+                    )
                 )
-            )
         report = self.env.ref("report_compassion.tax_receipt_report").with_context(
             lang=data["lang"]
         )

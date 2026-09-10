@@ -46,6 +46,10 @@ class MyAccountControllerSwitzerland(MyAccountController):
             year = safe_int(kw.get("year"), 0)
             if not year:
                 raise NotFound()
+            lang = kw.get("lang")
+            installed_langs = dict(request.env["res.lang"].sudo().get_installed())
+            if lang not in installed_langs:
+                lang = False
             wizard = (
                 request.env["print.tax_receipt"]
                 .with_user(SUPERUSER_ID)
@@ -54,6 +58,7 @@ class MyAccountControllerSwitzerland(MyAccountController):
                     {
                         "pdf": True,
                         "year": year,
+                        "lang": lang,
                         "pdf_name": _("tax_receipt") + f"_{year}.pdf",
                     }
                 )
