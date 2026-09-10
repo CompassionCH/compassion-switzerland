@@ -76,6 +76,7 @@
           />
                     <t
             t-call="report_compassion.report_sponsorship_2bvr_top_slip"
+            t-lang="partner.lang"
           />
                 </t>
                 <t t-else="">
@@ -85,6 +86,7 @@
           />
                     <t
             t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"
+            t-lang="partner.lang"
           />
                 </t>
                 <t t-set="qr_count" t-value="qr_count +1" />
