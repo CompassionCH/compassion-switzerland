@@ -59,5 +59,9 @@ class CompassionWebsiteSale(WebsiteSale):
         if request.env.lang == "de_DE":
             legal_link = "https://compassion.ch/de/datenschutz/"
         if request.env.lang == "it_IT":
-            legal_link = "https://compassion.ch/it/privacy-e-termini//"
-        return request.redirect(legal_link, code=301)
+            legal_link = "https://compassion.ch/it/privacy-e-termini/"
+        # local=False: this is an external site, not a path on this one -
+        # request.redirect() defaults to local=True, which strips the
+        # scheme/host from any URL it's given, turning this into a broken
+        # same-site relative redirect otherwise.
+        return request.redirect(legal_link, code=301, local=False)
