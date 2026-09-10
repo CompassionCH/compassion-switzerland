@@ -26,6 +26,7 @@
           t-value="partner.company_id.official_signer_id"
         />
                 <t t-set="show_signature" t-value="1" />
+                <t t-set="compact_body" t-value="1" />
                 <t t-set="user" t-value="director.user_id" />
                 <t
           t-set="signature_letter"

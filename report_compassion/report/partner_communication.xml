@@ -130,10 +130,10 @@
             .body_text {
                 display: inline-block;
                 margin-right: 2mm; /* omr code need nothing 5mm all over it */
-                <t t-if="show_signature">
+                <t t-if="show_signature and not compact_body">
                     min-height: 120mm;
                 </t>
-                <t t-if="not show_signature">
+                <t t-if="not show_signature and not compact_body">
                     min-height: 140mm;
                 </t>
             }
