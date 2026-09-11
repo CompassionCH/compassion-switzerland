@@ -1,7 +1,11 @@
 # Copyright 2026 Compassion CH
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from markupsafe import Markup
+
 from odoo import _, api, fields, models
+
+from .quality_test_run_result import reduce_results
 
 
 class QualityTestRun(models.Model):
@@ -26,10 +30,18 @@ class QualityTestRun(models.Model):
     )
     test_version = fields.Char(related="test_id.test_version")
     tested_at_version = fields.Char("Protocol version", readonly=True)
-    is_same_procedure_as_test = fields.Boolean(
-        compute="_compute_is_same_procedure_as_test"
+    step_ids = fields.One2many(
+        "quality.test.run.step",
+        "run_id",
+        string="Test Procedure",
+        help="Steps to perform, with the results expected for each of them.",
     )
-    description = fields.Html(compute="_compute_description")
+    failed_result_ids = fields.Many2many(
+        "quality.test.run.result",
+        string="Failed Expected Results",
+        compute="_compute_failed_result_ids",
+    )
+    failed_result_count = fields.Integer(compute="_compute_failed_result_ids")
     sequence = fields.Integer(
         string="Run #",
         required=True,
@@ -50,8 +62,17 @@ class QualityTestRun(models.Model):
     )
     result = fields.Selection(
         [("pass", "Pass"), ("fail", "Fail")],
-        required=True,
+        compute="_compute_result",
+        store=True,
         tracking=True,
+        help="Outcome of the run, derived from the results of its steps. It "
+        "stays empty until every expected result is checked.",
+    )
+    fail_notification_sent = fields.Boolean(
+        readonly=True,
+        copy=False,
+        help="Technical field ensuring the responsible is warned only once "
+        "that this run has failed.",
     )
     instance = fields.Selection(
         [("production", "Production"), ("stage", "Stage")],
@@ -85,22 +106,19 @@ class QualityTestRun(models.Model):
         store=True,
     )
 
-    def _compute_is_same_procedure_as_test(self):
+    @api.depends("step_ids.result_ids.result")
+    def _compute_failed_result_ids(self):
         for rec in self:
-            rec.is_same_procedure_as_test = rec.test_version == rec.tested_at_version
-
-    def _compute_description(self):
-        for rec in self:
-            rec.description = (
-                self.env["quality.test.version"]
-                .search(
-                    [
-                        ("test_id", "=", rec.test_id.id),
-                        ("version", "=", rec.tested_at_version),
-                    ]
-                )
-                .description
+            failed = rec.step_ids.result_ids.filtered(
+                lambda line: line.result == "fail"
             )
+            rec.failed_result_ids = failed
+            rec.failed_result_count = len(failed)
+
+    @api.depends("step_ids.result")
+    def _compute_result(self):
+        for rec in self:
+            rec.result = reduce_results(rec.step_ids.mapped("result"))
 
     @api.onchange("instance")
     def _onchange_instance(self):
@@ -147,17 +165,26 @@ class QualityTestRun(models.Model):
 
         for vals in vals_list:
             test_id = vals.get("test_id", default_test_id)
-            if test_id and not vals.get("sequence"):
+            if not test_id:
+                continue
+            if not vals.get("sequence"):
                 next_sequence = sequence_by_test.get(test_id, 0) + 1
                 vals["sequence"] = next_sequence
                 sequence_by_test[test_id] = next_sequence
+            test = self.env["quality.test"].browse(test_id)
+            # Freeze the procedure the run is about to follow.
+            vals["tested_at_version"] = test.test_version
+            if not vals.get("step_ids"):
+                vals["step_ids"] = test._get_run_step_commands()
 
         records = super().create(vals_list)
-        for record in records:
-            record.tested_at_version = record.test_id.test_version
-            if record.result == "fail":
-                record._send_fail_notification()
+        records._send_fail_notification()
         return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        self._send_fail_notification()
+        return result
 
     @api.depends("test_id.name", "sequence")
     def _compute_display_name(self):
@@ -171,14 +198,50 @@ class QualityTestRun(models.Model):
 
     def _send_fail_notification(self):
         """Send an email to the responsible when a failing test run is recorded."""
-        self.ensure_one()
-        responsible = self.test_responsible_id
         template = self.env.ref(
             "quality_test_compassion.email_template_quality_test_run_fail",
             raise_if_not_found=False,
         )
-        if responsible != self.user_id and responsible.email and template:
-            template.send_mail(self.id, force_send=True)
+        if not template:
+            return
+        to_notify = self.filtered(
+            lambda run: run.result == "fail"
+            and not run.fail_notification_sent
+            and run.test_responsible_id != run.user_id
+            and run.test_responsible_id.email
+        )
+        to_notify.fail_notification_sent = True
+        for run in to_notify:
+            template.send_mail(run.id, force_send=True)
+
+    def _get_failure_description(self):
+        """Describe what went wrong during the run, for the fix task."""
+        self.ensure_one()
+        description = Markup("<p>%s</p>") % (
+            _("Test run #%(run)s of %(test)s performed on %(date)s has failed.")
+            % {
+                "run": self.sequence,
+                "test": self.test_id.display_name,
+                "date": self.date,
+            }
+        )
+        if self.failed_result_ids:
+            failed_lines = Markup("")
+            for line in self.failed_result_ids:
+                failed_lines += Markup(
+                    "<li><b>%(step)s</b>: %(expected)s%(notes)s</li>"
+                ) % {
+                    "step": line.step_name,
+                    "expected": line.name,
+                    "notes": Markup("<br/>%s") % line.comment if line.comment else "",
+                }
+            description += Markup("<p><b>%s</b></p><ul>%s</ul>") % (
+                _("Failed expected results:"),
+                failed_lines,
+            )
+        if self.comment:
+            description += Markup("<p><b>%s</b></p>%s") % (_("Notes:"), self.comment)
+        return description
 
     def action_create_task(self):
         """Create a project.task to track the resolution of a failing test."""
@@ -200,10 +263,7 @@ class QualityTestRun(models.Model):
             "target": "current",
             "context": {
                 "default_name": _("Fix failing quality test: %s") % self.test_id.name,
-                "default_description": _(
-                    "A test run recorded on %(date)s has failed.\n\nNotes:\n%(notes)s"
-                )
-                % {"date": self.date, "notes": self.comment or ""},
+                "default_description": self._get_failure_description(),
                 "default_quality_test_run_id": self.id,
                 "default_user_id": self.test_id.user_id.id,
                 "default_project_id": self.env["project.project"]

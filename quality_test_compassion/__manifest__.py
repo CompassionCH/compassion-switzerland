@@ -3,7 +3,7 @@
 {
     "name": "Quality Test Management",
     "summary": "Define quality tests for critical processes and track test runs",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "development_status": "Beta",
     "category": "Quality",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
@@ -19,6 +19,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "security/quality_test_security.xml",
         "data/quality_test_category_data.xml",
         "data/mail_template_quality_test.xml",
         "data/quality_test_cron.xml",

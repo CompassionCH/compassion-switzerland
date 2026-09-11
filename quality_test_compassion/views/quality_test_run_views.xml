@@ -80,9 +80,9 @@
               />
                             <field
                 name="result"
-                widget="radio"
-                options="{'horizontal': True}"
-                class="oe_edit_only"
+                widget="badge"
+                decoration-danger="result == 'fail'"
+                decoration-success="result == 'pass'"
               />
                             <field
                 name="task_id"
@@ -92,20 +92,74 @@
                         </group>
                         <group string="Test Info">
                             <field name="test_responsible_id" readonly="1" />
-                            <field
-                name="is_same_procedure_as_test"
-                invisible="1"
-              />
                             <field name="tested_at_version" />
+                            <field
+                name="failed_result_count"
+                invisible="not failed_result_count"
+              />
                         </group>
                     </group>
+                    <separator string="Test Procedure" />
+                    <field name="step_ids" nolabel="1">
+                        <list
+                            create="false"
+                            delete="false"
+                            decoration-danger="result == 'fail'"
+                            decoration-success="result == 'pass'"
+                        >
+                            <field name="sequence" column_invisible="1" />
+                            <field name="name" readonly="1" force_save="1" />
+                            <field name="checked_summary" />
+                            <field name="result" widget="badge" />
+                        </list>
+                        <form>
+                            <div class="oe_title mb-4">
+                                <h1><field name="name" readonly="1" /></h1>
+                            </div>
+                            <separator
+                                string="Instructions"
+                                invisible="not description"
+                            />
+                            <field
+                                name="description"
+                                widget="html"
+                                nolabel="1"
+                                readonly="1"
+                                invisible="not description"
+                            />
+                            <separator string="Expected Results" />
+                            <field name="result_ids" nolabel="1">
+                                <list
+                                    editable="bottom"
+                                    create="false"
+                                    delete="false"
+                                    decoration-danger="result == 'fail'"
+                                    decoration-success="result == 'pass'"
+                                >
+                                    <field
+                                        name="sequence"
+                                        column_invisible="1"
+                                    />
+                                    <field
+                                        name="name"
+                                        readonly="1"
+                                        force_save="1"
+                                    />
+                                    <field
+                                        name="result"
+                                        widget="radio"
+                                        options="{'horizontal': True}"
+                                    />
+                                    <field
+                                        name="comment"
+                                        placeholder="What went wrong?"
+                                    />
+                                </list>
+                            </field>
+                        </form>
+                    </field>
                     <group string="Notes">
                         <field name="comment" widget="html" nolabel="1" />
-                    </group>
-                    <group
-            string="Test procedure (at time of test run)"
-          >
-                        <field name="description" nolabel="1" />
                     </group>
                     <field name="module_version_ids">
                         <list
