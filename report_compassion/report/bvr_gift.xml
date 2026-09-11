@@ -44,10 +44,7 @@
     <!-- 2 BVR page for sponsorship gift -->
     <template id="report_bvr_sponsorship_gift_document_2bvr">
         <t t-foreach="docs" t-as="doc">
-            <t
-        t-set="o"
-        t-value="doc.with_context({'lang':doc.partner_id.lang})"
-      />
+            <t t-set="o" t-value="doc" />
             <t t-set="partner" t-value="o.gift_partner_id" />
             <t t-set="partner_address" t-value="partner.short_address" />
             <t
@@ -96,10 +93,7 @@
         <t t-call="web.html_container">
             <t t-set="swissqr_position_top" t-value="192" />
             <t t-foreach="docs" t-as="doc">
-                <t
-          t-call="report_compassion.report_bvr_sponsorship_gift_document"
-          t-lang="doc.partner_id.lang"
-        />
+                <t t-call="report_compassion.report_bvr_sponsorship_gift_document" />
             </t>
         </t>
     </template>
@@ -110,10 +104,7 @@
             <t t-set="disable_header" t-value="True" />
                 <t t-set="disable_footer" t-value="True" />
             <t t-call="report_compassion.style" />
-            <t
-        t-set="o"
-        t-value="doc.with_context({'lang':doc.partner_id.lang})"
-      />
+            <t t-set="o" t-value="doc" />
             <t t-set="partner" t-value="o.gift_partner_id" />
             <t t-set="partner_address" t-value="partner.short_address" />
             <t
