@@ -384,9 +384,13 @@
                                 </div>
                                 <span t-out="o.partner_id.address_name" />
                                 <br />
-                                <span
-            t-out="'&lt;br/&gt;'.join((o.partner_id.short_address or '&lt;br/&gt;').split('&lt;br/&gt;')[1:])"
-          />
+                                <t
+            t-foreach="(o.partner_id.short_address or '').split('&lt;br/&gt;')[1:]"
+            t-as="address_line"
+          >
+                                    <span t-out="address_line" />
+                                    <br t-if="not address_line_last" />
+                                </t>
                             </div>
                 </t>
         </t>
