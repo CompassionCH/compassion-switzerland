@@ -11,10 +11,6 @@
     <template id="tax_receipt">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="partner">
-                <t
-          t-set="partner"
-          t-value="partner.with_context({'lang':partner.lang})"
-        />
                 <t t-set="object" t-value="partner" />
                 <t t-set="print_header" t-value="1" />
                 <t t-set="print_subject" t-value="1" />
@@ -26,25 +22,20 @@
           t-value="partner.company_id.official_signer_id"
         />
                 <t t-set="show_signature" t-value="1" />
+                <t t-set="compact_body" t-value="1" />
                 <t t-set="user" t-value="director.user_id" />
                 <t
           t-set="signature_letter"
           t-value="user.signature_letter if director else partner.company_id._get_signature_closing_line()"
         />
                 <t t-set="display_pp" t-value="1" />
-                <t
-          t-call="report_compassion.partner_communication_document"
-          t-lang="partner.lang"
-        />
+                <t t-call="report_compassion.partner_communication_document" />
             </t>
         </t>
     </template>
 
     <template id="tax_receipt_content">
         <div>
-            <br />
-            <br />
-            <br />
             <br />
             <h2>
                 <t t-out="object.get_donations_intro()"/> <t t-out="year"/> add up to CHF <t t-out="object.get_receipt_text(year)"/>
