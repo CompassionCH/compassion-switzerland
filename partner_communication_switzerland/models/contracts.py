@@ -373,6 +373,12 @@ class RecurringContract(models.Model):
 
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
+
+        new_sponsorships = self.filtered(
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
+            and not c.is_active
+            and c not in mandates_valid
+        )
         res = super().contract_waiting()
 
         for contract in self.filtered("child_id"):
@@ -392,11 +398,6 @@ class RecurringContract(models.Model):
                 # is created from the website so that we can manage partner language
                 self.notify_sds_new_sponsorship()
 
-        new_sponsorships = self.filtered(
-            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
-            and not c.is_active
-            and c not in mandates_valid
-        )
         if new_sponsorships:
             # Invoices must be generated before sending the dossier
             new_sponsorships.with_delay_sh(
