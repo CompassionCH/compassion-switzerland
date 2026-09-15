@@ -7,19 +7,15 @@
 #
 ##############################################################################
 
-import io
-import logging
-from unittest import mock
-from uuid import uuid4
-
-from dateutil.relativedelta import relativedelta
-from PIL import Image
-
-from odoo import fields
 from odoo.tests import HttpCase, tagged
-from odoo.tools.config import config
 
-_logger = logging.getLogger(__name__)
+from .common import (
+    check_queue_runs,
+    enable_connect_fake,
+    get_or_create_origin,
+    get_sponsorable_child,
+    setup_tour_admin,
+)
 
 SPONSOR_LASTNAME = "Doe"
 SPONSOR_EMAIL = "marie.doe@example.org"
@@ -28,129 +24,12 @@ ORIGIN_NAME = "Sponsorship Creation Tour"
 
 
 def setup_tour_data(env):
-    admin = env.ref("base.user_admin")
-    admin.tour_enabled = False
-    admin.groups_id |= env.ref("account.group_account_invoice")
-    # The tour looks for its records by the name they have in English.
-    admin.lang = "en_US"
-
-    # The tour sends both of these to GMC itself, from the Message Center.
-    actions = env.ref("sponsorship_compassion.upsert_partner") | env.ref(
-        "sponsorship_compassion.create_sponsorship"
-    )
-    actions.auto_process = False
-
-    origin = env["recurring.contract.origin"].search(
-        [("type", "=", "other"), ("other_name", "=", ORIGIN_NAME)], limit=1
-    )
-    if not origin:
-        origin = env["recurring.contract.origin"].create(
-            {"type": "other", "other_name": ORIGIN_NAME}
-        )
-
-    child = env["compassion.child"].search([("local_id", "=", CHILD_LOCAL_ID)], limit=1)
-    if not child:
-        child = _create_consigned_child(env)
-    elif child.state != "N":
-        # A run of the tour sponsors the child, which takes them off the
-        # market. Release them so that the tour can pick them again.
-        reset_tour_data(env, child)
-    return {"origin": origin, "child": child}
-
-
-def reset_tour_data(env, child=None):
-    """Puts back what a previous run of the tour consumed."""
-    if child is None:
-        child = env["compassion.child"].search(
-            [("local_id", "=", CHILD_LOCAL_ID)], limit=1
-        )
-    if not child:
-        return
-    sponsorships = env["recurring.contract"].search([("child_id", "in", child.ids)])
-    _logger.info(
-        "Releasing %s from %s sponsorship(s)", CHILD_LOCAL_ID, len(sponsorships)
-    )
-    sponsorships.with_context(force_delete=True).unlink()
-    child.invalidate_recordset()
-    if not child.hold_id:
-        child.hold_id = _create_hold(env, "No Money Hold", child)
-    if child.state != "N":
-        child.child_unsponsored()
-        child.invalidate_recordset()
-    if child.state != "N":
-        raise ValueError(
-            f"The child {CHILD_LOCAL_ID} is still in state {child.state} and "
-            "cannot be sponsored again by the tour."
-        )
-
-
-def _create_hold(env, hold_type, child=None):
-    """A hold of the given type, valid for long enough to run the tour."""
-    return env["compassion.hold"].create(
-        {
-            "hold_id": uuid4().hex,
-            "type": hold_type,
-            "expiration_date": fields.Datetime.now() + relativedelta(weeks=2),
-            "primary_owner": env.user.id,
-            "child_id": child.id if child else False,
-        }
-    )
-
-
-def _create_consigned_child(env):
-    """A child on a consignment hold, ready to be sponsored."""
-    hold = _create_hold(env, "Consignment Hold")
-    child = (
-        env["compassion.child"]
-        .with_context(no_upsert=True)
-        .create(
-            {
-                "local_id": CHILD_LOCAL_ID,
-                "global_id": uuid4().hex,
-                "firstname": "Aylin",
-                "preferred_name": "Aylin",
-                "lastname": "Yilmaz",
-                "state": "N",
-                "birthdate": fields.Date.today() - relativedelta(years=8),
-                "project_id": _create_project(env).id,
-                "hold_id": hold.id,
-            }
-        )
-    )
-    hold.child_id = child
-    _add_child_pictures(child)
-    return child
-
-
-def _create_project(env):
-    """Creates the project the child of the tour belongs to."""
-    icp_details = env.ref("child_compassion.icp_details")
-    auto_process = icp_details.auto_process
-    icp_details.auto_process = False
-    try:
-        return env["compassion.project"].create(
-            {"fcp_id": CHILD_LOCAL_ID[:5], "name": "Onboarding Tour Project"}
-        )
-    finally:
-        icp_details.auto_process = auto_process
-
-
-def _add_child_pictures(child):
-    env = child.env
-    picture = io.BytesIO()
-    Image.new("RGB", (16, 16), "white").save(picture, "PNG")
-    with mock.patch(
-        "odoo.addons.child_compassion.models.child_pictures.urlopen",
-        side_effect=lambda *args, **kwargs: io.BytesIO(picture.getvalue()),
-    ):
-        pictures = env["compassion.child.pictures"].create(
-            {
-                "child_id": child.id,
-                "image_url": "https://media.ci.org/image/upload/v1/tour.jpg",
-            }
-        )
-    if not pictures.fullshot:
-        raise ValueError("The child of the tour needs a portrait")
+    """Entry point of the fixture, also called by the reset_tour.py script."""
+    setup_tour_admin(env)
+    return {
+        "origin": get_or_create_origin(env, ORIGIN_NAME),
+        "child": get_sponsorable_child(env, CHILD_LOCAL_ID),
+    }
 
 
 @tagged("post_install", "-at_install")
@@ -158,12 +37,9 @@ class TestCreateASponsorship(HttpCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # The tour drains queue.job.replacement itself instead of waiting for
-        # the cron. with_delay_sh queues on queue.job when the OCA module is
-        # installed, and the tour would then silently run nothing.
-        assert "queue.job" not in cls.env, "The tour needs queue_job to be uninstalled"
+        check_queue_runs(cls.env)
 
-        cls.startClassPatcher(mock.patch.dict(config.options, {"connect_fake": True}))
+        enable_connect_fake(cls)
 
         tour_data = setup_tour_data(cls.env)
         cls.origin = tour_data["origin"]

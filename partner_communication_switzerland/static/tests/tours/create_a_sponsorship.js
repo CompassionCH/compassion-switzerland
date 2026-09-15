@@ -4,7 +4,9 @@
  * the sponsor and the commitment are declared to GMC.
  */
 import {
+  DOSSIER_QUEUE_DELAY,
   QUEUE_TIMEOUT,
+  goToSponsorships,
   openMenu,
   reloadStep,
   runQueuedJobs,
@@ -23,21 +25,6 @@ const PAYMENT_MODE = "Permanent Order";
 const WELCOME_COMMUNICATION =
   "Sponsorship Onboarding - Welcome and payment information";
 const PHOTO_COMMUNICATION = "Sponsorship Onboarding - Photo by post";
-
-const WAIT = 4000;
-
-const goToSponsorships = (description) => [
-  ...openMenu({
-    app: "child_compassion.menu_sponsorship_root",
-    section: "child_compassion.menu_sponsorship_section",
-    item: "sponsorship_compassion.menu_sponsorship_contract_form",
-    description,
-  }),
-  {
-    content: "Wait for the list of sponsorships",
-    trigger: ".o_list_view th[data-name=activation_date]",
-  },
-];
 
 const goToSponsorship = () => [
   ...goToSponsorships("Back to the Sponsorship app"),
@@ -228,7 +215,7 @@ registry.category("web_tour.tours").add("create_a_sponsorship", {
       trigger: ".o_field_widget[name=start_date] span:not(:empty)",
       timeout: QUEUE_TIMEOUT,
       async run() {
-        await runQueuedJobs(WAIT);
+        await runQueuedJobs(DOSSIER_QUEUE_DELAY);
       },
     },
     reloadStep("Refresh the sponsorship to see the generated invoices"),
