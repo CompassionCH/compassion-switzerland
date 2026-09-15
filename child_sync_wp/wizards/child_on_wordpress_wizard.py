@@ -14,7 +14,7 @@ from odoo.tools.translate import _
 
 
 def _child_refs(children, limit=10):
-    refs = children.mapped("local_id")
+    refs = [child.local_id or f"#{child.id}" for child in children]
     if len(refs) > limit:
         return ", ".join(refs[:limit]) + _(" and %s more") % (len(refs) - limit)
     return ", ".join(refs)
