@@ -4,7 +4,7 @@
  * the sponsor and the commitment are declared to GMC.
  */
 import {
-  DOSSIER_QUEUE_DELAY,
+  WAIT as DOSSIER_QUEUE_DELAY,
   QUEUE_TIMEOUT,
   goToSponsorships,
   openMenu,
