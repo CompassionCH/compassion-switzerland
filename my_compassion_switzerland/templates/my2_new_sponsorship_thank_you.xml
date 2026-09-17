@@ -16,24 +16,23 @@ Page: My Compassion 2 – New Sponsorship Thank You - no payment taken yet
     recurring.contract._my2_ch_pending_payment_kind (models/contracts.py).
 
     Target:
-    - my_compassion.my2_new_sponsorship_thank_you_page
+    - my_compassion.my2_new_sponsorship_all_set - appended inside the "All
+      set" branch's right-hand column (ns-aside-item), below the sponsorship
+      summary box.
 
     Notes:
     - Nothing is shown for a provider-backed mode (the sponsor really has
       paid) nor for a Write&Pray sponsorship (it never involves a payment, so
       "not yet" would announce one that is never coming). Both cases are the
       empty answer from _my2_ch_pending_payment_kind.
-    - Placed above the "Who shall we thank?" form rather than below it, so
-      the sponsor reads what happened to their money before being asked for
-      one more thing.
 -->
 <odoo>
   <template
     id="my2_new_sponsorship_thank_you_pending_payment"
-    inherit_id="my_compassion.my2_new_sponsorship_thank_you_page"
+    inherit_id="my_compassion.my2_new_sponsorship_all_set"
     name="New Sponsorship Thank You - Payment Still To Come"
   >
-    <xpath expr="//div[hasclass('mx-4')]" position="after">
+    <xpath expr="//div[hasclass('ns-aside-item')]" position="inside">
       <t
         t-set="pending_payment_kind"
         t-value="sponsorship._my2_ch_pending_payment_kind()"
@@ -41,29 +40,31 @@ Page: My Compassion 2 – New Sponsorship Thank You - no payment taken yet
       <div
         t-if="pending_payment_kind"
         id="ch_pending_payment_notice"
-        class="mb-4 mx-4 p-4 rounded-lg bg-high-eggshell body-small"
+        class="w-100 mb-4 p-4 rounded-lg bg-high-eggshell"
       >
-        <div class="bold">No payment has been made yet.</div>
-        <t t-if="pending_payment_kind == 'ebill'">
+        <div class="tiny-text bold text-mid-grey mb-1">No payment has been made yet.</div>
+        <div class="tiny-text text-mid-grey">
+          <t t-if="pending_payment_kind == 'ebill'">
                     Your E-Bill connection with Compassion is set up. Your first
                     invoice will arrive in your bank's E-Bill inbox, where you
                     approve it - nothing is debited before you do.
                 </t>
-        <t t-elif="pending_payment_kind == 'permanent_order'">
+          <t t-elif="pending_payment_kind == 'permanent_order'">
                     We will send you the payment details so you can set up the
                     standing order with your bank. Your sponsorship starts as
                     soon as we receive the first payment.
                 </t>
-        <t t-elif="pending_payment_kind == 'direct_debit'">
+          <t t-elif="pending_payment_kind == 'direct_debit'">
                     We will send you the direct debit authorisation to sign and
                     return. Once your bank has it, the monthly amount is
                     collected automatically.
                 </t>
-        <t t-else="">
+          <t t-else="">
                     We will send you the payment details for the method you
                     chose. Your sponsorship starts as soon as we receive the
                     first payment.
                 </t>
+        </div>
       </div>
     </xpath>
   </template>
