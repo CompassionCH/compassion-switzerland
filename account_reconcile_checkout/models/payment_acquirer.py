@@ -8,7 +8,7 @@
 ##############################################################################
 import logging
 
-from odoo import _, models
+from odoo import _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -21,12 +21,58 @@ class PaymentAcquirer(models.Model):
 
     def postfinance_form_generate_values(self, tx_values):
         """Mark the transaction as pending before the donor leaves for the
-        gateway."""
+        gateway, and stop a donation the gateway refused to create.
+
+        The paid module ignores a failed /transaction/create - it just leaves
+        acquirer_reference empty and lets the donor carry on with a transaction
+        that has no counterpart at PostFinance (T3472).
+        """
+        if not tx_values.get("partner_country"):
+            tx_values["partner_country"] = self.env["res.country"].browse(
+                tx_values.get("partner_country_id")
+            )
         res = super().postfinance_form_generate_values(tx_values)
-        self.env["payment.transaction"].search(
-            [("reference", "=", tx_values.get("reference")), ("state", "=", "draft")]
-        ).write({"state": "pending"})
+        transaction = self.env["payment.transaction"].search(
+            [("reference", "=", tx_values.get("reference"))]
+        )
+        if not transaction.acquirer_reference:
+            transaction.write(
+                {
+                    "state": "error",
+                    "state_message": _("PostFinance refused to create the payment."),
+                }
+            )
+        elif transaction.state == "draft":
+            transaction.write({"state": "pending"})
         return res
+
+    @api.model
+    def postfinance_search_transation_id(self, postfinance_acquirer_id, search_params):
+        """Never let a search for a missing or unrelated gateway transaction
+        answer for this one.
+
+        The paid module sends the filter even when acquirer_reference is empty,
+        and PostFinance answers an unfiltered list rather than an error. Its
+        caller reads data[0] without checking it is the transaction it asked
+        for, so a stranger's payment confirmed an unpaid order (T3472).
+        """
+        acquirer_reference = search_params.get("acquirer_reference")
+        if not str(acquirer_reference or "").isdigit():
+            _logger.warning(
+                "PostFinance: refusing a transaction search without a gateway id."
+            )
+            return {"status": 200, "data": []}
+        response = super().postfinance_search_transation_id(
+            postfinance_acquirer_id, search_params
+        )
+        data = response.get("data")
+        if isinstance(data, list):
+            response["data"] = [
+                gateway_tx
+                for gateway_tx in data
+                if str(gateway_tx.get("id")) == str(acquirer_reference)
+            ]
+        return response
 
     def cron_update_postfinance_state(self, limit=200):
         """Replaces the paid module implementation, which scanned every

@@ -109,6 +109,15 @@ class PaymentTransaction(models.Model):
         process is already handling this transaction, so we return False (what the
         paid module returns in that case) without calling it at all.
         """
+        if not self.acquirer_reference:
+            # There is nothing at the gateway to ask about: the paid module would
+            # search on an empty id and take whatever PostFinance returns (T3472).
+            _logger.info(
+                "PostFinance transaction %s has no gateway reference, nothing to "
+                "validate.",
+                self.id,
+            )
+            return False
         try:
             with self.env.cr.savepoint(flush=False):
                 self.env.cr.execute(
