@@ -12,6 +12,8 @@ const MAX_QUEUE_PASSES = 10;
 
 export const QUEUE_TIMEOUT = 60000;
 
+export const WAIT = 4000;
+
 /** Calls a method on an Odoo model, as the web client does. */
 const callKw = (model, method, args) =>
   rpc("/web/dataset/call_kw", { model, method, args, kwargs: {} });
@@ -92,6 +94,24 @@ export const openMenu = ({ app, section, item, description }) => [
     content: `Open ${item}`,
     trigger: `.dropdown-item[data-menu-xmlid="${item}"]`,
     run: "click",
+  },
+];
+
+/**
+ * Opens the list of sponsorships.
+ *
+ * @param {String} description what opening the app is for.
+ */
+export const goToSponsorships = (description) => [
+  ...openMenu({
+    app: "child_compassion.menu_sponsorship_root",
+    section: "child_compassion.menu_sponsorship_section",
+    item: "sponsorship_compassion.menu_sponsorship_contract_form",
+    description,
+  }),
+  {
+    content: "Wait for the list of sponsorships",
+    trigger: ".o_list_view th[data-name=activation_date]",
   },
 ];
 
