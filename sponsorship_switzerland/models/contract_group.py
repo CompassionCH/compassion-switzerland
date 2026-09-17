@@ -20,6 +20,15 @@ class ContractGroup(models.Model):
     in invoices"""
 
     _inherit = "recurring.contract.group"
+    # _rec_name is "ref", which is "/" on most groups, while the dropdown shows
+    # what _compute_display_name builds. Search every part of that label, or
+    # typing what is on screen finds nothing (T3411).
+    _rec_names_search = [
+        "ref",
+        "payment_mode_id.name",
+        "bvr_reference",
+        "partner_id.name",
+    ]
 
     ##########################################################################
     #                                 FIELDS                                 #

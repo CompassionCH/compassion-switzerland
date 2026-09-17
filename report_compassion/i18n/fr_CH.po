@@ -888,14 +888,15 @@ msgstr ""
 
 #. module: report_compassion
 #. odoo-python
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+msgid "tax_receipt"
+msgstr "attestation_fiscale"
+
+#. module: report_compassion
+#. odoo-python
 #: code:addons/report_compassion/models/report_bvr_fund.py:0
 msgid "You must give a product in data to print this report."
 msgstr ""
-
-#. module: report_compassion
-#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
-msgid "Your donations in"
-msgstr "Vos dons en"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate

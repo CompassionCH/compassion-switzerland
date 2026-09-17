@@ -61,3 +61,31 @@ class AccountInvoice(models.Model):
                 }
             )
         return True
+
+    def _filter_move_to_thank(self, move_type=None):
+        return (
+            super()
+            ._filter_move_to_thank(move_type)
+            .filtered(
+                lambda i: i.invoice_category != "sponsorship"
+                and (
+                    # Should not be thanked if it's linked to a contract
+                    not i.line_ids.contract_id
+                    # But, can be thanked if it's a spontaneous gift
+                    or (
+                        i.invoice_category == "gift"
+                        and not any(
+                            "Automatic" in (name or "")
+                            for name in i.line_ids.mapped("name")
+                        )
+                        and not self.env["recurring.contract.line"].search_count(
+                            [
+                                ("contract_id.type", "=", "G"),
+                                ("contract_id.state", "=", "active"),
+                                ("sponsorship_id", "in", i.line_ids.contract_id.ids),
+                            ]
+                        )
+                    )
+                )
+            )
+        )

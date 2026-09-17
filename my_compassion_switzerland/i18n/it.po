@@ -1197,4 +1197,4 @@ msgstr "salute in TG"
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
-msgstr "tax_receipt"
+msgstr "ricevuta_fiscale"

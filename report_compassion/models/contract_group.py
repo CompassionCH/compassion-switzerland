@@ -148,17 +148,29 @@ class ContractGroup(models.Model):
         """
         Utility to find the bvr account of the company.
 
-        Assumptions:
-            - one and only one company.
-            - exists a company's bank account with `l10n_ch_qr_iban` set.
+        Looks for a bank account with a `l10n_ch_qr_iban` set, on the company
+        of the records first, then on the current company, and finally on any
+        other company.
 
-        Based on the assumptions, it returns the first bank account with a
-        defined `l10n_ch_qr_iban`of the first company.
+        :return: the company bank account to print on the payment slip
+        :raise UserError: when no company has a QR-IBAN bank account
         """
-        return (
-            self.env["res.company"]
-            .search([], limit=1)
-            .bank_ids.filtered("l10n_ch_qr_iban")[0]
+        companies = (
+            self.mapped("company_id")
+            | self.env.company
+            | self.env["res.company"].search([])
+        )
+        for company in companies:
+            account = company.bank_ids.filtered("l10n_ch_qr_iban")[:1]
+            if account:
+                return account
+        raise UserError(
+            _(
+                "No bank account with a QR-IBAN was found for %(company)s. "
+                "Please set the QR-IBAN on the bank account of the company "
+                "in order to print payment slips.",
+                company=(companies[:1] or self.env.company).display_name,
+            )
         )
 
     def get_amount(self, start, stop, sponsorships):

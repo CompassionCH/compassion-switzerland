@@ -13,7 +13,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from psycopg2 import OperationalError
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
 
@@ -88,9 +88,10 @@ class CompassionChild(models.Model):
             if wp is None:
                 wp_config = self.env["wordpress.configuration"].get_config(company_id)
                 wp = WPSync(wp_config)
-            if wp.remove_all_children():
-                logger.info("ALL CHILDREN REMOVED")
-                self.with_delay(channel="root.child_compassion").write({"state": "N"})
+            if not wp.remove_all_children():
+                return False
+            logger.info("ALL CHILDREN REMOVED")
+            self.write({"state": "N"})
             return True
         except Exception as e:
             logger.error(
@@ -251,7 +252,7 @@ class CompassionChild(models.Model):
 
         try:
             with self.env.cr.savepoint():
-                old_children.force_remove_from_wordpress(
+                removed = old_children.force_remove_from_wordpress(
                     company_id=company_id,
                     wp=wp,
                 )
@@ -259,6 +260,11 @@ class CompassionChild(models.Model):
             raise UserError(
                 f"Error force removing old children from WordPress: {e}"
             ) from e
+
+        if old_children and not removed:
+            # Uploading a new pool on a website that still holds the old
+            # children would leave children online that Odoo no more tracks.
+            raise UserError(_("Could not remove old children from WordPress"))
 
         # Save points after each batch
         # Put children 5 by 5 to avoid delays

@@ -1200,4 +1200,4 @@ msgstr "santé TG"
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
-msgstr "tax_receipt"
+msgstr "attestation_fiscale"
