@@ -1,0 +1,6 @@
+// T3428: Odoo only tells required from optional checkout fields by the label
+// weight. Donors did not see which fields they had to fill, so mark them.
+.oe_website_sale form .col-form-label:not(.label-optional)::after {
+  content: " *";
+  color: $danger;
+}

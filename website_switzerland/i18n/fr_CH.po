@@ -2571,6 +2571,16 @@ msgstr ""
 "https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_fr"
 
 #. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.payment_terms_note
+msgid "By confirming your payment, you agree to our"
+msgstr "En confirmant ton paiement, tu acceptes nos"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.payment_terms_note
+msgid "terms &amp; conditions"
+msgstr "conditions générales"
+
+#. module: website_switzerland
 #: code:addons/website_switzerland/controllers/my_account.py:0
 #, python-format
 msgid "tax_receipt"
