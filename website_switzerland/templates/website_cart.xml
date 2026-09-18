@@ -18,7 +18,10 @@
         t-attf-class="form-group #{error.get('title') and 'o_has_error' or ''} col-lg-6"
         id="div_title"
       >
-                    <label class="col-form-label" for="title">Title</label>
+                    <label
+          class="col-form-label label-optional"
+          for="title"
+        >Title</label>
                         <select
           name="title"
           id="title"
@@ -116,4 +119,25 @@
       >round(line.product_uom_qty, 5) == int(line.product_uom_qty) and int(line.product_uom_qty) or line.product_uom_qty</attribute>
         </xpath>
     </template>
+
+    <!-- T3428: donors were blocked by the T&C checkbox hidden below the payment
+         methods on mobile. Consent is now implicit and stated above them. -->
+    <template id="payment_terms_note" inherit_id="website_sale.payment">
+        <xpath
+      expr="//div[@id='payment_method'][not(hasclass('js_payment'))]"
+      position="before"
+    >
+            <p class="text-muted mt-3 mb-0">
+                By confirming your payment, you agree to our
+                <a
+          href="/shop/terms"
+          target="_blank"
+        >terms &amp; conditions</a>.
+            </p>
+        </xpath>
+    </template>
+
+    <record id="website_sale.payment_sale_note" model="ir.ui.view">
+        <field name="active" eval="False" />
+    </record>
 </odoo>
