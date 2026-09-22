@@ -30,7 +30,7 @@ We'll do our best to get back to you as soon as possible. </p>
                     <div class="container">
                         <form
               id="contactus_form"
-              action="/website_form/"
+              action="/website/form/"
               method="post"
               enctype="multipart/form-data"
               class="o_mark_required"
