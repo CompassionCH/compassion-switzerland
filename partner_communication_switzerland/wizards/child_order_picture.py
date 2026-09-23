@@ -107,13 +107,12 @@ class CompassionHold(models.TransientModel):
                 "child_compassion.report_child_picture"
             ).with_context(must_skip_send_to_printer=True)
             pdf_data = report_ref._render_qweb_pdf(
-                children.ids, data={"doc_ids": children.ids}
+                report_ref, children.ids, data={"doc_ids": children.ids}
             )[0]
             with tempfile.NamedTemporaryFile(delete=True) as pdf_temp_file:
                 pdf_temp_file.write(pdf_data)
                 pages = convert_from_path(pdf_temp_file.name)
                 for child, page in zip(children, pages, strict=False):
-                    country = child.field_office_id.country_id.name or "ZZ"
                     country = child.field_office_id.country_id.name or "ZZ"
                     fname = f"{country}_{child.sponsor_ref}_{child.local_id}.jpg"
                     temp_img_path = os.path.join(tempfile.gettempdir(), fname)
