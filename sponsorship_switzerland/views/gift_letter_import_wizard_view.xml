@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="gift_letter_import_wizard_form" model="ir.ui.view">
+        <field name="name">gift.letter.import.wizard.form</field>
+        <field name="model">gift.letter.import.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group invisible="result">
+                    <field name="data" filename="filename" />
+                    <field name="filename" invisible="1" />
+                </group>
+                <div invisible="not result">
+                    <field name="result" />
+                </div>
+                <footer>
+                    <button
+            name="import_file"
+            string="Import"
+            type="object"
+            class="oe_highlight"
+            invisible="result"
+          />
+                    <button string="Close" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gift_letter_import" model="ir.actions.act_window">
+        <field name="name">Import gift links</field>
+        <field name="res_model">gift.letter.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+    id="menu_gift_letter_import"
+    parent="sbc_compassion.menu_correspondence"
+    action="action_gift_letter_import"
+    sequence="4"
+  />
+</odoo>
