@@ -72,6 +72,7 @@
         "views/communication_config_view.xml",
         "views/generate_communication_wizard_view.xml",
         "views/print_tax_receipt_view.xml",
+        "views/mail_compose_message_view.xml",
         "views/res_company_view.xml",
         "data/tax_receipt_email_template.xml",
     ],
