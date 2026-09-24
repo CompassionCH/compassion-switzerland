@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "Website - Compassion Switzerland custom views",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.5",
     "category": "Website",
     "author": "Compassion Switzerland",
     "development_status": "Beta",
@@ -40,6 +40,7 @@
     "assets": {
         "web.assets_tests": [
             "website_switzerland/static/tests/tours/event_registration_setup.js",
+            "website_switzerland/static/tests/tours/group_visit_journey.js",
         ],
     },
     "installable": True,
