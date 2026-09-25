@@ -92,7 +92,7 @@
       >
       <div class="container">
         <form
-            action="/website_form/"
+            action="/website/form/"
             method="post"
             enctype="multipart/form-data"
             class="o_mark_required"

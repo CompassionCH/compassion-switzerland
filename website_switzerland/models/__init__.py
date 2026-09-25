@@ -1,3 +1,4 @@
+from . import account_move
 from . import partner_communication_job
 from . import sale_order_line
 from . import registration_task
