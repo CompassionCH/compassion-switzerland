@@ -94,7 +94,7 @@ class ResUsers(models.Model):
                         if user.firstname
                         else "",
                         "job_title": employee_job_title or "",
-                        "office_hours": _("mo-thu: 9am-2pm"),
+                        "office_hours": _("mo-tue & thu-fr: 9am-2pm"),
                         "company_name": user.company_id.address_name,
                         "phone_link": phone_link.get(lang),
                         "phone": phone.get(lang),
@@ -109,7 +109,7 @@ class ResUsers(models.Model):
                         "lang_short": lang[:2],
                         "team": "",
                         "job_title": "",
-                        "office_hours": _("mo-thu: 9am-2pm"),
+                        "office_hours": _("mo-tue & thu-fr: 9am-2pm"),
                         "company_name": user.company_id.address_name,
                         "phone_link": phone_link.get(lang),
                         "phone": phone.get(lang),
