@@ -25,8 +25,14 @@
                         checked="state.visibleMessageTypes[messageType]"
                         closingMode="'none'"
                         onSelected="() => this.onToggleMessageTypeVisible(messageType)"
-                        t-esc="messageTypeLabels[messageType]"
-                    />
+                    >
+                        <i
+                            class="fa fa-fw me-2"
+                            t-att-class="state.visibleMessageTypes[messageType] ? 'fa-check-square text-primary' : 'fa-square-o'"
+                            role="img"
+                        />
+                        <t t-esc="messageTypeLabels[messageType]" />
+                    </CheckboxItem>
                 </t>
             </t>
         </Dropdown>
