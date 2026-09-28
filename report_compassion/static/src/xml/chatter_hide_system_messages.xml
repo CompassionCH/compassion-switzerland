@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t
+    t-name="report_compassion.ChatterHideSystemMessages"
+    t-inherit="mail.Chatter"
+    t-inherit-mode="extension"
+>
+    <xpath expr="//button[@aria-label='Search Messages']" position="before">
+        <button
+            class="btn btn-link"
+            t-att-class="{ 'text-primary': state.hideSystemMessages, 'text-action': !state.hideSystemMessages }"
+            aria-label="Toggle System Messages"
+            t-att-title="state.hideSystemMessages ? 'Show system messages (stage changes, ...)' : 'Hide system messages (stage changes, ...)'"
+            t-on-click="onClickToggleSystemMessages"
+        >
+            <i class="fa fa-filter" role="img" />
+        </button>
+    </xpath>
+    <xpath expr="//Thread" position="attributes">
+        <attribute name="hideSystemMessages">state.hideSystemMessages</attribute>
+    </xpath>
+</t>
+
+</templates>
