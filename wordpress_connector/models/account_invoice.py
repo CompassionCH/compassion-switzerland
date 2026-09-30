@@ -285,7 +285,6 @@ class AccountInvoice(models.Model):
             "payment_method_id": self.env["account.payment.method"]
             .search([("code", "=", "manual"), ("payment_type", "=", "inbound")])
             .id,
-            "payment_mode_id": payment_mode_id,
             "date": self.date,
             "payment_reference": self.payment_reference,
             "payment_type": "inbound",
