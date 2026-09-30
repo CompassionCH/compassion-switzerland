@@ -11,7 +11,7 @@ import logging
 import re
 from random import randint
 
-from markupsafe import escape
+from markupsafe import Markup, escape
 
 from odoo import _, api, fields, models
 from odoo.tools import config, html2plaintext
@@ -364,9 +364,11 @@ class Contracts(models.Model):
                 "childID",
                 "Child reference",
             ]
-            web_info = ""
-            for key in list_keys:
-                web_info += "<li>" + key + ": " + str(form_data.get(key, "")) + "</li>"
+            web_info = Markup("").join(
+                Markup("<li>%s: %s</li>")
+                % (escape(key), escape(str(form_data.get(key, ""))))
+                for key in list_keys
+            )
             sponsorship.web_info = web_info
             ambassador_match = re.match(
                 r"^msk_(\d{1,8})", form_data.get("consumer_source_text", "")
@@ -393,20 +395,22 @@ class Contracts(models.Model):
             staff_param = "sponsorship_" + sponsor_lang + "_id"
             staff = self.env["res.config.settings"].sudo().get_param(staff_param)
             notify_text = (
-                "A new sponsorship was made on the website. Please "
-                "verify all information and validate the sponsorship "
-                "on Odoo: <br/><br/><ul>"
-            ) + web_info
+                Markup(
+                    "A new sponsorship was made on the website. Please "
+                    "verify all information and validate the sponsorship "
+                    "on Odoo:<br/><br/><ul>%s</ul>"
+                )
+                % web_info
+            )
 
             title = _("New sponsorship from the website")
             if "writepray" in form_data:
                 title = _("New Write&Pray sponsorship from the website")
             sponsorship.message_post(
-                body=notify_text,
+                body=Markup(notify_text),
                 subject=title,
                 partner_ids=[staff],
                 subtype_xmlid="mail.mt_comment",
-                content_subtype="html",
             )
 
             sponsorship.correspondent_id.legal_agreement_date = fields.Datetime.now()
