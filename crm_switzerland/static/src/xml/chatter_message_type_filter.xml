@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
 <t
-    t-name="report_compassion.ChatterMessageTypeFilter"
+    t-name="crm_switzerland.ChatterMessageTypeFilter"
     t-inherit="mail.Chatter"
     t-inherit-mode="extension"
 >

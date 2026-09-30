@@ -8,13 +8,21 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "license": "AGPL-3",
     "category": "Marketing",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "depends": [
         "mass_mailing_partner",
         "crm",
         "mailchimp",
     ],
-    "data": [],
+    "data": [
+        "views/mail_compose_message_view.xml",
+    ],
+    "assets": {
+        "web.assets_backend": [
+            "crm_switzerland/static/src/js/*.js",
+            "crm_switzerland/static/src/xml/*.xml",
+        ],
+    },
     "demo": [],
     "installable": True,
 }

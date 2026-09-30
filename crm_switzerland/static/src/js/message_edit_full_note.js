@@ -10,7 +10,7 @@ import { toRaw } from "@odoo/owl";
 // formatting a log note was written with in the full composer. This extra
 // action reopens the Wysiwyg full composer on the original HTML instead, and
 // updates the existing message rather than posting a new one (see
-// report_compassion/wizards/mail_compose_message.py).
+// crm_switzerland/wizards/mail_compose_message.py).
 messageActionsRegistry.add("edit-note-full", {
   condition: (component) =>
     component.props.message.editable && component.props.message.is_note,
