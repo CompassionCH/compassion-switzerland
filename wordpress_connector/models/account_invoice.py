@@ -299,7 +299,7 @@ class AccountInvoice(models.Model):
             "account_id"
         ) & self.line_ids.mapped("account_id")
         for account in accounts:
-            account_payment.move_id.line_ids + self.line_ids.filtered_domain(
+            (account_payment.move_id.line_ids + self.line_ids).filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).with_delay_sh("reconcile", channel="root.accounting", priority=500)
         return True
