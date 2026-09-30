@@ -148,6 +148,9 @@ class Contracts(models.Model):
             str(form_data),
         )
         partner = self.env["res.partner"]
+        child = self.env["compassion.child"].search(
+            [("local_id", "=", child_local_id)], limit=1
+        )
         try:
             form_data["Child reference"] = child_local_id
 
@@ -238,9 +241,6 @@ class Contracts(models.Model):
             )
 
             # Create sponsorship
-            child = self.env["compassion.child"].search(
-                [("local_id", "=", child_local_id)], limit=1
-            )
             lines = self._get_sponsorship_standard_lines(utm_source == "wrpr")
             if not form_data.get("patenschaftplus"):
                 lines = lines[:-1]
@@ -317,6 +317,8 @@ class Contracts(models.Model):
                 f"campaign: {utm_campaign}",
                 user_id=21,  # EMA
             )
+        finally:
+            child.remove_from_wordpress()
         return self.with_delay_sh(
             "create_sponsorship_job",
             sponsorship_vals,
@@ -336,9 +338,6 @@ class Contracts(models.Model):
         :param form_data: WordPress form data
         :return: <recurring.contract> record
         """
-        child = self.env["compassion.child"].browse(values["child_id"])
-        child.remove_from_wordpress()
-
         try:
             sponsorship = self.env["recurring.contract"].create(values)
             list_keys = [
@@ -418,6 +417,7 @@ class Contracts(models.Model):
         except BaseException as err:
             # Log the error and send a mail stating that it failed running
             _logger.error("Wordpress create sponsorship job failed", exc_info=True)
+            child = self.env["compassion.child"].browse(values["child_id"])
             child.activity_schedule(
                 "mail.mail_activity_data_warning",
                 summary="[URGENT] Wordpress create sponsorship job failed",
