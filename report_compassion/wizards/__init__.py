@@ -10,6 +10,7 @@
 
 from . import (
     generate_communication_wizard,
+    mail_compose_message,
     print_bvr_fund,
     print_sponsorship_bvr,
     print_sponsorship_gift_bvr,
