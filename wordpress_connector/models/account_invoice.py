@@ -295,10 +295,11 @@ class AccountInvoice(models.Model):
         }
         account_payment = self.env["account.payment"].create(payment_vals)
         account_payment.action_post()
-        for account in account_payment.payment_line_ids.move_line_id.account_id:
-            (
-                account_payment.payment_line_ids.move_line_id + self.line_ids
-            ).filtered_domain(
+        accounts = account_payment.move_id.line_ids.mapped(
+            "account_id"
+        ) & self.line_ids.mapped("account_id")
+        for account in accounts:
+            account_payment.move_id.line_ids + self.line_ids.filtered_domain(
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).with_delay_sh("reconcile", channel="root.accounting", priority=500)
         return True
