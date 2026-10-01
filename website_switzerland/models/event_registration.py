@@ -7,26 +7,11 @@ class EventRegistration(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         registrations = super().create(vals_list)
-        activate_task = self.env.ref("website_switzerland.task_activate_account")
-        child_protection_task = self.env.ref(
-            "website_switzerland.task_sign_child_protection"
-        )
         for registration in registrations:
             partner = registration.partner_id
-            if partner.user_ids and any(partner.mapped("user_ids.login_date")):
-                registration.task_ids.filtered(
-                    lambda t, m_task=activate_task: t.task_id == m_task
-                ).write({"done": True})
-            if partner.date_agreed_child_protection_charter:
-                registration.task_ids.filtered(
-                    lambda t, m_task=child_protection_task: t.task_id == m_task
-                ).write({"done": True})
-
             if not partner.country_id:
                 partner.country_id = self.env.ref("base.ch")
-
         registrations.create_down_payment()
-
         return registrations
 
     def write(self, vals):
@@ -36,4 +21,46 @@ class EventRegistration(models.Model):
             self.mapped("task_ids").filtered(
                 lambda t: t.task_id == task_passport
             ).write({"done": True})
+        medical_stage = self.env.ref("website_switzerland.stage_group_medical")
+        if vals.get("stage_id") == medical_stage.id:
+            for registration in self.filtered(lambda r: not r.medical_survey_id):
+                registration.create_medical_survey()
+        ready_stage = self.env.ref("website_switzerland.stage_group_ready")
+        if vals.get("stage_id") == ready_stage.id:
+            for registration in self.filtered(lambda r: not r.feedback_survey_id):
+                registration.create_feedback_survey()
         return True
+
+    def create_medical_survey(self):
+        self.ensure_one()
+        survey = self.event_id.medical_survey_id
+        if survey and not self.medical_survey_id:
+            survey_input = (
+                self.env["survey.user_input"]
+                .sudo()
+                .create(
+                    {
+                        "survey_id": survey.id,
+                        "partner_id": self.partner_id.id,
+                        "state": "new",
+                    }
+                )
+            )
+            self.medical_survey_id = survey_input.id
+
+    def create_feedback_survey(self):
+        self.ensure_one()
+        survey = self.event_id.feedback_survey_id
+        if survey and not self.feedback_survey_id:
+            survey_input = (
+                self.env["survey.user_input"]
+                .sudo()
+                .create(
+                    {
+                        "survey_id": survey.id,
+                        "partner_id": self.partner_id.id,
+                        "state": "new",
+                    }
+                )
+            )
+            self.feedback_survey_id = survey_input.id
