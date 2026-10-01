@@ -92,6 +92,15 @@ SPECIFIC = {
 }
 
 
+# Known breakages that should be gone after the repair. If a stored text
+# differs from what the repairs expect, they don't match: report it instead
+# of silently leaving the template broken.
+LEFTOVER_RE = re.compile(
+    r"\|\s*join\(|(?m:^[ \t]*%\s*(?:end)?(?:if|else|elif|set|for)\b)|namespace\("
+    r"|int\(sum\(contract_lines|#\{\{|t-out=\"hängst\""
+)
+
+
 def _set(match):
     expr = html.escape(html.unescape(match[3]), quote=True)
     return f'{match[1]}<t t-set="{match[2]}" t-value="{expr}"/>'
@@ -102,9 +111,12 @@ def _fix_body(body, name, lang):
         return body
     for old, new in SPECIFIC.get((name, lang), []):
         body = body.replace(old, new)
-    body = NS_SET_RE.sub("", body)
-    body = NS_LOOP_RE.sub(NS_LOOP_NEW, body)
-    body = body.replace("ns.correspondents", "correspondents")
+    body, replaced_loops = NS_LOOP_RE.subn(NS_LOOP_NEW, body)
+    if replaced_loops:
+        # Only drop the namespace once its loop is gone, otherwise
+        # "correspondents" would be used without being defined.
+        body = NS_SET_RE.sub("", body)
+        body = body.replace("ns.correspondents", "correspondents")
     body = JOIN_RE.sub(r"&quot;&quot;.join(\1)", body)
     body = PCT_ENDIF_RE.sub(r"\1</t>", body)
     body = PCT_ELSE_RE.sub(r'\1</t>\n\1<t t-else="">', body)
@@ -124,6 +136,17 @@ def migrate(env, version):
             continue
         fixed = {lang: _fix_body(body, name, lang) for lang, body in body_html.items()}
         changed = [lang for lang in fixed if fixed[lang] != body_html[lang]]
+        for lang, body in fixed.items():
+            leftovers = sorted(set(LEFTOVER_RE.findall(body or "")))
+            if leftovers:
+                _logger.warning(
+                    "%s (mail.template %s, %s): Jinja leftovers could not be "
+                    "fixed automatically, please check: %s",
+                    name,
+                    template_id,
+                    lang,
+                    ", ".join(leftover.strip() for leftover in leftovers),
+                )
         if not changed:
             continue
         env.cr.execute(
