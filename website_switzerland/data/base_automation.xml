@@ -1,0 +1,25 @@
+<odoo>
+    <record model="ir.actions.server" id="event_payment_checker_action">
+        <field name="name">Events: Check if payment is done</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="state">code</field>
+        <field name="code">
+            for invoice in records.filtered('last_payment'):
+                down_payment = env["event.registration.task.rel"].search([('registration_id.down_payment_id', '=', invoice.id), ('task_id', '=', env.ref('website_switzerland.task_down_payment').id), ('done', '=', False)])
+                if down_payment:
+                    down_payment.write({'done': True})
+                trip_invoice = env["event.registration.task.rel"].search([('registration_id.trip_invoice_id', '=', invoice.id), ('task_id', '=', env.ref('website_switzerland.task_full_payment').id), ('done', '=', False)])
+                if trip_invoice:
+                    trip_invoice.write({'done': True})
+        </field>
+    </record>
+    <record model="base.automation" id="event_payment_checker">
+        <field name="name">Move is paid by customer</field>
+        <field name="model_id" ref="account.model_account_move" />
+        <field name="trigger">on_create_or_write</field>
+        <field name="trigger_field_ids" eval="[(6, 0, [ref('account.field_account_move__payment_state')])]" />
+        <field name="filter_pre_domain">[('payment_state', '!=', 'paid')]</field>
+        <field name="filter_domain">[('payment_state', '=', 'paid'), ('move_type', '=', 'out_invoice')]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('event_payment_checker_action')])]" />
+    </record>
+</odoo>
