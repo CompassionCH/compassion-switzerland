@@ -157,6 +157,52 @@ STEP1_BODY = {
     Recevez nos chaleureuses salutations. A bientôt!
 </p>
 <t t-out="object.user_id.signature"></t>""",
+    "de_DE": STEP1_VARS
+    + """
+      <t t-set="children_in_poverty" t-value="object.get_snippet('children_in_poverty', strip_html=True)"/>
+    <t t-set="du" t-value="partner.get('du')"/>
+    <t t-set="dein" t-value="partner.get('dein')"/>
+    <t t-set="deine" t-value="partner.get('deine')"/>
+    <t t-set="dir" t-value="partner.get('dir')"/>
+    <t t-set="dich" t-value="partner.get('dich')"/>
+
+<p t-out="partner.salutation"/>
+<p>
+    Herzlichen Dank für <t t-out="deine"/> Anmeldung für die Impact-Reise in die <t t-out="event.country_id.name"/> mit Compassion.
+</p>
+<p>
+    Es ist grossartig, gemeinsam mit <t t-out="dir"/> einen konkreten Impact für Mütter und ihre Babys vor Ort bewirken zu können.
+</p>
+<p>
+    Damit wir <t t-out="deine"/> Anmeldung definitiv bestätigen können, sind nur noch zwei Schritte erforderlich.
+</p>
+<p>
+    Erster Schritt: Danke, dass <t t-out="du"/> uns die Anzahlung von <t t-out="down_payment.currency_id.symbol"/> <t t-out="'{:,.0f}'.format(down_payment.amount_total_signed)"/>.- heute oder in den nächsten Tagen überweist. <t t-out="du.title()"/> <t t-out="'könnt' if partner.plural else 'kannst'"/> die Zahlung:
+</p>
+<ul>
+    <li>
+        entweder mit dem Einzahlungsschein im Anhang ausführen
+    </li>
+    <li>
+        oder online per Kreditkarte tätigen
+    </li>
+</ul>
+  """
+    + _step1_button("registration.down_payment_link", "Onlinezahlung")
+    + """
+  <p>
+    Zweiter Schritt: In einer nächsten E-Mail werden wir <t t-out="dich"/> über die Richtlinien zum Kinderschutz und die benötigten Dokumente informieren.
+</p>
+<p>
+    Wir freuen uns darauf, <t t-out="dir"/> zu zeigen, wie eine Patenschaft das Leben eines Kindes und das seiner Angehörigen verändern kann. Aber auch, <t t-out="deine"/>n Blick für die extreme Armut zu schärfen, in der heute noch <t t-out="children_in_poverty "/> Millionen Kinder leben.
+</p>
+<p>
+    Wenn <t t-out="du"/> Fragen <t t-out="'habt, dürft ihr' if partner.plural else 'hast, darfst du'"/> uns gerne per E-Mail an <t t-out="object.user_id.email"/> kontaktieren.
+</p>
+<p>
+  Liebe Grüsse
+</p>
+  <t t-out="object.user_id.signature"/>""",
 }
 
 FEEDBACK_VARS = """<t t-set="partner" t-value="object.partner_id"/>
