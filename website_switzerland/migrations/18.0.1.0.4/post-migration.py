@@ -1,7 +1,13 @@
 # ruff: noqa: E501 -- email template HTML, kept on one line per paragraph
 import json
+from typing import Any
 
 from openupgradelib import openupgrade
+
+STEP1_EMAIL_XMLID = "website_switzerland.group_visit_step1_email"
+STEP1_CONFIG_XMLID = "website_switzerland.group_visit_step1_config"
+STEP2_EMAIL_XMLID = "website_switzerland.group_visit_step2_email"
+STEP2_CONFIG_XMLID = "website_switzerland.group_visit_step2_config"
 
 STEP1_VARS = """<t t-set="partner" t-value="object.partner_id"/>
     <t t-set="registration" t-value="object.get_objects()"/>
@@ -18,6 +24,61 @@ def _step1_button(url, text_button):
             </a>
         </div>
 """
+
+
+def _swap_group_visit_xmlids(env: Any):
+    """Restore the swapped group visit email XML IDs if the DB still has them crossed."""
+    step1 = env.ref(STEP1_EMAIL_XMLID, raise_if_not_found=False)
+    step2 = env.ref(STEP2_EMAIL_XMLID, raise_if_not_found=False)
+    if not step1 or not step2:
+        return
+
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE ir_model_data SET name = %s WHERE module = %s AND name = %s",
+        (
+            "__tmp_group_visit_step1_email",
+            "website_switzerland",
+            "group_visit_step1_email",
+        ),
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE ir_model_data SET name = %s WHERE module = %s AND name = %s",
+        (
+            "__tmp_group_visit_step1_config",
+            "website_switzerland",
+            "group_visit_step1_config",
+        ),
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE ir_model_data SET name = %s WHERE module = %s AND name = %s",
+        ("group_visit_step1_email", "website_switzerland", "group_visit_step2_email"),
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE ir_model_data SET name = %s WHERE module = %s AND name = %s",
+        ("group_visit_step1_config", "website_switzerland", "group_visit_step2_config"),
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE ir_model_data SET name = %s WHERE module = %s AND name = %s",
+        (
+            "group_visit_step2_email",
+            "website_switzerland",
+            "__tmp_group_visit_step1_email",
+        ),
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE ir_model_data SET name = %s WHERE module = %s AND name = %s",
+        (
+            "group_visit_step2_config",
+            "website_switzerland",
+            "__tmp_group_visit_step1_config",
+        ),
+    )
 
 
 STEP1_BODY = {
@@ -433,9 +494,10 @@ Versicherung
 
 @openupgrade.migrate()
 def migrate(env, version):
+    _swap_group_visit_xmlids(env)
     for xmlid, body, subject in (
         (
-            "website_switzerland.group_visit_step1_email",
+            STEP1_EMAIL_XMLID,
             STEP1_BODY,
             None,
         ),
@@ -457,7 +519,8 @@ def migrate(env, version):
     ):
         template = env.ref(xmlid, raise_if_not_found=False)
         if template:
-            env.cr.execute(
+            openupgrade.logged_query(
+                env.cr,
                 "UPDATE mail_template SET body_html = %s , subject = COALESCE(%s, subject) WHERE id = %s",
                 (
                     json.dumps(body),
