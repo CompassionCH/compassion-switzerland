@@ -28,6 +28,30 @@ def migrate(env, version):
             t_template.body_html = body.replace(").public_url", ").get_start_url()")
             _logger.info("Fixed the survey link of the %s Write&Pray welcome", lang)
 
+    # Jinja accepted "X if cond" without else, Python does not: the English
+    # onboarding step 5 could not be rendered.
+    step5 = env.ref("partner_communication_switzerland.mail_onboarding_step5")
+    env.cr.execute(
+        """
+        UPDATE mail_template
+        SET body_html = jsonb_set(
+            body_html,
+            '{en_US}',
+            to_jsonb(replace(body_html->>'en_US', %s, %s))
+        )
+        WHERE id = %s AND body_html->>'en_US' LIKE %s
+        """,
+        (
+            'if not one_child"',
+            "if not one_child else ''\"",
+            step5.id,
+            '%if not one_child"%',
+        ),
+    )
+    if env.cr.rowcount:
+        step5.invalidate_recordset(["body_html"])
+        _logger.info("Fixed the English text of %s", step5.name)
+
     folder = os.path.dirname(__file__)
     for xmlid, langs in CONVERTED_TEMPLATES.items():
         template = env.ref(f"partner_communication_switzerland.{xmlid}")
