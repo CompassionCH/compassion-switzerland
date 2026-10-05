@@ -601,6 +601,14 @@ class RecurringContract(models.Model):
         elif self.origin_id.type == "transfer":
             configs = transfer
         elif (
+            self.type == "SWP"
+            and partner.mobile
+            and partner.global_communication_delivery_preference != "physical"
+        ):
+            # Young Write&Pray sponsors often only have a mobile: the welcome
+            # is sent by SMS, no email is needed.
+            configs = wrpr_welcome + child_picture
+        elif (
             not partner.email
             or partner.global_communication_delivery_preference == "physical"
         ):
