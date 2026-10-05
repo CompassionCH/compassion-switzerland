@@ -43,19 +43,27 @@ class RecurringContract(models.Model):
         help="Trigger for automatic SUB sponsorship validation after 2 weeks"
     )
 
-    @api.onchange("type")
-    def _create_empty_lines_for_correspondence(self):
-        super()._create_empty_lines_for_correspondence()
-        if self.type == "SWP" and not self.correspondent_id.mobile:
+    correspondent_mobile = fields.Char(
+        "Correspondent mobile",
+        related="correspondent_id.mobile",
+        readonly=False,
+        help="Write&Pray communications are sent by SMS to this number.",
+    )
+
+    @api.onchange("type", "correspondent_id")
+    def _onchange_write_and_pray_correspondent(self):
+        if self.type != "SWP" or not self.correspondent_id:
+            return
+        if not self.correspondent_id.mobile:
             return {
                 "warning": {
                     "title": "Write&Pray",
                     "message": "The correspondent doesn't have a mobile phone set. "
-                    "Please check this otherwise he or she won't receive "
-                    "the communications by SMS.",
+                    "Please enter it in the 'Correspondent mobile' field, "
+                    "otherwise he or she won't receive the communications by SMS.",
                 }
             }
-        if self.type == "SWP" and not self.correspondent_id.is_young:
+        if not self.correspondent_id.is_young:
             return {
                 "warning": {
                     "title": "Write&Pray",
