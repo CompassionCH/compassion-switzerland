@@ -219,18 +219,18 @@ you can find the payment slip here: <a
     <t t-set="payer" t-value="sponsorships.filtered('last_paid_invoice_date')"/>
     <t t-set="payment_mode" t-value="sponsorships.mapped('payment_mode_id.name')[0]"/>
     <t t-set="lsv_dd" t-value="'LSV' in payment_mode or 'Postfinance' in payment_mode"/>
-    <t t-set="survey" t-value="object.env.ref('partner_communication_switzerland.wrpr_journey_survey').public_url"/>
+    <t t-set="survey" t-value="object.env['ir.config_parameter'].get_param('web.external.url') + object.env.ref('partner_communication_switzerland.wrpr_journey_survey').get_start_url()"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Wow, we are happy that you would like to provide financial support for {{ firstname }}. Thank you very much!
+      >Wow, we are happy that you would like to provide financial support for <t t-out="firstname"/>. Thank you very much!
 </p>
 <div>
 <t t-if="not lsv_dd">
 <p
-        >In order for you to {{ "increase" if payer else "set up" }} your donation for the sponsorship,
+        >In order for you to <t t-out="'increase' if payer else 'set up'"/> your donation for the sponsorship,
 you can find the payment slip here: <a
             href="https://mycompassion.ch/my/download/sponsorship_bvr"
           >Download payment slip</a>.
@@ -238,7 +238,7 @@ you can find the payment slip here: <a
 </t>
     <p
         >Your feedback on the Write &amp; Pray sponsorship is important to us. It takes about 1 minute. Thank you for filling it out: <a
-            t-attf-href="{{ survey }}"
+            t-att-href="survey"
           >Link to survey</a>.
 </p>
 <t t-if="object.send_mode == 'sms'">

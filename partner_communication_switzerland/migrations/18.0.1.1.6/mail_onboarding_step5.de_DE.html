@@ -1,0 +1,188 @@
+<p>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29" />
+  <t t-set="du" t-value="'ihr' if plural else 'du'" />
+  <t t-set="dir" t-value="'euch' if plural else 'dir'" />
+  <t t-set="deine" t-value="'eure' if plural else 'deine'" />
+  <t t-set="sponsorship" t-value="partner.sponsorship_ids" />
+  <t t-set="child" t-value="sponsorship.mapped('child_id')" />
+  <t
+    t-set="firstname"
+    t-value="child.get_list('preferred_name', 3, child.get_number(), translate=False)"
+  />
+  <t t-set="less_4" t-value="firstname != child.get_number()" />
+  <t t-set="translator" t-value="False" />
+  <t t-set="event" t-value="False" />
+  <t t-foreach="partner.advocate_details_id.engagement_ids" t-as="engagement">
+    <t t-if="engagement.id == 2">
+      <t t-set="translator" t-value="True" />
+    </t>
+    <t t-if="engagement.id in (1, 3, 9)">
+      <t t-set="event" t-value="True" />
+    </t>
+  </t>
+  <t
+    t-set="number_fcps"
+    t-value="object.env['partner.communication.job'].get_snippet('number_fcps', strip_html=True)"
+  />
+  <t
+    t-set="number_countries"
+    t-value="object.env['partner.communication.job'].get_snippet('number_countries', strip_html=True)"
+  />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].get_param('web.external.url') + '/de_DE'"
+  />
+</p>
+<p>
+  <t t-out="partner.informal_salutation" />
+</p>
+<p>
+  <t
+    t-if="sponsorship.mapped('invoice_line_ids').filtered('last_payment') or 0 in sponsorship.mapped('total_amount')"
+  >
+    Gratuliere, <t t-out="deine" />
+    <t t-out="'Patenschaft ist' if len(child) == 1 else 'Patenschaften sind'" />
+    gut gestartet! Die guten Neuigkeiten haben
+    <t t-out="firstname if less_4 else deine + ' Patenkinder'" /> und
+    <t t-out="child.get('seine')" /> Familie<t
+      t-out="'' if len(child) == 1 else 'n'"
+    />
+    erreicht.
+  </t>
+  Dies ist die letzte E-Mail, die <t t-out="du" /> von uns zum Start
+  <t t-out="deine" />r
+  <t t-out="'Patenschaft' if len(child) == 1 else 'Patenschaften'" />
+  <t t-out="'bekommt' if plural else 'bekommst'" />.
+</p>
+<p>
+  <t t-out="'Habt ihr' if plural else 'Hast du'" /> noch Fragen
+  <t
+    t-out="'zur Patenschaft' if len(child) == 1 else 'zu den Patenschaften'"
+  />? Die Antworten auf häufig gestellte Fragen
+  <t t-out="'findet ihr' if plural else 'findest du'" /> auf unserer
+  <a href="https://compassion.ch/de/haeufig-gestellte-fragen/" title="">
+    Webseite.
+  </a>
+</p>
+<p>
+  <t t-out="deine.title()" /> Rückmeldung zum Start der
+  <t t-out="child.get('Patenschaft')" /> ist uns wichtig. Es sollte nicht mehr
+  als 60 Sekunden dauern.
+</p>
+<div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+  <a
+    t-attf-href="{{base_url + object.env.ref('partner_communication_switzerland.onboarding_survey').get_start_url()}}"
+    style="
+      padding: 12px 18px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+  >
+    Umfrage starten
+  </a>
+</div>
+<t t-if="not translator or not event">
+  <p>
+    Wusstest <t t-out="du" />, dass Compassion ein Netzwerk von ganz vielen
+    engagierten Menschen ist? Es besteht aus <t t-out="dir" /> und anderen
+    Patinnen und Paten, aus Compassion Mitarbeitenden in verschiedenen Ländern
+    und Mitarbeitenden von mehr als <t t-out="number_fcps" /> lokalen
+    Partnerkirchen in <t t-out="number_countries" /> Ländern.
+  </p>
+  <p>
+    <t t-if="not translator">
+      In der Schweiz übersetzen rund 100 Freiwillige zahlreiche Briefe von
+      Patinnen, Paten und Patenkindern.
+    </t>
+    <t t-if="not event">
+      Viele Freiwillige unterstützen den Kampf gegen extreme Armut durch ihre
+      Mithilfe an Veranstaltungen und Gottesdiensten und durch Gebet.
+    </t>
+    <t t-out="'Seid ihr' if plural else 'Bist du'" /> interessiert, mitzuhelfen?
+  </p>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      href="https://compassion.ch/de/sich-mehr-engagieren/"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      Freiwillig mithelfen
+    </a>
+  </div>
+</t>
+<p>
+  Wir stellen <t t-out="dir" /> auch noch unsere interaktive
+  Fundraising-Plattform TOGETHER vor. Hier
+  <t t-out="'könnt ihr' if plural else 'kannst du'" /> ein eigenes Projekt
+  starten!
+</p>
+<div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+  <a
+    href="https://together.compassion.ch/de_DE/homepage"
+    style="
+      padding: 12px 18px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    title=""
+  >
+    TOGETHER
+  </a>
+</div>
+<p>
+  Herzlichen Dank, dass <t t-out="du" /> in das Leben von
+  <t t-out="firstname if less_4 else deine + 'n Patenkindern'" />
+  <t t-out="'investiert' if plural else 'investierst'" />! Wir wünschen
+  <t t-out="dir" /> viel Freude dabei.
+</p>
+<p>Liebe Grüsse</p>
+<p>
+  <t t-out="object.user_id.short_signature" />
+</p>
