@@ -1,0 +1,210 @@
+<div>
+  <t t-set="sponsorship" t-value="object.get_objects()" />
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="others" t-value="partner.sponsorship_ids - sponsorship" />
+  <t t-set="child" t-value='sponsorship.mapped("child_id")' />
+  <t
+    t-set="firstname"
+    t-value="child.get_list(&#x27;preferred_name&#x27;, translate=False)"
+  />
+  <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29" />
+  <t t-set="du" t-value="&#x27;ihr&#x27; if plural else &#x27;du&#x27;" />
+  <t t-set="dir" t-value="&#x27;euch&#x27; if plural else &#x27;dir&#x27;" />
+  <t t-set="dich" t-value="&#x27;euch&#x27; if plural else &#x27;dich&#x27;" />
+  <t t-set="dein" t-value="&#x27;euer&#x27; if plural else &#x27;dein&#x27;" />
+  <t
+    t-set="deine"
+    t-value="&#x27;eure&#x27; if plural else &#x27;deine&#x27;"
+  />
+  <t
+    t-set="payment_type_attachement"
+    t-value='sponsorship.get_payment_type_attachment_string().replace(&#x27;[findet]&#x27;, &#x27;findet ihr&#x27; if plural else &#x27;findest du&#x27;).replace(&#x27;[dein]&#x27;, dein).replace(&#x27;[deine]&#x27;, deine).replace(&#x27;[dich]&#x27;, dich).replace(&#x27;[Patenschaftsbetrag]&#x27;, &#x27;dem zusätzlichen Patenschaftsbetrag&#x27; if len(child) == 1 else &#x27;den zusätzlichen Patenschaftsbeträgen&#x27;).replace(&#x27;[du]&#x27;, du).replace(&#x27;[kannst]&#x27;, "könnt" if plural else "kannst").replace(&#x27;[könnt]&#x27;, "könnt" if plural else "kannst").replace(&#x27;Im Anhang&#x27;, &#x27;Ansonsten&#x27;).replace(&#x27;Wir werden&#x27;, &#x27;Ansonsten werden wir&#x27;)'
+  />
+  <t t-set="country" t-value="child.mapped(&#x27;field_office_id&#x27;)" />
+  <t
+    t-set="alumni_name"
+    t-value="country.get_list(&#x27;alumni_representative&#x27;)"
+  />
+  <t
+    t-set="alumni_link"
+    t-value="country.get_list(&#x27;alumni_video_link&#x27;, 1, &#x27;https://vimeo.com/showcase/geschichten-ehemaliger-patenkinder-von-compassion&#x27;)"
+  />
+</div>
+<p>
+  <t t-out="partner.salutation" />
+</p>
+<p>
+  Herzlichen Dank, dass <t t-out="du" /> <t t-out="dich" /> entschieden
+  <t t-out='"habt" if plural else "hast"' />, in das Leben eines weiteren Kindes
+  zu investieren.
+</p>
+
+<t t-if='sponsorship[:1].state != "active"'>
+  <p>
+    Falls <t t-out="du" /> <t t-out="deine" /> Spenden nicht bereits eingestellt
+    <t t-out='"habt" if plural else "hast"' />, können wir die Spenden auf
+    <t t-out="firstname" /> umbuchen.
+    <b>
+      <t
+        t-if='"Permanent" in sponsorship[:1].with_context(lang=&#x27;en_US&#x27;).payment_mode_id.name'
+      >
+        <t t-out="payment_type_attachement" />
+        <!--für die Einrichtung eines neuen Dauerauftrages im Anhang.--> </t
+      ><t t-else="">
+        <t
+          t-if='"BVR" in sponsorship[:1].with_context(lang=&#x27;en_US&#x27;).payment_mode_id.name'
+        >
+          <t t-out="payment_type_attachement" /> im Anhang. </t
+        ><t t-else=""> <t t-out="payment_type_attachement" />. </t>
+      </t>
+    </b>
+  </p>
+</t>
+<p>
+  Wie bisher <t t-out='"werdet ihr" if plural else "wirst du"' /> alle
+  Informationen und Fotos von <t t-out="deine" />m Patenkind in
+  <t
+    t-out='"MyCompassion" if object.send_mode == "digital" else "www.mycompassion.ch"'
+  />
+  finden und <t t-out="child.get(&#x27;ihm&#x27;)" /> schreiben können.
+</p>
+<t t-if="object.send_mode == &#x27;digital&#x27;">
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      href="https://mycompassion.ch/de_DE/my/home"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      MyCompassion
+    </a>
+  </div>
+  <p>
+    Zudem möchten wir <t t-out="dir" /> <t t-out="alumni_name" />,
+    <t
+      t-out="&#x27;ehemalige Patenkinder&#x27; if len(country) &gt; 1 else &#x27;ein ehemaliges Patenkind&#x27;"
+    />
+    von Compassion, vorstellen.
+    <t
+      t-out="&#x27;Sie leben&#x27; if len(country) &gt; 1 else (&#x27;Sie lebt&#x27; if child[0].field_office_id.alumni_gender == &#x27;F&#x27; else &#x27;Er lebt&#x27;)"
+    />
+    auf dem gleichen Kontinent wie <t t-out="firstname" />.
+  </p>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      t-attf-href="{{ alumni_link }}"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      <t t-out="&#x27;Schaut euch&#x27; if plural else &#x27;Schau dir&#x27;" />
+      die Geschichte von <t t-out="alumni_name" /> an
+    </a>
+  </div>
+</t>
+<h3 style="color: #0054a6; text-transform: uppercase">
+  <b>
+    <t
+      t-out="&#x27;Ihr ermöglicht&#x27; if plural else &#x27;Du ermöglichst&#x27;"
+    />
+    <t
+      t-out="firstname if len(child) &lt; 4 else deine + &#x27;n Patenkindern&#x27;"
+    />:
+  </b>
+</h3>
+<ul>
+  <li>Zugang zur Schule (Schulgeld, Uniform, Material, Nachhilfe)</li>
+  <li>Bildung (Berufsausbildung oder Unistudium)</li>
+  <li>Medizinische Versorgung</li>
+  <li>Hygieneschulungen und regelmässig ausgewogene Mahlzeiten</li>
+  <li>
+    Liebe und Fürsorge einer lokalen Kirchgemeinde, biblischen Unterricht*
+  </li>
+  <li>Spielerische Förderung der Persönlichkeitsentwicklung</li>
+  <li>Briefkontakt mit <t t-out="dir" /></li>
+</ul>
+<p style="font-size: smaller">*im Einverständnis der Eltern</p>
+<p>
+  Das Kind wird bis zum Ende der Schule, einschliesslich einer Berufsausbildung,
+  aber höchstens bis zum 22. Lebensjahr, begleitet.
+</p>
+<t t-if='object.send_mode == "digital"'>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      href="https://compassion.ch/de/compassion-weltweit"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      <t t-out="&#x27;Erfahrt&#x27; if plural else &#x27;Erfahre&#x27;" /> mehr
+      über
+      <t
+        t-out="&#x27;das Land, in dem&#x27; if len(child.mapped(&#x27;field_office_id&#x27;)) == 1 else &#x27;die Länder, in denen&#x27;"
+      />
+      <t t-out="firstname" />
+      <t t-out="&#x27;lebt&#x27; if len(child) == 1 else &#x27;leben&#x27;" />
+    </a>
+  </div>
+</t>
+<p>
+  Dank <t t-out="dir" /> findet nicht nur ein Kind, sondern eine ganze Familie
+  neue Hoffnung für die Zukunft.
+</p>
+<p>Liebe Grüsse</p>
+<t t-if='object.send_mode == "digital"'>
+  <p>
+    <t t-out="object.user_id.signature" />
+    <!-- Sarah -->
+  </p>
+</t>
