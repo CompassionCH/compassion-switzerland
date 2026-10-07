@@ -1,0 +1,51 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="sponsorships" t-value="object.get_objects()" />
+  <t t-set="children" t-value="sponsorships.mapped('child_id')" />
+  <t t-set="payer" t-value="sponsorships.filtered('last_paid_invoice_date')" />
+  <t
+    t-set="payment_mode"
+    t-value="sponsorships.mapped('payment_mode_id.name')[0]"
+  />
+  <t
+    t-set="lsv_dd"
+    t-value="'LSV' in payment_mode or 'Postfinance' in payment_mode"
+  />
+  <t
+    t-set="survey"
+    t-value="object.env['ir.config_parameter'].get_param('web.external.url') + object.env.ref('partner_communication_switzerland.wrpr_journey_survey').get_start_url()"
+  />
+  <t
+    t-set="firstname"
+    t-value="children.get_list('preferred_name', 3, translate=False)"
+  />
+</div>
+<p><t t-out="partner.informal_salutation" />,</p>
+<p>
+  Wouaw, nous sommes très reconnaissants que tu veuilles prendre en charge le
+  soutien financier de <t t-out="firstname" />. Merci beaucoup!
+</p>
+<div>
+  <t t-if="not lsv_dd">
+    <p>
+      Pour que tu puisses mettre en place/augmenter ton don pour ton filleul, tu
+      trouveras le bulletin de versement ici:
+      <a href="https://mycompassion.ch/my/download/sponsorship_bvr"
+        >Télécharger le bulletin</a
+      >.
+    </p>
+  </t>
+</div>
+<p>
+  Nous communiquerons avec toi par e-mail plutôt que par SMS. Merci de nous
+  communiquer ton adresse e-mail au plus vite.
+</p>
+<p>
+  Ton feedback sur le parrainage Write&amp;Pray est très important. Merci de
+  prendre 1 minute pour le remplir: <a t-att-href="survey">questionnaire</a>.
+</p>
+<p>Merci beaucoup, bonne journée et à bientôt!</p>
+<p>
+  L'équipe de Compassion<br />
+  Tel: +41 (0)24 434 21 24
+</p>

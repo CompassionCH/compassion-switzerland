@@ -48,6 +48,26 @@ class PartnerCommunication(models.Model):
                     country = child.field_office_id.country_id
             job.child_country_id = country
 
+    def _compute_content(self):
+        # Write&Pray communications greet the sponsor by their preferred name
+        wrpr_jobs = self.filtered(lambda j: j._is_write_and_pray())
+        super(
+            PartnerCommunication, wrpr_jobs.with_context(salutation_preferred_name=True)
+        )._compute_content()
+        return super(PartnerCommunication, self - wrpr_jobs)._compute_content()
+
+    def _is_write_and_pray(self):
+        """A job is a Write&Pray communication if it uses a Write&Pray rule, or
+        if it is about Write&Pray sponsorships only."""
+        self.ensure_one()
+        config = self.config_id
+        if "wrpr" in config.get_external_id().get(config.id, ""):
+            return True
+        if self.model == "recurring.contract" and self.object_ids:
+            sponsorships = self.get_objects()
+            return bool(sponsorships) and set(sponsorships.mapped("type")) == {"SWP"}
+        return False
+
     def _print_batch(self):
         biennial = self.env.ref("partner_communication_compassion.biennial")
         if biennial in self.mapped("config_id"):
