@@ -368,6 +368,9 @@
 
     <template id="blank_communication">
         <t t-call="web.html_container">
+            <!-- No .article div: Odoo sends this to wkhtmltopdf without its <head>,
+                 so declare the encoding here or accents are read as Latin-1. -->
+            <meta charset="utf-8" />
                 <t t-foreach="docs" t-as="o">
                     <t
           t-set="o"
