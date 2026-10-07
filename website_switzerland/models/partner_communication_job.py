@@ -31,16 +31,11 @@ class CommunicationJob(models.Model):
             "communication": registration.event_ticket_id.name,
         }
 
-        report_name = "report_compassion.bvr_fund"
-        report_ref = self.env.ref("report_compassion.report_bvr_fund")
-
-        pdf_data = base64.encodebytes(
-            report_ref._render_qweb_pdf(
-                report_ref, registration.partner_id.ids, data=report_vals
-            )[0]
-        )
-
-        return {_("down_payment.pdf"): [report_name, pdf_data]}
+        return {
+            _("down_payment.pdf"): self._render_payment_slip(
+                registration.partner_id.ids, report_vals
+            )
+        }
 
     def get_trip_payment_attachment(self):
         """
@@ -69,11 +64,21 @@ class CommunicationJob(models.Model):
             "amount": invoice.amount_total,
             "communication": event_name,
         }
-        report_name = "report_compassion.bvr_fund"
-        report = self.env.ref("report_compassion.report_bvr_fund")
-        pdf_data = base64.b64encode(
-            report.with_context(must_skip_send_to_printer=True)._render_qweb_pdf(
-                report, registration.partner_id.ids, data=report_vals
+        return {
+            event_name + ".pdf": self._render_payment_slip(
+                registration.partner_id.ids, report_vals
+            )
+        }
+
+    def _render_payment_slip(self, partner_ids, report_vals):
+        """The payment slip of a trip, as an attachment of the communication."""
+        pdf = (
+            self.env["ir.actions.report"]
+            .with_context(must_skip_send_to_printer=True)
+            ._render_qweb_pdf(
+                self.env.ref("report_compassion.report_bvr_fund"),
+                partner_ids,
+                data=report_vals,
             )[0]
         )
-        return {event_name + ".pdf": [report_name, pdf_data]}
+        return ["report_compassion.bvr_fund", base64.b64encode(pdf)]

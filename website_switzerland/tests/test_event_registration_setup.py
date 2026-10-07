@@ -9,6 +9,12 @@
 from odoo import fields
 from odoo.tests import HttpCase, tagged
 
+from odoo.addons.partner_communication_switzerland.tests.common import (
+    setup_tour_admin,
+)
+
+from .common import setup_event_website
+
 
 @tagged("post_install", "-at_install")
 class TestEventRegistrationSetup(HttpCase):
@@ -17,30 +23,8 @@ class TestEventRegistrationSetup(HttpCase):
         super().setUpClass()
         # Keep in sync with the tour.
         cls.registration_fee = 250
-        cls.admin = cls.env.ref("base.user_admin")
-        cls.admin.tour_enabled = False
-        # The tour looks for menus, buttons and stages by their English name.
-        cls.admin.lang = "en_US"
-
-        # The portal imports two OWL components from the portal theme, and Odoo
-        # keeps a theme's assets out of the websites that do not run it. The
-        # event pages live on such a website, so declare the files here to let
-        # the imports resolve while the tour runs.
-        cls.env["ir.asset"].create(
-            [
-                {
-                    "name": f"Tour: {path.rsplit('/', 1)[-1]}",
-                    "bundle": "web.assets_frontend",
-                    "path": path,
-                }
-                for path in (
-                    "theme_compassion_2025/static/src/js/components/RangeInput.js",
-                    "theme_compassion_2025/static/src/js/components/ProgressBar.js",
-                    "theme_compassion_2025/static/src/xml/RangeInput.xml",
-                    "theme_compassion_2025/static/src/xml/ProgressBar.xml",
-                )
-            ]
-        )
+        setup_tour_admin(cls.env)
+        setup_event_website(cls.env)
 
         cls.event_type = cls.env.ref("website_switzerland.event_type_group_visit")
         cls.registration_product = cls.env.ref("event_product.product_product_event")

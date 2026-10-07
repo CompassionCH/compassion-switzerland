@@ -11,7 +11,6 @@ class EventRegistration(models.Model):
             partner = registration.partner_id
             if not partner.country_id:
                 partner.country_id = self.env.ref("base.ch")
-        registrations.create_down_payment()
         return registrations
 
     def write(self, vals):
