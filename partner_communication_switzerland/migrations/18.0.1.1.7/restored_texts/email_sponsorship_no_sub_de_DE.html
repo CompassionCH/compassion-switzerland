@@ -1,0 +1,60 @@
+<div>
+  <t
+    t-set="child"
+    t-value="object.get_objects().mapped(&#x27;child_id&#x27;)"
+  />
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29" />
+  <t t-set="du" t-value="&#x27;ihr&#x27; if plural else &#x27;du&#x27;" />
+  <t t-set="dir" t-value="&#x27;euch&#x27; if plural else &#x27;dir&#x27;" />
+  <t t-set="dich" t-value="&#x27;euch&#x27; if plural else &#x27;dich&#x27;" />
+  <t t-set="dein" t-value="&#x27;euer&#x27; if plural else &#x27;dein&#x27;" />
+  <t
+    t-set="deine"
+    t-value="&#x27;eure&#x27; if plural else &#x27;deine&#x27;"
+  />
+  <t
+    t-set="name"
+    t-value="child.get_list(&#x27;preferred_name&#x27;, translate=False)"
+  />
+</div>
+<p>
+  <t t-out="partner.salutation" />
+</p>
+<p>
+  Hiermit bestätigen wir <t t-out="deine" /> Entscheidung, <t t-out="name" />,
+  <t t-out='"deren" if child[:1].gender == "F" else "dessen"' /> Informationen
+  wir <t t-out="dir" /> kürzlich hatten zukommen lassen, nicht zu unterstützen.
+</p>
+<p>
+  Herzlichen Dank für <t t-out="dein" /> Engagement für Kinder in extremer
+  Armut. Wir sind uns sicher, dass <t t-out="deine" /> bisherige Unterstützung
+  einen wesentlichen Unterschied gemacht hat.
+</p>
+<p>
+  Kinderpatenschaften sind nur ein Programmteil von Compassion.
+  <t t-out='"Habt ihr" if plural else "Hast du"' /> gewusst, dass
+  <t t-out="du" /> Babys und Müttern im Überlebensprogramm unterstützen
+  <t t-out='"könnt" if plural else "kannst"' />? Mit einer einmaligen oder
+  regelmässigen Spende
+  <t t-out="&#x27;könnt ihr&#x27; if plural else &#x27;kannst du&#x27;" /> einen
+  grossen Unterschied bewirken: Medizinische Betreuung während der
+  Schwangerschaft, Entbindung in einer medizinischen Einrichtung, Beratung zum
+  Thema Elternwerden, psychische, soziale und geistliche Betreuung, materielle
+  Unterstützung sowie Ausbildung für Einkommenssicherung. Mit CHF 15.-
+  unterstützt <t t-out="du" /> eine Frau und ihr Baby während einer ganzen
+  Woche. Gerne
+  <t
+    t-out="&#x27;könnt ihr euch&#x27; if plural else &#x27;kannst du dich&#x27;"
+  />
+  bei uns melden oder hier spenden:
+  <t t-if='object.send_mode == "digital"'>
+    <a t-attf-href="https://compassion.ch/de/ueberleben/"
+      >Überlebensprogramm.</a
+    > </t
+  ><t t-else=""> www.compassion.ch/de/ueberleben. </t>
+</p>
+<p>Liebe Grüsse</p>
+<t t-if="object.send_mode == &#x27;digital&#x27;">
+  <t t-out="object.user_id.signature" />
+</t>
