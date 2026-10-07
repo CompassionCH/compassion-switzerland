@@ -16,10 +16,10 @@
     <t t-set="firstname" t-value="children.get_list('preferred_name', 3, translate=False)"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Do you have 5 minutes to write to {{ children.get('your sponsored child') }}? The letters are very precious for the children.
+      >Do you have 5 minutes to write to <t t-out="children.get('your sponsored child')"/>? The letters are very precious for the children.
 </p>
 <p
       >You committed to writing a letter. But we didn't receive your letter since 1.5 year.
@@ -55,10 +55,10 @@
     <t t-set="payer" t-value="sum(sponsorships.mapped('total_amount')) and partner in sponsorships.mapped('partner_id')"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Congratulations, it's been a year since you became the sponsor of {{ firstname }}!
+      >Congratulations, it's been a year since you became the sponsor of <t t-out="firstname"/>!
 </p>
 <p
       >A sponsorship is a long-term investment in the life of a child. To learn more, click here: <a
@@ -100,12 +100,12 @@
     <t t-set="reminder" t-value="object.search([('config_id', '=', object.config_id.id), ('partner_id', '=', partner.id), ('state', '=', 'done')])"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p>This year you will turn 25, congratulations!
 </p>
 <p
-      >Thank you for supporting {{ firstname }} with a Write&amp;Pray sponsorship for {{ sponsorships[:1].contract_duration//365 or 1 }} years.
+      >Thank you for supporting <t t-out="firstname"/> with a Write&amp;Pray sponsorship for <t t-out="sponsorships[:1].contract_duration//365 or 1"/> years.
 </p>
 <p>
 </p>
@@ -113,13 +113,13 @@
       >Our Write&amp;Pray sponsorships are for young people under the age of 25. Most sponsors have the financial means to fully resume a sponsorship after that.
 </p>
 <p
-      >It would be great if you would continue to sponsor {{ firstname }} for CHF 42.00 per month, so that together we can continue to free children from poverty. You can choose to do so here: <a
+      >It would be great if you would continue to sponsor <t t-out="firstname"/> for CHF 42.00 per month, so that together we can continue to free children from poverty. You can choose to do so here: <a
           href="https://mycompassion.ch/my/donations"
         >link</a>
 </p>
 <t t-if="reminder">
     <p
-      >If we do not receive any feedback from you within the next two weeks, we will unfortunately have to terminate the sponsorship and look for a new sponsor for {{ firstname }}.
+      >If we do not receive any feedback from you within the next two weeks, we will unfortunately have to terminate the sponsorship and look for a new sponsor for <t t-out="firstname"/>.
     </p>
 </t>
 <p>Have a good day and see you soon!</p>
@@ -144,12 +144,12 @@
     <t t-set="reminder" t-value="object.search([('config_id', '=', object.config_id.id), ('partner_id', '=', partner.id), ('state', '=', 'done')])"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Unfortunately, we have not received any feedback from you and will have to cancel the sponsorship for {{ firstname }}.
+      >Unfortunately, we have not received any feedback from you and will have to cancel the sponsorship for <t t-out="firstname"/>.
 </p>
-<p>We will now look for another sponsor for {{ firstname }}.
+<p>We will now look for another sponsor for <t t-out="firstname"/>.
 </p>
 <p>
 </p>
@@ -157,7 +157,7 @@
       >Have you changed your mind? Then let us know as soon as possible and increase your sponsorship contribution to CHF 42:
 <a href="https://mycompassion.ch/my/donations">link</a>
 </p>
-<p>The joy of {{ firstname }} will be enormous!</p>
+<p>The joy of <t t-out="firstname"/> will be enormous!</p>
         </field>
     </record>
     <record id="sponsorship_upgrade_confirmation" model="mail.template">
@@ -181,15 +181,15 @@
     <t t-set="lsv_dd" t-value="'LSV' in payment_mode or 'Postfinance' in payment_mode"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Wow, we are happy that you would like to take over CHF {{ amount | int }} of financial support for {{ firstname }}.
+      >Wow, we are happy that you would like to take over CHF <t t-out="int(amount)"/> of financial support for <t t-out="firstname"/>.
 </p>
 <div>
 <t t-if="not lsv_dd">
 <p
-        >In order for you to {{ "increase" if payer else "set up" }} your donation for the sponsorship,
+        >In order for you to <t t-out="'increase' if payer else 'set up'"/> your donation for the sponsorship,
 you can find the payment slip here: <a
             href="https://mycompassion.ch/my/download/sponsorship_bvr"
           >Download payment slip</a>.
@@ -219,18 +219,18 @@ you can find the payment slip here: <a
     <t t-set="payer" t-value="sponsorships.filtered('last_paid_invoice_date')"/>
     <t t-set="payment_mode" t-value="sponsorships.mapped('payment_mode_id.name')[0]"/>
     <t t-set="lsv_dd" t-value="'LSV' in payment_mode or 'Postfinance' in payment_mode"/>
-    <t t-set="survey" t-value="object.env.ref('partner_communication_switzerland.wrpr_journey_survey').public_url"/>
+    <t t-set="survey" t-value="object.env['ir.config_parameter'].get_param('web.external.url') + object.env.ref('partner_communication_switzerland.wrpr_journey_survey').get_start_url()"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Wow, we are happy that you would like to provide financial support for {{ firstname }}. Thank you very much!
+      >Wow, we are happy that you would like to provide financial support for <t t-out="firstname"/>. Thank you very much!
 </p>
 <div>
 <t t-if="not lsv_dd">
 <p
-        >In order for you to {{ "increase" if payer else "set up" }} your donation for the sponsorship,
+        >In order for you to <t t-out="'increase' if payer else 'set up'"/> your donation for the sponsorship,
 you can find the payment slip here: <a
             href="https://mycompassion.ch/my/download/sponsorship_bvr"
           >Download payment slip</a>.
@@ -238,7 +238,7 @@ you can find the payment slip here: <a
 </t>
     <p
         >Your feedback on the Write &amp; Pray sponsorship is important to us. It takes about 1 minute. Thank you for filling it out: <a
-            t-attf-href="{{ survey }}"
+            t-att-href="survey"
           >Link to survey</a>.
 </p>
 <t t-if="object.send_mode == 'sms'">
@@ -273,10 +273,10 @@ Thank you for communicating your email address as soon as possible.
     <t t-set="firstname" t-value="children.get_list('preferred_name', translate=False)"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
-      >Thank you for deciding to support the sponsorship of {{ firstname }} financially.
+      >Thank you for deciding to support the sponsorship of <t t-out="firstname"/> financially.
 </p>
 <p
       >There is one more thing you can do: Would you take a few minutes to give one or two other teens the opportunity to join the fight against extreme poverty?
@@ -315,13 +315,13 @@ Thank you for communicating your email address as soon as possible.
     <t t-set="number_reminder" t-value="object.search_count([('config_id','=',object.config_id.id),('partner_id','=',partner.id),('state','=','done),('object_ids','like',sponsorships.ids[:1]),('id','!=',object.id)])"/>
 </div>
 <p>
-    {{ partner.salutation }}
+    <t t-out="partner.salutation"/>
 </p>
 <p
       >Unfortunately, we have not yet received a donation from you for the contribution of the sponsorship that you would like to pay yourself.</p>
 <p>
 <t t-if="number_reminder">
-This is already the {{ "second" if number_reminder == 1 else "third" }} time that we have contacted you about this. Thank you for taking care of this quickly.
+This is already the <t t-out="'second' if number_reminder == 1 else 'third'"/> time that we have contacted you about this. Thank you for taking care of this quickly.
 </t><t t-else="">
 Thank you for taking care of this quickly: <a
           href="https://mycompassion.ch/my/donation"

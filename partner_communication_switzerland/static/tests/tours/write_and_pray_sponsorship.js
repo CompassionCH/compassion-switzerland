@@ -37,11 +37,6 @@ registry.category("web_tour.tours").add("write_and_pray_sponsorship", {
       trigger: ".o_field_widget[name=type] select",
       run: `selectByLabel ${TYPE}`,
     },
-    {
-      content: "Acknowledge the warning about the unknown correspondent",
-      trigger: ".modal .o_error_dialog .o-default-button",
-      run: "click",
-    },
     totalIsFree(`A ${TYPE} sponsorship is free of charge`),
     {
       content: "Look for the child on hold",
@@ -73,6 +68,12 @@ registry.category("web_tour.tours").add("write_and_pray_sponsorship", {
     {
       content: "The payment options of the sponsor are picked up",
       trigger: ".o_field_widget[name=group_id] input:not(:value(''))",
+    },
+    {
+      content:
+        "The mobile of the correspondent can be checked on the sponsorship",
+      trigger:
+        ".o_field_widget[name=correspondent_mobile] input:not(:value(''))",
     },
     totalIsFree("Naming the payer did not put a price on the sponsorship"),
     {
