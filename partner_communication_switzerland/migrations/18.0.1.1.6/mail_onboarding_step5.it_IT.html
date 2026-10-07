@@ -1,0 +1,167 @@
+<p>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="plural" t-value="partner.title.plural" />
+  <t t-set="te" t-value="'voi' if plural else 'te'" />
+  <t t-set="tuo" t-value="'vostro' if plural else 'tuo'" />
+  <t t-set="sponsorship" t-value="partner.sponsorship_ids" />
+  <t t-set="child" t-value="sponsorship.mapped('child_id')" />
+  <t
+    t-set="firstname"
+    t-value="child.get_list('preferred_name', 3, 'i bambini', translate=False)"
+  />
+  <t t-set="di" t-value="'di' if len(child) &lt; 4 else 'dei'" />
+  <t t-set="translator" t-value="False" />
+  <t t-set="event" t-value="False" />
+  <t t-foreach="partner.advocate_details_id.engagement_ids" t-as="engagement">
+    <t t-if="engagement.id == 2">
+      <t t-set="translator" t-value="True" />
+    </t>
+    <t t-if="engagement.id in (1, 3, 9)">
+      <t t-set="event" t-value="True" />
+    </t>
+  </t>
+  <t
+    t-set="number_fcps"
+    t-value="object.env['partner.communication.job'].get_snippet('number_fcps', strip_html=True)"
+  />
+  <t
+    t-set="number_countries"
+    t-value="object.env['partner.communication.job'].get_snippet('number_countries', strip_html=True)"
+  />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].get_param('web.external.url') + '/it_IT'"
+  />
+</p>
+<p>
+  <t t-out="partner.salutation" />
+</p>
+<p>
+  <t
+    t-if="sponsorship.mapped('invoice_line_ids').filtered('last_payment') or 0 in sponsorship.mapped('total_amount')"
+  >
+    Congratulazioni, questa nuova avventura del sostegno a distanza è iniziata
+    bene! La buona notizia ha raggiunto <t t-out="firstname" /> e
+    <t t-out="'la sua famiglia' if len(child) == 1 else 'le loro famiglie'" />.
+  </t>
+  Questa è l'ultima e-mail che inviamo per iniziare il sostegno a distanza.
+</p>
+<p>
+  Il <t t-out="tuo" /> feedback sull'inizio del sostegno è importante per noi.
+  Non dovrebbe richiedere più di 60 secondi.
+</p>
+<div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+  <a
+    t-attf-href="{{base_url + object.env.ref('partner_communication_switzerland.onboarding_survey').get_start_url()}}"
+    style="
+      padding: 12px 18px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+  >
+    Partecipa al sondaggio
+  </a>
+</div>
+<t t-if="not translator or not event">
+  <p>
+    Sapevi che Compassion è una rete di molte persone impegnate? È composta da
+    <t t-out="te" /> e da altri sostenitori, dal personale di Compassion in
+    diversi paesi e dal personale di più di <t t-out="number_fcps" /> chiese
+    partner locali in <t t-out="number_countries" /> paesi.
+  </p>
+  <p>
+    <t t-if="not translator">
+      In Svizzera, circa 100 volontari traducono numerose lettere di
+      corrispondenza tra sostenitori e bambini.
+      <t t-out="'Volete' if plural else 'Vuoi'" /> aiutare?
+    </t>
+    <t t-if="not event">
+      Molti volontari sostengono la lotta contro la povertà estrema donando il
+      proprio tempo negli eventi e come volontari nella loro chiesa, e
+      attraverso la preghiera.
+    </t>
+    <t t-out="'Volete unirvi' if plural else 'Vuoi unirti'" /> a noi?
+  </p>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      href="https://compassion.ch/it/participare/"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      Volontario per aiutare
+    </a>
+  </div>
+</t>
+<p>
+  Per ultima la nostra nuova piattaforma interattiva di raccolta fondi TOGETHER.
+  Da qui insieme a <t t-out="te" /> possiamo iniziare il
+  <t t-out="tuo" /> progetto!
+</p>
+<div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+  <a
+    href="https://together.compassion.ch/it_IT/homepage"
+    style="
+      padding: 12px 18px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    title=""
+  >
+    TOGETHER
+  </a>
+</div>
+<p>
+  Grazie di cuore per aver scelto di investire nella vita <t t-out="di" />
+  <t t-out="firstname" />!
+</p>
+<p>Auguriamo ad entrambi tanta gioia!</p>
+<p>Calorosamente</p>
+<p>
+  <t t-out="object.user_id.short_signature" />
+</p>

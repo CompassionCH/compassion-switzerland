@@ -79,7 +79,7 @@
         "web.report_assets_common": [
             "report_compassion/static/scss/report.scss",
             "report_compassion/static/scss/report_swissqr.scss",
-        ]
+        ],
     },
     "demo": [],
     "installable": True,

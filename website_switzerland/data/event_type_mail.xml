@@ -34,17 +34,6 @@
             <field name="interval_unit">days</field>
             <field name="interval_nbr">10</field>
         </record>
-        <record id="group_visit_before_sharing_mail" model="event.type.mail">
-            <field name="event_type_id" ref="event_type_group_visit" />
-            <field name="notification_type">communication</field>
-            <field
-        name="communication_id"
-        ref="group_visit_before_sharing_config"
-      />
-            <field name="interval_type">before_event</field>
-            <field name="interval_unit">days</field>
-            <field name="interval_nbr">75</field>
-        </record>
         <record id="group_visit_detailed_info_mail" model="event.type.mail">
             <field name="event_type_id" ref="event_type_group_visit" />
             <field name="notification_type">communication</field>
