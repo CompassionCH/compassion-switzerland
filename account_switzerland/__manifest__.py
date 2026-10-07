@@ -7,8 +7,8 @@
 #    \____/\____/_/ /_/ /_/ .___/\__,_/____/____/_/\____/_/ /_/
 #                        /_/
 #
-#    Copyright (C) 2016-2020 Compassion CH (http://www.compassion.ch)
-#    @author: Jérémie Lang <jlang@compassion.ch>
+#    Copyright (C) 2016-2026 Compassion CH (http://www.compassion.ch)
+#    @author: Emanuel Cino <ecino@compassion.ch>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,21 +24,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+# pylint: disable=C8101
 {
-    "name": "Compassion CH Account Move",
-    "version": "14.0.1.0.0",
-    "category": "Compassion",
+    "name": "Compassion CH Accounting",
+    "version": "18.0.1.0.0",
+    "category": "Accounting",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
-    "external_dependencies": {},
     "depends": [
-        "account",
-        "sponsorship_compassion",
+        "queue_job_optional",
+        # Noviat/account_ebics
+        "account_ebics",
+        # OCA/bank-statement-import
+        "account_statement_import_camt",
     ],
-    "data": ["views/account_move.xml", "views/res_partner_view.xml"],
+    "data": [],
     "demo": [],
-    "installable": False,
+    "installable": True,
     "application": False,
     "auto_install": False,
 }

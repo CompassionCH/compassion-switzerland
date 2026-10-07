@@ -2,7 +2,6 @@ exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
   ^account_reconcile_checkout/|
-  ^account_switzerland/|
   ^bank_statement_import_compassion/|
   ^gifts_payments/|
   ^mail_activity_to_crm_request/|
