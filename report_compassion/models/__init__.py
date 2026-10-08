@@ -13,6 +13,7 @@ from . import (
     contract_group,
     hr_employee,
     partner_communication,
+    partner_communication_attachment,
     partner_communication_config,
     report_bvr_fund,
     report_bvr_sponsorship,
