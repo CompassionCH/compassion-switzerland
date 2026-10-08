@@ -22,23 +22,35 @@ messageActionsRegistry.add("edit-note-full", {
     // Core stamps this marker into the body on every update: keep it out of the
     // editable content so it neither shows up in the editor nor piles up.
     doc.querySelectorAll(".o-mail-Message-edited").forEach((el) => el.remove());
-    return component.env.services.action.doAction({
-      name: _t("Edit log note"),
-      type: "ir.actions.act_window",
-      res_model: "mail.compose.message",
-      view_mode: "form",
-      views: [[false, "form"]],
-      target: "new",
-      context: {
-        default_body: doc.body.innerHTML,
-        default_edit_message_id: message.id,
-        default_email_add_signature: false,
-        default_model: message.thread.model,
-        default_res_ids: [message.thread.id],
-        default_subtype_xmlid: "mail.mt_note",
-        is_thread_composer: true,
+    const store = component.env.services["mail.store"];
+    return component.env.services.action.doAction(
+      {
+        name: _t("Edit log note"),
+        type: "ir.actions.act_window",
+        res_model: "mail.compose.message",
+        view_mode: "form",
+        views: [[false, "form"]],
+        target: "new",
+        context: {
+          default_body: doc.body.innerHTML,
+          default_edit_message_id: message.id,
+          default_email_add_signature: false,
+          default_model: message.thread.model,
+          default_res_ids: [message.thread.id],
+          default_subtype_xmlid: "mail.mt_note",
+          is_thread_composer: true,
+        },
       },
-    });
+      {
+        // The wizard returns the updated message on save: insert it like the
+        // core edit action does, so the change shows without a page reload.
+        onClose: (infos) => {
+          if (infos?.edited_message_data) {
+            store.insert(infos.edited_message_data, { html: true });
+          }
+        },
+      },
+    );
   },
   sequence: 81,
 });
