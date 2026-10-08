@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Retune the paid module's sweep. It shipped at a frequency that left a
+         settled payment invisible in Odoo for hours whenever the donor's browser
+         never came back from the gateway, which with the cart lock also keeps the
+         donor's gift package blocked that whole time (T3378).
+
+         Donors are not waiting on this run - the app polls /my2/payment/status,
+         which queries the gateway directly - so it only has to be frequent enough
+         that nothing stays unresolved for long. The limit keeps a run well under
+         the 60s cron timeout of the production server, and the sweep takes the
+         least recently checked transactions first, so the limit rotates through
+         everything instead of capping what is eligible.
+
+         A <record> would be ignored here: the paid module declares this cron under
+         noupdate="1", so its ir.model.data row blocks any later update. A <function>
+         is not subject to that flag. -->
+    <function
+    model="ir.cron"
+    name="write"
+    eval="[
+            [ref('payment_postfinance_flex.cron_update_lastest_postfinance_state')],
+            {
+                'interval_number': 10,
+                'interval_type': 'minutes',
+                'code': 'model.cron_update_postfinance_state(limit=25)',
+            },
+        ]"
+  />
+</odoo>

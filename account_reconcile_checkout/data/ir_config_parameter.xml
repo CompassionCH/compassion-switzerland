@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Set to 1 once an app version registering mycompassion:// is live. -->
+    <record id="app_return_enabled" model="ir.config_parameter">
+        <field name="key">account_reconcile_checkout.app_return_enabled</field>
+        <field name="value">0</field>
+    </record>
+</odoo>

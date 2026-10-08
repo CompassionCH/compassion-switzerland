@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /**
  * Volunteer Form Submission Handler
  * ---------------------------------

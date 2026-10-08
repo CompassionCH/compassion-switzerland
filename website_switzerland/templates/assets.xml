@@ -1,0 +1,11 @@
+<odoo>
+    <template id="assets_frontend" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <link
+        rel="stylesheet"
+        type="text/scss"
+        href="/website_switzerland/static/src/scss/website_sale.scss"
+      />
+        </xpath>
+    </template>
+</odoo>
