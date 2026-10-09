@@ -13,6 +13,8 @@
 
 import publicWidget from "@web/legacy/js/public/public_widget";
 import { rpc } from "@web/core/network/rpc";
+import { toast } from "@my_compassion/js/toast_service";
+import { _t } from "@web/core/l10n/translation";
 
 export const NewSponsorshipVolunteeringOptin = publicWidget.Widget.extend({
   selector: "#all_set_volunteering",
@@ -36,6 +38,8 @@ export const NewSponsorshipVolunteeringOptin = publicWidget.Widget.extend({
           // Not authorized to touch this sponsorship (stale/foreign
           // session): the tick would not reflect anything actually saved.
           checkbox.checked = !checked;
+        } else if (checked) {
+          toast.success(_t("Thank you! Your request has been sent to us."));
         }
       })
       .catch(function () {
