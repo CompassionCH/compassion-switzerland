@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "18.0.1.1.7",
+    "version": "18.0.1.1.8",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -98,6 +98,9 @@
         "templates/onboarding_unsubscribe.xml",
     ],
     "assets": {
+        "web.assets_backend": [
+            "partner_communication_switzerland/static/src/js/image_float_plugin.js",
+        ],
         "web.assets_tests": [
             "partner_communication_switzerland/static/tests/tours/*.js",
         ],
