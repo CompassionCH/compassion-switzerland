@@ -37,10 +37,14 @@
     "depends": [
         "account",
         "payment_postfinance_flex",  # paid-addons
+        "website_sale",
     ],
     "external_dependencies": {"python": ["postfinancecheckout==5.2.2"]},
     "data": [
         "security/ir.model.access.csv",
+        "data/ir_cron_data.xml",
+        "data/ir_config_parameter.xml",
+        "views/postfinance_confirmation.xml",
         "views/reconcile_outstanding_wizard_view.xml",
     ],
     "auto_install": False,

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+    id="postfinance_confirmation"
+    name="PostFinance: payment confirmation"
+  >
+        <html>
+            <head>
+                <meta charset="utf-8" />
+                <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+                <title>MyCompassion</title>
+                <style>
+                    body {
+                        margin: 0;
+                        min-height: 100vh;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.75rem;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                        color: #2a5eec;
+                        text-align: center;
+                        padding: 2rem;
+                    }
+                    .lead { font-size: 1.25rem; font-weight: 600; }
+                    .hint { opacity: 0.7; }
+                </style>
+            </head>
+            <body t-att-data-app-url="app_return_url">
+                <p
+          t-if="success"
+          class="lead"
+        >Thank you! Your gift is confirmed.</p>
+                <p
+          t-else=""
+          class="lead"
+        >The payment didn't go through. Nothing was charged.</p>
+                <!-- Chrome can refuse a scheme no tap asked for, hence the link too. -->
+                <a
+          t-if="success and app_return_url"
+          t-att-href="app_return_url"
+          class="hint"
+        >Back to MyCompassion</a>
+                <p
+          t-if="not (success and app_return_url)"
+          class="hint"
+        >You can close this window.</p>
+                <script
+          t-if="success and app_return_url"
+          type="text/javascript"
+        >
+                    window.location.href = document.body.getAttribute("data-app-url");
+                </script>
+            </body>
+        </html>
+    </template>
+</odoo>
