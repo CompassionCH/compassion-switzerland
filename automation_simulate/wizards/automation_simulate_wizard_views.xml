@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Compassion CH (http://www.compassion.ch)
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="automation_simulate_wizard_view_form" model="ir.ui.view">
+        <field name="name">automation.simulate.wizard.form</field>
+        <field name="model">automation.simulate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Simulate process">
+                <div class="alert alert-danger" role="alert">
+                    <strong>For test databases only. Never use this on real data!</strong>
+                    <br />
+                    The process really runs: records are modified, emails can be
+                    sent and external services can be called.
+                </div>
+                <field name="res_model" invisible="1" />
+                <field name="res_ids" invisible="1" />
+                <group>
+                    <field name="kind" widget="radio" />
+                    <field
+                        name="target_id"
+                        options="{'no_create': True, 'no_open': True}"
+                    />
+                    <field
+                        name="record_count"
+                        string="Selected records"
+                        invisible="kind != 'automation'"
+                    />
+                </group>
+                <div class="text-muted" invisible="kind != 'automation'">
+                    The actions of the rule run on the selected records as superuser,
+                    without checking the trigger, the time window or the domain of the rule.
+                </div>
+                <div class="alert alert-warning" role="alert" invisible="kind != 'cron'">
+                    The scheduled action runs on the whole model, as its own user:
+                    the selected records are ignored.
+                </div>
+                <footer>
+                    <button
+                        name="action_simulate"
+                        string="Run"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
