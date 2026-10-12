@@ -17,22 +17,39 @@ Monitor Scheduled and Automated Actions
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github
-    :target: https://github.com/CompassionCH/compassion-switzerland/tree/14.0/base_cron_monitor
+    :target: https://github.com/CompassionCH/compassion-switzerland/tree/18.0/base_cron_monitor
     :alt: CompassionCH/compassion-switzerland
 
 |badge1| |badge2| |badge3|
 
-Adds monitoring for scheduled and automated actions, logging their
-execution time and any errors. Provides a search view for filtering and
-grouping logs by server action, user, or exception. Stores execution
-duration as both a formatted string and a sortable float (seconds) for
-efficient analysis. Ensures logs are saved even if the main transaction
-is rolled back. Includes access control for user and admin roles.
+Monitors the server actions, scheduled actions and automation rules:
+every execution is logged with its user, duration and error, if any.
+
+- The logs can be filtered, grouped and analysed (list, pivot and graph
+  views), in *Settings > Technical > Automation > Server Action
+  Monitor*, or with the *Executions* button of server actions, scheduled
+  actions and automation rules.
+- Logs are kept even if the transaction of the action is rolled back.
+- The successful executions of an action by a user in the same
+  transaction are grouped in one log (e.g. an automation rule running on
+  1000 records).
+
+The logs are written only once the transaction of the action is over
+(committed or rolled back), in one query and in a separate short
+transaction. The monitoring never writes to the database while the
+monitored transaction holds its locks, which avoids the deadlocks of the
+previous versions.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+The logs older than 30 days are removed every day. Change the retention
+with the system parameter ``base_cron_monitor.retention_days``.
 
 Bug Tracker
 ===========
@@ -40,7 +57,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/CompassionCH/compassion-switzerland/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20base_cron_monitor%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/CompassionCH/compassion-switzerland/issues/new?body=module:%20base_cron_monitor%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -50,7 +67,7 @@ Credits
 Authors
 -------
 
-* Compassion Switzerland
+* Compassion CH
 
 Maintainers
 -----------
@@ -63,6 +80,6 @@ Current maintainer:
 
 |maintainer-ecino| 
 
-This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/14.0/base_cron_monitor>`_ project on GitHub.
+This module is part of the `CompassionCH/compassion-switzerland <https://github.com/CompassionCH/compassion-switzerland/tree/18.0/base_cron_monitor>`_ project on GitHub.
 
 You are welcome to contribute.
