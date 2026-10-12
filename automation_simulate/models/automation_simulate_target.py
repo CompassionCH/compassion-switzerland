@@ -63,7 +63,7 @@ class AutomationSimulateTarget(models.Model):
                 }
 
         targets = self.sudo().search([])
-        obsolete = self.browse()
+        obsolete = targets.browse()
         for target in targets:
             res_id = target.automation_id.id or target.cron_id.id
             vals = wanted.pop((target.kind, res_id), None)
