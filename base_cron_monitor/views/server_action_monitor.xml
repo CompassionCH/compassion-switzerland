@@ -1,0 +1,81 @@
+<odoo>
+    <!-- Tree View -->
+    <record id="view_server_action_monitor_tree" model="ir.ui.view">
+        <field name="name">server.action.monitor.tree</field>
+        <field name="model">server.action.monitor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="create_date" />
+                <field name="server_action_id" />
+                <field name="execution_time" />
+                <field name="exception" />
+                <field name="user_id" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_server_action_monitor_form" model="ir.ui.view">
+        <field name="name">server.action.monitor.form</field>
+        <field name="model">server.action.monitor</field>
+        <field name="arch" type="xml">
+            <form edit="false">
+                <sheet>
+                    <group>
+                        <field name="create_date" />
+                        <field name="server_action_id" />
+                        <field name="user_id" />
+                        <field name="execution_time" />
+                        <field name="exception" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_server_action_monitor_search" model="ir.ui.view">
+        <field name="name">server.action.monitor.search</field>
+        <field name="model">server.action.monitor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="server_action_id" string="Server Action" />
+                <field name="user_id" string="User" />
+                <filter
+          string="Has Exception"
+          name="has_exception"
+          domain="[('exception', '!=', False)]"
+        />
+                <group expand="1" string="Group By">
+                    <filter
+            name="groupby_action"
+            string="Server Action"
+            context="{'group_by': 'server_action_id'}"
+          />
+                    <filter
+            name="groubpy_user"
+            string="User"
+            context="{'group_by': 'user_id'}"
+          />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_server_action_monitor" model="ir.actions.act_window">
+        <field name="name">Server Action Monitor</field>
+        <field name="res_model">server.action.monitor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_server_action_monitor_tree" />
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem
+    id="menu_server_action_monitor"
+    name="Server Action Monitor"
+    parent="base.menu_automation"
+    action="action_server_action_monitor"
+    sequence="20"
+  />
+</odoo>
