@@ -1,39 +1,70 @@
 <odoo>
-    <!-- Tree View -->
-    <record id="view_server_action_monitor_tree" model="ir.ui.view">
-        <field name="name">server.action.monitor.tree</field>
+    <record id="view_server_action_monitor_list" model="ir.ui.view">
+        <field name="name">server.action.monitor.list</field>
         <field name="model">server.action.monitor</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="create_date" />
+            <list create="false" edit="false" decoration-danger="exception">
+                <field name="create_date" string="Date" />
                 <field name="server_action_id" />
-                <field name="execution_time" />
-                <field name="exception" />
-                <field name="user_id" />
-            </tree>
+                <field name="usage" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="run_count" sum="Total" />
+                <field name="duration" sum="Total" />
+                <field name="max_duration" />
+                <field name="exception" optional="hide" />
+            </list>
         </field>
     </record>
 
-    <!-- Form View -->
     <record id="view_server_action_monitor_form" model="ir.ui.view">
         <field name="name">server.action.monitor.form</field>
         <field name="model">server.action.monitor</field>
         <field name="arch" type="xml">
-            <form edit="false">
+            <form create="false" edit="false">
                 <sheet>
                     <group>
-                        <field name="create_date" />
-                        <field name="server_action_id" />
-                        <field name="user_id" />
-                        <field name="execution_time" />
-                        <field name="exception" />
+                        <group>
+                            <field name="create_date" string="Date" />
+                            <field name="server_action_id" />
+                            <field name="usage" />
+                            <field name="user_id" />
+                        </group>
+                        <group>
+                            <field name="run_count" />
+                            <field name="duration" />
+                            <field name="max_duration" />
+                        </group>
                     </group>
+                    <field name="exception" invisible="not exception" />
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- Search View -->
+    <record id="view_server_action_monitor_pivot" model="ir.ui.view">
+        <field name="name">server.action.monitor.pivot</field>
+        <field name="model">server.action.monitor</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="server_action_id" type="row" />
+                <field name="run_count" type="measure" />
+                <field name="duration" type="measure" />
+                <field name="max_duration" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_server_action_monitor_graph" model="ir.ui.view">
+        <field name="name">server.action.monitor.graph</field>
+        <field name="model">server.action.monitor</field>
+        <field name="arch" type="xml">
+            <graph type="line">
+                <field name="create_date" interval="day" />
+                <field name="duration" type="measure" />
+            </graph>
+        </field>
+    </record>
+
     <record id="view_server_action_monitor_search" model="ir.ui.view">
         <field name="name">server.action.monitor.search</field>
         <field name="model">server.action.monitor</field>
@@ -41,41 +72,103 @@
             <search>
                 <field name="server_action_id" string="Server Action" />
                 <field name="user_id" string="User" />
+                <field name="exception" />
                 <filter
-          string="Has Exception"
-          name="has_exception"
-          domain="[('exception', '!=', False)]"
-        />
+                    string="Has Exception"
+                    name="has_exception"
+                    domain="[('exception', '!=', False)]"
+                />
+                <separator />
+                <filter
+                    string="Scheduled Actions"
+                    name="usage_cron"
+                    domain="[('usage', '=', 'ir_cron')]"
+                />
+                <filter
+                    string="Automation Rules"
+                    name="usage_automation"
+                    domain="[('usage', '=', 'base_automation')]"
+                />
+                <filter
+                    string="Server Actions"
+                    name="usage_server_action"
+                    domain="[('usage', '=', 'ir_actions_server')]"
+                />
+                <separator />
+                <filter string="Date" name="filter_create_date" date="create_date" />
                 <group expand="1" string="Group By">
                     <filter
-            name="groupby_action"
-            string="Server Action"
-            context="{'group_by': 'server_action_id'}"
-          />
+                        name="groupby_action"
+                        string="Server Action"
+                        context="{'group_by': 'server_action_id'}"
+                    />
                     <filter
-            name="groubpy_user"
-            string="User"
-            context="{'group_by': 'user_id'}"
-          />
+                        name="groupby_usage"
+                        string="Usage"
+                        context="{'group_by': 'usage'}"
+                    />
+                    <filter
+                        name="groupby_user"
+                        string="User"
+                        context="{'group_by': 'user_id'}"
+                    />
+                    <filter
+                        name="groupby_date"
+                        string="Date"
+                        context="{'group_by': 'create_date:day'}"
+                    />
                 </group>
             </search>
         </field>
     </record>
 
-    <!-- Window Action -->
     <record id="action_server_action_monitor" model="ir.actions.act_window">
         <field name="name">Server Action Monitor</field>
         <field name="res_model">server.action.monitor</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_server_action_monitor_tree" />
+        <field name="view_mode">list,pivot,graph,form</field>
     </record>
 
-    <!-- Menu Item -->
     <menuitem
-    id="menu_server_action_monitor"
-    name="Server Action Monitor"
-    parent="base.menu_automation"
-    action="action_server_action_monitor"
-    sequence="20"
-  />
+        id="menu_server_action_monitor"
+        name="Server Action Monitor"
+        parent="base.menu_automation"
+        action="action_server_action_monitor"
+        sequence="20"
+    />
+
+    <record id="view_server_action_form" model="ir.ui.view">
+        <field name="name">ir.actions.server.form.monitor</field>
+        <field name="model">ir.actions.server</field>
+        <field name="inherit_id" ref="base.view_server_action_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/h1" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="action_open_monitor_logs"
+                        type="object"
+                        string="Executions"
+                        class="oe_stat_button"
+                        icon="fa-tachometer"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_base_automation_form" model="ir.ui.view">
+        <field name="name">base.automation.form.monitor</field>
+        <field name="model">base.automation</field>
+        <field name="inherit_id" ref="base_automation.view_base_automation_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="action_open_monitor_logs"
+                    type="object"
+                    string="Executions"
+                    class="oe_stat_button"
+                    icon="fa-tachometer"
+                />
+            </div>
+        </field>
+    </record>
 </odoo>

@@ -3,25 +3,20 @@
 {
     "name": "Monitor Scheduled and Automated Actions",
     "summary": "Monitor Scheduled and Automated Actions",
-    "version": "14.0.2.0.0",
+    "version": "18.0.1.0.0",
     # see https://odoo-community.org/page/development-status
     "development_status": "Beta",
     "category": "Tools",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
-    "author": "Compassion Switzerland",
+    "author": "Compassion CH",
     "maintainers": ["ecino"],
     "license": "AGPL-3",
-    "installable": False,
+    "installable": True,
     "data": [
         "security/ir.model.access.csv",
         "views/server_action_monitor.xml",
     ],
-    "external_dependencies": {
-        "python": [],
-        "bin": [],
-    },
     "depends": [
         "base_automation",
-        "queue_job",
     ],
 }
