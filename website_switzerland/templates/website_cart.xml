@@ -91,8 +91,7 @@
         </xpath>
     </template>
 
-    <!-- T3428: donors were blocked by the T&C checkbox hidden below the payment
-         methods on mobile. Consent is now implicit and stated above them. -->
+    <!-- T3428: consent is implicit and stated above the payment methods. -->
     <template id="payment_terms_note" inherit_id="website_sale.payment">
         <xpath
       expr="//div[@id='payment_method'][not(hasclass('js_payment'))]"
@@ -101,14 +100,10 @@
             <p class="text-muted mt-3 mb-0">
                 By confirming your payment, you agree to our
                 <a
-          href="/shop/terms"
+          href="/terms"
           target="_blank"
         >terms &amp; conditions</a>.
             </p>
         </xpath>
     </template>
-
-    <record id="website_sale.payment_sale_note" model="ir.ui.view">
-        <field name="active" eval="False" />
-    </record>
 </odoo>
