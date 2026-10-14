@@ -43,3 +43,9 @@ class TestContractGroupSwitzerland(BaseSponsorshipTest):
         self.assertFalse(group.bvr_reference)
         group.on_change_payment_mode()
         self.assertEqual(len(group.bvr_reference), 27)
+
+    def test_clear_payment_mode(self):
+        group = self.create_group({"partner_id": self.michel.id})
+        self.assertTrue(group.payment_mode_id)
+        group.payment_mode_id = False
+        self.assertFalse(group.payment_mode_id)

@@ -363,7 +363,7 @@ class RecurringContracts(models.Model):
         """Change state of contract if payment is changed to/from LSV or DD."""
         for i, contract in enumerate(self):
             group = contract.group_id.with_context(lang="en_US")
-            payment_name = group.payment_mode_id.name
+            payment_name = group.payment_mode_id.name or ""
             old_payment_name = old_payment_modes[i].with_context(lang="en_US").name
             if not old_payment_name:
                 continue
