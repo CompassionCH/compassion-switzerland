@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 /*
  * Posts the "All set" summary page's volunteering checkbox on change.
  *

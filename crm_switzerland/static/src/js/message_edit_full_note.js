@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import { _t } from "@web/core/l10n/translation";
 import { createDocumentFragmentFromContent } from "@mail/utils/common/html";
 import { messageActionsRegistry } from "@mail/core/common/message_actions";

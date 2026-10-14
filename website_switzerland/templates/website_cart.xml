@@ -19,7 +19,10 @@
       />
             <t t-set="title_id" t-value="checkout_title.id" />
             <div class="form-group col-lg-6" id="div_title">
-                    <label class="col-form-label" for="title_select">Title</label>
+                    <label
+          class="col-form-label label-optional"
+          for="title_select"
+        >Title</label>
                         <select
           name="title"
           id="title_select"
@@ -85,6 +88,22 @@
       position="attributes"
     >
             <attribute name="t-field">line.image</attribute>
+        </xpath>
+    </template>
+
+    <!-- T3428: consent is implicit and stated above the payment methods. -->
+    <template id="payment_terms_note" inherit_id="website_sale.payment">
+        <xpath
+      expr="//div[@id='payment_method'][not(hasclass('js_payment'))]"
+      position="before"
+    >
+            <p class="text-muted mt-3 mb-0">
+                By confirming your payment, you agree to our
+                <a
+          href="/terms"
+          target="_blank"
+        >terms &amp; conditions</a>.
+            </p>
         </xpath>
     </template>
 </odoo>

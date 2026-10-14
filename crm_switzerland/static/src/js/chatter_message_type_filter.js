@@ -1,5 +1,3 @@
-/** @odoo-module */
-
 import { Chatter } from "@mail/chatter/web_portal/chatter";
 import { CheckboxItem } from "@web/core/dropdown/checkbox_item";
 import { Thread } from "@mail/core/common/thread";
