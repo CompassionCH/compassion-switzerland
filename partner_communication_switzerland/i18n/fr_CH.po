@@ -4126,7 +4126,7 @@ msgstr "Assistant de mise en Hold d'enfant"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_job__child_country_id
 msgid "Child country"
-msgstr ""
+msgstr "Pays de l'enfant"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_city

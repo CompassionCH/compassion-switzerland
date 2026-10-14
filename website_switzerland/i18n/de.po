@@ -2596,12 +2596,6 @@ msgstr "Wenn du deine Zahlung bestätigst, akzeptierst du unsere"
 msgid "terms &amp; conditions"
 msgstr "Allgemeinen Geschäftsbedingungen"
 
-#. module: website_switzerland
-#: code:addons/website_switzerland/controllers/my_account.py:0
-#, python-format
-msgid "tax_receipt"
-msgstr "Steuerbescheinigung"
-
 #~ msgid "Fill urgency contact information"
 #~ msgstr "Dringende Kontaktinformationen ausfüllen"
 

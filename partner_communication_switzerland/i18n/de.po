@@ -7396,7 +7396,7 @@ msgstr "Assistent für Kindersicherung"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_job__child_country_id
 msgid "Child country"
-msgstr ""
+msgstr "Land des Kindes"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_city
@@ -7488,10 +7488,8 @@ msgstr "Inhalt:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_job_search
-#, fuzzy
-#| msgid "Journal Entry"
 msgid "Country"
-msgstr "Buchungssatz"
+msgstr "Land"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_end_contract_wizard__generate_communication
