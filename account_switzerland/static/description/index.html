@@ -370,6 +370,8 @@ ul.auto-toc {
 !! source digest: sha256:7d84b92d4b382b3a75828acda32b45378de2a47d75b308f60d160a84065ee796
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/CompassionCH/compassion-switzerland/tree/18.0/account_switzerland"><img alt="CompassionCH/compassion-switzerland" src="https://img.shields.io/badge/github-CompassionCH%2Fcompassion--switzerland-lightgray.png?logo=github" /></a></p>
+<p>Accounting customizations for Compassion Switzerland.</p>
+<p><strong>Background import of EBICS files</strong></p>
 <p>This module speeds up the processing of EBICS files with the OCA bank
 statement import modules.</p>
 <p>When an EBICS file is processed, <tt class="docutils literal">account_ebics</tt> splits it into one
@@ -379,6 +381,13 @@ separate background job (using <tt class="docutils literal">with_delay_sh</tt> f
 <tt class="docutils literal">queue_job_optional</tt>).</p>
 <p>Each job imports its statement, links it to the EBICS file and appends
 the import results to the processing notes of the EBICS file.</p>
+<p><strong>Labels of payment order journal items</strong></p>
+<p>By default, Odoo labels the journal items of a payment with the payment
+method and the memo (for payment orders, the order name). For payments
+generated from a payment order, this module uses the payment reference
+instead, which holds the communications of the payment lines. This
+restores the behaviour of Odoo 14 and eases the reconciliation of the
+journal items, for instance with direct debit returns.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -394,10 +403,17 @@ the import results to the processing notes of the EBICS file.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
+<p><strong>Background import of EBICS files</strong></p>
 <p>Process an EBICS file (CAMT.052, CAMT.053 or CAMT.054) as usual. The
 processing notes indicate that the statements are imported in background
 jobs. Follow their progress in the queue jobs; once done, the imported
 statements are listed on the EBICS file.</p>
+<p><strong>Labels of payment order journal items</strong></p>
+<p>Confirm a payment order (for instance a direct debit order) and mark it
+as uploaded. The journal items of the generated payments are labelled
+with the communications of their payment lines. Payments without a
+payment reference, and payments not linked to a payment order, keep the
+default Odoo label.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>

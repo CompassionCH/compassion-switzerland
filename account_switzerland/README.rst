@@ -22,6 +22,10 @@ Compassion CH Accounting
 
 |badge1| |badge2| |badge3|
 
+Accounting customizations for Compassion Switzerland.
+
+**Background import of EBICS files**
+
 This module speeds up the processing of EBICS files with the OCA bank
 statement import modules.
 
@@ -34,6 +38,15 @@ separate background job (using ``with_delay_sh`` from
 Each job imports its statement, links it to the EBICS file and appends
 the import results to the processing notes of the EBICS file.
 
+**Labels of payment order journal items**
+
+By default, Odoo labels the journal items of a payment with the payment
+method and the memo (for payment orders, the order name). For payments
+generated from a payment order, this module uses the payment reference
+instead, which holds the communications of the payment lines. This
+restores the behaviour of Odoo 14 and eases the reconciliation of the
+journal items, for instance with direct debit returns.
+
 **Table of contents**
 
 .. contents::
@@ -42,10 +55,20 @@ the import results to the processing notes of the EBICS file.
 Usage
 =====
 
+**Background import of EBICS files**
+
 Process an EBICS file (CAMT.052, CAMT.053 or CAMT.054) as usual. The
 processing notes indicate that the statements are imported in background
 jobs. Follow their progress in the queue jobs; once done, the imported
 statements are listed on the EBICS file.
+
+**Labels of payment order journal items**
+
+Confirm a payment order (for instance a direct debit order) and mark it
+as uploaded. The journal items of the generated payments are labelled
+with the communications of their payment lines. Payments without a
+payment reference, and payments not linked to a payment order, keep the
+default Odoo label.
 
 Bug Tracker
 ===========

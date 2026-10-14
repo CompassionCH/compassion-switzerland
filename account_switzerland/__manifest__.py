@@ -38,6 +38,8 @@
         "account_ebics",
         # OCA/bank-statement-import
         "account_statement_import_camt",
+        # OCA/bank-payment
+        "account_payment_order",
     ],
     "data": [],
     "demo": [],

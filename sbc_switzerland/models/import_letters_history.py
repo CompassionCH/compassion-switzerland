@@ -100,9 +100,23 @@ class ImportLettersHistory(models.Model):
         others = self - to_check
         for letter in to_check:
             try:
+                logger.info(
+                    "Checking number of letters in %s", letter.import_folder_path
+                )
                 with letter._get_connection() as sftp:
                     letter.nber_letters = len(sftp.listdir(letter.import_folder_path))
+                    logger.info(
+                        "Found %s letters in %s",
+                        letter.nber_letters,
+                        letter.import_folder_path,
+                    )
             except (FileNotFoundError, TypeError, SSHException):
+                logger.warning(
+                    "Could not find import folder path %s or establish connection "
+                    "with sftp server",
+                    letter.import_folder_path,
+                    exc_info=True,
+                )
                 others += letter
         return super(ImportLettersHistory, others)._compute_nber_letters()
 
@@ -121,6 +135,7 @@ class ImportLettersHistory(models.Model):
             int: the current last step for the analysis
             str: the name of the file analysed
         """
+        logger.info("Starting sftp generator for import letters history %s", self.id)
         try:
             import_letter_path = Path(self.import_folder_path)
             imported_letter_path = Path(
@@ -133,6 +148,7 @@ class ImportLettersHistory(models.Model):
             with self._get_connection() as sftp:
                 files = sftp.listdir(str(import_letter_path))
                 for i, file in enumerate(files):
+                    logger.info("Analyzing file %s/%s: %s", i + 1, len(files), file)
                     file = Path(file)
                     import_full_path = str(import_letter_path / file)
                     imported_full_path = str(imported_letter_path / file)

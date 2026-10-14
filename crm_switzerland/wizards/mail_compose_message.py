@@ -10,6 +10,8 @@
 from odoo import _, fields, models
 from odoo.exceptions import AccessError, UserError
 
+from odoo.addons.mail.tools.discuss import Store
+
 
 class MailComposeMessage(models.TransientModel):
     """
@@ -35,7 +37,17 @@ class MailComposeMessage(models.TransientModel):
         remaining = self - editing
         if remaining:
             return super(MailComposeMessage, remaining).action_send_mail()
-        return {"type": "ir.actions.act_window_close"}
+        # Hand the updated message back to the chatter, like the
+        # /mail/message/update_content controller does, so the edit shows up
+        # without reloading the page (see message_edit_full_note.js).
+        return {
+            "type": "ir.actions.act_window_close",
+            "infos": {
+                "edited_message_data": Store(
+                    editing.edit_message_id, for_current_user=True
+                ).get_result()
+            },
+        }
 
     def action_schedule_message(self, scheduled_date=False):
         if any(self.mapped("edit_message_id")):
