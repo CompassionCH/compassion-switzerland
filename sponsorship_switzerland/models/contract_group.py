@@ -66,7 +66,7 @@ class ContractGroup(models.Model):
                 .with_context(lang="en_US")
                 .browse(vals["payment_mode_id"])
             )
-            payment_name = payment_mode.name
+            payment_name = payment_mode.name or ""
             contracts |= self.mapped("contract_ids")
             for group in self:
                 if "LSV" in payment_name or "Postfinance" in payment_name:
