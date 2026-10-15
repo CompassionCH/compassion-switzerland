@@ -32,6 +32,9 @@ def _swap_group_visit_xmlids(env: Any):
     step2 = env.ref(STEP2_EMAIL_XMLID, raise_if_not_found=False)
     if not step1 or not step2:
         return
+    if "step1" in step1.with_context(lang="en_US").name:
+        # Not crossed: swapping would cross them
+        return
 
     openupgrade.logged_query(
         env.cr,
@@ -79,6 +82,9 @@ def _swap_group_visit_xmlids(env: Any):
             "__tmp_group_visit_step1_config",
         ),
     )
+    # env.ref() is ormcached: without this, the step1 body below would still
+    # be written on the step2 template.
+    env.registry.clear_cache()
 
 
 STEP1_BODY = {
