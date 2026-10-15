@@ -61,9 +61,47 @@ def migrate(env, version):
     (/event/<uuid>/...) and, because of a cached env.ref() in 18.0.1.0.4, the
     step1 text on the step2 template while step1 kept a body that fails to
     render. The repaired bodies are in the bodies/ folder, one per language.
+    It also puts back the trip registrations stuck in a Muskathlon stage and
+    reactivates the participant task forms and cart picture.
     """
     xmlids = sorted({f.name.split(".")[0] for f in BODIES.glob("*.html")})
     for xmlid in xmlids:
         _repair_template(env, xmlid)
     env["mail.template"].invalidate_model(["body_html", "subject"])
     _logger.info("Repaired %s group visit e-mail templates", len(xmlids))
+
+    # Paying the fee moved trip registrations to the Muskathlon stage
+    # "Downpayment paid", outside of their journey: they wait for the
+    # confirmation in "Down payment".
+    down_payment = env.ref("website_switzerland.stage_group_pay")
+    shared = [
+        env.ref(f"website_event_compassion.stage_all_{name}").id
+        for name in ("confirmed", "attended", "cancelled")
+    ]
+    lost = (
+        env["event.registration"]
+        .search(
+            [
+                ("event_id.event_type_id", "in", down_payment.event_type_ids.ids),
+                ("state", "in", ("draft", "open")),
+                ("stage_id", "!=", False),
+                ("stage_id", "not in", shared),
+            ]
+        )
+        .filtered(lambda reg: reg.event_type_id not in reg.stage_id.event_type_ids)
+    )
+    if lost:
+        lost.write({"stage_id": down_payment.id})
+        _logger.info("Moved registrations %s back to Down payment", lost.ids)
+
+    # The v14 migration left these views inactive: the "Sign travel agreement"
+    # page of My events was empty and the cart had no participant picture.
+    for xmlid in (
+        "my_event_include_forms",
+        "travel_agreement",
+        "cart_participant_picture",
+    ):
+        view = env.ref(f"website_switzerland.{xmlid}", raise_if_not_found=False)
+        if view and not view.active:
+            view.active = True
+            _logger.info("Reactivated view website_switzerland.%s", xmlid)
