@@ -49,3 +49,9 @@ class TestContractGroupSwitzerland(BaseSponsorshipTest):
         self.assertTrue(group.payment_mode_id)
         group.payment_mode_id = False
         self.assertFalse(group.payment_mode_id)
+
+    def test_clear_payment_mode_with_contracts(self):
+        # check_mandate_needed() reads the new payment mode of each contract
+        self.assertTrue(self.sp_group.contract_ids)
+        self.sp_group.payment_mode_id = False
+        self.assertFalse(self.sp_group.payment_mode_id)
