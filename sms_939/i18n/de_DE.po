@@ -1,0 +1,341 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sms_939
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 18:59+0000\n"
+"PO-Revision-Date: 2026-10-16 18:59+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__answer
+msgid "Answer"
+msgstr ""
+
+#. module: sms_939
+#: code:addons/sms_939/models/sms_api.py:0
+#, python-format
+msgid "Batch sending is not support with MNC"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__create_uid
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__create_uid
+msgid "Created by"
+msgstr "Angelegt von"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__create_date
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__create_date
+msgid "Created on"
+msgstr "Angelegt am"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_compassion_child__display_name
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__display_name
+#: model:ir.model.fields,field_description:sms_939.field_mail_message__display_name
+#: model:ir.model.fields,field_description:sms_939.field_recurring_contract__display_name
+#: model:ir.model.fields,field_description:sms_939.field_sms_api__display_name
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__display_name
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__display_name
+#: model:ir.model.fields,field_description:sms_939.field_sms_sms__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__endpoint_939
+msgid "Endpoint"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_sms__error_detail
+msgid "Error Detail"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields.selection,name:sms_939.selection__sms_notification__state__failed
+msgid "Failed"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__failure_details
+msgid "Failure Details"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__func_name
+msgid "Function"
+msgstr "Funktion"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__hook_id
+msgid "Hook"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_iap_account
+msgid "IAP Account"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_compassion_child__id
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__id
+#: model:ir.model.fields,field_description:sms_939.field_mail_message__id
+#: model:ir.model.fields,field_description:sms_939.field_recurring_contract__id
+#: model:ir.model.fields,field_description:sms_939.field_sms_api__id
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__id
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__id
+#: model:ir.model.fields,field_description:sms_939.field_sms_sms__id
+msgid "ID"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__instance
+msgid "Instance"
+msgstr "Instanzen"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__name
+msgid "Keyword service"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__language
+msgid "Language"
+msgstr "Sprache"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_compassion_child____last_update
+#: model:ir.model.fields,field_description:sms_939.field_iap_account____last_update
+#: model:ir.model.fields,field_description:sms_939.field_mail_message____last_update
+#: model:ir.model.fields,field_description:sms_939.field_recurring_contract____last_update
+#: model:ir.model.fields,field_description:sms_939.field_sms_api____last_update
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook____last_update
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification____last_update
+#: model:ir.model.fields,field_description:sms_939.field_sms_sms____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__write_uid
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert durch"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_hook__write_date
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: sms_939
+#: model_terms:ir.ui.view,arch_db:sms_939.iap_account_view_form
+msgid "MNC account"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_mail_message
+msgid "Message"
+msgstr "Nachricht"
+
+#. module: sms_939
+#: model:ir.model.fields,help:sms_939.field_sms_hook__func_name
+msgid ""
+"Method name that will be executed at reception. The method must exist in "
+"sms.notification object and returns a SmsNotificationAnswer object"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__operator
+msgid "Operator"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_sms_sms
+msgid "Outgoing SMS"
+msgstr "Ausgehende SMS"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__password_939
+msgid "Password for login"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__provider
+msgid "Provider"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__server_939
+msgid "Provider server"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields.selection,name:sms_939.selection__sms_notification__state__new
+msgid "Received"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_recurring_contract
+msgid "Recurring contract"
+msgstr "Laufender Vertrag"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_sms__request_uid
+msgid "Request Uid"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.ui.menu,name:sms_939.menu_technical_sms
+msgid "SMS"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_sms_api
+msgid "SMS API"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.actions.act_window,name:sms_939.action_sms_hook
+#: model:ir.ui.menu,name:sms_939.menu_sms_hook
+msgid "SMS Hooks"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_sms_hook
+msgid "SMS Keyword Hook"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields.selection,name:sms_939.selection__iap_account__provider__sms_mnc_http
+msgid "SMS MNC http"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_sms_notification
+msgid "SMS Notification"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.ui.menu,name:sms_939.menu_sms_notification
+msgid "SMS Notifications"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_mail_mail__request_uid
+#: model:ir.model.fields,field_description:sms_939.field_mail_message__request_uid
+msgid "SMS Request id"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.actions.act_window,name:sms_939.action_sms_notification
+msgid "SMS Requests"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields.selection,name:sms_939.selection__iap_account__provider__sms_mnc_shortnum
+msgid "SMS Short MNC"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__sender
+msgid "Sender"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__port_939
+msgid "Server port"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__service
+msgid "Service"
+msgstr ""
+
+#. module: sms_939
+#: code:addons/sms_939/models/sms_notification.py:0
+#, python-format
+msgid ""
+"Sorry, the service is not available at this time. Our team is informed and "
+"is currently working on it."
+msgstr ""
+"Es tut uns leid, gerade ist der Dienst nicht verfügbar. Unser Team wird "
+"informiert und kümmert sich um das Problem."
+
+#. module: sms_939
+#: code:addons/sms_939/models/sms_notification.py:0
+#, python-format
+msgid ""
+"Sorry, we could not understand your request. Supported services are :\n"
+" - %s"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model,name:sms_939.model_compassion_child
+msgid "Sponsored Child"
+msgstr "Patenkind"
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__state
+msgid "State"
+msgstr "Bundesland"
+
+#. module: sms_939
+#: model:ir.model.fields.selection,name:sms_939.selection__sms_notification__state__success
+msgid "Success"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__text
+msgid "Text"
+msgstr ""
+
+#. module: sms_939
+#: code:addons/sms_939/models/sms_notification.py:0
+#, python-format
+msgid ""
+"Thank you for your will to help a child ! \n"
+"You can release a child from poverty today by clicking on this link: %s"
+msgstr ""
+"Danke, dass du ein Kind unterstützen möchtest! Klick auf diesen Link %s, um "
+"heute ein Kind aus Armut zu befreien!"
+
+#. module: sms_939
+#: code:addons/sms_939/models/sms_hook.py:0
+#, python-format
+msgid "The function is not implemented in sms.notification"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,help:sms_939.field_sms_hook__name
+msgid ""
+"This hook will be called when a SMS from this registeredservice is received."
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_iap_account__username_939
+msgid "Username for login"
+msgstr ""
+
+#. module: sms_939
+#: model:ir.model.fields,field_description:sms_939.field_sms_notification__uuid
+msgid "Uuid"
+msgstr ""

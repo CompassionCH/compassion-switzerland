@@ -1,0 +1,1496 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_compassion
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 18:59+0000\n"
+"PO-Revision-Date: 2026-10-16 18:59+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"#header {\n"
+"                position: absolute;\n"
+"                margin-left: 15mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,print_report_name:report_compassion.report_compassion_qr
+msgid "'QR-bill-%s' % object.name"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid ""
+".container {\n"
+"                    font-family: \"NeighbourSans\";\n"
+"                    margin-top: -5mm;\n"
+"                    margin-left: 6mm;\n"
+"                    font-size: 10pt;\n"
+"                }\n"
+"\n"
+"                .body {\n"
+"                    font-family: \"NeighbourSans\";\n"
+"                    width: 100mm;\n"
+"                    float: left;\n"
+"                    box-sizing: border-box;\n"
+"                }\n"
+"                #date {\n"
+"                    width: 100%;\n"
+"                }\n"
+"                #title {\n"
+"                    font-family: \"NeighbourSans\";\n"
+"                    margin-top: 10mm;\n"
+"                    width: 100%;\n"
+"                }\n"
+"                #body-content {\n"
+"                    width: 100%;\n"
+"                    margin-top: 5mm;\n"
+"                }\n"
+"                #signature {\n"
+"                    display: block;\n"
+"                    float: right;\n"
+"                    position: relative;\n"
+"                    top: -12mm;\n"
+"                }\n"
+"\n"
+"                .expedition {\n"
+"                    width: 84mm;\n"
+"                    float: right;\n"
+"                    box-sizing: border-box;\n"
+"                    position: relative;\n"
+"                }\n"
+"                #pp {\n"
+"                    position: absolute;\n"
+"                    top: 38mm;\n"
+"                    width: 70mm;\n"
+"                    font-family: verdana;\n"
+"                    margin-bottom: 5mm;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                #pp-box {\n"
+"                    display: inline-block;\n"
+"                    padding: 1mm;\n"
+"                    border: 1pt solid black;\n"
+"                    white-space: nowrap;\n"
+"                    width: 45mm;\n"
+"                }\n"
+"                #pp-box div:first-child {\n"
+"                    font-size: 10pt;\n"
+"                    white-space: nowrap;\n"
+"                }\n"
+"                #pp-box div:last-child {\n"
+"                    font-size: 8pt;\n"
+"                    white-space: nowrap;\n"
+"                }\n"
+"                #pp-post {\n"
+"                    font-size: 8pt;\n"
+"                    display: inline-block;\n"
+"                    width: 20mm;\n"
+"                }\n"
+"                #pp hr {\n"
+"                    margin-top: 0.5mm;\n"
+"                    margin-bottom: 3mm;\n"
+"                    width: 100%;\n"
+"                    height: 2px;\n"
+"                    background-color: black;\n"
+"                    border: none;\n"
+"                }\n"
+"                #partner_address {\n"
+"                    overflow-wrap: break-word;\n"
+"                    display: block;\n"
+"                    position: absolute;\n"
+"                    top: 54mm;\n"
+"                    width: 70mm;\n"
+"                    font-family: \"NeighbourSans\";\n"
+"                }\n"
+"\n"
+"                #footer {\n"
+"                    font-size: 8pt;\n"
+"                    width: 100%;\n"
+"                    position: fixed;\n"
+"                    top: 135mm;\n"
+"                    font-family: \"NeighbourSans\";\n"
+"                }\n"
+"                .blue {\n"
+"                    color: #0054A6;\n"
+"                    font-weight: bold;\n"
+"                }\n"
+"                .o_standard_footer{\n"
+"                  display: none;\n"
+"                  }"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.new_donor_card
+msgid ""
+".container {\n"
+"                    font-family: \"millerLight\";\n"
+"                    font-size: 10pt;\n"
+"                }\n"
+"                #date {\n"
+"                    position: absolute;\n"
+"                    top: 7mm;\n"
+"                    left: 7mm;\n"
+"                    width: 95mm;\n"
+"                }\n"
+"                #title {\n"
+"                    font-family: \"millerBold\";\n"
+"                    position: absolute;\n"
+"                    top: 20mm;\n"
+"                    left: 7mm;\n"
+"                    width: 95mm;\n"
+"                }\n"
+"                #body {\n"
+"                    position: absolute;\n"
+"                    top: 30mm;\n"
+"                    left: 7mm;\n"
+"                    width: 160mm;\n"
+"                }\n"
+"                #signature {\n"
+"                    position: absolute;\n"
+"                    top: 118mm;\n"
+"                    left: 7mm;\n"
+"                }\n"
+"                .blue {\n"
+"                    color: #0054A6;\n"
+"                    font-weight: bold;\n"
+"                }"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"/* Put the text down to avoid showing in the address window */\n"
+"                    margin-top: 9mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"/report_compassion/static/font/Montserrat-Bold.ttf);\n"
+"            }\n"
+"            body{\n"
+"                padding: 0;\n"
+"                margin: 0;\n"
+"                font-family: \"millerLight\";\n"
+"            }\n"
+"            .background {\n"
+"                position: absolute;\n"
+"                top: 0;\n"
+"                left: 0;\n"
+"                height: 297mm;\n"
+"                width: 210mm;\n"
+"                z-index: -1;\n"
+"            }\n"
+"            .background img {\n"
+"                width: 100%;\n"
+"                height: 100%;\n"
+"            }\n"
+"            .legend_date{\n"
+"                color: #005eb8;\n"
+"                text-transform: uppercase;\n"
+"                text-align: center;\n"
+"                font-size:13px;\n"
+"                margin-top:0;\n"
+"            }\n"
+"            .child_name{\n"
+"                color: #4a4a49;\n"
+"                text-transform: uppercase;\n"
+"                font-weight: bold;\n"
+"                text-align: center;\n"
+"                font-size:24px;\n"
+"                margin-bottom:0;\n"
+"                padding-bottom: -10pt;\n"
+"            }\n"
+"            .yellow_line{\n"
+"                width:25mm;\n"
+"                color: #dcaa02;\n"
+"                background-color: #dcaa02;\n"
+"                height: 1pt;\n"
+"                border: none;\n"
+"                margin-top: 3mm;\n"
+"                margin-bottom: 3mm;\n"
+"                padding:0;\n"
+"            }\n"
+"            .child_picture{\n"
+"                width: 66mm;\n"
+"                height: 99mm;\n"
+"                margin-left: 25mm;\n"
+"            }\n"
+"            .multi{\n"
+"                margin-left: 25mm;\n"
+"            }\n"
+"            .single{\n"
+"                margin-left: 72mm;\n"
+"            }\n"
+"            .pictures_layout {\n"
+"                margin: 0;\n"
+"                position: absolute;\n"
+"                top: 164.5mm;\n"
+"            }\n"
+"            .info_layout {\n"
+"                font-family: \"montserratBold\";\n"
+"                margin: 0;\n"
+"                padding:0;\n"
+"                position: absolute;\n"
+"                top: 263mm;\n"
+"                width:100%;\n"
+"            }\n"
+"            .text_layout {\n"
+"                text-align: center;\n"
+"                color: #4a4a49;\n"
+"                font-size:16px;\n"
+"                position: absolute;\n"
+"                top:"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "192"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__paper_format__report_compassion_2bvr_sponsorship
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__paper_format__report_compassion_2bvr_gift_sponsorship
+msgid "2 BVR"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_2bvr_gift_sponsorship
+msgid "2QR sponsorship gift report"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_2bvr_sponsorship
+msgid "2QR sponsorship report"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid ""
+"<br/>\n"
+"\n"
+"                        <span class=\"swissqr_text title\">Payable by</span><br/>"
+msgstr ""
+"<br/>\n"
+"\n"
+"                            <span class=\"swissqr_text title\">Payable par</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid ""
+"<br/>\n"
+"\n"
+"                    <span class=\"swissqr_text title\">Payable by</span><br/>"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid ""
+"<br/>\n"
+"\n"
+"                    <span class=\"swissqr_text title\">Reference</span><br/>"
+msgstr ""
+"<br/>\n"
+"\n"
+"                        <span class=\"swissqr_text title\">Référence</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_bvr_due_document
+msgid ""
+"<br/>\n"
+"                CHF"
+msgstr ""
+
+#. module: report_compassion
+#: model:mail.template,body_html:report_compassion.tax_receipt_template
+msgid ""
+"<div>\n"
+"                    % set year = ctx['year']\n"
+"                </div>\n"
+"                <div>\n"
+"                    <h2>Your donations in ${year} add up to CHF <span style=\"font-family: 'miller';\">${object.get_receipt_text(year)}</span></h2>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <p>The Christian humanitarian organisation Compassion Suisse, that serves as an advocate for children in poverty, is exempt from taxes. By a decision taken May 24, 2004 by the cantonal administration of the canton of Vaud, the association is recognized as a registered non profit organisation.\n"
+"                    </p>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <p>May God bless you richly.</p>\n"
+"                    <p>Best regards</p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div>\n"
+"                    % set year = ctx['year']\n"
+"                </div>\n"
+"                <div>\n"
+"                    <br>\n"
+"                    <br>\n"
+"                    <h2 align=center>Vos dons en ${year} s'élèvent<br>à CHF ${object.get_receipt_text(year)}</h2>\n"
+"                    <br>\n"
+"                    <br>\n"
+"                    <p>L'association Compassion Suisse d'aide humanitaire chrétienne en faveur de l'enfance défavorisée est exonérée d'impôts et reconnue de pure utilité publique par décision de l'administration cantonale des impôts du canton de Vaud du 24 mai 2004.\n"
+"                    </p>\n"
+"                    <br>\n"
+"                    <br>\n"
+"                    <p>Encore une fois, merci de votre générosité. Avec vous, nous voulons changer le monde, un enfant à la fois.</p>\n"
+"                    <p>Nous vous prions de recevoir,  ${object.salutation[0].lower() + object.salutation[1:]}, nos chaleureuses salutations.</p>\n"
+"                </div>\n"
+"            "
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid ""
+"<span class=\"blue\">COMPASSION</span>\n"
+"                                    <span>Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>\n"
+"                                    <br/>\n"
+"                                    <span class=\"blue\">TÉL</span>\n"
+"                                    <span>.: 031 552 21 25 </span>\n"
+"                                    <span class=\"blue\">MAIL</span>\n"
+"                                    <span>: info@compassion.ch </span>\n"
+"                                    <span class=\"blue\">WWW</span>\n"
+"                                    <span>.compassion.ch </span>\n"
+"                                    <span class=\"blue\">CCP/PC</span>\n"
+"                                    <span> 17-312562-0</span>"
+msgstr ""
+"<span class=\"blue\">COMPASSION</span>\n"
+"                                    <span>Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>\n"
+"                                    <br/>\n"
+"                                    <span class=\"blue\">TÉL</span>\n"
+"                                    <span>.: 031 552 21 25 </span>\n"
+"                                    <span class=\"blue\">MAIL</span>\n"
+"                                    <span>: info@compassion.ch </span>\n"
+"                                    <span class=\"blue\">WWW</span>\n"
+"                                    <span>.compassion.ch </span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid ""
+"<span class=\"blue\">COMPASSION</span>\n"
+"                    <span> Rue Galilée 3, 1400 Yverdon-les-Bains</span>\n"
+"                    <br/>\n"
+"                    <span class=\"blue\">TEL</span>\n"
+"                    <span> 031 552 21 25</span>\n"
+"                    <br/>\n"
+"                    <span class=\"blue\">MAIL</span>\n"
+"                    <span> info@compassion.ch</span>\n"
+"                    <br/>\n"
+"                    <span class=\"blue\">WWW</span>\n"
+"                    <span>.compassion.ch</span>"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title title_zone\">Payment part</span><br/>"
+msgstr ""
+"<span class=\"swissqr_text title title_zone\">Zone de paiement</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title title_zone\">Receipt</span><br/>"
+msgstr "<span class=\"swissqr_text title title_zone\">Récepissé</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Acceptance point</span>"
+msgstr "<span class=\"swissqr_text title\">Acceptance</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Additional information</span><br/>"
+msgstr ""
+"<span class=\"swissqr_text title\">Informations additionnelles</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Amount</span><br/>"
+msgstr "<span class=\"swissqr_text title\">Montant</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Currency</span><br/>"
+msgstr "<span class=\"swissqr_text title\">Devise</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Payable to</span><br/>"
+msgstr "<span class=\"swissqr_text title\">Paiement pour</span><br/>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Reference</span><br/>"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid ""
+"<span style=\"font-weight: bold\">Sarah Maria Herrendorff</span>\n"
+"                                                <br/>\n"
+"                                                <span>and the team from Compassion</span>"
+msgstr ""
+"<span style=\"font-weight: bold\">Sarah Maria Herrendorff</span>\n"
+"                                    <br/>\n"
+"                                    <span>et l'équipe de Compassion</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"@font-face {\n"
+"                font-family: montserratBold;\n"
+"                src: url("
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_recurring_contract_group
+msgid "A group of contracts"
+msgstr "Un groupe de contrats"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_partner_communication
+msgid "A4 Letterhead communication"
+msgstr "A4 en-tête"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__amount
+msgid "Amount"
+msgstr "Montant"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract__amount_due
+msgid "Amount Due"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_anniversary_card
+msgid "Anniversary Card"
+msgstr "Carte anniversaire"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_generate_wizard__product_id
+msgid "Attach payment slip for"
+msgstr "Ajouter un bulletin de versement pour"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__birthday_gift
+msgid "Birthday Gift"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_blank_communication
+msgid "Blank communication"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+#: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "CH-1400 Yverdon-les-Bains"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_childpack_expiration
+msgid "Childpack Expiration"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_config
+msgid "Communication Configuration"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_job
+msgid "Communication Job"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_res_company
+msgid "Companies"
+msgstr "Compagnie"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__period_selection__this_year
+msgid "Current year"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__date_start
+msgid "Date Start"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__date_stop
+msgid "Date Stop"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_sponsorship_bvr.py:0
+#, python-format
+msgid "Date stop must be after date start."
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_project_description
+msgid "Description"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_description_left
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_project_description_left
+msgid "Description Left"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_description_right
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_project_description_right
+msgid "Description Right"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_account_move__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_config__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_generate_wizard__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract_group__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_2bvr_gift_sponsorship__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_2bvr_sponsorship__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_due__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_fund__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_gift_sponsorship__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_sponsorship__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_single_bvr_sponsorship__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_tax_receipt__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_config__display_pp
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job__display_pp
+msgid "Display PP"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"Do you remember the beginning of your sponsorship?<br/>What a great journey "
+"it has been since then!"
+msgstr ""
+"Vous souvenez-vous du début de votre parrainage? <br/>Quel beau chemin "
+"parcouru depuis!"
+
+#. module: report_compassion
+#: model:mail.template,subject:report_compassion.tax_receipt_template
+msgid "Donation receipt"
+msgstr "Attestation de dons"
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+#, python-format
+msgid "Download report"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "Due date"
+msgstr "Date d'échéance"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_ending_sponsorship_certificate
+msgid "Ending Sponsorship Certificate"
+msgstr "Certificat de fin de parrainage"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__family_gift
+msgid "Family Gift"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__file_download
+msgid "File Download"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__file_name
+msgid "File Name"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:0
+#, python-format
+msgid "First invoice is after Date Stop"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__font
+msgid "Font"
+msgstr "Fonte"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_childpack_full
+msgid "Full Childpack"
+msgstr "Dossier Complet"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_account_bank_statement_line__gender
+#: model:ir.model.fields,field_description:report_compassion.field_account_move__gender
+#: model:ir.model.fields,field_description:report_compassion.field_account_payment__gender
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract_group__gender
+msgid "Gender"
+msgstr "Genre"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__general_gift
+msgid "General Gift"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_gift_sponsorship
+msgid "Gift Payment Slip 1 BVR"
+msgstr "Bulletin cadeau"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_gift_bvr
+msgid "Gift Payment Slips"
+msgstr "Bulletins Cadeaux"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_2bvr_gift_sponsorship
+msgid "Gift Payment Slips 2 BVR"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__graduation_gift
+msgid "Graduation Gift"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_account_move__id
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_config__id
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_generate_wizard__id
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_id
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__id
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract__id
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract_group__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_2bvr_gift_sponsorship__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_2bvr_sponsorship__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_due__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_fund__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_gift_sponsorship__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_sponsorship__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_single_bvr_sponsorship__id
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_tax_receipt__id
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__id
+#: model:ir.model.fields,field_description:report_compassion.field_res_partner__id
+msgid "ID"
+msgstr "Identifiant"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:0
+#, python-format
+msgid "ISR"
+msgstr "BVR"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:0
+#, python-format
+msgid "ISR for standing order"
+msgstr "BVR pour établir l'ordre permanent"
+
+#. module: report_compassion
+#: model:ir.model.fields,help:report_compassion.field_partner_communication_config__display_pp
+#: model:ir.model.fields,help:report_compassion.field_partner_communication_job__display_pp
+msgid "If not set, the PP is not printed upper the address."
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__include_gifts
+msgid "Include Gifts"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_account_move
+msgid "Journal Entry"
+msgstr "Entrée de journal"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_lang
+msgid "Lang"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_account_move____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_config____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_generate_wizard____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack___last_update
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract_group____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_2bvr_gift_sponsorship____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_2bvr_sponsorship____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_due____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_fund____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_gift_sponsorship____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_bvr_sponsorship____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_single_bvr_sponsorship____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_report_report_compassion_tax_receipt____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_res_company____last_update
+#: model:ir.model.fields,field_description:report_compassion.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_childpack_mini
+msgid "Mini Childpack"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__res_company__font__neighboursans
+msgid "NeighbourSans"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.new_donors_card_report
+msgid "New Donors Card"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__period_selection__next_year
+msgid "Next year"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:0
+#, python-format
+msgid "No open invoice found !"
+msgstr "Pas de facture ouverte !"
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/account_invoice.py:0
+#, python-format
+msgid "No valid ISR number found on the invoice."
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__output_type
+msgid "Output Type"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+#: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "P.P."
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__pdf
+msgid "PDF"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__paper_format
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__paper_format
+msgid "Paper Format"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_generate_wizard
+msgid "Partner Communication Generation Wizard"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_fund_christmas
+msgid "Payment Slip for Christmas Fund"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_bvr_fund
+#: model:ir.actions.report,name:report_compassion.report_bvr_fund
+msgid "Payment Slip for Fund"
+msgstr "Bulletin pour Fonds"
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+#, python-format
+msgid ""
+"Payments for the selected year are not yet registered completely. The tax "
+"receipt may be incomplete."
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__pdf
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__pdf
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__pdf
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__pdf
+msgid "Pdf"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__pdf_download
+msgid "Pdf Download"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__pdf_name
+msgid "Pdf Name"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__period_selection
+msgid "Period Selection"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+#, python-format
+msgid "Please select a product to print the payment slip."
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:0
+#, python-format
+msgid "Please select at least one gift type."
+msgstr "Veuillez sélectionner au moins un cadeau"
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+#, python-format
+msgid "Please select at least one partner."
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+#: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "Poste CH SA"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_bvr_fund_view
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship_due
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship_gift
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_tax_receipt
+msgid "Print"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf
+msgid "Print background"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_sponsorship_bvr_due
+msgid "Print sponsorship due BVR"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__product_id
+msgid "Product"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__project_gift
+msgid "Project Gift"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_project_title
+msgid "Project Title"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job__product_id
+msgid "QR Bill for fund"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_due
+msgid "QR Sponsorship due report"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_gift_sponsorship
+msgid "QR sponsorship gift report"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_sponsorship
+msgid "QR sponsorship report"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_compassion_qr
+msgid "QR-bill"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_recurring_contract
+msgid "Recurring contract"
+msgstr "Contrat récurrent"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_sponsorship_bvr
+msgid ""
+"Select a period and the format for printing payment slips of a sponsorship"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_sponsorship_gift_bvr
+msgid ""
+"Select a period and the format for printing the payment slips of a "
+"sponsorship"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_bvr_fund
+msgid "Select a product and print payment slip of a partner"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_tax_receipt
+msgid "Select a tax receipt"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/report_bvr_sponsorship.py:0
+#, python-format
+msgid "Selection not valid. No active sponsorship found."
+msgstr "Sélection invalide. Pas de parrainage actif."
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__print
+msgid "Send to printer"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__paper_format__report_compassion_single_bvr_sponsorship
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__paper_format__report_compassion_bvr_gift_sponsorship
+msgid "Single BVR"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__paper_format__report_compassion_bvr_sponsorship
+msgid "Single BVR A4"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_single_bvr_sponsorship
+msgid "Single QR sponsorship report"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_childpack_small
+msgid "Small Childpack"
+msgstr "Petit dossier"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid "Sponsored since"
+msgstr "Parrainé depuis"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid "Sponsored since (Female)"
+msgstr "Parrainée depuis"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_due
+msgid "Sponsorship Due"
+msgstr "Parrainage en retard"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr_due
+msgid "Sponsorship Due PDF"
+msgstr "Parrainage en retard"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_sponsorship
+msgid "Sponsorship Payment Slip 1 BVR"
+msgstr "Bulletin de parrainage"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_single_bvr_sponsorship
+msgid "Sponsorship Payment Slip Single BVR"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr
+msgid "Sponsorship Payment Slips"
+msgstr "Bulletins pour le parrainage"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_2bvr_sponsorship
+msgid "Sponsorship Payment Slips 2 BVR"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_bvr_due_document
+msgid "Sponsorship due"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_state
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__state
+msgid "State"
+msgstr "État"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.tax_receipt_report
+msgid "Tax Receipt"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_tax_receipt
+msgid "Tax receipt"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_tax_receipt
+msgid "Tax receipt report"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_type
+msgid "Type"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_fund
+msgid "Used for preparing data for the BVR report"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"We thank you from the bottom of our hearts for accompanying a child living "
+"in poverty."
+msgstr ""
+"Nous vous remercions du fond du cœur d'avoir accompagné un enfant vivant "
+"dans la pauvreté."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__year
+msgid "Year"
+msgstr "Année"
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+#, python-format
+msgid "Year is incomplete"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+#, python-format
+msgid "You can only generate tax certificate for one language at a time."
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/report_bvr_fund.py:0
+#, python-format
+msgid "You must give a product in data to print this report."
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"Your precious commitment has given dignity to this child, helped him to "
+"develop in a promising way and allowed him to look forward to the future "
+"with hope."
+msgstr ""
+"Votre précieux engagement a donné de la dignité à cet enfant, l'a aidé à se "
+"développer de manière prometteuse et lui a permis d'envisager l'avenir avec "
+"espérance."
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/res_partner.py:0
+#, python-format
+msgid "Yverdon-les-Bains"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__zip
+msgid "ZIP File"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.new_donor_card_page
+msgid "alder"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid "display: None;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.bvr_due
+#: model_terms:ir.ui.view,arch_db:report_compassion.bvr_fund
+#: model_terms:ir.ui.view,arch_db:report_compassion.bvr_fund_christmas
+#: model_terms:ir.ui.view,arch_db:report_compassion.bvr_gift_sponsorship_2bvr
+#: model_terms:ir.ui.view,arch_db:report_compassion.bvr_sponsorship_2bvr
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_bvr_sponsorship_document
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_bvr_sponsorship_gift_document
+msgid "display: none;"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__state__download
+msgid "download"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:0
+#, python-format
+msgid "for"
+msgstr "pour"
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+#, python-format
+msgid "fund"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:0
+#, python-format
+msgid "gift payment slips"
+msgstr "bulletins cadeaux"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"height: 45mm;\n"
+"                font-size: 8pt;\n"
+"            }\n"
+"            #logo {\n"
+"                display: inline-block;\n"
+"                width: 50mm;\n"
+"                height: 20mm;\n"
+"            }\n"
+"            #logo img {\n"
+"                max-width: 100%;\n"
+"                max-height: 100%;\n"
+"                margin: auto;\n"
+"            }\n"
+"            #compassion_address {\n"
+"                float: left;\n"
+"                margin-top: 10mm;\n"
+"                font-size: 8pt;\n"
+"            }\n"
+"            #title {\n"
+"                text-decoration: underline;\n"
+"                margin-bottom: 2mm;\n"
+"            }\n"
+"            #address {\n"
+"                margin-top: 8mm;\n"
+"                padding-left: 3mm;\n"
+"            }\n"
+"            #letter {\n"
+"                position: absolute;\n"
+"                font-family: \"millerLight\";\n"
+"                font-size:"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "margin-bottom: 20mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "margin-bottom: 6mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"margin-left: 11mm;\n"
+"                    margin-right: 1mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"margin-left: 25mm;\n"
+"                    margin-right: 15mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_parent
+msgid ""
+"margin-left: 7mm;\n"
+"                padding-top: 7mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "margin-top: 20mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "min-height: 120mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "min-height: 140mm;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"mm;\n"
+"                margin-left: 22mm;\n"
+"                margin-right: 22mm;\n"
+"            }\n"
+"            .second_paragraph {\n"
+"                font-family: \"montserratBold\";\n"
+"                color: #005eb8; !important\n"
+"                font-size:18px;\n"
+"                text-transform: uppercase;\n"
+"            }\n"
+"            .third_paragraph {\n"
+"                font-style: italic;\n"
+"            }"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr_due__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_tax_receipt__state__new
+msgid "new"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__state__pdf
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr_due__state__pdf
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__state__pdf
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_tax_receipt__state__pdf
+msgid "pdf"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"pt;\n"
+"                color: black;\n"
+"                top: 43mm;"
+msgstr ""
+
+#. module: report_compassion
+#: code:addons/report_compassion/models/contract_group.py:0
+#, python-format
+msgid "sponsorships"
+msgstr "parrainages"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "width: 62%;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid "width: 90%;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"}\n"
+"            #success-story hr {\n"
+"                background-color: white;\n"
+"            }\n"
+"            /* Format lists for PDF */\n"
+"            ul {\n"
+"                list-style: none;\n"
+"            }\n"
+"            ol {\n"
+"                list-style-position: inside;\n"
+"            }\n"
+"            li {\n"
+"                padding-left: 16px;\n"
+"            }\n"
+"            ul&gt;li:before {\n"
+"                content: \"-\";\n"
+"                padding-right: 8px;\n"
+"            }\n"
+"\n"
+"            #thank_you_quote tr td:first-child {\n"
+"                padding-right: 2mm;\n"
+"                vertical-align: top;\n"
+"            }\n"
+"            #thank_you_quote tr td {\n"
+"                vertical-align: middle;\n"
+"            }"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"}\n"
+"            .body_text {\n"
+"                display: inline-block;\n"
+"                margin-right: 2mm; /* omr code need nothing 5mm all over it */"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"}\n"
+"            .right {\n"
+"                width: 44%;\n"
+"                margin-left: auto;\n"
+"            }\n"
+"            .blue {\n"
+"                color: #2A5EEC;\n"
+"                font-weight: bold;\n"
+"            }\n"
+"            #pp {\n"
+"                font-family: verdana;\n"
+"            }\n"
+"            #pp-box {\n"
+"                display: inline-block;\n"
+"                padding: 1mm;\n"
+"                width: 50mm;\n"
+"                line-height: initial;\n"
+"                border-style: solid;\n"
+"                border-width: 1pt;\n"
+"            }\n"
+"            #pp-box div:first-child{\n"
+"                font-size: 12pt;\n"
+"                font-weight: bold;\n"
+"            }\n"
+"            #pp-box div:last-child{\n"
+"                font-size: 8pt;\n"
+"            }\n"
+"            #pp-post {\n"
+"                display: inline-block;\n"
+"                font-size: 6pt;\n"
+"            }\n"
+"            #pp hr {\n"
+"                margin-top: 0.5mm;\n"
+"                margin-bottom: 3mm;\n"
+"            }\n"
+"            #content {\n"
+"                width: 100%;\n"
+"            }\n"
+"            #success-story {\n"
+"                display: inline-block;\n"
+"                margin-right: 5mm;\n"
+"                vertical-align: top;\n"
+"                padding: 3mm;\n"
+"                width: 28%;\n"
+"                min-height: 170mm;\n"
+"                max-height: 170mm;\n"
+"                background-color: #2B2B5D;\n"
+"                color: white;\n"
+"                font-size: 12pt;\n"
+"            }\n"
+"            #body {\n"
+"                display: inline-block;\n"
+"                line-height: 1.5;"
+msgstr ""
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.communication_style
+msgid ""
+"}\n"
+"            hr {\n"
+"                margin-top: 0px;\n"
+"                padding: 0mm;\n"
+"                border: none;\n"
+"                height: 1pt;\n"
+"                background-color: black;"
+msgstr ""

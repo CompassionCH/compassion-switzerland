@@ -1,0 +1,57 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* crm_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 18:58+0000\n"
+"PO-Revision-Date: 2026-10-16 18:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: crm_switzerland
+#: model:ir.model,name:crm_switzerland.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: crm_switzerland
+#: model:ir.model.fields,field_description:crm_switzerland.field_crm_lead__display_name
+#: model:ir.model.fields,field_description:crm_switzerland.field_mailing_contact__display_name
+#: model:ir.model.fields,field_description:crm_switzerland.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: crm_switzerland
+#: model:ir.model.fields,field_description:crm_switzerland.field_crm_lead__email_from
+msgid "Email"
+msgstr "Courriel"
+
+#. module: crm_switzerland
+#: model:ir.model.fields,field_description:crm_switzerland.field_crm_lead__id
+#: model:ir.model.fields,field_description:crm_switzerland.field_mailing_contact__id
+#: model:ir.model.fields,field_description:crm_switzerland.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: crm_switzerland
+#: model:ir.model.fields,field_description:crm_switzerland.field_crm_lead____last_update
+#: model:ir.model.fields,field_description:crm_switzerland.field_mailing_contact____last_update
+#: model:ir.model.fields,field_description:crm_switzerland.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: crm_switzerland
+#: model:ir.model,name:crm_switzerland.model_crm_lead
+msgid "Lead/Opportunity"
+msgstr "Piste/Opportunité"
+
+#. module: crm_switzerland
+#: model:ir.model,name:crm_switzerland.model_mailing_contact
+msgid "Mailing Contact"
+msgstr ""

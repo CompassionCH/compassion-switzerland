@@ -1,0 +1,916 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* my_compassion_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 18:58+0000\n"
+"PO-Revision-Date: 2026-10-16 18:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_before1
+msgid "2.2 billion people lack access to safe drinking water."
+msgstr ""
+"Weltweit haben 2,2 Milliarden Menschen keinen Zugang zu sicherem "
+"Trinkwasser."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before2
+msgid ""
+"305,000 children are currently participating in the Compassion program while"
+" waiting for a sponsor."
+msgstr ""
+"Momentan nehmen 305'000 Kinder am Compassion-Programm teil, die noch auf "
+"eine Patin oder einen Paten warten."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_before2
+msgid ""
+"494 million people still use inadequate sanitation facilities or practice "
+"open defecation."
+msgstr ""
+"494 Millionen Menschen haben immer noch keinen Zugang zu angemessenen "
+"sanitären Einrichtungen oder verrichten ihre Notdurft im Freien."
+
+#. module: my_compassion_switzerland
+#: model:mail.template,body_html:my_compassion_switzerland.email_template_volunteer_registration
+msgid ""
+"<div style=\"font-family:Arial, sans-serif;font-size: 14px; line-height: 1.5; color: #333;\">\n"
+"    <p>A new volunteer has registered from My Compassion with the following details:</p>\n"
+"\n"
+"    <p><strong>Title:</strong> ${ctx.get('title') or ''}</p>\n"
+"    <p><strong>Firstname, Lastname:</strong> ${ctx.get('firstname') or ''} ${ctx.get('lastname') or ''}</p>\n"
+"    <p><strong>Phone number:</strong> ${ctx.get('phone_number') or ''}</p>\n"
+"    <p><strong>Email:</strong> ${ctx.get('email') or ''}</p>\n"
+"    <p><strong>Church:</strong> ${ctx.get('church') or ''}</p>\n"
+"\n"
+"    <p><strong>I want to get involved as:</strong></p>\n"
+"    % if ctx.get('volunteer_roles'):\n"
+"        <ul>\n"
+"        % for role in ctx.get('volunteer_roles'):\n"
+"            <li>${role or ''}</li>\n"
+"        % endfor\n"
+"        </ul>\n"
+"    % else:\n"
+"        <p>No roles selected</p>\n"
+"    % endif\n"
+"\n"
+"    <p><strong>Message:</strong><br/>\n"
+"        ${ctx.get('comments') or ''}\n"
+"    </p>\n"
+"\n"
+"    <p>Best regards,<br/>\n"
+"    Compassion Switzerland Website</p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"font-family:Arial, sans-serif;font-size: 14px; line-height: 1.5; color: #333;\">\n"
+"    <p>A new volunteer has registered from My Compassion with the following details:</p>\n"
+"\n"
+"    <p><strong>Title:</strong> ${ctx.get('title') or ''}</p>\n"
+"    <p><strong>Firstname, Lastname:</strong> ${ctx.get('firstname') or ''} ${ctx.get('lastname') or ''}</p>\n"
+"    <p><strong>Phone number:</strong> ${ctx.get('phone_number') or ''}</p>\n"
+"    <p><strong>Email:</strong> ${ctx.get('email') or ''}</p>\n"
+"    <p><strong>Church:</strong> ${ctx.get('church') or ''}</p>\n"
+"\n"
+"    <p><strong>I want to get involved as:</strong></p>\n"
+"    % if ctx.get('volunteer_roles'):\n"
+"        <ul>\n"
+"        % for role in ctx.get('volunteer_roles'):\n"
+"            <li>${role or ''}</li>\n"
+"        % endfor\n"
+"        </ul>\n"
+"    % else:\n"
+"        <p>No roles selected</p>\n"
+"    % endif\n"
+"\n"
+"    <p><strong>Message:</strong><br/>\n"
+"        ${ctx.get('comments') or ''}\n"
+"    </p>\n"
+"\n"
+"    <p>Best regards,<br/>\n"
+"    Compassion Switzerland Website</p>\n"
+"</div>"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info1
+msgid "A gift for every child"
+msgstr "Ein Geschenk für jedes Kind"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after3
+msgid "Access to critical prevention programs."
+msgstr "Zugang zu wichtigen Präventionsprogrammen."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__activate_for_my_compassion
+msgid "Activate For My Compassion"
+msgstr "Für MyCompassion aktivieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Activate for MyCompassion"
+msgstr "Für MyCompassion aktivieren"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_de_email
+msgid "Adv. engagement (DE)"
+msgstr "Paten-Engagement (DE)"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_fr_email
+msgid "Adv. engagement (FR)"
+msgstr "Paten-Engagement (FR)"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_it_email
+msgid "Adv. engagement (IT)"
+msgstr "Paten-Engagement (IT)"
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_advocate_engagement
+msgid "Advocate Engagement"
+msgstr "Engagement der Botschafter"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
+msgid "Advocate engagement (Default)"
+msgstr "Paten-Engagement (Standard)"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_before1
+msgid "Almost every minute, a child dies from malaria."
+msgstr "Fast jede Minute stirbt ein Kind an Malaria."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Alt Text"
+msgstr "Alternativtext"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_alt_text
+msgid ""
+"Alt text for the image of the engagement type visible on the MyCompassion "
+"website"
+msgstr ""
+"Alternativtext für das Bild des Engagementtyps, das auf der MyCompassion-"
+"Website sichtbar ist"
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid ""
+"An error occurred while processing your request. Please try again or contact"
+" support."
+msgstr ""
+"Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten. Bitte "
+"versuche es erneut oder kontaktiere den Support."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
+msgid "Apply as a Volunteer"
+msgstr "Freiwillig mithelfen"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info3
+msgid ""
+"At the Compassion Child Development Center in northern Peru, the Christmas "
+"party is one of the highlights of the year. Carefully prepared by Compassion"
+" staff, the celebration is an unforgettable day for the children and their "
+"families—full of laughter, gratitude, hope, and genuine community. Yamile "
+"(pictured) beams over her Christmas gift, which would not be possible "
+"without donations."
+msgstr ""
+"Im Kinderzentrum im Norden Perus ist die Weihnachtsfeier eines der schönsten"
+" Ereignisse des Jahres. Mit viel Liebe von den Mitarbeitenden vorbereitet, "
+"wird dieser Tag für die Kinder und ihre Familien zu einem unvergesslichen "
+"Erlebnis voller Lachen, Dankbarkeit, Hoffnung und echter Gemeinschaft. "
+"Yamile (im Bild) freut sich riesig über ihr Weihnachtsgeschenk, das sie dank"
+" einer Spende erhalten hat."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after1
+msgid ""
+"Build wells and water tanks that give children, their families, and entire "
+"communities vital access to clean water."
+msgstr ""
+"Brunnen und Wassertanks bauen, die Kindern, ihren Familien und ganzen "
+"Gemeinschaften lebenswichtigen Zugang zu sauberem Wasser ermöglichen."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after2
+msgid ""
+"Children receive support, protection, and loving care while they wait for a "
+"sponsor."
+msgstr ""
+"Kinder werden unterstützt, geschützt und liebevoll betreut, während sie auf "
+"einen Paten warten."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_hea
+msgid ""
+"Compassion provides children with access to vital medical care—from surgeries and procedures to equipping facilities for children with disabilities.\n"
+"Thanks to donations, our local church partners can procure medicines and conduct prevention campaigns, such as those against malaria."
+msgstr ""
+"Compassion sorgt dafür, dass Kinder wichtige medizinische Hilfe bekommen – "
+"von Operationen über Behandlungen bis hin zu speziell ausgestatteten "
+"Einrichtungen für Kinder mit Behinderungen. Dank Spenden können unsere "
+"lokalen Partnerkirchen Medikamente beschaffen und Präventionskampagnen "
+"durchführen, zum Beispiel gegen Malaria."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_dis
+msgid ""
+"Compassion’s church partners are deeply rooted in their communities, "
+"allowing them to respond quickly and effectively to disasters. Our Disaster "
+"Relief Fund provides centers and affected families with immediate aid, "
+"essential supplies, and safe shelter right after a crisis strikes."
+msgstr ""
+"Die Partnerkirchen von Compassion sind lokal tief verankert und können "
+"dadurch schnell und gezielt auf Katastrophen reagieren. Unser "
+"Nothilfeprogramm stellt Kinderzentren und betroffenen Familien unmittelbar "
+"nach einem Unglück Nothilfe, lebenswichtige Versorgungsgüter und sichere "
+"Unterkünfte zur Verfügung."
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfig-Einstellungen"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after2
+msgid ""
+"Construct safe toilet facilities so that children—especially girls—have "
+"access to protected and dignified sanitation."
+msgstr ""
+"sichere Toilettenanlagen bauen, damit Kinder – insbesondere Mädchen – Zugang"
+" zu geschützter und würdevoller sanitären Versorgung haben."
+
+#. module: my_compassion_switzerland
+#: model:ir.model,name:my_compassion_switzerland.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before1
+msgid ""
+"Currently, over 400 million children worldwide live in extreme poverty on "
+"less than $2.15 a day."
+msgstr ""
+"Derzeit leben mehr als 400 Millionen Kinder weltweit in extremer Armut und "
+"müssen mit weniger als 2.50 Franken pro Tag auskommen."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Description"
+msgstr "Beschreibung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_description
+msgid "Description of engagement type visible on the MyCompassion website"
+msgstr ""
+"Beschreibung des Engagement-Typs, sichtbar auf der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after2
+msgid ""
+"Develop sustainable reconstruction plans with local partners to establish "
+"long-term stability."
+msgstr ""
+"gemeinsam mit lokalen Partnern nachhaltige Wiederaufbaupläne erarbeiten, um "
+"langfristige Stabilität zu schaffen."
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:my_compassion_switzerland.product_template_fund_dis
+msgid "Disaster Relief Fund"
+msgstr "Nothilfe"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__display_name
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_thank_you_text
+msgid ""
+"Displayed thank you message to the volunteer if they are engaged in this "
+"engagement type"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_after1
+msgid "Distribute food supplies to families in critical situations."
+msgstr ""
+"Lebensmittelvorräte an Familien in besonders prekären Situationen verteilen"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_description:my_compassion_switzerland.product_template_fund_fda
+msgid ""
+"Droughts, crop failures, conflict, and rising prices—for families in extreme"
+" poverty, food is becoming less affordable or is often barely available. "
+"Through the Food Fund, Compassion steps in during times of shortage. This "
+"ensures sponsored children have enough to eat—and not just them, but their "
+"parents and siblings too."
+msgstr ""
+"Dürren und Missernten, Konflikte und steigende Preise – für Familien in "
+"extremer Armut werden Lebensmittel immer weniger erschwinglich oder sind oft"
+" kaum vorhanden. Aus dem Lebensmittelfonds hilft Compassion in Zeiten des "
+"Mangels. Damit die Patenkinder genug zu essen haben. Und nicht nur sie, "
+"sondern auch Eltern und Geschwister."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
+msgid "E-Bill"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in  "
+"any other languages."
+msgstr ""
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
+"Formular in anderen Sprachen eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_fr_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in "
+"French."
+msgstr ""
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
+"Formular auf Französisch eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_de_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in "
+"German."
+msgstr ""
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
+"Formular auf Deutsch eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_res_config_settings__advocate_notify_it_email
+msgid ""
+"Email address to notify when an advocates engagement form is submitted in "
+"Italian."
+msgstr ""
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
+"Formular auf Italienisch eingereicht wird."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_advocate_engagement_tree
+msgid "Engagement Types"
+msgstr "Engagement-Typen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_notification_engagement_advocate
+msgid "Engagement from advocates"
+msgstr "Engagement von Unterstützenden"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Engagement type"
+msgstr "Engagement-Typ"
+
+#. module: my_compassion_switzerland
+#: model:product.template,name:my_compassion_switzerland.product_template_fund_dis
+msgid "Ethiopia emergency"
+msgstr "Äthiopien-Notfall"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_before2
+msgid ""
+"Every year, millions of people worldwide face emergencies due to extreme "
+"weather events, which often destroy basic necessities like water, food, "
+"shelter, and healthcare access."
+msgstr ""
+"Jedes Jahr geraten weltweit Millionen von Menschen in Notlagen durch extreme"
+" Wetterereignisse, die oft grundlegende Lebensgrundlagen wie Wasser, "
+"Nahrung, Schutz und Gesundheit zerstören."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_before1
+msgid ""
+"Every year, more than 2.3 million children die before their 28th day of "
+"life."
+msgstr ""
+"Jährlich sterben mehr als 2,3 Millionen Kinder noch vor ihrem 28. Lebenstag"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "External Link"
+msgstr "Externer Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
+msgid ""
+"External link for the engagement type which redirects from MyCompassion "
+"website to another website"
+msgstr ""
+"Externer Link für den Engagement-Typ, der von der MyCompassion-Website auf "
+"eine andere Website weiterleitet"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Find out how you can get involved:"
+msgstr ""
+"Entdecke hier die verschiedenen Möglichkeiten, wie du mithelfen kannst:"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:my_compassion_switzerland.product_template_fund_fda
+msgid "Food Fund"
+msgstr "Lebensmittelhilfe"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before1
+msgid ""
+"Food security is a major challenge in many countries in the Global South."
+msgstr ""
+"Die Ernährungssicherheit ist in vielen Ländern des globalen Südens eine "
+"grosse Herausforderung."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"For more information on how to get involved in helping\n"
+"                            children in need, please fill out the form below and we will\n"
+"                            contact you as\n"
+"                            soon as possible."
+msgstr ""
+"Du möchtest mithelfen und noch mehr erfahren? Fülle einfach das Formular "
+"unten aus – wir melden uns so schnell wie möglich bei dir."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Get Involved"
+msgstr "Freiwillig mithelfen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Go to the volunteer platform"
+msgstr "Zur Freiwilligenplattform"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after2
+msgid "Health check-ups and medical treatments."
+msgstr "gesundheitliche Untersuchungen und medizinische Behandlungen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_signup_form_inherit_ch
+msgid "How to register?"
+msgstr "Wie kann ich mich registrieren?"
+
+#. module: my_compassion_switzerland
+#: model:mail.template,subject:my_compassion_switzerland.email_template_volunteer_registration
+msgid "I want to get involved at Compassion Switzerland"
+msgstr "Ich möchte mich bei Compassion Schweiz engagieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "I would like to volunteer for"
+msgstr "Ich möchte mich ehrenamtlich engagieren für"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__id
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__id
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_image
+msgid "Image for the engagement type visible on the MyCompassion website"
+msgstr "Bild für den Engagement-Typ, sichtbar auf der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_before2
+msgid ""
+"In 2023, 4.8 million children under the age of 5 died from preventable or "
+"treatable causes."
+msgstr ""
+"2023 starben 4,8 Millionen Kinder unter 5 Jahren an vermeid- oder "
+"behandelbaren Ursachen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Internal Link"
+msgstr "Interner Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_internal_link
+msgid ""
+"Internal link for the engagement type which sends a request to the Odoo "
+"server"
+msgstr ""
+"Interner Link für den Engagement-Typ, der eine Anfrage an den Odoo-Server "
+"sendet"
+
+#. module: my_compassion_switzerland
+#: code:addons/my_compassion_switzerland/models/advocate_engagement_notification_settings.py:0
+#, python-format
+msgid "Invalid email for %s: %s"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__is_translator
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_users__is_translator
+msgid "Is Translator"
+msgstr "Ist Übersetzer/in"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_before3
+msgid ""
+"Just CHF 30.– is enough to provide a child with access to a safe toilet."
+msgstr ""
+"Schon CHF 30.– reichen aus, um einem Kind den Zugang zu einer sicheren "
+"Toilette zu ermöglichen."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after3
+msgid ""
+"Keep children in class, as they no longer have to spend hours walking to "
+"fetch water."
+msgstr ""
+"Kinder im Unterricht behalten, weil sie nicht mehr stundenlang Wasser holen "
+"müssen."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Label"
+msgstr "Bezeichnung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_label
+msgid "Label used in MyCompassion website"
+msgstr "Bezeichnung, die auf der MyCompassion-Website verwendet wird"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement____last_update
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
+msgid "Learn More"
+msgstr "Mehr erfahren"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info3
+msgid "Lighting up children's eyes"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before2
+msgid "Many families often do not know if or what they will eat tomorrow."
+msgstr ""
+"Viele Familien wissen oft nicht, ob und was sie am nächsten Tag essen "
+"werden."
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info2
+msgid "Meaningful and personal"
+msgstr "Sinnvoll und persönlich"
+
+#. module: my_compassion_switzerland
+#: model:product.template,my_compassion_name:my_compassion_switzerland.product_template_fund_hea
+msgid "Medical Assistance"
+msgstr "Medizinische Begleitung"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after1
+msgid ""
+"Medical care during pregnancy, childbirth, and the child's first year of "
+"life."
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_after1
+msgid "Medical support in countries without health insurance systems."
+msgstr "medizinische Unterstützung in Ländern ohne Krankenversicherung"
+
+#. module: my_compassion_switzerland
+#: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
+#, python-format
+msgid "Missing required volunteer roles"
+msgstr "Fehlende erforderliche Freiwilligenrollen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "My Compassion"
+msgstr "MyCompassion"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_alt_text
+msgid "My Compassion Alt Text"
+msgstr "My Compassion Alt-Text"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_description
+msgid "My Compassion Description"
+msgstr "My Compassion Beschreibung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_external_link
+msgid "My Compassion External Link"
+msgstr "My Compassion Externer Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_image
+msgid "My Compassion Image"
+msgstr "My Compassion Bild"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_internal_link
+msgid "My Compassion Internal Link"
+msgstr "My Compassion Interner Link"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_label
+msgid "My Compassion Label"
+msgstr "My Compassion Etikett"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_thank_you_text
+msgid "My Compassion Thank You Text"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Name"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after2
+msgid "Nutritious food."
+msgstr "nahrhafte Lebensmittel"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_before2
+msgid "Over 260,000 women lose their lives during childbirth annually."
+msgstr "Über 260’000 Frauen verlieren jährlich ihr Leben bei der Geburt"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
+msgid "Picture"
+msgstr "Bild"
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid "Please select one or more volunteering options"
+msgstr "Bitte wähle eine oder mehrere Optionen aus"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after1
+msgid ""
+"Provide families in acute crisis with emergency shelter, medical care, food,"
+" and clean water."
+msgstr ""
+"Familien in akuten Krisen mit Notunterkünften, medizinischer Hilfe, "
+"Lebensmitteln und sauberem Wasser versorgen."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_after2
+msgid ""
+"Provide vulnerable families with seeds, fertilizer, and livestock, and offer"
+" training in self-sufficient farming."
+msgstr ""
+"gefährdeten Familien Saatgut, Dünger und Vieh bereitstellen und Ausbildungen"
+" zur selbstversorgenden Landwirtschaft anbieten"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after3
+msgid "Psychosocial and spiritual support."
+msgstr "psychosoziale und geistliche Begleitung"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__activate_for_my_compassion
+msgid ""
+"Publish the engagement type as an available engagement type on the "
+"MyCompassion website"
+msgstr ""
+"Veröffentlichen Sie den Engagement-Typ als verfügbaren Engagement-Typ auf "
+"der MyCompassion-Website"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Questions or Comments"
+msgstr "Fragen oder Kommentare"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_signup_form_inherit_ch
+msgid "Read our guide"
+msgstr "Anleitung lesen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Send"
+msgstr "Senden"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__sequence
+msgid "Sequence"
+msgstr "Reihenfolge"
+
+#. module: my_compassion_switzerland
+#: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__sequence
+msgid ""
+"Sequence of the engagement type, used to order the engagement types in the "
+"MyCompassion website"
+msgstr ""
+"Reihenfolge des Engagement-Typs, wird zur Sortierung der Engagement-Typen "
+"auf der MyCompassion-Website verwendet"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
+msgid "Set up E-Bill Now"
+msgstr "E-Bill jetzt einrichten"
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info2
+msgid ""
+"Staff at the Child Development Centers know every child well. They choose "
+"gifts that bring joy while meeting the children's specific needs. Some "
+"children receive a toy, others clothing or a warm blanket. Still others "
+"might receive a goat for milk or food supplies for the whole family."
+msgstr ""
+"Die Mitarbeitenden in den Kinderzentren kennen jedes Kind gut. Sie wählen "
+"Geschenke aus, die Freude machen und gleichzeitig den Bedürfnissen der "
+"Kinder entsprechen. Manche Kinder erhalten ein Spielzeug, andere ein "
+"Kleidungsstück oder eine warme Decke. Wieder andere bekommen eine Ziege, die"
+" Milch liefert, oder Lebensmittelvorräte für die ganze Familie."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"Thank you for being a volunteer at\n"
+"                                    Compassion"
+msgstr "Herzlichen Dank, dass du dich bei Compassion freiwillig engagierst"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Thank you for being a volunteer!"
+msgstr "Danke für deine Freiwilligenarbeit!"
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid ""
+"Thank you for your interest in volunteering! A confirmation email has been "
+"sent to you."
+msgstr ""
+"Herzlichen Dank für dein Interesse an einem freiwilligen Engagement! Eine "
+"Bestätigungs-E-Mail wurde an dich gesendet."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before3
+msgid "The average wait time to be matched with a sponsor is around 180 days."
+msgstr ""
+"Die durchschnittliche Wartezeit für die Zuteilung einer Patin oder eines "
+"Paten beträgt rund 180 Tage."
+
+#. module: my_compassion_switzerland
+#. openerp-web
+#: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
+#, python-format
+msgid ""
+"There was an issue with your submission. Please check your inputs and try "
+"again."
+msgstr ""
+"Es gab ein Problem mit deiner Eingabe. Bitte überprüfe deine Angaben und "
+"versuche es erneut."
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
+msgid ""
+"These children can fully participate in the Compassion program and center "
+"activities."
+msgstr ""
+"können diese Kinder am Compassion-Programm und den Aktivitäten im "
+"Kinderzentrum teilnehmen"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_csp_after4
+msgid "Training to generate a sustainable income in the long term."
+msgstr "Schulungen, um langfristig ein eigenes Einkommen zu erzielen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_inherit
+msgid "Translate a letter"
+msgstr "Einen Brief übersetzen"
+
+#. module: my_compassion_switzerland
+#: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_dis
+#: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_fda
+#: model:product.template,uom_name:my_compassion_switzerland.product_template_fund_hea
+msgid "Units"
+msgstr "Einheiten"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Unsubscribe"
+msgstr "Abmelden"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid "Volunteer with Compassion"
+msgstr "Freiwillig mithelfen"
+
+#. module: my_compassion_switzerland
+#: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_before1
+msgid ""
+"Weather-related disasters have increased fivefold in the last 50 years."
+msgstr ""
+"Wetterbedingte Katastrophen haben sich in den letzten 50 Jahren "
+"verfünffacht."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"Would you like to encourage others to support children?\n"
+"                                Are you particularly moved by the issue of extreme poverty and want to take action?"
+msgstr ""
+"Möchtest du andere ermutigen, Kinder zu unterstützen?\n"
+"Bewegt dich das Thema extreme Armut und möchtest du konkret etwas tun?"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"You can access the volunteer platform by\n"
+"                                    following the link below or check how to get more\n"
+"                                    involved in Compassion Switzerland through\n"
+"                                    MyCompassion"
+msgstr ""
+"Folge dem Link unten, um zur Freiwilligen-Plattform zu gelangen, oder schau "
+"auf MyCompassion, wie du bei Compassion Schweiz mithelfen kannst."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
+msgid ""
+"You can volunteer for Compassion and use your skills to serve children — through\n"
+"                                translations, helping at events, prayer, or as an ambassador in your church or in the\n"
+"                                sports community."
+msgstr ""
+"Bei Compassion kannst du dich ehrenamtlich engagieren und deine Zeit und "
+"Talente für Kinder einsetzen. Ob durch Übersetzungen, bei Events, im Gebet, "
+"als Botschafter/in in deiner Kirche oder sogar im Sport – dein Einsatz macht"
+" einen echten Unterschied."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
+msgid ""
+"You selected E-Bill. To continue, please set up your E-Bill connection with "
+"Compassion."
+msgstr ""
+"Du hast E-Bill gewählt. Um fortzufahren, richte bitte deine E-Bill-"
+"Verbindung für Compassion ein."
+
+#. module: my_compassion_switzerland
+#: model:donation.info.line,text:my_compassion_switzerland.product_template_fund_nol_info1
+msgid ""
+"Your donation ensures your sponsored child receives a Christmas gift. You "
+"are also welcome to donate extra to provide gifts for unsponsored children, "
+"ensuring that every one of the 2.3 million children in our program receives "
+"a gift."
+msgstr ""
+"Mit deiner Spende erhält dein Patenkind ein Weihnachtsgeschenk. Gerne darfst"
+" du auch mehr spenden und anderen Kindern ein Geschenk ermöglichen, damit "
+"jedes der 2,3 Millionen Kinder im Programm ein Geschenk erhält."
+
+#. module: my_compassion_switzerland
+#: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
+#: model:account.payment.mode,name:my_compassion_switzerland.payment_mode_ebill
+msgid "eBill"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
+msgid "food crisis"
+msgstr ""
+
+#. module: my_compassion_switzerland
+#: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
+msgid "health in TG"
+msgstr ""

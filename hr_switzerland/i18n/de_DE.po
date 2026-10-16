@@ -1,0 +1,171 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 18:58+0000\n"
+"PO-Revision-Date: 2026-10-16 18:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_payslip__amount_13_salary
+msgid "13th salary to add"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__provision_13_salary
+msgid "Accumulated 13th salary (Bruto)"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__analytic_tag_id
+msgid "Analytic tag"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model,name:hr_switzerland.model_hr_employee_base
+msgid "Basic Employee"
+msgstr "Basis-Mitarbeiter"
+
+#. module: hr_switzerland
+#: code:addons/hr_switzerland/models/res_users.py:0
+#, python-format
+msgid ""
+"Click to dial with Asterisk failed.\n"
+"HTTP error code: %s."
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_res_users__connect_agent
+msgid "Connect the Xivo agent after check_in "
+msgstr ""
+
+#. module: hr_switzerland
+#: model_terms:ir.ui.view,arch_db:hr_switzerland.hr_expense_empty_state_help
+msgid "Create a new expense"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model,name:hr_switzerland.model_hr_department
+msgid "Department"
+msgstr "Abteilung"
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_department__name
+msgid "Department Name"
+msgstr "Abteilung Bezeichnung"
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_attendance_theoretical_time_report__display_name
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__display_name
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_department__display_name
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee_base__display_name
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:hr_switzerland.field_res_users__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: hr_switzerland
+#: model:ir.model,name:hr_switzerland.model_hr_contract
+msgid "Employee Contract"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__wage_fulltime
+msgid "Full-time Wage"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_res_users__digital_signature
+msgid "Handwritten signature"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__l10n_ch_thirteen_month
+msgid "Has thirteen month"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_attendance_theoretical_time_report__id
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__id
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_department__id
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee_base__id
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_payslip__id
+#: model:ir.model.fields,field_description:hr_switzerland.field_res_users__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee__job_title
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee_base__job_title
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee_public__job_title
+msgid "Job Title"
+msgstr "Arbeitsstelle"
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_attendance_theoretical_time_report____last_update
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract____last_update
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_department____last_update
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee_base____last_update
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_payslip____last_update
+#: model:ir.model.fields,field_description:hr_switzerland.field_res_users____last_update
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__occupation_rate
+msgid "Occupation Rate (%)"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_payslip__pay_13_salary
+msgid "Pay the 13th salary this month"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,help:hr_switzerland.field_hr_payslip__pay_13_salary
+msgid "Pay the provisionned 13th salary"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model,name:hr_switzerland.model_hr_payslip
+msgid "Payslip"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,field_description:hr_switzerland.field_hr_contract__lpp_amount
+msgid "Pension Amount"
+msgstr ""
+
+#. module: hr_switzerland
+#: model_terms:ir.ui.view,arch_db:hr_switzerland.hr_expense_empty_state_help
+msgid "Record expenses to be reimbursed to employees."
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model,name:hr_switzerland.model_hr_attendance_theoretical_time_report
+msgid "Report of theoretical time vs attendance time"
+msgstr "Bericht zu theoretischen und tatsächlichen Anwesenheitszeiten"
+
+#. module: hr_switzerland
+#: model:ir.model,name:hr_switzerland.model_res_users
+msgid "Users"
+msgstr "Benutzer"
+
+#. module: hr_switzerland
+#: model:ir.model.fields,help:hr_switzerland.field_hr_contract__lpp_amount
+msgid "monthly employee part (1/24 of yearly amount)"
+msgstr ""
+
+#. module: hr_switzerland
+#: model:ir.model.fields,help:hr_switzerland.field_hr_contract__l10n_ch_thirteen_month
+msgid "pay a thirteen salary per year"
+msgstr ""
