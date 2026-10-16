@@ -4,18 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 13:09+0000\n"
-"PO-Revision-Date: 2026-02-05 16:09+0100\n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.donation_form_swiss_contact
@@ -115,6 +113,16 @@ msgstr ""
 "</html>\n"
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
+msgid ""
+"<span class=\"toggle-card-check me-3 flex-shrink-0 d-flex align-items-center justify-content-center rounded-circle bg-mid-green text-pure-white tiny-text bold\">✓</span>\n"
+"          <span class=\"flex-grow-1\">\n"
+"            <span class=\"d-block text-dark-blue very-tiny-text bold\">Volunteer with us</span>\n"
+"            <span class=\"d-block text-mid-grey very-tiny-text\">Letter translations, events, prayer, and more.</span>\n"
+"          </span>"
+msgstr ""
+
+#. module: my_compassion_switzerland
 #: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info1
 msgid "A gift for every child"
 msgstr "Un cadeau pour chaque enfant"
@@ -189,8 +197,6 @@ msgid ""
 "An error occurred while processing your request. Please try again or contact"
 " support."
 msgstr ""
-"Une erreur s’est produite lors du traitement de votre demande. Veuillez "
-"réessayer ou contacter le support."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
@@ -216,6 +222,11 @@ msgstr ""
 " à vos dons."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
+msgid "Back to My Compassion"
+msgstr ""
+
+#. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after1
 msgid ""
 "Build wells and water tanks that give children, their families, and entire "
@@ -233,6 +244,11 @@ msgid ""
 msgstr ""
 "Les enfants bénéficient d’un encadrement complet, de repas nourrissants et "
 "de soins, même avant le début du parrainage."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
+msgid "Close"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
@@ -282,7 +298,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model:ir.model,name:my_compassion_switzerland.model_res_partner
 msgid "Contact"
-msgstr "Contact"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.login_layout
@@ -301,7 +317,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Description"
-msgstr "Description"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_advocate_engagement__my_compassion_description
@@ -340,31 +356,17 @@ msgstr "Distribuer des réserves alimentaires aux familles les plus fragiles."
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid ""
 "Do you want to inspire other people to sponsor a child?\n"
-"                Does the situation of children in need particularly touch you and you want to take action?\n"
-"                <br/>\n"
-"                <br/>\n"
-"                You can volunteer for Compassion and thereby place your talents at the service of the most\n"
-"                destitute children\n"
-"                on the planet.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                Translations, stuffing envelopes, presence at events, being a spokesperson in\n"
-"                your church or running for the children."
+"                            Does the situation of children in need particularly touch you and you want to take action?\n"
+"                            <br/>\n"
+"                            <br/>\n"
+"                            You can volunteer for Compassion and thereby place your talents at the service of the most\n"
+"                            destitute children\n"
+"                            on the planet.\n"
+"                            <br/>\n"
+"                            <br/>\n"
+"                            Translations, stuffing envelopes, presence at events, being a spokesperson in\n"
+"                            your church or running for the children."
 msgstr ""
-"Voulez-vous inspirer d'autres personnes à parrainer un enfant ?\n"
-"                La situation des enfants dans le besoin vous touche-t-elle "
-"particulièrement et voulez-vous agir ?\n"
-"                <br/>\n"
-"                <br/>\n"
-"                Vous pouvez devenir bénévole pour Compassion et mettre ainsi "
-"vos talents au service des enfants les plus\n"
-"                démunis\n"
-"                de la planète.\n"
-"                <br/>\n"
-"                <br/>\n"
-"                Traductions, mise sous pli, présence lors d'événements, être "
-"porte-parole dans\n"
-"                votre église ou courir pour les enfants."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -387,9 +389,10 @@ msgstr ""
 "pénurie. Ainsi, les enfants et leur famille ont suffisamment à manger."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid "E-Bill"
-msgstr "E-Bill"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
@@ -561,16 +564,6 @@ msgid "I want to get involved at Compassion Switzerland"
 msgstr "Je souhaite m'engager auprès de Compassion Suisse"
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
-msgid ""
-"I wish to volunteer my time (letter translations, events, prayer, ...).\n"
-"                    Please contact me."
-msgstr ""
-"Je souhaite participer à la mission de Compassion\n"
-"par un engagement bénévole, merci de me contacter\n"
-"( traductions de lettres, aide lors d'événements, prière, sport )."
-
-#. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
 msgid "I would like to receive the Compassion Newsletter"
 msgstr "Je veux recevoir la Newsletter de Compassion"
@@ -637,7 +630,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/my_compassion_switzerland/models/advocate_engagement_notification_settings.py:0
 msgid "Invalid email for %(field)s: %(email)s"
-msgstr "E-mail invalide pour %(field)s : %(email)s"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_partner__is_translator
@@ -729,7 +722,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
 msgid "Missing required volunteer roles"
-msgstr "Rôles de bénévole requis manquants"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -837,12 +830,12 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
 msgid "Please select one or more volunteering options"
-msgstr "Veuillez sélectionner une ou plusieurs options de bénévolat"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
 msgid "PostFinance"
-msgstr "PostFinance"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after1
@@ -978,8 +971,11 @@ msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
 msgstr ""
-"Merci pour votre intérêt pour le bénévolat ! Un e-mail de confirmation vous "
-"a été envoyé."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
+msgid "Thank you! Your gift is confirmed."
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before3
@@ -989,14 +985,17 @@ msgstr ""
 "est d’environ 180 jours."
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
+msgid "The payment didn't go through. Nothing was charged."
+msgstr ""
+
+#. module: my_compassion_switzerland
 #. odoo-javascript
 #: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
 msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
 msgstr ""
-"Il y a eu un problème avec votre soumission. Veuillez vérifier vos "
-"informations et réessayer."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
@@ -1025,7 +1024,7 @@ msgstr "Traduire une lettre"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
 msgid "Twint"
-msgstr "Twint"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1044,14 +1043,23 @@ msgstr "S’engager bénévolement"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_new_sponsorship_wizard__volunteering
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "Volunteering"
 msgstr "Bénévolat"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
+msgid "Volunteering for compassion"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
 msgid "Volunteers"
 msgstr "Bénévoles"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
+msgid "Want to do more?"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
@@ -1113,6 +1121,11 @@ msgid "Welcome to"
 msgstr "Bienvenue à"
 
 #. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
+msgid "What could I help with?"
+msgstr ""
+
+#. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
 msgid ""
 "Would you like to encourage others to support children?\n"
@@ -1134,6 +1147,11 @@ msgstr ""
 " suivant le lien ci-dessous ou découvrir comment vous impliquer davantage\n"
 " chez Compassion Suisse via\n"
 " MyCompassion"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
+msgid "You can close this window."
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1189,15 +1207,15 @@ msgstr "E-Bill"
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
 msgid "food crisis"
-msgstr "crise alimentaire"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
-msgstr "santé TG"
+msgstr ""
 
 #. module: my_compassion_switzerland
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
-msgstr "attestation_fiscale"
+msgstr ""

@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mail_template_mandrill
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__email_template_id
+msgid "E-mail Template"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model,name:mail_template_mandrill.model_mail_template
+msgid "Email Templates"
+msgstr "Modèles de courriel"
+
+#. module: mail_template_mandrill
+#: model:ir.model,name:mail_template_mandrill.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Assistant de composition de courriel"
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__id
+msgid "ID"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__lang
+msgid "Language"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model_terms:ir.ui.view,arch_db:mail_template_mandrill.view_email_template_product
+msgid "Mailchimp"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__mailchimp_template
+msgid "Mailchimp Template"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model,name:mail_template_mandrill.model_mailchimp_email_lang_template
+msgid "Mailchimp mail template"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,field_description:mail_template_mandrill.field_mail_template__mailchimp_template_ids
+msgid "Mailchimp templates"
+msgstr ""
+
+#. module: mail_template_mandrill
+#: model:ir.model.fields,help:mail_template_mandrill.field_mailchimp_email_lang_template__mailchimp_template
+msgid "Put the mandrill template name"
+msgstr ""
