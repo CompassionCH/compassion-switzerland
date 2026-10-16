@@ -252,7 +252,7 @@ msgstr "Italienischer Wert"
 #: model:ir.actions.report,name:child_switzerland.report_childpack_mini
 #: model:ir.model.fields.selection,name:child_switzerland.selection__print_childpack__type__child_switzerland_childpack_mini
 msgid "Mini Childpack"
-msgstr "Mini-Kinderrucksack"
+msgstr "Mini-Kinderdossier"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__printer_tray_id
@@ -298,4 +298,4 @@ msgstr "Typ"
 #: model:ir.model,name:child_switzerland.model_report_child_switzerland_childpack_mini
 msgid "Used to generate mini childpack in selected language"
 msgstr ""
-"Dient zum Erstellen eines Mini-Kinderrucksacks in der gewählten Sprache"
+"Dient zum Erstellen eines Mini-Kinderdossiers in der gewählten Sprache"

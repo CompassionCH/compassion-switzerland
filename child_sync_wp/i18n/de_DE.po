@@ -209,7 +209,7 @@ msgstr "Über die Website abgeschlossene Patenschaften"
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_compassion_child__state
 msgid "State"
-msgstr "Bundesland"
+msgstr "Status"
 
 #. module: child_sync_wp
 #. odoo-python

@@ -1181,7 +1181,7 @@ msgstr "Standardpatenschaft der Art CDSP."
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__state
 msgid "State"
-msgstr "Bundesland"
+msgstr "Status"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift__letter_id
