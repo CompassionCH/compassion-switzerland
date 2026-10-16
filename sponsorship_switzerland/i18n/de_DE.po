@@ -949,7 +949,7 @@ msgstr "Many2Many-Patenschaft"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_med
 msgid "Medical Fund"
-msgstr "Krankenkasse"
+msgstr "Medizinischer Fonds"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_muttcsp
@@ -1300,7 +1300,7 @@ msgstr "Toiletten für alle"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_usp
 msgid "Unsponsored Children Fund"
-msgstr "Fonds für unbegleitete Kinder"
+msgstr "Fonds für Kinder ohne Pate"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__recurring_contract__state__mandate
