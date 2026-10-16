@@ -46,19 +46,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__create_uid
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Angelegt von"
 
 #. module: auth_external
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__create_date
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Angelegt am"
 
 #. module: auth_external
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__display_name
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #. module: auth_external
 #: model:ir.model.fields,help:auth_external.field_auth_external_tokens_config__refresh_token_duration_days
@@ -133,13 +133,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__write_uid
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Zuletzt aktualisiert durch"
 
 #. module: auth_external
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__write_date
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Zuletzt aktualisiert am"
 
 #. module: auth_external
 #: model:ir.model,name:auth_external.model_auth_external_tokens_config
@@ -174,4 +174,4 @@ msgstr ""
 #. module: auth_external
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__user_id
 msgid "User"
-msgstr ""
+msgstr "Benutzer"

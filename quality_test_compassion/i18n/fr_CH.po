@@ -145,7 +145,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_needaction
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "A besoin d'une action"
 
 #. module: quality_test_compassion
 #: model:mail.template,subject:quality_test_compassion.email_template_quality_test_notification
@@ -155,33 +155,33 @@ msgstr ""
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Activate"
-msgstr ""
+msgstr "Activer"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test__state__active
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Active"
-msgstr ""
+msgstr "Actif"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Activités"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Activité d'exception de décoration"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Status de l'Activité"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icône de type d'activité"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
@@ -192,18 +192,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_attachment_count
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Nombre de pièces jointes"
 
 #. module: quality_test_compassion
 #: model:ir.actions.act_window,name:quality_test_compassion.action_quality_test_category
 msgid "Categories"
-msgstr ""
+msgstr "Catégories"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__category_id
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
 
 #. module: quality_test_compassion
 #: model_terms:ir.actions.act_window,help:quality_test_compassion.action_quality_test
@@ -217,7 +217,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__create_uid
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Créé par"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__create_date
@@ -226,7 +226,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__create_date
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Créé le"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__current_version
@@ -236,7 +236,7 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__date
 msgid "Date"
-msgstr ""
+msgstr "Date "
 
 #. module: quality_test_compassion
 #: model_terms:ir.actions.act_window,help:quality_test_compassion.action_quality_test
@@ -265,13 +265,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__display_name
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test__state__draft
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Draft"
-msgstr ""
+msgstr "Brouillon"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__state
@@ -289,13 +289,13 @@ msgstr ""
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Failed"
-msgstr ""
+msgstr "Échec"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__failed_message_ids
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__failed_message_ids
 msgid "Failed Messages"
-msgstr ""
+msgstr "Messages échoués"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
@@ -330,29 +330,29 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_follower_ids
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Abonnés"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_partner_ids
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Abonnés (Partenaires)"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Icône Font Awesome e.g. fa-tasks"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Group By"
-msgstr ""
+msgstr "Grouper par"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
@@ -372,23 +372,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__id
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__id
 msgid "ID"
-msgstr ""
+msgstr "Identifiant"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Icône"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Icône indiquant une activité d'exception."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__message_needaction
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "si elle est cochée, de nouveaux messages requièrent votre attention."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__message_has_error
@@ -396,7 +396,7 @@ msgstr ""
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__message_has_error
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Si actif, certains messages ont une erreur de livraison."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__module_ids
@@ -423,7 +423,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_is_follower
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Est un abonné"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__is_same_procedure_as_test
@@ -465,7 +465,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__write_uid
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Dernière mise à jour par"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__write_date
@@ -474,7 +474,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__write_date
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Dernière mise à jour le"
 
 #. module: quality_test_compassion
 #. odoo-python
@@ -497,7 +497,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_has_error
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Erreur d'envoi du message"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_ids
@@ -523,13 +523,13 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Mon délai d'activité"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__name
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_category__name
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
@@ -557,17 +557,17 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Date limite de l'Activité à Venir"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Résumé d'activité suivant"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Type d'Activités à Venir"
 
 #. module: quality_test_compassion
 #. odoo-python
@@ -579,7 +579,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__comment
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Notes"
-msgstr ""
+msgstr "Commentaires"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
@@ -600,7 +600,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_needaction_counter
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Nombre d'Actions"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__delay_days
@@ -612,7 +612,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_has_error_counter
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Nombre d'erreurs"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__message_needaction_counter
@@ -624,7 +624,7 @@ msgstr ""
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__message_has_error_counter
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Nombre de messages avec des erreurs d'envoi"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
@@ -753,18 +753,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__test_responsible_id
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Responsible"
-msgstr ""
+msgstr "Responsable"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Responsable"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__result
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 msgid "Result"
-msgstr ""
+msgstr "Résultat"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
@@ -786,7 +786,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_has_sms_error
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Erreur d'envoi de SMS"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__rule_delay
@@ -805,19 +805,19 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Séquence"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test_run__instance__stage
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 msgid "Stage"
-msgstr ""
+msgstr "Étape"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__state
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Status"
-msgstr ""
+msgstr "État"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__activity_state
@@ -827,6 +827,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Statut basé sur les activités\n"
+"En retard : la date d'échéance est déjà dépassée\n"
+"Aujourd'hui : la date d'activité est aujourd'hui\n"
+"Planifiée : activités futures"
 
 #. module: quality_test_compassion
 #. odoo-python
@@ -838,7 +842,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/quality_test_compassion/static/src/xml/quality_test_dashboard.xml:0
 msgid "Status:"
-msgstr ""
+msgstr "Statut :"
 
 #. module: quality_test_compassion
 #. odoo-python
@@ -961,7 +965,7 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Type de l'activité d'exception enregistrée."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__version
@@ -982,10 +986,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__website_message_ids
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Messages du site web"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__website_message_ids
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Historique de communication du site web"

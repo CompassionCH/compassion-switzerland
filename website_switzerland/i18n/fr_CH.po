@@ -1472,7 +1472,7 @@ msgstr "Si autre, merci de préciser :"
 #. module: website_switzerland
 #: model:ir.model.fields,field_description:website_switzerland.field_sale_order_line__image
 msgid "Image"
-msgstr ""
+msgstr "I don't want to receive emails about the impact"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -1907,7 +1907,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/website_switzerland/models/partner_communication_job.py:0
 msgid "down_payment.pdf"
-msgstr ""
+msgstr "acompte.pdf"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms

@@ -565,14 +565,14 @@ msgstr "Generatore di Corrispondenza"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__create_uid
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creato da"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__create_date
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__create_date
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creato il"
 
 #. module: sbc_switzerland
 #: model:ir.actions.act_window,name:sbc_switzerland.action_translation_daily_report
@@ -621,7 +621,7 @@ msgstr ""
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Group By"
-msgstr ""
+msgstr "Gruppo per"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__id
@@ -660,7 +660,7 @@ msgstr ""
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last 3 Months"
-msgstr ""
+msgstr "Ultimi 3 mesi"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
@@ -677,14 +677,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__write_uid
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima modifica di"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__write_date
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__write_date
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima modifica il"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
@@ -703,7 +703,7 @@ msgstr "Ritirarsi dalla piattaforma di traduzioni"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__correspondence_id
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__correspondence_id
 msgid "Letter"
-msgstr ""
+msgstr "Lettera"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__letter_image
@@ -751,7 +751,7 @@ msgstr "Translator"
 #: model:ir.model.fields,help:sbc_switzerland.field_translation_weekly_report__translator_id
 #: model:ir.model.fields,help:sbc_switzerland.field_translation_yearly_report__translator_id
 msgid "Partner-related data of the user"
-msgstr ""
+msgstr "Dati dell'utente relativi al partner"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__ref
@@ -802,7 +802,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__sponsor
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__sponsor
 msgid "Sponsor"
-msgstr ""
+msgstr "Sostieni un bambino"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__sponsorship_id
@@ -810,7 +810,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__sponsorship_id
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__sponsorship_id
 msgid "Sponsorship"
-msgstr ""
+msgstr "Sostegno"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__study_date

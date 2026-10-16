@@ -18,4 +18,4 @@ msgstr ""
 #. module: label
 #: model:ir.actions.report,name:label.dynamic_label
 msgid "Sponsorship Label"
-msgstr ""
+msgstr "Qweb Label"

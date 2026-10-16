@@ -591,6 +591,19 @@ msgid ""
 "                                                <option value=\"75\">Sponsorship Payment Slips</option>\n"
 "                                            </select>"
 msgstr ""
+"<select class=\"form-control s_website_form_input\" name=\"categ_id\" id=\"ooxlbquh4xd\">\n"
+"                                                <opzione valore=\"38\">Sostegno</opzione>\n"
+"                                                <option value=\"7\">Donazioni/Finanziamenti</option>\n"
+"                                                <option value=\"43\">Viaggio / Visita</option>\n"
+"                                                <option value=\"9\">Traduzione / Volontari</option>\n"
+"                                                <option value=\"53\">MyAccount</option>\n"
+"                                                <option value=\"27\">Documento regalo / Pagamento</option>\n"
+"                                                <option value=\"28\">Errore lettera sito web</option>\n"
+"                                                <option value=\"35\">Scontrino fiscale</option>\n"
+"                                                <option value=\"36\">Cambio di indirizzo</option>\n"
+"                                                <option value=\"37\">Modifica indirizzo e-mail</option>\n"
+"                                                <option value=\"75\">Documenti di pagamento della sponsorizzazione</option>\n"
+"                                            </select>"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
@@ -1854,7 +1867,7 @@ msgstr "Il tuo viaggio con Compassion - documenti di viaggio e pagamento"
 #. odoo-python
 #: code:addons/website_switzerland/models/partner_communication_job.py:0
 msgid "down_payment.pdf"
-msgstr ""
+msgstr "acconto_pagamento.pdf"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms

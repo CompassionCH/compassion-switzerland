@@ -197,6 +197,8 @@ msgid ""
 "An error occurred while processing your request. Please try again or contact"
 " support."
 msgstr ""
+"Une erreur est survenue lors du traitement de votre lettre. Veuillez "
+"réessayer ou nous contacter."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
@@ -248,7 +250,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
@@ -722,7 +724,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
 msgid "Missing required volunteer roles"
-msgstr ""
+msgstr "Rôles de bénévoles requis manquants"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -830,7 +832,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
 msgid "Please select one or more volunteering options"
-msgstr ""
+msgstr "Veuillez sélectionner une ou plusieurs options de bénévolat"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
@@ -971,6 +973,8 @@ msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
 msgstr ""
+"Merci de votre intérêt pour le bénévolat! Un e-mail de confirmation vous a "
+"été envoyé."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
@@ -996,6 +1000,8 @@ msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
 msgstr ""
+"Il y a eu un problème avec votre soumission. Veuillez vérifier vos entrées "
+"et réessayer."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1

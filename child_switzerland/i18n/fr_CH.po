@@ -292,7 +292,7 @@ msgstr "Enfant parrainé"
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__type
 msgid "Type"
-msgstr ""
+msgstr "Type d'origine"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_report_child_switzerland_childpack_mini

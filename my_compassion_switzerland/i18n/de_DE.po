@@ -251,7 +251,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "Close"
-msgstr ""
+msgstr "Schliessen"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
@@ -776,7 +776,7 @@ msgstr "Meine Spendenbescheinigung"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Name"
-msgstr ""
+msgstr "Bezeichnung"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.login_layout

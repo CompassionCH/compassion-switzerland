@@ -65,7 +65,7 @@ msgstr "Anzeigename"
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "French"
-msgstr ""
+msgstr "Französisch"
 
 #. module: child_sync_wp
 #: model:ir.model,name:child_sync_wp.model_compassion_project
@@ -75,7 +75,7 @@ msgstr "Partnerkirche"
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "German"
-msgstr ""
+msgstr "Deutsch"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__id
@@ -86,7 +86,7 @@ msgstr ""
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "Italian"
-msgstr ""
+msgstr "Italienisch"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__write_uid
@@ -217,7 +217,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
 msgid "Validate"
-msgstr ""
+msgstr "Bestätigen"
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view

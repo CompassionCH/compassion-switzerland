@@ -682,7 +682,7 @@ msgstr "Post CH AG"
 #: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship_gift
 #: model_terms:ir.ui.view,arch_db:report_compassion.print_tax_receipt
 msgid "Print"
-msgstr ""
+msgstr "Drucken"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf
@@ -1022,7 +1022,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__state__new
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_tax_receipt__state__new
 msgid "new"
-msgstr ""
+msgstr "neu"
 
 #. module: report_compassion
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__state__pdf

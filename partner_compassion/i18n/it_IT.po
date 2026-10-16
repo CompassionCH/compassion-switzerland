@@ -71,7 +71,7 @@ msgstr "Azione Necessaria"
 #. module: partner_compassion
 #: model:ir.model.fields.selection,name:partner_compassion.selection__advocate_details__state__active
 msgid "Active"
-msgstr ""
+msgstr "Attivo"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__active_lang_count
@@ -122,7 +122,7 @@ msgstr "Informazioni aggiuntive"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__address_name
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__address_name
 msgid "Address Name"
-msgstr ""
+msgstr "Nome dell'indirizzo"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__type
@@ -261,7 +261,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_ambassador
 msgid "Ambassador"
-msgstr ""
+msgstr "Ambasciatore"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__ambassador_receipt_send_mode
@@ -687,7 +687,7 @@ msgstr "Limite di credito specifico per il partner."
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__criminal_record
 msgid "Criminal Record"
-msgstr ""
+msgstr "Fedina penale"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__criminal_record_date
@@ -933,7 +933,7 @@ msgstr "Engagement type"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engagement_ids
 msgid "Engagement type"
-msgstr ""
+msgstr "Tipi di impegno"
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_engagement_type
@@ -975,7 +975,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__failed_message_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__failed_message_ids
 msgid "Failed Messages"
-msgstr ""
+msgstr "Messaggi non riusciti"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_family
@@ -1024,7 +1024,7 @@ msgstr "Posizione Fiscale"
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_follower_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Seguaci"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__message_partner_ids
@@ -1100,7 +1100,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__sr_total_gift
 msgid "Gift"
-msgstr ""
+msgstr "Regalo"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__global_communication_delivery_preference
@@ -1343,7 +1343,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__invalid_mail
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__invalid_mail
 msgid "Invalid mail"
-msgstr ""
+msgstr "Posta elettronica non valida"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__invoice_warn
@@ -1716,7 +1716,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__move_id
 msgid "Move"
-msgstr ""
+msgstr "Muovi"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_mister_miss
@@ -1985,7 +1985,7 @@ msgstr "Opt-Out"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__other_contract_ids
 msgid "Other contracts"
-msgstr ""
+msgstr "Altri contratti"
 
 #. module: partner_compassion
 #: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_pray
@@ -2212,7 +2212,7 @@ msgstr "Preghiera"
 #: model:advocate.engagement,name:partner_compassion.engagement_pray
 #: model:res.partner.category,name:partner_compassion.res_partner_category_prayer
 msgid "Prayer"
-msgstr ""
+msgstr "Preghiera"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__preferred_name
@@ -2304,7 +2304,7 @@ msgstr "Receivable items"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__receive_ambassador_receipts
 msgid "Receive Ambassador Receipts"
-msgstr ""
+msgstr "Ricevi le ricevute degli ambasciatori"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_reformat_all_phonenumbers__potential_advocate_en
@@ -2400,7 +2400,7 @@ msgstr "Commerciale"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__salutation
 msgid "Salutation"
-msgstr ""
+msgstr "Saluto"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__phone_sanitized
@@ -2517,7 +2517,7 @@ msgstr "Lingue parlate"
 #: model:res.partner.category,name:partner_compassion.res_partner_category_sponsor
 #: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
 msgid "Sponsor"
-msgstr ""
+msgstr "Sostieni un bambino"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner__can_manage_paid_sponsorships
@@ -2528,7 +2528,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__sponsored_child_ids
 msgid "Sponsored children"
-msgstr ""
+msgstr "Bambini"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__sponsorship_ids
@@ -2554,7 +2554,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__contracts_paid
 msgid "Sponsorships as payer only"
-msgstr ""
+msgstr "Sponsorizzazioni solo come paganti"
 
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_sport
@@ -2648,7 +2648,7 @@ msgstr "Livello venditore"
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_partner_supporter_form
 msgid "Supporters"
-msgstr ""
+msgstr "Sostenitori"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__number_surveys
@@ -2927,7 +2927,7 @@ msgstr "Qualifica"
 #. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_together
 msgid "Together"
-msgstr ""
+msgstr "Insieme"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner__total_invoiced
@@ -3049,6 +3049,8 @@ msgid ""
 "Used in thank you letters for donations linked to an event and to this "
 "partner."
 msgstr ""
+"Utilizzato nelle lettere di ringraziamento per le donazioni legate a un "
+"evento e a questo partner."
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__user_ids

@@ -458,7 +458,7 @@ msgstr "Fonds SIDA/HIV"
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contract_group.py:0
 msgid "Additional comments"
-msgstr ""
+msgstr "Commentaires additionnels"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,help:sponsorship_switzerland.field_recurring_contract_partner_lang
@@ -1104,7 +1104,7 @@ msgstr "État"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift__letter_id
 msgid "Thank you letter"
-msgstr ""
+msgstr "Lettre de remerciement"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_gen
@@ -1374,7 +1374,7 @@ msgstr "famille soutenue pendant la pandémie"
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contract_group.py:0
 msgid "for"
-msgstr ""
+msgstr "pour"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c20

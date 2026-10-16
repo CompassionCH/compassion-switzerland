@@ -6309,7 +6309,7 @@ msgstr "Kommunikation Job"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__config_id
 msgid "Communication rule"
-msgstr ""
+msgstr "Kommunikationsregel"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_sent_date
@@ -6421,7 +6421,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_partner.py:0
 msgid "Dear friends of Compassion"
-msgstr ""
+msgstr "Liebe Freunde von Compassion"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
@@ -6463,7 +6463,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
 msgid "Details"
-msgstr ""
+msgstr "Dettagli"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_attendee__state__missing
@@ -6597,7 +6597,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__failed_message_ids
 msgid "Failed Messages"
-msgstr ""
+msgstr "Fehlgeschlagene Nachrichten"
 
 #. module: partner_communication_switzerland
 #: model:survey.question.answer,value:partner_communication_switzerland.onbs_rating_4
@@ -7162,12 +7162,12 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__match_create
 msgid "Match Create"
-msgstr ""
+msgstr "Spiel erstellen"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__match_update
 msgid "Match Update"
-msgstr ""
+msgstr "Spiel-Update"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__message_has_error
@@ -7210,7 +7210,7 @@ msgstr "Meine Aktivität Deadline"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract__origin_name
 msgid "Name"
-msgstr ""
+msgstr "Bezeichnung"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_compassion_field_office
@@ -7608,7 +7608,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_prayer
 msgid "Prayer"
-msgstr ""
+msgstr "Gebet"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.child_order_picture_wizard_form
@@ -7725,7 +7725,7 @@ msgstr "Webhook-Benachrichtigung versenden"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__send_mode
 msgid "Send Mode"
-msgstr ""
+msgstr "Sende-Modus"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_job_form_event
@@ -7770,7 +7770,7 @@ msgstr "Patenschaftsjubiläum senden 5 Jahre Mitteilung"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_generate_wizard_partner_source
 msgid "Send to"
-msgstr ""
+msgstr "Senden an"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_sent_to_4m
@@ -8076,7 +8076,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_generate_wizard_sponsorship_ids
 msgid "Sponsorships"
-msgstr ""
+msgstr "Patenschaften"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_communication_state

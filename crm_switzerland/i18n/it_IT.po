@@ -53,7 +53,7 @@ msgstr ""
 #. module: crm_switzerland
 #: model:ir.model.fields,field_description:crm_switzerland.field_crm_lead__email_from
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #. module: crm_switzerland
 #: model:ir.model,name:crm_switzerland.model_mail_compose_message

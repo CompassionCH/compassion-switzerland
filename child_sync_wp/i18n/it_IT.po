@@ -65,7 +65,7 @@ msgstr "Visualizza Nome"
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "French"
-msgstr ""
+msgstr "Francese"
 
 #. module: child_sync_wp
 #: model:ir.model,name:child_sync_wp.model_compassion_project
@@ -75,7 +75,7 @@ msgstr "Chiesa partner"
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "German"
-msgstr ""
+msgstr "Tedesco"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__id
@@ -86,7 +86,7 @@ msgstr ""
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__write_uid
@@ -183,7 +183,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__child_ids
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__child_ids
 msgid "Selected children"
-msgstr ""
+msgstr "Bambini selezionati"
 
 #. module: child_sync_wp
 #. odoo-python
@@ -217,7 +217,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
 msgid "Validate"
-msgstr ""
+msgstr "Convalida"
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view

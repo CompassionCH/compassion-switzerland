@@ -71,7 +71,7 @@ msgstr "A besoin d'une action"
 #. module: partner_compassion
 #: model:ir.model.fields.selection,name:partner_compassion.selection__advocate_details__state__active
 msgid "Active"
-msgstr ""
+msgstr "Actif"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__active_lang_count
@@ -219,7 +219,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__age
 msgid "Age"
-msgstr ""
+msgstr "Âge"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__age_range_id
@@ -509,7 +509,7 @@ msgstr "Ville/location"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__claim_ids
 msgid "Claim"
-msgstr ""
+msgstr "Demande"
 
 #. module: partner_compassion
 #: model_terms:ir.actions.act_window,help:partner_compassion.action_partner_supporter_form
@@ -937,7 +937,7 @@ msgstr "Engagement type"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engagement_ids
 msgid "Engagement type"
-msgstr ""
+msgstr "Type d'engagement"
 
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_engagement_type
@@ -979,7 +979,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__failed_message_ids
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__failed_message_ids
 msgid "Failed Messages"
-msgstr ""
+msgstr "Messages échoués"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_family
@@ -1265,7 +1265,7 @@ msgstr "Ignorer la date de facture anormale"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__image_1920
 msgid "Image"
-msgstr ""
+msgstr "I don't want to receive emails about the impact"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__image_1024
@@ -1710,7 +1710,7 @@ msgstr "Messieurs"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__mobile
 msgid "Mobile"
-msgstr ""
+msgstr "Portable"
 
 #. module: partner_compassion
 #. odoo-python
@@ -1721,7 +1721,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_search_bank_address_wizard__move_id
 msgid "Move"
-msgstr ""
+msgstr "Ecriture"
 
 #. module: partner_compassion
 #: model:res.partner.title,shortcut:partner_compassion.res_partner_title_mister_miss
@@ -1790,7 +1790,7 @@ msgstr "Type d'Activités à Venir"
 #. module: partner_compassion
 #: model:ir.model.fields.selection,name:partner_compassion.selection__advocate_details__has_car__no
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #. module: partner_compassion
 #: model:ir.model.fields.selection,name:partner_compassion.selection__res_partner__nbmag__no_mag
@@ -1815,7 +1815,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__comment
 msgid "Notes"
-msgstr ""
+msgstr "Commentaires"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_reformat_all_phonenumbers__advocate_birthday_translation_id
@@ -1990,7 +1990,7 @@ msgstr "Option de retrait"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__other_contract_ids
 msgid "Other contracts"
-msgstr ""
+msgstr "Autres contrats"
 
 #. module: partner_compassion
 #: model:advocate.engagement,my_compassion_description:partner_compassion.engagement_pray
@@ -2217,7 +2217,7 @@ msgstr "Prier avec Compassion"
 #: model:advocate.engagement,name:partner_compassion.engagement_pray
 #: model:res.partner.category,name:partner_compassion.res_partner_category_prayer
 msgid "Prayer"
-msgstr ""
+msgstr "Prière"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__preferred_name
@@ -2309,7 +2309,7 @@ msgstr "Receivable items"
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__receive_ambassador_receipts
 msgid "Receive Ambassador Receipts"
-msgstr ""
+msgstr "Recevoir des notifications de dons"
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_reformat_all_phonenumbers__potential_advocate_en
@@ -2534,7 +2534,7 @@ msgstr ""
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__sponsored_child_ids
 msgid "Sponsored children"
-msgstr ""
+msgstr "Enfants parrainés"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__sponsorship_ids
@@ -2654,7 +2654,7 @@ msgstr "Rang des fournisseurs"
 #. module: partner_compassion
 #: model:ir.actions.act_window,name:partner_compassion.action_partner_supporter_form
 msgid "Supporters"
-msgstr ""
+msgstr "Parrains"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__number_surveys
@@ -3057,6 +3057,8 @@ msgid ""
 "Used in thank you letters for donations linked to an event and to this "
 "partner."
 msgstr ""
+"Utilisé dans les lettres de remerciement pour les dons liés à un événement "
+"et à ce partenaire."
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__user_ids

@@ -465,13 +465,13 @@ msgstr "Identifiant"
 #. odoo-python
 #: code:addons/report_compassion/models/contract_group.py:0
 msgid "ISR"
-msgstr ""
+msgstr "BVR"
 
 #. module: report_compassion
 #. odoo-python
 #: code:addons/report_compassion/models/contract_group.py:0
 msgid "ISR for standing order"
-msgstr ""
+msgstr "BVR pour établir l'ordre permanent"
 
 #. module: report_compassion
 #: model:ir.model.fields,help:report_compassion.field_partner_communication_config__display_pp
@@ -497,7 +497,7 @@ msgstr "Entrée de journal"
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_childpack_lang
 msgid "Lang"
-msgstr ""
+msgstr "Langue"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__write_uid
@@ -558,7 +558,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/report_compassion/models/contract_group.py:0
 msgid "No open invoice found !"
-msgstr ""
+msgstr "Pas de facture ouverte !"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.company_form
@@ -658,7 +658,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:0
 msgid "Please select at least one gift type."
-msgstr ""
+msgstr "Veuillez sélectionner au moins un cadeau"
 
 #. module: report_compassion
 #. odoo-python
@@ -680,7 +680,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship_gift
 #: model_terms:ir.ui.view,arch_db:report_compassion.print_tax_receipt
 msgid "Print"
-msgstr ""
+msgstr "Imprimer"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf
@@ -759,7 +759,7 @@ msgstr "print.tax_receipt"
 #. odoo-python
 #: code:addons/report_compassion/models/report_bvr_sponsorship.py:0
 msgid "Selection not valid. No active sponsorship found."
-msgstr ""
+msgstr "Sélection invalide. Pas de parrainage actif."
 
 #. module: report_compassion
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__print
@@ -886,12 +886,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/report_compassion/models/res_users.py:0
 msgid "The team of Compassion"
-msgstr ""
+msgstr "L'équipe de Compassion"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_print_childpack_type
 msgid "Type"
-msgstr ""
+msgstr "Type d'origine"
 
 #. module: report_compassion
 #: model:ir.model.fields,field_description:report_compassion.field_hr_employee__uuid
@@ -979,7 +979,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/report_compassion/models/contract_group.py:0
 msgid "for"
-msgstr ""
+msgstr "pour"
 
 #. module: report_compassion
 #. odoo-python
@@ -991,7 +991,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:0
 msgid "gift payment slips"
-msgstr ""
+msgstr "bulletins cadeaux"
 
 #. module: report_compassion
 #: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
@@ -1020,7 +1020,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__state__new
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_tax_receipt__state__new
 msgid "new"
-msgstr ""
+msgstr "nouveau"
 
 #. module: report_compassion
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__state__pdf
@@ -1039,7 +1039,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/report_compassion/models/contract_group.py:0
 msgid "sponsorships"
-msgstr ""
+msgstr "parrainages"
 
 #. module: report_compassion
 #. odoo-python

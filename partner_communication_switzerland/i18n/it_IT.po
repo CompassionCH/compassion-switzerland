@@ -5566,6 +5566,8 @@ msgid ""
 " \"don’t inform.\" Please verify that the correspondence settings for this "
 "partner are correct."
 msgstr ""
+"È stata aggiunta una sponsorizzazione a un partner con le impostazioni di "
+"comunicazione impostate su \"non informare\"."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_fo_disaster_alert_access_link
@@ -5805,7 +5807,7 @@ msgstr "Colore"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_disaster_impact_communication_id
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_communication_id
 msgid "Communication"
-msgstr ""
+msgstr "Comunicazione"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_partner_communication_config
@@ -5932,7 +5934,7 @@ msgstr "Nome"
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_partner.py:0
 msgid "Dear friends of Compassion"
-msgstr ""
+msgstr "Il team di Compassion"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
@@ -5974,7 +5976,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
 msgid "Details"
-msgstr ""
+msgstr "Dettagli"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_attendee__state__missing
@@ -6046,7 +6048,7 @@ msgstr "Modifica dei partecipanti"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_email
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_email_read
@@ -6699,7 +6701,7 @@ msgstr "Messaggi"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_mobile
 msgid "Mobile"
-msgstr ""
+msgstr "Cellulare"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_months_due
@@ -7127,7 +7129,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_prayer
 msgid "Prayer"
-msgstr ""
+msgstr "Preghiera"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.child_order_picture_wizard_form
@@ -7289,7 +7291,7 @@ msgstr "Invio comunicazione anniversario sponsorizzazione 5 anni"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_generate_wizard_partner_source
 msgid "Send to"
-msgstr ""
+msgstr "Invia a"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_sent_to_4m
@@ -7601,7 +7603,7 @@ msgstr "Conferma dell'aggiornamento della sponsorizzazione"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_generate_wizard_sponsorship_ids
 msgid "Sponsorships"
-msgstr ""
+msgstr "Sostegni"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_communication_state
@@ -7948,6 +7950,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__new_donors_user_id
 msgid "User to notify on new donors onboarding opt out"
 msgstr ""
+"L'utente deve notificare l'opt-out al momento dell'iscrizione dei nuovi "
+"donatori"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_job_utm_campaign_id
@@ -7997,7 +8001,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_contribution_reminder_cron_action
 msgid "W&P Journey - Contribution reminder"
-msgstr ""
+msgstr "W&P Journey - Promemoria per i contributi"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_letter_reminder_cron_action
@@ -8013,17 +8017,19 @@ msgstr "W&P Journey - Invia SMS per un anniversario di 1 anno"
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_sponsorship_transformation_2_action
 msgid "W&P Journey - Sponsorship transformation 2nd call"
-msgstr ""
+msgstr "W&P Journey - Trasformazione della sponsorizzazione 2a chiamata"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_sponsorship_transformation_1_action
 msgid "W&P Journey - Sponsorship transformation first call"
 msgstr ""
+"W&P Journey - Prima chiamata per la trasformazione della sponsorizzazione"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_sponsorship_transformation_3_action
 msgid "W&P Journey - Sponsorship transformation last call"
 msgstr ""
+"W&P Journey - Ultima chiamata per la trasformazione della sponsorizzazione"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_transformation_complete
@@ -8396,7 +8402,7 @@ msgstr "Il tuo sostegno inizierà!"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_zip
 msgid "Zip"
-msgstr ""
+msgstr "CAP"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_reformat_all_phonenumbers__zoom_attendee_de_id

@@ -250,7 +250,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "Close"
-msgstr ""
+msgstr "Chiudi"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
@@ -687,7 +687,7 @@ msgstr "Illuminare gli occhi dei bambini"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.login_layout
 msgid "Log in"
-msgstr ""
+msgstr "Connessione"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before2

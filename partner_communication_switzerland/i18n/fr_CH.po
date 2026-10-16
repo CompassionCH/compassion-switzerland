@@ -5479,7 +5479,7 @@ msgstr "Activités"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_exception_decoration
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Activité d'exception de décoration"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_state
@@ -5491,7 +5491,7 @@ msgstr "Status de l'Activité"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_type_icon
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Icône de type d'activité"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_address_change
@@ -5561,6 +5561,8 @@ msgstr ""
 msgid ""
 "Attached you will find a payment slip for the annual sponsorship payment"
 msgstr ""
+"Vous trouverez ci-joint un bulletin de versement pour le règlement de votre "
+"parrainage (annuel)"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -5568,13 +5570,15 @@ msgstr ""
 msgid ""
 "Attached you will find the LSV or Direct Debit authorization form to fill in"
 " if you haven't already done it!"
-msgstr ""
+msgstr "Vous trouverez ci-joint le formulaire de prélèvement automatique"
 
 #. module: partner_communication_switzerland
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 msgid "Attached you will find the payment slips for the sponsorship payment"
 msgstr ""
+"Vous trouverez ci-joint des bulletins de versement pour le règlement du "
+"parrainage"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__message_attachment_count
@@ -5695,7 +5699,7 @@ msgstr "Couleur"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_disaster_impact_communication_id
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_communication_id
 msgid "Communication"
-msgstr ""
+msgstr "Libellé"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_partner_communication_config
@@ -5822,7 +5826,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/res_partner.py:0
 msgid "Dear friends of Compassion"
-msgstr ""
+msgstr "Chers amis de Compassion"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
@@ -5864,7 +5868,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
 msgid "Details"
-msgstr ""
+msgstr "Détails"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_attendee__state__missing
@@ -6432,7 +6436,7 @@ msgstr "Écriture comptable"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__lang
 msgid "Lang"
-msgstr ""
+msgstr "Langue"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__language
@@ -6667,7 +6671,7 @@ msgstr "Nouveaux rapports biennaux"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_reformat_all_phonenumbers__new_participant_notify_ids
 msgid "New crowdfunding participant"
-msgstr ""
+msgstr "Nouveau participant TOGETHER"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_new_labels
@@ -6719,7 +6723,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/communication_test_cases_wizard.py:0
 msgid "No partner selected"
-msgstr ""
+msgstr "Pas de partenaire sélectionné"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_partner_no_physical_delivery
@@ -6830,6 +6834,8 @@ msgstr ""
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "Onboarding postcard cannot be sent for unverified partners."
 msgstr ""
+"La carte postale d'intégration ne peut pas être envoyée pour les partenaires"
+" non vérifiés."
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.email_sponsorship_anniversary_1
@@ -6956,7 +6962,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/child_order_picture.py:0
 msgid "Picture ordered."
-msgstr ""
+msgstr "Photo commandée."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_session__state__planned
@@ -6977,6 +6983,8 @@ msgid ""
 "Please find attached a payment slip to set up a standing order for your "
 "monthly donation of {amount} CHF."
 msgstr ""
+"Vous trouverez ci-joint un bulletin de versement pour activer l’ordre "
+"permanent de votre don mensuel de {amount}  CHF."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner_zoom_attendee__inform_me_for_next_zoom
@@ -7002,7 +7010,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_prayer
 msgid "Prayer"
-msgstr ""
+msgstr "Prière"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.child_order_picture_wizard_form
@@ -7242,7 +7250,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_generate_wizard_res_model
 msgid "Source"
-msgstr ""
+msgstr "Origine"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.act_window,name:partner_communication_switzerland.action_zoom_session
@@ -7753,7 +7761,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract__origin_type
 msgid "Type"
-msgstr ""
+msgstr "Type d'origine"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_child_order_picture_wizard__activity_exception_decoration
@@ -7997,6 +8005,8 @@ msgid ""
 "We thank you in advance for adding your monthly support of {amount} CHF to "
 "your existing standing order."
 msgstr ""
+"Merci d’ajouter votre soutien mensuel de {amount} CHF au montant de votre "
+"ordre permanent actuel."
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -8005,6 +8015,8 @@ msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
 "account."
 msgstr ""
+"Nous continuerons à procéder au prélèvement du montant de votre parrainage "
+"sur votre compte"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_done_template
@@ -8025,7 +8037,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.sms_sponsorship_reminder
 msgid "Website Sponsorship: Remind sponsorship confirmation"
-msgstr ""
+msgstr "SMS Sponsorship: Remind sponsorship confirmation"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__website_url
@@ -8317,7 +8329,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "child dossier.pdf"
-msgstr ""
+msgstr "dossier enfant.pdf"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_create_portal_wizard__config_id
@@ -8344,7 +8356,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "ending sponsorship certificate.pdf"
-msgstr ""
+msgstr "Certificat de fin de parrainage.pdf"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
@@ -8365,31 +8377,31 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "sponsorship due.pdf"
-msgstr ""
+msgstr "retard parrainage.pdf"
 
 #. module: partner_communication_switzerland
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "sponsorship gifts.pdf"
-msgstr ""
+msgstr "bulletins cadeaux.pdf"
 
 #. module: partner_communication_switzerland
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "sponsorship labels.pdf"
-msgstr ""
+msgstr "etiquettes parrainage.pdf"
 
 #. module: partner_communication_switzerland
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "sponsorship payment slips.pdf"
-msgstr ""
+msgstr "bulletins de versements parrainage.pdf"
 
 #. module: partner_communication_switzerland
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "tax receipt.pdf"
-msgstr ""
+msgstr "attestation fiscale.pdf"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template

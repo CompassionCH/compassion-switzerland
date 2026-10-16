@@ -18,17 +18,17 @@ msgstr ""
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Angelegt von"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Angelegt am"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__email_template_id
@@ -53,17 +53,17 @@ msgstr ""
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__lang
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Zuletzt aktualisiert durch"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Zuletzt aktualisiert am"
 
 #. module: mail_template_mandrill
 #: model_terms:ir.ui.view,arch_db:mail_template_mandrill.view_email_template_product

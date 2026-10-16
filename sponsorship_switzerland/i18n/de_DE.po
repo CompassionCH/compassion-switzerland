@@ -845,7 +845,7 @@ msgstr "Gift"
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_correspondence
 msgid "Letter"
-msgstr ""
+msgstr "Brief"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_loc
@@ -1378,7 +1378,7 @@ msgstr "Familie wurde während der Covid-Pandemie unterstützt"
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contract_group.py:0
 msgid "for"
-msgstr ""
+msgstr "für"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c20
