@@ -616,6 +616,8 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
@@ -1234,7 +1236,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:ir.actions.server,name:website_switzerland.event_payment_checker_action
 msgid "Execute Code"
-msgstr ""
+msgstr "Esegui codice"
 
 #. module: website_switzerland
 #: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_4
@@ -1385,7 +1387,7 @@ msgstr "Sto seguendo una dieta speciale:"
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_treatment
 msgid "I am under treatment:"
-msgstr ""
+msgstr "Sono in cura:"
 
 #. module: website_switzerland
 #: model:survey.question.answer,value:website_switzerland.gpms_back
@@ -1504,7 +1506,7 @@ msgstr "Incontro con il tuo bambino sponsorizzato:"
 #. module: website_switzerland
 #: model:base.automation,name:website_switzerland.event_payment_checker
 msgid "Move is paid by customer"
-msgstr ""
+msgstr "Il movimento è pagato dal cliente"
 
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_donations
@@ -1593,7 +1595,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_ready
 msgid "Ready"
-msgstr ""
+msgstr "Pronto"
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_page1
@@ -1608,7 +1610,7 @@ msgstr "Linea d'ordine di vendita"
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
 msgid "Select a title..."
-msgstr ""
+msgstr "Seleziona un titolo..."
 
 #. module: website_switzerland
 #: model:event.registration.task,name:website_switzerland.task_passport
@@ -1874,6 +1876,7 @@ msgstr "acconto_pagamento.pdf"
 msgid ""
 "https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_en"
 msgstr ""
+"https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_en"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.payment_terms_note

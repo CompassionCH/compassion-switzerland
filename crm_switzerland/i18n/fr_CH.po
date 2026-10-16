@@ -20,35 +20,37 @@ msgstr ""
 #: code:addons/crm_switzerland/wizards/mail_compose_message.py:0
 msgid "A message that is being edited cannot be scheduled for later."
 msgstr ""
+"Un message en cours de modification ne peut pas être planifié pour plus "
+"tard."
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/chatter_message_type_filter.js:0
 msgid "Automated Notifications"
-msgstr ""
+msgstr "Notifications automatiques"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/chatter_message_type_filter.js:0
 msgid "Comments & Notes"
-msgstr ""
+msgstr "Commentaires et notes"
 
 #. module: crm_switzerland
 #: model:ir.model,name:crm_switzerland.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/message_edit_full_note.js:0
 msgid "Edit in full composer"
-msgstr ""
+msgstr "Modifier dans l'éditeur complet"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/message_edit_full_note.js:0
 msgid "Edit log note"
-msgstr ""
+msgstr "Modifier la note"
 
 #. module: crm_switzerland
 #: model:ir.model.fields,field_description:crm_switzerland.field_crm_lead__email_from
@@ -64,19 +66,19 @@ msgstr "Assistant de composition de courriel"
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/xml/chatter_message_type_filter.xml:0
 msgid "Filter Messages"
-msgstr ""
+msgstr "Filtrer les messages"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/xml/chatter_message_type_filter.xml:0
 msgid "Filter messages by type"
-msgstr ""
+msgstr "Filtrer les messages par type"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/chatter_message_type_filter.js:0
 msgid "Incoming Emails"
-msgstr ""
+msgstr "E-mails entrants"
 
 #. module: crm_switzerland
 #: model:ir.model,name:crm_switzerland.model_crm_lead
@@ -91,25 +93,25 @@ msgstr "Contact du courriel de masse"
 #. module: crm_switzerland
 #: model:ir.model.fields,field_description:crm_switzerland.field_mail_compose_message__edit_message_id
 msgid "Message to edit"
-msgstr ""
+msgstr "Message à modifier"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/chatter_message_type_filter.js:0
 msgid "Outgoing Emails"
-msgstr ""
+msgstr "E-mails sortants"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/chatter_message_type_filter.js:0
 msgid "System Notifications"
-msgstr ""
+msgstr "Notifications système"
 
 #. module: crm_switzerland
 #. odoo-javascript
 #: code:addons/crm_switzerland/static/src/js/chatter_message_type_filter.js:0
 msgid "User Notifications"
-msgstr ""
+msgstr "Notifications utilisateur"
 
 #. module: crm_switzerland
 #: model:ir.model.fields,help:crm_switzerland.field_mail_compose_message__edit_message_id
@@ -117,9 +119,11 @@ msgid ""
 "When set, saving the composer rewrites this existing message instead of "
 "posting a new one."
 msgstr ""
+"Lorsque cette option est activée, l'enregistrement de l'éditeur réécrit ce "
+"message existant au lieu d'en publier un nouveau."
 
 #. module: crm_switzerland
 #. odoo-python
 #: code:addons/crm_switzerland/wizards/mail_compose_message.py:0
 msgid "You are not allowed to edit this message."
-msgstr ""
+msgstr "Vous n'êtes pas autorisé à modifier ce message."

@@ -18,7 +18,7 @@ msgstr ""
 #. module: account_switzerland
 #: model:ir.model,name:account_switzerland.model_ebics_file
 msgid "Object to store EBICS Data Files"
-msgstr ""
+msgstr "Oggetto per memorizzare i file di dati EBICS"
 
 #. module: account_switzerland
 #: model:ir.model,name:account_switzerland.model_account_payment
@@ -31,3 +31,5 @@ msgstr "Pagamenti"
 msgid ""
 "The statement for Account Number %(nr)s is imported in a background job."
 msgstr ""
+"L'estratto conto per il numero di conto %(nr)s viene importato in un "
+"processo in background."

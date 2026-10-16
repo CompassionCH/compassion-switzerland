@@ -655,6 +655,8 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
@@ -662,6 +664,8 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Message</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
+"<span class=\"s_website_form_label_content\">Message</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
@@ -1188,7 +1192,7 @@ msgstr "Commentaires :"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_partner_communication_job
 msgid "Communication Job"
-msgstr ""
+msgstr "Job de communication"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.footer
@@ -1198,7 +1202,7 @@ msgstr "Fonds d'entraide"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
@@ -1270,7 +1274,7 @@ msgstr "Très bien"
 #. module: website_switzerland
 #: model:ir.actions.server,name:website_switzerland.event_payment_checker_action
 msgid "Execute Code"
-msgstr ""
+msgstr "Exécuter le code"
 
 #. module: website_switzerland
 #: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_4
@@ -1542,7 +1546,7 @@ msgstr "Rencontre avec votre filleul(e) :"
 #. module: website_switzerland
 #: model:base.automation,name:website_switzerland.event_payment_checker
 msgid "Move is paid by customer"
-msgstr ""
+msgstr "La pièce est payée par le client"
 
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_donations
@@ -1630,7 +1634,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_ready
 msgid "Ready"
-msgstr ""
+msgstr "Prêt"
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_page1
@@ -1645,7 +1649,7 @@ msgstr "Ligne de commandes de vente"
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
 msgid "Select a title..."
-msgstr ""
+msgstr "Sélectionnez une civilité..."
 
 #. module: website_switzerland
 #: model:event.registration.task,name:website_switzerland.task_passport

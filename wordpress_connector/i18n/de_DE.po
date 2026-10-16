@@ -18,12 +18,12 @@ msgstr ""
 #. module: wordpress_connector
 #: model:wordpress.configuration,child_gift_url:wordpress_connector.wordpress_configuration
 msgid "/de/geschenkformular/"
-msgstr ""
+msgstr "/de/geschenkformular/"
 
 #. module: wordpress_connector
 #: model:wordpress.configuration,fund_gift_url:wordpress_connector.wordpress_configuration
 msgid "/de/spenden"
-msgstr ""
+msgstr "/de/spenden"
 
 #. module: wordpress_connector
 #: model:wordpress.configuration,sponsorship_url:wordpress_connector.wordpress_configuration
@@ -43,7 +43,7 @@ msgstr "Front matter"
 #. module: wordpress_connector
 #: model_terms:ir.ui.view,arch_db:wordpress_connector.crm_wordpress_request_form_view
 msgid "Front matter"
-msgstr ""
+msgstr "Front Matter"
 
 #. module: wordpress_connector
 #: model:ir.model,name:wordpress_connector.model_account_move
@@ -59,23 +59,23 @@ msgstr "res.partner.match.wp"
 #. odoo-python
 #: code:addons/wordpress_connector/models/contracts.py:0
 msgid "New Write&Pray sponsorship from the website"
-msgstr ""
+msgstr "Neue Schreiben&Beten-Patenschaft von der Website"
 
 #. module: wordpress_connector
 #. odoo-python
 #: code:addons/wordpress_connector/models/contracts.py:0
 msgid "New sponsorship from the website"
-msgstr ""
+msgstr "Neue Patenschaft von der Website"
 
 #. module: wordpress_connector
 #: model:ir.model.fields,field_description:wordpress_connector.field_recurring_contract__partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: wordpress_connector
 #: model:ir.model.fields,field_description:wordpress_connector.field_recurring_contract__group_id
 msgid "Payment Options"
-msgstr ""
+msgstr "Zahlungsoptionen"
 
 #. module: wordpress_connector
 #: model:ir.model,name:wordpress_connector.model_recurring_contract
@@ -85,9 +85,9 @@ msgstr "Wiederkehrender Vertrag"
 #. module: wordpress_connector
 #: model:ir.model,name:wordpress_connector.model_crm_claim
 msgid "Request"
-msgstr ""
+msgstr "Anfrage"
 
 #. module: wordpress_connector
 #: model:ir.model.fields,field_description:wordpress_connector.field_recurring_contract__web_info
 msgid "Web Info"
-msgstr ""
+msgstr "Web-Infos"

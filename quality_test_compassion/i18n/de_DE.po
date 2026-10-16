@@ -19,25 +19,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__run_count
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_tree
 msgid "# Runs"
-msgstr ""
+msgstr "Anzahl Durchläufe"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "%s draft test(s) remaining."
-msgstr ""
+msgstr "%s Entwurfstest(s) verbleibend."
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "%s test(s) not passing yet."
-msgstr ""
+msgstr "%s Test(s) noch nicht bestanden."
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "%s test(s) without any run yet."
-msgstr ""
+msgstr "%s Test(s) ohne bisherigen Durchlauf."
 
 #. module: quality_test_compassion
 #: model:mail.template,body_html:quality_test_compassion.email_template_quality_test_run_fail
@@ -140,6 +140,10 @@ msgid ""
 "Notes:\n"
 "%(notes)s"
 msgstr ""
+"Ein am %(date)s erfasster Testdurchlauf ist fehlgeschlagen.\n"
+"\n"
+"Notizen:\n"
+"%(notes)s"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_needaction
@@ -186,7 +190,7 @@ msgstr "Aktivitätsart-Symbol"
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Add test run"
-msgstr ""
+msgstr "Testdurchlauf hinzufügen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_attachment_count
@@ -197,7 +201,7 @@ msgstr "# Anhänge"
 #. module: quality_test_compassion
 #: model:ir.actions.act_window,name:quality_test_compassion.action_quality_test_category
 msgid "Categories"
-msgstr ""
+msgstr "Kategorien"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__category_id
@@ -208,7 +212,7 @@ msgstr "Kategorie"
 #. module: quality_test_compassion
 #: model_terms:ir.actions.act_window,help:quality_test_compassion.action_quality_test
 msgid "Create your first quality test"
-msgstr ""
+msgstr "Erstelle deinen ersten Qualitätstest"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__create_uid
@@ -231,7 +235,7 @@ msgstr "Angelegt am"
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__current_version
 msgid "Current Version"
-msgstr ""
+msgstr "Aktuelle Version"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__date
@@ -244,11 +248,13 @@ msgid ""
 "Define quality tests to track critical processes and ensure\n"
 "                they are regularly verified."
 msgstr ""
+"Definiere Qualitätstests, um kritische Prozesse zu verfolgen und "
+"sicherzustellen, dass sie regelmässig überprüft werden."
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Describe the steps to execute this quality test..."
-msgstr ""
+msgstr "Beschreibe die Schritte zur Durchführung dieses Qualitätstests..."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__description
@@ -280,11 +286,14 @@ msgid ""
 "Active: test is locked for editing; test runs can be recorded.\n"
 "Retired: test is no longer relevant and cannot receive new runs."
 msgstr ""
+"Entwurf: Der Test wird vorbereitet und kann frei bearbeitet werden.\n"
+"Aktiv: Der Test ist für die Bearbeitung gesperrt; Testdurchläufe können erfasst werden.\n"
+"Ausser Betrieb: Der Test ist nicht mehr relevant und kann keine neuen Durchläufe erhalten."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test_run__result__fail
 msgid "Fail"
-msgstr ""
+msgstr "Fehlgeschlagen"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
@@ -301,7 +310,7 @@ msgstr "Fehlgeschlagene Nachrichten"
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Failing"
-msgstr ""
+msgstr "Fehlgeschlagen"
 
 #. module: quality_test_compassion
 #: model:mail.template,subject:quality_test_compassion.email_template_quality_test_run_fail
@@ -311,20 +320,20 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_project_task__quality_test_run_id
 msgid "Failing Test Run"
-msgstr ""
+msgstr "Fehlgeschlagener Testdurchlauf"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test_run.py:0
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__task_id
 msgid "Fix Task"
-msgstr ""
+msgstr "Aufgabe beheben"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test_run.py:0
 msgid "Fix failing quality test: %s"
-msgstr ""
+msgstr "Fehlgeschlagenen Qualitätstest beheben: %s"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_follower_ids
@@ -357,13 +366,13 @@ msgstr "Gruppiert nach..."
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 msgid "Has Fix Task"
-msgstr ""
+msgstr "Hat Korrektur-Aufgabe"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__has_message
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Hat Nachricht"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__id
@@ -372,7 +381,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__id
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_exception_icon
@@ -403,7 +412,7 @@ msgstr ""
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__module_ids
 msgid "Installed modules that affect the outcome of this test."
-msgstr ""
+msgstr "Installierte Module, die das Ergebnis dieses Tests beeinflussen."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__instance
@@ -420,6 +429,9 @@ msgid ""
 "Production: module versions are captured automatically.\n"
 "Stage: module versions are not auto-filled and can be set manually, as the stage may run a newer version than production."
 msgstr ""
+"Instanz, auf der der Test durchgeführt wurde.\n"
+"Produktion: Die Modulversionen werden automatisch erfasst.\n"
+"Stage: Die Modulversionen werden nicht automatisch ausgefüllt und können manuell gesetzt werden, da die Stage-Instanz eine neuere Version als die Produktion haben kann."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_is_follower
@@ -430,35 +442,35 @@ msgstr "Ist Beobachter"
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__is_same_procedure_as_test
 msgid "Is Same Procedure As Test"
-msgstr ""
+msgstr "Ist dasselbe Verfahren wie der Test"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Key metrics (3 validation stages)"
-msgstr ""
+msgstr "Kennzahlen (3 Validierungsstufen)"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__last_notification
 msgid "Last Notification"
-msgstr ""
+msgstr "Letzte Benachrichtigung"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__last_run_result
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Last Result"
-msgstr ""
+msgstr "Letztes Ergebnis"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__last_run_id
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Last Run"
-msgstr ""
+msgstr "Letzter Durchlauf"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__last_run_date
 msgid "Last Run Date"
-msgstr ""
+msgstr "Datum des letzten Durchlaufs"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__write_uid
@@ -483,17 +495,19 @@ msgstr "Zuletzt aktualisiert am"
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Last run was %(days_ago)s day(s) ago (max allowed: %(max_days)s days)."
 msgstr ""
+"Der letzte Durchlauf war vor %(days_ago)s Tag(en) (maximal erlaubt: "
+"%(max_days)s Tage)."
 
 #. module: quality_test_compassion
 #. odoo-javascript
 #: code:addons/quality_test_compassion/static/src/xml/quality_test_dashboard.xml:0
 msgid "Loading dashboard…"
-msgstr ""
+msgstr "Dashboard wird geladen…"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__delay_days
 msgid "Max Days Between Runs"
-msgstr ""
+msgstr "Max. Tage zwischen Durchläufen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_has_error
@@ -510,17 +524,17 @@ msgstr "Mitteilungen"
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__module_id
 msgid "Module"
-msgstr ""
+msgstr "Modul"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Module Update Rule"
-msgstr ""
+msgstr "Regel bei Modul-Update"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__module_version_ids
 msgid "Module Versions"
-msgstr ""
+msgstr "Modulversionen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__my_activity_date_deadline
@@ -536,25 +550,25 @@ msgstr "Bezeichnung"
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Never Tested"
-msgstr ""
+msgstr "Nie getestet"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "New Quality Test"
-msgstr ""
+msgstr "Neuer Qualitätstest"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 #: code:addons/quality_test_compassion/models/quality_test_run.py:0
 msgid "New Test Run"
-msgstr ""
+msgstr "Neuer Testdurchlauf"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr ""
+msgstr "Kalenderereignis der nächsten Aktivität"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__activity_date_deadline
@@ -575,7 +589,7 @@ msgstr "Nächster Aktivitätstyp"
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "No test run has ever been recorded."
-msgstr ""
+msgstr "Es wurde noch nie ein Testdurchlauf erfasst."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__comment
@@ -586,17 +600,17 @@ msgstr "Notizen"
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Notification Rules"
-msgstr ""
+msgstr "Benachrichtigungsregeln"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__rule_delay
 msgid "Notify After Delay"
-msgstr ""
+msgstr "Nach Verzögerung benachrichtigen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__rule_module_update
 msgid "Notify on Module Update"
-msgstr ""
+msgstr "Bei Modul-Update benachrichtigen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_needaction_counter
@@ -609,6 +623,8 @@ msgstr "Anzahl der Aktionen"
 msgid ""
 "Number of days allowed between test runs before a notification is sent."
 msgstr ""
+"Anzahl Tage, die zwischen Testdurchläufen vergehen dürfen, bevor eine "
+"Benachrichtigung versendet wird."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_has_error_counter
@@ -620,7 +636,7 @@ msgstr "Anzahl der Fehler"
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__message_needaction_counter
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Anzahl der Nachrichten, die eine Aktion erfordern"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__message_has_error_counter
@@ -631,81 +647,83 @@ msgstr "Anzahl der Nachrichten mit einem Fehler beim Senden."
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Open Fix Task"
-msgstr ""
+msgstr "Korrektur-Aufgabe öffnen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test_run__result__pass
 msgid "Pass"
-msgstr ""
+msgstr "Bestanden"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Passed"
-msgstr ""
+msgstr "Bestanden"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Passing"
-msgstr ""
+msgstr "Bestanden"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test_run__instance__production
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 msgid "Production"
-msgstr ""
+msgstr "Produktion"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_run__task_id
 msgid "Project task created to track the resolution of a failing test."
 msgstr ""
+"Projektaufgabe, die erstellt wurde, um die Behebung eines fehlgeschlagenen "
+"Tests zu verfolgen."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__tested_at_version
 msgid "Protocol version"
-msgstr ""
+msgstr "Protokollversion"
 
 #. module: quality_test_compassion
 #: model:ir.ui.menu,name:quality_test_compassion.menu_quality_test_dashboard
 msgid "Quality Dashboard"
-msgstr ""
+msgstr "Qualitäts-Dashboard"
 
 #. module: quality_test_compassion
 #: model:ir.model,name:quality_test_compassion.model_quality_test
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__test_id
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 msgid "Quality Test"
-msgstr ""
+msgstr "Qualitätstest"
 
 #. module: quality_test_compassion
 #: model:ir.ui.menu,name:quality_test_compassion.menu_quality_test_category
 msgid "Quality Test Categories"
-msgstr ""
+msgstr "Qualitätstest-Kategorien"
 
 #. module: quality_test_compassion
 #: model:ir.model,name:quality_test_compassion.model_quality_test_category
 msgid "Quality Test Category"
-msgstr ""
+msgstr "Qualitätstest-Kategorie"
 
 #. module: quality_test_compassion
 #: model:ir.actions.client,name:quality_test_compassion.action_quality_test_dashboard
 msgid "Quality Test Dashboard"
-msgstr ""
+msgstr "Qualitätstest-Dashboard"
 
 #. module: quality_test_compassion
 #: model:ir.model,name:quality_test_compassion.model_quality_test_module_version
 msgid "Quality Test Module Version Snapshot"
-msgstr ""
+msgstr "Modulversions-Schnappschuss des Qualitätstests"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Quality Test Name"
-msgstr ""
+msgstr "Name des Qualitätstests"
 
 #. module: quality_test_compassion
 #: model:ir.model,name:quality_test_compassion.model_quality_test_run
 msgid "Quality Test Run"
-msgstr ""
+msgstr "Qualitätstest-Durchlauf"
 
 #. module: quality_test_compassion
 #: model:mail.template,name:quality_test_compassion.email_template_quality_test_run_fail
@@ -721,34 +739,34 @@ msgstr ""
 #: model:ir.actions.act_window,name:quality_test_compassion.action_quality_test
 #: model:ir.ui.menu,name:quality_test_compassion.menu_quality_test_list
 msgid "Quality Tests"
-msgstr ""
+msgstr "Qualitätstests"
 
 #. module: quality_test_compassion
 #: model:ir.actions.server,name:quality_test_compassion.quality_test_check_rules_cron_ir_actions_server
 msgid "Quality Tests – Check Notification Rules"
-msgstr ""
+msgstr "Qualitätstests – Benachrichtigungsregeln prüfen"
 
 #. module: quality_test_compassion
 #: model:ir.model,name:quality_test_compassion.model_quality_test_version
 msgid "Quality test version"
-msgstr ""
+msgstr "Qualitätstest-Version"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__rating_ids
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Bewertungen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__module_ids
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Related Modules"
-msgstr ""
+msgstr "Zugehörige Module"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Reset to Draft"
-msgstr ""
+msgstr "Auf Entwurf zurücksetzen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__user_id
@@ -771,18 +789,18 @@ msgstr "Ergebnis"
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Retire"
-msgstr ""
+msgstr "Ausser Betrieb nehmen"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields.selection,name:quality_test_compassion.selection__quality_test__state__retired
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Retired"
-msgstr ""
+msgstr "Ausser Betrieb"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__sequence
 msgid "Run #"
-msgstr ""
+msgstr "Durchlauf Nr."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__message_has_sms_error
@@ -796,6 +814,8 @@ msgid ""
 "Send an email to the responsible if no test run has occurred within the "
 "specified number of days."
 msgstr ""
+"Eine E-Mail an die verantwortliche Person senden, wenn innerhalb der "
+"angegebenen Anzahl Tage kein Testdurchlauf stattgefunden hat."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__rule_module_update
@@ -803,6 +823,8 @@ msgid ""
 "Send an email to the responsible when one of the related modules has been "
 "updated since the last test run."
 msgstr ""
+"Eine E-Mail an die verantwortliche Person senden, wenn eines der zugehörigen"
+" Module seit dem letzten Testdurchlauf aktualisiert wurde."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__sequence
@@ -819,7 +841,7 @@ msgstr "Stufe"
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__state
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_search
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__activity_state
@@ -838,31 +860,31 @@ msgstr ""
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Status update %s"
-msgstr ""
+msgstr "Statusaktualisierung %s"
 
 #. module: quality_test_compassion
 #. odoo-javascript
 #: code:addons/quality_test_compassion/static/src/xml/quality_test_dashboard.xml:0
 msgid "Status:"
-msgstr ""
+msgstr "Status:"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Step 1"
-msgstr ""
+msgstr "Schritt 1"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Step 2"
-msgstr ""
+msgstr "Schritt 2"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Step 3"
-msgstr ""
+msgstr "Schritt 3"
 
 #. module: quality_test_compassion
 #: model:ir.model,name:quality_test_compassion.model_project_task
@@ -872,18 +894,18 @@ msgstr "Aufgaben"
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__test_id
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Test Info"
-msgstr ""
+msgstr "Test-Infos"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__run_id
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Test Run"
-msgstr ""
+msgstr "Testdurchlauf"
 
 #. module: quality_test_compassion
 #. odoo-python
@@ -893,18 +915,18 @@ msgstr ""
 #: model:ir.ui.menu,name:quality_test_compassion.menu_quality_test_run
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Test Runs"
-msgstr ""
+msgstr "Testdurchläufe"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__test_version
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__test_version
 msgid "Test Version"
-msgstr ""
+msgstr "Testversion"
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_form
 msgid "Test procedure (at time of test run)"
-msgstr ""
+msgstr "Testverfahren (zum Zeitpunkt des Testdurchlaufs)"
 
 #. module: quality_test_compassion
 #. odoo-python
@@ -913,56 +935,60 @@ msgid ""
 "Test runs can only be recorded for active quality tests. Please activate the"
 " test first."
 msgstr ""
+"Testdurchläufe können nur für aktive Qualitätstests erfasst werden. Bitte "
+"aktiviere zuerst den Test."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_run__user_id
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_run_search
 msgid "Tester"
-msgstr ""
+msgstr "Tester/in"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Tests executed"
-msgstr ""
+msgstr "Ausgeführte Tests"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Tests validated"
-msgstr ""
+msgstr "Validierte Tests"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "Tests validated (Pass)"
-msgstr ""
+msgstr "Validierte Tests (bestanden)"
 
 #. module: quality_test_compassion
 #. odoo-python
 #: code:addons/quality_test_compassion/models/quality_test.py:0
 msgid "The following modules have been updated since the last test run: %s."
 msgstr ""
+"Die folgenden Module wurden seit dem letzten Testdurchlauf aktualisiert: %s."
 
 #. module: quality_test_compassion
 #: model:ir.model.constraint,message:quality_test_compassion.constraint_quality_test_run_quality_test_run_test_sequence_uniq
 msgid "The run sequence must be unique per quality test."
-msgstr ""
+msgstr "Die Durchlauf-Nummer muss pro Qualitätstest eindeutig sein."
 
 #. module: quality_test_compassion
 #: model:ir.model.constraint,message:quality_test_compassion.constraint_quality_test_version_unique_version
 msgid "The version must be unique per quality test."
-msgstr ""
+msgstr "Die Version muss pro Qualitätstest eindeutig sein."
 
 #. module: quality_test_compassion
 #: model_terms:ir.ui.view,arch_db:quality_test_compassion.view_quality_test_form
 msgid "Time-Based Rule"
-msgstr ""
+msgstr "Zeitbasierte Regel"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test_module_version__version_changed
 msgid "True if the module version has changed since this test run."
 msgstr ""
+"Wahr, wenn sich die Modulversion seit diesem Testdurchlauf geändert hat."
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,help:quality_test_compassion.field_quality_test__activity_exception_decoration
@@ -972,17 +998,17 @@ msgstr "Art der aufgezeichneten Ausnahmeaktivität."
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_version__version
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__version_changed
 msgid "Version Changed"
-msgstr ""
+msgstr "Version geändert"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test_module_version__version
 msgid "Version at Test Time"
-msgstr ""
+msgstr "Version zum Testzeitpunkt"
 
 #. module: quality_test_compassion
 #: model:ir.model.fields,field_description:quality_test_compassion.field_quality_test__website_message_ids

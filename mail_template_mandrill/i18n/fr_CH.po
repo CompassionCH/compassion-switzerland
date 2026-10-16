@@ -33,7 +33,7 @@ msgstr "Nom affiché"
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__email_template_id
 msgid "E-mail Template"
-msgstr ""
+msgstr "Modèle d'e-mail"
 
 #. module: mail_template_mandrill
 #: model:ir.model,name:mail_template_mandrill.model_mail_template
@@ -68,24 +68,24 @@ msgstr "Dernière mise à jour le"
 #. module: mail_template_mandrill
 #: model_terms:ir.ui.view,arch_db:mail_template_mandrill.view_email_template_product
 msgid "Mailchimp"
-msgstr ""
+msgstr "Mailchimp"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mailchimp_email_lang_template__mailchimp_template
 msgid "Mailchimp Template"
-msgstr ""
+msgstr "Modèle Mailchimp"
 
 #. module: mail_template_mandrill
 #: model:ir.model,name:mail_template_mandrill.model_mailchimp_email_lang_template
 msgid "Mailchimp mail template"
-msgstr ""
+msgstr "Modèle d'e-mail Mailchimp"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,field_description:mail_template_mandrill.field_mail_template__mailchimp_template_ids
 msgid "Mailchimp templates"
-msgstr ""
+msgstr "Modèles Mailchimp"
 
 #. module: mail_template_mandrill
 #: model:ir.model.fields,help:mail_template_mandrill.field_mailchimp_email_lang_template__mailchimp_template
 msgid "Put the mandrill template name"
-msgstr ""
+msgstr "Indiquez le nom du modèle Mandrill"

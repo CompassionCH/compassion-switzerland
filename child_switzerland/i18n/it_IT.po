@@ -38,7 +38,7 @@ msgstr "<span>anni</span>"
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_compassion_child_description
 msgid "Child Description Generator"
-msgstr ""
+msgstr "Generatore di descrizioni dei bambini"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_child_property
@@ -107,7 +107,7 @@ msgstr "Description right"
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value
 msgid "English value"
-msgstr ""
+msgstr "Valore in inglese"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_fcp_property
@@ -118,7 +118,7 @@ msgstr "fcp.property"
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_fr
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_fr
 msgid "French description"
-msgstr ""
+msgstr "Descrizione in francese"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value_fr
@@ -150,12 +150,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value_fr
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value_fr
 msgid "French value"
-msgstr ""
+msgstr "Valore in francese"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_res_country__from_preposition
 msgid "From Preposition"
-msgstr ""
+msgstr "Preposizione \"da\""
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_compassion_project
@@ -166,7 +166,7 @@ msgstr "Chiesa partner"
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_de
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_de
 msgid "German description"
-msgstr ""
+msgstr "Descrizione in tedesco"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value_de
@@ -198,23 +198,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value_de
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value_de
 msgid "German value"
-msgstr ""
+msgstr "Valore in tedesco"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__has_tpl_image
 msgid "Has Tpl Image"
-msgstr ""
+msgstr "Ha immagine Tpl"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_res_country__in_preposition
 msgid "In Preposition"
-msgstr ""
+msgstr "Preposizione \"in\""
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_it
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_it
 msgid "Italian description"
-msgstr ""
+msgstr "Descrizione in italiano"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value_it
@@ -246,13 +246,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value_it
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value_it
 msgid "Italian value"
-msgstr ""
+msgstr "Valore in italiano"
 
 #. module: child_switzerland
 #: model:ir.actions.report,name:child_switzerland.report_childpack_mini
 #: model:ir.model.fields.selection,name:child_switzerland.selection__print_childpack__type__child_switzerland_childpack_mini
 msgid "Mini Childpack"
-msgstr ""
+msgstr "Mini Childpack"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__printer_tray_id
@@ -262,12 +262,12 @@ msgstr "Sorgente carta"
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__printer_id
 msgid "Printer"
-msgstr ""
+msgstr "Stampante"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_compassion_project_description
 msgid "Project Description Generator"
-msgstr ""
+msgstr "Generatore di descrizioni dei progetti"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__project_title
@@ -297,4 +297,4 @@ msgstr "Tipo"
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_report_child_switzerland_childpack_mini
 msgid "Used to generate mini childpack in selected language"
-msgstr ""
+msgstr "Utilizzato per generare il mini childpack nella lingua selezionata"

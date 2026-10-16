@@ -657,6 +657,8 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
+"<span class=\"s_website_form_label_content\">E-Mail</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
@@ -1276,7 +1278,7 @@ msgstr "Sehr gut"
 #. module: website_switzerland
 #: model:ir.actions.server,name:website_switzerland.event_payment_checker_action
 msgid "Execute Code"
-msgstr ""
+msgstr "Code ausführen"
 
 #. module: website_switzerland
 #: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_4
@@ -1549,7 +1551,7 @@ msgstr "Treffen mit deinem Patenkind:"
 #. module: website_switzerland
 #: model:base.automation,name:website_switzerland.event_payment_checker
 msgid "Move is paid by customer"
-msgstr ""
+msgstr "Buchung wurde vom Kunden bezahlt"
 
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_donations
@@ -1641,7 +1643,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_ready
 msgid "Ready"
-msgstr ""
+msgstr "Bereit"
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_page1
@@ -1656,7 +1658,7 @@ msgstr "Auftragsposition"
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
 msgid "Select a title..."
-msgstr ""
+msgstr "Wähle eine Anrede..."
 
 #. module: website_switzerland
 #: model:event.registration.task,name:website_switzerland.task_passport
@@ -1848,7 +1850,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_transport
 msgid "Transport:"
-msgstr ""
+msgstr "Transport:"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms

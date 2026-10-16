@@ -18,22 +18,22 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ovc
 msgid "\"Highly Vulnerable Children\" Fund"
-msgstr ""
+msgstr "Fondo \"Bambini altamente vulnerabili\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sm
 msgid "\"Stop Mosquitoes\" campaign"
-msgstr ""
+msgstr "Campagna \"Stop alle zanzare\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_wtp
 msgid "\"Water for the children\" Fund"
-msgstr ""
+msgstr "Fondo \"Acqua per i bambini\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_wol
 msgid "\"Water of Life\" - Water filter fund"
-msgstr ""
+msgstr "\"Acqua di vita\" - Fondo per i filtri dell'acqua"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_par
@@ -68,6 +68,12 @@ msgid ""
 "grateful for your donation by which you share the joy of Christmas<br>"
 "                with each child of Compassion.<br>"
 msgstr ""
+"<br>                Grazie al fondo regali di Natale possiamo offrire un "
+"regalo di Natale a ogni<br>                bambino iscritto in un centro "
+"Compassion. Si evitano così le disuguaglianze<br>                tra i "
+"bambini, almeno in questo periodo speciale dell'anno. Ti siamo<br>"
+"                molto grati per la tua donazione, con la quale condividi la "
+"gioia del Natale<br>                con ogni bambino di Compassion.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_wtp
@@ -79,6 +85,12 @@ msgid ""
 "would not be possible without you and we are very grateful for<br>"
 "                your support.<br>"
 msgstr ""
+"<br>                Grazie alla tua donazione. Ci permette di finanziare un "
+"progetto di disinfezione<br>                dell'acqua per fornire ai "
+"bambini sostenuti, alle loro famiglie, alle loro comunità<br>"
+"                e ai loro villaggi acqua potabile, nelle regioni più povere "
+"del mondo.<br>                Questo aiuto non sarebbe possibile senza di te"
+" e ti siamo molto grati per<br>                il tuo sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_csp
@@ -90,6 +102,12 @@ msgid ""
 "practical assistance, food, thorough medical checks on<br>                a "
 "regular basis and Bible lessons."
 msgstr ""
+"<br>                Il fondo CSP (programma di sopravvivenza infantile) ci "
+"permette di sostenere 3 centri CSP,<br>                due ad Haiti e uno in"
+" Ecuador. Ogni centro CSP accoglie<br>                circa 30 mamme con i "
+"loro neonati e donne in gravidanza. Queste donne<br>                ricevono"
+" formazione, assistenza pratica, cibo, controlli medici approfonditi a<br>"
+"                intervalli regolari e lezioni bibliche."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_usp
@@ -101,6 +119,13 @@ msgid ""
 "program staff as they see Compassion benefits at work for the children<br>"
 "                they love, even as they wait — and hope — for sponsors."
 msgstr ""
+"<br>                La tua donazione al \"Fondo per i bambini in attesa di "
+"sostegno\" sblocca i benefici<br>                del programma di Compassion"
+" per i bambini che sono stati iscritti ma non<br>                ancora "
+"sostenuti. Il tuo regalo a questo fondo incoraggia anche i genitori e<br>"
+"                il personale del programma, che vedono i benefici di "
+"Compassion all'opera per i bambini<br>                che amano, mentre "
+"aspettano, e sperano, in un sostenitore."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_ovc
@@ -110,6 +135,10 @@ msgid ""
 "children in poverty who are orphans<br>            or who have no adult "
 "caretakers.<br>"
 msgstr ""
+"<br>            Il fondo per i bambini altamente vulnerabili di Compassion "
+"fornisce cibo,<br>            vestiti e un ambiente familiare cristiano e "
+"accogliente ai bambini in povertà che sono orfani<br>            o che non "
+"hanno adulti che si prendano cura di loro.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_mds
@@ -117,6 +146,9 @@ msgid ""
 "<br>            On behalf of of Raymond Girardet, we thank you for your "
 "donation<br>            which will allow him to realize his project.<br>"
 msgstr ""
+"<br>            A nome di Raymond Girardet, ti ringraziamo per la tua "
+"donazione<br>            che gli permetterà di realizzare il suo "
+"progetto.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_aid
@@ -127,6 +159,11 @@ msgid ""
 "this fund and<br>            for the great hope you offer to the sick "
 "children and their families.<br>"
 msgstr ""
+"<br>            Grazie al fondo AIDS possiamo garantire le cure necessarie, "
+"per tutta la vita, ai<br>            bambini sostenuti positivi all'HIV "
+"(terapia antiretrovirale).<br>            Ti siamo molto grati per il tuo "
+"sostegno a questo fondo e<br>            per la grande speranza che offri ai"
+" bambini malati e alle loro famiglie.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_ldp
@@ -141,6 +178,15 @@ msgid ""
 "are offering these students a chance for a promising future and we are "
 "very<br>            grateful to you for your support.<br>"
 msgstr ""
+"<br>            Grazie al fondo LDP, sosteniamo attualmente 3 studenti LDP: "
+"Alfredo e<br>            Hellen dall'Ecuador e Tamirat dall'Etiopia. Il "
+"Leadership Development Program permette a giovani<br>            cristiani "
+"dotati, arrivati alla fine del loro sostegno, di andare all'università e di "
+"formarsi<br>            come leader cristiani. Negli anni a venire questi "
+"giovani potranno influenzare positivamente<br>            la loro nazione "
+"per Dio.<br>            Con la tua donazione offri a questi studenti la "
+"possibilità di un futuro promettente e ti siamo molto<br>            grati "
+"per il tuo sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_haf
@@ -151,6 +197,11 @@ msgid ""
 "contribution to this action and for the help you<br>            therefore "
 "give the children and their families.<br>"
 msgstr ""
+"<br>            Grazie ai filtri per l'acqua e ai kit di reidratazione, le "
+"famiglie dei<br>            bambini sostenuti possono affrontare "
+"efficacemente questa grave epidemia.<br>            Ti siamo molto grati per"
+" il tuo contributo a questa azione e per l'aiuto che<br>            porti "
+"così ai bambini e alle loro famiglie.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_don
@@ -162,6 +213,12 @@ msgid ""
 "complementary<br>            interventions in the countries supported by "
 "Compassion.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione a Compassion Suisse possiamo "
+"continuare a far conoscere il nostro<br>            lavoro in Svizzera e a "
+"migliorare i nostri servizi per sostenitori, donatori e bambini "
+"sostenuti.<br>            Possiamo offrire un aiuto più efficace a molti "
+"bambini bisognosi attraverso i sostegni e gli interventi<br>            "
+"complementari nei paesi sostenuti da Compassion.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_anl
@@ -173,6 +230,12 @@ msgid ""
 "complementary<br>            interventions in the countries supported by "
 "Compassion.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione a Compassion Suisse possiamo "
+"continuare a far conoscere<br>            il nostro lavoro in Svizzera e a "
+"migliorare i nostri servizi per sostenitori, donatori e bambini "
+"sostenuti.<br>            Possiamo offrire un aiuto più efficace a molti "
+"bambini bisognosi attraverso i sostegni e gli interventi<br>            "
+"complementari nei paesi sostenuti da Compassion.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_urg
@@ -184,6 +247,12 @@ msgid ""
 " other tragedy.<br>            Food, covers, shelters and replacement of "
 "certains belongings are commonly covered by this fund."
 msgstr ""
+"<br>            Grazie alla tua donazione al fondo per le emergenze "
+"umanitarie,<br>            permetti al personale di Compassion di portare "
+"immediatamente l'aiuto necessario<br>            alle famiglie dei bambini "
+"sostenuti colpite da una catastrofe naturale, da una carestia o<br>"
+"            da qualsiasi altra tragedia.<br>            Questo fondo copre "
+"di solito cibo, coperte, ripari e la sostituzione di alcuni beni."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_med
@@ -196,6 +265,13 @@ msgid ""
 "distribution of mosquito nets<br>            to families that are registered"
 " in the Compassion program.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione al fondo medico possiamo offrire a"
+" ogni<br>            bambino sostenuto colpito da una grave malattia le cure"
+" mediche necessarie e così<br>            ridare salute e speranza. Oltre a "
+"questo possiamo anche finanziare interventi complementari<br>            "
+"come una campagna di vaccinazione per diversi centri Compassion o la "
+"distribuzione di zanzariere<br>            alle famiglie iscritte al "
+"programma Compassion.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_mag
@@ -206,6 +282,12 @@ msgid ""
 "work known and to sensibilise many people to the cause of poor children.<br>"
 "            We are very grateful for your precious support.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione ti sei abbonato alla nostra "
+"rivista e ci<br>            aiuti a coprire i costi di pubblicazione. La "
+"nostra rivista è un importante strumento di comunicazione e<br>            "
+"ci permette di far conoscere il nostro lavoro e di sensibilizzare molte "
+"persone alla causa dei bambini poveri.<br>            Ti siamo molto grati "
+"per il tuo prezioso sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_bib
@@ -217,6 +299,12 @@ msgid ""
 " the child to grow spiritually, to strengthen his faith and to receive a<br>"
 "            precious encouragement.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione sostieni il fondo per le bibbie, "
+"grazie al quale possiamo<br>            offrire una Bibbia a ogni bambino "
+"iscritto in un centro Compassion. Lo sviluppo olistico del<br>            "
+"bambino è uno dei valori principali di Compassion.<br>            Il tuo "
+"sostegno aiuta il bambino a crescere spiritualmente, a rafforzare la sua "
+"fede e a ricevere un<br>            prezioso incoraggiamento.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_ind
@@ -230,6 +318,14 @@ msgid ""
 "the families of sponsored children, the staff of<br>            Compassion "
 "and the partner churches.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione, le famiglie colpite dal recente "
+"ciclone Aila in<br>            India e Bangladesh possono ricevere un aiuto "
+"prezioso. Compassion ha già iniziato a portare sostegno e<br>            "
+"cibo alle famiglie colpite e inizierà a lavorare alla ricostruzione dei "
+"centri o<br>            delle case danneggiati o distrutti il prima "
+"possibile.<br>            Il tuo sostegno è essenziale e porta nuova "
+"speranza alle famiglie dei bambini sostenuti, al personale di<br>"
+"            Compassion e alle chiese partner.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_hai
@@ -244,6 +340,15 @@ msgid ""
 "their<br>            families, the staff of Compassion and the partner "
 "churches in Haiti.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione, le famiglie colpite dal terribile"
+" terremoto ad<br>            Haiti possono ricevere un aiuto prezioso. "
+"Compassion sta portando sostegno e cibo alle famiglie<br>            colpite"
+" e offre loro tutto il supporto necessario. Il fondo emergenza permetterà "
+"inoltre a Compassion di<br>            ricostruire i centri danneggiati o "
+"distrutti dal disastro.<br>            Il tuo sostegno è essenziale e "
+"rappresenta un chiaro segno di speranza per i bambini sostenuti, le loro<br>"
+"            famiglie, il personale di Compassion e le chiese partner ad "
+"Haiti.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_phi
@@ -254,6 +359,11 @@ msgid ""
 " material and bring the necessary support to all who have been affected<br>"
 "            by the floods."
 msgstr ""
+"<br>            Grazie alla tua donazione, le famiglie colpite dal tifone "
+"nelle<br>            Filippine possono ricevere un aiuto prezioso. "
+"Compassion Filippine continua a distribuire<br>            cibo e materiale "
+"di primo soccorso e a portare il sostegno necessario a tutti coloro che sono"
+" stati colpiti<br>            dalle inondazioni."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_fam
@@ -267,6 +377,13 @@ msgid ""
 "            families and for the hope that you give them through your "
 "support.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione, i bambini sostenuti e le loro "
+"famiglie colpiti<br>            dalla carestia ricevono un aiuto prezioso. "
+"Compassion distribuisce cibo alle famiglie colpite ma<br>            offre "
+"anche formazione e strumenti che aiutano le famiglie a combattere la fame "
+"nel lungo periodo.<br>            Ti ringraziamo di cuore per la tua "
+"generosità, per il tuo interesse verso i bambini più poveri e le loro<br>"
+"            famiglie e per la speranza che dai loro con il tuo sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_bfa
@@ -280,6 +397,14 @@ msgid ""
 "a real sign of hope for the sponsored children, their families,<br>"
 "            the staff of Compassion and the partner churches.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione, i bambini sostenuti e le loro "
+"famiglie<br>            colpiti dalle recenti alluvioni in Burkina Faso "
+"possono ricevere un aiuto prezioso. Compassion Burkina<br>            Faso "
+"ha già iniziato a portare sostegno e cibo alle famiglie colpite e inizierà "
+"a<br>            lavorare alla ricostruzione dei centri o delle case "
+"danneggiati o distrutti il prima possibile.<br>            Il tuo sostegno è"
+" essenziale ed è un vero segno di speranza per i bambini sostenuti, le loro "
+"famiglie,<br>            il personale di Compassion e le chiese partner.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_cal
@@ -290,6 +415,11 @@ msgid ""
 " concrete help and a new future to many children on the field and "
 "restore<br>            hope in their lives."
 msgstr ""
+"<br>            Grazie alla tua donazione ci aiuti a finanziare il nostro "
+"calendario, che<br>            è un prezioso strumento di comunicazione per "
+"far conoscere il nostro lavoro in molte case durante l'anno.<br>            "
+"Possiamo inoltre offrire un aiuto concreto e un nuovo futuro a molti bambini"
+" sul campo e ridare<br>            speranza alle loro vite."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_wol
@@ -300,6 +430,12 @@ msgid ""
 "regions of the world.<br>            This help would not be possible without"
 " you and we are very grateful for your support.<br>"
 msgstr ""
+"<br>            Grazie alla tua donazione. Ci permette di finanziare filtri "
+"per l'acqua<br>            per fornire ai bambini sostenuti, alle loro "
+"famiglie, alle loro comunità e ai loro villaggi acqua<br>            "
+"potabile, nelle regioni più povere del mondo.<br>            Questo aiuto "
+"non sarebbe possibile senza di te e ti siamo molto grati per il tuo "
+"sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_kdo
@@ -311,6 +447,13 @@ msgid ""
 "complementary support to your sponsored child and his family that<br>"
 "            brings more hope and great encouragement to them.<br>"
 msgstr ""
+"<br>            Grazie al tuo regalo, che sarà interamente destinato a loro,"
+" la famiglia del<br>            bambino che sostieni riceverà un prezioso "
+"aiuto aggiuntivo per far fronte alle sue esigenze particolari e per<br>"
+"            migliorare le proprie condizioni di vita.<br>            Ti "
+"siamo molto grati per il tuo sostegno complementare al bambino che sostieni "
+"e alla sua famiglia, che<br>            porta loro più speranza e grande "
+"incoraggiamento.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_pro
@@ -321,6 +464,11 @@ msgid ""
 "to offer this service on a long-term basis and we are<br>            very "
 "grateful to you for your help.<br>"
 msgstr ""
+"<br>            Il fondo professionale permette a molti giovani sostenuti di"
+" ricevere<br>            una formazione professionale prima di concludere il"
+" programma di sostegno.<br>            Grazie al tuo sostegno possiamo "
+"continuare a offrire questo servizio a lungo termine e ti siamo<br>"
+"            molto grati per il tuo aiuto.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_c20
@@ -331,6 +479,11 @@ msgid ""
 "training, practical assistance, food, thorough medical checks on a regular "
 "basis and Bible lessons."
 msgstr ""
+"<br>            Con la tua donazione sostieni il CSP (programma di "
+"sopravvivenza infantile) in<br>            Ecuador. Il centro accoglie circa"
+" 30 mamme con i loro neonati e donne in gravidanza. Queste donne<br>"
+"            ricevono formazione, assistenza pratica, cibo, controlli medici "
+"approfonditi a intervalli regolari e lezioni bibliche."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_c13
@@ -342,6 +495,11 @@ msgid ""
 "training, practical assistance, food, thorough medical checks on a regular "
 "basis and Bible lessons."
 msgstr ""
+"<br>            Con la tua donazione sostieni il CSP (programma di "
+"sopravvivenza infantile) ad<br>            Haiti. Il centro accoglie circa "
+"30 mamme con i loro neonati e donne in gravidanza. Queste donne<br>"
+"            ricevono formazione, assistenza pratica, cibo, controlli medici "
+"approfonditi a intervalli regolari e lezioni bibliche."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_kgs
@@ -351,11 +509,15 @@ msgid ""
 "also helps many of the children in the sponsorship<br>            program to"
 " take part of this event.<br>"
 msgstr ""
+"<br>            Il tuo sostegno aiuta l'organizzatore dei Kids Games a "
+"pianificare questo evento<br>            per la prima volta in Burkina Faso."
+" Il tuo sostegno aiuta inoltre molti bambini del programma di sostegno<br>"
+"            a partecipare a questo evento.<br>"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_account_banking_mandate
 msgid "A generic banking mandate"
-msgstr ""
+msgstr "Un mandato bancario generico"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_recurring_contract_group
@@ -365,13 +527,13 @@ msgstr "Un gruppo di contratti"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_aid
 msgid "AIDS/HIV Fund"
-msgstr ""
+msgstr "Fondo AIDS/HIV"
 
 #. module: sponsorship_switzerland
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contract_group.py:0
 msgid "Additional comments"
-msgstr ""
+msgstr "Commenti aggiuntivi"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,help:sponsorship_switzerland.field_recurring_contract_partner_lang
@@ -386,22 +548,22 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_any
 msgid "Anonymous donations"
-msgstr ""
+msgstr "Donazioni anonime"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_bvr
 msgid "BVR"
-msgstr ""
+msgstr "BVR"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__bvr_reference
 msgid "BVR Ref"
-msgstr ""
+msgstr "Rif. BVR"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bib
 msgid "Bible Fund"
-msgstr ""
+msgstr "Fondo per le bibbie"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_birthday
@@ -412,17 +574,17 @@ msgstr "Regalo compleanno"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bli
 msgid "Blind Children Fund"
-msgstr ""
+msgstr "Fondo per i bambini non vedenti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c13
 msgid "CSP HA-C13 in Haiti"
-msgstr ""
+msgstr "CSP HA-C13 ad Haiti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c46
 msgid "CSP HA-C46 in Haiti"
-msgstr ""
+msgstr "CSP HA-C46 ad Haiti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c20
@@ -432,7 +594,7 @@ msgstr "Mamme e neonati WP"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_cal
 msgid "Calendar"
-msgstr ""
+msgstr "Calendario"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_c46
@@ -477,12 +639,12 @@ msgstr "Regali di Natale"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__church_id
 msgid "Church"
-msgstr ""
+msgstr "Chiesa"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c3b
 msgid "Cicerolandia BR473 project Fund - supported by C3"
-msgstr ""
+msgstr "Fondo per il progetto Cicerolandia BR473 - sostenuto da C3"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_fund_wtp
@@ -505,17 +667,17 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_anl
 msgid "Compassion Suisse"
-msgstr ""
+msgstr "Compassion Suisse"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_don
 msgid "Compassion Suisse grant"
-msgstr ""
+msgstr "Contributo Compassion Suisse"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_mag
 msgid "Compassion magazine"
-msgstr ""
+msgstr "Rivista Compassion"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_usp
@@ -540,7 +702,7 @@ msgstr "Contatto"
 #. module: sponsorship_switzerland
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
 msgid "Correspondent Sponsorship"
-msgstr ""
+msgstr "Sostegno del corrispondente"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_covid
@@ -560,12 +722,12 @@ msgstr "Creato il"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_hai
 msgid "Disaster Fund Haiti"
-msgstr ""
+msgstr "Fondo emergenza Haiti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ind
 msgid "Disaster Fund India"
-msgstr ""
+msgstr "Fondo emergenza India"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__display_name
@@ -596,7 +758,7 @@ msgstr "Regalo per il bambino e la famiglia"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_fam
 msgid "Famine Fund"
-msgstr ""
+msgstr "Fondo contro la carestia"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__first_open_invoice
@@ -611,12 +773,12 @@ msgstr "Francese"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bfa
 msgid "Fund \"Floods in Burkina Faso\""
-msgstr ""
+msgstr "Fondo \"Alluvioni in Burkina Faso\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_gen
 msgid "General Fund"
-msgstr ""
+msgstr "Fondo generale"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_gen
@@ -658,12 +820,12 @@ msgstr "Hillsong ref"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__hold_id
 msgid "Hold"
-msgstr ""
+msgstr "Hold"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_urg
 msgid "Humanitarian Fund"
-msgstr ""
+msgstr "Fondo emergenza"
 
 #. module: sponsorship_switzerland
 #: model:product.template,fund_selector_pre_description:sponsorship_switzerland.product_template_fund_toilets
@@ -683,12 +845,12 @@ msgstr "Vorrei sostenere"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_isc
 msgid "International Staff Care Fund"
-msgstr ""
+msgstr "Fondo per il personale internazionale"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__is_already_a_sponsor
@@ -714,32 +876,32 @@ msgstr "Articolo di giornale"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_kgs
 msgid "Kids Games Burkina Faso"
-msgstr ""
+msgstr "Giochi dei bambini in Burkina Faso"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ldp
 msgid "LDP Fund"
-msgstr ""
+msgstr "Fondo LDP"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_sponsorship_ldp
 msgid "LDP Sponsorship"
-msgstr ""
+msgstr "Sostegno LDP"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv
 msgid "LSV"
-msgstr ""
+msgstr "LSV"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv_25th
 msgid "LSV 25th"
-msgstr ""
+msgstr "LSV il 25"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv_multi_months
 msgid "LSV multi-months"
-msgstr ""
+msgstr "LSV multi-mensile"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__write_uid
@@ -764,12 +926,12 @@ msgstr "Lettera"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_loc
 msgid "Local projects"
-msgstr ""
+msgstr "Progetti locali"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_sm
 msgid "Malaria Fund"
-msgstr ""
+msgstr "Fondo contro la malaria"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__mandate_date
@@ -780,12 +942,12 @@ msgstr "State last time mandate"
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__recurring_contract__type__m2m
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
 msgid "Many2Many Sponsorship"
-msgstr ""
+msgstr "Sostegno Many2Many"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_med
 msgid "Medical Fund"
-msgstr ""
+msgstr "Fondo medico"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_muttcsp
@@ -806,12 +968,12 @@ msgstr "festa della mamma"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_muttgen
 msgid "Muttertagsgottesdienst - GEN"
-msgstr ""
+msgstr "Muttertagsgottesdienst - GEN"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_new
 msgid "New Building Yverdon"
-msgstr ""
+msgstr "Nuovo edificio Yverdon"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__next_reminder
@@ -826,7 +988,7 @@ msgstr "Next reminder type"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__next_waiting_reminder
 msgid "Next reminder"
-msgstr ""
+msgstr "Prossimo promemoria"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_res_partner_category
@@ -836,13 +998,13 @@ msgstr "Categorie Partner"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_partner_lang
 msgid "Partner language"
-msgstr ""
+msgstr "Lingua del partner"
 
 #. module: sponsorship_switzerland
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contract_group.py:0
 msgid "Period"
-msgstr ""
+msgstr "Periodo"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_permanent_order
@@ -853,7 +1015,7 @@ msgstr "Pagamento permanente"
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "Please verify the partner before validating the sponsorship"
-msgstr ""
+msgstr "Verifica il partner prima di convalidare il sostegno"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_product__plural_name
@@ -870,17 +1032,17 @@ msgstr "Postal Account CHF "
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd
 msgid "Postfinance Direct Debit"
-msgstr ""
+msgstr "Addebito diretto Postfinance"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_25th
 msgid "Postfinance Direct Debit 25th"
-msgstr ""
+msgstr "Addebito diretto Postfinance il 25"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_multi_months
 msgid "Postfinance Direct Debit multi-months"
-msgstr ""
+msgstr "Addebito diretto Postfinance multi-mensile"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_postpone_waiting_reminder_wizard
@@ -911,7 +1073,7 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__previous_child_id
 msgid "Previous child"
-msgstr ""
+msgstr "Bambino precedente"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_product_template
@@ -921,12 +1083,12 @@ msgstr "Modello del prodotto"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_pro
 msgid "Professional Fund"
-msgstr ""
+msgstr "Fondo professionale"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_mds
 msgid "Project \"Marathon des Sables\""
-msgstr ""
+msgstr "Progetto \"Marathon des Sables\""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_gift_project
@@ -951,7 +1113,7 @@ msgstr "Contratto ricorrente"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_phi
 msgid "Relief Fund Philippines"
-msgstr ""
+msgstr "Fondo assistenza Filippine"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__0
@@ -971,17 +1133,17 @@ msgstr "Promemoria 3"
 #. module: sponsorship_switzerland
 #: model:res.partner.category,name:sponsorship_switzerland.res_partner_restricted
 msgid "Restricted"
-msgstr ""
+msgstr "Con restrizioni"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sawyer
 msgid "Sawyer Water Filters for Ndeiya"
-msgstr ""
+msgstr "Filtri per l'acqua Sawyer per Ndeiya"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sgi
 msgid "Special gift"
-msgstr ""
+msgstr "Regalo speciale"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__sponsorship_id
@@ -992,7 +1154,7 @@ msgstr "Sostegno"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_par
 msgid "Sponsorship Fund"
-msgstr ""
+msgstr "Fondo per il sostegno"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_sponsorship_gift
@@ -1002,7 +1164,7 @@ msgstr "Regalo di sponsorizzazione"
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_sponsorship_ldp
 msgid "Sponsorship for LDP Students."
-msgstr ""
+msgstr "Sostegno per gli studenti LDP."
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__type
@@ -1012,7 +1174,7 @@ msgstr "Tipo"
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_sponsorship
 msgid "Standard Sponsorship of type CDSP."
-msgstr ""
+msgstr "Sostegno standard di tipo CDSP."
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__state
@@ -1022,7 +1184,7 @@ msgstr "Stato"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_sponsorship_gift__letter_id
 msgid "Thank you letter"
-msgstr ""
+msgstr "Lettera di ringraziamento"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_gen
@@ -1031,6 +1193,9 @@ msgid ""
 "offer<br>                a concrete help and a new future to many children "
 "on the field and restore hope in their lives."
 msgstr ""
+"Grazie alla tua donazione al fondo generale, con il tuo aiuto possiamo "
+"offrire<br>                un aiuto concreto e un nuovo futuro a molti "
+"bambini sul campo e ridare speranza alle loro vite."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_covid
@@ -1042,11 +1207,17 @@ msgid ""
 "tragedy.<br>            Food, covers, shelters and replacement of certains "
 "belongings are commonly covered by this fund."
 msgstr ""
+"Grazie alla tua donazione al fondo per le emergenze umanitarie,<br>"
+"            permetti al personale di Compassion di portare immediatamente "
+"l'aiuto necessario<br>            alle famiglie dei bambini sostenuti "
+"colpite da una catastrofe naturale, da una carestia o<br>            da "
+"qualsiasi altra tragedia.<br>            Questo fondo copre di solito cibo, "
+"coperte, ripari e la sostituzione di alcuni beni."
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_4mu_2
 msgid "The 4th Musketeer Fund"
-msgstr ""
+msgstr "Fondo del 4° Moschettiere"
 
 #. module: sponsorship_switzerland
 #: model:product.template,crowdfunding_description:sponsorship_switzerland.product_template_fund_csp
@@ -1064,7 +1235,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "The ambassador has special categories"
-msgstr ""
+msgstr "L'ambasciatore ha delle categorie speciali"
 
 #. module: sponsorship_switzerland
 #. odoo-python
@@ -1073,12 +1244,14 @@ msgid ""
 "The reference of the partner has not been set, or is in wrong format. Please"
 " make sure to enter a valid BVR reference for the contract."
 msgstr ""
+"Il riferimento del partner non è stato impostato oppure ha un formato "
+"errato. Assicurati di inserire un riferimento BVR valido per il contratto."
 
 #. module: sponsorship_switzerland
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "The sponsor has special categories"
-msgstr ""
+msgstr "Il sostenitore ha delle categorie speciali"
 
 #. module: sponsorship_switzerland
 #. odoo-python
@@ -1087,6 +1260,8 @@ msgid ""
 "This partner has the restricted category active. New sponsorships are not "
 "allowed."
 msgstr ""
+"Questo partner ha la categoria con restrizioni attiva. Non sono consentiti "
+"nuovi sostegni."
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_csp
@@ -1121,7 +1296,7 @@ msgstr "Toilette per tutti"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_usp
 msgid "Unsponsored Children Fund"
-msgstr ""
+msgstr "Fondo per i bambini in attesa di sostegno"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__recurring_contract__state__mandate
@@ -1148,6 +1323,8 @@ msgid ""
 "babies and for the hope you<br>            are bringing to them through your"
 " help.<br>"
 msgstr ""
+"Ti siamo molto grati per il tuo interesse verso le mamme e i loro bambini e "
+"per la speranza che<br>            porti loro con il tuo aiuto.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_csp
@@ -1156,16 +1333,19 @@ msgid ""
 "                babies and for the hope you are bringing to them through "
 "your help.<br>"
 msgstr ""
+"Ti siamo molto grati per il tuo interesse verso le mamme e i loro<br>"
+"                bambini e per la speranza che porti loro con il tuo "
+"aiuto.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_usp
 msgid "We thank you very much for your precious support.<br>"
-msgstr ""
+msgstr "Ti ringraziamo molto per il tuo prezioso sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_cal
 msgid "We thank you very much for your support.<br>"
-msgstr ""
+msgstr "Ti ringraziamo molto per il tuo sostegno.<br>"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_gift_gen
@@ -1232,6 +1412,9 @@ msgid ""
 "sponsorchildren, the staff<br>            of Compassion and the partner "
 "churches."
 msgstr ""
+"Il tuo sostegno è essenziale e porta nuova speranza alle famiglie dei "
+"bambini sostenuti, al personale<br>            di Compassion e alle chiese "
+"partner."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_urg
@@ -1240,6 +1423,9 @@ msgid ""
 "sponsorchildren, the staff<br>            of Compassion and the partner "
 "churches.<br>"
 msgstr ""
+"Il tuo sostegno è essenziale e porta nuova speranza alle famiglie dei "
+"bambini sostenuti, al personale<br>            di Compassion e alle chiese "
+"partner.<br>"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_phi
@@ -1248,6 +1434,9 @@ msgid ""
 "children, the staff<br>            of Compassion and the partner "
 "churches.<br>"
 msgstr ""
+"Il tuo sostegno è essenziale e porta nuova speranza alle famiglie dei "
+"bambini sostenuti, al personale<br>            di Compassion e alle chiese "
+"partner.<br>"
 
 #. module: sponsorship_switzerland
 #: model:product.template,crowdfunding_impact_text_passive_plural:sponsorship_switzerland.product_template_fund_toilets
@@ -1480,7 +1669,7 @@ msgstr "la \"Maratona di Sabbia\""
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_gen
 msgid "the general fund"
-msgstr ""
+msgstr "il fondo generale"
 
 #. module: sponsorship_switzerland
 #: model:product.template,thanks_name:sponsorship_switzerland.product_template_fund_phi

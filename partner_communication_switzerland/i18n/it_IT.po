@@ -153,7 +153,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "(internal use:"
-msgstr ""
+msgstr "(uso interno:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
@@ -219,6 +219,9 @@ msgid ""
 "                Impacts on the center:\n"
 "            </b>"
 msgstr ""
+"<b>\n"
+"                Impatti sul centro:\n"
+"            </b>"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
@@ -5508,6 +5511,8 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                  <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
+"                  <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_form
@@ -5786,7 +5791,7 @@ msgstr "Procedura guidata di trattenimento del bambino"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_job__child_country_id
 msgid "Child country"
-msgstr ""
+msgstr "Paese del bambino"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_city
@@ -5827,7 +5832,7 @@ msgstr "Regola di comunicazione"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_sent_date
 msgid "Communication sent"
-msgstr ""
+msgstr "Comunicazione inviata"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.act_window,name:partner_communication_switzerland.action_communication_template
@@ -5873,7 +5878,7 @@ msgstr "Contenuto della conferenza:"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract__correspondent_mobile
 msgid "Correspondent mobile"
-msgstr ""
+msgstr "Cellulare del corrispondente"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_job_search
@@ -5939,12 +5944,12 @@ msgstr "Il team di Compassion"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Deceased caregivers:"
-msgstr ""
+msgstr "Tutori deceduti:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Deceased siblings:"
-msgstr ""
+msgstr "Fratelli e sorelle deceduti:"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields.selection,name:partner_communication_switzerland.selection__res_partner_zoom_attendee__state__declined
@@ -5956,22 +5961,22 @@ msgstr "Declinato"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_config_settings__event_thank_you_default_signer_id
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_notification_settings_invalid_mail_form
 msgid "Default Event Thank You Signer"
-msgstr ""
+msgstr "Firmatario predefinito della lettera di ringraziamento per eventi"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_correspondence_letter_delivery_preference
 msgid "Delivery preference for Child Letters"
-msgstr ""
+msgstr "Preferenza di consegna per le lettere dei bambini"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Description:"
-msgstr ""
+msgstr "Descrizione:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Destroyed or lost personal belongings:"
-msgstr ""
+msgstr "Effetti personali distrutti o persi:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
@@ -5986,7 +5991,7 @@ msgstr "Non si è presentato"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__director_gender
 msgid "Director Gender"
-msgstr ""
+msgstr "Genere del direttore"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__display_name
@@ -6110,7 +6115,7 @@ msgstr "Esegui codice"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_nb_fcps_with_intervention
 msgid "FCPs with intervention"
-msgstr ""
+msgstr "FCP con intervento"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__failed_message_ids
@@ -6191,13 +6196,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/partner_communication_switzerland/static/src/js/image_float_plugin.js:0
 msgid "Float left (text on the right)"
-msgstr ""
+msgstr "Fluttuante a sinistra (testo a destra)"
 
 #. module: partner_communication_switzerland
 #. odoo-javascript
 #: code:addons/partner_communication_switzerland/static/src/js/image_float_plugin.js:0
 msgid "Float right (text on the left)"
-msgstr ""
+msgstr "Fluttuante a destra (testo a sinistra)"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__message_follower_ids
@@ -6302,7 +6307,7 @@ msgstr "Gruppo di..."
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Ha un messaggio"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_has_valid_language
@@ -6312,7 +6317,7 @@ msgstr "Has valid language"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Home condition:"
-msgstr ""
+msgstr "Condizione dell'abitazione:"
 
 #. module: partner_communication_switzerland
 #: model:survey.question,title:partner_communication_switzerland.onbs_question_rating
@@ -6337,7 +6342,7 @@ msgstr "Mi iscrivo alla videoconferenza per i nuovi sponsor,<br/>"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__id
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_exception_icon
@@ -6384,7 +6389,7 @@ msgstr "Se confermi questa azione, questo partner avrà un account su Odoo."
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Impact on the center program:"
-msgstr ""
+msgstr "Impatto sul programma del centro:"
 
 #. module: partner_communication_switzerland
 #: model_terms:survey.question,description:partner_communication_switzerland.wrpr_journey_page1
@@ -6469,13 +6474,13 @@ msgstr "le informazioni, gli articoli, i video di Compassion"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Infrastructure:"
-msgstr ""
+msgstr "Infrastrutture:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_suspension_announcement_internal_notes
 msgid "Internal notes"
-msgstr ""
+msgstr "Note interne"
 
 #. module: partner_communication_switzerland
 #: model:survey.question.answer,value:partner_communication_switzerland.onbs_dontlike_1
@@ -6550,7 +6555,7 @@ msgstr "Articolo di giornale"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__lang
 msgid "Lang"
-msgstr ""
+msgstr "Lingua"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__language
@@ -6635,12 +6640,12 @@ msgstr "Link ricevuto"
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_link_tracker
 msgid "Link Tracker"
-msgstr ""
+msgstr "Link Tracker"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_looking_forward
 msgid "Looking forward"
-msgstr ""
+msgstr "Prospettive"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_new_donors_onboarding_postcard_and_magazine
@@ -6788,7 +6793,7 @@ msgstr "Nuove biennali"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_reformat_all_phonenumbers__new_participant_notify_ids
 msgid "New crowdfunding participant"
-msgstr ""
+msgstr "Nuovo partecipante al crowdfunding"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_new_labels
@@ -6800,7 +6805,7 @@ msgstr "Nuove etichette"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_calendar_event_id
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr ""
+msgstr "Evento calendario della prossima attività"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_child_order_picture_wizard__activity_date_deadline
@@ -6823,7 +6828,7 @@ msgstr "Tipo Prossima Attività"
 #. module: partner_communication_switzerland
 #: model:survey.question.answer,value:partner_communication_switzerland.wrpr_journey_referral_no
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_hold_no_money_extension_duration
@@ -6851,7 +6856,7 @@ msgstr "Nessuna comunicazione fisica"
 #. odoo-javascript
 #: code:addons/partner_communication_switzerland/static/src/js/image_float_plugin.js:0
 msgid "No text wrapping"
-msgstr ""
+msgstr "Nessun avvolgimento del testo"
 
 #. module: partner_communication_switzerland
 #: model:survey.question.answer,value:partner_communication_switzerland.wrpr_journey_rating_1
@@ -6907,7 +6912,7 @@ msgstr "Numero di mesi non retribuiti (in passato)"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Occurred on:"
-msgstr ""
+msgstr "Avvenuto il:"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_child_old_firstname
@@ -6968,7 +6973,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/mail_tracking_event.py:0
 msgid "Opt-out"
-msgstr ""
+msgstr "Opt-out"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__optional_message
@@ -7026,7 +7031,7 @@ msgstr "Partecipanti"
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_id
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_test_case_form
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__partner_body
@@ -7093,7 +7098,7 @@ msgstr "Pianificato"
 #. odoo-python
 #: code:addons/partner_communication_switzerland/wizards/res_partner_create_portal_wizard.py:0
 msgid "Please fill in the missing names, or set an e-mail address, for: %s"
-msgstr ""
+msgstr "Compila i nomi mancanti, o indica un indirizzo e-mail, per: %s"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -7124,7 +7129,7 @@ msgstr "Configurazione Utente Portale"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_praise
 msgid "Praise"
-msgstr ""
+msgstr "Lode"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_compassion_field_office__tpl_prayer
@@ -7144,7 +7149,7 @@ msgstr "Stampa il rapporto"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Valutazioni"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_recurring_contract
@@ -7159,7 +7164,7 @@ msgstr "Procedura guidata di fine contratto ricorrente"
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_reformat_all_phonenumbers
 msgid "Reformat all phone numbers"
-msgstr ""
+msgstr "Riformatta tutti i numeri di telefono"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_muskathlon_registration_id
@@ -7235,7 +7240,7 @@ msgstr "Lingua selezionata / Persona singola"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_send_introduction_letter
 msgid "Send B2S intro letter to sponsor"
-msgstr ""
+msgstr "Invia la lettera di presentazione B2S al sostenitore"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.sms_sponsorship_reminder_action
@@ -7301,12 +7306,12 @@ msgstr "Inviato a 4M"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Seriously injured caregivers:"
-msgstr ""
+msgstr "Tutori gravemente feriti:"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "Seriously injured siblings:"
-msgstr ""
+msgstr "Fratelli e sorelle gravemente feriti:"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__date_start
@@ -7529,7 +7534,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.onboarding_zoom_reminder_action
 msgid "Sponsorship Onboarding: send online meeting reminder"
-msgstr ""
+msgstr "Onboarding del sostegno: invia promemoria della riunione online"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.onboarding_zoom_reminder_automation
@@ -7681,7 +7686,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.field_office_alumni_view
 msgid "TPL"
-msgstr ""
+msgstr "TPL"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_partner_create_portal_wizard
@@ -7710,7 +7715,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_recurring_contract_period_paid
 msgid "Tells if the advance billing period is already paid"
-msgstr ""
+msgstr "Indica se il periodo di fatturazione anticipata è già pagato"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_config_test_case_view
@@ -7832,6 +7837,8 @@ msgid ""
 "The selected partner is not a donor but this test case requires one. Please,"
 " pick a donor."
 msgstr ""
+"Il partner selezionato non è un donatore ma questo caso di test ne richiede "
+"uno. Scegli un donatore."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.constraint,message:partner_communication_switzerland.constraint_res_partner_zoom_attendee_unique_participant
@@ -7915,7 +7922,7 @@ msgstr "Fonte UTM"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "Uhr"
-msgstr ""
+msgstr "ore"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_portal_wizard_user__uid_communication_id
@@ -7944,6 +7951,9 @@ msgid ""
 "Used to sign event thank you letters when the event's Responsible is not "
 "linked to an employee, and no employee is found among the event's staff."
 msgstr ""
+"Usato per firmare le lettere di ringraziamento per gli eventi quando il "
+"responsabile dell'evento non è collegato a un dipendente e non viene trovato"
+" nessun dipendente tra lo staff dell'evento."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_reformat_all_phonenumbers__new_donors_user_id
@@ -8056,7 +8066,7 @@ msgstr ""
 #: model:ir.actions.server,name:partner_communication_switzerland.automation_wrpr_2_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_2_action
 msgid "W&P Onboarding: step2"
-msgstr ""
+msgstr "Onboarding W&P: passo 2"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.automation_wrpr_3
@@ -8077,7 +8087,7 @@ msgstr "W&P Onboarding: fase 4"
 #: model:ir.actions.server,name:partner_communication_switzerland.automation_wrpr_5_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_5_action
 msgid "W&P Onboarding: step5"
-msgstr ""
+msgstr "Onboarding W&P: passo 5"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.automation_wrpr_6
@@ -8098,7 +8108,7 @@ msgstr "W&P Onboarding: fase 7"
 #: model:ir.actions.server,name:partner_communication_switzerland.automation_wrpr_8_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_8_action
 msgid "W&P Onboarding: step8"
-msgstr ""
+msgstr "Onboarding W&P: passo 8"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.wrpr_transformation
@@ -8283,7 +8293,7 @@ msgstr "Feedback sull'inizio del sostegno Write & Pray"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_recurring_contract__correspondent_mobile
 msgid "Write&Pray communications are sent by SMS to this number."
-msgstr ""
+msgstr "Le comunicazioni Write&Pray vengono inviate via SMS a questo numero."
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.wrpr_upgrade_confirmation
@@ -8468,7 +8478,7 @@ msgstr "scegli una comunicazione"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_form
 msgid "confirmed"
-msgstr ""
+msgstr "confermato"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -8479,7 +8489,7 @@ msgstr "bollettini di pagamento csp.pdf"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
 msgid "details"
-msgstr ""
+msgstr "dettagli"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -8490,7 +8500,7 @@ msgstr "certificato di sponsorizzazione finale.pdf"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "il"
-msgstr ""
+msgstr "il"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
@@ -8500,7 +8510,7 @@ msgstr "su"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "ora"
-msgstr ""
+msgstr "ore"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -8535,7 +8545,7 @@ msgstr "donazioni.pdf"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "um"
-msgstr ""
+msgstr "alle"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step1

@@ -28,7 +28,7 @@ msgstr "/donner"
 #. module: wordpress_connector
 #: model:wordpress.configuration,sponsorship_url:wordpress_connector.wordpress_configuration
 msgid "/parrainages/parrainer-un-enfant"
-msgstr ""
+msgstr "/parrainages/parrainer-un-enfant"
 
 #. module: wordpress_connector
 #: model:wordpress.configuration,survival_sponsorship_url:wordpress_connector.wordpress_configuration
@@ -43,7 +43,7 @@ msgstr "Front matter"
 #. module: wordpress_connector
 #: model_terms:ir.ui.view,arch_db:wordpress_connector.crm_wordpress_request_form_view
 msgid "Front matter"
-msgstr ""
+msgstr "Front matter"
 
 #. module: wordpress_connector
 #: model:ir.model,name:wordpress_connector.model_account_move
@@ -59,13 +59,13 @@ msgstr "res.partner.match.wp"
 #. odoo-python
 #: code:addons/wordpress_connector/models/contracts.py:0
 msgid "New Write&Pray sponsorship from the website"
-msgstr ""
+msgstr "Nouveau parrainage Write&Pray depuis le site web"
 
 #. module: wordpress_connector
 #. odoo-python
 #: code:addons/wordpress_connector/models/contracts.py:0
 msgid "New sponsorship from the website"
-msgstr ""
+msgstr "Nouveau parrainage depuis le site web"
 
 #. module: wordpress_connector
 #: model:ir.model.fields,field_description:wordpress_connector.field_recurring_contract__partner_id
@@ -75,7 +75,7 @@ msgstr "Partenaire"
 #. module: wordpress_connector
 #: model:ir.model.fields,field_description:wordpress_connector.field_recurring_contract__group_id
 msgid "Payment Options"
-msgstr ""
+msgstr "Options de paiement"
 
 #. module: wordpress_connector
 #: model:ir.model,name:wordpress_connector.model_recurring_contract
@@ -90,4 +90,4 @@ msgstr "Demande"
 #. module: wordpress_connector
 #: model:ir.model.fields,field_description:wordpress_connector.field_recurring_contract__web_info
 msgid "Web Info"
-msgstr ""
+msgstr "Infos web"

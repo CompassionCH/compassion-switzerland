@@ -23,4 +23,4 @@ msgstr "ir.mail_server"
 #. module: mail_tracking_mandrill
 #: model:ir.model,name:mail_tracking_mandrill.model_mail_tracking_email
 msgid "MailTracking email"
-msgstr ""
+msgstr "E-mail MailTracking"

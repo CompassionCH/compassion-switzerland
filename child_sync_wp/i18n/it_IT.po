@@ -19,19 +19,19 @@ msgstr ""
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
 msgid " and %s more"
-msgstr ""
+msgstr " e altri %s"
 
 #. module: child_sync_wp
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
 msgid "%(pushed)s of %(total)s children put on the website."
-msgstr ""
+msgstr "%(pushed)s bambini su %(total)s pubblicati sul sito web."
 
 #. module: child_sync_wp
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
 msgid "%s children removed from the website."
-msgstr ""
+msgstr "%s bambini rimossi dal sito web."
 
 #. module: child_sync_wp
 #: model:ir.model,name:child_sync_wp.model_res_config_settings
@@ -42,7 +42,7 @@ msgstr "Impostazioni di configurazione"
 #. odoo-python
 #: code:addons/child_sync_wp/models/child_compassion.py:0
 msgid "Could not remove old children from WordPress"
-msgstr ""
+msgstr "Impossibile rimuovere i vecchi bambini da WordPress"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__create_uid
@@ -81,7 +81,7 @@ msgstr "Tedesco"
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__id
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
@@ -104,48 +104,48 @@ msgstr "Ultima modifica il"
 #: model:ir.model.fields,field_description:child_sync_wp.field_reformat_all_phonenumbers__sponsorship_de_id
 #: model:ir.model.fields,field_description:child_sync_wp.field_res_config_settings__sponsorship_de_id
 msgid "New sponsorships (DE)"
-msgstr ""
+msgstr "Nuovi sostegni (DE)"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_reformat_all_phonenumbers__sponsorship_fr_id
 #: model:ir.model.fields,field_description:child_sync_wp.field_res_config_settings__sponsorship_fr_id
 msgid "New sponsorships (FR)"
-msgstr ""
+msgstr "Nuovi sostegni (FR)"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_reformat_all_phonenumbers__sponsorship_it_id
 #: model:ir.model.fields,field_description:child_sync_wp.field_res_config_settings__sponsorship_it_id
 msgid "New sponsorships (IT)"
-msgstr ""
+msgstr "Nuovi sostegni (IT)"
 
 #. module: child_sync_wp
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
 msgid "No child could be put on the website: %s"
-msgstr ""
+msgstr "Nessun bambino ha potuto essere pubblicato sul sito web: %s"
 
 #. module: child_sync_wp
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
 msgid "None of the selected children are currently on the website."
-msgstr ""
+msgstr "Nessuno dei bambini selezionati è attualmente sul sito web."
 
 #. module: child_sync_wp
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
 msgid "None of the selected children can be put on the website."
-msgstr ""
+msgstr "Nessuno dei bambini selezionati può essere pubblicato sul sito web."
 
 #. module: child_sync_wp
 #: model:ir.actions.act_window,name:child_sync_wp.action_child_on_wordpress_wizard
 #: model:ir.model.fields.selection,name:child_sync_wp.selection__compassion_child__state__i
 msgid "On Wordpress"
-msgstr ""
+msgstr "Su WordPress"
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
 msgid "Put child on internet"
-msgstr ""
+msgstr "Pubblica il bambino su internet"
 
 #. module: child_sync_wp
 #: model:ir.model,name:child_sync_wp.model_child_on_wordpress_wizard
@@ -155,12 +155,12 @@ msgstr "child.on.wordpress.wizard"
 #. module: child_sync_wp
 #: model:ir.actions.server,name:child_sync_wp.refresh_wordpress_cron_ir_actions_server
 msgid "Refresh children on Wordpress"
-msgstr ""
+msgstr "Aggiorna i bambini su WordPress"
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
 msgid "Remove child from Wordpress"
-msgstr ""
+msgstr "Rimuovi il bambino da WordPress"
 
 #. module: child_sync_wp
 #: model:ir.model,name:child_sync_wp.model_child_remove_from_wordpress_wizard
@@ -170,7 +170,7 @@ msgstr "child.remove.from.wordpress.wizard"
 #. module: child_sync_wp
 #: model:ir.actions.act_window,name:child_sync_wp.action_child_remove_from_wordpress_wizard
 msgid "Remove from Wordpress"
-msgstr ""
+msgstr "Rimuovi da WordPress"
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
@@ -178,6 +178,8 @@ msgid ""
 "Select the users to notify when a sponsorship is created on the website for "
 "each language."
 msgstr ""
+"Seleziona gli utenti da avvisare quando viene creato un sostegno sul sito "
+"web, per ciascuna lingua."
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__child_ids
@@ -191,6 +193,7 @@ msgstr "Bambini selezionati"
 msgid ""
 "Skipped (missing description or photo, or completing within 2 years): %s"
 msgstr ""
+"Saltati (descrizione o foto mancante, o completamento entro 2 anni): %s"
 
 #. module: child_sync_wp
 #: model:ir.model,name:child_sync_wp.model_compassion_child
@@ -200,7 +203,7 @@ msgstr "Bambino sponsorizzato"
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
 msgid "Sponsorships made from the website"
-msgstr ""
+msgstr "Sostegni effettuati dal sito web"
 
 #. module: child_sync_wp
 #: model:ir.model.fields,field_description:child_sync_wp.field_compassion_child__state
@@ -211,7 +214,7 @@ msgstr "Stato"
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
 msgid "The website could not remove the selected children."
-msgstr ""
+msgstr "Il sito web non ha potuto rimuovere i bambini selezionati."
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
@@ -222,16 +225,16 @@ msgstr "Convalida"
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
 msgid "Validate this to put the selected child on the website."
-msgstr ""
+msgstr "Conferma per pubblicare il bambino selezionato sul sito web."
 
 #. module: child_sync_wp
 #: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
 msgid "Validate this to remove the selected child from the website."
-msgstr ""
+msgstr "Conferma per rimuovere il bambino selezionato dal sito web."
 
 #. module: child_sync_wp
 #. odoo-python
 #: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
 #: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
 msgid "Wordpress"
-msgstr ""
+msgstr "WordPress"

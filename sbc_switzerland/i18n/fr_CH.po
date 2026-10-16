@@ -403,17 +403,17 @@ msgstr ""
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Beneficiary To Supporter"
-msgstr ""
+msgstr "Participant vers parrain"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_translation_user
 msgid "Compassion Translator"
-msgstr ""
+msgstr "Traducteur Compassion"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.contract_search_corr_by_compassion
 msgid "Corr. Compassion"
-msgstr ""
+msgstr "Corr. Compassion"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_correspondence_s2b_generator
@@ -438,12 +438,12 @@ msgstr "Créé le"
 #: model:ir.actions.act_window,name:sbc_switzerland.action_translation_daily_report
 #: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_daily
 msgid "Daily translations"
-msgstr ""
+msgstr "Traductions quotidiennes"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_translation_daily_report
 msgid "Daily translations report"
-msgstr ""
+msgstr "Rapport des traductions quotidiennes"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__dst_lang
@@ -460,7 +460,7 @@ msgstr "Langue de destination"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__direction
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Direction"
-msgstr ""
+msgstr "Sens"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__display_name
@@ -476,7 +476,7 @@ msgstr "Nom affiché"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__field_office_id
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__field_office_id
 msgid "Field office"
-msgstr ""
+msgstr "Bureau national"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
@@ -510,12 +510,12 @@ msgstr "Langue"
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last 12 Months"
-msgstr ""
+msgstr "12 derniers mois"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last 24 Months"
-msgstr ""
+msgstr "24 derniers mois"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
@@ -525,12 +525,12 @@ msgstr "Derniers 3 mois"
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last 6 Months"
-msgstr ""
+msgstr "6 derniers mois"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last Month"
-msgstr ""
+msgstr "Mois dernier"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__write_uid
@@ -549,7 +549,7 @@ msgstr "Dernière mise à jour le"
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last Year"
-msgstr ""
+msgstr "Année dernière"
 
 #. module: sbc_switzerland
 #: model:mail.template,subject:sbc_switzerland.email_goodbye_translator
@@ -576,18 +576,18 @@ msgstr "Letter image"
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_import_letters_history__manual_import
 msgid "Manual import"
-msgstr ""
+msgstr "Import manuel"
 
 #. module: sbc_switzerland
 #: model:ir.actions.act_window,name:sbc_switzerland.action_translation_monthly_report
 #: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_monthly
 msgid "Monthly translations"
-msgstr ""
+msgstr "Traductions mensuelles"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_translation_monthly_report
 msgid "Monthly translations report"
-msgstr ""
+msgstr "Rapport des traductions mensuelles"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__name
@@ -629,7 +629,7 @@ msgstr "import.letter.line"
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_import_letters_history
 msgid "S2B Letter Import"
-msgstr ""
+msgstr "Import de lettres S2B"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_import_letter_config
@@ -652,7 +652,7 @@ msgstr "Langue source"
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_correspondence_src_translation_lang_id
 msgid "Source of translation"
-msgstr ""
+msgstr "Source de la traduction"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__sponsor
@@ -681,12 +681,12 @@ msgstr "Study date"
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Supporter To Beneficiary"
-msgstr ""
+msgstr "Parrain vers participant"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "This Year"
-msgstr ""
+msgstr "Cette année"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__translate_date
@@ -733,7 +733,7 @@ msgstr ""
 #: model:ir.actions.server,name:sbc_switzerland.automation_translator_welcome_action
 #: model:ir.actions.server,name:sbc_switzerland.automation_translator_welcome_ir_actions_server
 msgid "Translator Journey : Welcome letter"
-msgstr ""
+msgstr "Parcours du traducteur : lettre de bienvenue"
 
 #. module: sbc_switzerland
 #: model:mail.template,name:sbc_switzerland.email_welcome_translator
@@ -744,12 +744,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:sbc_switzerland.action_translation_weekly_report
 #: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_weekly
 msgid "Weekly translations"
-msgstr ""
+msgstr "Traductions hebdomadaires"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_translation_weekly_report
 msgid "Weekly translations report"
-msgstr ""
+msgstr "Rapport des traductions hebdomadaires"
 
 #. module: sbc_switzerland
 #: model:mail.template,subject:sbc_switzerland.email_new_translator
@@ -760,9 +760,9 @@ msgstr "Bienvenue dans l'équipe de traduction de Compassion"
 #: model:ir.actions.act_window,name:sbc_switzerland.action_translation_yearly_report
 #: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_yearly
 msgid "Yearly translations"
-msgstr ""
+msgstr "Traductions annuelles"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_translation_yearly_report
 msgid "Yearly translations report"
-msgstr ""
+msgstr "Rapport des traductions annuelles"

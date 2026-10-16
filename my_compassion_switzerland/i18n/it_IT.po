@@ -122,6 +122,11 @@ msgid ""
 "            <span class=\"d-block text-mid-grey very-tiny-text\">Letter translations, events, prayer, and more.</span>\n"
 "          </span>"
 msgstr ""
+"<span class=\"toggle-card-check me-3 flex-shrink-0 d-flex align-items-center justify-content-center rounded-circle bg-mid-green text-pure-white tiny-text bold\">✓</span>\n"
+"          <span class=\"flex-grow-1\">\n"
+"            <span class=\"d-block text-dark-blue very-tiny-text bold\">Fai volontariato con noi</span>\n"
+"            <span class=\"d-block text-mid-grey very-tiny-text\">Traduzione di lettere, eventi, preghiera e altro ancora.</span>\n"
+"          </span>"
 
 #. module: my_compassion_switzerland
 #: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info1
@@ -227,7 +232,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
 msgid "Back to My Compassion"
-msgstr ""
+msgstr "Torna a My Compassion"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_wtp_after1
@@ -366,6 +371,17 @@ msgid ""
 "                            Translations, stuffing envelopes, presence at events, being a spokesperson in\n"
 "                            your church or running for the children."
 msgstr ""
+"Vuoi ispirare altre persone a sostenere un bambino?\n"
+"                            La situazione dei bambini in difficoltà ti tocca particolarmente e vuoi agire?\n"
+"                            <br/>\n"
+"                            <br/>\n"
+"                            Puoi fare volontariato per Compassion e mettere così i tuoi talenti al servizio dei bambini più\n"
+"                            bisognosi\n"
+"                            del pianeta.\n"
+"                            <br/>\n"
+"                            <br/>\n"
+"                            Traduzioni, imbustamento della posta, presenza agli eventi, portavoce nella\n"
+"                            tua chiesa o corsa per i bambini."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -392,7 +408,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid "E-Bill"
-msgstr ""
+msgstr "E-Bill"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
@@ -729,7 +745,7 @@ msgstr "Mancano i ruoli di volontario richiesti"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "My Compassion"
-msgstr ""
+msgstr "My Compassion"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_advocate_engagement__my_compassion_alt_text
@@ -837,7 +853,7 @@ msgstr "Seleziona una o più opzioni di volontariato"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
 msgid "PostFinance"
-msgstr ""
+msgstr "PostFinance"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_dis_after1
@@ -977,7 +993,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
 msgid "Thank you! Your gift is confirmed."
-msgstr ""
+msgstr "Grazie! Il tuo regalo è confermato."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_before3
@@ -988,7 +1004,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
 msgid "The payment didn't go through. Nothing was charged."
-msgstr ""
+msgstr "Il pagamento non è andato a buon fine. Non è stato addebitato nulla."
 
 #. module: my_compassion_switzerland
 #. odoo-javascript
@@ -1028,7 +1044,7 @@ msgstr "Traduci una lettera"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
 msgid "Twint"
-msgstr ""
+msgstr "Twint"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1053,7 +1069,7 @@ msgstr "Volontariato"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "Volunteering for compassion"
-msgstr ""
+msgstr "Volontariato per Compassion"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.dashboard_volunteering_vignette
@@ -1063,7 +1079,7 @@ msgstr "Volontari"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "Want to do more?"
-msgstr ""
+msgstr "Vuoi fare di più?"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
@@ -1129,7 +1145,7 @@ msgstr "Benvenuto in"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
 msgid "What could I help with?"
-msgstr ""
+msgstr "In cosa potrei aiutare?"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1155,7 +1171,7 @@ msgstr ""
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
 msgid "You can close this window."
-msgstr ""
+msgstr "Puoi chiudere questa finestra."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_volunteering
@@ -1205,7 +1221,7 @@ msgstr ""
 #: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
 #: model:account.payment.mode,name:my_compassion_switzerland.payment_mode_ebill
 msgid "eBill"
-msgstr ""
+msgstr "eBill"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
