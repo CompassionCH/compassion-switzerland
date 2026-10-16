@@ -733,7 +733,7 @@ msgstr "Livello cliente"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_date_agreed_child_protection_charter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__date_agreed_child_protection_charter
 msgid "Date Agreed Child Protection Charter"
-msgstr "Date agreed child protection charter"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__date_communication
@@ -867,9 +867,6 @@ msgid ""
 "partner is a customer without access or with a limited access created for "
 "sharing data."
 msgstr ""
-"Either customer (no user), either shared user. Indicated the current partner"
-" is a customer without access or with a limited access created for sharing "
-"data."
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__email
@@ -2780,8 +2777,6 @@ msgid ""
 "country format. You can use '/' to indicate that the partner is not subject "
 "to tax."
 msgstr ""
-"Tax Identification Number. Fill it if the company is subjected to taxes. "
-"Used by the some of the legal statements."
 
 #. module: partner_compassion
 #: model:ir.model.fields,help:partner_compassion.field_res_partner_date_agreed_child_protection_charter
@@ -3132,10 +3127,6 @@ msgid ""
 "If the timezone is not set, UTC (Coordinated Universal Time) is used.\n"
 "Anywhere else, time values are computed according to the time offset of your web client."
 msgstr ""
-"The partner's timezone, used to output proper date and time values inside "
-"printed reports. It is important to set a value for this field. You should "
-"use the same timezone that is otherwise used to pick and render date and "
-"time values: your computer's timezone."
 
 #. module: partner_compassion
 #. odoo-python

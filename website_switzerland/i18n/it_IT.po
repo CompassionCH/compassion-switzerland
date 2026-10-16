@@ -1385,7 +1385,7 @@ msgstr "Sto seguendo una dieta speciale:"
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_treatment
 msgid "I am under treatment:"
-msgstr "I am under treatment (indicate what is your treatment):"
+msgstr ""
 
 #. module: website_switzerland
 #: model:survey.question.answer,value:website_switzerland.gpms_back

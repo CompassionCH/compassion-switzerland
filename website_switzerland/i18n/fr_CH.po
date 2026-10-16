@@ -1472,7 +1472,7 @@ msgstr "Si autre, merci de préciser :"
 #. module: website_switzerland
 #: model:ir.model.fields,field_description:website_switzerland.field_sale_order_line__image
 msgid "Image"
-msgstr "I don't want to receive emails about the impact"
+msgstr "Image"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement

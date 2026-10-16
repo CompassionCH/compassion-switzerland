@@ -64,11 +64,6 @@ msgid ""
 "grateful for your donation by which you share the joy of Christmas<br>"
 "                with each child of Compassion.<br>"
 msgstr ""
-"Thanks to the Christmas Gift Fund, we can offer a Christmas gift to \n"
-"ttteach child registered in a Compassion center. It prevents inequalities between the children \n"
-"tttat least at this special time of the year.\n"
-"tttWe are very grateful for your donation by which you share the joy of Christmas with each \n"
-"tttchild of Compassion."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_wtp
@@ -80,10 +75,6 @@ msgid ""
 "would not be possible without you and we are very grateful for<br>"
 "                your support.<br>"
 msgstr ""
-"Thanks to your donation. It allows us to finance water disinfection \n"
-"tttproject to provide sponsored children, their families, their community and villages with \n"
-"tttdrinking water, in the poorest regions of the world.\n"
-"tttThis help would not be possible without you and we are very grateful for your support."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_csp
@@ -115,9 +106,6 @@ msgid ""
 "children in poverty who are orphans<br>            or who have no adult "
 "caretakers.<br>"
 msgstr ""
-"Compassion's Highly Vulnerable Children's Fund provides food, \n"
-"tttclothing and a nurturing Christian home environment to children in poverty who are orphans \n"
-"tttor who have no adult caretakers."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_mds
@@ -125,8 +113,6 @@ msgid ""
 "<br>            On behalf of of Raymond Girardet, we thank you for your "
 "donation<br>            which will allow him to realize his project.<br>"
 msgstr ""
-"On behalf of of Raymond Girardet, we thank you for your donation \n"
-"tttwhich will allow him to realize his project."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_aid
@@ -137,10 +123,6 @@ msgid ""
 "this fund and<br>            for the great hope you offer to the sick "
 "children and their families.<br>"
 msgstr ""
-"Thanks to the AIDS fund we can bring the necessary lifelong care to \n"
-"tttthe HIV-infected sponsored children (antiretroviral therapy).\n"
-"tttWe are very grateful to you for your support to this fund and \n"
-"tttfor the great hope you offer to the sick children and their families."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_ldp
@@ -155,13 +137,6 @@ msgid ""
 "are offering these students a chance for a promising future and we are "
 "very<br>            grateful to you for your support.<br>"
 msgstr ""
-"Thanks to the LDP Fund, we currently support 3 LDP students, Alfredo and \n"
-"tttHellen from Ecuador and Tamirat from Ethiopia. The Leadership Development Program allows gifted young \n"
-"tttChristian people who have arrived at the end of their sponsorship to go to University and be trained \n"
-"tttas Christian leaders. In the coming years, these young people will be able to positively influence \n"
-"ttttheir nation for God.\n"
-"tttThrough your donation you are offering these students a chance for a promising future and we are very \n"
-"tttgrateful to you for your support."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_haf
@@ -172,10 +147,6 @@ msgid ""
 "contribution to this action and for the help you<br>            therefore "
 "give the children and their families.<br>"
 msgstr ""
-"Thanks to water filters and rehydratation kits, the families of \n"
-"\t\t\tsponsored children can face this severe epidemic efficiently.\n"
-"\t\t\tWe are very grateful to you for your contribution to this action and for the help you \n"
-"\t\t\ttherefore give the children and their families."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_don
@@ -187,10 +158,6 @@ msgid ""
 "complementary<br>            interventions in the countries supported by "
 "Compassion.<br>"
 msgstr ""
-"Thanks to your donation to Compassion Suisse we can continue to make our\n"
-"            work known in Switzerland and to improve our services to sponsors, donors and sponsored children.\n"
-"            We can offer a more efficient help to many needy children through sponsorships and complementary\n"
-"            interventions in the countries supported by Compassion."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_anl
@@ -202,10 +169,6 @@ msgid ""
 "complementary<br>            interventions in the countries supported by "
 "Compassion.<br>"
 msgstr ""
-"Thanks to your donation to Compassion Suisse we can continue to make\n"
-"            our work known in Switzerland and to improve our services to sponsors, donors and sponsorchildren.\n"
-"            We can offer a more efficient help to many needy children through sponsorships and complementary\n"
-"            interventions in the countries supported by Compassion."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_urg
@@ -229,11 +192,6 @@ msgid ""
 "distribution of mosquito nets<br>            to families that are registered"
 " in the Compassion program.<br>"
 msgstr ""
-"Thanks to your donation to the medical fund we can offer each \n"
-"tttsponsored child affected by a serious illness the necessary medical care and that way \n"
-"tttrestore both health and hope. Apart from this we can also finance complementary interventions \n"
-"tttsuch as a vaccination campaign for several Compassion centers, distribution of mosquito nets \n"
-"tttto families that are registered in the Compassion program."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_mag
@@ -244,10 +202,6 @@ msgid ""
 "work known and to sensibilise many people to the cause of poor children.<br>"
 "            We are very grateful for your precious support.<br>"
 msgstr ""
-"Thanks to your donation you have subscribed to our magazine and you \n"
-"ttthelp us to cover the publishing costs. Our magazine is an important communication tool and \n"
-"tttallows us to make our work known and to sensibilise many people to the cause of poor children.\n"
-"tttWe are very grateful for your precious support."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_bib
@@ -259,11 +213,6 @@ msgid ""
 " the child to grow spiritually, to strengthen his faith and to receive a<br>"
 "            precious encouragement.<br>"
 msgstr ""
-"Thanks to your donation you support the Bible Fund, by which we can \n"
-"tttoffer a Bible to each child registered in a Compassion center. The holistic development of the \n"
-"tttchild is one of the principal values of Compassion. \n"
-"tttYour support helps the child to grow spiritually, to strengthen his faith and to receive a \n"
-"tttprecious encouragement."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_ind
@@ -277,12 +226,6 @@ msgid ""
 "the families of sponsored children, the staff of<br>            Compassion "
 "and the partner churches.<br>"
 msgstr ""
-"Thanks to your donation, the families touched by the recent cyclone Aila in \n"
-"tttIndia and Bangladesh can receive a precious help. Compassion has already started to bring support and \n"
-"tttfood to the affected families and will start to work at the rebuilding of damaged or destroyed centers \n"
-"tttor houses as soon as possible.\n"
-"tttYour support is essential and brings new hope to the families of sponsored children, the staff of \n"
-"tttCompassion and the partner churches."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_hai
@@ -297,12 +240,6 @@ msgid ""
 "their<br>            families, the staff of Compassion and the partner "
 "churches in Haiti.<br>"
 msgstr ""
-"Thanks to your donation, the families touched by the terrible earthquake in \n"
-"tttHaiti can receive a precious help. Compassion is currently bringing support and food to the affected \n"
-"tttfamilies and giving them all the necessary support. The emergency fund will also enable Compassion to \n"
-"tttrebuild damaged or destroyed centers by the disaster.\n"
-"tttYour support is essential and represents a clear sign of hope to the sponsored children, their \n"
-"tttfamilies, the staff of Compassion and the partner churches in Haiti."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_phi
@@ -326,11 +263,6 @@ msgid ""
 "            families and for the hope that you give them through your "
 "support.<br>"
 msgstr ""
-"Thanks to your donation, the sponsored children and their families touched \n"
-"tttby famine receive a precious help. Compassion distributes food to the affected families but also \n"
-"tttprovides formation and tools that help families to combat hunger on a long term basis.\n"
-"tttWe thank you so much for your generosity and for your interest towards the poorest children and their \n"
-"tttfamilies and for the hope that you give them through your support."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_bfa
@@ -344,12 +276,6 @@ msgid ""
 "a real sign of hope for the sponsored children, their families,<br>"
 "            the staff of Compassion and the partner churches.<br>"
 msgstr ""
-"Thanks to your donation, the sponsored children and their families \n"
-"ttttouched by the recent floods in Burkina Faso can receive a precious help. Compassion Burkina \n"
-"tttFaso has already started to bring support and food to the affected families and will start to \n"
-"tttwork at the rebuilding of damaged or destroyed centers or houses as soon as possible.\n"
-"tttYour support is essential and is a real sign of hope for the sponsored children, their families, \n"
-"tttthe staff of Compassion and the partner churches."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_cal
@@ -370,10 +296,6 @@ msgid ""
 "regions of the world.<br>            This help would not be possible without"
 " you and we are very grateful for your support.<br>"
 msgstr ""
-"Thanks to your donation. It allows us to finance water filters \n"
-"\t\t\tto provide sponsored children, their families, their community and villages with drinking \n"
-"\t\t\twater, in the poorest regions of the world.\n"
-"\t\t\tThis help would not be possible without you and we are very grateful for your support."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_kdo
@@ -385,11 +307,6 @@ msgid ""
 "complementary support to your sponsored child and his family that<br>"
 "            brings more hope and great encouragement to them.<br>"
 msgstr ""
-"Thanks to your gift that will be entirely allocated to them, the family of \n"
-"\t\t\tyour sponsored child will receive a precious additional help to cover their special needs and to \n"
-"\t\t\timprove their living conditions.\n"
-"\t\t\tWe are very grateful for your complementary support to your sponsored child and his family that \n"
-"\t\t\tbrings more hope and great encouragement to them."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_pro
@@ -400,10 +317,6 @@ msgid ""
 "to offer this service on a long-term basis and we are<br>            very "
 "grateful to you for your help.<br>"
 msgstr ""
-"The professional fund allows many young sponsored people to receive \n"
-"ttta professional training before they finish the sponsorship program.\n"
-"tttThanks to your support we can continue to offer this service on a long-term basis and we are \n"
-"tttvery grateful to you for your help."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_c20
@@ -434,9 +347,6 @@ msgid ""
 "also helps many of the children in the sponsorship<br>            program to"
 " take part of this event.<br>"
 msgstr ""
-"Your support helps the organizer of the Kids Games to plan this event \n"
-"tttfor the first time in Burkina Faso. Your support also helps many of the children in the sponsorship \n"
-"tttprogram to take part of this event."
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_account_banking_mandate
@@ -503,7 +413,7 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c13
 msgid "CSP HA-C13 in Haiti"
-msgstr "CSP HA-C13 in Haiti - UEER "
+msgstr ""
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c46
@@ -1117,8 +1027,6 @@ msgid ""
 "offer<br>                a concrete help and a new future to many children "
 "on the field and restore hope in their lives."
 msgstr ""
-"Thanks to your donation to the General Fund, through your help we can offer \n"
-"ttta concrete help and a new future to many children on the field and restore hope in their lives."
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_covid

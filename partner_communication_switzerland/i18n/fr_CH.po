@@ -6881,11 +6881,6 @@ msgid ""
 "crowdunfding project * Transfer : sponsorship transferred from another "
 "country. * Other : select only if none other type matches."
 msgstr ""
-"Origin of contract :  * Contact with sponsor/ambassador : an other sponsor "
-"told the person about Compassion. * Event : sponsorship was made during an "
-"event * Marketing campaign : sponsorship was made after specific campaign "
-"(magazine, ad, etc..) * Transfer : sponsorship transferred from another "
-"country. * Other : select only if none other type matches."
 
 #. module: partner_communication_switzerland
 #: model:survey.question,comments_message:partner_communication_switzerland.onbs_question_dontlike
@@ -7122,7 +7117,7 @@ msgstr ""
 #: model:ir.actions.server,name:partner_communication_switzerland.sms_sponsorship_reminder_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_anniversary_1_automation_action
 msgid "Send Communication"
-msgstr "Envoyer une notification webhook"
+msgstr "Envoyer la communication"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__send_mode
@@ -7280,7 +7275,7 @@ msgstr "Enfant parrainé"
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_partner_zoom_session
 msgid "Sponsors Visio Conference"
-msgstr "Zoom Session with partners"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_zoom_link
@@ -7557,7 +7552,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_partner_create_portal_wizard
 msgid "Take a partner and make it a odoo user"
-msgstr "take a partner and make it a odoo user"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner__tax_receipt_preference
@@ -8037,7 +8032,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.sms_sponsorship_reminder
 msgid "Website Sponsorship: Remind sponsorship confirmation"
-msgstr "SMS Sponsorship: Remind sponsorship confirmation"
+msgstr ""
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__website_url

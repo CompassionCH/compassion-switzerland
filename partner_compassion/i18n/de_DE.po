@@ -736,7 +736,7 @@ msgstr "Kundenbewertung"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_partner_date_agreed_child_protection_charter
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__date_agreed_child_protection_charter
 msgid "Date Agreed Child Protection Charter"
-msgstr "Date agreed child protection charter"
+msgstr ""
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__date_communication

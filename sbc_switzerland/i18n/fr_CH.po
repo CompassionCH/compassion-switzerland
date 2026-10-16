@@ -630,8 +630,6 @@ msgstr "import.letter.line"
 #: model:ir.model,name:sbc_switzerland.model_import_letters_history
 msgid "S2B Letter Import"
 msgstr ""
-"History of the letters imported from a zip\n"
-"    or a PDF/TIFF"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_import_letter_config
