@@ -6999,7 +6999,7 @@ msgid ""
 "monthly donation of {amount} CHF."
 msgstr ""
 "Vous trouverez ci-joint un bulletin de versement pour activer l’ordre "
-"permanent de votre don mensuel de {amount}  CHF."
+"permanent de votre don mensuel de {amount} CHF."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner_zoom_attendee__inform_me_for_next_zoom
@@ -7080,7 +7080,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.compassion_reset_password_email
 msgid "Reset Password"
-msgstr ""
+msgstr "Réinitialiser le mot de passe"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.partner_ambassador_action
@@ -7106,7 +7106,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.sms_reminder_email
 msgid "SMS sponsorship reminder"
-msgstr ""
+msgstr "Rappel SMS"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.sub_validation_filter_view
@@ -8241,8 +8241,8 @@ msgstr "ous vous êtes désabonné avec succès."
 msgid ""
 "You must have an email address in your User Preferences to send emails."
 msgstr ""
-"Vous devez avoir une adresse e-mail dans vos préférences utilisateur pour "
-"envoyer des e-mails."
+"Vous devez avoir une adresse de courriel définie dans vos préférences "
+"utilisateur pour envoyer des courriels."
 
 #. module: partner_communication_switzerland
 #: model:survey.question,title:partner_communication_switzerland.wrpr_journey_page1

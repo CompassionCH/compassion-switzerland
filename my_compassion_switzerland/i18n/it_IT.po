@@ -371,17 +371,18 @@ msgid ""
 "                            Translations, stuffing envelopes, presence at events, being a spokesperson in\n"
 "                            your church or running for the children."
 msgstr ""
-"Vuoi ispirare altre persone a sostenere un bambino?\n"
-"                            La situazione dei bambini in difficoltà ti tocca particolarmente e vuoi agire?\n"
-"                            <br/>\n"
-"                            <br/>\n"
-"                            Puoi fare volontariato per Compassion e mettere così i tuoi talenti al servizio dei bambini più\n"
-"                            bisognosi\n"
-"                            del pianeta.\n"
-"                            <br/>\n"
-"                            <br/>\n"
-"                            Traduzioni, imbustamento della posta, presenza agli eventi, portavoce nella\n"
-"                            tua chiesa o corsa per i bambini."
+"Ti piacerebbe incoraggiare altre persone a sostenere un bambino?\n"
+"                La situazione dei bambini bisognosi ti tocca particolarmente e desideri agire?\n"
+"                <br/>\n"
+"                <br/>\n"
+"                Puoi diventare volontario di Compassion e mettere così le tue capacità al servizio dei bambini più\n"
+"                bisognosi\n"
+"                del pianeta\n"
+"                \n"
+"<br/>\n"
+"                <br/>\n"
+"(traduzioni, imbustamento, presenza agli eventi, portavoce nella\n"
+"tua chiesa o sport per i bambini)."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -703,7 +704,7 @@ msgstr "Illuminare gli occhi dei bambini"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.login_layout
 msgid "Log in"
-msgstr "Connessione"
+msgstr "Log in"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before2

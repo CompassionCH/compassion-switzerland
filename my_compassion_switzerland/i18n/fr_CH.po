@@ -202,8 +202,8 @@ msgid ""
 "An error occurred while processing your request. Please try again or contact"
 " support."
 msgstr ""
-"Une erreur est survenue lors du traitement de votre lettre. Veuillez "
-"réessayer ou nous contacter."
+"Une erreur s’est produite lors du traitement de votre demande. Veuillez "
+"réessayer ou contacter le support."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
@@ -375,16 +375,16 @@ msgid ""
 "                            your church or running for the children."
 msgstr ""
 "Voulez-vous inspirer d'autres personnes à parrainer un enfant ?\n"
-"                            La situation des enfants dans le besoin vous touche particulièrement et vous souhaitez agir ?\n"
-"                            <br/>\n"
-"                            <br/>\n"
-"                            Vous pouvez vous engager bénévolement chez Compassion et ainsi mettre vos talents au service des enfants les plus\n"
-"                            démunis\n"
-"                            de la planète.\n"
-"                            <br/>\n"
-"                            <br/>\n"
-"                            Traductions, mise sous pli, présence lors d'événements, porte-parole dans\n"
-"                            votre église ou course pour les enfants."
+"                La situation des enfants dans le besoin vous touche-t-elle particulièrement et voulez-vous agir ?\n"
+"                <br/>\n"
+"                <br/>\n"
+"                Vous pouvez devenir bénévole pour Compassion et mettre ainsi vos talents au service des enfants les plus\n"
+"                démunis\n"
+"                de la planète.\n"
+"                <br/>\n"
+"                <br/>\n"
+"                Traductions, mise sous pli, présence lors d'événements, être porte-parole dans\n"
+"                votre église ou courir pour les enfants."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -740,7 +740,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
 msgid "Missing required volunteer roles"
-msgstr "Rôles de bénévoles requis manquants"
+msgstr "Rôles de bénévole requis manquants"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -989,8 +989,8 @@ msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
 msgstr ""
-"Merci de votre intérêt pour le bénévolat! Un e-mail de confirmation vous a "
-"été envoyé."
+"Merci pour votre intérêt pour le bénévolat ! Un e-mail de confirmation vous "
+"a été envoyé."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
@@ -1016,8 +1016,8 @@ msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
 msgstr ""
-"Il y a eu un problème avec votre soumission. Veuillez vérifier vos entrées "
-"et réessayer."
+"Il y a eu un problème avec votre soumission. Veuillez vérifier vos "
+"informations et réessayer."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
@@ -1234,10 +1234,10 @@ msgstr "crise alimentaire"
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea
 msgid "health in TG"
-msgstr "santé au Togo"
+msgstr "santé TG"
 
 #. module: my_compassion_switzerland
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
-msgstr "tax_receipt"
+msgstr "attestation_fiscale"

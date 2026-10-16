@@ -973,9 +973,7 @@ msgstr "Eventi e celebrazioni"
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.search_bank_address_wizard_form
 msgid "Existing Partner info in bank data (May be unavailable)"
-msgstr ""
-"Informazioni esistenti del partner nei dati bancari (possono non essere "
-"disponibili)"
+msgstr "Info partner nei dati bancari (potrebbero non essere disponibili)"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__failed_message_ids

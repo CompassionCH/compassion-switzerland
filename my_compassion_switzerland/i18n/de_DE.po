@@ -377,17 +377,13 @@ msgid ""
 "                            Translations, stuffing envelopes, presence at events, being a spokesperson in\n"
 "                            your church or running for the children."
 msgstr ""
-"Möchtest du andere Menschen dazu inspirieren, eine Patenschaft zu übernehmen?\n"
-"                            Berührt dich die Situation bedürftiger Kinder besonders und möchtest du aktiv werden?\n"
-"                            <br/>\n"
-"                            <br/>\n"
-"                            Du kannst dich freiwillig für Compassion engagieren und damit deine Talente in den Dienst der ärmsten\n"
-"                            Kinder\n"
-"                            dieser Welt stellen.\n"
-"                            <br/>\n"
-"                            <br/>\n"
-"                            Übersetzungen, Couverts füllen, Präsenz an Anlässen, Botschafter in\n"
-"                            deiner Kirche sein oder für die Kinder laufen."
+"Du möchtest andere ermutigen, Kinder zu unterstützen? Dich bewegt das Thema extreme Armut und du willst konkret etwas tun?\n"
+"                <br/>\n"
+"                <br/>\n"
+"                Bei Compassion kannst du dich ehrenamtlich engagieren und deine Zeit und Talente für Kinder einsetzen. Ob durch Übersetzungen, Mitarbeit bei Events, Gebet, als Botschafter/in in deiner Kirche oder sogar mit Sport – dein Einsatz macht einen echten Unterschied.\n"
+"                <br/>\n"
+"                <br/>\n"
+"                Entdecke die verschiedenen Möglichkeiten, wie du mithelfen kannst:"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -413,7 +409,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid "E-Bill"
-msgstr "E-Rechnung"
+msgstr "E-Bill"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
@@ -792,7 +788,7 @@ msgstr "Meine Spendenbescheinigung"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
 msgid "Name"
-msgstr "Bezeichnung"
+msgstr "Name"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.login_layout
@@ -1219,12 +1215,12 @@ msgstr ""
 #: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
 #: model:account.payment.mode,name:my_compassion_switzerland.payment_mode_ebill
 msgid "eBill"
-msgstr "E-Rechnung"
+msgstr "eBill"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_fda
 msgid "food crisis"
-msgstr "Nahrungsmittelkrise"
+msgstr "Lebensmittelkrise"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_hea

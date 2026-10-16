@@ -657,7 +657,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">E-Mail</span>\n"
+"<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
@@ -1333,52 +1333,52 @@ msgstr "Umfrage zum Feedback der Gruppenbesuche"
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_after_trip_feedback_email
 msgid "Group visit: after trip feedback"
-msgstr ""
+msgstr "Gruppenbesuch: Feedback nach der Reise"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_after_trip_party_email
 msgid "Group visit: after trip party invitation"
-msgstr ""
+msgstr "Gruppenbesuch: Einladung zur After Trip Party"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_detailed_info_email
 msgid "Group visit: detailed information"
-msgstr ""
+msgstr "Gruppenbesuch: detaillierte Informationen"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_information_day_email
 msgid "Group visit: info day invitation"
-msgstr ""
+msgstr "Gruppenbesuch: Einladung zum Infotag"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_medical_discharge_email
 msgid "Group visit: medical discharge request"
-msgstr ""
+msgstr "Gruppenbesuch: Antrag auf medizinische Entlassung"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_medical_survey_email
 msgid "Group visit: medical survey invitation"
-msgstr ""
+msgstr "Gruppenbesuch: Einladung zur medizinischen Umfrage"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_step1_email
 msgid "Group visit: step1 registration confirmation"
-msgstr ""
+msgstr "Gruppenbesuch: Schritt1 Anmeldebestätigung"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_step2_email
 msgid "Group visit: step2 fill documents"
-msgstr ""
+msgstr "Gruppenbesuch: Schritt 2 Dokumente ausfüllen"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_step3_email
 msgid "Group visit: step3 confirmation"
-msgstr ""
+msgstr "Gruppenbesuch: Schritt3 Bestätigung"
 
 #. module: website_switzerland
 #: model:mail.template,name:website_switzerland.group_visit_travel_documents_email
 msgid "Group visit: travel documents request"
-msgstr ""
+msgstr "Gruppenbesuch: Reiseunterlagen anfordern"
 
 #. module: website_switzerland
 #: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey

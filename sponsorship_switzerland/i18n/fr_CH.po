@@ -562,7 +562,7 @@ msgstr "BVR"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract_group__bvr_reference
 msgid "BVR Ref"
-msgstr "Réf. BVR"
+msgstr "BVR Ref"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bib
@@ -648,7 +648,7 @@ msgstr "Eglise"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c3b
 msgid "Cicerolandia BR473 project Fund - supported by C3"
-msgstr "Fonds du projet Cicerolandia BR473 – soutenu par C3"
+msgstr "Fonds de projet Cicerolandia BR473 - soutenu par C3"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_fund_wtp
@@ -823,7 +823,7 @@ msgstr "Hillsong ref"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__hold_id
 msgid "Hold"
-msgstr "En attente"
+msgstr "Hold"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_urg
@@ -976,7 +976,7 @@ msgstr "Cérémonie de la fête des mères - GEN"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_new
 msgid "New Building Yverdon"
-msgstr "Nouveau bâtiment à Yverdon"
+msgstr "Nouveau bâtiment Yverdon"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__next_reminder
@@ -991,7 +991,7 @@ msgstr "Prochain type de rappel"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__next_waiting_reminder
 msgid "Next reminder"
-msgstr "Prochain rappel"
+msgstr "Rappel suivant"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_res_partner_category
@@ -1018,7 +1018,7 @@ msgstr "Ordre permanent"
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "Please verify the partner before validating the sponsorship"
-msgstr "Veuillez vérifier le partenaire avant de valider le parrainage"
+msgstr "Veuillez vérifier le partenaire avant de valider le parrainage."
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_product__plural_name
@@ -1035,7 +1035,7 @@ msgstr "Postal Account CHF "
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd
 msgid "Postfinance Direct Debit"
-msgstr "Débit direct Postfinance"
+msgstr "Postfinance Direct Debit"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_25th
@@ -1121,17 +1121,17 @@ msgstr "Fonds d'assistance pour les Philippines"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__0
 msgid "Reminder 1"
-msgstr "Rappel 1"
+msgstr "Reminder 1"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__1
 msgid "Reminder 2"
-msgstr "Rappel 2"
+msgstr "Reminder 2"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__2
 msgid "Reminder 3"
-msgstr "Rappel 3"
+msgstr "Reminder 3"
 
 #. module: sponsorship_switzerland
 #: model:res.partner.category,name:sponsorship_switzerland.res_partner_restricted
@@ -1248,8 +1248,8 @@ msgid ""
 "The reference of the partner has not been set, or is in wrong format. Please"
 " make sure to enter a valid BVR reference for the contract."
 msgstr ""
-"La référence du partenaire n'a pas été définie ou est au mauvais format. "
-"Veuillez saisir une référence BVR valide pour le contrat."
+"La référence du partenaire n'a pas été définie ou son format est incorrect. "
+"Veillez à saisir une référence BVR valide pour le contrat."
 
 #. module: sponsorship_switzerland
 #. odoo-python
@@ -1264,8 +1264,8 @@ msgid ""
 "This partner has the restricted category active. New sponsorships are not "
 "allowed."
 msgstr ""
-"Ce partenaire a la catégorie « Restreint » active. Les nouveaux parrainages "
-"ne sont pas autorisés."
+"Ce partenaire a la catégorie restreinte active. Les nouveaux parrainages ne "
+"sont pas autorisés."
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_csp

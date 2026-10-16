@@ -587,7 +587,7 @@ msgstr "Type de sortie"
 #: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
 #: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
 msgid "P.P."
-msgstr ""
+msgstr "P.P."
 
 #. module: report_compassion
 #: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__pdf
@@ -1056,7 +1056,7 @@ msgstr "parrainages"
 #. odoo-python
 #: code:addons/report_compassion/wizards/print_tax_receipt.py:0
 msgid "tax_receipt"
-msgstr "tax_receipt"
+msgstr "attestation_fiscale"
 
 #. module: report_compassion
 #: model:ir.model.constraint,message:report_compassion.constraint_hr_employee_uuid_unique

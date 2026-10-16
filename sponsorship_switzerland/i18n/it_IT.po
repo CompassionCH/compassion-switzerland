@@ -18,22 +18,22 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ovc
 msgid "\"Highly Vulnerable Children\" Fund"
-msgstr "Fondo \"Bambini altamente vulnerabili\""
+msgstr "\"Fondo \"Bambini altamente vulnerabili"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sm
 msgid "\"Stop Mosquitoes\" campaign"
-msgstr "Campagna \"Stop alle zanzare\""
+msgstr "\"Campagna \"Stop alle zanzare"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_wtp
 msgid "\"Water for the children\" Fund"
-msgstr "Fondo \"Acqua per i bambini\""
+msgstr "\"Fondo \"Acqua per i bambini"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_wol
 msgid "\"Water of Life\" - Water filter fund"
-msgstr "\"Acqua di vita\" - Fondo per i filtri dell'acqua"
+msgstr "\"Acqua della vita\" - Fondo per i filtri dell'acqua"
 
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_par
@@ -563,7 +563,7 @@ msgstr "Rif. BVR"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bib
 msgid "Bible Fund"
-msgstr "Fondo per le bibbie"
+msgstr "Fondo per la Bibbia"
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_name:sponsorship_switzerland.product_template_gift_birthday
@@ -574,7 +574,7 @@ msgstr "Regalo compleanno"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bli
 msgid "Blind Children Fund"
-msgstr "Fondo per i bambini non vedenti"
+msgstr "Fondo per i bambini ciechi"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_c13
@@ -672,7 +672,7 @@ msgstr "Compassion Suisse"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_don
 msgid "Compassion Suisse grant"
-msgstr "Contributo Compassion Suisse"
+msgstr "Sovvenzione di Compassion Suisse"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_mag
@@ -722,12 +722,12 @@ msgstr "Creato il"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_hai
 msgid "Disaster Fund Haiti"
-msgstr "Fondo emergenza Haiti"
+msgstr "Fondo per i disastri di Haiti"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ind
 msgid "Disaster Fund India"
-msgstr "Fondo emergenza India"
+msgstr "Fondo per le calamità India"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__display_name
@@ -758,7 +758,7 @@ msgstr "Regalo per il bambino e la famiglia"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_fam
 msgid "Famine Fund"
-msgstr "Fondo contro la carestia"
+msgstr "Fondo per la carestia"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__first_open_invoice
@@ -773,7 +773,7 @@ msgstr "Francese"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_bfa
 msgid "Fund \"Floods in Burkina Faso\""
-msgstr "Fondo \"Alluvioni in Burkina Faso\""
+msgstr "Fondo \"Alluvioni in Burkina Faso\"."
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_gen
@@ -820,12 +820,12 @@ msgstr "Hillsong ref"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__hold_id
 msgid "Hold"
-msgstr "Hold"
+msgstr "Tieni"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_urg
 msgid "Humanitarian Fund"
-msgstr "Fondo emergenza"
+msgstr "Fondo umanitario"
 
 #. module: sponsorship_switzerland
 #: model:product.template,fund_selector_pre_description:sponsorship_switzerland.product_template_fund_toilets
@@ -850,7 +850,7 @@ msgstr "ID"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_isc
 msgid "International Staff Care Fund"
-msgstr "Fondo per il personale internazionale"
+msgstr "Fondo internazionale per l'assistenza al personale"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__is_already_a_sponsor
@@ -876,7 +876,7 @@ msgstr "Articolo di giornale"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_kgs
 msgid "Kids Games Burkina Faso"
-msgstr "Giochi dei bambini in Burkina Faso"
+msgstr "Giochi per bambini Burkina Faso"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_ldp
@@ -886,7 +886,7 @@ msgstr "Fondo LDP"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_sponsorship_ldp
 msgid "LDP Sponsorship"
-msgstr "Sostegno LDP"
+msgstr "Sponsorizzazione LDP"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv
@@ -896,12 +896,12 @@ msgstr "LSV"
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv_25th
 msgid "LSV 25th"
-msgstr "LSV il 25"
+msgstr "25° LSV"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_lsv_multi_months
 msgid "LSV multi-months"
-msgstr "LSV multi-mensile"
+msgstr "LSV multimese"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_postpone_waiting_reminder_wizard__write_uid
@@ -931,7 +931,7 @@ msgstr "Progetti locali"
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_fund_sm
 msgid "Malaria Fund"
-msgstr "Fondo contro la malaria"
+msgstr "Fondo per la malaria"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__mandate_date
@@ -1015,7 +1015,7 @@ msgstr "Pagamento permanente"
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "Please verify the partner before validating the sponsorship"
-msgstr "Verifica il partner prima di convalidare il sostegno"
+msgstr "Verifica il partner prima di convalidare la sponsorizzazione"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_product_product__plural_name
@@ -1037,12 +1037,12 @@ msgstr "Addebito diretto Postfinance"
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_25th
 msgid "Postfinance Direct Debit 25th"
-msgstr "Addebito diretto Postfinance il 25"
+msgstr "Addebito diretto Postfinance 25"
 
 #. module: sponsorship_switzerland
 #: model:account.payment.mode,name:sponsorship_switzerland.payment_mode_postfinance_dd_multi_months
 msgid "Postfinance Direct Debit multi-months"
-msgstr "Addebito diretto Postfinance multi-mensile"
+msgstr "Addebito diretto multimensile Postfinance"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_postpone_waiting_reminder_wizard
@@ -1088,7 +1088,7 @@ msgstr "Fondo professionale"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_mds
 msgid "Project \"Marathon des Sables\""
-msgstr "Progetto \"Marathon des Sables\""
+msgstr "Progetto \"Marathon des Sables"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_gift_project
@@ -1113,7 +1113,7 @@ msgstr "Contratto ricorrente"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_phi
 msgid "Relief Fund Philippines"
-msgstr "Fondo assistenza Filippine"
+msgstr "Fondo di soccorso per le Filippine"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__postpone_waiting_reminder_wizard__next_reminder_type__0
@@ -1133,12 +1133,12 @@ msgstr "Promemoria 3"
 #. module: sponsorship_switzerland
 #: model:res.partner.category,name:sponsorship_switzerland.res_partner_restricted
 msgid "Restricted"
-msgstr "Con restrizioni"
+msgstr "Limitato"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sawyer
 msgid "Sawyer Water Filters for Ndeiya"
-msgstr "Filtri per l'acqua Sawyer per Ndeiya"
+msgstr "Filtri per acqua Sawyer per Ndeiya"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_sgi
@@ -1154,7 +1154,7 @@ msgstr "Sostegno"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_par
 msgid "Sponsorship Fund"
-msgstr "Fondo per il sostegno"
+msgstr "Fondo di sponsorizzazione"
 
 #. module: sponsorship_switzerland
 #: model:ir.model,name:sponsorship_switzerland.model_sponsorship_gift
@@ -1164,7 +1164,7 @@ msgstr "Regalo di sponsorizzazione"
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_sponsorship_ldp
 msgid "Sponsorship for LDP Students."
-msgstr "Sostegno per gli studenti LDP."
+msgstr "Sponsorizzazione per gli studenti LDP."
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__type
@@ -1174,7 +1174,7 @@ msgstr "Tipo"
 #. module: sponsorship_switzerland
 #: model_terms:product.template,description:sponsorship_switzerland.product_template_sponsorship
 msgid "Standard Sponsorship of type CDSP."
-msgstr "Sostegno standard di tipo CDSP."
+msgstr "Sponsorizzazione standard di tipo CDSP."
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields,field_description:sponsorship_switzerland.field_recurring_contract__state
@@ -1217,7 +1217,7 @@ msgstr ""
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_4mu_2
 msgid "The 4th Musketeer Fund"
-msgstr "Fondo del 4° Moschettiere"
+msgstr "Il Fondo 4° Moschettiere"
 
 #. module: sponsorship_switzerland
 #: model:product.template,crowdfunding_description:sponsorship_switzerland.product_template_fund_csp
@@ -1244,14 +1244,14 @@ msgid ""
 "The reference of the partner has not been set, or is in wrong format. Please"
 " make sure to enter a valid BVR reference for the contract."
 msgstr ""
-"Il riferimento del partner non è stato impostato oppure ha un formato "
-"errato. Assicurati di inserire un riferimento BVR valido per il contratto."
+"Il riferimento del partner non è stato impostato o è in formato errato. "
+"Assicurati di inserire un riferimento BVR valido per il contratto."
 
 #. module: sponsorship_switzerland
 #. odoo-python
 #: code:addons/sponsorship_switzerland/models/contracts.py:0
 msgid "The sponsor has special categories"
-msgstr "Il sostenitore ha delle categorie speciali"
+msgstr "Lo sponsor ha delle categorie speciali"
 
 #. module: sponsorship_switzerland
 #. odoo-python
@@ -1260,8 +1260,8 @@ msgid ""
 "This partner has the restricted category active. New sponsorships are not "
 "allowed."
 msgstr ""
-"Questo partner ha la categoria con restrizioni attiva. Non sono consentiti "
-"nuovi sostegni."
+"Questo partner ha la categoria ristretta attiva. Non sono consentite nuove "
+"sponsorizzazioni."
 
 #. module: sponsorship_switzerland
 #: model:product.template,my_compassion_description:sponsorship_switzerland.product_template_fund_csp
@@ -1296,7 +1296,7 @@ msgstr "Toilette per tutti"
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_usp
 msgid "Unsponsored Children Fund"
-msgstr "Fondo per i bambini in attesa di sostegno"
+msgstr "Fondo per i bambini non sponsorizzati"
 
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__recurring_contract__state__mandate

@@ -5511,7 +5511,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                  <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">E-mail</span>\n"
+"<span class=\"s_website_form_label_content\">Email</span>\n"
 "                  <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: partner_communication_switzerland
@@ -5611,7 +5611,7 @@ msgstr "Icona Tipo di attività"
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_address_change
 msgid "Address Change"
-msgstr ""
+msgstr "Cambio di indirizzo"
 
 #. module: partner_communication_switzerland
 #: model:ir.model,name:partner_communication_switzerland.model_res_users
@@ -5966,7 +5966,7 @@ msgstr "Firmatario predefinito della lettera di ringraziamento per eventi"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_correspondence_letter_delivery_preference
 msgid "Delivery preference for Child Letters"
-msgstr "Preferenza di consegna per le lettere dei bambini"
+msgstr "Preferenza di consegna per le lettere per bambini"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.view_disaster_alert_internal_notes
@@ -6053,7 +6053,7 @@ msgstr "Modifica dei partecipanti"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_email
 msgid "Email"
-msgstr "E-mail"
+msgstr "Email"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_correspondence_email_read
@@ -6493,7 +6493,7 @@ msgstr "La presentazione del mio bambino"
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_invalid_email
 msgid "Invalid Email"
-msgstr ""
+msgstr "Email non valida"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_reformat_all_phonenumbers__invalid_mail_notify_ids
@@ -6555,7 +6555,7 @@ msgstr "Articolo di giornale"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_session__lang
 msgid "Lang"
-msgstr "Lingua"
+msgstr "Lang"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_partner_communication_test_cases_wizard__language
@@ -6706,7 +6706,7 @@ msgstr "Messaggi"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_mobile
 msgid "Mobile"
-msgstr "Cellulare"
+msgstr "Mobile"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_months_due
@@ -6749,17 +6749,17 @@ msgstr "Nuovo a Compassion?"
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_new_donors_onboarding_1st_blog_post
 msgid "New Donors Onboarding - 1st Blog Post"
-msgstr ""
+msgstr "Onboarding dei nuovi donatori - 1° post del blog"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_new_donors_onboarding_2nd_blog_post
 msgid "New Donors Onboarding - 2nd Blog Post"
-msgstr ""
+msgstr "Onboarding dei nuovi donatori - 2° post del blog"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_new_donors_onboarding_postcard_and_magazine
 msgid "New Donors Onboarding - Postcard & Magazine"
-msgstr ""
+msgstr "Onboarding dei nuovi donatori - Cartolina e rivista"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.new_donors_onboarding_1st_blog_post
@@ -7189,7 +7189,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.compassion_reset_password_email
 msgid "Reset Password"
-msgstr ""
+msgstr "Reimposta la password"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.partner_ambassador_action
@@ -7215,7 +7215,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.sms_reminder_email
 msgid "SMS sponsorship reminder"
-msgstr ""
+msgstr "SMS di promemoria per la sponsorizzazione"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.sub_validation_filter_view
@@ -7240,7 +7240,7 @@ msgstr "Lingua selezionata / Persona singola"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_recurring_contract_send_introduction_letter
 msgid "Send B2S intro letter to sponsor"
-msgstr "Invia la lettera di presentazione B2S al sostenitore"
+msgstr "Invia una lettera di presentazione B2S allo sponsor"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.sms_sponsorship_reminder_action
@@ -7417,52 +7417,52 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_birthday_1day_reminder
 msgid "Sponsorship - 1 Day Birthday Reminder"
-msgstr ""
+msgstr "Sponsorizzazione - Promemoria per il compleanno di 1 giorno"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_anniversary_1
 msgid "Sponsorship - Anniversary 1 year"
-msgstr ""
+msgstr "Sponsorizzazione - Anniversario 1 anno"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_anniversary_10
 msgid "Sponsorship - Anniversary 10 years"
-msgstr ""
+msgstr "Sponsorizzazione - Anniversario 10 anni"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_anniversary_15
 msgid "Sponsorship - Anniversary 15 years"
-msgstr ""
+msgstr "Sponsorizzazione - Anniversario 15 anni"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_anniversary_3
 msgid "Sponsorship - Anniversary 3 years"
-msgstr ""
+msgstr "Sponsorizzazione - Anniversario 3 anni"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_anniversary_5
 msgid "Sponsorship - Anniversary 5 years"
-msgstr ""
+msgstr "Sponsorizzazione - Anniversario 5 anni"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_birthday_reminder
 msgid "Sponsorship - Birthday Reminder"
-msgstr ""
+msgstr "Sponsorizzazione - Promemoria per i compleanni"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_certificate
 msgid "Sponsorship - Certificate"
-msgstr ""
+msgstr "Sponsorizzazione - Certificato"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_no_sub
 msgid "Sponsorship - No SUB"
-msgstr ""
+msgstr "Sponsorizzazione - No SUB"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sub_accept
 msgid "Sponsorship - SUB Accept"
-msgstr ""
+msgstr "Sponsorizzazione - SUB Accetta"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_sub_dossier_new
@@ -7472,7 +7472,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.email_sponsorship_welcome_activation
 msgid "Sponsorship - Welcome Active"
-msgstr ""
+msgstr "Sponsorizzazione - Welcome Active"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_photo_by_post
@@ -7482,7 +7482,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
 msgid "Sponsorship Onboarding - Welcome and payment information"
-msgstr ""
+msgstr "Sponsorship Onboarding - Informazioni di benvenuto e di pagamento"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation_not_read
@@ -7490,6 +7490,8 @@ msgid ""
 "Sponsorship Onboarding - Welcome and payment information by paper (email not"
 " read)"
 msgstr ""
+"Sponsorship Onboarding - Informazioni di benvenuto e di pagamento in formato"
+" cartaceo (l'email non viene letta)"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_zoom_link
@@ -7514,17 +7516,17 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_step2
 msgid "Sponsorship Onboarding Step 2 - Video and Country Information"
-msgstr ""
+msgstr "Sponsorizzazione Onboarding Fase 2 - Video e informazioni sul paese"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_step3
 msgid "Sponsorship Onboarding Step 3 - Poverty and Child protection"
-msgstr ""
+msgstr "Sponsorizzazione Onboarding Fase 3 - Povertà e protezione dei bambini"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_step4
 msgid "Sponsorship Onboarding Step 4 - Letter information"
-msgstr ""
+msgstr "Sponsorizzazione Onboarding Passo 4 - Lettera informativa"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_onboarding_step5
@@ -7715,7 +7717,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_recurring_contract_period_paid
 msgid "Tells if the advance billing period is already paid"
-msgstr "Indica se il periodo di fatturazione anticipata è già pagato"
+msgstr "Indica se il periodo di fatturazione anticipata è già stato pagato"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.communication_config_test_case_view
@@ -7922,7 +7924,7 @@ msgstr "Fonte UTM"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "Uhr"
-msgstr "ore"
+msgstr "Uhr"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_portal_wizard_user__uid_communication_id
@@ -8001,12 +8003,12 @@ msgstr "W&P compie 1 anno"
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_1_year
 msgid "W&P Journey - 1 year anniversary"
-msgstr ""
+msgstr "Il viaggio di W&P - 1 anno di anniversario"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_contribution_reminder_mail
 msgid "W&P Journey - Contribution payment reminder"
-msgstr ""
+msgstr "W&P Journey - Promemoria per il pagamento dei contributi"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_contribution_reminder_cron_action
@@ -8017,7 +8019,7 @@ msgstr "W&P Journey - Promemoria per i contributi"
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_letter_reminder_cron_action
 #: model:mail.template,name:partner_communication_switzerland.email_wrpr_reminder
 msgid "W&P Journey - Letter writing reminder"
-msgstr ""
+msgstr "W&P Journey - Promemoria per la scrittura di lettere"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.wrpr_anniversary_1_automation
@@ -8044,29 +8046,29 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_transformation_complete
 msgid "W&P Journey - Transformation complete"
-msgstr ""
+msgstr "Viaggio di W&P - Trasformazione completata"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_upgrade_confirmation
 msgid "W&P Journey - Transformation confirmation"
-msgstr ""
+msgstr "Il viaggio di W&P - La conferma della trasformazione"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_transformation
 msgid "W&P Journey - sponsorship transformation"
-msgstr ""
+msgstr "Il viaggio di W&P - la trasformazione della sponsorizzazione"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.wrpr_transformation_fail
 msgid "W&P Journey - sponsorship transformation NO ANSWER"
-msgstr ""
+msgstr "W&P Journey - trasformazione della sponsorizzazione NESSUNA RISPOSTA"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.automation_wrpr_2
 #: model:ir.actions.server,name:partner_communication_switzerland.automation_wrpr_2_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_2_action
 msgid "W&P Onboarding: step2"
-msgstr "Onboarding W&P: passo 2"
+msgstr "W&P Onboarding: step2"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.automation_wrpr_3
@@ -8087,7 +8089,7 @@ msgstr "W&P Onboarding: fase 4"
 #: model:ir.actions.server,name:partner_communication_switzerland.automation_wrpr_5_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_5_action
 msgid "W&P Onboarding: step5"
-msgstr "Onboarding W&P: passo 5"
+msgstr "W&P Onboarding: step5"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.automation_wrpr_6
@@ -8108,7 +8110,7 @@ msgstr "W&P Onboarding: fase 7"
 #: model:ir.actions.server,name:partner_communication_switzerland.automation_wrpr_8_action
 #: model:ir.actions.server,name:partner_communication_switzerland.wrpr_8_action
 msgid "W&P Onboarding: step8"
-msgstr "Onboarding W&P: passo 8"
+msgstr "W&P Onboarding: step8"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.wrpr_transformation
@@ -8241,13 +8243,13 @@ msgstr "Feedback sull'avventura Write & Pray"
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_child_protection
 #: model:mail.template,subject:partner_communication_switzerland.mail_wrpr_child_protection
 msgid "Write&Pray Onboarding - Child Protection"
-msgstr ""
+msgstr "Write&Pray Onboarding - Protezione dell'infanzia"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_child_info
 #: model:mail.template,subject:partner_communication_switzerland.mail_wrpr_child_info
 msgid "Write&Pray Onboarding - Child information"
-msgstr ""
+msgstr "Write&Pray Onboarding - Informazioni per i bambini"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_feedback
@@ -8259,19 +8261,19 @@ msgstr ""
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_letter_info
 #: model:mail.template,subject:partner_communication_switzerland.mail_wrpr_letter_info
 msgid "Write&Pray Onboarding - Letter writing information"
-msgstr ""
+msgstr "Write&Pray Onboarding - Informazioni sulla scrittura delle lettere"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_poverty
 #: model:mail.template,subject:partner_communication_switzerland.mail_wrpr_poverty
 msgid "Write&Pray Onboarding - Poverty"
-msgstr ""
+msgstr "Onboarding di Write&Pray - Povertà"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_segmentation
 #: model:mail.template,subject:partner_communication_switzerland.mail_wrpr_segmentation
 msgid "Write&Pray Onboarding - Segmentation"
-msgstr ""
+msgstr "Onboarding di Write&Pray - Segmentazione"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_volunteering
@@ -8283,7 +8285,7 @@ msgstr ""
 #: model:mail.template,name:partner_communication_switzerland.mail_wrpr_welcome
 #: model:mail.template,subject:partner_communication_switzerland.mail_wrpr_welcome
 msgid "Write&Pray Onboarding - Welcome"
-msgstr ""
+msgstr "Onboarding di Write&Pray - Benvenuto"
 
 #. module: partner_communication_switzerland
 #: model:survey.survey,title:partner_communication_switzerland.wrpr_onboarding_survey
@@ -8412,7 +8414,7 @@ msgstr "Il tuo sostegno inizierà!"
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__partner_zip
 msgid "Zip"
-msgstr "CAP"
+msgstr "Zip"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_reformat_all_phonenumbers__zoom_attendee_de_id
@@ -8510,7 +8512,7 @@ msgstr "su"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "ora"
-msgstr "ore"
+msgstr "ora"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -8545,7 +8547,7 @@ msgstr "donazioni.pdf"
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_template
 msgid "um"
-msgstr "alle"
+msgstr "um"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_step1
