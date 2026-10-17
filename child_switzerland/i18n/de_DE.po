@@ -1,0 +1,301 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* child_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: child_switzerland
+#: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
+msgid "<span>No photo registered for this child</span>"
+msgstr "<span>Kein Foto für dieses Kind vorhanden</span>"
+
+#. module: child_switzerland
+#: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
+msgid "<span>boy</span>"
+msgstr "<span>Junge</span>"
+
+#. module: child_switzerland
+#: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
+msgid "<span>girl</span>"
+msgstr "<span>Mädchen</span>"
+
+#. module: child_switzerland
+#: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
+msgid "<span>years</span>"
+msgstr "<span>Jahre</span>"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_compassion_child_description
+msgid "Child Description Generator"
+msgstr "Generator für Kinderbeschreibungen"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_child_property
+msgid "Child Property"
+msgstr "Eigenschaft des Kindes"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__childpack_expiration
+msgid "Childpack Expiration"
+msgstr "Ablauf des Kinderdossiers"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_compassion_translate_property
+msgid "Compassion translate property"
+msgstr "Compassion-Übersetzungseigenschaft"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_res_country
+msgid "Country"
+msgstr "Land"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description
+msgid "Description"
+msgstr "Beschreibung"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_left
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_left
+msgid "Description Left"
+msgstr "Beschreibung links"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_right
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_right
+msgid "Description Right"
+msgstr "Beschreibung rechts"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_chronic_illness__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_future_hope__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_hobby__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_household_duty__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_major_course_study__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_physical_disability__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_project_activity__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_property__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_school_subject__value
+#: model:ir.model.fields,field_description:child_switzerland.field_child_vocational_training__value
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_translate_property__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_facility__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_ministry__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_utility__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_cognitive_activity__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_community_occupation__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_diet__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_involvement__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_lifecycle_reason__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_mobile_device__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_physical_activity__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_program__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_property__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_school_cost__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_sociological_activity__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value
+msgid "English value"
+msgstr "Englischer Wert"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_fcp_property
+msgid "FCP Property"
+msgstr "FCP-Eigenschaft"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_fr
+msgid "French description"
+msgstr "Französische Beschreibung"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_chronic_illness__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_future_hope__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_hobby__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_household_duty__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_major_course_study__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_physical_disability__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_project_activity__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_property__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_school_subject__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_child_vocational_training__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_translate_property__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_facility__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_ministry__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_utility__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_cognitive_activity__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_community_occupation__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_diet__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_involvement__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_lifecycle_reason__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_mobile_device__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_physical_activity__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_program__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_property__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_school_cost__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_sociological_activity__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value_fr
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value_fr
+msgid "French value"
+msgstr "Französischer Wert"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_res_country__from_preposition
+msgid "From Preposition"
+msgstr "Präposition «von»"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_compassion_project
+msgid "Frontline Church Partner"
+msgstr "Partnerkirche"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_de
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_de
+msgid "German description"
+msgstr "Deutsche Beschreibung"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_chronic_illness__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_future_hope__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_hobby__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_household_duty__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_major_course_study__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_physical_disability__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_project_activity__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_property__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_school_subject__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_child_vocational_training__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_translate_property__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_facility__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_ministry__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_utility__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_cognitive_activity__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_community_occupation__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_diet__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_involvement__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_lifecycle_reason__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_mobile_device__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_physical_activity__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_program__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_property__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_school_cost__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_sociological_activity__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value_de
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value_de
+msgid "German value"
+msgstr "Deutscher Wert"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__has_tpl_image
+msgid "Has Tpl Image"
+msgstr "Hat Vorlagenbild"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_res_country__in_preposition
+msgid "In Preposition"
+msgstr "Präposition «in»"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_it
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_it
+msgid "Italian description"
+msgstr "Italienische Beschreibung"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_chronic_illness__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_future_hope__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_hobby__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_household_duty__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_major_course_study__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_physical_disability__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_project_activity__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_property__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_school_subject__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_child_vocational_training__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_translate_property__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_facility__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_ministry__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_church_utility__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_cognitive_activity__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_community_occupation__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_diet__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_involvement__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_lifecycle_reason__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_mobile_device__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_physical_activity__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_program__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_property__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_school_cost__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_sociological_activity__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value_it
+#: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value_it
+msgid "Italian value"
+msgstr "Italienischer Wert"
+
+#. module: child_switzerland
+#: model:ir.actions.report,name:child_switzerland.report_childpack_mini
+#: model:ir.model.fields.selection,name:child_switzerland.selection__print_childpack__type__child_switzerland_childpack_mini
+msgid "Mini Childpack"
+msgstr "Mini-Kinderdossier"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__printer_tray_id
+msgid "Paper Source"
+msgstr "Papierquelle"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__printer_id
+msgid "Printer"
+msgstr "Drucker"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_compassion_project_description
+msgid "Project Description Generator"
+msgstr "Generator für Projektbeschreibungen"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__project_title
+msgid "Project Title"
+msgstr "Projekttitel"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_ir_actions_report
+msgid "Report Action"
+msgstr "Berichtsaktion"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_print_childpack
+msgid "Select the child dossier type and language"
+msgstr "Wähle den Typ und die Sprache des Kinderdossiers aus"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_compassion_child
+msgid "Sponsored Child"
+msgstr "Patenkind"
+
+#. module: child_switzerland
+#: model:ir.model.fields,field_description:child_switzerland.field_print_childpack__type
+msgid "Type"
+msgstr "Typ"
+
+#. module: child_switzerland
+#: model:ir.model,name:child_switzerland.model_report_child_switzerland_childpack_mini
+msgid "Used to generate mini childpack in selected language"
+msgstr ""
+"Dient zum Erstellen eines Mini-Kinderdossiers in der gewählten Sprache"

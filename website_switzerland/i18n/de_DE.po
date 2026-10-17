@@ -1,0 +1,1428 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"*\n"
+"                                <i>We accept photos or scanned documents. In case you are not equipped with a camera, a\n"
+"                                    smartphone or a scanner, you can send us the documents at Compassion Switzerland,\n"
+"                                    Rue Galilée 3, 1400 Yverdon-les-Bains.\n"
+"                                </i>"
+msgstr ""
+"*<i>Wir akzeptieren Fotos oder gescannte Dokumente. Wenn du weder einen "
+"Scanner noch einen Fotoapparat noch eine Smartphonekamera besitzt, kannst du"
+" uns das Dokument auch per Post an Compassion Schweiz, Rue Galilée 3, 1400 "
+"Yverdon-les-Bains schicken.</i>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"<b>In this perspective, we thank you to complete the following tasks:</b>"
+msgstr ""
+"<b>Aus diesem Grund bitten wir dich um die folgenden Tätigkeiten "
+"auszuführen:</b>"
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_detailed_info_email
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"                    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"                    <t t-set=\"base_url\" t-value=\"object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)\"/>\n"
+"                </div>\n"
+"                <p>\n"
+"                    <t t-out=\"partner.salutation\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    This is the final stretch: it's time to prepare your luggage for Compassion's trip. To make it easier for you, we have provided a small folder to read as soon as you have a moment. It contains information about:\n"
+"                </p>\n"
+"                <ul>\n"
+"                    <li>the meeting with your sponsored child</li>\n"
+"                    <li>Compassion Programs</li>\n"
+"                    <li>the country, the climate, the customs</li>\n"
+"                    <li>your luggage and the little gifts you could take with you</li>\n"
+"                </ul>\n"
+"                <p>\n"
+"                    Keep this email carefully to access the information. <b>To find out more, simply click here:</b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    </p><div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a href=\"\" style=\"padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Practical information\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    If you still have questions, <a t-attf-href=\"{{base_url}}/{{event.website_url}}/faq\" style=\"color: skyblue; text-decoration: underline\">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                \n"
+"            </body>\n"
+"</html>\n"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_step3_email
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"                    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"                    <t t-set=\"base_url\" t-value=\"object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)\"/>\n"
+"                </div>\n"
+"                <p>\n"
+"                    <t t-out=\"partner.salutation\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We have received the documents and the payment of the deposit required for the registration for the <t t-out=\"event.name\"></t>. Thank you very much!\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    In the coming weeks, you will be guided through the preparations for your trip. What can you expect in concrete terms?\n"
+"                </p>\n"
+"                <ol>\n"
+"                    <li>Health information</li>\n"
+"                    <li>Information on travel and insurance documents</li>\n"
+"                    <li>Information on the information and preparation meeting</li>\n"
+"                    <li>Information on the country and climate</li>\n"
+"                    <li>Information about Compassion's work and meeting your sponsored child</li>\n"
+"                </ol>\n"
+"                <p>\n"
+"                    <a t-attf-href=\"{{base_url}}/{{event.website_url}}/faq\" style=\"color: skyblue; text-decoration: underline\">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            </body>\n"
+"</html>\n"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_medical_discharge_email
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"                    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"                    <t t-set=\"base_url\" t-value=\"object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)\"/>\n"
+"                </div>\n"
+"                <p>\n"
+"                    <t t-out=\"partner.salutation\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We received your answers to the medical survey and we thank you for taking the time to complete it.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Based on your answers, it seems you are undergoing on a medical treatment. For that purpose we need a medical discharge from your doctor, confirming us that your medical status still allows you to travel to <t t-out=\"event.country_id.name\"></t>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Please find attached a template letter that you can fill with your information, print and give it to your doctor to sign. You can then send us back the signed letter at our postal addres or <a t-attf-href=\"{{base_url}}/event/{{registration.uuid}}/medical_discharge\">directly online by clicking here</a>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Rose-Marie Reber\n"
+"                    <br/>\n"
+"                    Sponsor and donor service\n"
+"                    <br/>\n"
+"                    Compassion Switzerland\n"
+"                </p>\n"
+"            </body>\n"
+"</html>\n"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_after_trip_party_email
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"                    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"                    <t t-set=\"meeting\" t-value=\"registration.event_id\"/>\n"
+"                    <t t-set=\"user\" t-value=\"meeting.user_id\"/>\n"
+"                    <t t-set=\"url\" t-value=\"registration.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;) + &#x27;/event/&#x27; + registration.uuid + &#x27;/after_party&#x27;\"/>\n"
+"                </div>\n"
+"                <p>\n"
+"                    <t t-out=\"partner.salutation\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We hope that your journey <t t-out=\"event.country_id.preposition\"></t> <t t-out=\"event.country_id.name\"></t> has been an enriching experience for you.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Compassion invites you to an after party, where the participants can meet once again in order to spend some more time together and share our feedback. The party will take place in <t t-out=\"meeting.address_id.city\"></t> on <t t-out=\"meeting.get_date(&#x27;date_begin&#x27;)\"></t> at <t t-out=\"meeting.get_date(&#x27;date_begin&#x27;, &#x27;%H:%M&#x27;)\"></t>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Please confirm your participation by clicking here:</b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    </p><div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a t-attf-href=\"{{url}}\" style=\"padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Accept/Decline invitation\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to seeing you again on this occasion.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                     <t t-out=\"user.preferred_name\"></t> <t t-out=\"user.lastname\"></t>\n"
+"                      <br/>\n"
+"                      <t t-out=\"user.employee_ids.department_id.name\"></t>\n"
+"                      <br/>\n"
+"                    Compassion Switzerland\n"
+"                \n"
+"\n"
+"            </body>\n"
+"</html>\n"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_information_day_email
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"                    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"                    <t t-set=\"meeting\" t-value=\"registration.event_id\"/>\n"
+"                    <t t-set=\"user\" t-value=\"meeting.user_id\"/>\n"
+"                    <t t-set=\"url\" t-value=\"registration.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;) + &#x27;/event/&#x27; + registration.uuid + &#x27;/meeting_invitation&#x27;\"/>\n"
+"                </div>\n"
+"                <p>\n"
+"                    <t t-out=\"partner.salutation\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Your journey <t t-out=\"event.country_id.preposition\"></t> <t t-out=\"event.country_id.name\"></t> is fast approaching.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    An unforgettable experience is being prepared. In this perspective, Compassion invites you to a meeting of the participants in <t t-out=\"meeting.address_id.city\"></t> on <t t-out=\"meeting.get_date(&#x27;date_begin&#x27;)\"></t> at <t t-out=\"meeting.get_date(&#x27;date_begin&#x27;, &#x27;%H:%M&#x27;)\"></t>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    On this occasion, we will present you the work of Compassion <t t-out=\"event.country_id.preposition\"></t> <t t-out=\"event.country_id.name\"></t> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <b>Please confirm your participation by clicking here:</b>.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    </p><div style=\"margin:0 auto; text-align: center;\">\n"
+"                        <a t-attf-href=\"{{url}}\" style=\"padding: 12px 18px; font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px\">\n"
+"                            Accept/Decline invitation\n"
+"                        </a>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    We look forward to meeting you (or seeing you again) on this occasion.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                     <t t-out=\"user.preferred_name\"></t> <t t-out=\"user.lastname\"></t>\n"
+"                      <br/>\n"
+"                      <t t-out=\"user.employee_ids.department_id.name\"></t>\n"
+"                      <br/>\n"
+"                    Compassion Switzerland\n"
+"                \n"
+"\n"
+"            </body>\n"
+"</html>\n"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_step1_email
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"    <t t-set=\"base_url\" t-value=\"object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)\"/>\n"
+"</div>\n"
+"<p>\n"
+"    <t t-out=\"partner.salutation\"></t>\n"
+"</p>\n"
+"<p>\n"
+"    Your registration for the <t t-out=\"event.name\"></t> is progressing well. Thank you very much for your interest in Compassion's\n"
+"    work to free more children from poverty every day, for a dignified and meaningful life.\n"
+"</p>\n"
+"<p>\n"
+"    To confirm your registration, you only need to pay a deposit of <t t-out=\"object.user_id.company_id.currency_id.symbol\"></t>\n"
+"    <t t-out=\"&#x27;%d&#x27; |format(registration.event_ticket_id.price)\"></t>.- You have the choice to make this payment:\n"
+"</p>\n"
+"<ul>\n"
+"    <li>\n"
+"        Online by Credit card or Postfinance card\n"
+"        <br/><br/>\n"
+"        <div style=\"margin:40px auto; text-align: center;\">\n"
+"            <a t-attf-href=\"{{base_url}}/event/{{registration.uuid}}/down_payment\" style=\"text-decoration:none;background-color:transparent;color:rgb(124, 123, 173);padding:12px 18px;font-size: 12px; line-height: 18px; color: #0054A6; border-color:#FFFFFF; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #FFFFFF; border: 1px solid #FFFFFF; border-radius:3px\">\n"
+"                Online payment\n"
+"            </a>\n"
+"        </div>\n"
+"    </li>\n"
+"    <li>\n"
+"        By paying using the payment slip attached to this email\n"
+"    </li>\n"
+"</ul>\n"
+"<p>\n"
+"    We thank you in advance for making this payment today or in the coming days.\n"
+"</p>\n"
+"<p>\n"
+"    The next step will be to prepare for the trip. Here again, you will receive the information you need to know in time\n"
+"    to make this trip an enriching and unforgettable experience for you.\n"
+"</p>\n"
+"<p>\n"
+"    <a t-attf-href=\"{{base_url}}/{{event.website_url}}/faq\" style=\"background-color:transparent;color:skyblue;text-decoration: underline\">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also email us at info@compassion.ch if you can't find an answer to your question.\n"
+"</p>\n"
+"<p>\n"
+"    Once again, thank you for your commitment to children in need.\n"
+"</p>\n"
+"<p>\n"
+"    Warm regards\n"
+"</p>\n"
+"<p>\n"
+"    <t t-out=\"object.user_id.signature\"></t>\n"
+"</p>\n"
+"</body>\n"
+"</html>\n"
+msgstr ""
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<select class=\"form-control s_website_form_input\" name=\"categ_id\" id=\"ooxlbquh4xd\">\n"
+"                                                <option value=\"38\">Sponsorship</option>\n"
+"                                                <option value=\"7\">Donation / Finances</option>\n"
+"                                                <option value=\"43\">Trip / Visit</option>\n"
+"                                                <option value=\"9\">Translation / Volunteers</option>\n"
+"                                                <option value=\"53\">MyAccount</option>\n"
+"                                                <option value=\"27\">Gift / Payment slip</option>\n"
+"                                                <option value=\"28\">Website Letter Error</option>\n"
+"                                                <option value=\"35\">Tax receipt</option>\n"
+"                                                <option value=\"36\">Address change</option>\n"
+"                                                <option value=\"37\">Address email change</option>\n"
+"                                                <option value=\"75\">Sponsorship Payment Slips</option>\n"
+"                                            </select>"
+msgstr ""
+"<select class=\"form-control s_website_form_input\" name=\"categ_id\" id=\"ooxlbquh4xd\">\n"
+"                                                <option value=\"38\">Patenschaft</option>\n"
+"                                                <option value=\"7\">Spende/Finanzen</option>\n"
+"                                                <option value=\"43\"> Besuch</option>\n"
+"                                                <option value=\"9\">Übersetzung/Freiwillige</option>\n"
+"                                                <option value=\"53\">MyCompassion</option>\n"
+"                                                <option value=\"27\">Geschenk / Zahlschein</option>\n"
+"                                                <option value=\"28\">Website Brieffehler</option>\n"
+"                                                <option value=\"35\">Steuerbescheinigung</option>\n"
+"                                                <option value=\"36\">Adressänderung</option>\n"
+"                                                <option value=\"37\">Änderung der E-Mail Adresse</option>\n"
+"                                                <option value=\"75\">Sponsorenzahlscheine</option>\n"
+"                                            </select>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Category</span>"
+msgstr "<span class=\"s_website_form_label_content\">Kategorie</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Email</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">E-Mail</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Message</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Nachricht</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Subject</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Betreff</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Your Name</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Dein Name</span>\n"
+"                                            <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_step2_email
+msgid ""
+"<t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"    <t t-set=\"down_payment\" t-value=\"registration.down_payment_id\"/>\n"
+"<p t-out=\"partner.salutation\"></p>\n"
+"<p>\n"
+"    Your registration for the <t t-out=\"event.name\"></t> is progressing well. Thank you very much for your interest in Compassion's\n"
+"    work to free more children from poverty every day, for a dignified and meaningful life.\n"
+"</p>\n"
+"<p>\n"
+"    To confirm your registration, you only need to pay a deposit of <t t-out=\"down_payment.currency_id.symbol\"/>\n"
+"    <t t-out=\"'{:,.0f}'.format(down_payment.amount_total_signed)\"/>.- You have the choice to make this payment:\n"
+"</p>\n"
+"<ul>\n"
+"    <li>\n"
+"        Online by Credit card or Postfinance card\n"
+"        \n"
+"    <div style=\"margin:40px auto; text-align: center;\">\n"
+"            <a t-att-href=\"registration.down_payment_link\" style=\"text-decoration:none;padding:12px 18px;font-size: 12px; line-height: 18px; color: white; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #2A5EEC; border: 1px solid #2A5EEC; border-radius:3px\">\n"
+"                Online payment\n"
+"            </a>\n"
+"        </div>\n"
+"\n"
+"    </li>\n"
+"    <li>\n"
+"        By paying using the payment slip attached to this email\n"
+"    </li>\n"
+"</ul>\n"
+"<p>\n"
+"    We thank you in advance for making this payment today or in the coming days.\n"
+"</p>\n"
+"<p>\n"
+"    The next step will be to prepare for the trip. Here again, you will receive the information you need to know in time\n"
+"    to make this trip an enriching and unforgettable experience for you.\n"
+"</p>\n"
+"<p>\n"
+"    Once again, thank you for your commitment to children in need.\n"
+"</p>\n"
+"<p>\n"
+"    Warm regards\n"
+"</p>\n"
+"<t t-out=\"object.user_id.signature\" />"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_after_trip_feedback_email
+msgid ""
+"<t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"    <t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"    <t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"    <t t-set=\"survey\" t-value=\"registration.feedback_survey_id or registration.event_id.feedback_survey_id\"/>\n"
+"    <t t-set=\"user\" t-value=\"registration.event_id.user_id\"/>\n"
+"    <t t-set=\"base_url\" t-value=\"registration.website_id.domain\"/>\n"
+"    <t t-set=\"url\" t-value=\"base_url + survey.sudo().get_start_url()\"/>\n"
+"    <t t-set=\"children_in_poverty\" t-value=\"object.get_snippet('children_in_poverty', strip_html=True)\"/>\n"
+"    <p t-out=\"partner.salutation\"/>\n"
+"<p>We hope that you have returned from your journey with Compassion and that this experience has enriched you in every way.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Would you be able to take 3 minutes to share your thoughts on this trip with us?\n"
+"    <br/>\n"
+"    <br/>\n"
+"</p>\n"
+"    <div style=\"margin:40px auto; text-align: center;\">\n"
+"            <a t-att-href=\"url\" style=\"text-decoration:none;padding:12px 18px;font-size: 12px; line-height: 18px; color: white; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #2A5EEC; border: 1px solid #2A5EEC; border-radius:3px\">\n"
+"                Share us your feedback\n"
+"            </a>\n"
+"        </div>\n"
+"\n"
+"<p>\n"
+"    Did you know that? Your trip can have an even greater impact. To do this, simply tell your friends and share your sponsorship experience.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    In this way, some of your loved ones could imitate you and in turn transform a child's life, by committing to sponsor a child.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Encourage them to sponsor a child by sending the message \"1 child\" by SMS to 959 (free) or directly on www.compassion.ch.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Feel free to contact us if you would like to be advised on how to organize a small meeting with your friends at home and/or to receive material for this purpose. We are available by phone on 031 552 21 25 or by email at events@compassion.ch.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    At Compassion, we believe that it is possible to change the world, one child at a time. Even if extreme poverty declines - and this is good news - there are still 385 million children living in extreme poverty.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Thank you very much for your commitment to working with us to transform the lives of as many of these children as possible.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Receive our warmest greetings.\n"
+"</p>\n"
+"<t t-out=\"user.signature\" />"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_medical_survey_email
+msgid ""
+"<t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"<t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"<t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"<t t-set=\"base_url\" t-value=\"registration.website_id.domain\"/>\n"
+"<t t-set=\"user\" t-value=\"registration.event_id.user_id\"/>\n"
+"<t t-set=\"survey\" t-value=\"registration.medical_survey_id or registration.event_id.medical_survey_id\"/>\n"
+"<p>\n"
+"                    <t t-out=\"partner.salutation\"/>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Once again, thank you for your interest in Compassionate work for the benefit of children living in extreme poverty. We look forward to your journey <t t-out=\"event.country_id.in_preposition\"/> <t t-out=\"event.country_id.name\"/>. Thank you very much!\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    It is time to prepare the trip in terms of health. The stay that awaits you will be interesting. It can also be challenging: long international flights, jet lag, altitude changes, travel on rough roads, hiking on rough terrain and long days will be possible.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Because we know that every individual is different, we collect health information from each registrant to be aware of their limitations and specific needs.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Click here to review the checklist and make sure you are well prepared for this trip in terms of health:\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    </p>\n"
+"                    \n"
+"    <div style=\"margin:40px auto; text-align: center;\">\n"
+"            <a t-att-href=\"base_url + survey.get_start_url()\" style=\"text-decoration:none;padding:12px 18px;font-size: 12px; line-height: 18px; color: white; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #2A5EEC; border: 1px solid #2A5EEC; border-radius:3px\">\n"
+"                To the medical checklist\n"
+"            </a>\n"
+"        </div>\n"
+"\n"
+"<p>\n"
+"                    Thank you for your commitment to children in need.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Receive our warmest greetings.\n"
+"</p>\n"
+"<t t-out=\"user.signature\"/>"
+msgstr ""
+
+#. module: website_switzerland
+#: model:mail.template,body_html:website_switzerland.group_visit_travel_documents_email
+msgid ""
+"<t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"<t t-set=\"registration\" t-value=\"object.get_objects()\"/>\n"
+"<t t-set=\"event\" t-value=\"registration.compassion_event_id\"/>\n"
+"<t t-set=\"payment_url\" t-value=\"registration.payment_link\"/>\n"
+"<t t-set=\"user\" t-value=\"registration.event_id.user_id\"/>\n"
+"\n"
+"    <p>\n"
+"    <t t-out=\"partner.salutation\"/>\n"
+"    <br/>\n"
+"    <br/>\n"
+"    Thank you for your commitment to Compassion for the benefit of children living in extreme poverty. We look forward to your journey  <t t-out=\"event.country_id.in_preposition\"/> <t t-out=\"event.country_id.name\"/>.\n"
+"    <br/>\n"
+"    <br/>\n"
+"    It is time to prepare the trip administratively. This step should take you 10 to 30 minutes. Would you be able to do it within the next 15 days?\n"
+"    <br/>\n"
+"    <br/>\n"
+"</p>\n"
+"<h2>1. Payment of the trip</h2>\n"
+"<p>\n"
+"    Attached, you will find the invoice for this trip. Please pay it within 30 days. You can pay directly by credit card or Postfinance card or using the attached payment slip. If you do not have the possibility to pay for this trip in one go, please contact me in advance to find a solution together (rreber@compassion.ch).\n"
+"</p>\n"
+"\n"
+"    <div style=\"margin:40px auto; text-align: center;\">\n"
+"            <a t-att-href=\"payment_url\" style=\"text-decoration:none;padding:12px 18px;font-size: 12px; line-height: 18px; color: white; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #2A5EEC; border: 1px solid #2A5EEC; border-radius:3px\">\n"
+"                Online payment\n"
+"            </a>\n"
+"        </div>\n"
+"\n"
+"<h2>2. Travel documents</h2>\n"
+"<h3>2.1. Passport</h3>\n"
+"<p>Please check that your passport will be valid six months after the date of your planned return to Switzerland. If this is not the case, we ask you to renew your passport in order to guarantee you a worry-free trip.</p>\n"
+"<h3>2.2. Insurance</h3>\n"
+"<p>Compassion does not have comprehensive insurance for participants on sponsor trips. We recommend that you check your health and accident insurance coverage. Trip cancellation insurance is strongly recommended. Indeed, once the flight ticket has been purchased and in the event of cancellation, you will be responsible for the costs. Do you have the <a href=\"https://www.tcs.ch/fr/produits/depannage-protection-voyage/assistance-voyage/livret-eti.php\" style=\"color:skyblue;text-decoration: underline\">ETI World TCS booklet (click here)</a>? This is a good insurance that covers international travel and cancellations.</p>\n"
+"<h3>2.4. Emergency contact</h3>\n"
+"<p>Please make sure you informed your emergency contact about the trip. Here is the the emergency person you chose:</p>\n"
+"<ul>\n"
+"    <li>Name: <t t-out=\"registration.emergency_name\"/></li>\n"
+"    <li>Phone: <t t-out=\"registration.emergency_phone\"/></li>\n"
+"</ul>\n"
+"<p>\n"
+"    Once again, thank you for your commitment to children in need.\n"
+"</p>\n"
+"<p>\n"
+"    Receive our warmest greetings.\n"
+"</p>\n"
+"<t t-out=\"user.signature\"/>"
+msgstr ""
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_accommodations
+msgid "Accommodations:"
+msgstr "Unterkünfte:"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_activate_account
+msgid "Activate account"
+msgstr "Konto aktivieren"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_res_users
+msgid "Adds authentication for users from external platforms."
+msgstr ""
+"Fügt die Authentifizierung für Benutzer von externen Plattformen hinzu."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"All gifts I give to my sponsored child or his or her family will be\n"
+"                in accordance with Compassion's policy on this subject."
+msgstr ""
+"Alle Geschenke für mein Patenkind oder seine Familie entsprechen den "
+"diesbezüglichen Compassion-Vorschriften."
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"Arrange a meeting to share your experience with others at home. Take the "
+"opportunity to promote the sponsorship of children among your loved "
+"ones.<br>"
+msgstr ""
+"Vereinbare ein Treffen, um deine Erfahrungen mit anderen zu Hause zu teilen."
+" Nutze die Gelegenheit, um bei deinen Lieben für die Patenschaft von Kindern"
+" zu werben.<br>"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_preparation
+msgid "Assistance in preparing the trip:"
+msgstr "Unterstützung bei der Vorbereitung der Reise:"
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_3
+#: model:survey.question.answer,value:website_switzerland.gpfs_contact_3
+#: model:survey.question.answer,value:website_switzerland.gpfs_food_3
+#: model:survey.question.answer,value:website_switzerland.gpfs_meeting_child_3
+#: model:survey.question.answer,value:website_switzerland.gpfs_ministry_3
+#: model:survey.question.answer,value:website_switzerland.gpfs_preparation_3
+#: model:survey.question.answer,value:website_switzerland.gpfs_transport_3
+msgid "Average"
+msgstr "Durchschnittlich"
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_1
+#: model:survey.question.answer,value:website_switzerland.gpfs_contact_1
+#: model:survey.question.answer,value:website_switzerland.gpfs_food_1
+#: model:survey.question.answer,value:website_switzerland.gpfs_meeting_child_1
+#: model:survey.question.answer,value:website_switzerland.gpfs_ministry_1
+#: model:survey.question.answer,value:website_switzerland.gpfs_preparation_1
+#: model:survey.question.answer,value:website_switzerland.gpfs_transport_1
+msgid "Bad"
+msgstr "Schlecht"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid "Become a spokesperson"
+msgstr "Sprecher/in werden"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.payment_terms_note
+msgid "By confirming your payment, you agree to our"
+msgstr "Wenn du deine Zahlung bestätigst, akzeptierst du unsere"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"Changing the world, one child at a time, is possible. Indeed, hope is "
+"stronger than poverty."
+msgstr ""
+"Die Welt zu verändern, ein Kind nach dem anderen, ist möglich. Denn Hoffnung"
+" ist stärker als Armut."
+
+#. module: website_switzerland
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_accommodations
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_contact
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_food
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_meeting_child
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_ministry
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_preparation
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_transport
+msgid "Comments:"
+msgstr "Bemerkungen:"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_partner_communication_job
+msgid "Communication Job"
+msgstr "Kommunikation Job"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Compassion care funds"
+msgstr "Die Compassion Hilfsfonds"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"Contact us using the form below.<br/>\n"
+"We'll do our best to get back to you as soon as possible."
+msgstr ""
+"Du kannst uns deine Wünsche, Fragen und Anregungen über dieses Formular mitteilen.<br/>\n"
+"Wir helfen dir gerne weiter."
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_contact
+msgid "Contacts with Compassion employees in the country:"
+msgstr "Kontakte zu Compassion-Mitarbeitern in dem Land:"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"Did this trip strengthen your conviction of the importance and effectiveness"
+" of Compassion's work? <b>There are several ways to take one more step with "
+"Compassion.</b><br>"
+msgstr ""
+"Hat dich diese Reise in deiner Überzeugung bestärkt, wie wichtig und "
+"effektiv die Arbeit von Compassion ist? <b>Es gibt mehrere Möglichkeiten, "
+"einen weiteren Schritt mit Compassion zu machen.</b><br>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"Don't you have all the documents at hand? You can proceed step by step and save the\n"
+"                                items already collected. Once everything is ready, you will receive an e-mail\n"
+"                                confirmation."
+msgstr ""
+"Du hast nicht alle Dokumente zur Hand? Dann kannst du schrittweise vorgehen "
+"und die bereits vorhandenen Dokumente abspeichern. Sobald alles da ist, "
+"erhältst du eine Bestätigung per E-Mail."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Donate now"
+msgstr "Jetzt unterstützen"
+
+#. module: website_switzerland
+#: model:event.registration.stage,name:website_switzerland.stage_group_pay
+msgid "Down payment"
+msgstr "Anzahlung"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_event_registration
+msgid "Event Registration"
+msgstr "Veranstaltungsanmeldung"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_event_registration_task_rel
+msgid "Event registration task relation"
+msgstr "Aufgabenbeziehung bei der Veranstaltungsanmeldung"
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_5
+#: model:survey.question.answer,value:website_switzerland.gpfs_contact_5
+#: model:survey.question.answer,value:website_switzerland.gpfs_food_5
+#: model:survey.question.answer,value:website_switzerland.gpfs_meeting_child_5
+#: model:survey.question.answer,value:website_switzerland.gpfs_ministry_5
+#: model:survey.question.answer,value:website_switzerland.gpfs_preparation_5
+#: model:survey.question.answer,value:website_switzerland.gpfs_transport_5
+msgid "Excellent"
+msgstr "Sehr gut"
+
+#. module: website_switzerland
+#: model:ir.actions.server,name:website_switzerland.event_payment_checker_action
+msgid "Execute Code"
+msgstr "Code ausführen"
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_4
+#: model:survey.question.answer,value:website_switzerland.gpfs_contact_4
+#: model:survey.question.answer,value:website_switzerland.gpfs_food_4
+#: model:survey.question.answer,value:website_switzerland.gpfs_meeting_child_4
+#: model:survey.question.answer,value:website_switzerland.gpfs_ministry_4
+#: model:survey.question.answer,value:website_switzerland.gpfs_preparation_4
+#: model:survey.question.answer,value:website_switzerland.gpfs_transport_4
+msgid "Fairly good"
+msgstr "Gut"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_medical_survey
+msgid "Fill medical survey"
+msgstr "Medizinische Umfrage ausfüllen"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
+msgid "Firstname"
+msgstr "Vorname"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_food
+msgid "Food:"
+msgstr "Essen:"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"Get involved in the Mother and Child Support Program, through a one-time or "
+"regular donation.<br>"
+msgstr ""
+"Engagiere dich mit einer einmaligen oder regelmäßigen Spende für das Mother "
+"and Child Support Program.<br>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Get involved now"
+msgstr "Jetzt mitmachen"
+
+#. module: website_switzerland
+#: model:event.type,name:website_switzerland.event_type_group_visit
+msgid "Group visit"
+msgstr "Gruppenbesuch"
+
+#. module: website_switzerland
+#: model:survey.survey,title:website_switzerland.group_visit_feedback_survey
+msgid "Group visit feedback survey"
+msgstr "Umfrage zum Feedback der Gruppenbesuche"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_after_trip_feedback_email
+msgid "Group visit: after trip feedback"
+msgstr "Gruppenbesuch: Feedback nach der Reise"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_after_trip_party_email
+msgid "Group visit: after trip party invitation"
+msgstr "Gruppenbesuch: Einladung zur After Trip Party"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_detailed_info_email
+msgid "Group visit: detailed information"
+msgstr "Gruppenbesuch: detaillierte Informationen"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_information_day_email
+msgid "Group visit: info day invitation"
+msgstr "Gruppenbesuch: Einladung zum Infotag"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_medical_discharge_email
+msgid "Group visit: medical discharge request"
+msgstr "Gruppenbesuch: Antrag auf medizinische Entlassung"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_medical_survey_email
+msgid "Group visit: medical survey invitation"
+msgstr "Gruppenbesuch: Einladung zur medizinischen Umfrage"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_step1_email
+msgid "Group visit: step1 registration confirmation"
+msgstr "Gruppenbesuch: Schritt1 Anmeldebestätigung"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_step2_email
+msgid "Group visit: step2 fill documents"
+msgstr "Gruppenbesuch: Schritt 2 Dokumente ausfüllen"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_step3_email
+msgid "Group visit: step3 confirmation"
+msgstr "Gruppenbesuch: Schritt3 Bestätigung"
+
+#. module: website_switzerland
+#: model:mail.template,name:website_switzerland.group_visit_travel_documents_email
+msgid "Group visit: travel documents request"
+msgstr "Gruppenbesuch: Reiseunterlagen anfordern"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid "Help a mother and her child"
+msgstr "Hilf einer Mutter und ihrem Kind"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_after_trip_feedback_email
+msgid "How did your trip with Compassion go?"
+msgstr ""
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid "I accept the terms of the travel agreement"
+msgstr "Ich bin mit dem Reisevertrag einverstanden."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"I am aware that it is important to show respect for the staff\n"
+"                members, children, families and communities or churches I will meet.\n"
+"                I undertake to take into consideration the cultural sensitivities of\n"
+"                the country I am visiting."
+msgstr ""
+"Ich bin mir bewusst, dass ich gegenüber den Mitarbeitenden, den Kindern, den"
+" Familien und den Kirchgemeinden, denen ich begegnen werde, Respekt zu "
+"zeigen habe. Ich verpflichte mich, die kulturellen Begebenheiten des "
+"Besuchslandes zu beachten."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"I am aware that the child I am sponsoring has legitimate parents,\n"
+"                family or guardians. I undertake to respect and remain within the\n"
+"                limits of the sponsor/sponsee relationship with this child."
+msgstr ""
+"Ich bin mir bewusst, dass mein Patenkind eigene Eltern, eine eigene Familie "
+"oder Bezugspersonen hat. Ich verpflichte mich, die Grenzen der Beziehung "
+"Pate – Patenkind zu respektieren und nicht zu überschreiten."
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpms_question_diet
+msgid "I am on a special diet:"
+msgstr "Bei meiner Ernährung sind folgende Besonderheiten zu beachten:"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpms_question_treatment
+msgid "I am under treatment:"
+msgstr ""
+"Ich stehe unter ärztlicher Betreuung (bitte die entsprechende Behandlung "
+"angeben oder leer lassen):"
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpms_back
+msgid "I have back problems"
+msgstr "Ich habe Rückenbeschwerden."
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpms_heart
+msgid "I have heart problems"
+msgstr "Ich habe Herzkreislaufprobleme."
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpms_respiratory
+msgid "I have respiratory problems"
+msgstr "Ich habe Atembeschwerden."
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpms_sleep
+msgid "I have sleep problems"
+msgstr "Ich habe Schlafstörungen."
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpms_question_allergies
+msgid "I suffer from the following allergies:"
+msgstr "Ich leide an folgenden Allergien:"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"If I visit my sponsored child, I agree to reimburse the COMPASSION\n"
+"                National Office for the costs of this visit."
+msgstr ""
+"Falls ich mein Patenkind besuche, verpflichte ich mich, dem COMPASSION-"
+"Landesbüro die Kosten für diesen Besuch zu erstatten."
+
+#. module: website_switzerland
+#: model:survey.question,comments_message:website_switzerland.gpfs_question_proposition
+#: model:survey.question,comments_message:website_switzerland.gpms_question_allergies
+#: model:survey.question,comments_message:website_switzerland.gpms_question_diet
+#: model:survey.question,comments_message:website_switzerland.gpms_question_problems
+#: model:survey.question,comments_message:website_switzerland.gpms_question_treatment
+msgid "If other, please specify:"
+msgstr "Andere, bitte angeben:"
+
+#. module: website_switzerland
+#: model:ir.model.fields,field_description:website_switzerland.field_sale_order_line__image
+msgid "Image"
+msgstr "Bild"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"In addition, I undertake to pay 50% of the travel expenses if I\n"
+"                cancel my participation less than 30 days before the departure date\n"
+"                of the trip as well as the totality of the plane ticket (if I\n"
+"                ordered the plane ticket through Compassion). It is up to me to\n"
+"                contact my personal travel cancellation insurance if necessary."
+msgstr ""
+"Ziehe ich meine Anmeldung weniger als 30 Tage vor dem Abreisedatum zurück, "
+"verpflichte ich mich zudem, 50% der Reisekosten sowie den gesamten "
+"Flugticketpreis (falls das Ticket über Compassion bezogen wurde) zu "
+"bezahlen. In diesem Falle liegt es in meiner Verantwortung, die "
+"Versicherungsgesellschaft meiner persönlichen Reiseannulationsversicherung "
+"zu kontaktieren."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"In case of cancellation of my participation (as a participant), I\n"
+"                take note that the payment of the deposit is non-refundable."
+msgstr ""
+"Ich nehme zur Kenntnis, dass im Falle einer Absage der Teilnahme meinerseits"
+" die Anzahlung von meiner Reise nicht zurückerstattet wird."
+
+#. module: website_switzerland
+#: model_terms:survey.question,description:website_switzerland.gpms_question_treatment
+msgid "Indicate what is your treatment or <u>leave the field empty</u>!"
+msgstr "Gib an, was deine Behandlung ist oder <u>lass das Feld leer</u>!"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_information_day_email
+msgid ""
+"Invitation to the {{object.get_objects().compassion_event_id.name}} "
+"preparation meeting"
+msgstr "Einladung zum virtuellen Vorbereitungstreffen"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"It is thanks to the sponsorship that Ronnie, Michelle and Margret have taken"
+" on responsibilities. They were born in extreme poverty in Uganda and the "
+"Philippines. The first one became an engineer when he grew up in a slum."
+msgstr ""
+"Es ist der Patenschaft zu verdanken, dass Ronnie, Michelle und Margret "
+"Verantwortung übernommen haben. Sie wurden in extremer Armut in Uganda und "
+"auf den Philippinen geboren. Der erste wurde Ingenieur, als er in einem Slum"
+" aufwuchs."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
+msgid "Lastname"
+msgstr "Nachname"
+
+#. module: website_switzerland
+#: model:event.registration.stage,name:website_switzerland.stage_group_medical
+#: model:survey.survey,title:website_switzerland.group_visit_medical_survey
+msgid "Medical survey"
+msgstr "Deine Gesundheit"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_meeting_child
+msgid "Meeting with your sponsored child:"
+msgstr "Treffen mit deinem Patenkind:"
+
+#. module: website_switzerland
+#: model:base.automation,name:website_switzerland.event_payment_checker
+msgid "Move is paid by customer"
+msgstr "Buchung wurde vom Kunden bezahlt"
+
+#. module: website_switzerland
+#: model:website.menu,name:website_switzerland.my_donations
+msgid "My Donations"
+msgstr "Meine Spenden"
+
+#. module: website_switzerland
+#: model:website.menu,name:website_switzerland.my_sponsorships
+msgid "My Sponsorships"
+msgstr "Meine Patenschaften"
+
+#. module: website_switzerland
+#: model:website.menu,name:website_switzerland.my_children
+msgid "My personal data"
+msgstr "Meine persönlichen Daten"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_step1_email
+msgid ""
+"Only one step left to validate your registration to your trip with "
+"Compassion"
+msgstr ""
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid "Organize a meeting"
+msgstr "Organisiere ein Treffen"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid ""
+"Our funds help support our sponsored children, their families and their "
+"communities."
+msgstr ""
+"Unsere Ergänzenden Hilfsfonds tragen dazu bei, dass die Kinderzentren nicht "
+"nur den Patenkindern, sondern auch deren Familien sowie dem Umfeld helfen "
+"können."
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_ministry
+msgid "Overview of the Ministry of Compassion in the country:"
+msgstr "Überblick über die Arbeit von Compassion im Land:"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_down_payment
+msgid "Pay fees"
+msgstr "Gebühren zahlen"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_full_payment
+msgid "Pay the trip"
+msgstr "Die Reise bezahlen"
+
+#. module: website_switzerland
+#: model:event.registration.stage,name:website_switzerland.stage_group_documents
+msgid "Payment"
+msgstr "Zahlung"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpms_question_problems
+msgid "Please indicate any known health issue you have:"
+msgstr ""
+"Welche der folgenden gesundheitlichen Beschwerden treffen auf dich zu?"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description:website_switzerland.group_visit_feedback_survey
+msgid ""
+"Please take a few minutes to evaluate your trip with Compassion. This will "
+"allow us to improve our following trips."
+msgstr ""
+"Bitte nimm dir ein paar Minuten Zeit, um deine Reise mit Compassion zu "
+"bewerten. So können wir unsere nächsten Reisen verbessern."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"Protecting the children we serve is one of our priorities. Compassion "
+"regulations guarantee that all measures are taken to ensure the safety of "
+"Compassion's sponsored children."
+msgstr ""
+"Den Kindern, denen wir dienen, Schutz zu bieten, hat bei Compassion "
+"Priorität. Wir möchten sie schützen: vor allen Formen von physischem und "
+"emotionalem Missbrauch, von Zwangsausbeutung oder kulturellen Praktiken, die"
+" ihnen schaden könnten. Und deswegen sind alle Personen involviert, die mit "
+"Kindern in unseren Kinderzentren in direktem Kontakt sind."
+
+#. module: website_switzerland
+#: model:event.registration.stage,name:website_switzerland.stage_group_ready
+msgid "Ready"
+msgstr "Bereit"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_page1
+msgid "Return from travel"
+msgstr "Rückkehr von der Reise"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Verkaufsauftragszeile"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
+msgid "Select a title..."
+msgstr "Wähle eine Anrede..."
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_passport
+msgid "Send a passport copy"
+msgstr "Schicke eine Kopie deines Reisepasses"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_criminal
+msgid "Send certificate of criminal record"
+msgstr "Strafregisterauszug"
+
+#. module: website_switzerland
+#: model:event.registration.stage,name:website_switzerland.stage_group_unconfirmed
+msgid "Sign Agreements"
+msgstr "Vereinbarungen unterzeichnen"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_sign_child_protection
+msgid "Sign child protection agreement"
+msgstr "Kinderschutzvereinbarung unterschreiben"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_medical_discharge
+msgid "Sign medical discharge"
+msgstr "Unterschreibe die medizinische Entlassung"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_sign_travel
+msgid "Sign travel agreement"
+msgstr "Reisevertrag unterschreiben"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid "Sponsor a child"
+msgstr "Übernimm eine Patenschaft"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid "Sponsor a child now"
+msgstr "Finde ein Patenkind"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid "Sponsor another child to release him from extreme poverty.<br>"
+msgstr ""
+"Übernimm eine Patenschaft für ein anderes Kind, um es aus der extremen Armut"
+" zu befreien.<br>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.footer
+msgid ""
+"Sponsorship is the beginning of a unique bond between you and your sponsored"
+" child. With a monthly support of CHF 42, you can begin to transform his or "
+"her life."
+msgstr ""
+"Eine Patenschaft mit Compassion ist der Start einer besonderen Verbindung "
+"zwischen dir und deinem Patenkind. Mit einem monatlichen Beitrag von CHF "
+"42.– trägst du dazu bei, dass dein Patenkind rundum versorgt ist."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid "Submit"
+msgstr "Senden"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_proposition
+msgid "Suggestions for improvement:"
+msgstr "Vorschläge zur Verbesserung:"
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_survey_user_input
+msgid "Survey User Input"
+msgstr "Benutzereingaben"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid "Thank you for your commitment."
+msgstr "Wir danken dir für dein Engagement."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"Thank you very much for your interest in Compassion's work to free more "
+"children from poverty every day, for a dignified and meaningful life."
+msgstr ""
+"Danke für dein Interesse an der Arbeit von Compassion, durch die wir "
+"gemeinsam jeden Tag immer mehr Kinder aus extremer Armut befreien."
+
+#. module: website_switzerland
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_accommodations
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_contact
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_food
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_meeting_child
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_ministry
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_preparation
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_proposition
+#: model:survey.question,validation_error_msg:website_switzerland.gpfs_question_transport
+#: model:survey.question,validation_error_msg:website_switzerland.gpms_question_allergies
+#: model:survey.question,validation_error_msg:website_switzerland.gpms_question_diet
+#: model:survey.question,validation_error_msg:website_switzerland.gpms_question_problems
+msgid "The answer you entered has an invalid format."
+msgstr "Deine Antwort hat ein ungültiges Format."
+
+#. module: website_switzerland
+#: model:survey.question,validation_error_msg:website_switzerland.gpms_question_treatment
+msgid "The answer you entered is not valid."
+msgstr "Die von dir eingegebene Antwort ist nicht gültig."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"The costs of my trip (round trip, plus accommodation on site during\n"
+"                my stay) are at my expense."
+msgstr ""
+"Die Reisekosten (Hin- und Rückreise plus Unterkunft vor Ort während meines "
+"Aufenthaltes) gehen zu meinen Lasten."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"The photos I will take of my sponsored child, his or her family and\n"
+"                community, are for my personal and private use only. I undertake not\n"
+"                to distribute them on the Internet, social networks or other\n"
+"                documents (except as part of Compassion or with its consent)."
+msgstr ""
+"Die Fotos, die ich von meinem Patenkind, seiner Familie und seiner Umgebung "
+"mache, sind ausschliesslich für meinen privaten Gebrauch bestimmt. Ich "
+"verpflichte mich, sie weder im Internet noch in den sozialen Medien noch auf"
+" anderen Dokumenten zu verbreiten (ausser im Rahmen von Compassion oder mit "
+"deren Zustimmung)."
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"The second, born in Manila's drug and prostitution district, now runs an NGO"
+" to help victims of modern slavery. And the third was able to go to school "
+"and be elected to the Ugandan Senate. This is thanks to a sponsor and the "
+"commitment of a church that has decided to open a shelter and participate in"
+" the holistic development of children."
+msgstr ""
+"Der zweite, der im Drogen- und Prostitutionsviertel von Manila geboren "
+"wurde, leitet heute eine NGO, die Opfern moderner Sklaverei hilft. Und der "
+"dritte konnte zur Schule gehen und wurde in den ugandischen Senat gewählt. "
+"Das ist einem Sponsor und dem Engagement einer Kirche zu verdanken, die "
+"beschlossen hat, ein Heim zu eröffnen und sich an der ganzheitlichen "
+"Entwicklung der Kinder zu beteiligen."
+
+#. module: website_switzerland
+#: model:ir.model,name:website_switzerland.model_theme_utils
+msgid "Theme Utils"
+msgstr "Thema Dienstprogramme"
+
+#. module: website_switzerland
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_accommodations
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_contact
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_food
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_meeting_child
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_ministry
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_preparation
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_proposition
+#: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_transport
+#: model:survey.question,constr_error_msg:website_switzerland.gpms_question_allergies
+#: model:survey.question,constr_error_msg:website_switzerland.gpms_question_diet
+#: model:survey.question,constr_error_msg:website_switzerland.gpms_question_problems
+#: model:survey.question,constr_error_msg:website_switzerland.gpms_question_treatment
+msgid "This question requires an answer."
+msgstr "Diese Frage muss beantwortet werden"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
+msgid "Title"
+msgstr "Anrede"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
+msgid ""
+"To make your trip enriching and an unforgettable experience, please read\n"
+"            and validate this visit contract. It has been established to protect\n"
+"            your interests, those of children, their families, and partner churches\n"
+"            of Compassion."
+msgstr ""
+"Damit deine Reise eine Bereicherung und ein unvergessliches Erlebnis wird, "
+"bitten wir dich, den Besuchsvertrag durchzulesen und dies zu bestätigen. Der"
+" Besuchsvertrag berücksichtigt deine Interessen, diejenigen der Kinder, "
+"ihrer Familien und der Partnerkirchen von Compassion."
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpfs_question_transport
+msgid "Transport:"
+msgstr "Transport:"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid "Travel agreements"
+msgstr "Reiseverträge"
+
+#. module: website_switzerland
+#: model:survey.question.answer,value:website_switzerland.gpfs_accommodations_2
+#: model:survey.question.answer,value:website_switzerland.gpfs_contact_2
+#: model:survey.question.answer,value:website_switzerland.gpfs_food_2
+#: model:survey.question.answer,value:website_switzerland.gpfs_meeting_child_2
+#: model:survey.question.answer,value:website_switzerland.gpfs_ministry_2
+#: model:survey.question.answer,value:website_switzerland.gpfs_preparation_2
+#: model:survey.question.answer,value:website_switzerland.gpfs_transport_2
+msgid "Unconvincing"
+msgstr "Ungenügend"
+
+#. module: website_switzerland
+#: model:website.menu,name:website_switzerland.my_letters
+msgid "Write a letter"
+msgstr "Einen Brief schreiben"
+
+#. module: website_switzerland
+#: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
+msgid ""
+"You can represent Compassion in your church and take advantage of "
+"opportunities to offer visibility for child sponsorship.<br>"
+msgstr ""
+"Du kannst Compassion in deiner Gemeinde repräsentieren und Gelegenheiten "
+"nutzen, um Sichtbarkeit für Kinderpatenschaften zu bieten.<br>"
+
+#. module: website_switzerland
+#: model:survey.question,title:website_switzerland.gpms_page1
+msgid "Your health"
+msgstr "Deine Gesundheit"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_step3_email
+msgid "Your registration to the trip with Compassion is confirmed"
+msgstr "Bestätigung deiner Anmeldung zur Reise mit Compassion"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_step2_email
+msgid ""
+"Your trip to {{object.get_objects().compassion_event_id.country_id.name}} "
+"with Compassion"
+msgstr ""
+"Nur noch einen Schritt und du bist definitiv für die Reise mit Compassion "
+"angemeldet!"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_medical_discharge_email
+#: model:mail.template,subject:website_switzerland.group_visit_medical_survey_email
+msgid "Your trip with Compassion - Medical information"
+msgstr "Deine Reise mit Compassion Schweiz – medizinischer Fragebogen"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_detailed_info_email
+msgid "Your trip with Compassion - practical information"
+msgstr "Deine Reise mit Compassion - nützliche Infos"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_travel_documents_email
+msgid "Your trip with Compassion - travel documents and payment"
+msgstr "Deine Reise mit Compassion - Bezahlung und Reisedokumente"
+
+#. module: website_switzerland
+#. odoo-python
+#: code:addons/website_switzerland/models/partner_communication_job.py:0
+msgid "down_payment.pdf"
+msgstr "anzahlung.pdf"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_en"
+msgstr ""
+"https://www.e-service.admin.ch/crex/cms/content/strafregister/uebersicht_de"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.payment_terms_note
+msgid "terms &amp; conditions"
+msgstr "Allgemeinen Geschäftsbedingungen"
+
+#. module: website_switzerland
+#: model:mail.template,subject:website_switzerland.group_visit_after_trip_party_email
+msgid ""
+"{{object.get_objects().compassion_event_id.name}} - Invitation to an after "
+"party"
+msgstr ""

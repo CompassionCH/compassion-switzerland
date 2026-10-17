@@ -1,0 +1,203 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* auth_external
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:12+0000\n"
+"PO-Revision-Date: 2026-10-16 19:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_CH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__access_token_duration_hours
+msgid "Access Token Duration Hours"
+msgstr "Durée de l'access token (heures)"
+
+#. module: auth_external
+#: model:ir.model,name:auth_external.model_res_users
+msgid "Adds authentication for users from external platforms."
+msgstr ""
+"Ajoute l'authentification pour les utilisateurs de plateformes externes."
+
+#. module: auth_external
+#: model:res.groups,name:auth_external.group_admin
+msgid "Admin group for auth_external module"
+msgstr "Groupe administrateur du module auth_external"
+
+#. module: auth_external
+#: model:ir.actions.server,name:auth_external.remove_expired_refresh_tokens_cron_ir_actions_server
+msgid ""
+"Automatically removes expired refresh tokens to prevent the\n"
+"                auth_external.refresh_tokens table to grow indefinitely"
+msgstr ""
+"Supprime automatiquement les refresh tokens expirés afin d'éviter que la table\n"
+"                auth_external.refresh_tokens ne grossisse indéfiniment"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__child_id
+msgid "Child refresh_token"
+msgstr "refresh_token enfant"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__create_uid
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__create_date
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__display_name
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: auth_external
+#: model:ir.model.fields,help:auth_external.field_auth_external_tokens_config__refresh_token_duration_days
+msgid ""
+"Duration (in days) for which the refresh token remains valid\n"
+"             after issuance. This define how many days the user can access the\n"
+"             service without needing to re-authenticate, if they do not use the\n"
+"             service and refresh their token in the mean time. For example, if\n"
+"             this value is set to 10 and that a user uses their account every 9\n"
+"             days (and thus refresh their tokens), they remain authenticated for\n"
+"             ever. If at some point they do not refresh their tokens for 11\n"
+"             days, they need to re-authenticate with their credentials (login,\n"
+"             password, [totp])"
+msgstr ""
+"Durée (en jours) pendant laquelle le refresh token reste valide\n"
+"             après son émission. Elle définit pendant combien de jours l'utilisateur peut accéder au\n"
+"             service sans devoir se réauthentifier, s'il n'utilise pas le\n"
+"             service et ne renouvelle pas son token entre-temps. Par exemple, si\n"
+"             cette valeur est de 10 et qu'un utilisateur utilise son compte tous les 9\n"
+"             jours (et renouvelle donc ses tokens), il reste authentifié\n"
+"             indéfiniment. S'il ne renouvelle pas ses tokens pendant 11\n"
+"             jours, il doit se réauthentifier avec ses identifiants (login,\n"
+"             mot de passe, [totp])"
+
+#. module: auth_external
+#: model:ir.model.fields,help:auth_external.field_auth_external_tokens_config__access_token_duration_hours
+msgid ""
+"Duration (in hours) for which the access token remains valid\n"
+"             after issuance. Setting this value too low will cause too many\n"
+"             refresh and strain the DB. Setting this value too high is a\n"
+"             security risk as a stolen token can be used for longer. A\n"
+"             reasonable value is a few hours (i.e. 3600 seconds or more)."
+msgstr ""
+"Durée (en heures) pendant laquelle l'access token reste valide\n"
+"             après son émission. Une valeur trop basse provoquera trop de\n"
+"             renouvellements et sollicitera la base de données. Une valeur trop élevée est un\n"
+"             risque de sécurité, car un token volé pourrait être utilisé plus longtemps. Une\n"
+"             valeur raisonnable est de quelques heures (soit 3600 secondes ou plus)."
+
+#. module: auth_external
+#. odoo-python
+#: code:addons/auth_external/models/refresh_tokens.py:0
+msgid "Error! You cannot create recursive refresh_token families."
+msgstr ""
+"Erreur ! Vous ne pouvez pas créer de familles de refresh_token récursives."
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__exp
+msgid "Exp"
+msgstr "Exp"
+
+#. module: auth_external
+#: model:ir.model,name:auth_external.model_ir_http
+msgid "HTTP Routing"
+msgstr "Routage HTTP"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__id
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__id
+msgid "ID"
+msgstr "Identifiant"
+
+#. module: auth_external
+#: model:ir.model.fields,help:auth_external.field_auth_external_tokens_config__issuer_id
+msgid ""
+"Identifier of the issuer of the token. This ensures we only\n"
+"             accept tokens issued by ourself. This can for example be the\n"
+"             company's domain name (e.g. example.com)."
+msgstr ""
+"Identifiant de l'émetteur du token. Cela garantit que nous n'acceptons\n"
+"             que les tokens émis par nous-mêmes. Il peut s'agir par exemple du\n"
+"             nom de domaine de l'entreprise (par ex. example.com)."
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__is_revoked
+msgid "Is Revoked"
+msgstr "Est révoqué"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__issuer_id
+msgid "Issuer"
+msgstr "Émetteur"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__jti
+msgid "Jti"
+msgstr "Jti"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__write_uid
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__write_date
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: auth_external
+#: model:ir.model,name:auth_external.model_auth_external_tokens_config
+msgid "Model used to configure the properties of issued tokens"
+msgstr "Modèle utilisé pour configurer les propriétés des tokens émis"
+
+#. module: auth_external
+#: model:ir.model,name:auth_external.model_auth_external_refresh_tokens
+msgid "Model used to track revocation status of issued refresh tokens"
+msgstr ""
+"Modèle utilisé pour suivre le statut de révocation des refresh tokens émis"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__parent_id
+msgid "Parent refresh_token"
+msgstr "refresh_token parent"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__refresh_token_duration_days
+msgid "Refresh Token Duration Days"
+msgstr "Durée du refresh token (jours)"
+
+#. module: auth_external
+#: model:ir.model.constraint,message:auth_external.constraint_auth_external_tokens_config_check_rt_longer_duration_than_at
+msgid "The refresh token must have longer duration than the access token."
+msgstr ""
+"Le refresh token doit avoir une durée de validité supérieure à celle de "
+"l'access token."
+
+#. module: auth_external
+#: model:ir.model.constraint,message:auth_external.constraint_auth_external_refresh_tokens_jti_unique
+msgid "There cannot be duplicate tokens in RefreshTokens (jti must be unique)"
+msgstr ""
+"Il ne peut pas y avoir de tokens en double dans RefreshTokens (jti doit être"
+" unique)"
+
+#. module: auth_external
+#: model:ir.model.fields,field_description:auth_external.field_auth_external_refresh_tokens__user_id
+msgid "User"
+msgstr "Utilisateur"
