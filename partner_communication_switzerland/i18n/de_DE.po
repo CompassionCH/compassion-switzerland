@@ -5726,7 +5726,10 @@ msgstr ""
 "    <p>\n"
 "        <t t-out=\"object.user_id.signature\"></t>\n"
 "    </p>\n"
-"</t></body>\n"
+"</t>\n"
+"<p>\n"
+"    <t t-out=\"&#x27;Ihr&#x27; if plural else &#x27;Du&#x27;\"></t> <t t-out=\"&#x27;erhaltet&#x27; if plural else &#x27;erhältst&#x27;\"></t> diese E-Mail, weil <t t-out=\"&#x27;ihr&#x27; if plural else &#x27;du&#x27;\"></t> gemeinsam mit Compassion Schweiz gegen extreme Armut <t t-out=\"&#x27;kämpft&#x27; if plural else &#x27;kämpfst&#x27;\"></t> und die Arbeit mit einer Spende unterstützt <t t-out=\"&#x27;habt&#x27; if plural else &#x27;hast&#x27;\"></t>. <t t-out=\"&#x27;Ihr&#x27; if plural else &#x27;Du&#x27;\"></t> <t t-out=\"&#x27;könnt euch&#x27; if plural else &#x27;kannst dich&#x27;\"></t> jederzeit vom <a t-attf-href=\"{{base_url}}/onboarding/new_donors/unsubscribe/{{partner.onboarding_new_donor_hash}}\">Nachrichtenversand abmelden</a>.\n"
+"</p></body>\n"
 "</html>\n"
 
 #. module: partner_communication_switzerland
@@ -5815,7 +5818,10 @@ msgstr ""
 "    <p>\n"
 "        <t t-out=\"object.user_id.signature\"></t>\n"
 "    </p>\n"
-"</t></body>\n"
+"</t>\n"
+"<p>\n"
+"    <t t-out=\"&#x27;Ihr&#x27; if plural else &#x27;Du&#x27;\"></t> <t t-out=\"&#x27;erhaltet&#x27; if plural else &#x27;erhältst&#x27;\"></t> diese E-Mail, weil <t t-out=\"&#x27;ihr&#x27; if plural else &#x27;du&#x27;\"></t> gemeinsam mit Compassion Schweiz gegen extreme Armut <t t-out=\"&#x27;kämpft&#x27; if plural else &#x27;kämpfst&#x27;\"></t> und die Arbeit mit einer Spende unterstützt <t t-out=\"&#x27;habt&#x27; if plural else &#x27;hast&#x27;\"></t>. <t t-out=\"&#x27;Ihr&#x27; if plural else &#x27;Du&#x27;\"></t> <t t-out=\"&#x27;könnt euch&#x27; if plural else &#x27;kannst dich&#x27;\"></t> jederzeit vom <a t-attf-href=\"{{base_url}}/onboarding/new_donors/unsubscribe/{{partner.onboarding_new_donor_hash}}\">Nachrichtenversand abmelden</a>.\n"
+"</p></body>\n"
 "</html>\n"
 
 #. module: partner_communication_switzerland
@@ -6061,7 +6067,7 @@ msgstr ""
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 msgid ""
 "Attached you will find a payment slip for the annual sponsorship payment"
-msgstr "Im Anhang {findet} den Einzahlungsschein"
+msgstr "Im Anhang [findet] den Einzahlungsschein"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -6070,14 +6076,14 @@ msgid ""
 "Attached you will find the LSV or Direct Debit authorization form to fill in"
 " if you haven't already done it!"
 msgstr ""
-"Im Anhang {findet} die Einzugsermächtigung für die Bank. Wir bitten {dich}, "
+"Im Anhang [findet] die Einzugsermächtigung für die Bank. Wir bitten [dich], "
 "diese auszufüllen und uns per Post zurückzusenden"
 
 #. module: partner_communication_switzerland
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/contracts.py:0
 msgid "Attached you will find the payment slips for the sponsorship payment"
-msgstr "Im Anhang {findet} die Einzahlungsscheine"
+msgstr "Im Anhang [findet] die Einzahlungsscheine"
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__message_attachment_count
@@ -7492,8 +7498,8 @@ msgid ""
 "Please find attached a payment slip to set up a standing order for your "
 "monthly donation of {amount} CHF."
 msgstr ""
-"Im Anhang {findet} den Einzahlungsschein, mit dem {du} den Dauerauftrag für "
-"{deine} monatliche Spende von CHF {amount} aktivieren {könnt}."
+"Im Anhang [findet] den Einzahlungsschein, mit dem [du] den Dauerauftrag für "
+"[deine] monatliche Spende von CHF {amount} aktivieren [könnt]."
 
 #. module: partner_communication_switzerland
 #: model:ir.model.fields,help:partner_communication_switzerland.field_res_partner_zoom_attendee__inform_me_for_next_zoom
@@ -8546,9 +8552,7 @@ msgstr ""
 msgid ""
 "We will continue to withdraw the amount for the sponsorship from your "
 "account."
-msgstr ""
-"Wir werden den Betrag für die Patenschaft weiterhin von deinem Konto "
-"abbuchen."
+msgstr "Wir werden [dein] Konto mit [Patenschaftsbetrag] belasten"
 
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.zoom_registration_done_template

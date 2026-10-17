@@ -5044,7 +5044,10 @@ msgstr ""
 "    <p>\n"
 "        <t t-out=\"object.user_id.signature\"></t>\n"
 "    </p>\n"
-"</t></body>\n"
+"</t>\n"
+"<p>\n"
+"    Vous recevez cet e-mail parce que vous luttez contre l'extrême pauvreté aux côtés de Compassion et que vous avez soutenu ce travail par un don. Vous pouvez <a t-attf-href=\"{{base_url}}/onboarding/new_donors/unsubscribe/{{partner.onboarding_new_donor_hash}}\">vous désinscrire</a> à tout moment de notre newsletter.\n"
+"</p></body>\n"
 "</html>\n"
 
 #. module: partner_communication_switzerland
