@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: auth_external
 #: model:ir.model.fields,field_description:auth_external.field_auth_external_tokens_config__access_token_duration_hours
@@ -23,7 +23,8 @@ msgstr "Gültigkeit des Access-Tokens in Stunden"
 #. module: auth_external
 #: model:ir.model,name:auth_external.model_res_users
 msgid "Adds authentication for users from external platforms."
-msgstr "Benutzer"
+msgstr ""
+"Fügt die Authentifizierung für Benutzer von externen Plattformen hinzu."
 
 #. module: auth_external
 #: model:res.groups,name:auth_external.group_admin

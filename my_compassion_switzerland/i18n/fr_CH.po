@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.donation_form_swiss_contact
@@ -319,7 +319,7 @@ msgid ""
 "less than $2.15 a day."
 msgstr ""
 "Actuellement, plus de 400 millions d’enfants dans le monde vivent dans "
-"l’extrême pauvreté avec moins de 2,50 CHF par jour."
+"l’extrême pauvreté avec moins de 2,15 USD par jour."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -415,7 +415,7 @@ msgstr "E-Bill"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
 msgid "Email"
-msgstr "E-mail"
+msgstr "Courriel"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_default_email
@@ -462,7 +462,7 @@ msgstr ""
 msgid ""
 "Email addresses to notify when an advocate engagement form is submitted"
 msgstr ""
-"Adresses e-mail à notifier lorsqu’un formulaire d’engagement de bénévolat "
+"Adresses e-mail à notifier lorsqu’un formulaire d’engagement des soutiens "
 "est soumis"
 
 #. module: my_compassion_switzerland
@@ -707,8 +707,8 @@ msgstr "Se connecter"
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_fda_before2
 msgid "Many families often do not know if or what they will eat tomorrow."
 msgstr ""
-"De nombreuses familles ne savent si et qu’est-ce qu’elles vont manger "
-"demain."
+"De nombreuses familles ne savent souvent pas si elles auront à manger "
+"demain, ni ce qu’elles mangeront."
 
 #. module: my_compassion_switzerland
 #: model:donation.info.line,title:my_compassion_switzerland.product_template_fund_nol_info2
@@ -740,7 +740,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my2_volunteering.py:0
 msgid "Missing required volunteer roles"
-msgstr "Rôles de bénévole requis manquants"
+msgstr "Rôles de bénévoles requis manquants"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -838,11 +838,14 @@ msgid ""
 "                    <br/>\n"
 "                    024 434 21 24"
 msgstr ""
-"Veuillez contacter Compassion pour obtenir de l’aide à l’adresse :\n"
-"                    <br/>\n"
-"                    info@compassion.ch\n"
-"                    <br/>\n"
-"                    024 434 21 24"
+"Veuillez contacter Compassion\n"
+"                                                            pour\n"
+"                                                            assistance\n"
+"                                                            à:\n"
+"                                                                <br/>\n"
+"                                                                info@compassion.ch\n"
+"                                                                <br/>\n"
+"                                                                024 434 21 24"
 
 #. module: my_compassion_switzerland
 #. odoo-javascript
@@ -952,10 +955,10 @@ msgid ""
 msgstr ""
 "Les collaborateurs de nos centres de développement de l’enfant connaissent "
 "personnellement les enfants et achètent un cadeau de Noël adapté, personnel,"
-" significatif et utile pour que chacun/e. Une belle façon de leur dire "
-"qu’ils ont de la valeur! Les cadeaux aident à couvrir des besoins vitaux là "
-"où c’est nécessaire et peuvent inclure par exemple des vêtements ou des "
-"chaussure, un animal de ferme, des produits d’hygiène ou du matériel "
+" significatif et utile pour chacun/e. Une belle façon de leur dire qu’ils "
+"ont de la valeur ! Les cadeaux aident à couvrir des besoins vitaux là où "
+"c’est nécessaire et peuvent inclure par exemple des vêtements ou des "
+"chaussures, un animal de ferme, des produits d’hygiène ou du matériel "
 "scolaire."
 
 #. module: my_compassion_switzerland
@@ -989,8 +992,8 @@ msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
 msgstr ""
-"Merci pour votre intérêt pour le bénévolat ! Un e-mail de confirmation vous "
-"a été envoyé."
+"Merci de votre intérêt pour le bénévolat! Un e-mail de confirmation vous a "
+"été envoyé."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
@@ -1016,8 +1019,8 @@ msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
 msgstr ""
-"Il y a eu un problème avec votre soumission. Veuillez vérifier vos "
-"informations et réessayer."
+"Il y a eu un problème avec votre soumission. Veuillez vérifier vos entrées "
+"et réessayer."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
@@ -1240,4 +1243,4 @@ msgstr "santé TG"
 #. odoo-python
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
-msgstr "attestation_fiscale"
+msgstr "tax_receipt"

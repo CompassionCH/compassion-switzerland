@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
@@ -371,7 +371,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">Email</span>\n"
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
@@ -603,7 +603,8 @@ msgstr "Activer le compte"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_res_users
 msgid "Adds authentication for users from external platforms."
-msgstr "Utilisateurs"
+msgstr ""
+"Ajoute l'authentification pour les utilisateurs de plateformes externes."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -684,7 +685,7 @@ msgstr "Commentaires :"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_partner_communication_job
 msgid "Communication Job"
-msgstr "Communication Job"
+msgstr "Job de communication"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.footer
@@ -717,7 +718,7 @@ msgid ""
 " of Compassion's work? <b>There are several ways to take one more step with "
 "Compassion.</b><br>"
 msgstr ""
-"Ce voyage a-t-il renforcé notre conviction de l'importance et de "
+"Ce voyage a-t-il renforcé votre conviction de l'importance et de "
 "l'efficacité du travail de Compassion ? <b>Il existe plusieurs moyens de "
 "faire un pas de plus avec Compassion.</b><br>"
 
@@ -910,7 +911,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_diet
 msgid "I am on a special diet:"
-msgstr "Je suis un régime alimentaire particulier :"
+msgstr "Suivez-vous un régime alimentaire particulier?"
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_treatment
@@ -942,7 +943,7 @@ msgstr "J'ai des problèmes de sommeil"
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_allergies
 msgid "I suffer from the following allergies:"
-msgstr "Je souffre des allergies suivantes :"
+msgstr "Souffrez-vous d'allergies?"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -1117,7 +1118,7 @@ msgid ""
 msgstr ""
 "La protection des enfants que nous servons est une de nos priorités. Les "
 "réglementations de Compassion vous garantissent que toutes les mesures sont "
-"prises pour garantir la sécurité des filleuls de Compassion.&amp;nbsp;"
+"prises pour garantir la sécurité des filleuls de Compassion."
 
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_ready
@@ -1132,7 +1133,7 @@ msgstr "Retour de voyage"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Ligne de commandes de vente"
+msgstr "Ligne de commande"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
@@ -1279,7 +1280,7 @@ msgid ""
 "commitment of a church that has decided to open a shelter and participate in"
 " the holistic development of children."
 msgstr ""
-"La seconde, né dans le quartier de la drogue et de la prostitution de "
+"La seconde, née dans le quartier de la drogue et de la prostitution de "
 "Manille dirige aujourd'hui une ONG d'aide aux victimes d'esclavage moderne. "
 "Et la troisième a pu aller à l'école et être élue au Sénat de l'Ouganda. Et "
 "cela, grâce à une marraine ou parrain et à l'engagement d'une Eglise qui a "
@@ -1289,7 +1290,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_theme_utils
 msgid "Theme Utils"
-msgstr "Thèmes utiles"
+msgstr "Utilitaires de thème"
 
 #. module: website_switzerland
 #: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_accommodations
@@ -1368,7 +1369,7 @@ msgstr "Votre santé"
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_step3_email
 msgid "Your registration to the trip with Compassion is confirmed"
-msgstr "Votre inscription au voyage de Compassion est confirmée"
+msgstr "Votre inscription au voyage Impact de Compassion est confirmée"
 
 #. module: website_switzerland
 #: model:mail.template,subject:website_switzerland.group_visit_step2_email

@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
@@ -372,7 +372,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">Email</span>\n"
+"<span class=\"s_website_form_label_content\">E-Mail</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
@@ -604,7 +604,8 @@ msgstr "Konto aktivieren"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_res_users
 msgid "Adds authentication for users from external platforms."
-msgstr "Benutzer"
+msgstr ""
+"Fügt die Authentifizierung für Benutzer von externen Plattformen hinzu."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -742,7 +743,7 @@ msgstr "Jetzt unterstützen"
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_pay
 msgid "Down payment"
-msgstr "Zahlungsanweisung"
+msgstr "Anzahlung"
 
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_event_registration
@@ -808,7 +809,7 @@ msgstr ""
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.footer
 msgid "Get involved now"
-msgstr "Armut überwinden"
+msgstr "Jetzt mitmachen"
 
 #. module: website_switzerland
 #: model:event.type,name:website_switzerland.event_type_group_visit
@@ -952,9 +953,8 @@ msgid ""
 "If I visit my sponsored child, I agree to reimburse the COMPASSION\n"
 "                National Office for the costs of this visit."
 msgstr ""
-"Ich bin mir bewusst, dass mein Patenkind eigene Eltern, eine eigene Familie "
-"oder Bezugspersonen hat. Ich verpflichte mich, die Grenzen der Beziehung "
-"Pate – Patenkind zu respektieren und nicht zu überschreiten."
+"Falls ich mein Patenkind besuche, verpflichte ich mich, dem COMPASSION-"
+"Landesbüro die Kosten für diesen Besuch zu erstatten."
 
 #. module: website_switzerland
 #: model:survey.question,comments_message:website_switzerland.gpfs_question_proposition
@@ -963,7 +963,7 @@ msgstr ""
 #: model:survey.question,comments_message:website_switzerland.gpms_question_problems
 #: model:survey.question,comments_message:website_switzerland.gpms_question_treatment
 msgid "If other, please specify:"
-msgstr "Wenn anders, bitte angeben:"
+msgstr "Andere, bitte angeben:"
 
 #. module: website_switzerland
 #: model:ir.model.fields,field_description:website_switzerland.field_sale_order_line__image
@@ -1080,7 +1080,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_ministry
 msgid "Overview of the Ministry of Compassion in the country:"
-msgstr "Überblick über das Ministerium für Barmherzigkeit im Land:"
+msgstr "Überblick über die Arbeit von Compassion im Land:"
 
 #. module: website_switzerland
 #: model:event.registration.task,name:website_switzerland.task_down_payment
@@ -1138,7 +1138,7 @@ msgstr "Rückkehr von der Reise"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Auftragsposition"
+msgstr "Verkaufsauftragszeile"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
@@ -1296,7 +1296,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_theme_utils
 msgid "Theme Utils"
-msgstr "Werkzeuge"
+msgstr "Thema Dienstprogramme"
 
 #. module: website_switzerland
 #: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_accommodations

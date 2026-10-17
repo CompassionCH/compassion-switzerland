@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: sbc_switzerland
 #: model:mail.template,body_html:sbc_switzerland.email_welcome_translator
@@ -496,7 +496,7 @@ msgstr "Identifiant"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_import_letter_line__import_folder_path
 #: model:ir.model.fields,field_description:sbc_switzerland.field_import_letters_history__import_folder_path
 msgid "Import Folder Path"
-msgstr "Import folder path"
+msgstr "Chemin du dossier d'import"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__language
@@ -520,7 +520,7 @@ msgstr "24 derniers mois"
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
 msgid "Last 3 Months"
-msgstr "Derniers 3 mois"
+msgstr "3 derniers mois"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
@@ -571,7 +571,7 @@ msgstr "Lettre"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__letter_image
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__letter_image
 msgid "Letter Image"
-msgstr "Letter image"
+msgstr "Image de la lettre"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_import_letters_history__manual_import
@@ -603,7 +603,7 @@ msgstr "Nom"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__translator_id
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__translator_id
 msgid "Partner"
-msgstr "Translator"
+msgstr "Traducteur"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,help:sbc_switzerland.field_translation_daily_report__translator_id
@@ -624,7 +624,7 @@ msgstr "Référence interne"
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_import_letter_line
 msgid "S2B Import Letter Line"
-msgstr "import.letter.line"
+msgstr "Ligne d'import de lettre S2B"
 
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_import_letters_history
@@ -634,12 +634,12 @@ msgstr "Import de lettres S2B"
 #. module: sbc_switzerland
 #: model:ir.model,name:sbc_switzerland.model_import_letter_config
 msgid "S2B Letter Import Config"
-msgstr "import.letter.config"
+msgstr "Configuration d'import de lettres S2B"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_correspondence_s2b_generator__selection_domain
 msgid "Selection Domain"
-msgstr "Selection domain"
+msgstr "Domaine de sélection"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__src_lang
@@ -676,7 +676,7 @@ msgstr "Parrainage"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__study_date
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__study_date
 msgid "Study Date"
-msgstr "Study date"
+msgstr "Date d'étude"
 
 #. module: sbc_switzerland
 #: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
@@ -694,7 +694,7 @@ msgstr "Cette année"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__translate_date
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__translate_date
 msgid "Translate Date"
-msgstr "Translate date"
+msgstr "Date de traduction"
 
 #. module: sbc_switzerland
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__translated_text
@@ -702,7 +702,7 @@ msgstr "Translate date"
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__translated_text
 #: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__translated_text
 msgid "Translated Text"
-msgstr "Translated text"
+msgstr "Texte traduit"
 
 #. module: sbc_switzerland
 #: model:mail.template,subject:sbc_switzerland.email_welcome_translator

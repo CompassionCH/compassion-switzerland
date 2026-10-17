@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.donation_form_swiss_contact
@@ -154,19 +154,19 @@ msgstr "Für MyCompassion aktivieren"
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_de_email
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_de_email
 msgid "Adv. engagement (DE)"
-msgstr "Paten-Engagement (DE)"
+msgstr "Botschafter-Engagement (DE)"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_fr_email
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_fr_email
 msgid "Adv. engagement (FR)"
-msgstr "Paten-Engagement (FR)"
+msgstr "Botschafter-Engagement (FR)"
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_it_email
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_it_email
 msgid "Adv. engagement (IT)"
-msgstr "Paten-Engagement (IT)"
+msgstr "Botschafter-Engagement (IT)"
 
 #. module: my_compassion_switzerland
 #: model:ir.model,name:my_compassion_switzerland.model_advocate_engagement
@@ -177,7 +177,7 @@ msgstr "Engagement der Botschafter"
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_default_email
 #: model:ir.model.fields,field_description:my_compassion_switzerland.field_res_config_settings__advocate_notify_default_email
 msgid "Advocate engagement (Default)"
-msgstr "Paten-Engagement (Standard)"
+msgstr "Botschafter-Engagement (Standard)"
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_hea_before1
@@ -205,8 +205,8 @@ msgid ""
 "An error occurred while processing your request. Please try again or contact"
 " support."
 msgstr ""
-"Beim Verarbeiten deiner Anfrage ist ein Fehler aufgetreten. Bitte versuche "
-"es erneut oder kontaktiere den Support."
+"Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten. Bitte "
+"versuche es erneut oder kontaktiere den Support."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.volunteering_card_component
@@ -301,7 +301,7 @@ msgid ""
 "access to protected and dignified sanitation."
 msgstr ""
 "sichere Toilettenanlagen bauen, damit Kinder – insbesondere Mädchen – Zugang"
-" zu geschützter und würdevoller sanitären Versorgung haben."
+" zu geschützter und würdevoller sanitärer Versorgung haben."
 
 #. module: my_compassion_switzerland
 #: model:ir.model,name:my_compassion_switzerland.model_res_partner
@@ -320,7 +320,7 @@ msgid ""
 "less than $2.15 a day."
 msgstr ""
 "Derzeit leben mehr als 400 Millionen Kinder weltweit in extremer Armut und "
-"müssen mit weniger als 2.50 Franken pro Tag auskommen."
+"müssen mit weniger als 2.15 US-Dollar pro Tag auskommen."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.advocate_engagement_form_view
@@ -377,13 +377,12 @@ msgid ""
 "                            Translations, stuffing envelopes, presence at events, being a spokesperson in\n"
 "                            your church or running for the children."
 msgstr ""
-"Du möchtest andere ermutigen, Kinder zu unterstützen? Dich bewegt das Thema extreme Armut und du willst konkret etwas tun?\n"
+"Möchtest du andere ermutigen, Kinder zu unterstützen? Bewegt dich das Thema extreme Armut und möchtest du konkret etwas tun?\n"
 "                <br/>\n"
 "                <br/>\n"
-"                Bei Compassion kannst du dich ehrenamtlich engagieren und deine Zeit und Talente für Kinder einsetzen. Ob durch Übersetzungen, Mitarbeit bei Events, Gebet, als Botschafter/in in deiner Kirche oder sogar mit Sport – dein Einsatz macht einen echten Unterschied.\n"
+"                Bei Compassion kannst du dich ehrenamtlich engagieren und deine Zeit und Talente für Kinder einsetzen. Ob durch Übersetzungen, bei Events, im Gebet, als Botschafter/in in deiner Kirche oder sogar im Sport – dein Einsatz macht einen echten Unterschied.\n"
 "                <br/>\n"
-"                <br/>\n"
-"                Entdecke die verschiedenen Möglichkeiten, wie du mithelfen kannst:"
+"                <br/>"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_donations_swiss_documents
@@ -409,7 +408,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_fast_checkout
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.inject_ebill_container_during_payment_selection
 msgid "E-Bill"
-msgstr "E-Bill"
+msgstr "E-Rechnung"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.user_settings_swiss_communication
@@ -423,8 +422,8 @@ msgid ""
 "Email address to notify when an advocates engagement form is submitted in  "
 "any other languages."
 msgstr ""
-"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
-"Formular in anderen Sprachen eingereicht wird."
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Botschafter-"
+"Engagement-Formular in anderen Sprachen eingereicht wird."
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_fr_email
@@ -433,8 +432,8 @@ msgid ""
 "Email address to notify when an advocates engagement form is submitted in "
 "French."
 msgstr ""
-"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
-"Formular auf Französisch eingereicht wird."
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Botschafter-"
+"Engagement-Formular auf Französisch eingereicht wird."
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_de_email
@@ -443,8 +442,8 @@ msgid ""
 "Email address to notify when an advocates engagement form is submitted in "
 "German."
 msgstr ""
-"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
-"Formular auf Deutsch eingereicht wird."
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Botschafter-"
+"Engagement-Formular auf Deutsch eingereicht wird."
 
 #. module: my_compassion_switzerland
 #: model:ir.model.fields,help:my_compassion_switzerland.field_reformat_all_phonenumbers__advocate_notify_it_email
@@ -453,8 +452,8 @@ msgid ""
 "Email address to notify when an advocates engagement form is submitted in "
 "Italian."
 msgstr ""
-"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Paten-Engagement-"
-"Formular auf Italienisch eingereicht wird."
+"E-Mail-Adresse, die benachrichtigt werden soll, wenn ein Botschafter-"
+"Engagement-Formular auf Italienisch eingereicht wird."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.view_notification_engagement_advocate
@@ -834,17 +833,14 @@ msgid ""
 "                    <br/>\n"
 "                    024 434 21 24"
 msgstr ""
-"Bitte kontaktiere Compassion für Unterstützung unter:\n"
-"                    <br/>\n"
-"                    info@compassion.ch\n"
-"                    <br/>\n"
-"                    031 552 21 21"
+"Bitte kontaktiere Compassion für Unterstützung "
+"unter:<br/>info@compassion.ch<br/>024 434 21 24"
 
 #. module: my_compassion_switzerland
 #. odoo-javascript
 #: code:addons/my_compassion_switzerland/static/src/js/my2_volunteering.js:0
 msgid "Please select one or more volunteering options"
-msgstr "Bitte wähle eine oder mehrere Freiwilligenoptionen aus"
+msgstr "Bitte wähle eine oder mehrere Optionen aus"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.gift_package_swiss_payment_brands
@@ -896,7 +892,7 @@ msgstr "Anleitung lesen"
 #. module: my_compassion_switzerland
 #: model:ir.model,name:my_compassion_switzerland.model_recurring_contract
 msgid "Recurring contract"
-msgstr "Wiederkehrender Vertrag"
+msgstr "Laufender Vertrag"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.override_error_message
@@ -982,8 +978,8 @@ msgid ""
 "Thank you for your interest in volunteering! A confirmation email has been "
 "sent to you."
 msgstr ""
-"Vielen Dank für dein Interesse an der Freiwilligenarbeit! Eine Bestätigungs-"
-"E-Mail wurde dir gesendet."
+"Herzlichen Dank für dein Interesse an einem freiwilligen Engagement! Eine "
+"Bestätigungs-E-Mail wurde an dich gesendet."
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.postfinance_confirmation
@@ -1009,8 +1005,8 @@ msgid ""
 "There was an issue with your submission. Please check your inputs and try "
 "again."
 msgstr ""
-"Bei deiner Eingabe ist ein Problem aufgetreten. Bitte prüfe deine Angaben "
-"und versuche es erneut."
+"Es gab ein Problem mit deiner Eingabe. Bitte überprüfe deine Angaben und "
+"versuche es erneut."
 
 #. module: my_compassion_switzerland
 #: model:donation.impact.line,description:my_compassion_switzerland.product_template_fund_usp_after1
@@ -1215,7 +1211,7 @@ msgstr ""
 #: model:account.payment.method,name:my_compassion_switzerland.account_payment_method_ebill
 #: model:account.payment.mode,name:my_compassion_switzerland.payment_mode_ebill
 msgid "eBill"
-msgstr "eBill"
+msgstr "E-Rechnung"
 
 #. module: my_compassion_switzerland
 #: model:product.template,name:my_compassion_switzerland.product_template_fund_fda

@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
@@ -25,8 +25,7 @@ msgid ""
 "                                </i>"
 msgstr ""
 "*\n"
-"                                <i>Accettiamo foto o documenti scannerizzati. Se non disponi di una macchina fotografica, di uno smartphone o di uno scanner, puoi inviarci i documenti all'indirizzo di Compassion Svizzera.\n"
-"                                    smartphone o uno scanner, puoi inviarci i documenti a Compassion Svizzera,\n"
+"                                <i>Accettiamo foto o documenti scannerizzati. Se non disponi di una macchina fotografica, di uno smartphone o di uno scanner, puoi inviarci i documenti a Compassion Svizzera,\n"
 "                                    Rue Galilée 3, 1400 Yverdon-les-Bains.\n"
 "                                </i>"
 
@@ -35,8 +34,8 @@ msgstr ""
 msgid ""
 "<b>In this perspective, we thank you to complete the following tasks:</b>"
 msgstr ""
-"<b>In questa prospettiva, ti ringraziamo per aver portato a termine i "
-"seguenti compiti:</b>"
+"<b>In questa prospettiva, ti chiediamo di portare a termine i seguenti "
+"compiti:</b>"
 
 #. module: website_switzerland
 #: model:mail.template,body_html:website_switzerland.group_visit_detailed_info_email
@@ -359,7 +358,7 @@ msgstr ""
 "                                                <option value=\"35\">Scontrino fiscale</option>\n"
 "                                                <option value=\"36\">Cambio di indirizzo</option>\n"
 "                                                <option value=\"37\">Modifica indirizzo e-mail</option>\n"
-"                                                <option value=\"75\">Documenti di pagamento della sponsorizzazione</option>\n"
+"                                                <option value=\"75\">Documenti di pagamento del sostegno</option>\n"
 "                                            </select>"
 
 #. module: website_switzerland
@@ -373,7 +372,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Email</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">Email</span>\n"
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
@@ -391,7 +390,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Subject</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">Soggetto</span>\n"
+"<span class=\"s_website_form_label_content\">Oggetto</span>\n"
 "                                            <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website_switzerland
@@ -605,7 +604,8 @@ msgstr "Attiva l'account"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_res_users
 msgid "Adds authentication for users from external platforms."
-msgstr "Utenti"
+msgstr ""
+"Aggiunge l'autenticazione per gli utenti provenienti da piattaforme esterne."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -613,7 +613,7 @@ msgid ""
 "All gifts I give to my sponsored child or his or her family will be\n"
 "                in accordance with Compassion's policy on this subject."
 msgstr ""
-"Tutti i regali che faccio al mio bambino sponsorizzato o alla sua famiglia saranno\n"
+"Tutti i regali che faccio al mio bambino sostenuto o alla sua famiglia saranno\n"
 "                in conformità con la politica di Compassion in materia."
 
 #. module: website_switzerland
@@ -624,8 +624,8 @@ msgid ""
 "ones.<br>"
 msgstr ""
 "Organizza un incontro per condividere la tua esperienza con gli altri a "
-"casa. Cogli l'occasione per promuovere la sponsorizzazione dei bambini tra i"
-" tuoi cari."
+"casa. Cogli l'occasione per promuovere il sostegno dei bambini tra i tuoi "
+"cari."
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_preparation
@@ -705,7 +705,7 @@ msgid ""
 "Contact us using the form below.<br/>\n"
 "We'll do our best to get back to you as soon as possible."
 msgstr ""
-"Puoi inviarci i tuoi desideri, domande e suggerimenti utilizzando questo modulo.\n"
+"Puoi inviarci i tuoi desideri, domande e suggerimenti utilizzando questo modulo.<br/>\n"
 "Saremo felici di aiutarti!"
 
 #. module: website_switzerland
@@ -733,7 +733,7 @@ msgid ""
 msgstr ""
 "Non hai tutti i documenti a portata di mano? Puoi procedere passo dopo passo e salvare gli\n"
 "                                elementi già raccolti. Una volta che tutto sarà pronto, riceverai un'e-mail di\n"
-"                                di conferma."
+"                                conferma."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.footer
@@ -764,11 +764,7 @@ msgstr "Relazione tra le attività di registrazione dell'evento"
 #: model:survey.question.answer,value:website_switzerland.gpfs_preparation_5
 #: model:survey.question.answer,value:website_switzerland.gpfs_transport_5
 msgid "Excellent"
-msgstr ""
-"<span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-"
-"Fractions, appleLogo, sans-serif; font-size: 15px; font-variant-ligatures: "
-"common-ligatures; text-align: left; background-color: rgb(248, 248, "
-"248);\">Molto buono<br></span>"
+msgstr "Molto buono"
 
 #. module: website_switzerland
 #: model:ir.actions.server,name:website_switzerland.event_payment_checker_action
@@ -784,9 +780,7 @@ msgstr "Esegui codice"
 #: model:survey.question.answer,value:website_switzerland.gpfs_preparation_4
 #: model:survey.question.answer,value:website_switzerland.gpfs_transport_4
 msgid "Fairly good"
-msgstr ""
-"<span style=\"color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-variant-ligatures: common-ligatures; text-align: left;\">Abbastanza buono</span>\n"
-"<br style=\"box-sizing: inherit; color: rgb(29, 28, 29); font-family: Slack-Lato, Slack-Fractions, appleLogo, sans-serif; font-size: 15px; font-variant-ligatures: common-ligatures; font-weight: 400; text-align: left;\">"
+msgstr "Abbastanza buono"
 
 #. module: website_switzerland
 #: model:event.registration.task,name:website_switzerland.task_medical_survey
@@ -815,7 +809,7 @@ msgstr ""
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.footer
 msgid "Get involved now"
-msgstr "Superare la povertà"
+msgstr "Impegnati ora"
 
 #. module: website_switzerland
 #: model:event.type,name:website_switzerland.event_type_group_visit
@@ -900,10 +894,8 @@ msgid ""
 "                I undertake to take into consideration the cultural sensitivities of\n"
 "                the country I am visiting."
 msgstr ""
-"Sono consapevole dell'importanza di mostrare rispetto nei confronti del personale\n"
-"                membri del personale, dei bambini, delle famiglie e delle comunità o chiese che incontrerò.\n"
-"                Mi impegno a prendere in considerazione le sensibilità culturali del\n"
-"                del paese che sto visitando."
+"Sono consapevole dell'importanza di mostrare rispetto nei confronti dei membri del personale, dei bambini, delle famiglie e delle comunità o chiese che incontrerò.\n"
+"                Mi impegno a prendere in considerazione le sensibilità culturali del paese che sto visitando."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -912,9 +904,8 @@ msgid ""
 "                family or guardians. I undertake to respect and remain within the\n"
 "                limits of the sponsor/sponsee relationship with this child."
 msgstr ""
-"Sono consapevole che il bambino che sto sponsorizzando ha genitori legittimi,\n"
-"                famiglia o tutori. Mi impegno a rispettare e a rimanere nei limiti\n"
-"                limiti della relazione sponsor/sponsee con questo bambino."
+"Sono consapevole che il bambino che sto sostenendo ha genitori legittimi,\n"
+"                famiglia o tutori. Mi impegno a rispettare e a rimanere nei limiti della relazione sostenitore/bambino con questo bambino."
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_question_diet
@@ -957,8 +948,8 @@ msgid ""
 "If I visit my sponsored child, I agree to reimburse the COMPASSION\n"
 "                National Office for the costs of this visit."
 msgstr ""
-"Se visito il mio bambino sponsorizzato, mi impegno a rimborsare l'Ufficio Nazionale di COMPASSION per i costi di questa visita.\n"
-"                National Office per i costi di questa visita."
+"Se visito il mio bambino sostenuto, mi impegno a rimborsare l'Ufficio "
+"Nazionale di COMPASSION per i costi di questa visita."
 
 #. module: website_switzerland
 #: model:survey.question,comments_message:website_switzerland.gpfs_question_proposition
@@ -983,11 +974,11 @@ msgid ""
 "                ordered the plane ticket through Compassion). It is up to me to\n"
 "                contact my personal travel cancellation insurance if necessary."
 msgstr ""
-"Inoltre, mi impegno a pagare il 50% delle spese di viaggio se\n"
-"                annullare la mia partecipazione meno di 30 giorni prima della data di partenza del viaggio\n"
-"                del viaggio e la totalità del biglietto aereo (se ho ordinato il biglietto aereo tramite Compassion).\n"
-"                se ho ordinato il biglietto aereo tramite Compassion). Spetta a me\n"
-"                contattare la mia assicurazione personale per l'annullamento del viaggio, se necessario."
+"Inoltre, mi impegno a pagare il 50% delle spese di viaggio se annullo la mia"
+" partecipazione meno di 30 giorni prima della data di partenza del viaggio, "
+"nonché la totalità del biglietto aereo (se ho ordinato il biglietto aereo "
+"tramite Compassion). Spetta a me contattare la mia assicurazione personale "
+"per l'annullamento del viaggio, se necessario."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -995,8 +986,8 @@ msgid ""
 "In case of cancellation of my participation (as a participant), I\n"
 "                take note that the payment of the deposit is non-refundable."
 msgstr ""
-"In caso di annullamento della mia partecipazione (come partecipante), prendo atto che il pagamento dell'acconto non è rimborsabile.\n"
-"                prendo atto che il pagamento dell'acconto non è rimborsabile."
+"In caso di annullamento della mia partecipazione (come partecipante), prendo"
+" atto che il pagamento dell'acconto non è rimborsabile."
 
 #. module: website_switzerland
 #: model_terms:survey.question,description:website_switzerland.gpms_question_treatment
@@ -1017,10 +1008,10 @@ msgid ""
 " on responsibilities. They were born in extreme poverty in Uganda and the "
 "Philippines. The first one became an engineer when he grew up in a slum."
 msgstr ""
-"È grazie alla sponsorizzazione che Ronnie, Michelle e Margret si sono "
-"assunte delle responsabilità. Sono nati in condizioni di estrema povertà in "
-"Uganda e nelle Filippine. Il primo è diventato ingegnere quando è cresciuto "
-"in una baraccopoli."
+"È grazie al sostegno che Ronnie, Michelle e Margret si sono assunti delle "
+"responsabilità. Sono nati in condizioni di estrema povertà in Uganda e nelle"
+" Filippine. Il primo è diventato ingegnere quando è cresciuto in una "
+"baraccopoli."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
@@ -1036,7 +1027,7 @@ msgstr "Sondaggio medico"
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_meeting_child
 msgid "Meeting with your sponsored child:"
-msgstr "Incontro con il tuo bambino sponsorizzato:"
+msgstr "Incontro con il tuo bambino sostenuto:"
 
 #. module: website_switzerland
 #: model:base.automation,name:website_switzerland.event_payment_checker
@@ -1051,7 +1042,7 @@ msgstr "Le mie donazioni"
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_sponsorships
 msgid "My Sponsorships"
-msgstr "Le mie sostegni"
+msgstr "I miei sostegni"
 
 #. module: website_switzerland
 #: model:website.menu,name:website_switzerland.my_children
@@ -1064,6 +1055,8 @@ msgid ""
 "Only one step left to validate your registration to your trip with "
 "Compassion"
 msgstr ""
+"Manca un solo passo per convalidare la tua iscrizione al viaggio con "
+"Compassion"
 
 #. module: website_switzerland
 #: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
@@ -1083,7 +1076,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_ministry
 msgid "Overview of the Ministry of Compassion in the country:"
-msgstr "Panoramica del Ministero della Compassione nel paese:"
+msgstr "Panoramica dell'attività di Compassion nel paese:"
 
 #. module: website_switzerland
 #: model:event.registration.task,name:website_switzerland.task_down_payment
@@ -1123,7 +1116,7 @@ msgid ""
 msgstr ""
 "Proteggere i bambini che serviamo è una delle nostre priorità. I regolamenti"
 " di Compassion garantiscono che vengano prese tutte le misure necessarie per"
-" assicurare la sicurezza dei bambini sponsorizzati da Compassion."
+" assicurare la sicurezza dei bambini sostenuti da Compassion."
 
 #. module: website_switzerland
 #: model:event.registration.stage,name:website_switzerland.stage_group_ready
@@ -1138,7 +1131,7 @@ msgstr "Ritorno dal viaggio"
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Linea d'ordine di vendita"
+msgstr "Voci d’ordine"
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.cart_address
@@ -1189,7 +1182,7 @@ msgstr "Sostieni un bambino"
 #. module: website_switzerland
 #: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
 msgid "Sponsor another child to release him from extreme poverty.<br>"
-msgstr "Sponsorizza un altro bambino per liberarlo dalla povertà estrema."
+msgstr "Sostieni un altro bambino per liberarlo dalla povertà estrema."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.footer
@@ -1258,8 +1251,8 @@ msgid ""
 "The costs of my trip (round trip, plus accommodation on site during\n"
 "                my stay) are at my expense."
 msgstr ""
-"I costi del mio viaggio (andata e ritorno, più l'alloggio in loco durante il mio soggiorno) sono a mio carico.\n"
-"                soggiorno) sono a mio carico."
+"I costi del mio viaggio (andata e ritorno, più l'alloggio in loco durante il"
+" mio soggiorno) sono a mio carico."
 
 #. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.travel_agreement
@@ -1269,10 +1262,10 @@ msgid ""
 "                to distribute them on the Internet, social networks or other\n"
 "                documents (except as part of Compassion or with its consent)."
 msgstr ""
-"Le foto che scatterò al mio bambino sponsorizzato, alla sua famiglia e alla sua comunità\n"
-"                comunità, sono destinate esclusivamente al mio uso personale e privato. Mi impegno a non\n"
-"                distribuirle su Internet, sui social network o su altri documenti (se non nell'ambito di Compassion o con il suo consenso).\n"
-"                documenti (tranne che nell'ambito di Compassion o con il suo consenso)."
+"Le foto che scatterò al mio bambino sostenuto, alla sua famiglia e alla sua "
+"comunità sono destinate esclusivamente al mio uso personale e privato. Mi "
+"impegno a non distribuirle su Internet, sui social network o su altri "
+"documenti (se non nell'ambito di Compassion o con il suo consenso)."
 
 #. module: website_switzerland
 #: model_terms:survey.survey,description_done:website_switzerland.group_visit_feedback_survey
@@ -1292,7 +1285,7 @@ msgstr ""
 #. module: website_switzerland
 #: model:ir.model,name:website_switzerland.model_theme_utils
 msgid "Theme Utils"
-msgstr "Utilità tema"
+msgstr "Utility tema"
 
 #. module: website_switzerland
 #: model:survey.question,constr_error_msg:website_switzerland.gpfs_question_accommodations
@@ -1325,8 +1318,7 @@ msgid ""
 msgstr ""
 "Per rendere il tuo viaggio arricchente e un'esperienza indimenticabile, ti invitiamo a leggere\n"
 "            e convalidare il presente contratto di visita. È stato redatto per proteggere\n"
-"            i tuoi interessi, quelli dei bambini, delle loro famiglie e delle chiese partner di Compassion.\n"
-"            di Compassion."
+"            i tuoi interessi, quelli dei bambini, delle loro famiglie e delle chiese partner di Compassion."
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpfs_question_transport
@@ -1361,7 +1353,7 @@ msgid ""
 "opportunities to offer visibility for child sponsorship.<br>"
 msgstr ""
 "Puoi rappresentare Compassion nella tua chiesa e approfittare "
-"dell'opportunità di offrire visibilità alla sponsorizzazione di bambini.<br>"
+"dell'opportunità di offrire visibilità al sostegno di bambini.<br>"
 
 #. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_page1

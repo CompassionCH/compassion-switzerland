@@ -10,10 +10,10 @@ msgstr ""
 "PO-Revision-Date: 2026-10-16 19:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #. module: child_switzerland
 #: model_terms:ir.ui.view,arch_db:child_switzerland.childpack_mini
@@ -43,17 +43,17 @@ msgstr "Générateur de description d'enfant"
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_child_property
 msgid "Child Property"
-msgstr "child.property"
+msgstr "Propriété de l'enfant"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__childpack_expiration
 msgid "Childpack Expiration"
-msgstr "Childpack expiration"
+msgstr "Expiration du dossier enfant"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_compassion_translate_property
 msgid "Compassion translate property"
-msgstr "compassion.translate.property"
+msgstr "Propriété de traduction Compassion"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_res_country
@@ -69,13 +69,13 @@ msgstr "Description"
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_left
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_left
 msgid "Description Left"
-msgstr "Description left"
+msgstr "Description gauche"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_right
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_project__description_right
 msgid "Description Right"
-msgstr "Description right"
+msgstr "Description droite"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_child_christian_activity__value
@@ -107,12 +107,12 @@ msgstr "Description right"
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_spiritual_activity__value
 #: model:ir.model.fields,field_description:child_switzerland.field_fcp_suspension_extension_reason__value
 msgid "English value"
-msgstr "Valeur"
+msgstr "Valeur en anglais"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_fcp_property
 msgid "FCP Property"
-msgstr "fcp.property"
+msgstr "Propriété du FCP"
 
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__description_fr
@@ -272,17 +272,17 @@ msgstr "Générateur de description de projet"
 #. module: child_switzerland
 #: model:ir.model.fields,field_description:child_switzerland.field_compassion_child__project_title
 msgid "Project Title"
-msgstr "Project title"
+msgstr "Titre du projet"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_ir_actions_report
 msgid "Report Action"
-msgstr "ir.actions.report.xml"
+msgstr "Action de rapport"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_print_childpack
 msgid "Select the child dossier type and language"
-msgstr "print.childpack"
+msgstr "Sélectionnez le type de dossier enfant et la langue"
 
 #. module: child_switzerland
 #: model:ir.model,name:child_switzerland.model_compassion_child

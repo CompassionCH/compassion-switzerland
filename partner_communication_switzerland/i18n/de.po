@@ -8857,7 +8857,7 @@ msgstr "SMS Zustellungsfehler"
 #: model:utm.source,name:partner_communication_switzerland.sms_registration_confirmation_2_utm_source
 #: model:utm.source,name:partner_communication_switzerland.sms_registration_confirmation_utm_source
 msgid "SMS sponsorship confirmation step 2"
-msgstr "SMS-Sponsoring-Bestätigung Schritt 2"
+msgstr "SMS-Patenschaftsbestätigung Schritt 2"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.sms_registration_reminder
@@ -9133,7 +9133,7 @@ msgstr "Patenschaft - SUB Accept"
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.planned_sub_dossier
 msgid "Sponsorship - SUB Proposal"
-msgstr "Sponsoring - SUB-Vorschlag"
+msgstr "Patenschaft - SUB-Vorschlag"
 
 #. module: partner_communication_switzerland
 #: model:utm.source,name:partner_communication_switzerland.welcome_activation_utm_source
@@ -9148,31 +9148,31 @@ msgstr "Patenschaft - Jährliche Zahlscheine 3BV"
 #. module: partner_communication_switzerland
 #: model:utm.source,name:partner_communication_switzerland.config_onboarding_first_letter_utm_source
 msgid "Sponsorship Onboarding - First B2S Letter"
-msgstr "Sponsoring Onboarding - Erster B2S-Brief"
+msgstr "Patenschaft Onboarding - Erster B2S-Brief"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_photo_by_post
 #: model:utm.source,name:partner_communication_switzerland.config_onboarding_photo_by_post_utm_source
 msgid "Sponsorship Onboarding - Photo by post"
-msgstr "Sponsoring Onboarding - Foto per Post"
+msgstr "Patenschaft Onboarding - Foto per Post"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_zoom_reminder
 #: model:utm.source,name:partner_communication_switzerland.config_onboarding_zoom_reminder_utm_source
 msgid "Sponsorship Onboarding - Video Conference Reminder"
-msgstr "Sponsoring Onboarding - Erinnerung an die Videokonferenz"
+msgstr "Patenschaft Onboarding - Erinnerung an die Videokonferenz"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_zoom_link
 #: model:utm.source,name:partner_communication_switzerland.config_onboarding_zoom_link_utm_source
 msgid "Sponsorship Onboarding - Video Conference link"
-msgstr "Sponsoring Onboarding - Link zur Videokonferenz"
+msgstr "Patenschaft Onboarding - Link zur Videokonferenz"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_zoom_registration_confirmation
 #: model:utm.source,name:partner_communication_switzerland.config_onboarding_zoom_registration_confirmation_utm_source
 msgid "Sponsorship Onboarding - Video Conference registration confirmation"
-msgstr "Sponsoring Onboarding - Bestätigung der Anmeldung zur Videokonferenz"
+msgstr "Patenschaft Onboarding - Bestätigung der Anmeldung zur Videokonferenz"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_sponsorship_confirmation
@@ -9192,7 +9192,7 @@ msgstr "Sponsoring Onboarding - Begrüßung und Zahlungsinformationen auf Papier
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_step1
 #: model:utm.source,name:partner_communication_switzerland.config_onboarding_step1_utm_source
 msgid "Sponsorship Onboarding Step 1 - Child Information and Video Conference invitation"
-msgstr "Sponsoring Onboarding Schritt 1 - Informationen zum Kind und Einladung zur Videokonferenz"
+msgstr "Patenschaft Onboarding Schritt 1 - Informationen zum Kind und Einladung zur Videokonferenz"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.config_onboarding_step2
@@ -9874,13 +9874,13 @@ msgstr "W&P Journey - Bestätigung der Transformation"
 #: model:partner.communication.config,name:partner_communication_switzerland.wrpr_transformation_config
 #: model:utm.source,name:partner_communication_switzerland.wrpr_transformation_config_utm_source
 msgid "W&P Journey - sponsorship transformation"
-msgstr "W&P Journey - Transformation des Sponsorings"
+msgstr "W&P Journey - Patenschaftsumwandlung"
 
 #. module: partner_communication_switzerland
 #: model:partner.communication.config,name:partner_communication_switzerland.wrpr_transformation_fail_config
 #: model:utm.source,name:partner_communication_switzerland.wrpr_transformation_fail_config_utm_source
 msgid "W&P Journey - sponsorship transformation NO ANSWER"
-msgstr "W&P Journey - Sponsoring Transformation NO ANSWER"
+msgstr "W&P Journey - Patenschaftsumwandlung NO ANSWER"
 
 #. module: partner_communication_switzerland
 #: model:base.automation,name:partner_communication_switzerland.automation_wrpr_2
@@ -9928,7 +9928,7 @@ msgstr "W&P Onboarding: step8"
 #: model:mail.template,subject:partner_communication_switzerland.wrpr_transformation
 #: model:mail.template,subject:partner_communication_switzerland.wrpr_transformation_fail
 msgid "W&P sponsorship transformation"
-msgstr "W&P Sponsoring Transformation"
+msgstr "W&P Patenschaftsumwandlung"
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -10002,7 +10002,7 @@ msgstr "Website Kommunikationshistorie"
 #, fuzzy
 #| msgid "SMS sponsorship confirmation step 1"
 msgid "Website sponsorship confirmation step 1"
-msgstr "SMS-Sponsoring-Bestätigung Schritt 1"
+msgstr "SMS-Patenschaftsbestätigung Schritt 1"
 
 #. module: partner_communication_switzerland
 #: model:mail.template,subject:partner_communication_switzerland.mail_onboarding_sponsorship_confirmation
