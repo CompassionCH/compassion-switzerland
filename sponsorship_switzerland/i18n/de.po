@@ -1220,13 +1220,13 @@ msgstr "Erinnerung aufschieben"
 #. module: sponsorship_switzerland
 #: model:product.template,description_sale:sponsorship_switzerland.product_template_covid
 msgid ""
-"Pour faire face aux coûts importants de cette pandémie, nos 8600 Eglises "
+"Pour faire face aux coûts importants de cette pandémie, nos 8700 Eglises "
 "partenaires ont besoin de votre soutien. Chaque don, petit ou grand, permet "
 "de sauver des vies et nous permettra d’apporter un soutien efficace et "
 "déterminé aux enfants parrainés et à leurs familles."
 msgstr ""
 "Um die erheblichen Kosten der Auswirkungen dieser Pandemie zu tragen, "
-"brauchen unsere 8600 Partnerkirchen dringend Unterstützung. Jede Spende, ob "
+"brauchen unsere 8700 Partnerkirchen dringend Unterstützung. Jede Spende, ob "
 "gross oder klein, wird Leben retten und ermöglicht uns, die Patenkinder und "
 "ihre Familien effektiv und engagiert zu unterstützen."
 
