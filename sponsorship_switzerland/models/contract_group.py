@@ -79,10 +79,13 @@ class ContractGroup(models.Model):
 
         if contracts:
             # Update related open invoices to reflect the changes
+            # A cancelled invoice is "not_paid" too: it must stay cancelled,
+            # not be posted again with the new payment mode.
             inv_lines = self.env["account.move.line"].search(
                 [
                     ("contract_id", "in", contracts.ids),
                     ("payment_state", "=", "not_paid"),
+                    ("parent_state", "!=", "cancel"),
                 ]
             )
             invoices = inv_lines.mapped("move_id")
