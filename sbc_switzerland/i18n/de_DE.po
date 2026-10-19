@@ -1,0 +1,765 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sbc_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: sbc_switzerland
+#: model:mail.template,body_html:sbc_switzerland.email_welcome_translator
+msgid ""
+"<html>\n"
+"  <body><div style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"nb_translated\" t-value=\"object.env[&#x27;correspondence&#x27;].search_count([(&#x27;translator_id&#x27;, &#x27;=&#x27;, partner.id)])\"/>\n"
+"                </div>\n"
+"                <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"                    <t t-out=\"partner.salutation\"></t>,\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    For some time now, you’ve had access to our translation platform.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <t t-if=\"nb_translated\">\n"
+"                        I noticed that you have already translated <t t-out=\"nb_translated\"></t> letters. Wonderful and thank you! I hope everything is straight-forward and the platform is easy to work with.\n"
+"                    </t>\n"
+"<t t-else=\"\">\n"
+"                        I noticed that you have not translated any letters yet. Perhaps you did not have the opportunity so far or our introductory e-mail did not arrive. I will gladly re-send you the link. https://translate.compassion.ch\n"
+"                    </t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Thanks to your help, the length of time it takes for letters reaching sponsors or children is shortened considerably. We believe that sponsors and their correspondence will positively change the lives of children. Ronnie for example, became an engineer. He is convinced that due to the encouragement of his sponsor at the other end of the world, he can practice his profession today.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <t t-if=\"nb_translated\">\n"
+"                        If you have any questions, please do not hesitate to contact me.\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                    </t>\n"
+"                    Best regards,\n"
+"<t t-if=\"object.send_mode == &#x27;digital&#x27;\">\n"
+"   <br/>\n"
+"   <br/>\n"
+"    Rose-Marie Reber\n"
+"    <br/>\n"
+"    Compassion Switzerland\n"
+"</t>\n"
+"                </p>\n"
+"            </body>\n"
+"</html>\n"
+msgstr ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    <t t-set=\"nb_translated\" t-value=\"object.env[&#x27;correspondence&#x27;].search_count([(&#x27;translator_id&#x27;, &#x27;=&#x27;, partner.id)])\"/>\n"
+"                </div>\n"
+"                <p>\n"
+"                    <t t-out=\"partner.salutation\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Seit einiger Zeit hast du Zugang zu der Uebersetzungsplattform.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <t t-if=\"nb_translated\">\n"
+"                        Ich stelle fest, dass du schon <t t-out=\"nb_translated\"></t> Briefe übersetzt hast. Wunderbar, vielen Dank! Ich hoffe, dass alles in Ordnung ist und die Plattform einfach zu handhaben ist.\n"
+"                    </t>\n"
+"<t t-else=\"\">\n"
+"                        Ich stelle fest, dass du noch keine Briefe übersetzen konntest. Vielleicht hattest du keine Zeit oder unsere Einführungsemail ist nicht angekommen. Gerne sende ich dir den Link nochmals.\n"
+"                    </t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Dank deiner Hilfe wird die Zeit der Briefe zu den Paten oder Kinder um etliches verkürzt. Wir sind überzeugt, dass die Ermutigungen der Paten, das Leben von den Kinder positiv verändert. <t t-out=\"object.success_sentence or &#x27;&#x27;\"></t>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <t t-if=\"nb_translated\">\n"
+"                        Falls du Fragen hast, stehe ich dir gerne zur Verfügung.\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                    </t>\n"
+"                    Freundliche Grüsse\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                    <t t-out=\"object.user_id.signature\"></t>\n"
+"                </p>\n"
+"            </body>\n"
+"</html>\n"
+
+#. module: sbc_switzerland
+#: model:mail.template,body_html:sbc_switzerland.email_new_translator
+msgid ""
+"<html>\n"
+"  <body><div style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"<t t-set=\"base_url\" t-value=\"object.env[&#x27;ir.config_parameter&#x27;].get_param(&#x27;web.external.url&#x27;)\"/>\n"
+"  </div>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <t t-out=\"partner.informal_salutation\"></t>,\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Welcome to Compassion’s family of volunteer translators!  Your commitment enables one of our most important tasks:  to tell a child what he/she means to their sponsor and that they have value.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   You are the channel for communicating encouraging messages between the sponsor and their sponsored child.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   This e-mail is to help you get started on our shared translation platform.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   <b style=\"font-weight:bolder;\">\n"
+"    Before giving you access to the translation platform, we ask you to read the child protection document by following the link below and confirm that you have read it correctly.\n"
+"   </b>\n"
+"   <br/>\n"
+"   <br/>\n"
+"  </p>\n"
+"  <div style=\"font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;margin:0 auto; text-align: center;\">\n"
+"   <a t-attf-href=\"{{base_url}}/{{partner.lang}}/partner/{{partner.uuid}}/child-protection-charter\" style=\"text-decoration:none;background-color:transparent;color:rgb(124, 123, 173);padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px\" title=\"\">\n"
+"    Child protection charter\n"
+"   </a>\n"
+"  </div>\n"
+"  <br/>\n"
+"  <br/>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   Here are some more information about translations, which we ask you to read carefully.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   <b style=\"font-weight:bolder;\">\n"
+"    Wording for Translations:\n"
+"   </b>\n"
+"   <br/>\n"
+"  </p>\n"
+"  <ul style=\"margin:0px 0 1rem 0;\">\n"
+"   <li>\n"
+"    When mentioning a Bible verse, simply write down the reference from the Bible:  eg. Psalm 23:1\n"
+"   </li>\n"
+"   <li>\n"
+"    We always write “Dear Sponsor”, even though the letter reads, “Dear Monika Meier”.\n"
+"   </li>\n"
+"   <li>\n"
+"    If there is a date on the letter, please indicate it as such and do not write the date on which you translate\n"
+"   </li>\n"
+"  </ul>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <b style=\"font-weight:bolder;\">\n"
+"    Child protection issues in sponsor letters:\n"
+"   </b>\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   We have strict communication rules to protect our children form sponsors with bad intentions. If you find in letters following, please write a comment in the extra space for it.\n"
+"   <br/>\n"
+"   <br/>\n"
+"  </p>\n"
+"  <ul style=\"margin:0px 0 1rem 0;\">\n"
+"   <li>\n"
+"    Suggesting that the child visit the sponsor or sponsor’s country\n"
+"   </li>\n"
+"   <li>\n"
+"    References to contact with the child that Compassion does not allow. (Email, social media…)\n"
+"   </li>\n"
+"   <li>\n"
+"    Expressions of wanting to kiss, fondle, engage in sexual activity or otherwise inappropriate behaviour between adults and children.\n"
+"   </li>\n"
+"   <li>\n"
+"    Sexualized language, such as calling a child “sexy” or what to wear in pictures could be interpreted as having sexual content.\n"
+"   </li>\n"
+"   <li>\n"
+"    References that they want to date the child or have a family member/friend date the child.\n"
+"   </li>\n"
+"   <li>\n"
+"    Directing to the child to call the sponsor by names usually reserved for parents. (Daddy, Papa, mom…)\n"
+"   </li>\n"
+"   <li>\n"
+"    Content that includes multiples/repeated references to loving/being in love with the child in a single letter.\n"
+"   </li>\n"
+"   <li>\n"
+"    Sharing experiences of the sponsor’s own abuse.\n"
+"   </li>\n"
+"   <li>\n"
+"    Suggestions that the sponsor will buy the child a specific item or take care of all their needs.\n"
+"   </li>\n"
+"   <li>\n"
+"    Photographs that are sexually suggestive or sexually explicit.\n"
+"   </li>\n"
+"  </ul>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <strong style=\"font-weight:bolder;\">\n"
+"    <br/>\n"
+"   </strong>\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <strong style=\"font-weight:bolder;\">\n"
+"    Sponsor letters for children in Bangladesh (BD)\n"
+"   </strong>\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   We asked the sponsors to avoid:\n"
+"   <br/>\n"
+"   •    Insinuate or write to them that Christianity is superior to other religions\n"
+"   <br/>\n"
+"   •    Ask them to convert to the Christian faith or to encourage them to undertake a concrete Christian spiritual journey\n"
+"   <br/>\n"
+"   •    Mention Christian practices such as baptism or the Lord's Supper\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   If you have to translate one of these subject, please leave a message in the « comment » box.\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <b style=\"font-weight:bolder;\">\n"
+"    <br/>\n"
+"   </b>\n"
+"  </p>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <b style=\"font-weight:bolder;\">\n"
+"    Create your Personal Profile:\n"
+"   </b>\n"
+"   <br/>\n"
+"  </p>\n"
+"  <ul style=\"margin:0px 0 1rem 0;\">\n"
+"   <li>\n"
+"    On your profile, you can see how many letters you have translated.\n"
+"   </li>\n"
+"   <li>\n"
+"    You can also change your password here.\n"
+"   </li>\n"
+"  </ul>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   <b style=\"font-weight:bolder;\">\n"
+"    How the Translation Platform works:\n"
+"   </b>\n"
+"   <br/>\n"
+"  </p>\n"
+"  <ul style=\"margin:0px 0 1rem 0;\">\n"
+"   <li>\n"
+"    If there are no letters to be translated  in your language skills, there will be a “0” next to “Number of translations remaining”\n"
+"   </li>\n"
+"   <li>\n"
+"    Everyday, there are new letters posted and available on the platform\n"
+"   </li>\n"
+"   <li>\n"
+"    These letters, each with a  reference number are visible to all translators of this language competence\n"
+"   </li>\n"
+"   <li>\n"
+"    As soon as you click on a reference (letter), it disappears from the list and is assigned to you\n"
+"    <br/>\n"
+"   </li>\n"
+"  </ul>\n"
+"  <p style=\"margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;\">\n"
+"   If you have any questions, please do not hesitate to contact me.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Once again, a big thank you for your valuable help. Together, we are releasing more children from extreme poverty every day.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   With Kind regards,\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Rose-Marie Reber\n"
+"   <br/>\n"
+"   Sponsors and donors service\n"
+"   <br/>\n"
+"   Compassion Switzerland\n"
+"  </p>\n"
+" </body>\n"
+"</html>\n"
+msgstr ""
+"<html>\n"
+"  <body><div>\n"
+"    <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"    <t t-set=\"user\" t-value=\"object.get_objects()\"/>\n"
+
+"    <t t-set=\"signup_url\" t-value=\"user.signup_url.replace(&#x27;mycompassion&#x27;, &#x27;translate.compassion&#x27;) + &#x27;&amp;redirect=/partner/&#x27; + partner.uuid + &#x27;/child-protection-charter&#x27;\"/>\n"
+"</div>\n"
+"<p>\n"
+"    <t t-out=\"partner.salutation\"></t>\n"
+"</p>\n"
+"<p>\n"
+"    Wir freuen uns sehr, dass du Teil der Übersetzerinnen und Übersetzer von Compassion bist!\n"
+"</p>\n"
+"<p>\n"
+"    Dein Einsatz ermöglicht eine unserer wichtigsten Aufgaben: einem Kind zu sagen, was es dem Paten bedeutet und dass es wertvoll ist. Du bist der Kanal für die Übermittlung von ermutigenden Nachrichten zwischen dem Paten und dem Patenkind.\n"
+"</p>\n"
+"<p>\n"
+"    Im vergangenen Jahr wurden an jedem Tag 170 Briefe zwischen Paten und Patenkindern ausgetauscht!\n"
+"</p>\n"
+"<p>\n"
+"    Zu jeder ersten Übersetzung in einer Sprache werden wir dir per E-Mail eine Rückmeldung geben.\n"
+"</p>\n"
+"<p>\n"
+"    Deine Arbeit ist auch enorm wichtig in Bezug auf den Schutz der Patenkinder. Kinder, die in extremer Armut leben, sind häufig die ersten Opfer von Missbrauch, Vernachlässigung oder Ausbeutung.\n"
+"</p>\n"
+"<p>\n"
+"    Manchmal ist die Übersetzerin oder der Übersetzer die erste Person, die auf eine mögliche Missbrauchssituation aufmerksam wird.\n"
+"</p>\n"
+"<p>\n"
+"    Damit du für solche Fälle gut vorbereitet bist, kannst du hier dein Kinderschutztraining absolvieren.\n"
+"</p>\n"
+"<p>\n"
+"</p><div style=\"margin:0 auto; text-align: center;\">\n"
+"    <a t-attf-href=\"{{signup_url}}\" style=\"padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px\">\n"
+"        Kontoerstellung und Kinderschutztraining\n"
+"    </a>\n"
+"</div>\n"
+"\n"
+"<p>\n"
+"    Vielen Dank, dass du dir im nächsten Monat dafür Zeit nimmst.\n"
+"</p>\n"
+"<p>\n"
+"    Falls du Fragen oder Anliegen hast, sind wir gerne für dich da unter translation@compassion.ch\n"
+"</p>\n"
+"<p>\n"
+"    Nun wünschen wir dir viel Spass beim Übersetzen!\n"
+"</p>\n"
+"<p>\n"
+"    Liebe Grüsse\n"
+"</p>\n"
+"\n"
+"<t t-if=\"object.send_mode == &#x27;digital&#x27;\">\n"
+"    <p>\n"
+"        <t t-out=\"object.user_id.signature\"></t>\n"
+"    </p>\n"
+"</t></body>\n"
+"</html>\n"
+
+#. module: sbc_switzerland
+#: model:mail.template,body_html:sbc_switzerland.email_goodbye_translator
+msgid ""
+"<html>\n"
+"  <body><div>\n"
+"   <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    \n"
+"<t t-set=\"nb_translated\" t-value=\"object.env[&#x27;correspondence&#x27;].search_count([(&#x27;translator_id&#x27;, &#x27;=&#x27;, partner.id)])\"/>\n"
+"  </div>\n"
+"  <p>\n"
+"   <t t-out=\"partner.salutation\"></t>,\n"
+"   <br/>\n"
+"   <br/>\n"
+"   We understand that you would like to discontinue on the translation platform. We will delete your translator account.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Many thanks for the time you have provided. Thanks to your help, the waiting time for letters has been shortened. You have also helped to convey to the children encouraging words that are so valuable.<t t-out=\"object.success_sentence or &#x27;&#x27;\"></t>\n"
+"   <br/>\n"
+"   <br/>\n"
+"   If you would like to translate for us again we would be happy to hear from you.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Best regards,\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Rose-Marie Reber\n"
+"   <br/>\n"
+"   Compassion Switzerland\n"
+"<t t-if=\"object.send_mode == &#x27;digital&#x27;\">\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Rose-Marie Reber\n"
+"   <br/>\n"
+"   Compassion Switzerland\n"
+"                \n"
+"</t>\n"
+"  </p>\n"
+" </body>\n"
+"</html>\n"
+msgstr ""
+"<html>\n"
+"  <body><div>\n"
+"   <t t-set=\"partner\" t-value=\"object.partner_id\"/>\n"
+"                    \n"
+"<t t-set=\"nb_translated\" t-value=\"object.env[&#x27;correspondence&#x27;].search_count([(&#x27;translator_id&#x27;, &#x27;=&#x27;, partner.id)])\"/>\n"
+"  </div>\n"
+"  <p>\n"
+"   <t t-out=\"partner.salutation\"></t>,\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Wir haben zur Kenntniss genommen, dass du dich von der Übersetzungsplattform zurückziehen möchten. Wir werden dein „Übersetzerkonto“ löschen.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Vielen herzlichen Dank für die Zeit die du für die Übersetzungen zur Verfügung gestellt hast. Dank deiner Hilfe wurde die Wartezeit auf einen Brief verkürzt. Du hast auch geholfen, den Kindern Ermutigungsworte zu übermitteln die so wertvoll sind. <t t-out=\"object.success_sentence or &#x27;&#x27;\"></t>\n"
+"   <br/>\n"
+"   <br/>\n"
+"   Falls du wieder für uns übersetzen möchten, heissen wir dich herzlich Willkommen.\n"
+"   <br/>\n"
+"   <br/>\n"
+"   <t t-out=\"object.user_id.signature\"></t>\n"
+"   <br/>\n"
+"  </p>\n"
+" </body>\n"
+"</html>\n"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Beneficiary To Supporter"
+msgstr "Teilnehmer an Paten"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_translation_user
+msgid "Compassion Translator"
+msgstr "Compassion-Übersetzer"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.contract_search_corr_by_compassion
+msgid "Corr. Compassion"
+msgstr "Korr. Compassion"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_correspondence_s2b_generator
+msgid "Correspondence Generator"
+msgstr "Korrespondenz-Generator"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__create_uid
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__create_uid
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__create_uid
+msgid "Created by"
+msgstr "Angelegt von"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__create_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__create_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__create_date
+msgid "Created on"
+msgstr "Angelegt am"
+
+#. module: sbc_switzerland
+#: model:ir.actions.act_window,name:sbc_switzerland.action_translation_daily_report
+#: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_daily
+msgid "Daily translations"
+msgstr "Tägliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_translation_daily_report
+msgid "Daily translations report"
+msgstr "Bericht Tägliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__dst_lang
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__dst_lang
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__dst_lang
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__dst_lang
+msgid "Destination language"
+msgstr "Sprache des Ziellandes"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__direction
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__direction
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__direction
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__direction
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Direction"
+msgstr "Richtung"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__display_name
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__display_name
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__display_name
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__field_office_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__field_office_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__field_office_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__field_office_id
+msgid "Field office"
+msgstr "Landesbüro"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Group By"
+msgstr "Gruppiert nach..."
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__id
+msgid "ID"
+msgstr "ID"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_import_letter_config__import_folder_path
+#: model:ir.model.fields,field_description:sbc_switzerland.field_import_letter_line__import_folder_path
+#: model:ir.model.fields,field_description:sbc_switzerland.field_import_letters_history__import_folder_path
+msgid "Import Folder Path"
+msgstr "Importordnerpfad"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__language
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__language
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__language
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__language
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Language"
+msgstr "Sprache"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Last 12 Months"
+msgstr "Letzte 12 Monate"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Last 24 Months"
+msgstr "Letzte 24 Monate"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Last 3 Months"
+msgstr "Letzte 3 Monate"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Last 6 Months"
+msgstr "Letzte 6 Monate"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Last Month"
+msgstr "Letzter Monat"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__write_uid
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__write_uid
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert durch"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__write_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__write_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Last Year"
+msgstr "Letztes Jahr"
+
+#. module: sbc_switzerland
+#: model:mail.template,subject:sbc_switzerland.email_goodbye_translator
+msgid "Leaving the translation platform"
+msgstr "Zurückziehen von der Übersetzungsplattform"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_correspondence
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__correspondence_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__correspondence_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__correspondence_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__correspondence_id
+msgid "Letter"
+msgstr "Brief"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__letter_image
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__letter_image
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__letter_image
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__letter_image
+msgid "Letter Image"
+msgstr "Briefbild"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_import_letters_history__manual_import
+msgid "Manual import"
+msgstr "Manueller Import"
+
+#. module: sbc_switzerland
+#: model:ir.actions.act_window,name:sbc_switzerland.action_translation_monthly_report
+#: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_monthly
+msgid "Monthly translations"
+msgstr "Monatliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_translation_monthly_report
+msgid "Monthly translations report"
+msgstr "Bericht Monatliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__name
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__name
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__name
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__name
+msgid "Name"
+msgstr "Bezeichnung"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__translator_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__translator_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__translator_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__translator_id
+msgid "Partner"
+msgstr "Übersetzer"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,help:sbc_switzerland.field_translation_daily_report__translator_id
+#: model:ir.model.fields,help:sbc_switzerland.field_translation_monthly_report__translator_id
+#: model:ir.model.fields,help:sbc_switzerland.field_translation_weekly_report__translator_id
+#: model:ir.model.fields,help:sbc_switzerland.field_translation_yearly_report__translator_id
+msgid "Partner-related data of the user"
+msgstr "Partnerbezogene Daten des Benutzers"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__ref
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__ref
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__ref
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__ref
+msgid "Reference"
+msgstr "Interne Referenz"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_import_letter_line
+msgid "S2B Import Letter Line"
+msgstr "S2B-Briefimportzeile"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_import_letters_history
+msgid "S2B Letter Import"
+msgstr "S2B-Briefimport"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_import_letter_config
+msgid "S2B Letter Import Config"
+msgstr "S2B-Briefimport-Konfiguration"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_correspondence_s2b_generator__selection_domain
+msgid "Selection Domain"
+msgstr "Auswahldomäne"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__src_lang
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__src_lang
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__src_lang
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__src_lang
+msgid "Source language"
+msgstr "Sprache der Quelle"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_correspondence_src_translation_lang_id
+msgid "Source of translation"
+msgstr "Quelle der Übersetzung"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__sponsor
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__sponsor
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__sponsor
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__sponsor
+msgid "Sponsor"
+msgstr "Finde ein Patenkind"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__sponsorship_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__sponsorship_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__sponsorship_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__sponsorship_id
+msgid "Sponsorship"
+msgstr "Patenschaft"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__study_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__study_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__study_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__study_date
+msgid "Study Date"
+msgstr "Studiendatum"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Supporter To Beneficiary"
+msgstr "Paten an Teilnehmer"
+
+#. module: sbc_switzerland
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "This Year"
+msgstr "Dieses Jahr"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__translate_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__translate_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__translate_date
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__translate_date
+msgid "Translate Date"
+msgstr "Übersetzungsdatum"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__translated_text
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__translated_text
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__translated_text
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__translated_text
+msgid "Translated Text"
+msgstr "Übersetzter Text"
+
+#. module: sbc_switzerland
+#: model:mail.template,subject:sbc_switzerland.email_welcome_translator
+msgid "Translation for Compassion"
+msgstr ""
+"Willkommen in der Familie der freiwilligen Übersetzer/innen von Compassion!"
+
+#. module: sbc_switzerland
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_daily_report__new_translator_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_monthly_report__new_translator_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_weekly_report__new_translator_id
+#: model:ir.model.fields,field_description:sbc_switzerland.field_translation_yearly_report__new_translator_id
+#: model_terms:ir.ui.view,arch_db:sbc_switzerland.translation_daily_report_search
+msgid "Translator"
+msgstr "Übersetzer"
+
+#. module: sbc_switzerland
+#: model:mail.template,name:sbc_switzerland.email_new_translator
+msgid "Translator 1a - New Translator"
+msgstr ""
+
+#. module: sbc_switzerland
+#: model:mail.template,name:sbc_switzerland.email_goodbye_translator
+msgid "Translator Goodbye"
+msgstr ""
+
+#. module: sbc_switzerland
+#: model:base.automation,name:sbc_switzerland.automation_translator_welcome
+#: model:ir.actions.server,name:sbc_switzerland.automation_translator_welcome_action
+#: model:ir.actions.server,name:sbc_switzerland.automation_translator_welcome_ir_actions_server
+msgid "Translator Journey : Welcome letter"
+msgstr "Übersetzer-Journey: Willkommensbrief"
+
+#. module: sbc_switzerland
+#: model:mail.template,name:sbc_switzerland.email_welcome_translator
+msgid "Translator Welcome"
+msgstr ""
+
+#. module: sbc_switzerland
+#: model:ir.actions.act_window,name:sbc_switzerland.action_translation_weekly_report
+#: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_weekly
+msgid "Weekly translations"
+msgstr "Wöchentliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_translation_weekly_report
+msgid "Weekly translations report"
+msgstr "Bericht Wöchentliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:mail.template,subject:sbc_switzerland.email_new_translator
+msgid "Welcome to Compassion’s Family of Volunteer Translators"
+msgstr "Willkommen in der Familie der freiwilligen Übersetzer von Compassion"
+
+#. module: sbc_switzerland
+#: model:ir.actions.act_window,name:sbc_switzerland.action_translation_yearly_report
+#: model:ir.ui.menu,name:sbc_switzerland.report_menu_translation_yearly
+msgid "Yearly translations"
+msgstr "Jährliche Übersetzungen"
+
+#. module: sbc_switzerland
+#: model:ir.model,name:sbc_switzerland.model_translation_yearly_report
+msgid "Yearly translations report"
+msgstr "Bericht Jährliche Übersetzungen"
