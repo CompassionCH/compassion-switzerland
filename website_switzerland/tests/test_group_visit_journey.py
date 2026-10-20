@@ -43,6 +43,22 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         self._invoice_and_pay_the_trip(registration)
         self._come_back_from_the_trip(registration)
 
+    def test_stage_set_by_hand_sends_its_mail(self):
+        partner = self.env["res.partner"].create(
+            {"name": f"Moved by hand {self.token}", "lang": "en_US"}
+        )
+        registration = self.env["event.registration"].create(
+            {"event_id": self.event.id, "partner_id": partner.id}
+        )
+        registration.action_confirm()
+        registration.stage_id = self.stage_medical
+
+        self.assertEqual(registration.stage_id, self.stage_medical)
+        self.assertTrue(
+            self._communications(self.step3, partner),
+            "Setting the medical stage by hand should send the step3 mail",
+        )
+
     def test_travel_contract_signs_only_its_trip(self):
         partner = self.env["res.partner"].create(
             {
