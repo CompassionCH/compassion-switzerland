@@ -8,7 +8,7 @@
 ##############################################################################
 from datetime import timedelta
 
-from odoo import fields
+from odoo import fields, http
 from odoo.tests import tagged
 
 from .common import (
@@ -42,6 +42,55 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         self._fill_the_medical_survey(registration)
         self._invoice_and_pay_the_trip(registration)
         self._come_back_from_the_trip(registration)
+
+    def test_travel_contract_signs_only_its_trip(self):
+        partner = self.env["res.partner"].create(
+            {
+                "name": f"Two trips {self.token}",
+                "email": f"two-trips-{self.token}@example.com",
+                "lang": "en_US",
+            }
+        )
+        login = f"two-trips-{self.token}"
+        self.env["res.users"].with_context(no_reset_password=True).create(
+            {
+                "login": login,
+                "password": login,
+                "partner_id": partner.id,
+                "groups_id": [(6, 0, self.env.ref("base.group_portal").ids)],
+            }
+        )
+        other_trip = self.event.copy({"name": f"Other trip {self.token}"})
+        signed = self.env["event.registration"].create(
+            {"event_id": self.event.id, "partner_id": partner.id}
+        )
+        # A pending step1 mail would take in the second registration too.
+        self._communications(self.step1, partner).write({"state": "done"})
+        other = self.env["event.registration"].create(
+            {"event_id": other_trip.id, "partner_id": partner.id}
+        )
+        (signed + other).action_confirm()
+        (signed + other).write({"stage_id": self.stage_agreements.id})
+
+        self.authenticate(login, login)
+        self.url_open(
+            "/my/events/travel_contract",
+            data={
+                "csrf_token": http.Request.csrf_token(self),
+                "registration_id": signed.id,
+                "accept": "on",
+            },
+        )
+        self.assertTrue(self.task(signed, "task_sign_travel").done)
+        self.assertFalse(
+            self.task(other, "task_sign_travel").done,
+            "Accepting the contract of one trip should not sign the other one",
+        )
+
+    def _communications(self, config, partner):
+        return self.env["partner.communication.job"].search(
+            [("config_id", "=", config.id), ("partner_id", "=", partner.id)]
+        )
 
     def _register_on_the_website(self):
         self.run_tour(self.compassion_event.website_url, "group_visit_registration")
