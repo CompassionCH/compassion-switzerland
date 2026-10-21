@@ -196,6 +196,7 @@ class GroupVisitJourneyCase(HttpCase):
             "task_down_payment": cls.stage_registered,
             "task_activate_account": cls.stage_confirmed,
             "task_flight_details": cls.stage_flights,
+            "task_return_flight": cls.stage_flights,
             "task_sign_travel": cls.stage_documents,
             "task_sign_child_protection": cls.stage_documents,
             "task_passport": cls.stage_documents,

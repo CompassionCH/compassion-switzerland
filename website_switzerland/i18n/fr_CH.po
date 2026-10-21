@@ -1436,3 +1436,14 @@ msgstr ""
 "<br/>\n"
 "<br/>\n"
 "Si vous souhaitez prendre de l'avance, la première étape sera de trouver un vol pour ce voyage. Nous vous enverrons nos recommandations prochainement."
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_flight_details
+msgid "Give outbound flight"
+msgstr "Indiquer le vol aller"
+
+#. module: website_switzerland
+#: model:event.registration.task,name:website_switzerland.task_return_flight
+msgid "Give return flight"
+msgstr "Indiquer le vol retour"
+

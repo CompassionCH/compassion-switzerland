@@ -157,9 +157,18 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         registration.stage_id = self.stage_flights
         self.assertTrue(self._communications(self.flights_request, partner))
         self.assertTrue(self.task(registration, "task_flight_details").task_url)
+        self.assertTrue(self.task(registration, "task_return_flight").task_url)
 
-        self._enter_the_flights(registration)
+        self._enter_the_flights(registration, "outbound")
         self.assertTrue(self.task(registration, "task_flight_details").done)
+        self.assertFalse(self.task(registration, "task_return_flight").done)
+        self.assertEqual(
+            registration.stage_id,
+            self.stage_flights,
+            "Flights should wait for the return flight",
+        )
+        self._enter_the_flights(registration, "return")
+        self.assertTrue(self.task(registration, "task_return_flight").done)
         self.assertEqual(registration.stage_id, self.stage_documents)
         self.assertTrue(self._communications(self.step2, partner))
         self.assertTrue(registration.medical_survey_id)
@@ -329,7 +338,8 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         self.assertEqual(registration.stage_id, self.stage_confirmed)
         return registration
 
-    def _enter_the_flights(self, registration):
+    def _enter_the_flights(self, registration, *flight_types):
+        flight_types = flight_types or ("outbound", "return")
         departure = fields.Datetime.now() + timedelta(days=120)
         self.env["event.flight"].create(
             [
@@ -345,6 +355,7 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
                     ("outbound", "LX 1", 0),
                     ("return", "LX 2", 10),
                 )
+                if flight_type in flight_types
             ]
         )
 

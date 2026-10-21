@@ -98,6 +98,12 @@ class TestMuskathlonJourney(TransactionCase):
         registration.stage_id = self.stage_flights
         self.assertTrue(self.communications(self.passport_and_flight, partner))
         self.task(registration, "task_flight_details").done = True
+        self.assertEqual(
+            registration.stage_id,
+            self.stage_flights,
+            "Flights should wait for the return flight",
+        )
+        self.task(registration, "task_return_flight").done = True
         self.assertEqual(registration.stage_id, self.stage_documents)
         self.assertTrue(self.communications(self.medical_reminder, partner))
         self.assertFalse(self.communications(self.child_protection, partner))

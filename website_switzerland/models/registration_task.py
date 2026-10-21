@@ -13,7 +13,9 @@ class RegistrationTaskRel(models.Model):
         task_criminal = self.env.ref("website_switzerland.task_criminal")
         task_passport = self.env.ref("website_switzerland.task_passport")
         task_medic = self.env.ref("website_switzerland.task_medical_survey")
-        task_flight = self.env.ref("website_switzerland.task_flight_details")
+        task_flight = self.env.ref(
+            "website_switzerland.task_flight_details"
+        ) + self.env.ref("website_switzerland.task_return_flight")
         slug = self.env["ir.http"]._slug
         for task in self:
             if task.task_id == travel_contract:
@@ -29,7 +31,7 @@ class RegistrationTaskRel(models.Model):
                 task.task_url = f"/my/events/{slug(task.registration_id)}/criminal"
             elif task.task_id == task_passport:
                 task.task_url = f"/my/events/{slug(task.registration_id)}/passport"
-            elif task.task_id == task_flight:
+            elif task.task_id in task_flight:
                 task.task_url = f"/my/events/{slug(task.registration_id)}/flight"
             elif task.task_id == task_medic:
                 survey = (
@@ -49,7 +51,10 @@ class RegistrationTaskRel(models.Model):
         )
         passport = self.env.ref("website_switzerland.task_passport")
         criminal = self.env.ref("website_switzerland.task_criminal")
-        flight = self.env.ref("website_switzerland.task_flight_details")
+        flights = {
+            self.env.ref("website_switzerland.task_flight_details"): "outbound",
+            self.env.ref("website_switzerland.task_return_flight"): "return",
+        }
         # An invoice paid before its stage was reached (e.g. the registration
         # confirmation could not be sent) must not be asked again.
         paid_invoices = {
@@ -75,7 +80,10 @@ class RegistrationTaskRel(models.Model):
                 task.write({"done": True})
             if task.task_id == passport and task.registration_id.passport:
                 task.write({"done": True})
-            if task.task_id == flight and len(task.registration_id.flight_ids) == 2:
+            flight_type = flights.get(task.task_id)
+            if flight_type and flight_type in task.registration_id.flight_ids.mapped(
+                "flight_type"
+            ):
                 task.write({"done": True})
             if task.task_id == criminal:
                 criminal_record_date = (
