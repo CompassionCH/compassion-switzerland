@@ -2,7 +2,7 @@
   <t t-set="partner" t-value="object.partner_id" />
   <t t-set="registration" t-value="object.get_objects()" />
   <t t-set="event" t-value="registration.compassion_event_id" />
-  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t t-set="user" t-value="object.user_id" />
   <t
     t-set="base_url"
     t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
