@@ -940,8 +940,8 @@ msgstr "Data del mandato"
 #. module: sponsorship_switzerland
 #: model:ir.model.fields.selection,name:sponsorship_switzerland.selection__recurring_contract__type__m2m
 #: model_terms:ir.ui.view,arch_db:sponsorship_switzerland.view_recurring_contract_lang_filter
-msgid "Many2Many Sponsorship"
-msgstr "Sostegno Many2Many"
+msgid "Compassion Communities"
+msgstr "Compassion Communities"
 
 #. module: sponsorship_switzerland
 #: model:product.template,name:sponsorship_switzerland.product_template_fund_med

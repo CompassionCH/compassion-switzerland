@@ -384,7 +384,7 @@ class RecurringContract(models.Model):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
 
         new_sponsorships = self.filtered(
-            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP", "M2M"]
             and not c.is_active
             and c not in mandates_valid
         )
@@ -451,12 +451,15 @@ class RecurringContract(models.Model):
         wp = self.filtered(lambda s: s.type in ["SC", "SWP"] and s.state == "draft")
         super().contract_active()
         wp._new_dossier()
+        self.filtered(lambda c: c.type == "M2M").send_communication(
+            self.env.ref("partner_communication_switzerland.cc_church_inspiration_rule")
+        )
         return True
 
     def _contract_terminated(self, vals):
         vals["new_picture"] = False
         self.filtered(lambda c: c.type == "M2M").send_communication(
-            self.env.ref("partner_communication_switzerland.m2m_stop_rule")
+            self.env.ref("partner_communication_switzerland.cc_call_to_continue_rule")
         )
         return super()._contract_terminated(vals)
 
@@ -592,7 +595,7 @@ class RecurringContract(models.Model):
         transfer = self.env.ref(common + "new_dossier_transfer")
         child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
-        m2m_welcome = self.env.ref(swiss + "m2m_welcome_rule")
+        cc_welcome = self.env.ref(swiss + "cc_welcome_rule")
         partner = self.correspondent_id if correspondent else self.partner_id
         if self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
@@ -600,6 +603,10 @@ class RecurringContract(models.Model):
             return True
         elif self.origin_id.type == "transfer":
             configs = transfer
+        elif self.type == "M2M":
+            # Compassion Communities members never receive the child dossier, the
+            # welcome rule prints itself when the partner has no email.
+            configs = cc_welcome
         elif (
             self.type == "SWP"
             and partner.mobile
@@ -617,8 +624,6 @@ class RecurringContract(models.Model):
             configs = wrpr_welcome + child_picture
         elif self.type == "CSP":
             configs = survival_config
-        elif self.type == "M2M":
-            configs = m2m_welcome
         else:
             configs = new_dossier + child_picture
         for config in configs:

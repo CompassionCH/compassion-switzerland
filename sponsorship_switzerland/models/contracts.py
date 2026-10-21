@@ -44,7 +44,7 @@ class RecurringContracts(models.Model):
         ondelete={"mandate": lambda records: records.write({"state": "waiting"})},
     )
     type = fields.Selection(
-        selection_add=[("M2M", "Many2Many Sponsorship")],
+        selection_add=[("M2M", "Compassion Communities")],
         ondelete={"M2M": lambda records: records.write({"type": "O"})},
     )
 
