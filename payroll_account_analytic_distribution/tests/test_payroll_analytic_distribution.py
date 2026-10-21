@@ -111,6 +111,9 @@ class TestPayrollAnalyticDistribution(TransactionCase):
         self.assertEqual(len(test), 1)
         self.assertTrue(test.rule_module_update)
         self.assertIn("payroll_account", test.module_ids.mapped("name"))
+        self.assertEqual(test.state, "active")
+        version = self.env["quality.test.version"].search([("test_id", "=", test.id)])
+        self.assertIn("analytic distribution", version.description)
 
     def test_key_change_goes_to_contracts(self):
         key = self.env["account.analytic.distribution.manual"].create(

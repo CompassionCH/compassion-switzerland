@@ -61,8 +61,8 @@ def _create_quality_test(env):
             "rule_module_update": True,
         }
     )
-    if "active" in dict(test._fields["state"].selection):
-        test.state = "active"
+    # Activation saves the version of the procedure that the test runs show
+    test.action_activate()
 
 
 def _migrate_analytic_tags(env):
