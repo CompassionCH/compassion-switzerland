@@ -29,16 +29,25 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH - HR Management",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "data": [
+        "security/hr_attendance_security.xml",
+        "security/ir.model.access.csv",
+        "views/hr_attendance_view.xml",
         "views/res_users_view.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "hr_switzerland/static/src/components/*",
+        ],
+    },
     "depends": [
         "hr",
+        "hr_attendance",
     ],
     "demo": [],
     "installable": True,
