@@ -54,6 +54,7 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         registration = self._register_on_the_website()
         self._check_the_registration_in_the_backend()
         self._pay_the_registration_fee(registration)
+        self._check_the_public_profile()
         self._activate_the_account(registration)
         self._book_the_flights(registration)
         self._fill_the_documents(registration)
@@ -400,6 +401,9 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
 
     def _check_the_registration_in_the_backend(self):
         self.run_tour("/odoo", "group_visit_registration_check", login="admin")
+
+    def _check_the_public_profile(self):
+        self.run_tour("/odoo", "group_visit_public_profile", login="admin")
 
     def _pay_the_registration_fee(self, registration):
         self.pay(registration.down_payment_id)

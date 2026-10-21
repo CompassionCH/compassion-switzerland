@@ -243,6 +243,11 @@ const openParticipant = () => [
     run: "click",
   },
   {
+    content: "Also show the registrations not confirmed yet",
+    trigger: ".o_searchview_facet .o_facet_remove",
+    run: "click",
+  },
+  {
     content: "Open the participant",
     trigger: `.o_data_row:contains(${participant().lastname}) td[name=email]`,
     run: "click",
@@ -313,6 +318,16 @@ registry.category("web_tour.tours").add("group_visit_registration_check", {
         trigger:
           ".o_statusbar_status button.o_arrow_button_current:contains(Registered)",
       },
+    ];
+  },
+});
+
+// Published once the fee confirms the registration.
+registry.category("web_tour.tours").add("group_visit_public_profile", {
+  steps: () => {
+    const { motto } = participant();
+    return [
+      ...openParticipant(),
       {
         content: "Open the public profile of the participant",
         trigger: ".o_form_view div[name=is_published] button",
@@ -396,7 +411,7 @@ registry.category("web_tour.tours").add("group_visit_account_activation", {
     },
     {
       content: "The trip page shows the fundraising of the participant",
-      trigger: "a[href='fundraising']",
+      trigger: "a[href$='/fundraising']",
     },
   ],
 });
