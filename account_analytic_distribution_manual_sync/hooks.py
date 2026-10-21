@@ -49,11 +49,45 @@ def get_tag_distributions(env):
     result = {}
     for tag_id, (name, distribution) in tags.items():
         name = name.get("en_US") if isinstance(name, dict) else name
-        manual = manual_obj.search(
-            [("name", "=", name), ("company_id", "=", env.company.id)], limit=1
-        ) or manual_obj.create({"name": name, "analytic_distribution": distribution})
-        result[tag_id] = manual
+        result[tag_id] = _get_manual(manual_obj, name, distribution)
     return result
+
+
+def _same_distribution(first, second):
+    def normalize(distribution):
+        return {
+            key: round(float(value), 4) for key, value in (distribution or {}).items()
+        }
+
+    return normalize(first) == normalize(second)
+
+
+def _get_manual(manual_obj, name, distribution):
+    """The manual distribution of a tag: an existing one of the same name only
+    when its distribution is the same (a re-run of the migration); otherwise a
+    new one named "<tag> (14.0)", so neither allocation replaces the other."""
+    candidates = [name] + [
+        f"{name} (14.0)" if index == 1 else f"{name} (14.0) {index}"
+        for index in range(1, 10)
+    ]
+    for candidate in candidates:
+        manual = manual_obj.search(
+            [("name", "=", candidate), ("company_id", "=", manual_obj.env.company.id)],
+            limit=1,
+        )
+        if not manual:
+            return manual_obj.create(
+                {"name": candidate, "analytic_distribution": distribution}
+            )
+        if _same_distribution(manual.analytic_distribution, distribution):
+            return manual
+        _logger.warning(
+            "Manual distribution %s exists with other percentages: not reused for "
+            "the analytic tag %s",
+            candidate,
+            name,
+        )
+    raise ValueError(f"No free name for the manual distribution of the tag {name}")
 
 
 def post_init_hook(env):
@@ -66,11 +100,15 @@ def post_init_hook(env):
     for table, column, model in TAG_RELATIONS:
         if model not in env or not _table_exists(cr, table):
             continue
+        # Only the tags with a distribution: a record may also carry ordinary
+        # tags, which are no allocation key
         cr.execute(
             SQL(
-                "SELECT %s, min(account_analytic_tag_id) FROM %s GROUP BY 1",
+                "SELECT %s, min(account_analytic_tag_id) FROM %s"
+                " WHERE account_analytic_tag_id = ANY(%s) GROUP BY 1",
                 SQL.identifier(column),
                 SQL.identifier(table),
+                list(manuals),
             )
         )
         records = env[model].with_context(active_test=False)
