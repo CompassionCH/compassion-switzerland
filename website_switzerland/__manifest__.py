@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "Website - Compassion Switzerland custom views",
-    "version": "18.0.1.0.7",
+    "version": "18.0.1.0.8",
     "category": "Website",
     "author": "Compassion Switzerland",
     "development_status": "Beta",
@@ -32,7 +32,6 @@
         "data/event_registration_task.xml",
         "data/res_lang.xml",
         "data/form_data.xml",
-        "data/base_automation.xml",
         "templates/footer.xml",
         "templates/contact_us.xml",
         "templates/website_cart.xml",

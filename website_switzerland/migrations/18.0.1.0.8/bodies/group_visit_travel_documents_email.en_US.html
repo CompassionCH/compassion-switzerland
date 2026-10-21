@@ -1,0 +1,90 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+  <t t-set="payment_url" t-value="registration.payment_link" />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  Thank you for your commitment to Compassion for the benefit of children living
+  in extreme poverty. We look forward to your journey
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t>.
+</p>
+<h2>1. Payment of the trip</h2>
+<p>
+  Attached, you will find the invoice for this trip. Please pay it within 30
+  days. You can pay directly by credit card or using the attached payment slip.
+  If you cannot pay for this trip in one go, please contact me to find a
+  solution together (<t t-out="user.email"></t>).
+</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-att-href="payment_url"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Online payment</a
+  >
+</div>
+<h2>2. Travel documents</h2>
+<h3>Passport</h3>
+<p>
+  Please check that your passport will be valid six months after the date of
+  your planned return to Switzerland. If this is not the case, please renew it
+  in order to guarantee a worry-free trip.
+</p>
+<h3>Visa</h3>
+<p>
+  Please check whether you need a visa to enter
+  <t t-out="event.country_id.name"></t> with your nationality and, if so, apply
+  for it in time.
+</p>
+<h3>Insurance</h3>
+<p>
+  Compassion does not have comprehensive insurance for participants on sponsor
+  trips. We recommend that you check your health and accident insurance
+  coverage. Trip cancellation insurance is strongly recommended: once the flight
+  ticket has been purchased and in the event of cancellation, you will be
+  responsible for the costs. Do you have the
+  <a
+    href="https://www.tcs.ch/fr/produits/depannage-protection-voyage/assistance-voyage/livret-eti.php"
+    >ETI World TCS booklet</a
+  >? This is a good insurance that covers international travel and
+  cancellations.
+</p>
+<h3>Emergency contact</h3>
+<p>
+  Please make sure you informed your emergency contact about the trip:
+  <t t-out="registration.emergency_name"></t>
+  (<t t-out="registration.emergency_phone"></t>).
+</p>
+<p>
+  Once again, thank you for your commitment to children in need.
+  <br />
+  <br />
+  Warm regards
+</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

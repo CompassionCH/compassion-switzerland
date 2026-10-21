@@ -1,0 +1,55 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  Thank you, we have received the payment for your trip
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t>! Only one last document is missing.
+</p>
+<p>
+  At Compassion, we believe that children deserve to be valued, loved and
+  protected. As children living in extreme poverty are among the most
+  vulnerable, everyone who comes into direct contact with them must give us a
+  <b>recent criminal record certificate</b>.
+</p>
+<p>You can upload it on the page of your trip:</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}/criminal"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Send my criminal record certificate</a
+  >
+</div>
+<p>
+  After that, you are ready to go! If you have any questions, please contact us
+  by email at <t t-out="user.email"></t>.
+</p>
+<p>Warm regards</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

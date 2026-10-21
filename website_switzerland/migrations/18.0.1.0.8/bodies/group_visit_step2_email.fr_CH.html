@@ -1,0 +1,67 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  Merci pour vos informations de vol ! La prochaine étape de la préparation de
+  votre voyage <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> est de compléter les documents suivants
+  dans les prochains jours:
+</p>
+<ul>
+  <li>lire attentivement et signer le contrat de voyage</li>
+  <li>lire et signer la charte de protection de l'enfance</li>
+  <li>
+    nous envoyer une copie de
+    <t t-out="'vos passeports' if partner.plural else 'votre passeport'"></t>
+  </li>
+  <li>
+    remplir le questionnaire médical: parce que chaque personne est différente,
+    il nous permet de connaître vos limites et vos besoins spécifiques. Vos
+    réponses sont traitées de manière confidentielle.
+  </li>
+</ul>
+<p>Vous trouverez tous ces documents sur la page de votre voyage:</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Compléter mes documents</a
+  >
+</div>
+<p>
+  Si vous avez des questions à ce sujet, n'hésitez pas à nous contacter par
+  e-mail à <t t-out="user.email"></t>.
+</p>
+<p>
+  Nous vous remercions de votre engagement à nos côtés dans la lutte contre la
+  pauvreté!
+</p>
+<p>Avec nos chaleureuses salutations.</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

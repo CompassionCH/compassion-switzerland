@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
         <!-- Group visit tasks -->
+        <record id="task_step1_sent" model="event.registration.task">
+            <field name="name">Registration confirmation sent</field>
+            <field name="sequence">0</field>
+            <field name="stage_id" ref="stage_group_pay" />
+        </record>
         <record id="task_activate_account" model="event.registration.task">
             <field name="name">Activate account</field>
             <field name="sequence">0</field>
             <field
         name="stage_id"
-        ref="website_switzerland.stage_group_unconfirmed"
+        ref="website_event_compassion.stage_all_confirmed"
       />
         </record>
         <record id="task_sign_child_protection" model="event.registration.task">
             <field name="name">Sign child protection agreement</field>
             <field name="sequence">1</field>
-            <field name="stage_id" ref="stage_group_unconfirmed" />
+            <field name="stage_id" ref="stage_group_medical" />
             <field name="website_published" eval="True" />
         </record>
         <record id="task_sign_travel" model="event.registration.task">
             <field name="name">Sign travel agreement</field>
             <field name="sequence">2</field>
-            <field name="stage_id" ref="stage_group_unconfirmed" />
+            <field name="stage_id" ref="stage_group_medical" />
             <field name="website_published" eval="True" />
         </record>
         <record id="task_passport" model="event.registration.task">
             <field name="name">Send a passport copy</field>
             <field name="sequence">3</field>
-            <field name="stage_id" ref="stage_group_unconfirmed" />
+            <field name="stage_id" ref="stage_group_medical" />
             <field name="website_published" eval="True" />
         </record>
         <record id="task_criminal" model="event.registration.task">
@@ -36,7 +41,13 @@
         <record id="task_down_payment" model="event.registration.task">
             <field name="name">Pay fees</field>
             <field name="sequence">0</field>
-            <field name="stage_id" ref="stage_group_pay" />
+            <field name="stage_id" ref="stage_group_registered" />
+        </record>
+        <record id="task_flight_details" model="event.registration.task">
+            <field name="name">Give flight details</field>
+            <field name="sequence">0</field>
+            <field name="stage_id" ref="stage_group_flights" />
+            <field name="website_published" eval="True" />
         </record>
         <record id="task_medical_survey" model="event.registration.task">
             <field name="name">Fill medical survey</field>

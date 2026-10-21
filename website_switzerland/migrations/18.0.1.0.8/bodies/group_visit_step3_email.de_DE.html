@@ -1,0 +1,77 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<div>
+  <t t-set="du" t-value="partner.get('du')" />
+  <t t-set="dir" t-value="partner.get('dir')" />
+  <t t-set="dich" t-value="partner.get('dich')" />
+  <t t-set="deine" t-value="partner.get('deine')" />
+</div>
+<p><t t-out="partner.salutation"></t></p>
+<p>
+  Wir haben die Anzahlung erhalten und freuen uns, <t t-out="dir"></t> hiermit
+  <t t-out="deine"></t> Anmeldung zur Compassion Impact-Reise
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> zu bestätigen. Herzlichen Dank!
+</p>
+<p>
+  In einer separaten E-Mail erhältst <t t-out="du"></t> den Link, um
+  <t t-out="deine"></t>n MyCompassion-Account zu aktivieren. Auf der Seite
+  <t t-out="deine"></t>r Reise findest <t t-out="du"></t> nach und nach alle
+  Informationen und die auszufüllenden Dokumente.
+</p>
+<p>Was erwartet <t t-out="dich"></t> konkret?</p>
+<ol>
+  <li>Angaben zu <t t-out="deine"></t>n Flügen</li>
+  <li>
+    Auszufüllende Dokumente: Reisevertrag, Richtlinien zum Kinderschutz,
+    Passkopie und medizinischer Fragebogen
+  </li>
+  <li>Bezahlung der Reise und Informationen zu Versicherung und Visum</li>
+  <li>Strafregisterauszug</li>
+  <li>
+    Informationen zum Vorbereitungstreffen, zu Land und Klima, zur Arbeit von
+    Compassion und zu einem allfälligen Treffen mit <t t-out="deine"></t>m
+    Patenkind
+  </li>
+</ol>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Zu meiner Reise</a
+  >
+</div>
+<p>
+  Wenn <t t-out="du"></t> Fragen
+  <t t-out="'habt, dürft ihr' if partner.plural else 'hast, darfst du'"></t> uns
+  gerne per E-Mail an <t t-out="user.email"></t> kontaktieren.
+</p>
+<p>Liebe Grüsse</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>
