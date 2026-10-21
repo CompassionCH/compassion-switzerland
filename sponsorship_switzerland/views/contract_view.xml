@@ -93,7 +93,7 @@
           domain="[('type', '=', 'SC')]"
         />
                 <filter
-          string="Many2Many Sponsorship"
+          string="Compassion Communities"
           name="many2many"
           domain="[('type', '=','M2M')]"
         />

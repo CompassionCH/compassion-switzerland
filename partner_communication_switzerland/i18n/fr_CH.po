@@ -6362,16 +6362,6 @@ msgid "Male"
 msgstr "Garçon"
 
 #. module: partner_communication_switzerland
-#: model:mail.template,name:partner_communication_switzerland.m2m_stop_template
-msgid "Many2Many Onboarding - Stop recurrent donation"
-msgstr ""
-
-#. module: partner_communication_switzerland
-#: model:mail.template,name:partner_communication_switzerland.m2m_welcome_template
-msgid "Many2Many Onboarding - Welcome and payment information"
-msgstr ""
-
-#. module: partner_communication_switzerland
 #: model:ir.model.fields,field_description:partner_communication_switzerland.field_res_partner_zoom_attendee__match_create
 msgid "Match Create"
 msgstr "Match Créer"
