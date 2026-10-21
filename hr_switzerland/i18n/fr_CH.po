@@ -47,3 +47,10 @@ msgstr "Signature"
 #: model:ir.model.fields,field_description:hr_switzerland.field_hr_employee_public__job_title
 msgid "Job Title"
 msgstr "Titre du poste"
+
+#. module: hr_switzerland
+#. odoo-javascript
+#: code:addons/hr_switzerland/static/src/components/attendance_menu.xml:0
+#: model:ir.actions.act_window,name:hr_switzerland.hr_attendance_my_action
+msgid "My Attendances"
+msgstr "Mes présences"
