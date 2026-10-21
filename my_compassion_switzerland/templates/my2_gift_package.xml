@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
     Adds the Swiss payment brands (Twint, PostFinance) to the checkout brand
-    row of the gift package page.
+    row of the gift package page, on the websites of a Swiss company only
+    (not on the MyCompassion website of Compassion Poland, paid with PayU).
 -->
 <odoo>
   <template
@@ -9,16 +10,18 @@
     inherit_id="my_compassion.my2_gift_package_page"
   >
     <xpath expr="//div[@name='checkout_payment_brands']" position="inside">
-      <img
-        alt="Twint"
-        class="px-1 col-3"
-        src="/my_compassion_switzerland/static/src/img/twint.png"
-      />
-      <img
-        alt="PostFinance"
-        class="px-1 col-3"
-        src="/my_compassion_switzerland/static/src/img/post_finance.png"
-      />
+      <t t-if="website.company_id.country_id.code == 'CH'">
+        <img
+          alt="Twint"
+          class="px-1 col-3"
+          src="/my_compassion_switzerland/static/src/img/twint.png"
+        />
+        <img
+          alt="PostFinance"
+          class="px-1 col-3"
+          src="/my_compassion_switzerland/static/src/img/post_finance.png"
+        />
+      </t>
     </xpath>
   </template>
 </odoo>
