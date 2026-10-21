@@ -38,6 +38,13 @@ class EventRegistration(models.Model):
         if vals.get("stage_id") == medical_stage.id:
             for registration in self.filtered(lambda r: not r.medical_survey_id):
                 registration.create_medical_survey()
+        payment = self.env.ref("website_switzerland.stage_group_documents")
+        if vals.get("stage_id") == payment.id:
+            # Set by hand (e.g. in the kanban): the payment mail attaches the
+            # invoice of the trip.
+            to_invoice = self.filtered(lambda r: not r.trip_invoice_id)
+            if to_invoice:
+                to_invoice.create_trip_invoice()
         attended = self.env.ref("website_event_compassion.stage_all_attended")
         if vals.get("stage_id") == attended.id:
             for registration in self.filtered(lambda r: not r.feedback_survey_id):

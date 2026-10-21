@@ -199,6 +199,21 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
             "Nothing is sent before Attended",
         )
 
+    def test_payment_set_by_hand_invoices_the_trip(self):
+        registration = self._confirmed_registration("Dragged to payment")
+        registration.stage_id = self.stage_payment
+        invoice = registration.trip_invoice_id
+        self.assertTrue(invoice, "Setting Payment by hand should invoice the trip")
+        self.assertTrue(
+            self._communications(self.travel_documents, registration.partner_id)
+        )
+
+        registration.stage_id = self.stage_documents
+        registration.stage_id = self.stage_payment
+        self.assertEqual(
+            registration.trip_invoice_id, invoice, "The trip is invoiced only once"
+        )
+
     def test_attended_set_by_hand(self):
         registration = self._confirmed_registration("Back home")
         registration.stage_id = self.stage_documents
