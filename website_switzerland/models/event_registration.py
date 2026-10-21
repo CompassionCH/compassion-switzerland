@@ -11,6 +11,14 @@ class EventRegistration(models.Model):
             partner = registration.partner_id
             if not partner.country_id:
                 partner.country_id = self.env.ref("base.ch")
+            if registration.is_muskathlon and not partner.user_ids:
+                # Activating the MyCompassion account confirms a Muskathlon
+                # registration: my_compassion sends the activation link.
+                registration.with_delay_sh(
+                    "_create_portal_user",
+                    identity_key=f"event.registration._create_portal_user."
+                    f"{partner.id}",
+                )
         return registrations
 
     def write(self, vals):

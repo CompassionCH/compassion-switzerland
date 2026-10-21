@@ -76,6 +76,10 @@ class TestMuskathlonJourney(TransactionCase):
         )
         self.assertEqual(registration.stage_id, self.stage_unconfirmed)
         self.assertEqual(registration.state, "draft")
+        self.assertTrue(
+            partner.user_ids,
+            "Registering should open the MyCompassion account to activate",
+        )
 
         self.task(registration, "task_activate_account").done = True
         self.assertEqual(
