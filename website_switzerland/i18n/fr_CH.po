@@ -2580,6 +2580,22 @@ msgstr "En confirmant ton paiement, tu acceptes nos"
 msgid "terms &amp; conditions"
 msgstr "conditions générales"
 
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
+msgid ""
+"As we process your registration, we will ask you to fill in some forms and send\n"
+"                                us a few documents for the trip. You will do this directly on this page, where\n"
+"                                the tasks will appear as soon as they are ready.\n"
+"                                <br/>\n"
+"                                <br/>\n"
+"                                If you would like to get ahead, the first step will be to find a flight for this\n"
+"                                trip. We will send you our recommendations shortly."
+msgstr ""
+"Pendant le traitement de votre inscription, nous vous demanderons de remplir quelques formulaires et de nous envoyer quelques documents pour le voyage. Vous le ferez directement sur cette page, où les tâches apparaîtront dès qu'elles seront prêtes.\n"
+"<br/>\n"
+"<br/>\n"
+"Si vous souhaitez prendre de l'avance, la première étape sera de trouver un vol pour ce voyage. Nous vous enverrons nos recommandations prochainement."
+
 #~ msgid "Fill urgency contact information"
 #~ msgstr "Renseigner contact d'urgence"
 
