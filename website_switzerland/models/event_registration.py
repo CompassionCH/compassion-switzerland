@@ -7,11 +7,13 @@ class EventRegistration(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         registrations = super().create(vals_list)
+        muskathlon = self.env.ref("muskathlon.event_type_muskathlon")
         for registration in registrations:
             partner = registration.partner_id
             if not partner.country_id:
                 partner.country_id = self.env.ref("base.ch")
-            if registration.is_muskathlon and not partner.user_ids:
+            is_muskathlon = registration.event_id.event_type_id == muskathlon
+            if is_muskathlon and not partner.user_ids:
                 # Activating the MyCompassion account confirms a Muskathlon
                 # registration: my_compassion sends the activation link.
                 registration.with_delay_sh(
