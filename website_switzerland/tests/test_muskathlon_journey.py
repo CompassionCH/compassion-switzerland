@@ -46,6 +46,7 @@ class TestMuskathlonJourney(TransactionCase):
         cls.stage_criminal_record = ref("stage_criminal_record")
         cls.stage_ready = ref("stage_ready")
         cls.confirmation = ref("registration_confirmation_config")
+        cls.sponsorship_invitation = ref("sponsorship_invitation_config")
         cls.passport_and_flight = ref("passport_and_flight_config")
         cls.medical_reminder = ref("medical_reminder_config")
         cls.child_protection = ref("child_protection_config")
@@ -96,6 +97,16 @@ class TestMuskathlonJourney(TransactionCase):
         )
 
         registration.stage_id = self.stage_flights
+        invitation = self.event.event_mail_ids.filtered(
+            lambda mail: mail.communication_id == self.sponsorship_invitation
+        ).mail_registration_ids.filtered(
+            lambda line: line.registration_id == registration
+        )
+        self.assertTrue(
+            invitation.scheduled_date,
+            "The invitation to sponsor is still sent 15 days after the "
+            "confirmation once the participant is in Flights",
+        )
         self.assertTrue(self.communications(self.passport_and_flight, partner))
         self.task(registration, "task_flight_details").done = True
         self.assertEqual(
