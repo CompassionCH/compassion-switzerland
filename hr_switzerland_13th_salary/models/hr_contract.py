@@ -41,10 +41,20 @@ class HrContract(models.Model):
         ).account_credit.id
 
         for contract in self:
+            # Lines of the employee (work contact, partner of the payslip
+            # entries since 18.0) or of their payslips (former partners)
+            employee = contract.employee_id
+            payslip_moves = (
+                self.env["hr.payslip"]
+                .search([("employee_id", "=", employee.id)])
+                .mapped("move_id")
+            )
             move_lines = self.env["account.move.line"].search(
                 [
-                    ("partner_id", "=", contract.employee_id.address_id.id),
                     ("account_id", "=", account_id),
+                    "|",
+                    ("partner_id", "=", employee.work_contact_id.id or 0),
+                    ("move_id", "in", payslip_moves.ids),
                 ]
             )
             contract.provision_13_salary = sum(move_lines.mapped("credit")) - sum(
