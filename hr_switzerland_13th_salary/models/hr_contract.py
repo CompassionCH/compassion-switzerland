@@ -8,6 +8,7 @@
 ##############################################################################
 
 from odoo import api, fields, models
+from odoo.osv import expression
 
 
 class HrContract(models.Model):
@@ -41,12 +42,33 @@ class HrContract(models.Model):
         ).account_credit.id
 
         for contract in self:
-            move_lines = self.env["account.move.line"].search(
-                [
-                    ("partner_id", "=", contract.employee_id.address_id.id),
-                    ("account_id", "=", account_id),
-                ]
+            # Lines of the employee (work contact, partner of the payslip
+            # entries since 18.0) or of their payslips (former partners)
+            employee = contract.employee_id
+            payslip_moves = (
+                self.env["hr.payslip"]
+                .search([("employee_id", "=", employee.id)])
+                .mapped("move_id")
             )
+            # A missing contact must not match the lines without partner of
+            # the other employees
+            employee_domains = []
+            if employee.work_contact_id:
+                employee_domains.append(
+                    [("partner_id", "=", employee.work_contact_id.id)]
+                )
+            if payslip_moves:
+                employee_domains.append([("move_id", "in", payslip_moves.ids)])
+            move_lines = self.env["account.move.line"]
+            if employee_domains:
+                move_lines = move_lines.search(
+                    expression.AND(
+                        [
+                            [("account_id", "=", account_id)],
+                            expression.OR(employee_domains),
+                        ]
+                    )
+                )
             contract.provision_13_salary = sum(move_lines.mapped("credit")) - sum(
                 move_lines.mapped("debit")
             )
