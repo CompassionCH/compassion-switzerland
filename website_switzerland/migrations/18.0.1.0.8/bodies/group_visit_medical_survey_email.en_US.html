@@ -1,0 +1,58 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  We are looking forward to your trip
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t>!
+</p>
+<p>
+  A few details or documents are still missing for us to prepare your trip as
+  well as possible. Please go to the page of your trip and complete the steps
+  that are still open in the coming days.
+</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Go to my trip</a
+  >
+</div>
+<p>
+  If you have completed everything in the meantime, please disregard this
+  message. For any question, contact us by email at <t t-out="user.email"></t>.
+</p>
+<p>
+  Thank you for your commitment to children in need.
+  <br />
+  <br />
+  Warm regards
+</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

@@ -74,11 +74,14 @@
     id="cart_participant_picture"
     inherit_id="website_sale.cart_lines"
   >
-        <xpath
-      expr="//div[@t-field='line.product_id.image_128']"
-      position="attributes"
-    >
-            <attribute name="t-field">line.image</attribute>
+        <!-- Donations for a participant have no product image: show their picture -->
+        <xpath expr="//div[@t-field='line.product_id.image_128']" position="after">
+            <img
+        t-elif="line.image"
+        t-att-src="image_data_uri(line.image)"
+        class="o_image_64_max img rounded"
+        t-att-alt="line.name_short"
+      />
         </xpath>
     </template>
 

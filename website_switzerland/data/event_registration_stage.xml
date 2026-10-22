@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
+        <!-- Stages of the group visits, around the shared stages of
+             website_event_compassion (Confirmed 20, Staff 28, Attended 30,
+             Cancelled 40) -->
         <record id="stage_group_pay" model="event.registration.stage">
-            <field name="name">Down payment</field>
-            <field name="sequence">1</field>
+            <field name="name">Unconfirmed</field>
+            <field name="sequence">10</field>
             <field name="duration">7</field>
+            <field name="registration_state">draft</field>
         </record>
-        <!-- Specific stages for group visit -->
-        <record id="stage_group_unconfirmed" model="event.registration.stage">
-            <field name="name">Sign Agreements</field>
-            <field name="sequence">2</field>
+        <record id="stage_group_registered" model="event.registration.stage">
+            <field name="name">Registered</field>
+            <field name="sequence">15</field>
             <field name="duration">7</field>
-            <field name="registration_state">open</field>
+            <field name="registration_state">draft</field>
+        </record>
+        <record id="stage_group_flights" model="event.registration.stage">
+            <field name="name">Flights</field>
+            <field name="sequence">21</field>
+            <field name="manual_only" eval="True" />
         </record>
         <record id="stage_group_medical" model="event.registration.stage">
-            <field name="name">Medical survey</field>
-            <field name="sequence">3</field>
+            <field name="name">Fill documents</field>
+            <field name="sequence">22</field>
             <field name="duration">7</field>
-            <field name="registration_state">open</field>
         </record>
         <record id="stage_group_documents" model="event.registration.stage">
             <field name="name">Payment</field>
-            <field name="sequence">4</field>
+            <field name="sequence">23</field>
+            <field name="duration">7</field>
+            <field name="manual_only" eval="True" />
+        </record>
+        <record id="stage_group_trip_paid" model="event.registration.stage">
+            <field name="name">Trip paid</field>
+            <field name="sequence">24</field>
+        </record>
+        <record id="stage_group_unconfirmed" model="event.registration.stage">
+            <field name="name">Criminal record</field>
+            <field name="sequence">25</field>
             <field name="duration">7</field>
         </record>
         <record id="stage_group_ready" model="event.registration.stage">
-            <field name="name">Ready</field>
-            <field name="sequence">5</field>
+            <field name="name">Ready to fly</field>
+            <field name="sequence">26</field>
         </record>
 </odoo>

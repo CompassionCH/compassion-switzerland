@@ -1,0 +1,82 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)"
+  />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+</div>
+<p>
+  <t t-out="partner.salutation"></t>
+  <br />
+  <br />
+  Thank you very much for your interest in Compassion's work to free more
+  children from poverty every day, for a dignified and meaningful life.
+  <br />
+  <br />
+  We look forward to showing you the conditions of extreme poverty in which 385
+  million children still live today. We are convinced you will be able to
+  witness the transformation that a sponsorship brings to the life of a child
+  and his or her family.
+  <br />
+  <br />
+  <b>We hereby confirm your registration for the <t t-out="event.name"></t></b>.
+  There are only two steps left for your registration to be validated and a
+  place reserved for you on this trip.
+  <br />
+  <br />
+  <b>Next step</b>: when you have about ten minutes to spare, please read
+  Compassion's child protection guidelines.
+  <br />
+  <br />
+</p>
+<div style="margin: 0 auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{slug(registration)}}"
+    style="
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+  >
+    Read the guidelines
+  </a>
+</div>
+<br />
+<br />
+<a
+  t-attf-href="{{base_url}}{{event.website_url}}/faq"
+  style="color: skyblue; text-decoration: underline"
+  >Here you will find (click here)</a
+>
+the main questions asked by people interested in travelling with Compassion. You
+can also send us an email at <t t-out="user.email"></t> if you can't find an
+answer to your question.
+<br />
+<br />
+Once again, thank you for your commitment to children in need.
+<br />
+<br />
+Receive our warmest greetings.
+<br />
+<br />
+<t t-out="user.preferred_name"></t> <t t-out="user.lastname"></t>
+<br />
+<t t-out="user.employee_ids.department_id.name"></t>
+Compassion Switzerland
