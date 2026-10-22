@@ -91,7 +91,7 @@ class CompassionChild(models.Model):
             if not wp.remove_all_children():
                 return False
             logger.info("ALL CHILDREN REMOVED")
-            self.write({"state": "N"})
+            self.with_delay_sh("write", {"state": "N"}, channel="root.child_compassion")
             return True
         except Exception as e:
             logger.error(
