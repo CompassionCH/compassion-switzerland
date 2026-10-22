@@ -7,13 +7,9 @@
             <field name="compassion_event_type">tour</field>
             <field
         name="stage_ids"
-        eval="[(6, 0, [ref('stage_group_pay'), ref('stage_group_registered'), ref('website_event_compassion.stage_all_confirmed'), ref('stage_group_flights'), ref('stage_group_medical'), ref('stage_group_documents'), ref('stage_group_trip_paid'), ref('stage_group_unconfirmed'), ref('stage_group_ready'), ref('website_event_compassion.stage_all_staff'), ref('website_event_compassion.stage_all_attended'), ref('website_event_compassion.stage_all_cancelled')])]"
+        eval="[(6, 0, [ref('stage_group_unconfirmed'), ref('stage_group_pay'), ref('stage_group_medical'), ref('stage_group_documents'), ref('stage_group_ready')])]"
       />
             <field name="medical_survey_id" ref="group_visit_medical_survey" />
-            <field
-        name="reminder_config_id"
-        ref="group_visit_medical_survey_config"
-      />
             <field
         name="feedback_survey_id"
         ref="group_visit_feedback_survey"

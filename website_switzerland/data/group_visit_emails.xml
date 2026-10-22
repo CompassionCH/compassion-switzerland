@@ -546,42 +546,4 @@
             <t t-out="user.signature" />
         </field>
     </record>
-    <record id="group_visit_flights_email" model="mail.template">
-        <field name="name">Group visit: flight details</field>
-        <field
-                name="model_id"
-                ref="partner_communication.model_partner_communication_job"
-        />
-        <field
-                name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
-        <field name="reply_to">info@compassion.ch</field>
-        <field name="use_default_to" eval="True" />
-        <field name="subject">Your trip with Compassion - flight details</field>
-        <field name="body_html" type="html">
-            <t t-set="registration" t-value="object.get_objects()"/>
-            <p><t t-out="object.partner_id.salutation"/>,</p>
-            <p>Please enter the details of your outbound and return flights on your trip page.</p>
-            <p><a t-att-href="registration.event_id.get_base_url() + '/my/events/' + str(registration.id)">My events</a></p>
-        </field>
-    </record>
-    <record id="group_visit_criminal_record_email" model="mail.template">
-        <field name="name">Group visit: criminal record</field>
-        <field
-                name="model_id"
-                ref="partner_communication.model_partner_communication_job"
-        />
-        <field
-                name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
-        <field name="reply_to">info@compassion.ch</field>
-        <field name="use_default_to" eval="True" />
-        <field name="subject">Your trip with Compassion - certificate of criminal record</field>
-        <field name="body_html" type="html">
-            <t t-set="registration" t-value="object.get_objects()"/>
-            <p><t t-out="object.partner_id.salutation"/>,</p>
-            <p>One last document is missing: please send us your certificate of criminal record from your trip page.</p>
-            <p><a t-att-href="registration.event_id.get_base_url() + '/my/events/' + str(registration.id)">My events</a></p>
-        </field>
-    </record>
 </odoo>

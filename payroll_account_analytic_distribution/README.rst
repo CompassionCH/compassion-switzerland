@@ -77,7 +77,7 @@ Authors
 Contributors
 ------------
 
--  David Wulliamoz <dwulliamoz@compassion.ch>
+- David Wulliamoz <dwulliamoz@compassion.ch>
 
 Maintainers
 -----------

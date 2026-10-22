@@ -8,6 +8,7 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "mass_mailing",
+        "partner_communication",
     ],
     "data": [
         "security/ir.model.access.csv",

@@ -12,6 +12,7 @@ from . import (
     contract,
     contract_group,
     hr_employee,
+    hr_employee_public,
     partner_communication,
     partner_communication_attachment,
     partner_communication_config,

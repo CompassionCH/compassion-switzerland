@@ -1416,32 +1416,6 @@ msgid ""
 msgstr ""
 
 #. module: website_switzerland
-#: model_terms:ir.ui.view,arch_db:website_switzerland.my_event_include_forms
-msgid ""
-"As we process your registration, we will ask you to fill in some forms and send\n"
-"                                us a few documents for the trip. You will do this directly on this page, where\n"
-"                                the tasks will appear as soon as they are ready.\n"
-"                                <br/>\n"
-"                                <br/>\n"
-"                                If you would like to get ahead, the first step will be to find a flight for this\n"
-"                                trip. We will send you our recommendations shortly."
-msgstr ""
-"Mentre elaboriamo la tua iscrizione, ti chiederemo di compilare alcuni moduli e di inviarci alcuni documenti per il viaggio. Lo farai direttamente su questa pagina, dove le attività appariranno non appena saranno pronte.\n"
-"<br/>\n"
-"<br/>\n"
-"Se vuoi portarti avanti, il primo passo sarà trovare un volo per questo viaggio. Ti invieremo a breve i nostri consigli."
-
-#. module: website_switzerland
-#: model:event.registration.task,name:website_switzerland.task_flight_details
-msgid "Give outbound flight"
-msgstr "Indica il volo di andata"
-
-#. module: website_switzerland
-#: model:event.registration.task,name:website_switzerland.task_return_flight
-msgid "Give return flight"
-msgstr "Indica il volo di ritorno"
-
-#. module: website_switzerland
 #: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
 msgid "Have a question or want to learn more about our work? Fill out the form below, and we'll get back to you as soon as possible."
 msgstr "Hai una domanda o vuoi saperne di più sul nostro lavoro? Compila il modulo qui sotto e ti risponderemo il prima possibile."

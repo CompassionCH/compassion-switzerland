@@ -70,19 +70,6 @@ class CommunicationJob(models.Model):
             )
         }
 
-    def _job_sent(self, send_mode):
-        """The registration confirmation (step1) moves the registration to
-        Registered once it is sent."""
-        res = super()._job_sent(send_mode)
-        step1 = self.env.ref("website_switzerland.group_visit_step1_config")
-        sent = self.filtered(lambda job: job.state == "done" and job.config_id == step1)
-        task = self.env.ref("website_switzerland.task_step1_sent")
-        for job in sent:
-            job.get_objects().task_ids.filtered(
-                lambda rel: rel.task_id == task and not rel.done
-            ).write({"done": True})
-        return res
-
     def _render_payment_slip(self, partner_ids, report_vals):
         """The payment slip of a trip, as an attachment of the communication."""
         pdf = (
