@@ -1,0 +1,77 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="object.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<div>
+  <t t-set="du" t-value="partner.get('du')" />
+  <t t-set="dir" t-value="partner.get('dir')" />
+  <t t-set="dich" t-value="partner.get('dich')" />
+  <t t-set="deine" t-value="partner.get('deine')" />
+</div>
+<p><t t-out="partner.salutation"></t></p>
+<p>
+  Danke für die Fluginformationen! Der nächste Schritt in der Vorbereitung
+  <t t-out="deine"></t>r Reise <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> sind die folgenden Dokumente, die wir
+  <t t-out="dich"></t> bitten, in den nächsten Tagen zu erledigen:
+</p>
+<ul>
+  <li>den Reisevertrag sorgfältig durchlesen und unterschreiben</li>
+  <li>die Richtlinien zum Kinderschutz lesen und unterschreiben</li>
+  <li>
+    eine Kopie <t t-out="deine"></t>s
+    <t t-out="'Pässe' if partner.plural else 'Passes'"></t> hochladen
+  </li>
+  <li>
+    den medizinischen Fragebogen ausfüllen: Da jeder Mensch unterschiedlich ist,
+    erfahren wir so die Grenzen und spezifischen Bedürfnisse jeder angemeldeten
+    Person. Die Angaben werden vertraulich behandelt.
+  </li>
+</ul>
+<p>
+  Alle Dokumente findest <t t-out="du"></t> auf der Seite <t t-out="deine"></t>r
+  Reise:
+</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Dokumente ausfüllen</a
+  >
+</div>
+<p>
+  Wenn <t t-out="du"></t> Fragen
+  <t t-out="'habt, dürft ihr' if partner.plural else 'hast, darfst du'"></t> uns
+  gerne per E-Mail an <t t-out="user.email"></t> kontaktieren.
+</p>
+<p>
+  Herzlichen Dank, dass <t t-out="du"></t> uns im Kampf gegen Armut zur Seite
+  <t t-out="'steht' if partner.plural else 'stehst'"></t>!
+</p>
+<p>Liebe Grüsse</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>
