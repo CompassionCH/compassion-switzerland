@@ -9,7 +9,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Your trip to {{object.get_objects().compassion_event_id.country_id.name}} with Compassion</field>
@@ -60,48 +60,53 @@
     </record>
 
     <record id="group_visit_step2_email" model="mail.template">
-        <field name="name">Group visit: step2 fill documents</field>
+        <field name="name">Group visit: step2 confirmation</field>
         <field
                 name="model_id"
                 ref="partner_communication.model_partner_communication_job"
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
-        <field name="subject">Your trip to {{object.get_objects().compassion_event_id.country_id.name}} with Compassion</field>
+        <field name="subject">Only one step left to validate your registration to your trip with Compassion</field>
         <field name="body_html" type="html">
             <div>
                 <t t-set="partner" t-value="object.partner_id"/>
                 <t t-set="registration" t-value="object.get_objects()"/>
                 <t t-set="event" t-value="registration.compassion_event_id"/>
-                <t t-set="base_url" t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"/>
+                <t t-set="down_payment" t-value="registration.down_payment_id"/>
             </div>
             <p t-out="partner.salutation"/>
             <p>
-                Thank you very much for your interest in Compassion's work to free more children from poverty every day, for a dignified and meaningful life.
+                Your registration for the <t t-out="event.name"/> is progressing well. Thank you very much for your interest in Compassion's
+                work to free more children from poverty every day, for a dignified and meaningful life.
             </p>
             <p>
-                We look forward to showing you the conditions of extreme poverty in which millions of children still live today. We are convinced you will be able to
-                witness the transformation that a sponsorship brings to the life of a child and his or her family.
+                To confirm your registration, you only need to pay a deposit of <t t-out="down_payment.currency_id.symbol"/>
+                <t t-out="'{:,.0f}'.format(down_payment.amount_total_signed)"/>.- You have the choice to make this payment:
+            </p>
+            <ul>
+                <li>
+                    Online by Credit card or Postfinance card
+                    <br/><br/>
+                    <div style="margin:40px auto; text-align: center;">
+                        <a t-att-href="registration.down_payment_link" style="text-decoration:none;padding:12px 18px;font-size: 12px; line-height: 18px; color: white; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #2A5EEC; border: 1px solid #2A5EEC; border-radius:3px">
+                            Online payment
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    By paying using the payment slip attached to this email
+                </li>
+            </ul>
+            <p>
+                We thank you in advance for making this payment today or in the coming days.
             </p>
             <p>
-                <b>We hereby confirm your registration for the <t t-out="event.name"/></b>. There are only two steps left for your registration to be validated and a place
-                reserved for you on this trip.
-            </p>
-            <p>
-                <b>Next step</b>: when you have about ten minutes to spare, please read and sign Compassion's child protection guidelines and the travel contract, and upload
-                your passport and criminal record extract in your MyCompassion account.
-            </p>
-            <div style="margin:40px auto; text-align: center;">
-                <a t-attf-href="{{base_url}}/my/events/{{registration.id}}/" style="text-decoration:none;padding:12px 18px;font-size: 12px; line-height: 18px; color: white; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #2A5EEC; border: 1px solid #2A5EEC; border-radius:3px">
-                    Complete my registration
-                </a>
-            </div>
-            <p>
-                <a t-attf-href="{{base_url}}{{event.website_url}}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main
-                questions asked by people interested in travelling with Compassion. You can also email us at info@compassion.ch if you can't find an answer to your question.
+                The next step will be to prepare for the trip. Here again, you will receive the information you need to know in time
+                to make this trip an enriching and unforgettable experience for you.
             </p>
             <p>
                 Once again, thank you for your commitment to children in need.
@@ -121,7 +126,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Your registration to the trip with Compassion is confirmed</field>
@@ -149,7 +154,7 @@
                 <li>Information about Compassion's work and meeting your sponsored child</li>
             </ol>
             <p>
-                <a t-attf-href="{{base_url}}{{event.website_url}}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                <a t-attf-href="{{base_url}}/{{event.website_url}}/faq" style="color: skyblue; text-decoration: underline">Here you will find (click here)</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
                 <br/>
                 <br/>
                 Once again, thank you for your commitment to children in need.
@@ -176,7 +181,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Your trip with Compassion - Medical information</field>
@@ -229,7 +234,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Your trip with Compassion - Medical information</field>
@@ -250,7 +255,7 @@
                 Based on your answers, it seems you are undergoing on a medical treatment. For that purpose we need a medical discharge from your doctor, confirming us that your medical status still allows you to travel to <t t-out="event.country_id.name"></t>.
                 <br/>
                 <br/>
-                Please find attached a template letter that you can fill with your information, print and give it to your doctor to sign. You can then send us back the signed letter at our postal addres or <a t-attf-href="{{base_url}}/my/events/{{registration.id}}/">directly online by clicking here</a>.
+                Please find attached a template letter that you can fill with your information, print and give it to your doctor to sign. You can then send us back the signed letter at our postal addres or <a t-attf-href="{{base_url}}/event/{{registration.uuid}}/medical_discharge">directly online by clicking here</a>.
                 <br/>
                 <br/>
                 Receive our warmest greetings.
@@ -274,7 +279,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Your trip with Compassion - travel documents and payment</field>
@@ -336,7 +341,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Invitation to the {{object.get_objects().compassion_event_id.name}} preparation meeting</field>
@@ -347,19 +352,19 @@
                 <t t-set="event" t-value="registration.compassion_event_id"/>
                 <t t-set="meeting" t-value="registration.event_id"/>
                 <t t-set="user" t-value="meeting.user_id"/>
-                <t t-set="url" t-value="registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my/events/' + str(registration.id) + '/'"/>
+                <t t-set="url" t-value="registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/event/' + registration.uuid + '/meeting_invitation'"/>
             </div>
             <p>
                 <t t-out="partner.salutation"></t>
                 <br/>
                 <br/>
-                Your journey <t t-out="event.country_id.in_preposition"></t> <t t-out="event.country_id.name"></t> is fast approaching.
+                Your journey <t t-out="event.country_id.preposition"></t> <t t-out="event.country_id.name"></t> is fast approaching.
                 <br/>
                 <br/>
-                An unforgettable experience is being prepared. In this perspective, Compassion invites you to a meeting of the participants in <t t-out="meeting.address_id.city"></t> on <t t-out="meeting.get_date('date_begin')"></t> at <t t-out="meeting.get_date('date_begin', 'HH:mm')"></t>.
+                An unforgettable experience is being prepared. In this perspective, Compassion invites you to a meeting of the participants in <t t-out="meeting.address_id.city"></t> on <t t-out="meeting.get_date('date_begin')"></t> at <t t-out="meeting.get_date('date_begin', '%H:%M')"></t>.
                 <br/>
                 <br/>
-                On this occasion, we will present you the work of Compassion <t t-out="event.country_id.in_preposition"></t> <t t-out="event.country_id.name"></t> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.
+                On this occasion, we will present you the work of Compassion <t t-out="event.country_id.preposition"></t> <t t-out="event.country_id.name"></t> as well as the detailed program of the trip. There will also be a time for Questions &amp; Answers and an aperitif to get to know each other.
                 <br/>
                 <br/>
                 <b>Please confirm your participation by clicking here:</b>.
@@ -389,7 +394,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">{{object.get_objects().compassion_event_id.name}} - Invitation to an after party</field>
@@ -400,16 +405,16 @@
                 <t t-set="event" t-value="registration.compassion_event_id"/>
                 <t t-set="meeting" t-value="registration.event_id"/>
                 <t t-set="user" t-value="meeting.user_id"/>
-                <t t-set="url" t-value="registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my/events/' + str(registration.id) + '/'"/>
+                <t t-set="url" t-value="registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/event/' + registration.uuid + '/after_party'"/>
             </div>
             <p>
                 <t t-out="partner.salutation"></t>
                 <br/>
                 <br/>
-                We hope that your journey <t t-out="event.country_id.in_preposition"></t> <t t-out="event.country_id.name"></t> has been an enriching experience for you.
+                We hope that your journey <t t-out="event.country_id.preposition"></t> <t t-out="event.country_id.name"></t> has been an enriching experience for you.
                 <br/>
                 <br/>
-                Compassion invites you to an after party, where the participants can meet once again in order to spend some more time together and share our feedback. The party will take place in <t t-out="meeting.address_id.city"></t> on <t t-out="meeting.get_date('date_begin')"></t> at <t t-out="meeting.get_date('date_begin', 'HH:mm')"></t>.
+                Compassion invites you to an after party, where the participants can meet once again in order to spend some more time together and share our feedback. The party will take place in <t t-out="meeting.address_id.city"></t> on <t t-out="meeting.get_date('date_begin')"></t> at <t t-out="meeting.get_date('date_begin', '%H:%M')"></t>.
                 <br/>
                 <br/>
                 <b>Please confirm your participation by clicking here:</b>.
@@ -439,7 +444,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">Your trip with Compassion - practical information</field>
@@ -472,7 +477,7 @@
             </a>
         </div>
             <p>
-                If you still have questions, <a t-attf-href="{{base_url}}{{event.website_url}}/faq" style="color: skyblue; text-decoration: underline">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
+                If you still have questions, <a t-attf-href="{{base_url}}/{{event.website_url}}/faq" style="color: skyblue; text-decoration: underline">you will find here</a> the main questions asked by people interested in travelling with Compassion. You can also send us an email at rreber@compassion.ch if you can't find an answer to your question.
             <br/>
             <br/>
             Thank you for your commitment to children in need.
@@ -495,7 +500,7 @@
         />
         <field
                 name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
+        >"${object.user_id.company_id.name}" &lt;compassion@compassion.ch&gt;</field>
         <field name="reply_to">info@compassion.ch</field>
         <field name="use_default_to" eval="True" />
         <field name="subject">How did your trip with Compassion go?</field>
@@ -544,44 +549,6 @@
                 Receive our warmest greetings.
             </p>
             <t t-out="user.signature" />
-        </field>
-    </record>
-    <record id="group_visit_flights_email" model="mail.template">
-        <field name="name">Group visit: flight details</field>
-        <field
-                name="model_id"
-                ref="partner_communication.model_partner_communication_job"
-        />
-        <field
-                name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
-        <field name="reply_to">info@compassion.ch</field>
-        <field name="use_default_to" eval="True" />
-        <field name="subject">Your trip with Compassion - flight details</field>
-        <field name="body_html" type="html">
-            <t t-set="registration" t-value="object.get_objects()"/>
-            <p><t t-out="object.partner_id.salutation"/>,</p>
-            <p>Please enter the details of your outbound and return flights on your trip page.</p>
-            <p><a t-att-href="registration.event_id.get_base_url() + '/my/events/' + str(registration.id)">My events</a></p>
-        </field>
-    </record>
-    <record id="group_visit_criminal_record_email" model="mail.template">
-        <field name="name">Group visit: criminal record</field>
-        <field
-                name="model_id"
-                ref="partner_communication.model_partner_communication_job"
-        />
-        <field
-                name="email_from"
-        >"{{object.user_id.company_id.name}}" &lt;compassion@compassion.ch&gt;</field>
-        <field name="reply_to">info@compassion.ch</field>
-        <field name="use_default_to" eval="True" />
-        <field name="subject">Your trip with Compassion - certificate of criminal record</field>
-        <field name="body_html" type="html">
-            <t t-set="registration" t-value="object.get_objects()"/>
-            <p><t t-out="object.partner_id.salutation"/>,</p>
-            <p>One last document is missing: please send us your certificate of criminal record from your trip page.</p>
-            <p><a t-att-href="registration.event_id.get_base_url() + '/my/events/' + str(registration.id)">My events</a></p>
         </field>
     </record>
 </odoo>

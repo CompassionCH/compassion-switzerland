@@ -9,4 +9,3 @@
 
 from . import test_event_registration_setup
 from . import test_group_visit_journey
-from . import test_muskathlon_journey

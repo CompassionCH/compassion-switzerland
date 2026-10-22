@@ -60,7 +60,7 @@
       id="group_visit_medical_survey_config"
       model="partner.communication.config"
     >
-            <field name="name">Group visit: missing documents reminder</field>
+            <field name="name">Group visit: medical survey invitation</field>
             <field name="send_mode">auto_digital</field>
             <field
         name="email_template_id"
@@ -188,46 +188,6 @@
             <field
         name="email_template_id"
         ref="group_visit_after_trip_feedback_email"
-      />
-            <field
-        name="report_id"
-        ref="partner_communication.report_a4_communication"
-      />
-            <field
-        name="model_id"
-        ref="website_event_compassion.model_event_registration"
-      />
-            <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
-        </record>
-        <record
-      id="group_visit_flights_config"
-      model="partner.communication.config"
-    >
-            <field name="name">Group visit: flight details</field>
-            <field name="send_mode">auto_digital</field>
-            <field
-        name="email_template_id"
-        ref="group_visit_flights_email"
-      />
-            <field
-        name="report_id"
-        ref="partner_communication.report_a4_communication"
-      />
-            <field
-        name="model_id"
-        ref="website_event_compassion.model_event_registration"
-      />
-            <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
-        </record>
-        <record
-      id="group_visit_criminal_record_config"
-      model="partner.communication.config"
-    >
-            <field name="name">Group visit: criminal record</field>
-            <field name="send_mode">auto_digital</field>
-            <field
-        name="email_template_id"
-        ref="group_visit_criminal_record_email"
       />
             <field
         name="report_id"
