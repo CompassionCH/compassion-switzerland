@@ -1,260 +1,254 @@
 <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
 <odoo>
+    <!-- The contact page of Odoo holds demo content (company, address) and
+         sends a lead: it becomes a support request, as on MyCompassion, which
+         shows its own page instead. -->
     <template
     name="Compassion CH Contact Form"
     inherit_id="website.contactus"
-    customize_show="True"
     id="contactus"
-    active="False"
   >
-        <!-- Replace intro sentence -->
-        <xpath expr="//p[@class='lead']" position="replace">
-            <p>Contact us using the form below.<br />
-We'll do our best to get back to you as soon as possible. </p>
+        <xpath expr="//p[hasclass('lead')]" position="replace">
+            <p class="lead">
+                Have a question or want to learn more about our work? Fill out the form below, and we'll get back to you as soon as possible.
+            </p>
         </xpath>
-        <!-- Replace Contact form with CRM Request form -->
-        <xpath expr="//section[@class='s_website_form']" position="replace">
-            <span
-        class="hidden"
-        data-for="contactus_form"
-        t-att-data-values="{'email_to': res_company.email}"
-      />
-            <div id="contactus_section" class="">
-                <section
-          class="s_website_form o_colored_level"
-          data-vcss="001"
-          data-snippet="s_website_form"
-          data-name="Form"
-          style=""
+        <xpath expr="//section[hasclass('s_website_form')]" position="replace">
+            <section
+        class="s_website_form"
+        data-vcss="001"
+        data-snippet="s_website_form"
+        data-name="Form"
+      >
+                <form
+          id="contactus_form"
+          action="/website/form/"
+          method="post"
+          enctype="multipart/form-data"
+          class="o_mark_required"
+          data-mark="*"
+          data-model_name="crm.claim"
+          data-success-mode="redirect"
+          data-success-page="/contactus-thank-you"
         >
-                    <div class="container">
-                        <form
-              id="contactus_form"
-              action="/website/form/"
-              method="post"
-              enctype="multipart/form-data"
-              class="o_mark_required"
-              data-mark="*"
-              data-model_name="crm.claim"
-              data-success-mode="redirect"
-              data-success-page="/contactus-thank-you"
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                        <div
+              class="mb-3 col-12 col-md-6 s_website_form_field s_website_form_custom s_website_form_required"
+              data-type="char"
+              data-name="Field"
+              t-if="titles"
             >
-                            <div
-                class="s_website_form_rows row s_col_no_bgcolor"
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_title"
               >
-                                <div
-                  class="form-group s_website_form_field col-12 s_website_form_custom s_website_form_required"
-                  data-type="char"
-                  data-name="Field"
-                >
-                                    <div
-                    class="row s_col_no_resize s_col_no_bgcolor"
-                  >
-                                        <label
-                      class="col-form-label col-sm-auto s_website_form_label"
-                      style="width: 200px"
-                      for="oqb5pxe4e2wr"
-                    >
-                                            <span
-                        class="s_website_form_label_content"
-                      >Your Name</span>
-                                            <span
-                        class="s_website_form_mark"
-                      > *</span>
-                                        </label>
-                                        <div class="col-sm">
-                                            <input
-                        type="text"
-                        class="form-control s_website_form_input"
-                        name="Your Name"
-                        placeholder=""
-                        id="oqb5pxe4e2wr"
-                        required=""
-                      />
-                                            <div
-                        style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"
-                        data-lastpass-icon-root=""
-                      />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                  class="form-group s_website_form_field col-12  s_website_form_model_required  "
-                  data-type="email"
-                  data-name="Field"
-                >
-                                    <div
-                    class="row s_col_no_resize s_col_no_bgcolor"
-                  >
-                                        <label
-                      class="col-form-label col-sm-auto s_website_form_label "
-                      style="width: 200px"
-                      for="o4dgd9p5jo1o"
-                    >
-                                            <span
-                        class="s_website_form_label_content"
-                      >Email</span>
-                                            <span
-                        class="s_website_form_mark"
-                      > *</span>
-                                        </label>
-                                        <div class="col-sm">
-                                            <input
-                        type="email"
-                        class="form-control s_website_form_input"
-                        name="email_from"
-                        required="true"
-                        id="o4dgd9p5jo1o"
-                      />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                  class="form-group s_website_form_field col-12  s_website_form_model_required  "
-                  data-type="char"
-                  data-name="Field"
-                >
-                                    <div
-                    class="row s_col_no_resize s_col_no_bgcolor"
-                  >
-                                        <label
-                      class="col-form-label col-sm-auto s_website_form_label"
-                      style="width: 200px"
-                      for="o27w33hgvsay"
-                    >
-                                            <span
-                        class="s_website_form_label_content"
-                      >Subject</span>
-                                            <span
-                        class="s_website_form_mark"
-                      > *</span>
-                                        </label>
-                                        <div class="col-sm">
-                                            <input
-                        type="text"
-                        class="form-control s_website_form_input"
-                        name="name"
-                        required="true"
-                        id="o27w33hgvsay"
-                      />
-                                            <div
-                        style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"
-                        data-lastpass-icon-root=""
-                      />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                  class="form-group s_website_form_field col-12    "
-                  data-type="many2one"
-                  data-name="Field"
-                >
-                                    <div
-                    class="row s_col_no_resize s_col_no_bgcolor"
-                  >
-                                        <label
-                      class="col-form-label col-sm-auto s_website_form_label "
-                      style="width: 200px"
-                      for="ooxlbquh4xd"
-                    >
-                                            <span
-                        class="s_website_form_label_content"
-                      >Category</span>
-                                        </label>
-                                        <div class="col-sm">
-                                            <select
-                        class="form-control s_website_form_input"
-                        name="categ_id"
-                        id="ooxlbquh4xd"
-                      >
-                                                <option
-                          value="38"
-                        >Sponsorship</option>
-                                                <option
-                          value="7"
-                        >Donation / Finances</option>
-                                                <option
-                          value="43"
-                        >Trip / Visit</option>
-                                                <option
-                          value="9"
-                        >Translation / Volunteers</option>
-                                                <option
-                          value="53"
-                        >MyAccount</option>
-                                                <option
-                          value="27"
-                        >Gift / Payment slip</option>
-                                                <option
-                          value="28"
-                        >Website Letter Error</option>
-                                                <option
-                          value="35"
-                        >Tax receipt</option>
-                                                <option
-                          value="36"
-                        >Address change</option>
-                                                <option
-                          value="37"
-                        >Address email change</option>
-                                                <option
-                          value="75"
-                        >Sponsorship Payment Slips</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                  class="form-group s_website_form_field col-12  s_website_form_model_required  "
-                  data-type="text"
-                  data-name="Field"
-                >
-                                    <div
-                    class="row s_col_no_resize s_col_no_bgcolor"
-                  >
-                                        <label
-                      class="col-form-label col-sm-auto s_website_form_label "
-                      style="width: 200px"
-                      for="oyln2pviadn"
-                    >
-                                            <span
-                        class="s_website_form_label_content"
-                      >Message</span>
-                                            <span
-                        class="s_website_form_mark"
-                      > *</span>
-                                        </label>
-                                        <div class="col-sm">
-                                            <textarea
-                        class="form-control s_website_form_input"
-                        name="description"
-                        required="true"
-                        id="oyln2pviadn"
-                        rows="3"
-                      />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                  class="form-group col-12 s_website_form_submit"
-                  data-name="Submit Button"
-                >
-                                    <div
-                    style="width: 200px;"
-                    class="s_website_form_label"
-                  />
-                                    <a
-                    href="#"
-                    role="button"
-                    class="btn btn-primary btn-lg s_website_form_send"
-                  >Submit</a>
-                                    <span id="s_website_form_result" />
-                                </div>
-                            </div>
-                        </form>
+                                <span class="s_website_form_label_content">Title</span>
+                                <span class="s_website_form_mark"> *</span>
+                            </label>
+                            <select
+                id="contactus_form_title"
+                name="title"
+                class="form-select s_website_form_input"
+                required="1"
+              >
+                                <option value="" disabled="1" selected="1">Please select</option>
+                                <option
+                  t-foreach="titles"
+                  t-as="title"
+                  t-att-value="title.shortcut"
+                  t-out="title.name"
+                />
+                            </select>
+                        </div>
+                        <div class="w-100" t-if="titles" />
+                        <div
+              class="mb-3 col-12 col-md-6 s_website_form_field s_website_form_custom s_website_form_required"
+              data-type="char"
+              data-name="Field"
+            >
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_firstname"
+              >
+                                <span class="s_website_form_label_content">First Name</span>
+                                <span class="s_website_form_mark"> *</span>
+                            </label>
+                            <input
+                id="contactus_form_firstname"
+                type="text"
+                name="firstname"
+                class="form-control s_website_form_input"
+                required="1"
+              />
+                        </div>
+                        <div
+              class="mb-3 col-12 col-md-6 s_website_form_field s_website_form_custom s_website_form_required"
+              data-type="char"
+              data-name="Field"
+            >
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_lastname"
+              >
+                                <span class="s_website_form_label_content">Last Name</span>
+                                <span class="s_website_form_mark"> *</span>
+                            </label>
+                            <input
+                id="contactus_form_lastname"
+                type="text"
+                name="lastname"
+                class="form-control s_website_form_input"
+                required="1"
+              />
+                        </div>
+                        <div
+              class="mb-3 col-12 col-md-6 s_website_form_field"
+              data-type="char"
+              data-name="Field"
+            >
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_phone"
+              >
+                                <span class="s_website_form_label_content">Phone number</span>
+                            </label>
+                            <input
+                id="contactus_form_phone"
+                type="tel"
+                name="partner_phone"
+                class="form-control s_website_form_input"
+              />
+                        </div>
+                        <div
+              class="mb-3 col-12 col-md-6 s_website_form_field s_website_form_required"
+              data-type="email"
+              data-name="Field"
+            >
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_email"
+              >
+                                <span class="s_website_form_label_content">E-mail</span>
+                                <span class="s_website_form_mark"> *</span>
+                            </label>
+                            <input
+                id="contactus_form_email"
+                type="email"
+                name="email_from"
+                class="form-control s_website_form_input"
+                required="1"
+              />
+                        </div>
+                        <div
+              class="mb-3 col-12 s_website_form_field s_website_form_required"
+              data-type="char"
+              data-name="Field"
+            >
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_subject"
+              >
+                                <span class="s_website_form_label_content">Subject</span>
+                                <span class="s_website_form_mark"> *</span>
+                            </label>
+                            <input
+                id="contactus_form_subject"
+                type="text"
+                name="name"
+                class="form-control s_website_form_input"
+                required="1"
+              />
+                        </div>
+                        <div
+              class="mb-3 col-12 s_website_form_field s_website_form_required"
+              data-type="text"
+              data-name="Field"
+            >
+                            <label
+                class="s_website_form_label form-label"
+                for="contactus_form_message"
+              >
+                                <span class="s_website_form_label_content">Message</span>
+                                <span class="s_website_form_mark"> *</span>
+                            </label>
+                            <textarea
+                id="contactus_form_message"
+                name="description"
+                class="form-control s_website_form_input"
+                rows="6"
+                required="1"
+              />
+                        </div>
+                        <div
+              class="col-12 s_website_form_submit text-end"
+              data-name="Submit Button"
+            >
+                            <a
+                href="#"
+                role="button"
+                class="btn btn-primary s_website_form_send"
+              >Send the message</a>
+                            <span id="s_website_form_result" />
+                        </div>
                     </div>
-                </section>
-            </div>
+                </form>
+            </section>
+        </xpath>
+        <xpath
+      expr="//div[hasclass('col-lg-4')][hasclass('offset-lg-1')]"
+      position="replace"
+    >
+            <t t-call="website_switzerland.contactus_company" />
         </xpath>
     </template>
+    <template
+    id="contactus_thanks"
+    inherit_id="website.contactus_thanks_ir_ui_view"
+  >
+        <xpath
+      expr="//div[hasclass('col-lg-4')][hasclass('offset-lg-1')]"
+      position="replace"
+    >
+            <t t-call="website_switzerland.contactus_company" />
+        </xpath>
+    </template>
+    <!-- Instead of the demo company of the contact pages of Odoo -->
+    <template id="contactus_company">
+            <!-- The office answering in the language of the visitor -->
+            <t
+        t-set="street"
+        t-value="res_company.commercial_street or res_company.street"
+      />
+            <t t-set="phone" t-value="res_company.commercial_phone or res_company.phone" />
+            <div class="col-lg-4 offset-lg-1 mt-4 mt-lg-0">
+                <h5 t-out="res_company.commercial_name or res_company.name" />
+                <ul class="list-unstyled mb-0 ps-2">
+                    <li t-if="street">
+                        <i class="fa fa-map-marker fa-fw me-2" />
+                        <span t-out="street" />,
+                        <span t-out="res_company.commercial_zip or res_company.zip" />
+                        <span t-out="res_company.commercial_city or res_company.city" />
+                    </li>
+                    <li t-if="phone">
+                        <i class="fa fa-phone fa-fw me-2" />
+                        <a
+              t-attf-href="tel:#{phone}"
+              class="o_force_ltr"
+              t-out="phone"
+            />
+                    </li>
+                    <li t-if="res_company.email">
+                        <i class="fa fa-envelope fa-fw me-2" />
+                        <a
+              t-attf-href="mailto:#{res_company.email}"
+              t-out="res_company.email"
+            />
+                    </li>
+                </ul>
+            </div>
+    </template>
+    <!-- Was shown on the Compassion Suisse website only (v14) -->
+    <record id="contactus" model="ir.ui.view">
+        <field name="active" eval="True" />
+    </record>
 </odoo>
