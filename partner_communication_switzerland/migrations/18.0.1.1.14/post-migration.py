@@ -54,11 +54,13 @@ ARCHIVED = {
     554: "Golden Tickets : Completion",
     555: "Task: Completion",
 }
-# Odoo templates still holding their Odoo 14 text: reloaded from their module
-RESET = (
-    "gamification.email_template_goal_reminder",
-    "survey.mail_template_user_input_invite",
-)
+# Odoo templates still holding their Odoo 14 text: reloaded from their module,
+# only while a text holds code of the v14 version (edits made since are kept)
+RESET = {
+    # goals have no name in Odoo 18
+    "gamification.email_template_goal_reminder": re.compile(r"\bobject\.name\b"),
+    "survey.mail_template_user_input_invite": re.compile(r"\.certificate\b"),
+}
 # Texts mangled by the migration (or by machine translation in v14), restored
 # from the v14 texts in restored_texts/<id>_<lang>.jinja, while they are broken.
 RESTORED = {
@@ -219,7 +221,9 @@ SPECIFIC = {
     # The variables of the donation are only set in the other languages
     (194, "de_DE"): [
         (
-            re.compile(r'(<t t-set="invoices" t-value="[^"]*"/>)(?!<t t-set="products")'),
+            re.compile(
+                r'(<t t-set="invoices" t-value="[^"]*"/>)(?!<t t-set="products")'
+            ),
             r'\1<t t-set="products" t-value="invoice_lines.mapped('
             r'&#x27;product_id&#x27;)"/>'
             r'<t t-set="gift" t-value="&#x27;gift&#x27; in invoice_lines.mapped('
@@ -286,6 +290,12 @@ GLUED_STATEMENT_RE = re.compile(
 )
 EXPR_RE = re.compile(r"\$\{(?P<expr>(?:[^{}]|\{[^{}]*\})*)\}")
 TAG_WITH_EXPR_RE = re.compile(r"<[a-zA-Z][^<>]*\$\{[^<>]*>")
+# src="<t t-out="url"></t>": expression in an attribute, written by a previous
+# conversion of a tag on several lines
+OUT_IN_ATTR_RE = re.compile(
+    r'(?<![\w-])(?P<name>[a-zA-Z][\w:-]*)="<t t-out="(?P<expr>[^"]*)"\s*(?:/>|></t>)"'
+)
+MULTILINE_TAG_WITH_EXPR_RE = re.compile(r"<[a-zA-Z](?=[^<>]*\n)(?=[^<>]*\$\{)[^<>]*>")
 ATTR_WITH_EXPR_RE = re.compile(r'(?P<name>[\w:-]+)="(?P<value>[^"]*\$\{[^"]*)"')
 # Jinja filters and their Python equivalent ({} is the filtered value, {args}
 # the filter arguments)
@@ -525,18 +535,21 @@ def _attr(expr):
     return html.escape(expr, quote=True)
 
 
+def _convert_tag(tag, loops):
+    """${expressions} in the attributes of a tag -> t-attf-attribute"""
+
+    def attr_sub(match):
+        value = EXPR_RE.sub(
+            lambda e: "{{ " + _expr(e["expr"], loops) + " }}",
+            html.unescape(match["value"]),
+        )
+        return f't-attf-{match["name"]}="{_attr(value)}"'
+
+    return ATTR_WITH_EXPR_RE.sub(attr_sub, tag)
+
+
 def _convert_line(line, loops):
-    def tag_sub(tag_match):
-        def attr_sub(match):
-            value = EXPR_RE.sub(
-                lambda e: "{{ " + _expr(e["expr"], loops) + " }}",
-                html.unescape(match["value"]),
-            )
-            return f't-attf-{match["name"]}="{_attr(value)}"'
-
-        return ATTR_WITH_EXPR_RE.sub(attr_sub, tag_match[0])
-
-    line = TAG_WITH_EXPR_RE.sub(tag_sub, line)
+    line = TAG_WITH_EXPR_RE.sub(lambda tag: _convert_tag(tag[0], loops), line)
     return EXPR_RE.sub(lambda e: f'<t t-out="{_attr(_expr(e["expr"], loops))}"/>', line)
 
 
@@ -568,6 +581,9 @@ def _convert_body(body):
     """Convert the Jinja line statements and ${expressions} of a body. Works
     for fully Jinja texts as well as for half converted ones, where a stray
     "% endif" closes a <t t-if> written in QWeb."""
+    # Tags written on several lines: their attributes are converted first, as
+    # the rest of the text is converted line by line
+    body = MULTILINE_TAG_WITH_EXPR_RE.sub(lambda tag: _convert_tag(tag[0], ()), body)
     lines = []
     for line in body.split("\n"):
         glued = GLUED_STATEMENT_RE.match(line)
@@ -922,6 +938,7 @@ def _fix_body(body, template_id, lang):
     body = _remove_namespaces(body)
     if LEFTOVER_RE.search(body):
         body = _convert_body(body)
+    body = OUT_IN_ATTR_RE.sub(r't-attf-\g<name>="{{ \g<expr> }}"', body)
     body = _ascii_names(body)
     body = _fix_loops(body)
     body = _fix_qweb_expressions(body, lang)
@@ -1071,9 +1088,15 @@ def archive_templates(env):
 
 
 def reset_templates(env):
-    for xmlid in RESET:
+    for xmlid, v14_code in RESET.items():
         template = env.ref(xmlid, raise_if_not_found=False)
-        if template:
+        if not template:
+            continue
+        env.cr.execute(
+            "SELECT body_html FROM mail_template WHERE id = %s", (template.id,)
+        )
+        bodies = env.cr.fetchone()[0] or {}
+        if any(v14_code.search(bodies.get(lang) or "") for lang in LANGS):
             template.reset_template()
             _logger.info("Reloaded mail.template %s from its module", xmlid)
 
