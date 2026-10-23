@@ -190,19 +190,6 @@ class RecurringContracts(models.Model):
         bvr_reference += str(product.sponsorship_gift_type_id.id)
         bvr_reference += "0" * 4
 
-        if self.payment_mode_id and "LSV" in self.payment_mode_id.name:
-            # Get company BVR adherent number
-            user = self.env.user
-            bank_obj = self.env["res.partner.bank"]
-            company_bank = bank_obj.search(
-                [
-                    ("partner_id", "=", user.company_id.partner_id.id),
-                    ("acc_type", "=", "iban"),
-                ],
-                limit=1,
-            )
-            if company_bank:
-                bvr_reference = company_bank.l10n_ch_isrb_id_number + bvr_reference[9:]
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 

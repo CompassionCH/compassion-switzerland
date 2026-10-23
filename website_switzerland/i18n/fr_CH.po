@@ -1420,3 +1420,77 @@ msgid ""
 "{{object.get_objects().compassion_event_id.name}} - Invitation to an after "
 "party"
 msgstr ""
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "Have a question or want to learn more about our work? Fill out the form below, and we'll get back to you as soon as possible."
+msgstr "Vous avez une question ou souhaitez en savoir plus sur notre travail ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais."
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Title</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Titre</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<option value=\"\" disabled=\"1\" selected=\"1\">Please select</option>"
+msgstr "<option value=\"\" disabled=\"1\" selected=\"1\">Veuillez choisir</option>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">First Name</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Prénom</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Last Name</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Nom</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "<span class=\"s_website_form_label_content\">Phone number</span>"
+msgstr "<span class=\"s_website_form_label_content\">Numéro de téléphone</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">E-mail</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Subject</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Objet</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid ""
+"<span class=\"s_website_form_label_content\">Message</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+msgstr ""
+"<span class=\"s_website_form_label_content\">Message</span>\n"
+"                                <span class=\"s_website_form_mark\"> *</span>"
+
+#. module: website_switzerland
+#: model_terms:ir.ui.view,arch_db:website_switzerland.contactus
+msgid "Send the message"
+msgstr "Envoyer le message"
