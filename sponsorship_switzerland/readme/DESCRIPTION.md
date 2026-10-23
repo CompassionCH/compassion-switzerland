@@ -6,3 +6,6 @@ This module adds specific behaviours of sponsorships for Switzerland.
 - New validation workflow with waiting mandate state for LSV/DD
   contracts
 - Add some useful statistics about sponsorships
+- Link thank you letters with the gift they are thanking for, either
+  estimated with the last gift of the sponsorship, or imported from the
+  CSV files sent by GMC.
