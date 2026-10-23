@@ -1,4 +1,4 @@
-from odoo.http import request, route
+from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -52,18 +52,3 @@ class CompassionWebsiteSale(WebsiteSale):
         mandatory_fields.append("firstname")
         mandatory_fields.append("lastname")
         return mandatory_fields
-
-    @route("/legal", type="http", auth="public", website=True, sitemap=False)
-    def legal_redirect(self):
-        # The privacy policy of the website (Compassion Poland has its own),
-        # else the one of Compassion Switzerland.
-        legal_link = request.website.privacy_policy_url
-        if not legal_link:
-            legal_link = "https://compassion.ch/protection-des-donnees/"
-            if request.env.lang == "de_DE":
-                legal_link = "https://compassion.ch/de/datenschutz/"
-            if request.env.lang == "it_IT":
-                legal_link = "https://compassion.ch/it/privacy-e-termini/"
-        # local=False: an external URL, otherwise reduced to its path on this
-        # website (a 404).
-        return request.redirect(legal_link, code=301, local=False)
