@@ -245,9 +245,10 @@ class CompassionChild(models.Model):
 
         if not new_children:
             raise UserError(_("No new children to put on WordPress, old ones kept."))
-        if not wp.remove_all_children():
+        if wp.remove_all_children():
+            logger.info("ALL CHILDREN REMOVED")
+        elif old_children:
             raise UserError(_("Could not remove old children from WordPress."))
-        logger.info("ALL CHILDREN REMOVED")
 
         # From here the website is empty: any failure must put the old
         # children back online before giving up.
@@ -286,7 +287,10 @@ class CompassionChild(models.Model):
             )
         if not total_uploaded:
             restored = old_children._restore_on_wordpress(wp)
-            issues.append(f"{restored}/{len(old_children)} previous children restored.")
+            issues.append(
+                f"No new child uploaded: {restored}/{len(old_children)} "
+                "previous children restored."
+            )
         elif old_children:
             old_children.with_delay_sh(
                 "write", {"state": "N"}, channel="root.child_compassion"
@@ -330,11 +334,7 @@ class CompassionChild(models.Model):
         state "I", so upload them directly instead of via add_to_wordpress."""
         if not self:
             return 0
-        try:
-            return wp.upload_children(self)
-        except Exception:
-            logger.error("Restoring children on WordPress failed", exc_info=True)
-            return 0
+        return wp.upload_children(self)
 
     def _notify_developer_new_cursor(self, company_id, message):
         # The job's own transaction may be rolled back: send from a new one.
