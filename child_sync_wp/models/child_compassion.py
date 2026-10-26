@@ -30,6 +30,10 @@ logger = logging.getLogger(__name__)
 
 WP_SYNC_MAX_ATTEMPTS = 3
 WP_SYNC_RETRY_SECONDS = 30 * 60
+WP_SYNC_RETRY_NOTE = (
+    f"Retried every {WP_SYNC_RETRY_SECONDS // 60} minutes, "
+    f"{WP_SYNC_MAX_ATTEMPTS} attempts in total."
+)
 
 
 class CompassionChild(models.Model):
@@ -175,13 +179,22 @@ class CompassionChild(models.Model):
                 company_id, old_children, valid_new_children
             )
         except Exception as e:
-            if (
-                isinstance(e, OperationalError)
-                and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
-            ) or (RetryableJobError and isinstance(e, RetryableJobError)):
-                # Transient conflict with a concurrent write: queue_job
-                # retries the job, no need to alert the developer.
+            if RetryableJobError and isinstance(e, RetryableJobError):
+                # Already alerted where it was raised.
                 raise
+            if (
+                RetryableJobError
+                and isinstance(e, OperationalError)
+                and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
+            ):
+                # queue_job retries plain conflicts every 5 s without limit:
+                # ask for a counted, spaced-out retry instead.
+                self._notify_developer_new_cursor(
+                    company_id,
+                    f"The WordPress Sync job hit a database conflict: {e}. "
+                    f"{WP_SYNC_RETRY_NOTE}",
+                )
+                raise RetryableJobError(str(e), seconds=WP_SYNC_RETRY_SECONDS) from e
             logger.error("Critical failure in WordPress sync job", exc_info=True)
             self._notify_developer_new_cursor(
                 company_id, f"The WordPress Sync background job crashed: {str(e)}"
@@ -269,12 +282,8 @@ class CompassionChild(models.Model):
                 and isinstance(e, OperationalError)
                 and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
             ):
-                # queue_job retries plain conflicts every 5 s without limit:
-                # ask for a counted, spaced-out retry instead.
                 self._notify_developer_new_cursor(
-                    company_id,
-                    f"{msg} Retried every {WP_SYNC_RETRY_SECONDS // 60} minutes, "
-                    f"{WP_SYNC_MAX_ATTEMPTS} attempts in total.",
+                    company_id, f"{msg} {WP_SYNC_RETRY_NOTE}"
                 )
                 raise RetryableJobError(msg, seconds=WP_SYNC_RETRY_SECONDS) from e
             raise UserError(msg) from e
