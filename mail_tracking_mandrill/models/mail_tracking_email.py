@@ -15,6 +15,7 @@ class MailTrackingEmail(models.Model):
     def _mandrill_event_type_mapping(self):
         """Map mandrill names to `mail.tracking` names"""
         return {
+            "delivered": "delivered",
             "open": "open",
             "deferral": "deferral",
             "hard_bounce": "hard_bounce",

@@ -1,4 +1,4 @@
-from odoo.http import request, route
+from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -52,12 +52,3 @@ class CompassionWebsiteSale(WebsiteSale):
         mandatory_fields.append("firstname")
         mandatory_fields.append("lastname")
         return mandatory_fields
-
-    @route("/legal", type="http", auth="public", website=True, sitemap=False)
-    def legal_redirect(self):
-        legal_link = "https://compassion.ch/protection-des-donnees/"
-        if request.env.lang == "de_DE":
-            legal_link = "https://compassion.ch/de/datenschutz/"
-        if request.env.lang == "it_IT":
-            legal_link = "https://compassion.ch/it/privacy-e-termini//"
-        return request.redirect(legal_link, code=301)

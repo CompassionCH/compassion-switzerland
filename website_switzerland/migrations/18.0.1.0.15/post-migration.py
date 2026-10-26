@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 @openupgrade.migrate()
 def migrate(env, version):
-    # Migration 18.0.1.0.10 moved the participants waiting for their agreements
+    # Migration 18.0.1.0.13 moved the participants waiting for their agreements
     # to Fill documents in SQL: they lack the tasks of that stage (medical
     # survey and discharge) and their medical survey, so they could leave the
     # stage without them.

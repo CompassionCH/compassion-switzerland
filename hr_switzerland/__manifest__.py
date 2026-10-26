@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH - HR Management",
-    "version": "18.0.1.0.2",
+    "version": "18.0.1.0.3",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
@@ -48,6 +48,7 @@
     "depends": [
         "hr",
         "hr_attendance",
+        "hr_holidays_public",  # OCA/hr-holidays
     ],
     "demo": [],
     "installable": True,

@@ -1,5 +1,7 @@
 # Copyright 2021 Compassion CH (http://www.compassion.ch)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+import copy
+
 from odoo.tests.common import TransactionCase
 
 
@@ -494,6 +496,22 @@ class TestMandrill(TransactionCase):
 
         self.assertGreater(event_count_2, event_count_1)
         self.assertEqual(self.tracking_email.tracking_event_ids[1].event_type, "open")
+
+    def test_process_delivered_event(self):
+        event_delivered = copy.deepcopy(self.event_open)
+        mandrill_event = event_delivered["mandrill_events"][0]
+        mandrill_event["event"] = "delivered"
+        # Mandrill sends back the id as an integer, unlike the older fixtures
+        mandrill_event["msg"]["metadata"]["tracking_email_id"] = self.tracking_email.id
+
+        result = self.env["mail.tracking.email"].event_process(
+            event_delivered, self.metadata
+        )
+
+        self.assertEqual(result, "OK")
+        self.assertIn(
+            "delivered", self.tracking_email.tracking_event_ids.mapped("event_type")
+        )
 
     def test_process_click_event(self):
         event_count_1 = self.env["mail.tracking.event"].search_count(

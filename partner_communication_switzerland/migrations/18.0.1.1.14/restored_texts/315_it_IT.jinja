@@ -1,0 +1,77 @@
+<div>
+% set partner = object.partner_id
+% set plural = partner.title.plural or partner.title.id == 29
+% set tax_link = "https://mycompassion.ch/it_IT/my/login/" + partner.uuid + "/donations"
+
+% set ti = 'vi' if plural else 'ti'
+% set Scopri = 'Scoprite' if plural else 'Scopri'
+% set tuo = 'vostro' if plural else 'tuo'
+% set inviarti = 'inviarvi' if plural else 'inviartiti'
+% set te = 'voi' if plural else 'te'
+% set donation_amount = partner.get_receipt_text(year)
+% set sponsorships = len(object.env['recurring.contract'].search(['|',('correspondent_id','=',partner.id),('partner_id','=',partner.id)]))
+
+% set gifts = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id.categ_id', '=', 5)]).mapped('price_subtotal') or [0])
+% set moms = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('account_id', '=', 2773)]).mapped('price_subtotal') or [0]) / 15
+% set houses = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('account_id', '=', 2765)]).mapped('price_subtotal') or [0])
+% set toilets  = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id', 'in', (146,221,41,148,40))]).mapped('price_subtotal') or [0]) / 25
+% set christmas = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id', '=', 31)]).mapped('price_subtotal') or [0]) / 15
+
+% if moms > 0 and moms < 1:
+    % set moms = 1
+% endif
+% if toilets > 0 and toilets < 1:
+    % set toilets = 1
+% endif
+% if christmas > 0 and christmas < 1:
+    % set christmas = 1
+% endif
+
+% set donor = sponsorships or moms or houses or toilets or christmas
+
+% set impact_link = "https://impact.compassion.ch//it?fname={}&donor={}".format(partner.firstname or partner.name, 'true' if donor else 'false') + ("&sponsorship={}".format(sponsorships) if sponsorships else "") + ("&sp_amount={}".format(str(gifts).split(".")[0]) if gifts else "") + ("&moms={}".format(str(moms).split(".")[0]) if moms else "") + ("&house={}".format(str(houses).split(".")[0]) if houses else "") + ("&toilets_amount={}".format(str(toilets).split(".")[0]) if toilets else "") + ("&gifts_amount={}".format(str(christmas).split(".")[0]) if christmas else "")
+  </div>
+  <div>
+   ${partner.salutation},
+   <br>
+   <br>
+<p>
+Prima di tutto ${ti} auguriamo un nuovo anno pieno di speranza e serenità.
+</p>
+% if object.send_mode == 'digital':
+<p>
+    ${Scopri} a colpo d'occhio cosa ha permesso il ${tuo} impegno con Compassion nel 2021
+</p>
+<div style="margin:0 auto; text-align: center;">
+    <a href="${impact_link}" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px" title="">
+        Scopri il ${tuo} impatto
+    </a>
+</div>
+<br>
+<p>
+    <b>
+        Siamo grati di ${inviarti} il riepilogo delle donazioni 2021 per la dichiarazione dei redditi (file allegato).
+    </b>
+</p>
+% else:
+<p>
+    <b>
+        Siamo grati di ${inviarti} il riepilogo delle donazioni 2021 per la dichiarazione dei redditi (file allegato).
+    </b>
+</p>
+<p>
+    ${Scopri} l'impatto di tutti gli amici di Compassion in Svizzera: https://impact.compassion.ch
+</p>
+% endif
+<p>
+    Dall'inizio degli anni '90, e con l'eccezione degli ultimi due anni della pandemia, la mobilitazione contro l'ingiustizia e la povertà estrema è sempre andata avanti. L'attuale ambasciatore di Haiti in Giappone è un ex bambino sostenuto, come lo è anche il direttore di Compassion nella Repubblica Dominicana. Molti bambini a cui la povertà ha detto che non valevano niente sono ora, come ${te} e noi, persone che fanno la differenza.
+</p>
+<p>
+    Grazie mille per il ${tuo} impegno nei nostri confronti. Cordiali saluti e a presto!
+</p>
+% if object.send_mode == 'digital':
+    <br>
+    Christian Willi e il team di Compassion
+    <br>
+% endif
+</div>

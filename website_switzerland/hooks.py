@@ -16,4 +16,4 @@ def _migration(version):
 def post_init_hook(env):
     """The mail texts of the registration stages are shipped with the
     migration that wrote them: a new database gets them too."""
-    _migration("18.0.1.0.10")._load_texts(env)
+    _migration("18.0.1.0.13")._load_texts(env)
