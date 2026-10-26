@@ -21,7 +21,15 @@ from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
 from ..tools.wp_sync import WPSync
 
+try:
+    from odoo.addons.queue_job.exception import RetryableJobError
+except ImportError:  # queue_job is optional
+    RetryableJobError = None
+
 logger = logging.getLogger(__name__)
+
+WP_SYNC_MAX_ATTEMPTS = 3
+WP_SYNC_RETRY_SECONDS = 30 * 60
 
 
 class CompassionChild(models.Model):
@@ -83,23 +91,6 @@ class CompassionChild(models.Model):
             logger.error(f"Error removing children from WordPress: {e}", exc_info=True)
             raise
 
-    def force_remove_from_wordpress(self, company_id=None, wp=None):
-        try:
-            if wp is None:
-                wp_config = self.env["wordpress.configuration"].get_config(company_id)
-                wp = WPSync(wp_config)
-            if not wp.remove_all_children():
-                return False
-            logger.info("ALL CHILDREN REMOVED")
-            self.with_delay_sh("write", {"state": "N"}, channel="root.child_compassion")
-            return True
-        except Exception as e:
-            logger.error(
-                f"Error force removing children from WordPress: {e}",
-                exc_info=True,
-            )
-            raise
-
     def child_sponsored(self, sponsor_id):
         """Remove children from the website when they are sponsored."""
         if self.state == "I":
@@ -140,12 +131,16 @@ class CompassionChild(models.Model):
             global_pool = self.with_company(company.id)._create_diverse_children_pool(
                 int(take)
             )
+            retry_args = (
+                {"max_retries": WP_SYNC_MAX_ATTEMPTS} if "queue.job" in self.env else {}
+            )
             self.with_delay_sh(
                 "_hold_and_push_to_wordpress",
                 company.id,
                 global_pool,
                 channel="root.child_compassion",
                 description="Hold and push children to wordpress",
+                **retry_args,
             )
         return True
 
@@ -183,16 +178,14 @@ class CompassionChild(models.Model):
             if (
                 isinstance(e, OperationalError)
                 and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
-            ):
+            ) or (RetryableJobError and isinstance(e, RetryableJobError)):
                 # Transient conflict with a concurrent write: queue_job
                 # retries the job, no need to alert the developer.
                 raise
             logger.error("Critical failure in WordPress sync job", exc_info=True)
-            with self.pool.cursor() as cr:
-                env = api.Environment(cr, self.env.uid, self.env.context)
-                self.with_env(env).with_company(company_id)._notify_developer(
-                    f"The WordPress Sync background job crashed: {str(e)}"
-                )
+            self._notify_developer_new_cursor(
+                company_id, f"The WordPress Sync background job crashed: {str(e)}"
+            )
             raise
 
     def _update_information_and_filter_invalid(self):
@@ -250,33 +243,72 @@ class CompassionChild(models.Model):
                 f"Failed to authenticate WPSync before batching: {e}"
             ) from e
 
+        if not new_children:
+            raise UserError(_("No new children to put on WordPress, old ones kept."))
+        if not wp.remove_all_children():
+            raise UserError(_("Could not remove old children from WordPress."))
+        logger.info("ALL CHILDREN REMOVED")
+
+        # From here the website is empty: any failure must put the old
+        # children back online before giving up.
         try:
-            with self.env.cr.savepoint():
-                removed = old_children.force_remove_from_wordpress(
-                    company_id=company_id,
-                    wp=wp,
-                )
+            total_uploaded, total_expected, failed_batches = (
+                new_children._upload_to_wordpress_in_batches(company_id, wp)
+            )
         except Exception as e:
-            raise UserError(
-                f"Error force removing old children from WordPress: {e}"
-            ) from e
+            self.env.cr.rollback()
+            self.env.invalidate_all()
+            restored = old_children._restore_on_wordpress(wp)
+            msg = (
+                f"Sync failed after removing all children from WordPress: {e}. "
+                f"{restored}/{len(old_children)} previous children restored."
+            )
+            if (
+                RetryableJobError
+                and isinstance(e, OperationalError)
+                and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
+            ):
+                # queue_job retries plain conflicts every 5 s without limit:
+                # ask for a counted, spaced-out retry instead.
+                self._notify_developer_new_cursor(
+                    company_id,
+                    f"{msg} Retried every {WP_SYNC_RETRY_SECONDS // 60} minutes, "
+                    f"{WP_SYNC_MAX_ATTEMPTS} attempts in total.",
+                )
+                raise RetryableJobError(msg, seconds=WP_SYNC_RETRY_SECONDS) from e
+            raise UserError(msg) from e
 
-        if old_children and not removed:
-            # Uploading a new pool on a website that still holds the old
-            # children would leave children online that Odoo no more tracks.
-            raise UserError(_("Could not remove old children from WordPress"))
+        issues = []
+        if failed_batches > 0 or total_uploaded < total_expected:
+            issues.append(
+                f"{failed_batches} failed batches, "
+                f"{total_uploaded}/{total_expected} children uploaded."
+            )
+        if not total_uploaded:
+            restored = old_children._restore_on_wordpress(wp)
+            issues.append(f"{restored}/{len(old_children)} previous children restored.")
+        elif old_children:
+            old_children.with_delay_sh(
+                "write", {"state": "N"}, channel="root.child_compassion"
+            )
 
+        if issues:
+            warning_msg = "Sync completed with issues: " + " ".join(issues)
+            logger.warning(warning_msg)
+            self._notify_developer_new_cursor(company_id, warning_msg)
+
+    def _upload_to_wordpress_in_batches(self, company_id, wp):
         # Save points after each batch
         # Put children 5 by 5 to avoid delays
         total_uploaded = 0
         total_expected = 0
         failed_batches = 0
-        for i in range(0, len(new_children), 5):
+        for i in range(0, len(self), 5):
             try:
                 with self.env.cr.savepoint():
-                    success_count, valid_count = new_children[
-                        i : i + 5
-                    ].add_to_wordpress(company_id=company_id, wp=wp)
+                    success_count, valid_count = self[i : i + 5].add_to_wordpress(
+                        company_id=company_id, wp=wp
+                    )
                     total_uploaded += success_count
                     total_expected += valid_count
                     if success_count < valid_count:
@@ -291,20 +323,24 @@ class CompassionChild(models.Model):
                 )
                 failed_batches += 1
                 continue
+        return total_uploaded, total_expected, failed_batches
 
-        if failed_batches > 0 or total_uploaded < total_expected:
-            warning_msg = (
-                f"Sync completed with issues: {failed_batches} failed batches, "
-                f"{total_uploaded}/{total_expected} children uploaded."
-            )
-            logger.warning(warning_msg)
+    def _restore_on_wordpress(self, wp):
+        """Put back children removed by a failed sync. They are still in
+        state "I", so upload them directly instead of via add_to_wordpress."""
+        if not self:
+            return 0
+        try:
+            return wp.upload_children(self)
+        except Exception:
+            logger.error("Restoring children on WordPress failed", exc_info=True)
+            return 0
 
-            # Send the email with partial failure
-            with self.pool.cursor() as cr:
-                env = api.Environment(cr, self.env.uid, self.env.context)
-                self.with_env(env).with_company(company_id)._notify_developer(
-                    warning_msg
-                )
+    def _notify_developer_new_cursor(self, company_id, message):
+        # The job's own transaction may be rolled back: send from a new one.
+        with self.pool.cursor() as cr:
+            env = api.Environment(cr, self.env.uid, self.env.context)
+            self.with_env(env).with_company(company_id)._notify_developer(message)
 
     def _notify_developer(self, message: str) -> None:
         """
