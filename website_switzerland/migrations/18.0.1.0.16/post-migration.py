@@ -32,6 +32,12 @@ SIGNER_SUBSTITUTIONS = [
 
 @openupgrade.migrate()
 def migrate(env, version):
+    _sign_by_responsible(env)
+
+
+def _sign_by_responsible(env):
+    """Also run on a new database (hooks.py): the texts it loads from older
+    migrations still name the former signers."""
     configs = (
         env["partner.communication.config"]
         .with_context(active_test=False)
