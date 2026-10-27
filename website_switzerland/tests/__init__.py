@@ -10,3 +10,5 @@
 from . import test_event_registration_setup
 from . import test_group_visit_journey
 from . import test_muskathlon_journey
+from . import test_participant_access
+from . import test_registration_signer
