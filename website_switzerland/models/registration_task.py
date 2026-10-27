@@ -78,7 +78,9 @@ class RegistrationTaskRel(models.Model):
                 and task.registration_id.partner_id.date_agreed_child_protection_charter
             ):
                 task.write({"done": True})
-            if task.task_id == passport and task.registration_id.passport:
+            # The passport is confidential (T3572): whoever creates the task
+            # need not be allowed to read it.
+            if task.task_id == passport and task.registration_id.sudo().passport:
                 task.write({"done": True})
             flight_type = flights.get(task.task_id)
             if flight_type and flight_type in task.registration_id.flight_ids.mapped(
