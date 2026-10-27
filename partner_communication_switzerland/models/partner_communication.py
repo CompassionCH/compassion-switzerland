@@ -420,11 +420,25 @@ class PartnerCommunication(models.Model):
         report_name = "report_compassion.tax_receipt"
         data = {
             "doc_ids": self.partner_id.ids,
-            "year": self.env.context.get("year", date.today().year - 1),
+            # The year before the receipt's creation, also when the PDF is
+            # made again later (refresh_text)
+            "year": self.env.context.get("year", self.date.year - 1),
             "lang": self.partner_id.lang,
         }
         pdf = self._get_pdf_from_data(data, "report_compassion.tax_receipt_report")
         return {_("tax receipt.pdf"): [report_name, pdf]}
+
+    def refresh_text(self):
+        """A tax receipt is about the year before its creation, also when it
+        is made again later, e.g. once a donor who gave only an email gives
+        their name: its text and PDF take the year from the context."""
+        config = self.env.ref("partner_communication_switzerland.tax_receipt_config")
+        receipts = self.filtered(lambda j: j.config_id == config)
+        if "year" in self.env.context:
+            receipts = receipts.browse()
+        for year, jobs in receipts.grouped(lambda j: j.date.year - 1).items():
+            super(PartnerCommunication, jobs.with_context(year=year)).refresh_text()
+        return super(PartnerCommunication, self - receipts).refresh_text()
 
     def send(self):
         """
