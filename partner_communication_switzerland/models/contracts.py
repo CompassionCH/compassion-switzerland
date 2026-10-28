@@ -597,7 +597,7 @@ class RecurringContract(models.Model):
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
         cc_welcome = self.env.ref(swiss + "cc_welcome_rule")
         partner = self.correspondent_id if correspondent else self.partner_id
-        if self.parent_id.sds_state == "sub":
+        if self.sub_proposal_date or self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
             # the SUB Accept communication when appropriate
             return True
