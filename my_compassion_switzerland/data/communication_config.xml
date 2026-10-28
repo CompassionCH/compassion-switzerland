@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+  <!-- Addressed to "(pending)", a tax receipt is no tax document: it waits for
+       the name of a donor who gave only an email (my_compassion). -->
+  <record
+    id="partner_communication_switzerland.tax_receipt_config"
+    model="partner.communication.config"
+  >
+    <field name="my2_wait_for_name" eval="True" />
+  </record>
+</odoo>
