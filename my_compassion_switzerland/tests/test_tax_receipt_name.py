@@ -80,3 +80,10 @@ class TestTaxReceiptName(TransactionCase):
         self.assertIn("Nowak", self._pdf_text(receipt))
         receipt.send()
         self.assertEqual(receipt.state, "done")
+
+    def test_a_receipt_made_on_new_year_night_is_about_the_past_year(self):
+        """Made at 00:30 on 1 January 2027 in Switzerland, still 31 December
+        2026 in UTC: the receipt is about 2026."""
+        self.env.user.tz = "Europe/Zurich"
+        receipt = self._receipt(datetime(2026, 12, 31, 23, 30))
+        self.assertEqual(self._pdf_text(receipt), f"2026 {self.donor.name}")

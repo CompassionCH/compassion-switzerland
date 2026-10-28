@@ -13,6 +13,9 @@ def migrate(env, version):
     """The tax receipt waits for the donor's name. Its rule is noupdate data of
     partner_communication_switzerland: data/communication_config.xml only sets
     it on a new database."""
-    env.ref("partner_communication_switzerland.tax_receipt_config").write(
-        {"my2_wait_for_name": True}
+    config = env.ref(
+        "partner_communication_switzerland.tax_receipt_config",
+        raise_if_not_found=False,
     )
+    if config:
+        config.my2_wait_for_name = True
