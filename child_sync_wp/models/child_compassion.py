@@ -30,10 +30,6 @@ logger = logging.getLogger(__name__)
 
 WP_SYNC_MAX_ATTEMPTS = 3
 WP_SYNC_RETRY_SECONDS = 30 * 60
-WP_SYNC_RETRY_NOTE = (
-    f"Retried every {WP_SYNC_RETRY_SECONDS // 60} minutes, "
-    f"{WP_SYNC_MAX_ATTEMPTS} attempts in total."
-)
 
 
 class CompassionChild(models.Model):
@@ -192,7 +188,8 @@ class CompassionChild(models.Model):
                 self._notify_developer_new_cursor(
                     company_id,
                     f"The WordPress Sync job hit a database conflict: {e}. "
-                    f"{WP_SYNC_RETRY_NOTE}",
+                    "Website unchanged: the old children are still online.",
+                    retry=True,
                 )
                 raise RetryableJobError(str(e), seconds=WP_SYNC_RETRY_SECONDS) from e
             logger.error("Critical failure in WordPress sync job", exc_info=True)
@@ -282,9 +279,7 @@ class CompassionChild(models.Model):
                 and isinstance(e, OperationalError)
                 and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
             ):
-                self._notify_developer_new_cursor(
-                    company_id, f"{msg} {WP_SYNC_RETRY_NOTE}"
-                )
+                self._notify_developer_new_cursor(company_id, msg, retry=True)
                 raise RetryableJobError(msg, seconds=WP_SYNC_RETRY_SECONDS) from e
             raise UserError(msg) from e
 
@@ -309,6 +304,14 @@ class CompassionChild(models.Model):
             warning_msg = "Sync completed with issues: " + " ".join(issues)
             logger.warning(warning_msg)
             self._notify_developer_new_cursor(company_id, warning_msg)
+        else:
+            job = self._current_job()
+            if job and job.retry:
+                self.with_company(company_id)._notify_developer(
+                    f"The sync succeeded on attempt {job.retry + 1}/"
+                    f"{job.max_retries}: {total_uploaded} children are online.",
+                    success=True,
+                )
 
     def _upload_to_wordpress_in_batches(self, company_id, wp):
         # Save points after each batch
@@ -345,13 +348,30 @@ class CompassionChild(models.Model):
             return 0
         return wp.upload_children(self)
 
-    def _notify_developer_new_cursor(self, company_id, message):
+    def _notify_developer_new_cursor(self, company_id, message, retry=False):
         # The job's own transaction may be rolled back: send from a new one.
         with self.pool.cursor() as cr:
             env = api.Environment(cr, self.env.uid, self.env.context)
+            job = retry and self.with_env(env)._current_job()
+            if job:
+                # The stored counter is only bumped once the attempt is over.
+                message += f" Attempt {job.retry + 1}/{job.max_retries}"
+                if job.retry + 1 < job.max_retries:
+                    message += f", next one in {WP_SYNC_RETRY_SECONDS // 60} min."
+                else:
+                    message += ", no retry left."
             self.with_env(env).with_company(company_id)._notify_developer(message)
 
-    def _notify_developer(self, message: str) -> None:
+    def _current_job(self):
+        if "queue.job" not in self.env:
+            return None
+        return (
+            self.env["queue.job"]
+            .sudo()
+            .search([("uuid", "=", self.env.context.get("job_uuid"))])
+        )
+
+    def _notify_developer(self, message: str, success=False) -> None:
         """
         Sends an email to the IT team regarding child a child sync issue
         """
@@ -362,18 +382,24 @@ class CompassionChild(models.Model):
             .get_param("child_wp.developer_email", "it@compassion.ch")
         )
 
-        mail_values = {
-            "subject": "[URGENT] Odoo -> WordPress Sync Failure",
-            "body_html": f"""
+        if success:
+            subject = "Odoo -> WordPress Sync recovered"
+            body = f"<p>Hello Team,</p><p>{message}</p>"
+        else:
+            subject = "[URGENT] Odoo -> WordPress Sync Failure"
+            body = f"""
             <p>Hello Team,</p>
             <p>The odoo scheduled action for syncing children to
             WordPress has encountered a failure.</p>
             <p><b>Error details:</b></p>
             <pre>{message}</pre>
-            <p>Please trigger the job manually and resolve the problem ASAP!</p>
             <br/>
             <p><i>Thanks for your work & God bless you!</i></p>
-            """,
+            """
+
+        mail_values = {
+            "subject": subject,
+            "body_html": body,
             "email_to": dev_email,
             "email_from": self.env.company.email or "noreply@compassion.ch",
             "state": "outgoing",
