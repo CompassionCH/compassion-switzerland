@@ -385,7 +385,7 @@ class TestMandrill(TransactionCase):
         )
 
         self.env["mail.tracking.email"].event_process(
-            None, self.event_hard_bounce, self.metadata
+            self.event_hard_bounce, self.metadata
         )
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
@@ -403,7 +403,7 @@ class TestMandrill(TransactionCase):
         )
 
         self.env["mail.tracking.email"].event_process(
-            None, self.event_soft_bounce, self.metadata
+            self.event_soft_bounce, self.metadata
         )
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
@@ -421,7 +421,7 @@ class TestMandrill(TransactionCase):
         )
 
         self.env["mail.tracking.email"].event_process(
-            None, self.event_deferral, self.metadata
+            self.event_deferral, self.metadata
         )
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
@@ -438,9 +438,7 @@ class TestMandrill(TransactionCase):
             [("tracking_email_id", "=", self.tracking_email.id)]
         )
 
-        self.env["mail.tracking.email"].event_process(
-            None, self.event_reject, self.metadata
-        )
+        self.env["mail.tracking.email"].event_process(self.event_reject, self.metadata)
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
             [("tracking_email_id", "=", self.tracking_email.id)]
@@ -454,9 +452,7 @@ class TestMandrill(TransactionCase):
             [("tracking_email_id", "=", self.tracking_email.id)]
         )
 
-        self.env["mail.tracking.email"].event_process(
-            None, self.event_unsub, self.metadata
-        )
+        self.env["mail.tracking.email"].event_process(self.event_unsub, self.metadata)
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
             [("tracking_email_id", "=", self.tracking_email.id)]
@@ -470,9 +466,7 @@ class TestMandrill(TransactionCase):
             [("tracking_email_id", "=", self.tracking_email.id)]
         )
 
-        self.env["mail.tracking.email"].event_process(
-            None, self.event_spam, self.metadata
-        )
+        self.env["mail.tracking.email"].event_process(self.event_spam, self.metadata)
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
             [("tracking_email_id", "=", self.tracking_email.id)]
@@ -486,9 +480,7 @@ class TestMandrill(TransactionCase):
             [("tracking_email_id", "=", self.tracking_email.id)]
         )
 
-        self.env["mail.tracking.email"].event_process(
-            None, self.event_open, self.metadata
-        )
+        self.env["mail.tracking.email"].event_process(self.event_open, self.metadata)
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
             [("tracking_email_id", "=", self.tracking_email.id)]
@@ -497,30 +489,42 @@ class TestMandrill(TransactionCase):
         self.assertGreater(event_count_2, event_count_1)
         self.assertEqual(self.tracking_email.tracking_event_ids[1].event_type, "open")
 
-    def test_process_delivered_event(self):
+    def _process_delivered(self, tracking_email_id):
         event_delivered = copy.deepcopy(self.event_open)
         mandrill_event = event_delivered["mandrill_events"][0]
         mandrill_event["event"] = "delivered"
-        # Mandrill sends back the id as an integer, unlike the older fixtures
-        mandrill_event["msg"]["metadata"]["tracking_email_id"] = self.tracking_email.id
-
-        result = self.env["mail.tracking.email"].event_process(
+        mandrill_event["msg"]["metadata"]["tracking_email_id"] = tracking_email_id
+        return self.env["mail.tracking.email"].event_process(
             event_delivered, self.metadata
         )
+
+    def test_process_delivered_event(self):
+        # Mandrill returns the id as the string that mail_tracking sent
+        result = self._process_delivered(str(self.tracking_email.id))
 
         self.assertEqual(result, "OK")
         self.assertIn(
             "delivered", self.tracking_email.tracking_event_ids.mapped("event_type")
         )
 
+    def test_process_event_with_integer_id(self):
+        result = self._process_delivered(self.tracking_email.id)
+
+        self.assertEqual(result, "OK")
+
+    def test_process_event_with_unknown_id(self):
+        result = self._process_delivered("0")
+        self.assertEqual(result, "Error: Tracking not found")
+
+        result = self._process_delivered(str(self.tracking_email.id + 10**6))
+        self.assertEqual(result, "Error: Tracking not found")
+
     def test_process_click_event(self):
         event_count_1 = self.env["mail.tracking.event"].search_count(
             [("tracking_email_id", "=", self.tracking_email.id)]
         )
 
-        self.env["mail.tracking.email"].event_process(
-            None, self.event_click, self.metadata
-        )
+        self.env["mail.tracking.email"].event_process(self.event_click, self.metadata)
 
         event_count_2 = self.env["mail.tracking.event"].search_count(
             [("tracking_email_id", "=", self.tracking_email.id)]
