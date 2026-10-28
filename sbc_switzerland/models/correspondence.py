@@ -66,6 +66,30 @@ class Correspondence(models.Model):
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
+    def _compute_report_needs_final_text(self):
+        """
+        When we translated the letter ourselves (e.g. from English to French),
+        the final image coming from GMC only contains the source translation
+        (e.g. English), which the sponsor can't read. In that case, we overlay
+        our translated text on the original image of the letter.
+        """
+        res = super()._compute_report_needs_final_text()
+        for letter in self:
+            letter.report_needs_final_text = letter._has_local_translation_overlay()
+        return res
+
+    def _has_local_translation_overlay(self):
+        self.ensure_one()
+        translation_lang = self.translation_language_id
+        return bool(
+            self.direction == "Beneficiary To Supporter"
+            and self.sponsor_needs_final_letter
+            and self.src_translation_lang_id
+            and translation_lang != self.src_translation_lang_id
+            and translation_lang in self.supporter_languages_ids
+            and self.translated_text
+        )
+
     def merge_letters(self):
         """We have issues with letters that we send and we have an error.
         Then when we try to send it again, we have a duplicate letter because
