@@ -49,7 +49,8 @@ class MyAccountControllerSwitzerland(MyAccountController):
             wizard = (
                 request.env["print.tax_receipt"]
                 .with_user(SUPERUSER_ID)
-                .with_context(active_ids=partner.ids)
+                # The receipt is in the language of the website
+                .with_context(active_ids=partner.ids, tax_receipt_lang=request.env.lang)
                 .create(
                     {
                         "pdf": True,
