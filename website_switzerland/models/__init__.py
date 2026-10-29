@@ -7,3 +7,4 @@ from . import event_flight
 from . import account_move
 from . import survey_user_input
 from . import theme_utils
+from . import ir_ui_view
