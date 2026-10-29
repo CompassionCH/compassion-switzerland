@@ -1,5 +1,6 @@
 import { Chatter } from "@mail/chatter/web_portal/chatter";
 import { CheckboxItem } from "@web/core/dropdown/checkbox_item";
+import { Message } from "@mail/core/common/message_model";
 import { Thread } from "@mail/core/common/thread";
 import { _t } from "@web/core/l10n/translation";
 import { browser } from "@web/core/browser/browser";
@@ -11,6 +12,9 @@ import { useDropdownState } from "@web/core/dropdown/dropdown_hooks";
 // deleted in v18 and pile up as clutter, so "System Notifications" is
 // unchecked (hidden) by default; everything else stays visible. The choice
 // is remembered per browser, not per user.
+// The "... done" messages of completed activities are system notifications
+// too, but they keep the activity's note and feedback: they get their own
+// entry, visible by default (T3610).
 const STORAGE_KEY = "mail.visibleMessageTypes";
 
 export const MESSAGE_TYPE_LABELS = {
@@ -18,6 +22,7 @@ export const MESSAGE_TYPE_LABELS = {
   email: _t("Incoming Emails"),
   email_outgoing: _t("Outgoing Emails"),
   notification: _t("System Notifications"),
+  completed_activity: _t("Completed Activities"),
   auto_comment: _t("Automated Notifications"),
   user_notification: _t("User Notifications"),
 };
@@ -27,6 +32,7 @@ const DEFAULT_VISIBLE_MESSAGE_TYPES = {
   email: true,
   email_outgoing: true,
   notification: false,
+  completed_activity: true,
   auto_comment: true,
   user_notification: true,
 };
@@ -43,6 +49,21 @@ function loadVisibleMessageTypes() {
 }
 
 Object.assign(Chatter.components, { CheckboxItem });
+
+patch(Message.prototype, {
+  setup() {
+    super.setup();
+    /** @type {Boolean} set by the server on the "... done" messages */
+    this.is_completed_activity = false;
+  },
+});
+
+/** The filter entry a message belongs to. */
+export function getMessageFilterType(message) {
+  return message.is_completed_activity
+    ? "completed_activity"
+    : message.message_type;
+}
 
 patch(Chatter.prototype, {
   setup() {
@@ -73,7 +94,8 @@ patch(Thread.prototype, {
       return messages;
     }
     return messages.filter(
-      (message) => this.props.visibleMessageTypes[message.message_type] ?? true,
+      (message) =>
+        this.props.visibleMessageTypes[getMessageFilterType(message)] ?? true,
     );
   },
 });
