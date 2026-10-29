@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo><record
+    id="action_google_analytics_data_line_graph"
+    model="ir.actions.act_window"
+  >
+        <field name="name">Page Views by URL</field>
+        <field name="res_model">google.analytics.data.line</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_google_analytics_data_line_graph" />
+        <field name="context">{'search_default_group_by': 'url'}</field>
+        <field name="domain">[('report_id', '=', active_id)]</field>
+    </record>
+
+    </odoo>
