@@ -1356,6 +1356,16 @@ msgstr ""
 "dell'opportunità di offrire visibilità al sostegno di bambini.<br>"
 
 #. module: website_switzerland
+#. odoo-python
+#: code:addons/website_switzerland/controllers/website_sale.py:0
+msgid ""
+"You cannot change your name or e-mail address while ordering. Please do so "
+"in your account settings or contact us."
+msgstr ""
+"Non puoi modificare il tuo nome o il tuo indirizzo e-mail durante "
+"l'ordine. Fallo nelle impostazioni del tuo account o contattaci."
+
+#. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_page1
 msgid "Your health"
 msgstr "La tua salute"

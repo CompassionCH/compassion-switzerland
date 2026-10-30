@@ -1362,6 +1362,16 @@ msgstr ""
 " d'y offrir une visibilité pour le parrainage d'enfants.<br>"
 
 #. module: website_switzerland
+#. odoo-python
+#: code:addons/website_switzerland/controllers/website_sale.py:0
+msgid ""
+"You cannot change your name or e-mail address while ordering. Please do so "
+"in your account settings or contact us."
+msgstr ""
+"Tu ne peux pas modifier ton nom ou ton adresse e-mail lors d'une commande. "
+"Fais-le dans les paramètres de ton compte ou contacte-nous."
+
+#. module: website_switzerland
 #: model:survey.question,title:website_switzerland.gpms_page1
 msgid "Your health"
 msgstr "Votre santé"
