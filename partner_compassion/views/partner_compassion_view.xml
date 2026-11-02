@@ -166,7 +166,7 @@
                         'default_country_id': country_id,
                         'default_lang': lang,
                         'default_user_id': user_id,
-                        'default_type': 'email_alias',
+                        'default_type': 'other',
                         'default_title': title,
                         'default_firstname': firstname,
                         'default_lastname': lastname,

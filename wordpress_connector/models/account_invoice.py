@@ -121,7 +121,7 @@ class AccountInvoice(models.Model):
             child_code,
         )
         partner = self.env["res.partner"].browse(partner_id)
-        if partner.parent_id and partner.type == "email_alias":
+        if partner.parent_id and partner.type == "other":
             # In this case we want to link to the main partner
             partner = partner.parent_id
             partner_id = partner.id
