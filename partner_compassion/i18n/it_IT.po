@@ -899,11 +899,6 @@ msgid "Email Thread"
 msgstr "Thread Email"
 
 #. module: partner_compassion
-#: model:ir.model.fields.selection,name:partner_compassion.selection__res_partner__type__email_alias
-msgid "Email alias"
-msgstr "Alias e-mail"
-
-#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__employee
 msgid "Employee"
 msgstr "Dipendente"
@@ -1197,6 +1192,11 @@ msgstr ""
 "compito ti offre la possibilità di leggere le lettere dei bambini e di "
 "comprendere l'essenza del nostro lavoro: la relazione di incoraggiamento tra"
 " il sostenitore e il bambino, che fa tutta la differenza."
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Hide the e-mail aliases of a contact"
+msgstr "Nascondi gli alias e-mail di un contatto"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__street_number
@@ -1638,6 +1638,11 @@ msgstr "Contatto Mass Mailing"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__mass_mailing_contacts_count
 msgid "Mailing contacts number"
 msgstr "Numero di contatti Mass Mailing"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Main contacts"
+msgstr "Contatti principali"
 
 #. module: partner_compassion
 #: model:res.groups,name:partner_compassion.group_criminal_record

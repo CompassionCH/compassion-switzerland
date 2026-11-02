@@ -121,10 +121,6 @@ class ResPartner(models.Model):
     )
 
     email_copy = fields.Boolean(string="CC e-mails sent to main partner")
-    type = fields.Selection(
-        selection_add=[("email_alias", "Email alias")],
-        ondelete={"email_alias": "set default"},
-    )
 
     # add track on fields from module base
     email = fields.Char(tracking=True)

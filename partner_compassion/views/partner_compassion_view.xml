@@ -222,12 +222,19 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
-            <!-- Use fuzzy search on name -->
+            <!-- Use fuzzy search on name. A main contact is also found by the
+                 name, reference or e-mail of one of its e-mail aliases -->
             <field name="name" position="replace">
                 <field
           name="name"
-          filter_domain="['|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self)]"
+          filter_domain="['|','|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self),
+                          ('child_ids', 'any', [('type', '=', 'email_alias'), '|', '|', ('name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)])]"
         />
+            </field>
+            <field name="email" position="attributes">
+                <attribute
+          name="filter_domain"
+        >['|', ('email', 'ilike', self), ('child_ids', 'any', [('type', '=', 'email_alias'), ('email', 'ilike', self)])]</attribute>
             </field>
             <field name="category_id" position="after">
                 <field name="lang" />
@@ -250,6 +257,13 @@
         />
             </field>
             <filter name="supplier" position="after">
+                <separator />
+                <filter
+          string="Main contacts"
+          name="main_contacts"
+          domain="[('type', '!=', 'email_alias')]"
+          help="Hide the e-mail aliases of a contact"
+        />
                 <separator />
                 <filter
           string="Sponsor"
@@ -313,7 +327,9 @@
         <field name="res_model">res.partner</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="domain">[]</field>
-        <field name="context">{'search_default_sponsor': 1}</field>
+        <field
+      name="context"
+    >{'search_default_sponsor': 1, 'search_default_main_contacts': 1}</field>
         <field name="filter" eval="True" />
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -325,6 +341,13 @@
                 documents, etc.
             </p>
         </field>
+    </record>
+
+    <!-- Hide the secondary entries of a contact in the Contacts menu -->
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field
+      name="context"
+    >{'default_is_company': True, 'search_default_main_contacts': 1}</field>
     </record>
 
     <!-- Add security on tracking e-mail fields -->
