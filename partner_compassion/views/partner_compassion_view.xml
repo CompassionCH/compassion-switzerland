@@ -252,6 +252,13 @@
             <filter name="supplier" position="after">
                 <separator />
                 <filter
+          string="Main contacts"
+          name="main_contacts"
+          domain="['|', ('parent_id', '=', False), ('type', '=', 'contact')]"
+          help="Hide the secondary entries of a contact (type other, address...)"
+        />
+                <separator />
+                <filter
           string="Sponsor"
           name="sponsor"
           domain="['|', ('category_id.name', '=', 'Sponsor'), ('category_id.name', '=', 'Parrain')]"
@@ -313,7 +320,9 @@
         <field name="res_model">res.partner</field>
         <field name="view_mode">list,kanban,form</field>
         <field name="domain">[]</field>
-        <field name="context">{'search_default_sponsor': 1}</field>
+        <field
+      name="context"
+    >{'search_default_sponsor': 1, 'search_default_main_contacts': 1}</field>
         <field name="filter" eval="True" />
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -325,6 +334,13 @@
                 documents, etc.
             </p>
         </field>
+    </record>
+
+    <!-- Hide the secondary entries of a contact in the Contacts menu -->
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field
+      name="context"
+    >{'default_is_company': True, 'search_default_main_contacts': 1}</field>
     </record>
 
     <!-- Add security on tracking e-mail fields -->
