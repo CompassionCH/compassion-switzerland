@@ -901,11 +901,6 @@ msgid "Email Thread"
 msgstr "E-Mail Thread"
 
 #. module: partner_compassion
-#: model:ir.model.fields.selection,name:partner_compassion.selection__res_partner__type__email_alias
-msgid "Email alias"
-msgstr "E-Mail-Alias"
-
-#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__employee
 msgid "Employee"
 msgstr "Mitarbeiter"
@@ -1199,6 +1194,11 @@ msgstr ""
 "Übersetzer/in erhältst du Einblick in die wunderbaren Briefe der Patenkinder"
 " und bist ganz nah am Herzen unserer Arbeit: der ermutigenden, persönlichen "
 "Beziehung zwischen Kindern und ihren Paten, die so viel bewirkt."
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Hide the e-mail aliases of a contact"
+msgstr "E-Mail-Aliase eines Kontakts ausblenden"
 
 #. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__street_number
@@ -1642,6 +1642,11 @@ msgstr "Massenmail-Kontakt"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__mass_mailing_contacts_count
 msgid "Mailing contacts number"
 msgstr "Anzahl Massenmail-Kontakte"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Main contacts"
+msgstr "Hauptkontakte"
 
 #. module: partner_compassion
 #: model:res.groups,name:partner_compassion.group_criminal_record
