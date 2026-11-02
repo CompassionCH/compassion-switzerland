@@ -166,7 +166,7 @@
                         'default_country_id': country_id,
                         'default_lang': lang,
                         'default_user_id': user_id,
-                        'default_type': 'other',
+                        'default_type': 'email_alias',
                         'default_title': title,
                         'default_firstname': firstname,
                         'default_lastname': lastname,
@@ -254,8 +254,8 @@
                 <filter
           string="Main contacts"
           name="main_contacts"
-          domain="['|', ('parent_id', '=', False), ('type', '=', 'contact')]"
-          help="Hide the secondary entries of a contact (type other, address...)"
+          domain="[('type', '!=', 'email_alias')]"
+          help="Hide the e-mail aliases of a contact"
         />
                 <separator />
                 <filter

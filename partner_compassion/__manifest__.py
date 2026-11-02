@@ -30,7 +30,7 @@
 {
     "name": "Compassion CH Partners",
     "summary": "Upgrade Partners for Compassion Switzerland",
-    "version": "18.0.1.0.4",
+    "version": "18.0.1.0.3",
     "development_status": "Production/Stable",
     "category": "Partner Management",
     "author": "Compassion CH",
@@ -38,6 +38,7 @@
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
         "contacts",
+        "crm_request",  # defines the partner type "email_alias"
         "l10n_ch",
         "mail",
         "website_sale",

@@ -61,7 +61,7 @@ class PartnerMergeWizard(models.TransientModel):
                     {
                         "parent_id": self.dst_partner_id.id,
                         "email": email,
-                        "type": "other",
+                        "type": "email_alias",
                     }
                 )
         return super(PartnerMergeWizard, self.sudo()).action_merge()
