@@ -222,12 +222,19 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
-            <!-- Use fuzzy search on name -->
+            <!-- Use fuzzy search on name. A main contact is also found by the
+                 name, reference or e-mail of one of its e-mail aliases -->
             <field name="name" position="replace">
                 <field
           name="name"
-          filter_domain="['|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self)]"
+          filter_domain="['|','|','|','|', ('name', 'ilike', self), ('name','%',self),('ref','=',self),('email','ilike',self),
+                          ('child_ids', 'any', [('type', '=', 'email_alias'), '|', '|', ('name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)])]"
         />
+            </field>
+            <field name="email" position="attributes">
+                <attribute
+          name="filter_domain"
+        >['|', ('email', 'ilike', self), ('child_ids', 'any', [('type', '=', 'email_alias'), ('email', 'ilike', self)])]</attribute>
             </field>
             <field name="category_id" position="after">
                 <field name="lang" />

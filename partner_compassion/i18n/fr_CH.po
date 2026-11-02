@@ -1197,6 +1197,11 @@ msgstr ""
 "toute la différence."
 
 #. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Hide the e-mail aliases of a contact"
+msgstr "Masquer les alias e-mail d'un contact"
+
+#. module: partner_compassion
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__street_number
 msgid "House"
 msgstr "Maison"
@@ -1638,6 +1643,11 @@ msgstr "Contact de publipostage"
 #: model:ir.model.fields,field_description:partner_compassion.field_res_users__mass_mailing_contacts_count
 msgid "Mailing contacts number"
 msgstr "Nombre de contacts de publipostage"
+
+#. module: partner_compassion
+#: model_terms:ir.ui.view,arch_db:partner_compassion.res_partner_compassion_search
+msgid "Main contacts"
+msgstr "Contacts principaux"
 
 #. module: partner_compassion
 #: model:res.groups,name:partner_compassion.group_criminal_record

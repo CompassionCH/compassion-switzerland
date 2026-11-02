@@ -37,8 +37,6 @@
     "license": "AGPL-3",
     "website": "https://github.com/CompassionCH/compassion-switzerland",
     "depends": [
-        "contacts",
-        "crm_request",  # defines the partner type "email_alias"
         "l10n_ch",
         "mail",
         "website_sale",
