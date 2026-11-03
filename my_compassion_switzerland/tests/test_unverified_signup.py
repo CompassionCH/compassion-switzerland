@@ -11,6 +11,7 @@ from odoo.tests.common import HttpCase
 
 from odoo.addons.my_compassion.controllers.my2_sponsorships import (
     OWN_SIGNUPS_SESSION_KEY,
+    own_signup_session_entry,
 )
 from odoo.addons.my_compassion.tests.test_unverified_signup import (
     UnverifiedSignupCase,
@@ -27,7 +28,11 @@ class TestUnverifiedSignupVolunteering(HttpCase, UnverifiedSignupCase):
         self.donor.interested_for_volunteering = False
         sponsorship = self._sign_up(firstname="Known", lastname="Donor")
         self.authenticate(
-            None, None, session_extra={OWN_SIGNUPS_SESSION_KEY: [sponsorship.id]}
+            None,
+            None,
+            session_extra={
+                OWN_SIGNUPS_SESSION_KEY: [own_signup_session_entry(sponsorship)]
+            },
         )
         result = self.make_jsonrpc_request(
             "/my2/new-sponsorship/volunteering",
