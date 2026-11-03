@@ -10,6 +10,8 @@ import base64
 import json
 from types import SimpleNamespace
 
+from lxml import html
+
 from odoo import http
 from odoo.exceptions import AccessError
 from odoo.tests import tagged
@@ -172,6 +174,39 @@ class TestParticipantAccess(GroupVisitJourneyCase):
         self.assertEqual(
             self.registration.flight_ids.mapped("flight_number"), ["LX200"]
         )
+
+    def test_the_forms_post_to_their_route_in_every_language(self):
+        """Out of the default language, the form action gets a language
+        prefix and Odoo drops its trailing slash: the form names must bring
+        their own slash, or the page posts to /xx/my/events/formflight."""
+        website = self.registration.website_id or self.env["website"].search(
+            [], limit=1
+        )
+        lang = (website.language_ids - website.default_lang_id)[:1]
+        if not lang:
+            self.skipTest("the website has a single language")
+        self.authenticate(self.owner_login, self.owner_login)
+        posted = []
+        for edit_mode in ("passport", "flight", "criminal"):
+            page = self.url_open(
+                f"/{lang.url_code}/my/events/{self.registration.id}/{edit_mode}"
+            )
+            self.assertEqual(page.status_code, 200, edit_mode)
+            forms = html.fromstring(page.content).xpath("//form[@data-force_action]")
+            self.assertTrue(forms, edit_mode)
+            for form in forms:
+                url = form.get("action") + form.get("data-force_action")
+                self.assertRegex(url, r"^/[^/]+/my/events/form/\w+$", edit_mode)
+                posted.append(url)
+        # and the posted address reaches the participant's own form
+        url = next(u for u in posted if u.endswith("/registration_edit"))
+        response = self._post(
+            url,
+            {"registration_id": self.registration.id, "comments": "My comment"},
+            files={"passport": ("passport.pdf", PASSPORT, "application/pdf")},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(base64.b64decode(self._passport()), PASSPORT)
 
     def test_portal_users_cannot_write_through_the_orm(self):
         """The forms are not the only way in: a portal user may call the
