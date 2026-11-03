@@ -1,0 +1,66 @@
+<div>
+% set partner = object.partner_id
+   % set year = ctx.get('year', datetime.date.today().year-1)
+    % set sponsorships = len(object.env['recurring.contract'].search(['|',('correspondent_id','=',partner.id),('partner_id','=',partner.id)]))
+% set gifts = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id.categ_id', '=', 5)]).mapped('price_subtotal') or [0])
+% set moms = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('account_id', '=', 2773)]).mapped('price_subtotal') or [0]) / 15
+% set houses = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('account_id', '=', 2765)]).mapped('price_subtotal') or [0])
+% set toilets  = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id', '=', 146)]).mapped('price_subtotal') or [0]) / 25
+% set christmas = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id', '=', 31)]).mapped('price_subtotal') or [0]) / 15
+% set donation_amount = partner.get_receipt_text(year)
+% if moms > 0 and moms < 1:
+    % set moms = 1
+% endif
+% if toilets > 0 and toilets < 1:
+    % set toilets = 1
+% endif
+% if christmas > 0 and christmas < 1:
+    % set christmas = 1
+% endif
+
+% set donor = sponsorships or moms or houses or toilets or christmas
+
+% set impact_link = "https://impact.compassion.ch?fname={}&donor={}".format(partner.firstname or partner.name, 'true' if donor else 'false') + ("&sponsorship={}".format(sponsorships) if sponsorships else "") + ("&sp_amount={}".format(str(gifts).split(".")[0]) if gifts else "") + ("&moms={}".format(str(moms).split(".")[0]) if moms else "") + ("&house={}".format(str(houses).split(".")[0]) if houses else "") + ("&toilets_amount={}".format(str(toilets).split(".")[0]) if toilets else "") + ("&gifts_amount={}".format(str(christmas).split(".")[0]) if christmas else "")
+  </div>
+
+  <p>
+   ${partner.salutation},
+   </p>
+   <p>
+Permettez-nous tout d’abord de vous souhaiter une nouvelle année pleine d’espérance et de sérénité.
+   </p>
+<p>
+Un regard «dans le rétroviseur» permet de réaliser tout ce que nous avons pu réaliser ensemble, au-delà même de ce que nous avions imaginé.
+</p>
+% if object.send_mode == 'digital':
+<p>
+Découvrez en un coup d’oeil ce que votre engagement aux côtés de Compassion a permis en 2021
+</p>
+  <div style="margin:20px auto; text-align: center;">
+   <a href="${impact_link}" style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px" title="">
+    Découvrir votre impact
+   </a>
+</div>
+<p><b>C'est avec reconnaissance que nous vous faisons parvenir votre récapitulatif de dons de l'année 2021, pour votre déclaration d'impôts (fichier annexé).</b>
+</p>
+   % else:
+<p>
+<b>C'est avec reconnaissance que nous vous faisons parvenir votre récapitulatif de dons de l'année 2021, pour votre déclaration d'impôts (fichier annexé)</b>. Découvrez l'impact de tous les amis de Compassion en Suisse: https://impact.compassion.ch.
+</p>
+   % endif
+<br>
+ <h2>
+    Vos dons en ${year} s'élèvent à CHF ${donation_amount}
+   </h2>
+   <p>
+    L'association Compassion Suisse d'aide humanitaire chrétienne en faveur de l'enfance défavorisée est exonérée d'impôts et reconnue de pure utilité publique par décision de l'administration cantonale des impôts du canton de Vaud du 24 mai 2004.
+   </p>
+<p>
+Depuis le début des années 90 et si l’on excepte les deux dernières années de pandémie, la mobilisation contre l’injustice et l’extrême pauvreté a toujours progressé. L’ambassadeur actuel d' Haïti au Japon est un ancien enfant parrainé. Le directeur de Compassion en République Dominicaine aussi. De nombreux enfants à qui la pauvreté a dit qu’ils ne valaient rien, sont aujourd’hui, avec vous et nous, des personnes qui apportent le changement.
+</p>
+<p>
+Merci de tout cœur de votre engagement à nos côtés. Chaleureusement et à bientôt!
+</p>
+% if object.send_mode == 'digital':
+<p>Christian Willi et l'équipe de Compassion</p>
+% endif

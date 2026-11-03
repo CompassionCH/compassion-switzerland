@@ -312,7 +312,7 @@ Thank you for communicating your email address as soon as possible.
     <t t-set="sponsorships" t-value="object.get_objects()"/>
     <t t-set="children" t-value="sponsorships.mapped('child_id')"/>
     <t t-set="firstname" t-value="children.get_list('preferred_name', translate=False)"/>
-    <t t-set="number_reminder" t-value="object.search_count([('config_id','=',object.config_id.id),('partner_id','=',partner.id),('state','=','done),('object_ids','like',sponsorships.ids[:1]),('id','!=',object.id)])"/>
+    <t t-set="number_reminder" t-value="object.search_count([('config_id','=',object.config_id.id),('partner_id','=',partner.id),('state','=','done'),('object_ids','like',sponsorships.ids[:1]),('id','!=',object.id)])"/>
 </div>
 <p>
     <t t-out="partner.salutation"/>

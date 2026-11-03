@@ -19,7 +19,7 @@
                                     <td t-if="employee.image_128" valign="top"
                                         style="margin: 0.1px; padding: 0px 15px 0px 0px;">
                                         <img t-att-src="object.image_url"
-                                             width="74" alt="photo-logo" style="display: block;" />
+                                             width="74" alt="photo-logo" style="display: block; border-radius: 50%;" />
                                     </td>
                                     <td style="margin: 0.1px; padding: 0px;">
                                         <table cellpadding="0">
