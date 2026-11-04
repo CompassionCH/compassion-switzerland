@@ -39,6 +39,8 @@
             <field name="name">Criminal record</field>
             <field name="sequence">25</field>
             <field name="duration">7</field>
+            <!-- The person responsible asks for it, once the trip is paid -->
+            <field name="manual_only" eval="True" />
         </record>
         <record id="stage_group_ready" model="event.registration.stage">
             <field name="name">Ready to fly</field>
