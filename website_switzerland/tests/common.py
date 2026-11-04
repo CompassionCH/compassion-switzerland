@@ -177,7 +177,7 @@ class GroupVisitJourneyCase(HttpCase):
             cls.stage_documents: (22, False),
             cls.stage_payment: (23, True),
             cls.stage_trip_paid: (24, False),
-            cls.stage_criminal_record: (25, False),
+            cls.stage_criminal_record: (25, True),
             cls.stage_ready: (26, False),
             cls.stage_staff: (28, True),
             cls.stage_attended: (30, False),

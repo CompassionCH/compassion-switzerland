@@ -122,11 +122,40 @@ class TestMuskathlonJourney(TransactionCase):
         registration.task_ids.filtered(
             lambda rel: rel.stage_id == self.stage_documents
         ).done = True
-        self.assertEqual(registration.stage_id, self.stage_criminal_record)
+        self.assertEqual(
+            registration.stage_id,
+            self.stage_documents,
+            "Fill documents waits for the criminal record to be asked by hand",
+        )
+        self.assertFalse(self.communications(self.child_protection, partner))
+
+        registration.stage_id = self.stage_criminal_record
         self.assertTrue(self.communications(self.child_protection, partner))
 
         self.task(registration, "task_criminal").done = True
         self.assertEqual(registration.stage_id, self.stage_ready)
+
+    def test_charter_signed_before_its_stage(self):
+        """A participant who signed the charter earlier (e.g. for another
+        trip) is not asked to sign it again in Fill documents."""
+        partner = self.env["res.partner"].create(
+            {
+                "name": f"Signed muskathlete {self.token}",
+                "email": f"signed-{self.token}@example.com",
+                "lang": "en_US",
+            }
+        )
+        registration = self.env["event.registration"].create(
+            {"event_id": self.event.id, "partner_id": partner.id}
+        )
+        partner.date_agreed_child_protection_charter = fields.Datetime.now()
+        self.assertFalse(
+            self.task(registration, "task_sign_child_protection"),
+            "The charter task belongs to Fill documents",
+        )
+
+        registration.stage_id = self.stage_documents
+        self.assertTrue(self.task(registration, "task_sign_child_protection").done)
 
     def task(self, registration, xmlid):
         task = self.env.ref(f"muskathlon.{xmlid}")

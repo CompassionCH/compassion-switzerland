@@ -81,11 +81,14 @@ class TestParticipantAccess(GroupVisitJourneyCase):
         return partner, login
 
     def _post(self, url, data, files=None):
-        return self.url_open(
+        response = self.url_open(
             url,
             data={"csrf_token": http.Request.csrf_token(self), **data},
             files=files,
         )
+        # The request wrote with its own environment
+        self.env.invalidate_all()
+        return response
 
     def _edit(self, registration, document=FORGED, comment="Not my comment"):
         return self._post(
@@ -94,12 +97,12 @@ class TestParticipantAccess(GroupVisitJourneyCase):
             files={"passport": ("passport.pdf", document, "application/pdf")},
         )
 
-    def _flight(self, registration, number):
+    def _flight(self, registration, number, flight_type="outbound"):
         return self._post(
             "/my/events/form/flight",
             {
                 "registration_id": registration.id,
-                "flight_type": "outbound",
+                "flight_type": flight_type,
                 "flying_company": "Swiss",
                 "flight_number": number,
                 "departure": "2027-03-01 08:00:00",
@@ -168,12 +171,98 @@ class TestParticipantAccess(GroupVisitJourneyCase):
         self.assertEqual(base64.b64decode(self._passport()), PASSPORT)
         self.assertTrue(self.task(self.registration, "task_passport").done)
         self.assertTrue(self._comments())
-        # Entering the flight again corrects it, it never makes a second one
+        # A connection is one more flight of the same direction
         self.assertEqual(self._flight(self.registration, "LX100").status_code, 200)
         self.assertEqual(self._flight(self.registration, "LX200").status_code, 200)
         self.assertEqual(
-            self.registration.flight_ids.mapped("flight_number"), ["LX200"]
+            sorted(self.registration.flight_ids.mapped("flight_number")),
+            ["LX100", "LX200"],
         )
+
+    # === Flights ===
+
+    def _remove(self, flight):
+        return self._post(f"/my/events/flight/{flight.id}/remove", {})
+
+    def _owner_flights(self):
+        """Two outbound flights (a connection) and one return flight, given
+        in the stage that asks for them."""
+        self.registration.stage_id = self.stage_flights
+        self.authenticate(self.owner_login, self.owner_login)
+        for number, flight_type in (
+            ("LX100", "outbound"),
+            ("LX200", "outbound"),
+            ("LX300", "return"),
+        ):
+            self.assertEqual(
+                self._flight(self.registration, number, flight_type).status_code,
+                200,
+            )
+        return {flight.flight_number: flight for flight in self.registration.flight_ids}
+
+    def test_each_direction_has_its_page(self):
+        self._owner_flights()
+        self.assertTrue(self.task(self.registration, "task_flight_details").done)
+        self.assertTrue(self.task(self.registration, "task_return_flight").done)
+        for flight_type, shown, hidden in (
+            ("outbound", ["LX100", "LX200"], "LX300"),
+            ("return", ["LX300"], "LX100"),
+        ):
+            with self.subTest(flight_type):
+                page = self.url_open(
+                    f"/my/events/{self.registration.id}/flight/{flight_type}"
+                )
+                self.assertEqual(page.status_code, 200)
+                for number in shown:
+                    self.assertIn(number, page.text)
+                self.assertNotIn(hidden, page.text)
+                tree = html.fromstring(page.content)
+                self.assertEqual(
+                    tree.xpath(
+                        "//form[@data-force_action]//input[@name='flight_type']"
+                    )[0].get("value"),
+                    flight_type,
+                )
+                self.assertEqual(
+                    len(tree.xpath("//form[contains(@action, '/remove')]")),
+                    len(shown),
+                )
+        self.assertTrue(
+            self.task(self.registration, "task_return_flight").task_url.endswith(
+                "/flight/return"
+            )
+        )
+        self.assertNotEqual(
+            self.url_open(
+                f"/my/events/{self.registration.id}/flight/sideways"
+            ).status_code,
+            200,
+        )
+
+    def test_the_participant_removes_a_flight(self):
+        flights = self._owner_flights()
+        self._remove(flights["LX200"])
+        self.assertEqual(
+            sorted(self.registration.flight_ids.mapped("flight_number")),
+            ["LX100", "LX300"],
+        )
+        self.assertTrue(
+            self.task(self.registration, "task_flight_details").done,
+            "Another outbound flight is left",
+        )
+        self._remove(flights["LX300"])
+        self.assertFalse(
+            self.task(self.registration, "task_return_flight").done,
+            "No return flight is left: it is to give again",
+        )
+
+    def test_another_participant_removes_no_flight(self):
+        flights = self._owner_flights()
+        self.authenticate(self.other_login, self.other_login)
+        self.assertNotEqual(self._remove(flights["LX100"]).status_code, 200)
+        self.authenticate(None, None)
+        self._remove(flights["LX200"])
+        self.assertEqual(len(self.registration.flight_ids), 3)
 
     def test_the_forms_post_to_their_route_in_every_language(self):
         """Out of the default language, the form action gets a language

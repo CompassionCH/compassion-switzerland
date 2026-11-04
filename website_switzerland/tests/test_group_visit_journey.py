@@ -197,9 +197,12 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         self.pay(registration.trip_invoice_id)
         self.assertEqual(
             registration.stage_id,
-            self.stage_criminal_record,
-            "Trip paid is passed through once the trip is paid",
+            self.stage_trip_paid,
+            "Trip paid waits for the criminal record to be asked by hand",
         )
+        self.assertFalse(self._communications(self.criminal_record_request, partner))
+
+        registration.stage_id = self.stage_criminal_record
         self.assertTrue(self._communications(self.criminal_record_request, partner))
 
         partner.write({"criminal_record": self._picture(10, 10)})
@@ -526,12 +529,14 @@ class TestGroupVisitJourney(GroupVisitJourneyCase):
         )
         self.assertEqual(
             registration.stage_id,
-            self.stage_criminal_record,
-            "Paying the trip should have asked for the criminal record",
+            self.stage_trip_paid,
+            "Paying the trip should wait for the criminal record to be asked",
         )
+
+        registration.stage_id = self.stage_criminal_record
         self.assertSentOnce(
             self.criminal_record_request,
-            "Reaching Criminal record should have asked for it",
+            "Moving to Criminal record by hand should have asked for it",
         )
 
     def _fill_the_documents(self, registration):
