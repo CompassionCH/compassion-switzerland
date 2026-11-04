@@ -11,11 +11,9 @@ import logging
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
-from psycopg2 import OperationalError
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
 
 from odoo.addons.child_compassion.models.compassion_hold import HoldType
 
@@ -30,6 +28,10 @@ logger = logging.getLogger(__name__)
 
 WP_SYNC_MAX_ATTEMPTS = 3
 WP_SYNC_RETRY_SECONDS = 30 * 60
+
+
+class WebsiteChangedError(UserError):
+    """The sync failed after touching the website: the message says what is online."""
 
 
 class CompassionChild(models.Model):
@@ -128,16 +130,13 @@ class CompassionChild(models.Model):
             )
             if not wp_config:
                 continue
-            global_pool = self.with_company(company.id)._create_diverse_children_pool(
-                int(take)
-            )
             retry_args = (
                 {"max_retries": WP_SYNC_MAX_ATTEMPTS} if "queue.job" in self.env else {}
             )
             self.with_delay_sh(
                 "_hold_and_push_to_wordpress",
                 company.id,
-                global_pool,
+                int(take),
                 channel="root.child_compassion",
                 description="Hold and push children to wordpress",
                 **retry_args,
@@ -161,8 +160,13 @@ class CompassionChild(models.Model):
             global_pool.rich_mix()
         return global_pool
 
-    def _hold_and_push_to_wordpress(self, company_id, global_pool):
+    def _hold_and_push_to_wordpress(self, company_id, take):
         try:
+            # Before holding: a WordPress outage must not cost any hold.
+            wp = self._get_wp_sync(company_id)
+            global_pool = self.with_company(company_id)._create_diverse_children_pool(
+                take
+            )
             new_children = self._hold_children(global_pool)
             valid_new_children = new_children._update_information_and_filter_invalid()
             old_children = self.search(
@@ -172,31 +176,29 @@ class CompassionChild(models.Model):
                 ]
             )
             self._replace_children_in_wordpress(
-                company_id, old_children, valid_new_children
+                company_id, wp, old_children, valid_new_children
             )
         except Exception as e:
-            if RetryableJobError and isinstance(e, RetryableJobError):
-                # Already alerted where it was raised.
-                raise
-            if (
-                RetryableJobError
-                and isinstance(e, OperationalError)
-                and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
-            ):
-                # queue_job retries plain conflicts every 5 s without limit:
-                # ask for a counted, spaced-out retry instead.
-                self._notify_developer_new_cursor(
-                    company_id,
-                    f"The WordPress Sync job hit a database conflict: {e}. "
-                    "Website unchanged: the old children are still online.",
-                    retry=True,
-                )
-                raise RetryableJobError(str(e), seconds=WP_SYNC_RETRY_SECONDS) from e
             logger.error("Critical failure in WordPress sync job", exc_info=True)
-            self._notify_developer_new_cursor(
-                company_id, f"The WordPress Sync background job crashed: {str(e)}"
-            )
-            raise
+            msg = f"The WordPress Sync job failed: {str(e).rstrip('.')}."
+            if not isinstance(e, WebsiteChangedError):
+                msg += " Website unchanged: the old children are still online."
+            if not RetryableJobError:
+                self._notify_developer_new_cursor(company_id, msg)
+                raise
+            self._notify_developer_new_cursor(company_id, msg, retry=True)
+            raise RetryableJobError(msg, seconds=WP_SYNC_RETRY_SECONDS) from e
+
+    def _get_wp_sync(self, company_id):
+        wp_config = self.env["wordpress.configuration"].get_config(
+            company_id, raise_error=False
+        )
+        if not wp_config:
+            raise UserError(f"Missing WP Config for company {company_id}")
+        try:
+            return WPSync(wp_config)
+        except Exception as e:
+            raise UserError(f"WordPress authentication failed: {e}") from e
 
     def _update_information_and_filter_invalid(self):
         for child in self:
@@ -238,50 +240,34 @@ class CompassionChild(models.Model):
         )
         return children
 
-    def _replace_children_in_wordpress(self, company_id, old_children, new_children):
-        # Initiate WPSync once
-        wp_config = self.env["wordpress.configuration"].get_config(
-            company_id, raise_error=False
-        )
-        if not wp_config:
-            raise UserError(f"Missing WP Config for company {company_id}")
-
-        try:
-            wp = WPSync(wp_config)
-        except Exception as e:
-            raise UserError(
-                f"Failed to authenticate WPSync before batching: {e}"
-            ) from e
-
+    def _replace_children_in_wordpress(
+        self, company_id, wp, old_children, new_children
+    ):
         if not new_children:
             raise UserError(_("No new children to put on WordPress, old ones kept."))
         if wp.remove_all_children():
             logger.info("ALL CHILDREN REMOVED")
         elif old_children:
-            raise UserError(_("Could not remove old children from WordPress."))
+            # A timed out request may still have deleted some children.
+            raise WebsiteChangedError(
+                _("Could not remove old children from WordPress.")
+            )
 
         # From here the website is empty: any failure must put the old
         # children back online before giving up.
         try:
-            total_uploaded, total_expected, failed_batches = (
-                new_children._upload_to_wordpress_in_batches(company_id, wp)
-            )
+            # Savepoint, not rollback: a rollback releases the queue job lock and
+            # the job runner then starts the job again while it is still running.
+            with self.env.cr.savepoint():
+                total_uploaded, total_expected, failed_batches = (
+                    new_children._upload_to_wordpress_in_batches(company_id, wp)
+                )
         except Exception as e:
-            self.env.cr.rollback()
-            self.env.invalidate_all()
             restored = old_children._restore_on_wordpress(wp)
-            msg = (
+            raise WebsiteChangedError(
                 f"Sync failed after removing all children from WordPress: {e}. "
                 f"{restored}/{len(old_children)} previous children restored."
-            )
-            if (
-                RetryableJobError
-                and isinstance(e, OperationalError)
-                and e.pgcode in PG_CONCURRENCY_ERRORS_TO_RETRY
-            ):
-                self._notify_developer_new_cursor(company_id, msg, retry=True)
-                raise RetryableJobError(msg, seconds=WP_SYNC_RETRY_SECONDS) from e
-            raise UserError(msg) from e
+            ) from e
 
         issues = []
         if failed_batches > 0 or total_uploaded < total_expected:
