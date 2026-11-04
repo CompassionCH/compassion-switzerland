@@ -165,12 +165,20 @@ class CompassionChild(models.Model):
         try:
             # Before holding: a WordPress outage must not cost any hold.
             wp = self._get_wp_sync(company_id)
-            global_pool = self.with_company(company_id)._create_diverse_children_pool(
-                take
-            )
-            new_children = self._hold_children(global_pool)
-            # The holds exist on GMC now: keep them so a failure can release them.
-            self.env.cr.commit()  # pylint: disable=invalid-commit
+            # Own transaction: the holds exist on GMC once sent, so they must
+            # outlive a failure of the job (queue jobs cannot commit).
+            with self.pool.cursor() as hold_cr:
+                env = self.env(cr=hold_cr)
+                global_pool = (
+                    self.with_env(env)
+                    .with_company(company_id)
+                    ._create_diverse_children_pool(take)
+                )
+                held_ids = self.with_env(env)._hold_children(global_pool).ids
+            # New snapshot, to see the committed holds.
+            self.env.cr.rollback()
+            self.env.invalidate_all()
+            new_children = self.browse(held_ids).with_context(queue_job__no_delay=True)
             valid_new_children = new_children._update_information_and_filter_invalid()
             old_children = self.search(
                 [
@@ -208,17 +216,24 @@ class CompassionChild(models.Model):
     def _release_failed_sync_holds(self):
         """Release the holds of a failed sync, else each retry would block
         another batch of children on GMC until the holds expire."""
+        # Free the job's locks on these children before releasing them elsewhere.
         self.env.cr.rollback()
-        self.env.invalidate_all()
-        # These children never went online: skip one lifecycle GMC call each.
-        to_release = self.exists().mapped("hold_id").with_context(lifecycle_event=True)
+        count = 0
         try:
-            to_release.release_hold()
-            self.env.cr.commit()  # pylint: disable=invalid-commit
+            with self.pool.cursor() as cr:
+                # These children never went online: skip one lifecycle GMC call each.
+                to_release = (
+                    self.with_env(self.env(cr=cr))
+                    .exists()
+                    .mapped("hold_id")
+                    .with_context(lifecycle_event=True)
+                )
+                count = len(to_release)
+                to_release.release_hold()
         except Exception:
             logger.error("Could not release the WordPress sync holds", exc_info=True)
-            return f"Releasing its {len(to_release)} new holds failed."
-        return f"Its {len(to_release)} new holds were released."
+            return f"Releasing its {count} new holds failed."
+        return f"Its {count} new holds were released."
 
     def _update_information_and_filter_invalid(self):
         for child in self:
