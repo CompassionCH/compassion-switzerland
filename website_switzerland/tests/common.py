@@ -18,6 +18,9 @@ from odoo import Command, fields
 from odoo.tests import HttpCase
 
 from odoo.addons.base.models.ir_actions_report import IrActionsReport
+from odoo.addons.base_report_to_printer.models.printing_server import (
+    PrintingServer,
+)
 from odoo.addons.partner_communication_switzerland.tests.common import (
     check_queue_runs,
     setup_tour_admin,
@@ -102,18 +105,35 @@ class GroupVisitJourneyCase(HttpCase):
         )
 
         cls.event_type = cls.env.ref("website_switzerland.event_type_group_visit")
-        cls.stage_down_payment = cls.env.ref("website_switzerland.stage_group_pay")
-        cls.stage_agreements = cls.env.ref(
+        cls.stage_unconfirmed = cls.env.ref("website_switzerland.stage_group_pay")
+        cls.stage_registered = cls.env.ref("website_switzerland.stage_group_registered")
+        cls.stage_confirmed = cls.env.ref(
+            "website_event_compassion.stage_all_confirmed"
+        )
+        cls.stage_flights = cls.env.ref("website_switzerland.stage_group_flights")
+        cls.stage_documents = cls.env.ref("website_switzerland.stage_group_medical")
+        cls.stage_payment = cls.env.ref("website_switzerland.stage_group_documents")
+        cls.stage_trip_paid = cls.env.ref("website_switzerland.stage_group_trip_paid")
+        cls.stage_criminal_record = cls.env.ref(
             "website_switzerland.stage_group_unconfirmed"
         )
-        cls.stage_medical = cls.env.ref("website_switzerland.stage_group_medical")
-        cls.stage_payment = cls.env.ref("website_switzerland.stage_group_documents")
+        cls.stage_ready = cls.env.ref("website_switzerland.stage_group_ready")
+        cls.stage_staff = cls.env.ref("website_event_compassion.stage_all_staff")
         cls.stage_attended = cls.env.ref("website_event_compassion.stage_all_attended")
+        cls.stage_cancelled = cls.env.ref(
+            "website_event_compassion.stage_all_cancelled"
+        )
 
         cls.step1 = cls.env.ref("website_switzerland.group_visit_step1_config")
         cls.step2 = cls.env.ref("website_switzerland.group_visit_step2_config")
         cls.step3 = cls.env.ref("website_switzerland.group_visit_step3_config")
-        cls.medical_invitation = cls.env.ref(
+        cls.flights_request = cls.env.ref(
+            "website_switzerland.group_visit_flights_config"
+        )
+        cls.criminal_record_request = cls.env.ref(
+            "website_switzerland.group_visit_criminal_record_config"
+        )
+        cls.reminder = cls.env.ref(
             "website_switzerland.group_visit_medical_survey_config"
         )
         cls.travel_documents = cls.env.ref(
@@ -124,6 +144,13 @@ class GroupVisitJourneyCase(HttpCase):
         )
 
         cls.classPatch(IrActionsReport, "_pre_render_qweb_pdf", _force_pdf_rendering)
+        # The printers of the office are not reachable from the tests: waiting
+        # for them takes minutes.
+        cls.classPatch(
+            PrintingServer,
+            "_open_connection",
+            lambda server, raise_on_error=False: False,
+        )
 
         cls._enable_portal_templates()
         cls._pin_registration_stages()
@@ -141,49 +168,58 @@ class GroupVisitJourneyCase(HttpCase):
 
     @classmethod
     def _pin_registration_stages(cls):
-        journey = (
-            cls.stage_down_payment
-            + cls.stage_agreements
-            + cls.stage_medical
-            + cls.stage_payment
-        )
-        for sequence, stage in enumerate(journey, start=1):
-            stage.write(
-                {
-                    "sequence": sequence,
-                    "event_type_ids": [Command.link(cls.event_type.id)],
-                }
-            )
-        shared = {
-            cls.env.ref("website_event_compassion.stage_all_confirmed"): 20,
-            cls.stage_attended: 30,
-            cls.env.ref("website_event_compassion.stage_all_cancelled"): 40,
+        """The stages as the module ships them, whatever the database did."""
+        journey = {
+            cls.stage_unconfirmed: (10, False),
+            cls.stage_registered: (15, False),
+            cls.stage_confirmed: (20, False),
+            cls.stage_flights: (21, True),
+            cls.stage_documents: (22, False),
+            cls.stage_payment: (23, True),
+            cls.stage_trip_paid: (24, False),
+            cls.stage_criminal_record: (25, False),
+            cls.stage_ready: (26, False),
+            cls.stage_staff: (28, True),
+            cls.stage_attended: (30, False),
+            cls.stage_cancelled: (40, False),
         }
-        for stage, sequence in shared.items():
-            stage.write({"sequence": sequence, "event_type_ids": [Command.clear()]})
-
-        strays = cls.env["event.registration.stage"].search(
-            [
-                ("event_type_ids", "=", False),
-                ("id", "not in", [stage.id for stage in shared]),
-            ]
+        for stage, (sequence, manual) in journey.items():
+            stage.write({"sequence": sequence, "manual_only": manual})
+        cls.event_type.write(
+            {
+                "stage_ids": [Command.set([stage.id for stage in journey])],
+                "reminder_config_id": cls.reminder.id,
+            }
         )
-        if strays:
-            other_type = cls.env["event.type"].create(
-                {"name": "Stages of no group visit", "compassion_event_type": "meeting"}
-            )
-            strays.event_type_ids = [Command.link(other_type.id)]
+        tasks = {
+            "task_step1_sent": cls.stage_unconfirmed,
+            "task_down_payment": cls.stage_registered,
+            "task_activate_account": cls.stage_confirmed,
+            "task_flight_details": cls.stage_flights,
+            "task_return_flight": cls.stage_flights,
+            "task_sign_travel": cls.stage_documents,
+            "task_sign_child_protection": cls.stage_documents,
+            "task_passport": cls.stage_documents,
+            "task_medical_survey": cls.stage_documents,
+            "task_medical_discharge": cls.stage_documents,
+            "task_full_payment": cls.stage_payment,
+            "task_criminal": cls.stage_criminal_record,
+        }
+        for xmlid, stage in tasks.items():
+            cls.env.ref(f"website_switzerland.{xmlid}").stage_id = stage
 
     @classmethod
     def _pin_communication_rules(cls):
         expected = {
-            cls.step1: (False, "after_sub", "now", 1),
-            cls.step2: (cls.stage_agreements, "after_stage", "now", 1),
-            cls.step3: (cls.stage_medical, "after_stage", "now", 1),
-            cls.medical_invitation: (cls.stage_medical, "after_stage", "days", 10),
-            cls.feedback_request: (False, "after_event", "days", 14),
+            cls.step1: (False, "after_sub"),
+            cls.step3: (cls.stage_confirmed, "after_stage"),
+            cls.flights_request: (cls.stage_flights, "after_stage"),
+            cls.step2: (cls.stage_documents, "after_stage"),
+            cls.travel_documents: (cls.stage_payment, "after_stage"),
+            cls.criminal_record_request: (cls.stage_criminal_record, "after_stage"),
+            cls.feedback_request: (cls.stage_attended, "after_stage"),
         }
-        for config, (stage, interval_type, unit, nbr) in expected.items():
+        for config, (stage, interval_type) in expected.items():
             scheduler = cls.event_type.event_type_mail_ids.filtered(
                 lambda m, c=config: m.communication_id == c
             )
@@ -195,10 +231,13 @@ class GroupVisitJourneyCase(HttpCase):
                 {
                     "stage_id": stage and stage.id,
                     "interval_type": interval_type,
-                    "interval_unit": unit,
-                    "interval_nbr": nbr,
+                    "interval_unit": "now",
+                    "interval_nbr": 1,
                 }
             )
+        cls.event_type.event_type_mail_ids.filtered(
+            lambda m: m.communication_id == cls.reminder
+        ).unlink()
 
     @classmethod
     def _create_event(cls):
@@ -339,6 +378,46 @@ class GroupVisitJourneyCase(HttpCase):
         self.env["account.payment.register"].with_context(
             active_model="account.move", active_ids=invoice.ids
         ).create({"journal_id": self.bank_journal.id})._create_payments()
+
+    def pay_online(self, invoice):
+        """Pays the invoice as the portal does: a payment transaction that
+        the payment provider confirms."""
+        provider = self.env["payment.provider"].create(
+            {
+                "name": f"Group visit tour provider {self.token}",
+                "code": "none",
+                "state": "test",
+                "journal_id": self.bank_journal.id,
+                "payment_method_ids": [
+                    Command.set(self.env.ref("payment.payment_method_unknown").ids)
+                ],
+            }
+        )
+        # The way the bank journal receives the payments of this provider
+        self.env["account.payment.method.line"].create(
+            {
+                "name": provider.name,
+                "journal_id": self.bank_journal.id,
+                "payment_method_id": self.env.ref(
+                    "account.account_payment_method_manual_in"
+                ).id,
+                "payment_provider_id": provider.id,
+            }
+        )
+        transaction = self.env["payment.transaction"].create(
+            {
+                "provider_id": provider.id,
+                "payment_method_id": self.env.ref("payment.payment_method_unknown").id,
+                "reference": f"{invoice.name}-{self.token}",
+                "amount": invoice.amount_residual,
+                "currency_id": invoice.currency_id.id,
+                "partner_id": invoice.partner_id.id,
+                "operation": "online_redirect",
+                "invoice_ids": [Command.set(invoice.ids)],
+            }
+        )
+        transaction._set_done()
+        transaction._post_process()
 
     def assertSentOnce(self, config, msg):
         communication = self.env["partner.communication.job"].search(

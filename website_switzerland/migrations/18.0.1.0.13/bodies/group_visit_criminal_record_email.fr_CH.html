@@ -1,0 +1,59 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  Merci, le paiement de votre voyage
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> est bien arrivé ! Il ne reste plus qu'un
+  dernier document à nous transmettre.
+</p>
+<p>
+  Chez Compassion, nous croyons que les enfants méritent d'être reconnus, aimés
+  et protégés. Les enfants vivant dans l'extrême pauvreté étant parmi les plus
+  vulnérables, toute personne qui entre en contact direct avec eux doit nous
+  remettre un <b>extrait récent de son casier judiciaire</b>.
+</p>
+<p>Vous pouvez le télécharger sur la page de votre voyage:</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}/criminal"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Envoyer mon extrait de casier judiciaire</a
+  >
+</div>
+<p>
+  Une fois ce document reçu, vous serez prêt<t
+    t-out="partner.get('accord_e') or ''"
+  ></t>
+  pour le départ ! Si vous avez des questions, n'hésitez pas à nous contacter
+  par e-mail à <t t-out="user.email"></t>.
+</p>
+<p>Recevez nos chaleureuses salutations.</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

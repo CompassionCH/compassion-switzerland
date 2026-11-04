@@ -1,0 +1,95 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="object.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+  <t t-set="payment_url" t-value="registration.payment_link" />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  Merci de votre engagement avec Compassion au profit des enfants vivant dans
+  l'extrême pauvreté. Nous nous réjouissons de votre voyage
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t>.
+</p>
+<h2>1. Paiement du voyage</h2>
+<p>
+  Ci-joint, vous trouverez la facture de ce voyage. Merci de la régler dans les
+  30 jours. Vous pouvez payer directement par carte de crédit ou à l'aide du
+  bulletin de versement ci-joint. Si vous n'avez pas la possibilité de régler ce
+  voyage en une seule fois, d'avance merci de prendre contact avec moi afin de
+  trouver une solution ensemble (<t t-out="user.email"></t>).
+</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-att-href="payment_url"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Paiement en ligne</a
+  >
+</div>
+<h2>2. Documents de voyage</h2>
+<h3>Passeport</h3>
+<p>
+  Merci de vérifier que votre passeport sera encore valable six mois après la
+  date prévue de votre retour en Suisse. Si ce n'est pas le cas, nous vous
+  prions de le renouveler pour voyager en toute sérénité.
+</p>
+<h3>Visa</h3>
+<p>
+  Merci de vérifier si un visa est nécessaire pour entrer
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> avec votre nationalité et, si c'est le
+  cas, de le demander à temps.
+</p>
+<h3>Assurance</h3>
+<p>
+  Compassion ne dispose pas d'assurance globale pour les participants aux
+  voyages de parrains. Nous vous recommandons de contrôler la couverture de
+  votre assurance maladie et accident. Une assurance annulation de voyage est
+  vivement recommandée. En effet, une fois le billet d'avion acheté et en cas
+  d'annulation, les frais seront à votre charge. Disposez-vous du
+  <a
+    href="https://www.tcs.ch/fr/produits/depannage-protection-voyage/assistance-voyage/livret-eti.php"
+    >livret ETI Monde du TCS</a
+  >
+  ? Il s'agit d'une bonne assurance qui couvre les voyages à l'étranger et les
+  annulations.
+</p>
+<h3>Personne de contact en cas d'urgence</h3>
+<p>
+  Merci d'informer de votre voyage la personne de contact que vous nous avez
+  indiquée: <t t-out="registration.emergency_name"></t> (<t
+    t-out="registration.emergency_phone"
+  ></t
+  >).
+</p>
+<p>
+  Encore une fois, merci de votre engagement pour les enfants démunis.
+  <br />
+  <br />
+  Recevez nos chaleureuses salutations.
+</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>
