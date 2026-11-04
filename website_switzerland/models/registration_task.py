@@ -16,6 +16,7 @@ class RegistrationTaskRel(models.Model):
         task_flight = self.env.ref(
             "website_switzerland.task_flight_details"
         ) + self.env.ref("website_switzerland.task_return_flight")
+        task_return_flight = self.env.ref("website_switzerland.task_return_flight")
         slug = self.env["ir.http"]._slug
         for task in self:
             if task.task_id == travel_contract:
@@ -32,7 +33,13 @@ class RegistrationTaskRel(models.Model):
             elif task.task_id == task_passport:
                 task.task_url = f"/my/events/{slug(task.registration_id)}/passport"
             elif task.task_id in task_flight:
-                task.task_url = f"/my/events/{slug(task.registration_id)}/flight"
+                # The outbound and the return flights have their own page.
+                flight_type = (
+                    "return" if task.task_id == task_return_flight else "outbound"
+                )
+                task.task_url = (
+                    f"/my/events/{slug(task.registration_id)}/flight/{flight_type}"
+                )
             elif task.task_id == task_medic:
                 survey = (
                     task.registration_id.medical_survey_id
