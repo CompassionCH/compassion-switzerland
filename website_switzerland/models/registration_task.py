@@ -52,15 +52,25 @@ class RegistrationTaskRel(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         tasks = super().create(vals_list)
-        create_account = self.env.ref("website_switzerland.task_activate_account")
-        child_protection = self.env.ref(
-            "website_switzerland.task_sign_child_protection"
-        )
-        passport = self.env.ref("website_switzerland.task_passport")
-        criminal = self.env.ref("website_switzerland.task_criminal")
+
+        # The group visit and the Muskathlon have their own tasks: both are
+        # done at creation when the participant already gave what they ask.
+        def both(name):
+            return self.env.ref(f"website_switzerland.{name}") + self.env.ref(
+                f"muskathlon.{name}"
+            )
+
+        create_account = both("task_activate_account")
+        child_protection = both("task_sign_child_protection")
+        passport = both("task_passport")
+        criminal = both("task_criminal")
         flights = {
-            self.env.ref("website_switzerland.task_flight_details"): "outbound",
-            self.env.ref("website_switzerland.task_return_flight"): "return",
+            task: flight_type
+            for name, flight_type in (
+                ("task_flight_details", "outbound"),
+                ("task_return_flight", "return"),
+            )
+            for task in both(name)
         }
         # An invoice paid before its stage was reached (e.g. the registration
         # confirmation could not be sent) must not be asked again.
@@ -76,25 +86,25 @@ class RegistrationTaskRel(models.Model):
             ):
                 task.write({"done": True})
             if (
-                task.task_id == create_account
+                task.task_id in create_account
                 and task.registration_id.partner_id.user_ids.filtered("login_date")
             ):
                 task.write({"done": True})
             if (
-                task.task_id == child_protection
+                task.task_id in child_protection
                 and task.registration_id.partner_id.date_agreed_child_protection_charter
             ):
                 task.write({"done": True})
             # The passport is confidential (T3572): whoever creates the task
             # need not be allowed to read it.
-            if task.task_id == passport and task.registration_id.sudo().passport:
+            if task.task_id in passport and task.registration_id.sudo().passport:
                 task.write({"done": True})
             flight_type = flights.get(task.task_id)
             if flight_type and flight_type in task.registration_id.flight_ids.mapped(
                 "flight_type"
             ):
                 task.write({"done": True})
-            if task.task_id == criminal:
+            if task.task_id in criminal:
                 criminal_record_date = (
                     task.registration_id.partner_id.criminal_record_date
                 )
