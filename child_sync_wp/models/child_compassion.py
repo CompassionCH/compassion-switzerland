@@ -161,24 +161,13 @@ class CompassionChild(models.Model):
         return global_pool
 
     def _hold_and_push_to_wordpress(self, company_id, take):
-        new_children = self.browse()
         try:
             # Before holding: a WordPress outage must not cost any hold.
             wp = self._get_wp_sync(company_id)
-            # Own transaction: the holds exist on GMC once sent, so they must
-            # outlive a failure of the job (queue jobs cannot commit).
-            with self.pool.cursor() as hold_cr:
-                env = self.env(cr=hold_cr)
-                global_pool = (
-                    self.with_env(env)
-                    .with_company(company_id)
-                    ._create_diverse_children_pool(take)
-                )
-                held_ids = self.with_env(env)._hold_children(global_pool).ids
-            # New snapshot, to see the committed holds.
-            self.env.cr.rollback()
-            self.env.invalidate_all()
-            new_children = self.browse(held_ids).with_context(queue_job__no_delay=True)
+            global_pool = self.with_company(company_id)._create_diverse_children_pool(
+                take
+            )
+            new_children = self._hold_children(global_pool)
             valid_new_children = new_children._update_information_and_filter_invalid()
             old_children = self.search(
                 [
@@ -194,8 +183,6 @@ class CompassionChild(models.Model):
             msg = f"The WordPress Sync job failed: {str(e).rstrip('.')}."
             if not isinstance(e, WebsiteChangedError):
                 msg += " Website unchanged: the old children are still online."
-            if new_children:
-                msg += " " + new_children._release_failed_sync_holds()
             if not RetryableJobError:
                 self._notify_developer_new_cursor(company_id, msg)
                 raise
@@ -213,34 +200,11 @@ class CompassionChild(models.Model):
         except Exception as e:
             raise UserError(f"WordPress authentication failed: {e}") from e
 
-    def _release_failed_sync_holds(self):
-        """Release the holds of a failed sync, else each retry would block
-        another batch of children on GMC until the holds expire."""
-        # Free the job's locks on these children before releasing them elsewhere.
-        self.env.cr.rollback()
-        count = 0
-        try:
-            with self.pool.cursor() as cr:
-                # These children never went online: skip one lifecycle GMC call each.
-                to_release = (
-                    self.with_env(self.env(cr=cr))
-                    .exists()
-                    .mapped("hold_id")
-                    .with_context(lifecycle_event=True)
-                )
-                count = len(to_release)
-                to_release.release_hold()
-        except Exception:
-            logger.error("Could not release the WordPress sync holds", exc_info=True)
-            return f"Releasing its {count} new holds failed."
-        return f"Its {count} new holds were released."
-
     def _update_information_and_filter_invalid(self):
         for child in self:
             try:
-                with self.env.cr.savepoint():
-                    child.get_infos()
-                    child.mapped("project_id").update_informations()
+                child.get_infos()
+                child.mapped("project_id").update_informations()
             except Exception:
                 logger.error(
                     f"Error updating child information for {child.id} ", exc_info=True
@@ -286,43 +250,44 @@ class CompassionChild(models.Model):
         elif old_children:
             # A timed out request may still have deleted some children.
             raise WebsiteChangedError(
-                _(
-                    "Could not remove old children from WordPress: "
-                    "the website may be partly empty."
-                )
+                _("Could not remove old children from WordPress.")
             )
 
         # From here the website is empty: any failure must put the old
         # children back online before giving up.
         try:
-            total_uploaded, total_expected, failed_batches = (
-                new_children._upload_to_wordpress_in_batches(company_id, wp)
-            )
+            # Savepoint, not rollback: a rollback releases the queue job lock and
+            # the job runner then starts the job again while it is still running.
+            with self.env.cr.savepoint():
+                total_uploaded, total_expected, failed_batches = (
+                    new_children._upload_to_wordpress_in_batches(company_id, wp)
+                )
         except Exception as e:
-            self.env.cr.rollback()
-            self.env.invalidate_all()
             restored = old_children._restore_on_wordpress(wp)
             raise WebsiteChangedError(
-                f"Upload failed after removing all children from WordPress: {e}. "
+                f"Sync failed after removing all children from WordPress: {e}. "
                 f"{restored}/{len(old_children)} previous children restored."
             ) from e
 
+        issues = []
+        if failed_batches > 0 or total_uploaded < total_expected:
+            issues.append(
+                f"{failed_batches} failed batches, "
+                f"{total_uploaded}/{total_expected} children uploaded."
+            )
         if not total_uploaded:
             restored = old_children._restore_on_wordpress(wp)
-            raise WebsiteChangedError(
-                f"No new child uploaded ({failed_batches} failed batches): "
-                f"{restored}/{len(old_children)} previous children restored."
+            issues.append(
+                f"No new child uploaded: {restored}/{len(old_children)} "
+                "previous children restored."
             )
-        if old_children:
+        elif old_children:
             old_children.with_delay_sh(
                 "write", {"state": "N"}, channel="root.child_compassion"
             )
 
-        if failed_batches > 0 or total_uploaded < total_expected:
-            warning_msg = (
-                f"Sync completed with issues: {failed_batches} failed batches, "
-                f"{total_uploaded}/{total_expected} children uploaded."
-            )
+        if issues:
+            warning_msg = "Sync completed with issues: " + " ".join(issues)
             logger.warning(warning_msg)
             self._notify_developer_new_cursor(company_id, warning_msg)
         else:
