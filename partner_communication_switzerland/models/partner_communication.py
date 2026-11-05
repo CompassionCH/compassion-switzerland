@@ -11,6 +11,8 @@ import base64
 import logging
 from collections import OrderedDict
 from datetime import date, datetime
+from io import BytesIO
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import requests
 from dateutil.relativedelta import relativedelta
@@ -19,6 +21,11 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from pypdf import PdfReader, PdfWriter
+except ImportError:
+    _logger.warning("Please install pypdf to download the photos of biennials")
 
 
 class PartnerCommunication(models.Model):
@@ -36,6 +43,7 @@ class PartnerCommunication(models.Model):
         index=True,
         compute="_compute_child_country",
     )
+    is_biennial = fields.Boolean(compute="_compute_is_biennial")
 
     @api.depends("object_ids", "model")
     def _compute_child_country(self):
@@ -47,6 +55,86 @@ class PartnerCommunication(models.Model):
                     child = self.env["compassion.child"].browse(int(first_id)).exists()
                     country = child.field_office_id.country_id
             job.child_country_id = country
+
+    def _compute_is_biennial(self):
+        biennial = self.env.ref("partner_communication_compassion.biennial")
+        for job in self:
+            job.is_biennial = job.config_id == biennial
+
+    def action_download_photos_zip(self):
+        """The photos of a biennial in a ZIP, one PDF per child in the print
+        format: the pages of the communication's photos PDF, each one found
+        by the child code printed on it (T2244). Made again when it has none
+        (sent by post) or when it no longer matches the children."""
+        if len(self) != 1:
+            raise UserError(_("Select one communication to download its photos."))
+        if not self.is_biennial:
+            raise UserError(_("Only the photos of a new biennial can be downloaded."))
+        children = self.get_objects()
+        pdf = self.attachment_ids.filtered(
+            lambda a: a.report_name == "child_compassion.child_picture"
+        )[:1].attachment_id.raw
+        pages = self._photo_pages(pdf, children)
+        if len(pages) != len(children):
+            pdf = base64.b64decode(
+                self._get_pdf_from_data(
+                    {"doc_ids": children.ids}, "child_compassion.report_child_picture"
+                )
+            )
+            pages = self._photo_pages(pdf, children)
+        if len(pages) != len(children):
+            raise UserError(
+                _("The photos of the children of this communication cannot be found.")
+            )
+        buffer = BytesIO()
+        with ZipFile(buffer, "w", ZIP_DEFLATED) as archive:
+            for child, page in pages.items():
+                writer = PdfWriter()
+                writer.add_page(page)
+                child_pdf = BytesIO()
+                writer.write(child_pdf)
+                country = child.field_office_id.country_id.name or "ZZ"
+                archive.writestr(
+                    f"{country}_{child.sponsor_ref or ''}_{child.local_id}.pdf",
+                    child_pdf.getvalue(),
+                )
+        # Kept on the communication to download it again, never sent with it:
+        # its e-mail only takes its own attachments (attachment_ids).
+        name = f"photos_{self.partner_id.ref or self.partner_id.id}.zip"
+        attachments = self.env["ir.attachment"]
+        attachments.search(
+            [
+                ("res_model", "=", self._name),
+                ("res_id", "=", self.id),
+                ("name", "=", name),
+            ]
+        ).unlink()
+        attachment = attachments.create(
+            {
+                "name": name,
+                "raw": buffer.getvalue(),
+                "res_model": self._name,
+                "res_id": self.id,
+                "mimetype": "application/zip",
+            }
+        )
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{attachment.id}?download=true",
+            "target": "self",
+        }
+
+    def _photo_pages(self, pdf, children):
+        """The page of each child in the photos PDF, found by the child code
+        printed on it: empty if any page matches no child or several."""
+        pages = {}
+        for page in PdfReader(BytesIO(pdf)).pages if pdf else []:
+            text = page.extract_text() or ""
+            child = children.filtered(lambda c, t=text: c.local_id in t)
+            if len(child) != 1 or child in pages:
+                return {}
+            pages[child] = page
+        return pages
 
     def _compute_content(self):
         # Write&Pray communications greet the sponsor by their preferred name
