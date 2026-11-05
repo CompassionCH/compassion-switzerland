@@ -1,0 +1,58 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="object.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  The preparations for your trip
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> are going well!
+</p>
+<p>
+  So that we can organise your welcome on site, please give us your
+  <b>outbound and return flights</b> (airline, flight number, dates and times)
+  on the page of your trip, with the "Give outbound flight" and "Give return
+  flight" buttons.
+</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Give flight details</a
+  >
+</div>
+<p>
+  Once your flights are entered, you will find the next documents to fill in on
+  the same page.
+</p>
+<p>
+  If you have any questions, please contact us by email at
+  <t t-out="user.email"></t>.
+</p>
+<p>Warm regards</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>
