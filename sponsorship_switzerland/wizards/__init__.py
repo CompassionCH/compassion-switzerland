@@ -8,4 +8,4 @@
 #
 ##############################################################################
 
-from . import postpone_waiting_reminder_wizard
+from . import gift_letter_import_wizard, postpone_waiting_reminder_wizard

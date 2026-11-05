@@ -9,8 +9,39 @@
     />
         <field name="arch" type="xml">
             <field name="kit_identifier" position="after">
-                <field name="gift_id" />
+                <field name="gift_id" readonly="1" />
+                <field
+          name="gift_source"
+          widget="badge"
+          decoration-success="gift_source == 'verified'"
+          decoration-warning="gift_source == 'estimated'"
+          invisible="not gift_id"
+        />
             </field>
+        </field>
+    </record>
+
+    <record id="correspondence_search" model="ir.ui.view">
+        <field name="name">Correspondence</field>
+        <field name="model">correspondence</field>
+        <field
+      name="inherit_id"
+      ref="sbc_compassion.correspondence_view_search"
+    />
+        <field name="arch" type="xml">
+            <filter name="state_published" position="after">
+                <separator />
+                <filter
+          name="gift_verified"
+          string="Gift confirmed by GMC"
+          domain="[('gift_source','=','verified')]"
+        />
+                <filter
+          name="gift_estimated"
+          string="Gift estimated"
+          domain="[('gift_source','=','estimated')]"
+        />
+            </filter>
         </field>
     </record>
 </odoo>
