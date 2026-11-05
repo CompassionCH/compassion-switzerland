@@ -6,6 +6,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.bvr_gift_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
+        <field name="print_delay">0</field>
     </record>
     <record id="report_2bvr_gift_sponsorship" model="ir.actions.report">
         <field name="name">Gift Payment Slips 2 BVR</field>
@@ -15,6 +16,7 @@
       name="report_name"
     >report_compassion.2bvr_gift_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
+        <field name="print_delay">0</field>
     </record>
 
     <!-- Top container for 2 BVR sponsorship gift reports iterating over all products selected

@@ -12,6 +12,7 @@
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
         <field name="binding_model_id" ref="model_recurring_contract" />
         <field name="binding_type">report</field>
+        <field name="print_delay">0</field>
     </record>
 
     <template id="ending_sponsorship_certificate">
