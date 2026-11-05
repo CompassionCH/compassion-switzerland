@@ -47,6 +47,18 @@ instead, which holds the communications of the payment lines. This
 restores the behaviour of Odoo 14 and eases the reconciliation of the
 journal items, for instance with direct debit returns.
 
+**Split a journal entry in two**
+
+A wizard, available from the "Split Entry" button of any journal entry
+(invoice, bill, miscellaneous entry, ... in any state and payment
+state), splits the journal items of an entry between the current entry
+and a copy. For each item, the user chooses to keep it, move it to the
+new entry, split it proportionally (tax items) or use it as a total item
+(for instance the receivable or payable item), which is shared so that
+both entries stay balanced. The reconciliations of the total items are
+shared as well, and the new entry gets the same state as the original
+one.
+
 **Table of contents**
 
 .. contents::
@@ -69,6 +81,28 @@ as uploaded. The journal items of the generated payments are labelled
 with the communications of their payment lines. Payments without a
 payment reference, and payments not linked to a payment order, keep the
 default Odoo label.
+
+**Split a journal entry in two**
+
+Open a journal entry and click on *Split Entry*. For each journal item,
+choose the action:
+
+- *Keep*: the item stays in the current entry.
+- *Move to the new entry*: the item goes to the new entry (a copy of the
+  current one).
+- *Split (taxes)*: a tax item is shared between both entries in
+  proportion to the base items that are moved (default for tax items).
+- *Total (adapt and split)*: the item (default for the receivable or
+  payable item of an invoice) is shared between both entries so that
+  each one is balanced. Existing reconciliations and payments are
+  redistributed on the two items, starting with the current entry.
+
+Then click on *Split*. The new entry is posted, draft or cancelled like
+the original one. At least one item must be moved and one kept. Entries
+that are hashed or in a locked period, tax items that are reconciled,
+and reconciliations with exchange difference or cash basis entries
+cannot be split. The items linked to a payment or a bank statement must
+be kept.
 
 Bug Tracker
 ===========

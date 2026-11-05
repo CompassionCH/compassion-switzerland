@@ -388,6 +388,16 @@ generated from a payment order, this module uses the payment reference
 instead, which holds the communications of the payment lines. This
 restores the behaviour of Odoo 14 and eases the reconciliation of the
 journal items, for instance with direct debit returns.</p>
+<p><strong>Split a journal entry in two</strong></p>
+<p>A wizard, available from the “Split Entry” button of any journal entry
+(invoice, bill, miscellaneous entry, … in any state and payment
+state), splits the journal items of an entry between the current entry
+and a copy. For each item, the user chooses to keep it, move it to the
+new entry, split it proportionally (tax items) or use it as a total item
+(for instance the receivable or payable item), which is shared so that
+both entries stay balanced. The reconciliations of the total items are
+shared as well, and the new entry gets the same state as the original
+one.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -414,6 +424,26 @@ as uploaded. The journal items of the generated payments are labelled
 with the communications of their payment lines. Payments without a
 payment reference, and payments not linked to a payment order, keep the
 default Odoo label.</p>
+<p><strong>Split a journal entry in two</strong></p>
+<p>Open a journal entry and click on <em>Split Entry</em>. For each journal item,
+choose the action:</p>
+<ul class="simple">
+<li><em>Keep</em>: the item stays in the current entry.</li>
+<li><em>Move to the new entry</em>: the item goes to the new entry (a copy of the
+current one).</li>
+<li><em>Split (taxes)</em>: a tax item is shared between both entries in
+proportion to the base items that are moved (default for tax items).</li>
+<li><em>Total (adapt and split)</em>: the item (default for the receivable or
+payable item of an invoice) is shared between both entries so that
+each one is balanced. Existing reconciliations and payments are
+redistributed on the two items, starting with the current entry.</li>
+</ul>
+<p>Then click on <em>Split</em>. The new entry is posted, draft or cancelled like
+the original one. At least one item must be moved and one kept. Entries
+that are hashed or in a locked period, tax items that are reconciled,
+and reconciliations with exchange difference or cash basis entries
+cannot be split. The items linked to a payment or a bank statement must
+be kept.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>

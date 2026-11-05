@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 19:12+0000\n"
-"PO-Revision-Date: 2026-10-16 19:12+0000\n"
+"POT-Creation-Date: 2026-11-05 14:12+0000\n"
+"PO-Revision-Date: 2026-11-05 14:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_CH\n"
@@ -16,14 +16,317 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid "<b>Keep</b>: stays in the current entry."
+msgstr "<b>Conserver</b> : reste dans la pièce actuelle."
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid "<b>Move</b>: goes to the new entry (a copy of the current one)."
+msgstr ""
+"<b>Déplacer</b> : va dans la nouvelle pièce (une copie de l'actuelle)."
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid ""
+"<b>Split (taxes)</b>: the tax item is shared between both entries in "
+"proportion to the base items that are moved."
+msgstr ""
+"<b>Scinder (taxes)</b> : la ligne de taxe est répartie entre les deux pièces"
+" proportionnellement aux lignes de base déplacées."
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid ""
+"<b>Total</b>: the total item (e.g. receivable or payable) is shared between "
+"both entries so that each one is balanced. Reconciliations are shared as "
+"well."
+msgstr ""
+"<b>Total</b> : la ligne de total (p. ex. débiteur ou créancier) est répartie"
+" entre les deux pièces afin que chacune soit équilibrée. Les lettrages sont "
+"également répartis."
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__account_id
+msgid "Account"
+msgstr "Compte"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__action
+msgid "Action"
+msgstr "Action"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__amount_currency
+msgid "Amount Currency"
+msgstr "Montant en devise"
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "An entry cannot be left without any item."
+msgstr "Une pièce ne peut pas rester sans aucune ligne."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "At least one journal item must be kept in the current entry."
+msgstr "Au moins une écriture doit rester dans la pièce actuelle."
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__balance
+msgid "Balance"
+msgstr "Solde"
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid "Choose what happens to each journal item:"
+msgstr "Choisissez ce qu'il advient de chaque écriture :"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__company_currency_id
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__company_currency_id
+msgid "Company Currency"
+msgstr "Devise de la société"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__create_uid
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__create_date
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__currency_id
+msgid "Currency"
+msgstr "Devise"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__display_name
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__display_type
+msgid "Display Type"
+msgstr "Type d'affichage"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__id
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_switzerland
+#: model:ir.model,name:account_switzerland.model_account_move
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__move_id
+msgid "Journal Entry"
+msgstr "Entrée de journal"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__line_ids
+msgid "Journal Items"
+msgstr "Écritures comptables"
+
+#. module: account_switzerland
+#: model:ir.model,name:account_switzerland.model_account_move_split_wizard_line
+msgid "Journal item to dispatch when splitting an entry"
+msgstr "Écriture à répartir lors de la scission d'une pièce"
+
+#. module: account_switzerland
+#: model:ir.model.fields.selection,name:account_switzerland.selection__account_move_split_wizard_line__action__keep
+msgid "Keep"
+msgstr "Conserver"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__write_uid
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr "Dernière modification par"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard__write_date
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__write_date
+msgid "Last Updated on"
+msgstr "Dernière modification le"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__locked
+msgid "Locked"
+msgstr "Verrouillé"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__move_line_id
+msgid "Move Line"
+msgstr "Ligne d'écriture"
+
+#. module: account_switzerland
+#: model:ir.model.fields.selection,name:account_switzerland.selection__account_move_split_wizard_line__action__move
+msgid "Move to the new entry"
+msgstr "Déplacer vers la nouvelle pièce"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: account_switzerland
 #: model:ir.model,name:account_switzerland.model_ebics_file
 msgid "Object to store EBICS Data Files"
 msgstr "Objet pour stocker les fichiers de données EBICS"
 
 #. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "Only tax items can be split proportionally ('%s')."
+msgstr ""
+"Seules les lignes de taxe peuvent être scindées proportionnellement ('%s')."
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__partner_id
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: account_switzerland
 #: model:ir.model,name:account_switzerland.model_account_payment
 msgid "Payments"
 msgstr "Paiements"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__reconciled
+msgid "Reconciled"
+msgstr "Lettré"
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "Select at least one journal item to move."
+msgstr "Sélectionnez au moins une écriture à déplacer."
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid "Split"
+msgstr "Scinder"
+
+#. module: account_switzerland
+#: model:ir.model.fields.selection,name:account_switzerland.selection__account_move_split_wizard_line__action__split
+msgid "Split (taxes)"
+msgstr "Scinder (taxes)"
+
+#. module: account_switzerland
+#: model_terms:ir.ui.view,arch_db:account_switzerland.view_move_form_split_wizard
+msgid "Split Entry"
+msgstr "Scinder la pièce"
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "Split Journal Entries"
+msgstr "Pièces scindées"
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/models/account_move.py:0
+#: model_terms:ir.ui.view,arch_db:account_switzerland.account_move_split_wizard_form
+msgid "Split Journal Entry"
+msgstr "Scinder la pièce comptable"
+
+#. module: account_switzerland
+#: model:ir.model,name:account_switzerland.model_account_move_split_wizard
+msgid "Split a journal entry in two"
+msgstr "Scinder une pièce comptable en deux"
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The entry %s is hashed (inalterable) and therefore cannot be split."
+msgstr ""
+"La pièce %s est hachée (inaltérable) et ne peut donc pas être scindée."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The entry %s is in a locked period and cannot be split."
+msgstr ""
+"La pièce %s se trouve dans une période verrouillée et ne peut pas être "
+"scindée."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The entry %s would not be balanced after the split."
+msgstr "La pièce %s ne serait pas équilibrée après la scission."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The entry has been modified in the meantime, please start again."
+msgstr "La pièce a été modifiée entre-temps, veuillez recommencer."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The item '%s' cannot absorb the amount to move."
+msgstr "L'écriture '%s' ne peut pas absorber le montant à déplacer."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The item '%s' cannot be used as a total item."
+msgstr "L'écriture '%s' ne peut pas être utilisée comme ligne de total."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid ""
+"The item '%s' is linked to a payment or a bank statement and must be kept in"
+" the current entry."
+msgstr ""
+"L'écriture '%s' est liée à un paiement ou à un relevé bancaire et doit "
+"rester dans la pièce actuelle."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid ""
+"The items to move are not balanced (difference of %s). Flag at least one "
+"item (receivable, payable, ...) as 'Total' to share the difference between "
+"both entries, or select balanced items."
+msgstr ""
+"Les écritures à déplacer ne sont pas équilibrées (différence de %s). Marquez"
+" au moins une écriture (débiteur, créancier, ...) comme « Total » pour "
+"répartir la différence entre les deux pièces, ou sélectionnez des écritures "
+"équilibrées."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "The reconciled tax item '%s' cannot be split. Unreconcile it first."
+msgstr ""
+"La ligne de taxe lettrée '%s' ne peut pas être scindée. Délettrez-la "
+"d'abord."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid ""
+"The reconciliation of '%s' generated exchange difference or cash basis "
+"entries, which cannot be split automatically. Unreconcile it first."
+msgstr ""
+"Le lettrage de '%s' a généré des pièces de différence de change ou de taxes "
+"sur base de caisse, qui ne peuvent pas être scindées automatiquement. "
+"Délettrez-la d'abord."
 
 #. module: account_switzerland
 #. odoo-python
@@ -32,3 +335,39 @@ msgid ""
 "The statement for Account Number %(nr)s is imported in a background job."
 msgstr ""
 "Le relevé du compte %(nr)s est importé dans une tâche en arrière-plan."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid ""
+"The total items (%(total)s) cannot absorb the amount to move (%(needed)s): "
+"the total must have the same sign and be larger than the amount of the moved"
+" items."
+msgstr ""
+"Les lignes de total (%(total)s) ne peuvent pas absorber le montant à "
+"déplacer (%(needed)s) : le total doit avoir le même signe et être supérieur "
+"au montant des écritures déplacées."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "This entry has been created by splitting %s."
+msgstr "Cette pièce a été créée en scindant %s."
+
+#. module: account_switzerland
+#. odoo-python
+#: code:addons/account_switzerland/wizards/account_move_split_wizard.py:0
+msgid "This entry has been split. The moved journal items are now in %s."
+msgstr ""
+"Cette pièce a été scindée. Les écritures déplacées se trouvent maintenant "
+"dans %s."
+
+#. module: account_switzerland
+#: model:ir.model.fields.selection,name:account_switzerland.selection__account_move_split_wizard_line__action__total
+msgid "Total (adapt and split)"
+msgstr "Total (adapter et répartir)"
+
+#. module: account_switzerland
+#: model:ir.model.fields,field_description:account_switzerland.field_account_move_split_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Assistant"
