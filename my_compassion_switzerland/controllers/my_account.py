@@ -72,8 +72,11 @@ class MyAccountControllerSwitzerland(MyAccountController):
             wizard = (
                 request.env["print.sponsorship.gift.bvr"]
                 .with_user(SUPERUSER_ID)
+                # The slips are in the language of the website
                 .with_context(
-                    active_ids=sponsorship.id, active_model="recurring.contract"
+                    active_ids=sponsorship.id,
+                    active_model="recurring.contract",
+                    payment_slip_lang=request.env.lang,
                 )
                 .sudo()
                 .create(
@@ -100,7 +103,9 @@ class MyAccountControllerSwitzerland(MyAccountController):
                 request.env["print.sponsorship.bvr"]
                 .with_user(SUPERUSER_ID)
                 .with_context(
-                    active_ids=sponsorship.id, active_model="recurring.contract"
+                    active_ids=sponsorship.id,
+                    active_model="recurring.contract",
+                    payment_slip_lang=request.env.lang,
                 )
                 .sudo()
                 .create(
