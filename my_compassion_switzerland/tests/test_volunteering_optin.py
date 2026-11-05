@@ -11,6 +11,7 @@ from odoo.tests.common import HttpCase
 
 from odoo.addons.my_compassion.controllers.my2_sponsorships import (
     OWN_SIGNUPS_SESSION_KEY,
+    own_signup_session_entry,
 )
 
 from .common import SwissCheckoutCase
@@ -156,7 +157,11 @@ class TestVolunteeringOptIn(HttpCase, SwissCheckoutCase):
         mirrors.
         """
         self.authenticate(
-            None, None, session_extra={OWN_SIGNUPS_SESSION_KEY: [self.signup.id]}
+            None,
+            None,
+            session_extra={
+                OWN_SIGNUPS_SESSION_KEY: [own_signup_session_entry(self.signup)]
+            },
         )
 
     def _post_optin(self, volunteering):
