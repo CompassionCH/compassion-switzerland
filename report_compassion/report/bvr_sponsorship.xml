@@ -36,9 +36,14 @@
         <t t-call="web.html_container">
             <t t-set="swissqr_position_top" t-value="192" />
             <t t-foreach="group_contracts" t-as="doc">
+                <!-- MyCompassion passes the website language, backend prints use the donor's -->
+                <t
+          t-set="slip_lang"
+          t-value="env.context.get('payment_slip_lang') or doc.partner_id.lang"
+        />
                 <t
           t-call="report_compassion.report_bvr_sponsorship_document"
-          t-lang="doc.partner_id.lang"
+          t-lang="slip_lang"
         />
             </t>
         </t>
@@ -49,8 +54,12 @@
             <t t-foreach="group_contracts" t-as="doc">
                 <t t-set="disable_scissors" t-value="True" />
                 <t
+          t-set="slip_lang"
+          t-value="env.context.get('payment_slip_lang') or doc.partner_id.lang"
+        />
+                <t
           t-call="report_compassion.report_bvr_sponsorship_document"
-          t-lang="doc.partner_id.lang"
+          t-lang="slip_lang"
         />
             </t>
         </t>
@@ -61,10 +70,7 @@
             <t t-set="disable_header" t-value="True" />
                 <t t-set="disable_footer" t-value="True" />
             <t t-call="report_compassion.style" />
-            <t
-        t-set="o"
-        t-value="doc.with_context({'lang':doc.partner_id.lang})"
-      />
+            <t t-set="o" t-value="doc.with_context(lang=slip_lang)" />
             <t t-if="o.bvr_reference">
                 <t t-set="partner" t-value="o.partner_id" />
                 <t t-set="partner_address" t-value="partner.short_address" />
@@ -115,9 +121,10 @@
     <template id="report_bvr_sponsorship_document_2bvr">
         <t t-foreach="group_contracts" t-as="doc">
             <t
-        t-set="o"
-        t-value="doc.with_context({'lang':doc.partner_id.lang})"
+        t-set="slip_lang"
+        t-value="env.context.get('payment_slip_lang') or doc.partner_id.lang"
       />
+            <t t-set="o" t-value="doc.with_context(lang=slip_lang)" />
             <t t-if="o.bvr_reference">
                 <t t-set="partner" t-value="o.partner_id" />
                 <t t-set="partner_address" t-value="partner.short_address" />
@@ -145,7 +152,7 @@
             />
                         <t
               t-call="report_compassion.report_sponsorship_2bvr_top_slip"
-              t-lang="partner.lang"
+              t-lang="slip_lang"
             />
                     </t>
                     <t t-else="">
@@ -155,7 +162,7 @@
             />
                         <t
               t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"
-              t-lang="partner.lang"
+              t-lang="slip_lang"
             />
                     </t>
                     <t t-set="qr_count" t-value="qr_count + 1" />
