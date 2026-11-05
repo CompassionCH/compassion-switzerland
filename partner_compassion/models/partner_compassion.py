@@ -232,7 +232,9 @@ class ResPartner(models.Model):
     def _compute_address_name(self):
         for partner in self:
             if partner.title and not partner.is_company:
-                partner.address_name = (partner.short_address or "").split("<br/>")[0]
+                # Stored for postal sending: always in the partner's own language
+                short_address = partner.with_context(lang=partner.lang).short_address
+                partner.address_name = (short_address or "").split("<br/>")[0]
             else:
                 partner.address_name = partner.name
 

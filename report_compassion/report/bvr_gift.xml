@@ -44,7 +44,12 @@
     <!-- 2 BVR page for sponsorship gift -->
     <template id="report_bvr_sponsorship_gift_document_2bvr">
         <t t-foreach="docs" t-as="doc">
-            <t t-set="o" t-value="doc" />
+            <!-- MyCompassion passes the website language, backend prints use the donor's -->
+            <t
+        t-set="slip_lang"
+        t-value="env.context.get('payment_slip_lang') or doc.gift_partner_id.lang"
+      />
+            <t t-set="o" t-value="doc.with_context(lang=slip_lang)" />
             <t t-set="partner" t-value="o.gift_partner_id" />
             <t t-set="partner_address" t-value="partner.short_address" />
             <t
@@ -73,6 +78,7 @@
           />
                     <t
             t-call="report_compassion.report_sponsorship_2bvr_top_slip"
+            t-lang="slip_lang"
           />
                 </t>
                 <t t-else="">
@@ -82,6 +88,7 @@
           />
                     <t
             t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"
+            t-lang="slip_lang"
           />
                 </t>
                 <t t-set="qr_count" t-value="qr_count +1" />
@@ -93,7 +100,14 @@
         <t t-call="web.html_container">
             <t t-set="swissqr_position_top" t-value="192" />
             <t t-foreach="docs" t-as="doc">
-                <t t-call="report_compassion.report_bvr_sponsorship_gift_document" />
+                <t
+          t-set="slip_lang"
+          t-value="env.context.get('payment_slip_lang') or doc.gift_partner_id.lang"
+        />
+                <t
+          t-call="report_compassion.report_bvr_sponsorship_gift_document"
+          t-lang="slip_lang"
+        />
             </t>
         </t>
     </template>
@@ -104,7 +118,7 @@
             <t t-set="disable_header" t-value="True" />
                 <t t-set="disable_footer" t-value="True" />
             <t t-call="report_compassion.style" />
-            <t t-set="o" t-value="doc" />
+            <t t-set="o" t-value="doc.with_context(lang=slip_lang)" />
             <t t-set="partner" t-value="o.gift_partner_id" />
             <t t-set="partner_address" t-value="partner.short_address" />
             <t
