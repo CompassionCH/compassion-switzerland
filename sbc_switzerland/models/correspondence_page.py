@@ -20,7 +20,9 @@ class CorrespondencePage(models.Model):
         translation.
         """
         self.ensure_one()
-        if self.correspondence_id._has_local_translation_overlay():
+        letter = self.correspondence_id
+        # The pages of a source PDF are the base of the composition
+        if letter._has_local_translation_overlay() and not letter.overlay_source_pdf:
             if not self.original_page_image:
                 self._compute_page_image("original")
             return self.original_page_image
