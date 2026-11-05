@@ -37,6 +37,10 @@ class PrintBvrFund(models.TransientModel):
         readonly=False,
     )
     amount = fields.Float()
+    communication = fields.Char(
+        help="Personalized communication printed on the payment slips. "
+        "Leave empty to use the product name."
+    )
     state = fields.Selection([("new", "new"), ("download", "download")], default="new")
     output_type = fields.Selection(
         [("print", "Send to printer"), ("pdf", "PDF"), ("zip", "ZIP File")],
@@ -61,7 +65,7 @@ class PrintBvrFund(models.TransientModel):
             "doc_ids": partners.ids,
             "product_id": self.product_id.id,
             "amount": self.amount or False,
-            "communication": False,
+            "communication": self.communication or False,
         }
 
         if self.output_type == "pdf":

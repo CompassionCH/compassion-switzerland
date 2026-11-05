@@ -10,6 +10,7 @@
                 <group>
                     <field name="product_id" />
                     <field name="amount" />
+                    <field name="communication" />
                     <field name="output_type" />
                 </group>
                 <group invisible="state != 'download'">

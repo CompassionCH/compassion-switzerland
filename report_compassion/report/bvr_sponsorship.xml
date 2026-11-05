@@ -5,6 +5,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.bvr_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
+        <field name="print_delay">0</field>
     </record>
     <record id="report_2bvr_sponsorship" model="ir.actions.report">
         <field name="name">Sponsorship Payment Slips 2 BVR</field>
@@ -12,6 +13,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.2bvr_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
+        <field name="print_delay">0</field>
     </record>
     <record id="report_single_bvr_sponsorship" model="ir.actions.report">
         <field name="name">Sponsorship Payment Slip Single BVR</field>
@@ -21,6 +23,7 @@
       name="report_name"
     >report_compassion.single_bvr_sponsorship</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship" />
+        <field name="print_delay">0</field>
     </record>
 
     <!-- Report for sponsorship due -->
@@ -30,6 +33,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.bvr_due</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship" />
+        <field name="print_delay">0</field>
     </record>
 
     <template id="bvr_sponsorship">
