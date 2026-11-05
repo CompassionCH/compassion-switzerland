@@ -56,6 +56,7 @@
     },
     "data": [
         "security/ir.model.access.csv",
+        "data/report_print_delay.xml",
         "security/access_rules.xml",
         "data/activity_data.xml",
         "data/auth_signup_parameters.xml",
