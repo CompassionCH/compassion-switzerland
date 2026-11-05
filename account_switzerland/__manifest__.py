@@ -41,7 +41,11 @@
         # OCA/bank-payment
         "account_payment_order",
     ],
-    "data": [],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/account_move_view.xml",
+        "views/account_move_split_wizard_view.xml",
+    ],
     "demo": [],
     "installable": True,
     "application": False,
