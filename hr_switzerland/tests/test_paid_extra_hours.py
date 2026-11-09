@@ -75,3 +75,26 @@ class TestPaidExtraHours(TransactionCase):
         lines = report.search([("employee_id", "=", self.employee.id)])
         self.assertEqual(lines.date, date(2026, 10, 31))
         self.assertEqual(sum(lines.mapped("difference")), -5)
+
+    def test_negative_extra_hours_in_my_time(self):
+        """The extra hours card is shown in "My Time" with a negative balance."""
+        extra_type = self.env["hr.leave.type"].create(
+            {
+                "name": "Extra Hours",
+                "requires_allocation": "no",
+                "overtime_deductible": True,
+                "request_unit": "hour",
+            }
+        )
+        self.env["hr.attendance.overtime"].create(
+            {
+                "employee_id": self.employee.id,
+                "date": date(2026, 1, 1),
+                "adjustment": True,
+                "duration": -3,
+            }
+        )
+        data = extra_type.get_allocation_data(self.employee)[self.employee]
+        cards = [card for card in data if card[3] == extra_type.id]
+        self.assertEqual(len(cards), 1)
+        self.assertEqual(cards[0][1]["virtual_remaining_leaves"], -3)

@@ -14,4 +14,5 @@ from . import res_users
 from . import mail_activity
 from . import res_partner
 from . import resource_calendar
+from . import hr_leave_type
 from . import hr_attendance_theoretical_time_report
