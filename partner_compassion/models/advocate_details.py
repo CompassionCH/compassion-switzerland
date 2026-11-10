@@ -29,6 +29,21 @@ ADVOCATE_BIRTHDAY_FALLBACK_PARAMS = (
 )
 SPEAKER_TRANSLATOR_XMLID = "partner_compassion.engagement_speaker_translator"
 
+# One yes/no column per main engagement type, so that an export of the
+# advocates gives one line per advocate: exporting engagement_ids, a
+# many2many, adds an extra line for each additional engagement (T2740).
+# Matched by xmlid, not by name, so a renamed or translated type keeps its
+# column. A type missing from the database leaves its column at False.
+ENGAGEMENT_FLAG_XMLIDS = {
+    "engaged_events": "partner_compassion.engagement_event",
+    "engaged_sport": "partner_compassion.engagement_sport",
+    "engaged_prayer": "partner_compassion.engagement_pray",
+    "engaged_translation": "partner_compassion.engagement_translation",
+    "engaged_church_presentation": "partner_compassion.engagement_church",
+    "engaged_church_advocate": "partner_compassion.engagement_church_advocate",
+    "engaged_office_volunteer": "partner_compassion.engagement_office_volunteer",
+}
+
 try:
     from pandas.tseries.offsets import BDay
 except ImportError:
@@ -93,6 +108,33 @@ class AdvocateDetails(models.Model):
         readonly=False,
     )
     engagement_name = fields.Char(related="engagement_ids.name")
+    engaged_events = fields.Boolean(
+        "Engagement: Events", compute="_compute_engagement_flags", store=True
+    )
+    engaged_sport = fields.Boolean(
+        "Engagement: Sport", compute="_compute_engagement_flags", store=True
+    )
+    engaged_prayer = fields.Boolean(
+        "Engagement: Prayer", compute="_compute_engagement_flags", store=True
+    )
+    engaged_translation = fields.Boolean(
+        "Engagement: Translation", compute="_compute_engagement_flags", store=True
+    )
+    engaged_church_presentation = fields.Boolean(
+        "Engagement: Church presentation",
+        compute="_compute_engagement_flags",
+        store=True,
+    )
+    engaged_church_advocate = fields.Boolean(
+        "Engagement: Church advocate",
+        compute="_compute_engagement_flags",
+        store=True,
+    )
+    engaged_office_volunteer = fields.Boolean(
+        "Engagement: Office volunteer",
+        compute="_compute_engagement_flags",
+        store=True,
+    )
     t_shirt_size = fields.Selection(
         [("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL")]
     )
@@ -130,6 +172,18 @@ class AdvocateDetails(models.Model):
             "Only one details per ambassador is allowed!",
         )
     ]
+
+    @api.depends("engagement_ids")
+    def _compute_engagement_flags(self):
+        engagements = {
+            field: self.env.ref(xmlid, raise_if_not_found=False)
+            for field, xmlid in ENGAGEMENT_FLAG_XMLIDS.items()
+        }
+        for details in self:
+            for field, engagement in engagements.items():
+                details[field] = bool(engagement) and engagement in (
+                    details.engagement_ids
+                )
 
     def _compute_thank_you_quote(self):
         html_file = file_open(
