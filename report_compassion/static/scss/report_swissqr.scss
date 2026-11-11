@@ -1,23 +1,29 @@
 /* We override completely the scss file present in l10n_ch module because we want to use --disable-smart-shrinking
-on our reports and use the real measures in our reports */
+on our reports and use the real measures in our reports.
+The QR-slip rules are scoped to .swissqr_content (wrapper of report_compassion_qr_slip) so that they don't
+apply to the standard QR-bill of l10n_ch (wrapped in .swissqr_content_v2), which uses the same class names. */
 body {
-  padding: 0 !important;
+  /* Only for paperformats without css margins (our reports use real measures);
+  reports using css margins (e.g. standard invoices) keep Odoo's side padding */
+  &:not(.o_css_margins) {
+    padding: 0 !important;
+  }
 
   /* Disable custom bakground */
   .o_report_layout_background {
     background: none;
     min-height: 0;
   }
+}
+
+.swissqr_content {
+  position: absolute;
+  height: 105mm;
 
   .swissqr_title {
     position: absolute;
     padding: 15px;
     padding-top: 200px;
-  }
-
-  .swissqr_content {
-    position: absolute;
-    height: 105mm;
   }
 
   .swissqr_receipt {
