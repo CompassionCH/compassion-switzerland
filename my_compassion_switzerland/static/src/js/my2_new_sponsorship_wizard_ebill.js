@@ -7,10 +7,11 @@
  * may the sponsorship be finished.
  *
  * Two checkout shapes, one sub-workflow:
- *  - The public fast checkout is a single page holding the email, the consent
- *    and one button per payment mode. Pressing the eBill button opens the
- *    setup inline with the email the sponsor already typed there (never asked
- *    twice), and the wizard is submitted for them once the code validates.
+ *  - The public fast checkout is a single page holding the email, the consent,
+ *    one radio per payment mode and a Continue button that carries the picked
+ *    mode. Pressing Continue with eBill picked opens the setup inline with the
+ *    email the sponsor already typed there (never asked twice), and the wizard
+ *    is submitted for them once the code validates.
  *  - The logged-in flow still selects a mode in the #payment_method dropdown
  *    and finishes with #finish_button. There, the setup is opened by its own
  *    intro button and the finish button stays disabled until it succeeds.
@@ -28,7 +29,8 @@ import { rpc } from "@web/core/network/rpc";
 
 // Account.payment.method code of the eBill payment mode
 // (my_compassion_switzerland.account_payment_method_ebill), carried by both
-// the dropdown options and the fast checkout's mode buttons.
+// the dropdown options and the fast checkout's mode radios (copied onto its
+// Continue button when picked).
 const EBILL_PAYMENT_CODE = "ebill";
 
 NewSponsorshipWizard.include({
@@ -53,7 +55,7 @@ NewSponsorshipWizard.include({
   init: function () {
     this._super.apply(this, arguments);
     this._eBill = { has_contract: false, partner: null, contract: null };
-    // The mode button that opened the setup, re-pressed once the code
+    // The Continue button that opened the setup, re-pressed once the code
     // validates so the wizard finishes through its normal path.
     this._eBillPendingButton = null;
     this._eBillDone = false;
@@ -163,11 +165,11 @@ NewSponsorshipWizard.include({
   /**
    * @override
    *
-   * The fast checkout's payment-mode buttons both pick a mode and submit the
-   * page. eBill cannot be submitted that way: its setup has to succeed first,
-   * or the sponsorship would be created with an eBill mode no bank knows
-   * about. So the first press opens the setup instead of stepping, and the
-   * step happens by itself once the code validates.
+   * On the fast checkout, Continue submits the payment mode picked in the
+   * radios. eBill cannot be submitted that way: its setup has to succeed
+   * first, or the sponsorship would be created with an eBill mode no bank
+   * knows about. So the first press opens the setup instead of stepping, and
+   * the step happens by itself once the code validates.
    */
   _onStepClick: function (ev) {
     const isEbillButton =
@@ -185,11 +187,11 @@ NewSponsorshipWizard.include({
    * code: the email of the page is what the code is sent to, so there is
    * nothing left to ask before it.
    *
-   * The page is validated first, exactly as pressing any other mode button
+   * The page is validated first, exactly as Continue with any other mode
    * would - an eBill setup started from an empty or malformed email address
    * would only send the code into the void.
    * @private
-   * @param {jQuery} $button - The mode button that was pressed.
+   * @param {jQuery} $button - The Continue button that was pressed.
    */
   _startEbillSetup: function ($button) {
     if (!this._validateForm()) {
