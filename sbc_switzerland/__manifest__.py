@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "SBC Swizterland",
-    "version": "18.0.1.0.2",
+    "version": "18.0.1.1.0",
     "category": "Other",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
@@ -40,6 +40,7 @@
         "sbc_translation",  # compassion-modules
         "child_protection",  # compassion-modules
         "queue_job",  # OCA/queue
+        "base_automation",
     ],
     "external_dependencies": {
         "python": [
@@ -57,6 +58,7 @@
         "data/communication_config.xml",
         "data/res.lang.compassion.csv",
         "data/partner_action_rules.xml",
+        "data/letter_followup_rules.xml",
         "views/import_config_view.xml",
         "views/import_letters_history_view.xml",
         "views/s2b_generator_view.xml",
