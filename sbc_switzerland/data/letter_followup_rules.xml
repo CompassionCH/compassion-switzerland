@@ -28,7 +28,13 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date" />
         <field name="trg_date_range">3</field>
         <field name="trg_date_range_type">month</field>
-        <field name="filter_domain">[("state", "=", "active"), ("type", "in", ["S", "SC", "SWP"]), "|", ("origin_id", "=", False), ("origin_id.name", "!=", "unsponsored/surplus fund"), ("correspondence_ids", "not any", [("direction", "=", "Beneficiary To Supporter")])]</field>
+        <!--
+            The sponsorship_id.state clause does not change the result, since the
+            sponsorship itself is active. It keeps the letter sub-query small enough
+            for PostgreSQL to hash it instead of scanning the letters once per
+            sponsorship.
+        -->
+        <field name="filter_domain">[("state", "=", "active"), ("type", "in", ["S", "SC", "SWP"]), ("origin_id", "not any", [("name", "=", "unsponsored/surplus fund")]), ("correspondence_ids", "not any", [("direction", "=", "Beneficiary To Supporter"), ("sponsorship_id.state", "=", "active")])]</field>
         <field name="action_server_ids" eval="[(6, 0, [ref('letter_followup_no_child_letter_3m_action')])]" />
         <field name="last_run" eval="datetime.now()" />
         <field name="active" eval="False" />
@@ -54,7 +60,8 @@
         <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date" />
         <field name="trg_date_range">12</field>
         <field name="trg_date_range_type">month</field>
-        <field name="filter_domain">[("state", "=", "active"), ("type", "in", ["S", "SC", "SWP"]), "|", ("origin_id", "=", False), ("origin_id.name", "!=", "unsponsored/surplus fund"), ("correspondence_ids", "not any", [("direction", "=", "Beneficiary To Supporter")])]</field>
+        <!-- Same domain as the 3-month rule -->
+        <field name="filter_domain">[("state", "=", "active"), ("type", "in", ["S", "SC", "SWP"]), ("origin_id", "not any", [("name", "=", "unsponsored/surplus fund")]), ("correspondence_ids", "not any", [("direction", "=", "Beneficiary To Supporter"), ("sponsorship_id.state", "=", "active")])]</field>
         <field name="action_server_ids" eval="[(6, 0, [ref('letter_followup_no_child_letter_1y_action')])]" />
         <field name="last_run" eval="datetime.now()" />
         <field name="active" eval="False" />
@@ -62,7 +69,7 @@
 
     <!-- Letter in the same translation state for 2 months -->
     <record id="letter_followup_stuck_in_translation_action" model="ir.actions.server">
-        <field name="name">Create activity: letter stuck in translation for 2 months</field>
+        <field name="name">Create activity: Letter stuck in translation for 2 months</field>
         <field name="model_id" ref="sbc_compassion.model_correspondence" />
         <field name="usage">base_automation</field>
         <field name="state">next_activity</field>
