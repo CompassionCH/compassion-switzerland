@@ -17,6 +17,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
             <field
         name="attachments_function"
@@ -37,6 +42,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
         <record
@@ -53,6 +63,11 @@
             <field
         name="model_id"
         ref="website_event_compassion.model_event_registration"
+      />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
@@ -74,6 +89,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
         <record
@@ -94,6 +114,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
         <record
@@ -113,6 +138,11 @@
             <field
         name="model_id"
         ref="website_event_compassion.model_event_registration"
+      />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
             <field
@@ -137,6 +167,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
         <record
@@ -156,6 +191,11 @@
             <field
         name="model_id"
         ref="website_event_compassion.model_event_registration"
+      />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
@@ -177,6 +217,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
         <record
@@ -196,6 +241,11 @@
             <field
         name="model_id"
         ref="website_event_compassion.model_event_registration"
+      />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
@@ -217,6 +267,11 @@
         name="model_id"
         ref="website_event_compassion.model_event_registration"
       />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
+      />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
         <record
@@ -236,6 +291,11 @@
             <field
         name="model_id"
         ref="website_event_compassion.model_event_registration"
+      />
+            <field name="send_from">dynamic</field>
+            <field
+        name="sender_field_id"
+        ref="event.field_event_registration__event_user_id"
       />
             <field name="user_id" search="[('login', 'like', 'nhanggi')]" />
         </record>
