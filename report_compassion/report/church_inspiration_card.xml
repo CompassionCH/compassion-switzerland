@@ -28,8 +28,7 @@
                     #body p {
                         margin: 0 0 14pt 0;
                     }
-                    #body b, #body strong, #body em, #body i {
-                        font-style: normal;
+                    #body b, #body strong {
                         font-weight: bold;
                         color: #0054A6;
                     }
