@@ -3,6 +3,8 @@ from . import sale_order_line
 from . import registration_task
 from . import res_partner
 from . import event_registration
+from . import event_flight
+from . import account_move
 from . import survey_user_input
 from . import theme_utils
 from . import ir_ui_view
