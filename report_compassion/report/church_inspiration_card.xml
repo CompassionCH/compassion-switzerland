@@ -12,8 +12,8 @@
                     }
                     #photo {
                         position: absolute;
-                        top: 25mm;
-                        left: 12mm;
+                        top: 18mm;
+                        left: 9mm;
                         width: 24mm;
                         height: 24mm;
                         border-radius: 12mm;
@@ -21,9 +21,9 @@
                     }
                     #body {
                         position: absolute;
-                        top: 25mm;
-                        left: 44mm;
-                        width: 150mm;
+                        top: 22mm;
+                        left: 38mm;
+                        width: 161mm;
                     }
                     #body p {
                         margin: 0 0 14pt 0;
