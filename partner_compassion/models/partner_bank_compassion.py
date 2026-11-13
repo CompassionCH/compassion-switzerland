@@ -60,6 +60,11 @@ class ResPartnerBank(models.Model):
             temp_partner = partner
         return super()._get_partner_address_lines(temp_partner)
 
+    def _l10n_ch_qr_debtor_check(self, debtor_partner):
+        # The QR-bill standard accepts debtors in any country: allow it for
+        # partners outside Switzerland (e.g. French sponsors).
+        return False
+
     def _eligible_for_qr_code(self, qr_method, debtor_partner, currency):
         # Always allow QR-generation
         if qr_method == "ch_qr":
