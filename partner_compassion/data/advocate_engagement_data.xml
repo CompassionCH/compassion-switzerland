@@ -21,4 +21,15 @@
     <record id="engagement_speaker_translator" model="advocate.engagement">
         <field name="name">Speaker Translator</field>
     </record>
+    <!-- Created by hand in the database before they got an export column on
+    the advocates (T2740): the 18.0.1.0.4 pre-migration adopts the existing
+    records, which are then never overwritten. -->
+    <data noupdate="1">
+        <record id="engagement_church_advocate" model="advocate.engagement">
+            <field name="name">Church advocate</field>
+        </record>
+        <record id="engagement_office_volunteer" model="advocate.engagement">
+            <field name="name">Office volunteer</field>
+        </record>
+    </data>
 </odoo>
