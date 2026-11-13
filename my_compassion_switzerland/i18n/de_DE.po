@@ -1228,3 +1228,68 @@ msgstr "Gesundheit in TG"
 #: code:addons/my_compassion_switzerland/controllers/my_account.py:0
 msgid "tax_receipt"
 msgstr "Steuerbescheinigung"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.retry_content
+msgid "A technical error occurred. Please try the process again."
+msgstr "Ein technischer Fehler ist aufgetreten. Bitte versuche es noch einmal."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.validate_template_content
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.subscribe_template_content
+msgid "Email Address:"
+msgstr "E-Mail-Adresse:"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.validate_template_content
+msgid "Enter your validation code"
+msgstr "Gib deinen Bestätigungscode ein"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.subscribe_template_content
+msgid "Request validation code"
+msgstr "Bestätigungscode anfordern"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.validate_template_content
+msgid "Resend code"
+msgstr "Code erneut senden"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.retry_content
+msgid "Retry"
+msgstr "Erneut versuchen"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.subscribe_template_content
+msgid "Subscribe to E-Bill"
+msgstr "eBill abonnieren"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.success_template_content
+msgid "Thank you!"
+msgstr "Vielen Dank!"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.retry_content
+msgid "Unfortunately, something went wrong."
+msgstr "Leider ist etwas schiefgelaufen."
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.validate_template_content
+msgid "Validation code:"
+msgstr "Bestätigungscode:"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.validate_template_content
+msgid "We have sent a validation code to"
+msgstr "Wir haben einen Bestätigungscode gesendet an"
+
+#. module: my_compassion_switzerland
+#: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.success_template_content
+msgid "You have successfully subscribed to E-Bill."
+msgstr "Du hast eBill erfolgreich abonniert."
