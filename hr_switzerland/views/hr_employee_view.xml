@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_employee_form_private_partner" model="ir.ui.view">
+        <field name="name">hr.employee.form.private.partner</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <field name="private_phone" position="after">
+                <field name="private_partner_id" />
+            </field>
+            <field name="bank_account_id" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_partner_id': private_partner_id or work_contact_id}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

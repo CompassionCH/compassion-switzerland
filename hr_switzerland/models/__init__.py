@@ -16,3 +16,5 @@ from . import res_partner
 from . import resource_calendar
 from . import hr_leave_type
 from . import hr_attendance_theoretical_time_report
+from . import hr_expense
+from . import hr_payslip_line
