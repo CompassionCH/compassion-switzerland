@@ -85,6 +85,16 @@ msgstr ""
 "darowiznę w wysokości {amount}."
 
 #. module: partner_communication_switzerland
+#. odoo-python
+#: code:addons/partner_communication_switzerland/models/contracts.py:0
+msgid ""
+"Please increase your existing standing order by {added}: the attached "
+"details give its new monthly amount of {total}."
+msgstr ""
+"Prosimy o zwiększenie Twojego obecnego zlecenia stałego o {added}: w "
+"załączniku znajdziesz dane z nową miesięczną kwotą {total}."
+
+#. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
 msgid "Recipient"
 msgstr "Odbiorca"

@@ -202,3 +202,23 @@ class TestStandingOrderPl(TransactionCase):
         )
         sentence = self.sponsorship.get_payment_type_attachment_string()
         self.assertIn("charged to your card", sentence)
+
+    def test_email_sentence_added_to_existing_order(self):
+        """A second sponsorship in the group of an active one: the sponsor
+        increases their standing order to the total of the attached details."""
+        self.sponsorship.write({"state": "active", "sds_state": "active"})
+        second = self.sponsorship.copy(
+            {
+                "child_id": create_consigned_child(self.env, "KE999900002").id,
+                "group_id": self.group.id,
+            }
+        )
+        second.write({"state": "waiting", "sds_state": "active"})
+        self.assertEqual(second.total_amount, 150.0)
+        sentence = second.get_payment_type_attachment_string()
+        self.assertIn("increase your existing standing order", sentence)
+        self.assertIn("150", sentence)
+        self.assertIn("300", sentence)
+        # The attached details give the same total.
+        values = self.job._get_standing_order_pl_values(self.sponsorship | second)
+        self.assertEqual(values["amount"], 300.0)
