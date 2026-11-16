@@ -9,6 +9,7 @@
 from datetime import date
 
 from odoo import api, fields, models
+from odoo.tools import float_compare
 
 
 class ResourceCalendar(models.Model):
@@ -39,6 +40,24 @@ class ResourceCalendar(models.Model):
                 calendar._get_current_dated_attendances(today)
             )
         return res
+
+    @api.model
+    def _cron_refresh_dated_hours_per_day(self):
+        """The hours per day of the planned calendars depend on the period valid
+        today: refresh them when a new period starts (rate change planned in
+        advance), the calendar itself is not modified at that moment."""
+        today = fields.Date.context_today(self)
+        to_refresh = self.search([("flexible_hours", "=", False)]).filtered(
+            lambda c: not c._get_global_attendances()
+            and float_compare(
+                c.stored_hours_per_day,
+                c._get_hours_per_day(c._get_current_dated_attendances(today)),
+                precision_digits=2,
+            )
+        )
+        self.env.add_to_compute(self._fields["stored_hours_per_day"], to_refresh)
+        to_refresh.flush_recordset(["stored_hours_per_day"])
+        return to_refresh
 
     def _get_current_dated_attendances(self, day):
         self.ensure_one()

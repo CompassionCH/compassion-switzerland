@@ -1,6 +1,7 @@
 from datetime import date
 
-from odoo.tests import TransactionCase
+from odoo import Command
+from odoo.tests import TransactionCase, freeze_time
 
 
 class TestPaidExtraHours(TransactionCase):
@@ -46,6 +47,52 @@ class TestPaidExtraHours(TransactionCase):
     def test_hours_per_day_dated_calendar(self):
         """A calendar with only dated attendances has its hours per day."""
         self.assertEqual(self.calendar.stored_hours_per_day, 8)
+
+    def test_hours_per_day_refreshed_when_period_starts(self):
+        """A rate change planned in advance is applied when its period starts,
+        without any change on the calendar."""
+        Calendar = self.env["resource.calendar"]
+        attendances = []
+        for day in "01234":
+            # 8h per day until the end of 2026, then 4h per day
+            attendances += [
+                Command.create(
+                    {
+                        "name": f"{day} {period}",
+                        "dayofweek": day,
+                        "day_period": period,
+                        "hour_from": hour_from,
+                        "hour_to": hour_to,
+                        "date_from": date(2020, 1, 1),
+                        "date_to": date(2026, 12, 31),
+                    }
+                )
+                for period, hour_from, hour_to in (
+                    ("morning", 8, 12),
+                    ("afternoon", 13, 17),
+                )
+            ]
+            attendances.append(
+                Command.create(
+                    {
+                        "name": f"{day} morning part time",
+                        "dayofweek": day,
+                        "day_period": "morning",
+                        "hour_from": 8,
+                        "hour_to": 12,
+                        "date_from": date(2027, 1, 1),
+                    }
+                )
+            )
+        with freeze_time("2026-12-31"):
+            calendar = Calendar.create(
+                {"name": "Planned rate change", "attendance_ids": attendances}
+            )
+            self.assertEqual(calendar.stored_hours_per_day, 8)
+            self.assertNotIn(calendar, Calendar._cron_refresh_dated_hours_per_day())
+        with freeze_time("2027-01-01"):
+            self.assertIn(calendar, Calendar._cron_refresh_dated_hours_per_day())
+            self.assertEqual(calendar.stored_hours_per_day, 4)
 
     def test_paid_extra_hours_in_report(self):
         """Extra hours removed by an allocation are in the theoretical report,

@@ -40,6 +40,7 @@
         "views/hr_attendance_view.xml",
         "views/res_users_view.xml",
         "views/hr_employee_view.xml",
+        "data/ir_cron.xml",
     ],
     "assets": {
         "web.assets_backend": [
