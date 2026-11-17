@@ -222,3 +222,27 @@ class TestStandingOrderPl(TransactionCase):
         # The attached details give the same total.
         values = self.job._get_standing_order_pl_values(self.sponsorship | second)
         self.assertEqual(values["amount"], 300.0)
+
+    def test_polish_salutation(self):
+        sponsor = self.sponsor.with_context(lang="pl_PL")
+        sponsor.lang = "pl_PL"
+        self.assertEqual(sponsor.salutation, "Dzień dobry, Jan")
+        sponsor.title = self.env.ref("partner_compassion.res_partner_title_family")
+        # The salutation is computed without dependencies.
+        sponsor.invalidate_recordset(["salutation"])
+        self.assertEqual(sponsor.salutation, "Droga Rodzino")
+
+    def test_sent_from_the_polish_company(self):
+        job = self.env["partner.communication.job"].create(
+            {
+                "partner_id": self.sponsor.id,
+                "config_id": self.env.ref(
+                    "partner_communication_switzerland"
+                    ".config_onboarding_sponsorship_confirmation"
+                ).id,
+                "object_ids": str(self.sponsorship.id),
+            }
+        )
+        self.assertEqual(job.company_id, self.company)
+        self.assertIn("kontakt@example.pl", job.email_from)
+        self.assertEqual(job.reply_to, "kontakt@example.pl")
