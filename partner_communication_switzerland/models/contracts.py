@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
+from odoo.tools import format_amount
 
 from odoo.addons.sponsorship_compassion.models.contracts import SPONSORSHIP_TYPE_LIST
 
@@ -74,6 +75,9 @@ class RecurringContract(models.Model):
             }
 
     def get_payment_type_attachment_string(self):
+        pl_sponsorships = self.filtered(lambda s: s.company_id.country_id.code == "PL")
+        if pl_sponsorships:
+            return pl_sponsorships._get_payment_type_attachment_string_pl()
         payment_mode = (
             self.with_context(lang="en_US").mapped("payment_mode_id")[:1].name
         )
@@ -116,6 +120,49 @@ class RecurringContract(models.Model):
                     "sponsorship payment"
                 )
         return phrase
+
+    def _get_payment_type_attachment_string_pl(self):
+        """Polish sponsors pay by card (PayU) or by a standing order whose
+        details are attached (see _get_standing_order_pl_attachments).
+
+        The attached details give the whole amount of the contract group, as
+        one standing order pays it: a sponsor whose group already has other
+        sponsorships increases the standing order they have by what is added,
+        instead of setting up a new one.
+        """
+        sponsorships = self.filtered("total_amount")
+        currency = (
+            sponsorships[:1].group_id.currency_id
+            or sponsorships[:1].company_id.currency_id
+        )
+        added = sum(sponsorships.mapped("total_amount"))
+        modes = sponsorships.mapped("payment_mode_id")
+        # The provider of a payment mode comes with my_compassion.
+        if (
+            modes
+            and "payment_provider_id" in modes._fields
+            and all(mode.payment_provider_id for mode in modes)
+        ):
+            return _(
+                "Your monthly donation of {amount} will be charged to your card."
+            ).format(amount=format_amount(self.env, added, currency))
+        # The sponsorships the attached standing order details are made of.
+        group_sponsorships = sponsorships.mapped("group_id.contract_ids").filtered(
+            lambda s: s.state in ("active", "waiting") and s.total_amount
+        )
+        total = sum((group_sponsorships | sponsorships).mapped("total_amount"))
+        if group_sponsorships - sponsorships:
+            return _(
+                "Please increase your existing standing order by {added}: the "
+                "attached details give its new monthly amount of {total}."
+            ).format(
+                added=format_amount(self.env, added, currency),
+                total=format_amount(self.env, total, currency),
+            )
+        return _(
+            "Please find attached the details to set up a standing order for "
+            "your monthly donation of {amount}."
+        ).format(amount=format_amount(self.env, total, currency))
 
     def _compute_birthday_paid(self):
         today = datetime.today()
