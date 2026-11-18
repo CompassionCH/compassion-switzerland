@@ -180,7 +180,11 @@ class CompassionChild(models.Model):
             pool = self.env["compassion.childpool.search"].create(
                 {"take": int(take), "field_office_ids": [(6, 0, field_office.ids)]}
             )
-            pool.do_search()
+            try:
+                pool.do_search()
+            except UserError:
+                logger.warning("WordPress quota: no available children in %s", code)
+                continue
             if pool.global_child_ids:
                 children |= self._hold_children(pool)
         return children
