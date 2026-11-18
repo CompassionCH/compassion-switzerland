@@ -43,6 +43,37 @@ class TestVatCheck(TransactionCase):
         with self.assertRaises(ValidationError):
             self.partner.write({"vat": "12.345.67", "country_id": self.belgium.id})
 
+    def test_new_invalid_tax_id_on_child_refused(self):
+        """A Tax ID changed through another contact's save is checked"""
+        child = self.partner_model.create(
+            {"name": "T3693 Child", "is_company": True, "parent_id": self.partner.id}
+        )
+        with self.assertRaises(ValidationError):
+            self.partner.write(
+                {"child_ids": [(1, child.id, {"vat": "12.345.67"})], "city": "Bern"}
+            )
+
+    def test_new_contact_with_invalid_tax_id_refused(self):
+        """A contact created through another contact's save is checked"""
+        with self.assertRaises(ValidationError):
+            self.partner.write(
+                {
+                    "child_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "name": "T3693 New child",
+                                "is_company": True,
+                                "country_id": self.switzerland.id,
+                                "vat": "12.345.67",
+                            },
+                        )
+                    ],
+                    "city": "Bern",
+                }
+            )
+
     def test_valid_tax_id_accepted(self):
         self.partner.write({"vat": "CHE-100.000.006 MWST"})
         self.assertEqual(self.partner.vat, "CHE-100.000.006 MWST")
