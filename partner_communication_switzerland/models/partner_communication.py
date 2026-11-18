@@ -54,7 +54,20 @@ class PartnerCommunication(models.Model):
         super(
             PartnerCommunication, wrpr_jobs.with_context(salutation_preferred_name=True)
         )._compute_content()
-        return super(PartnerCommunication, self - wrpr_jobs)._compute_content()
+        res = super(PartnerCommunication, self - wrpr_jobs)._compute_content()
+        self._set_company_sender()
+        return res
+
+    def _set_company_sender(self):
+        """The e-mail templates send from the Swiss address. A communication
+        about the records of another company (e.g. Fundacja Compassion Polska)
+        is sent from that company's address, and replies go to it."""
+        main_company = self.env.ref("base.main_company")
+        for job in self:
+            company = job.company_id
+            if company and company != main_company and company.email:
+                job.email_from = company.email_formatted
+                job.reply_to = company.email
 
     def _is_write_and_pray(self):
         """A job is a Write&Pray communication if it uses a Write&Pray rule, or
