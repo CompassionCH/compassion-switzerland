@@ -340,7 +340,15 @@ class ResPartner(models.Model):
         self._unlink_mailing_contacts_if_needed(vals)
         self._check_duplicates(vals)
 
-        res = super().write(vals)
+        partners = self
+        if "vat" not in vals:
+            # The Tax ID is only checked when it is changed. base_vat checks it
+            # again on every change of country (e.g. a new ZIP Location), and
+            # many contacts have an old Tax ID that is not a valid VAT number:
+            # changing their address, or saving another contact that writes
+            # on them, was refused (T3605, T3693).
+            partners = self.with_context(no_vat_validation=True)
+        res = super(ResPartner, partners).write(vals)
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
         return res
