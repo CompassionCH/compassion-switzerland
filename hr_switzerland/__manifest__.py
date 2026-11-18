@@ -41,6 +41,7 @@
         "views/res_users_view.xml",
         "views/hr_employee_view.xml",
         "data/ir_cron.xml",
+        "data/hr_security.xml",
     ],
     "assets": {
         "web.assets_backend": [

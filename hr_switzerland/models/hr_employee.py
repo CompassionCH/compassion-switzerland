@@ -42,17 +42,30 @@ class HrEmployeePrivatePartner(models.Model):
         return employee.private_partner_id or employee.work_contact_id
 
     def write(self, vals):
-        # Changing the work contact moves the bank account to it and untrusts it:
-        # keep the bank accounts that belong to the private partner.
+        # Changing the work contact moves the bank accounts to it and untrusts them
+        # (same accounts as core): keep those of the private partner as they were.
+        # Restoring the trust only undoes that side effect (same account, same
+        # number), so it is done as superuser. OdooBot can never trust an account
+        # (crons): then it stays untrusted rather than failing the write.
         kept = {}
         if "work_contact_id" in vals:
-            for employee in self.sudo():
-                bank = employee.bank_account_id
-                if bank and bank.partner_id == employee.private_partner_id:
+            Bank = self.env["res.partner.bank"].sudo()
+            employees = self.sudo()
+            banks = (
+                Bank.browse(vals["bank_account_id"])
+                if vals.get("bank_account_id")
+                else employees.bank_account_id
+            )
+            private_partners = (
+                self.env["res.partner"].browse(vals["private_partner_id"])
+                if vals.get("private_partner_id")
+                else employees.private_partner_id
+            )
+            for bank in banks:
+                if bank.partner_id in private_partners:
                     kept[bank] = (bank.partner_id, bank.allow_out_payment)
         res = super().write(vals)
         for bank, (partner, allowed) in kept.items():
-            bank = bank.sudo()
             if bank.partner_id != partner:
                 bank.partner_id = partner
             if allowed and not bank.allow_out_payment and bank._user_can_trust():

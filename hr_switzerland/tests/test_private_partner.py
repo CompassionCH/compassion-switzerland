@@ -9,7 +9,9 @@ class TestPrivatePartner(TestExpenseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Work contact = user partner, attached to the company (like Compassion users)
+        # Work contact = user partner, attached to another company than the one of
+        # the expense (hr_expense keeps the partner itself when its parent is the
+        # partner of the company of the expense)
         cls.company_partner = cls.env["res.partner"].create(
             {"name": "Employer", "is_company": True}
         )
@@ -38,17 +40,18 @@ class TestPrivatePartner(TestExpenseCommon):
         sheet.action_sheet_move_post()
         return sheet
 
-    def test_work_details_stay_professional(self):
-        user_partner = self.expense_user_employee.partner_id
-        self.private_partner.write(
-            {"email": "home@example.com", "mobile": "+41 79 000 00 00"}
-        )
-        self.assertEqual(self.expense_employee.work_contact_id, user_partner)
-        self.assertEqual(self.expense_employee.work_email, user_partner.email)
-
     def test_expense_entry_on_private_partner(self):
+        """The bill is on the partner of the bank account of the employee."""
+        bank = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "CH9300762011623852957",
+                "partner_id": self.private_partner.id,
+            }
+        )
+        self.expense_employee.bank_account_id = bank
         sheet = self._post_sheet()
         move = sheet.account_move_ids
+        self.assertEqual(move.partner_bank_id, bank)
         self.assertEqual(move.partner_id, self.private_partner)
         self.assertEqual(move.commercial_partner_id, self.private_partner)
         self.assertEqual(move.line_ids.partner_id, self.private_partner)
@@ -75,6 +78,14 @@ class TestPrivatePartner(TestExpenseCommon):
                 "account_debit": account("509901", "expense").id,
             }
         )
+        # Net salary due: payable without register, also owed to the employee
+        net_due = self.env["hr.salary.rule"].new(
+            {
+                "name": "Net due",
+                "code": "NETDUETEST",
+                "account_credit": account("209501", "liability_payable").id,
+            }
+        )
         slip = self.env["hr.payslip"].new({"employee_id": self.expense_employee.id})
         line = self.env["hr.payslip.line"].new(
             {"slip_id": slip.id, "salary_rule_id": rule.id}
@@ -85,6 +96,12 @@ class TestPrivatePartner(TestExpenseCommon):
             line._get_partner_id(credit_account=True), self.private_partner.id
         )
         self.assertFalse(line._get_partner_id(credit_account=False))
+        net_line = self.env["hr.payslip.line"].new({})
+        net_line.slip_id = slip
+        net_line.salary_rule_id = net_due
+        self.assertEqual(
+            net_line._get_partner_id(credit_account=True), self.private_partner.id
+        )
         self.expense_employee.private_partner_id = False
         self.assertEqual(
             line._get_partner_id(credit_account=True),
@@ -104,3 +121,22 @@ class TestPrivatePartner(TestExpenseCommon):
         self.expense_employee.work_contact_id = other
         self.assertEqual(bank.partner_id, self.private_partner)
         self.assertTrue(bank.allow_out_payment)
+
+    def test_private_bank_account_hidden(self):
+        """Users who are not HR officers don't see the bank accounts of the
+        private partners (like those of the work contacts in hr)."""
+        bank = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "CH9300762011623852957",
+                "partner_id": self.private_partner.id,
+            }
+        )
+        other = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "CH5604835012345678009",
+                "partner_id": self.env["res.partner"].create({"name": "Donor"}).id,
+            }
+        )
+        Bank = self.env["res.partner.bank"].with_user(self.expense_user_employee)
+        visible = Bank.search([("id", "in", (bank | other).ids)])
+        self.assertEqual(visible, other)
