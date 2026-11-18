@@ -185,7 +185,6 @@
             <t t-set="registration" t-value="object.get_objects()"/>
             <t t-set="event" t-value="registration.compassion_event_id"/>
             <t t-set="base_url" t-value="registration.website_id.domain"/>
-            <t t-set="user" t-value="registration.event_id.user_id"/>
             <t t-set="survey" t-value="registration.medical_survey_id or registration.event_id.medical_survey_id"/>
             <p>
                 <t t-out="partner.salutation"/>
@@ -217,7 +216,7 @@
                 <br/>
                 Receive our warmest greetings.
             </p>
-            <t t-out="user.signature"/>
+            <t t-out="object.user_id.signature"/>
         </field>
     </record>
 
@@ -283,7 +282,6 @@
             <t t-set="registration" t-value="object.get_objects()"/>
             <t t-set="event" t-value="registration.compassion_event_id"/>
             <t t-set="payment_url" t-value="registration.payment_link"/>
-            <t t-set="user" t-value="registration.event_id.user_id"/>
 
             <p>
                 <t t-out="partner.salutation"/>
@@ -324,7 +322,7 @@
             <p>
                 Receive our warmest greetings.
             </p>
-            <t t-out="user.signature"/>
+            <t t-out="object.user_id.signature"/>
         </field>
     </record>
 
@@ -346,7 +344,6 @@
                 <t t-set="registration" t-value="object.get_objects()"/>
                 <t t-set="event" t-value="registration.compassion_event_id"/>
                 <t t-set="meeting" t-value="registration.event_id"/>
-                <t t-set="user" t-value="meeting.user_id"/>
                 <t t-set="url" t-value="registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my/events/' + str(registration.id) + '/'"/>
             </div>
             <p>
@@ -377,7 +374,7 @@
                 <br/>
                 Receive our warmest greetings.
             </p>
-            <t t-out="user.signature"></t>
+            <t t-out="object.user_id.signature"></t>
         </field>
     </record>
 
@@ -399,7 +396,6 @@
                 <t t-set="registration" t-value="object.get_objects()"/>
                 <t t-set="event" t-value="registration.compassion_event_id"/>
                 <t t-set="meeting" t-value="registration.event_id"/>
-                <t t-set="user" t-value="meeting.user_id"/>
                 <t t-set="url" t-value="registration.env['ir.config_parameter'].sudo().get_param('web.external.url') + '/my/events/' + str(registration.id) + '/'"/>
             </div>
             <p>
@@ -427,7 +423,7 @@
                 <br/>
                 Receive our warmest greetings.
             </p>
-            <t t-out="user.signature"></t>
+            <t t-out="object.user_id.signature"></t>
         </field>
     </record>
 
@@ -480,7 +476,7 @@
             <br/>
             Receive our warmest greetings.
             </p>
-            <t t-out="user.signature" />
+            <t t-out="object.user_id.signature" />
         </field>
     </record>
 
@@ -504,7 +500,6 @@
             <t t-set="registration" t-value="object.get_objects()"/>
             <t t-set="event" t-value="registration.compassion_event_id"/>
             <t t-set="survey" t-value="registration.feedback_survey_id or registration.event_id.feedback_survey_id"/>
-            <t t-set="user" t-value="registration.event_id.user_id"/>
             <t t-set="base_url" t-value="registration.website_id.domain"/>
             <t t-set="url" t-value="base_url + survey.sudo().get_start_url()"/>
             <t t-set="children_in_poverty" t-value="object.get_snippet('children_in_poverty', strip_html=True)"/>
@@ -543,7 +538,7 @@
                 <br/>
                 Receive our warmest greetings.
             </p>
-            <t t-out="user.signature" />
+            <t t-out="object.user_id.signature" />
         </field>
     </record>
     <record id="group_visit_flights_email" model="mail.template">

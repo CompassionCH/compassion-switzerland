@@ -8,11 +8,24 @@
 ##############################################################################
 import base64
 
-from odoo import _, models
+from odoo import _, api, models
 
 
 class CommunicationJob(models.Model):
     _inherit = "partner.communication.job"
+
+    @api.model
+    def _get_dynamic_user(self, config, object_ids_str):
+        """The event registration e-mails are signed by the event Responsible.
+        When it is not an employee (admin, church rep), keep the signer of the
+        communication rule.
+        """
+        user = super()._get_dynamic_user(config, object_ids_str)
+        if config.model == "event.registration" and not (
+            user and user.sudo().employee_ids
+        ):
+            return config.user_id or user
+        return user
 
     def get_trip_down_payment_attachment(self):
         """
