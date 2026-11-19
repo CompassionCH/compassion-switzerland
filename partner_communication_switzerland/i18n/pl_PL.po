@@ -1,0 +1,161 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* partner_communication_switzerland
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-16 16:24+0000\n"
+"PO-Revision-Date: 2026-11-16 16:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "<span>every month</span>"
+msgstr "<span>co miesiąc</span>"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Account number"
+msgstr "Numer rachunku"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Amount"
+msgstr "Kwota"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Any questions? Contact us:"
+msgstr "Masz pytania? Skontaktuj się z nami:"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Confirm the standing order."
+msgstr "Zatwierdź zlecenie stałe."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid ""
+"Enter the details above, with \"every month\" as the frequency and the start"
+" date of your choice."
+msgstr ""
+"Wpisz powyższe dane, wybierz częstotliwość „co miesiąc” i dogodną datę "
+"rozpoczęcia."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "How to set up the standing order"
+msgstr "Jak ustawić zlecenie stałe"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "In the transfers menu, choose \"Standing order\"."
+msgstr "W menu przelewów wybierz „Zlecenie stałe”."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Log in to your online banking or banking app."
+msgstr ""
+"Zaloguj się do bankowości internetowej lub aplikacji mobilnej swojego banku."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid ""
+"Please copy it exactly: it lets us assign your gift to your sponsorship."
+msgstr ""
+"Prosimy przepisać go dokładnie – dzięki temu przypiszemy wpłatę do Twojego "
+"sponsoringu."
+
+#. module: partner_communication_switzerland
+#. odoo-python
+#: code:addons/partner_communication_switzerland/models/contracts.py:0
+msgid ""
+"Please find attached the details to set up a standing order for your monthly"
+" donation of {amount}."
+msgstr ""
+"W załączniku znajdziesz dane do ustawienia zlecenia stałego na comiesięczną "
+"darowiznę w wysokości {amount}."
+
+#. module: partner_communication_switzerland
+#. odoo-python
+#: code:addons/partner_communication_switzerland/models/contracts.py:0
+msgid ""
+"Please increase your existing standing order by {added}: the attached "
+"details give its new monthly amount of {total}."
+msgstr ""
+"Prosimy o zwiększenie Twojego obecnego zlecenia stałego o {added}: w "
+"załączniku znajdziesz dane z nową miesięczną kwotą {total}."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Recipient"
+msgstr "Odbiorca"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid ""
+"Scan this code with your banking app to fill in the first transfer. Most "
+"banks then let you save it as a standing order."
+msgstr ""
+"Zeskanuj ten kod w aplikacji swojego banku, aby wypełnić pierwszy przelew. W"
+" większości banków można go potem zapisać jako zlecenie stałe."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Sponsored child"
+msgstr "Sponsorowane dziecko"
+
+#. module: partner_communication_switzerland
+#: model:ir.actions.report,name:partner_communication_switzerland.report_standing_order_pl
+msgid "Standing order details (Poland)"
+msgstr "Dane zlecenia stałego (Polska)"
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid ""
+"Thank you for sponsoring with Compassion. Please set up a monthly standing "
+"order in your online banking with the details below: it is the simplest way "
+"to support your sponsored child every month."
+msgstr ""
+"Dziękujemy za objęcie dziecka sponsoringiem w Compassion. Prosimy o "
+"ustawienie w bankowości internetowej comiesięcznego zlecenia stałego z "
+"poniższymi danymi – to najprostszy sposób, aby co miesiąc wspierać "
+"sponsorowane dziecko."
+
+#. module: partner_communication_switzerland
+#. odoo-python
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:0
+msgid "The company %s has no bank account for standing orders."
+msgstr "Firma %s nie ma rachunku bankowego dla zleceń stałych."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Transfer title"
+msgstr "Tytuł przelewu"
+
+#. module: partner_communication_switzerland
+#. odoo-python
+#: code:addons/partner_communication_switzerland/models/contracts.py:0
+msgid "Your monthly donation of {amount} will be charged to your card."
+msgstr ""
+"Twoja comiesięczna darowizna w wysokości {amount} będzie pobierana z Twojej "
+"karty."
+
+#. module: partner_communication_switzerland
+#: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
+msgid "Your monthly standing order"
+msgstr "Twoje zlecenie stałe"
+
+#. module: partner_communication_switzerland
+#. odoo-python
+#: code:addons/partner_communication_switzerland/models/partner_communication.py:0
+msgid "standing order.pdf"
+msgstr "zlecenie stałe.pdf"
