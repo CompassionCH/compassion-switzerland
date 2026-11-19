@@ -70,4 +70,13 @@ class HrEmployeePrivatePartner(models.Model):
                 bank.partner_id = partner
             if allowed and not bank.allow_out_payment and bank._user_can_trust():
                 bank.allow_out_payment = True
+        if "private_partner_id" in vals and "bank_account_id" not in vals:
+            # The bills take the bank account of the employee as is: drop one that
+            # belongs neither to the new private partner nor to the work contact.
+            for employee in self.sudo():
+                bank = employee.bank_account_id
+                if bank and bank.partner_id not in (
+                    employee.private_partner_id | employee.work_contact_id
+                ):
+                    employee.bank_account_id = False
         return res

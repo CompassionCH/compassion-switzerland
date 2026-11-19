@@ -20,6 +20,7 @@ class ResPartner(models.Model):
 class ResPartnerBank(models.Model):
     _inherit = "res.partner.bank"
 
+    @api.depends_context("uid")
     def _compute_display_name(self):
         # Same masking as hr for the bank accounts of the private partners, also
         # of former employees (the record rule hides them too). Billing officers

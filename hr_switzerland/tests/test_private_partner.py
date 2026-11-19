@@ -122,6 +122,40 @@ class TestPrivatePartner(TestExpenseCommon):
         self.assertEqual(bank.partner_id, self.private_partner)
         self.assertTrue(bank.allow_out_payment)
 
+    def test_private_partner_change_drops_old_bank_account(self):
+        """Changing the private partner drops a bank account of the former one,
+        and keeps one of the new one or of the work contact."""
+        employee = self.expense_employee
+        bank = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "CH9300762011623852957",
+                "partner_id": self.private_partner.id,
+            }
+        )
+        employee.bank_account_id = bank
+        new_private = self.env["res.partner"].create({"name": "New Home"})
+        new_bank = self.env["res.partner.bank"].create(
+            {"acc_number": "CH5604835012345678009", "partner_id": new_private.id}
+        )
+        employee.write({"private_partner_id": new_private.id})
+        self.assertFalse(employee.bank_account_id)
+        employee.write(
+            {"private_partner_id": self.private_partner.id, "bank_account_id": bank.id}
+        )
+        employee.write(
+            {"private_partner_id": new_private.id, "bank_account_id": new_bank.id}
+        )
+        self.assertEqual(employee.bank_account_id, new_bank)
+        work_bank = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "CH4431999123000889012",
+                "partner_id": employee.work_contact_id.id,
+            }
+        )
+        employee.bank_account_id = work_bank
+        employee.private_partner_id = False
+        self.assertEqual(employee.bank_account_id, work_bank)
+
     def test_private_bank_account_hidden(self):
         """Users who are not HR officers don't see the bank accounts of the
         private partners (like those of the work contacts in hr)."""
@@ -153,11 +187,9 @@ class TestPrivatePartner(TestExpenseCommon):
         )
         self.expense_employee.active = False
         user = self.expense_user_employee
-        self.assertEqual(
-            bank.with_user(user).sudo().display_name, "CH***************2957"
-        )
+        # base_iban stores the number in groups of four: build the labels from it
+        number = bank.acc_number
+        masked = number[:2] + "*" * len(number[2:-4]) + number[-4:]
+        self.assertEqual(bank.with_user(user).sudo().display_name, masked)
         user.groups_id |= self.env.ref("account.group_account_invoice")
-        bank.invalidate_recordset(["display_name"])
-        self.assertEqual(
-            bank.with_user(user).sudo().display_name, "CH9300762011623852957"
-        )
+        self.assertEqual(bank.with_user(user).sudo().display_name, number)
