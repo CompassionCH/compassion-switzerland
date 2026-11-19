@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="param_country_quotas" model="ir.config_parameter">
+        <field name="key">child_wp.country_quotas</field>
+        <field name="value">KH:25</field>
+    </record>
+</odoo>

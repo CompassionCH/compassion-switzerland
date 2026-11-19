@@ -160,6 +160,35 @@ class CompassionChild(models.Model):
             global_pool.rich_mix()
         return global_pool
 
+    def _hold_country_quotas(self):
+        """Rich mix almost never returns children of new countries (T3621):
+        search their field offices directly. Parameter format: "KH:25,MW:10"."""
+        quotas = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("child_wp.country_quotas", "")
+        )
+        children = self.browse()
+        for quota in filter(None, quotas.replace(" ", "").split(",")):
+            code, take = quota.split(":")
+            field_office = self.env["compassion.field.office"].search(
+                [("field_office_id", "=", code)], limit=1
+            )
+            if not field_office:
+                logger.warning("WordPress quota: unknown field office %s", code)
+                continue
+            pool = self.env["compassion.childpool.search"].create(
+                {"take": int(take), "field_office_ids": [(6, 0, field_office.ids)]}
+            )
+            try:
+                pool.do_search()
+            except UserError:
+                logger.warning("WordPress quota: no available children in %s", code)
+                continue
+            if pool.global_child_ids:
+                children |= self._hold_children(pool)
+        return children
+
     def _hold_and_push_to_wordpress(self, company_id, take):
         try:
             # Before holding: a WordPress outage must not cost any hold.
@@ -168,6 +197,7 @@ class CompassionChild(models.Model):
                 take
             )
             new_children = self._hold_children(global_pool)
+            new_children |= self.with_company(company_id)._hold_country_quotas()
             valid_new_children = new_children._update_information_and_filter_invalid()
             old_children = self.search(
                 [
