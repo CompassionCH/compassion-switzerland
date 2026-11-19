@@ -45,8 +45,8 @@ class HrEmployeePrivatePartner(models.Model):
         # Changing the work contact moves the bank accounts to it and untrusts them
         # (same accounts as core): keep those of the private partner as they were.
         # Restoring the trust only undoes that side effect (same account, same
-        # number), so it is done as superuser. OdooBot can never trust an account
-        # (crons): then it stays untrusted rather than failing the write.
+        # number), so it is done as superuser. (For OdooBot, core already refuses
+        # to untrust a trusted account, so such a write fails before this code.)
         kept = {}
         if "work_contact_id" in vals:
             Bank = self.env["res.partner.bank"].sudo()
@@ -58,7 +58,7 @@ class HrEmployeePrivatePartner(models.Model):
             )
             private_partners = (
                 self.env["res.partner"].browse(vals["private_partner_id"])
-                if vals.get("private_partner_id")
+                if "private_partner_id" in vals
                 else employees.private_partner_id
             )
             for bank in banks:

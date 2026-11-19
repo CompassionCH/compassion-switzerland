@@ -6,14 +6,13 @@ class HrPayslipLine(models.Model):
 
     def _get_partner_id(self, credit_account):
         # Employee accounts (see payroll_account): private partner of the employee.
-        # Payables without a register partner (e.g. net salary due) are also
+        # Payables without a contribution register (e.g. net salary due) are also
         # owed to the employee.
         partner_id = super()._get_partner_id(credit_account)
         rule = self.salary_rule_id
         account = rule.account_credit if credit_account else rule.account_debit
         if account.account_type in ("asset_receivable", "liability_current") or (
-            account.account_type == "liability_payable"
-            and not rule.register_id.partner_id
+            account.account_type == "liability_payable" and not rule.register_id
         ):
             employee = self.slip_id.employee_id
             partner_id = employee._get_accounting_partner().id or partner_id

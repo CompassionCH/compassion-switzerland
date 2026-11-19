@@ -21,11 +21,17 @@ class ResPartnerBank(models.Model):
     _inherit = "res.partner.bank"
 
     def _compute_display_name(self):
-        # Same masking as hr for the bank accounts of the private partners
+        # Same masking as hr for the bank accounts of the private partners, also
+        # of former employees (the record rule hides them too). Billing officers
+        # can read these accounts (their own rule): no masking for them.
         super()._compute_display_name()
-        if self.env.user.has_group("hr.group_hr_user"):
+        user = self.env.user
+        if user.has_group("hr.group_hr_user") or user.has_group(
+            "account.group_account_invoice"
+        ):
             return
-        for account in self.sudo().filtered("partner_id.private_employee_ids"):
+        accounts = self.sudo().with_context(active_test=False)
+        for account in accounts.filtered("partner_id.private_employee_ids"):
             number = account.acc_number or ""
             account.sudo(self.env.su).display_name = (
                 number[:2] + "*" * len(number[2:-4]) + number[-4:]

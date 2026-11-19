@@ -140,3 +140,24 @@ class TestPrivatePartner(TestExpenseCommon):
         Bank = self.env["res.partner.bank"].with_user(self.expense_user_employee)
         visible = Bank.search([("id", "in", (bank | other).ids)])
         self.assertEqual(visible, other)
+
+    def test_private_bank_account_label_masked(self):
+        """The label of the bank account of a former employee's private partner
+        is masked (many2one labels are read as superuser), except for HR and
+        billing officers."""
+        bank = self.env["res.partner.bank"].create(
+            {
+                "acc_number": "CH9300762011623852957",
+                "partner_id": self.private_partner.id,
+            }
+        )
+        self.expense_employee.active = False
+        user = self.expense_user_employee
+        self.assertEqual(
+            bank.with_user(user).sudo().display_name, "CH***************2957"
+        )
+        user.groups_id |= self.env.ref("account.group_account_invoice")
+        bank.invalidate_recordset(["display_name"])
+        self.assertEqual(
+            bank.with_user(user).sudo().display_name, "CH9300762011623852957"
+        )

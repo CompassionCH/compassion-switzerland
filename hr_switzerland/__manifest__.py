@@ -59,6 +59,7 @@
         "payroll_account",  # OCA/payroll
     ],
     "demo": [],
+    "uninstall_hook": "uninstall_hook",
     "installable": True,
     "auto_install": False,
 }
