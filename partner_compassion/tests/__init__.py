@@ -10,4 +10,5 @@
 
 from . import test_advocate_birthday
 from . import test_partner_compassion
+from . import test_advocate_engagement_flags
 from . import test_vat_check
