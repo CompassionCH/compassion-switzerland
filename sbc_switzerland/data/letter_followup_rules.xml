@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Follow-up activities for sponsorships without a child letter and for letters
+    stuck in translation.
+
+    The rules are installed inactive and without a responsible: set the
+    "Responsible" on each action, then activate the rules. last_run starts at
+    install time, so the rules only pick up dates that pass after the install.
+-->
+<odoo noupdate="1">
+    <!-- No child letter 3 months after the sponsorship start -->
+    <record id="letter_followup_no_child_letter_3m_action" model="ir.actions.server">
+        <field name="name">Create activity: No child letter 3 months after sponsorship start</field>
+        <field name="model_id" ref="recurring_contract.model_recurring_contract" />
+        <field name="usage">base_automation</field>
+        <field name="state">next_activity</field>
+        <field name="activity_type_id" ref="mail.mail_activity_data_todo" />
+        <field name="activity_summary">No child letter 3 months after sponsorship start</field>
+        <field name="activity_note">The sponsor has not received any letter from the child 3 months after the sponsorship start date.</field>
+        <field name="activity_date_deadline_range">7</field>
+        <field name="activity_date_deadline_range_type">days</field>
+        <field name="activity_user_type">specific</field>
+    </record>
+    <record id="letter_followup_no_child_letter_3m" model="base.automation">
+        <field name="name">Sponsorship: no child letter 3 months after start</field>
+        <field name="model_id" ref="recurring_contract.model_recurring_contract" />
+        <field name="description" type="html">
+            <p>
+                Active sponsorships (S, SC, SWP), except those of the origin
+                "unsponsored/surplus fund", where no letter from the child has
+                reached the sponsor (state "Published to Global Partner")
+                3 months after the start date.
+            </p>
+            <p>
+                Keep the condition on the sponsorship state inside the letter
+                condition: it does not change the result, but it keeps the query
+                fast (about 0.1 s instead of about 10 s).
+            </p>
+        </field>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date" />
+        <field name="trg_date_range">3</field>
+        <field name="trg_date_range_type">month</field>
+        <field name="filter_domain">[("state", "=", "active"), ("type", "in", ["S", "SC", "SWP"]), ("origin_id", "not any", [("name", "=", "unsponsored/surplus fund")]), ("correspondence_ids", "not any", [("direction", "=", "Beneficiary To Supporter"), ("state", "=", "Published to Global Partner"), ("sponsorship_id.state", "=", "active")])]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('letter_followup_no_child_letter_3m_action')])]" />
+        <field name="last_run" eval="datetime.now()" />
+        <field name="active" eval="False" />
+    </record>
+
+    <!-- No child letter 1 year after the sponsorship start -->
+    <record id="letter_followup_no_child_letter_1y_action" model="ir.actions.server">
+        <field name="name">Create activity: No child letter 1 year after sponsorship start</field>
+        <field name="model_id" ref="recurring_contract.model_recurring_contract" />
+        <field name="usage">base_automation</field>
+        <field name="state">next_activity</field>
+        <field name="activity_type_id" ref="mail.mail_activity_data_todo" />
+        <field name="activity_summary">No child letter 1 year after sponsorship start</field>
+        <field name="activity_note">The sponsor has not received any letter from the child 1 year after the sponsorship start date.</field>
+        <field name="activity_date_deadline_range">7</field>
+        <field name="activity_date_deadline_range_type">days</field>
+        <field name="activity_user_type">specific</field>
+    </record>
+    <record id="letter_followup_no_child_letter_1y" model="base.automation">
+        <field name="name">Sponsorship: no child letter 1 year after start</field>
+        <field name="model_id" ref="recurring_contract.model_recurring_contract" />
+        <field name="description" type="html">
+            <p>
+                Active sponsorships (S, SC, SWP), except those of the origin
+                "unsponsored/surplus fund", where no letter from the child has
+                reached the sponsor (state "Published to Global Partner")
+                1 year after the start date.
+            </p>
+            <p>
+                Keep the condition on the sponsorship state inside the letter
+                condition: it does not change the result, but it keeps the query
+                fast (about 0.1 s instead of about 10 s).
+            </p>
+        </field>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__start_date" />
+        <field name="trg_date_range">12</field>
+        <field name="trg_date_range_type">month</field>
+        <field name="filter_domain">[("state", "=", "active"), ("type", "in", ["S", "SC", "SWP"]), ("origin_id", "not any", [("name", "=", "unsponsored/surplus fund")]), ("correspondence_ids", "not any", [("direction", "=", "Beneficiary To Supporter"), ("state", "=", "Published to Global Partner"), ("sponsorship_id.state", "=", "active")])]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('letter_followup_no_child_letter_1y_action')])]" />
+        <field name="last_run" eval="datetime.now()" />
+        <field name="active" eval="False" />
+    </record>
+
+    <!-- Letter in the same translation state for 2 months -->
+    <record id="letter_followup_stuck_in_translation_action" model="ir.actions.server">
+        <field name="name">Create activity: Letter stuck in translation for 2 months</field>
+        <field name="model_id" ref="sbc_compassion.model_correspondence" />
+        <field name="usage">base_automation</field>
+        <field name="state">next_activity</field>
+        <field name="activity_type_id" ref="mail.mail_activity_data_todo" />
+        <field name="activity_summary">Letter stuck in translation for 2 months</field>
+        <field name="activity_note">The letter has been in the same translation state for 2 months.</field>
+        <field name="activity_date_deadline_range">7</field>
+        <field name="activity_date_deadline_range_type">days</field>
+        <field name="activity_user_type">specific</field>
+    </record>
+    <record id="letter_followup_stuck_in_translation" model="base.automation">
+        <field name="name">Letter: stuck in translation for 2 months</field>
+        <field name="model_id" ref="sbc_compassion.model_correspondence" />
+        <field name="description" type="html">
+            <p>
+                Letters of active sponsorships in "National Office Translation
+                Queue", "To Translate" or "Translation check unsuccessful" whose
+                status has not been updated for 2 months.
+            </p>
+        </field>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="sbc_compassion.field_correspondence__status_date" />
+        <field name="trg_date_range">2</field>
+        <field name="trg_date_range_type">month</field>
+        <field name="filter_domain">[("state", "in", ["Field Office translation queue", "Global Partner translation queue", "Translation check unsuccessful"]), ("sponsorship_state", "=", "active")]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('letter_followup_stuck_in_translation_action')])]" />
+        <field name="last_run" eval="datetime.now()" />
+        <field name="active" eval="False" />
+    </record>
+</odoo>

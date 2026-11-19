@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "18.0.1.0.9",
+    "version": "18.0.1.0.10",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -62,6 +62,7 @@
         "report/bvr_christmas.xml",
         "report/bvr_fund.xml",
         "report/new_donors_card.xml",
+        "report/church_inspiration_card.xml",
         "report/tax_receipt.xml",
         "report/ending_sponsorship_certificate.xml",
         "report/signatures.xml",

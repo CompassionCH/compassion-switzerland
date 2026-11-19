@@ -1,0 +1,69 @@
+<odoo>
+    <template id="church_inspiration_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="article">
+                    <t t-set="custom_css" t-translation="off">
+                    .page {
+                        font-family: "Quincy CF", serif;
+                        font-size: 12pt;
+                        line-height: 14pt;
+                        color: black;
+                    }
+                    #photo {
+                        position: absolute;
+                        top: 18mm;
+                        left: 9mm;
+                        width: 24mm;
+                        height: 24mm;
+                        border-radius: 12mm;
+                        object-fit: cover;
+                    }
+                    #body {
+                        position: absolute;
+                        top: 22mm;
+                        left: 38mm;
+                        width: 161mm;
+                    }
+                    #body p {
+                        margin: 0 0 14pt 0;
+                    }
+                    #body b, #body strong {
+                        font-weight: bold;
+                        color: #0054A6;
+                    }
+                    </t>
+                    <t
+                        t-call="report_compassion.church_inspiration_card_page"
+                        t-lang="o.partner_id.lang"
+                    />
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="church_inspiration_card_page">
+        <div class="page">
+            <t t-call="report_compassion.style" />
+            <t
+                t-set="intervention"
+                t-value="o.env['compassion.intervention'].search([('product_template_id', 'in', o.get_objects().mapped('contract_line_ids.product_id.product_tmpl_id').ids), ('type', '=', 'Donor-funded FCP')], limit=1)"
+            />
+            <img
+                id="photo"
+                t-if="intervention.project_director_photo"
+                t-att-src="image_data_uri(intervention.project_director_photo)"
+            />
+            <div id="body">
+                <span t-out="o.body_html" />
+            </div>
+        </div>
+    </template>
+    <record model="ir.actions.report" id="church_inspiration_card_report">
+        <field name="name">Church Inspiration Card</field>
+        <field name="model">partner.communication.job</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_compassion.church_inspiration_card</field>
+        <field name="paperformat_id" ref="paperformat_anniversary_card" />
+        <field name="print_delay">0</field>
+    </record>
+</odoo>

@@ -341,91 +341,95 @@ class Contracts(models.Model):
         :return: <recurring.contract> record
         """
         try:
-            values, prepared_form_data = self._prepare_sponsorship_job_values(
-                child_local_id,
-                form_data,
-                sponsor_lang,
-                utm_source,
-                utm_medium,
-                utm_campaign,
-            )
-            sponsorship = self.env["recurring.contract"].create(values)
-            list_keys = [
-                "salutation",
-                "first_name",
-                "last_name",
-                "birthday",
-                "street",
-                "zipcode",
-                "city",
-                "land",
-                "email",
-                "phone",
-                "lang",
-                "language",
-                "kirchgemeinde",
-                "Beruf",
-                "zahlungsweise",
-                "consumer_source",
-                "consumer_source_text",
-                "patenschaftplus",
-                "mithelfen",
-                "childID",
-                "Child reference",
-            ]
-            web_info = Markup("").join(
-                Markup("<li>%s: %s</li>")
-                % (escape(key), escape(str(prepared_form_data.get(key, ""))))
-                for key in list_keys
-            )
-            sponsorship.web_info = web_info
-            ambassador_match = re.match(
-                r"^msk_(\d{1,8})",
-                prepared_form_data.get("consumer_source_text", ""),
-            )
-            event_match = re.match(
-                r"^msk_(\d{1,8})", prepared_form_data.get("consumer_source", "")
-            )
-            # The sponsorships consumer_source fields were set automatically due
-            # to a redirect from the sponsorship button on the muskathlon page.
-            if ambassador_match and event_match:
-                ambassador_id = int(ambassador_match.group(1))
-                event_id = int(event_match.group(1))
-                sponsorship.update(
-                    {
-                        "ambassador_id": ambassador_id,
-                        "origin_id": self.env["recurring.contract.origin"]
-                        .search([("event_id", "=", event_id)], limit=1)
-                        .id,
-                    }
+            # A failure must not leave a half-created partner or hold behind
+            with self.env.cr.savepoint():
+                values, prepared_form_data = self._prepare_sponsorship_job_values(
+                    child_local_id,
+                    form_data,
+                    sponsor_lang,
+                    utm_source,
+                    utm_medium,
+                    utm_campaign,
+                )
+                sponsorship = self.env["recurring.contract"].create(values)
+                list_keys = [
+                    "salutation",
+                    "first_name",
+                    "last_name",
+                    "birthday",
+                    "street",
+                    "zipcode",
+                    "city",
+                    "land",
+                    "email",
+                    "phone",
+                    "lang",
+                    "language",
+                    "kirchgemeinde",
+                    "Beruf",
+                    "zahlungsweise",
+                    "consumer_source",
+                    "consumer_source_text",
+                    "patenschaftplus",
+                    "mithelfen",
+                    "childID",
+                    "Child reference",
+                ]
+                web_info = Markup("").join(
+                    Markup("<li>%s: %s</li>")
+                    % (escape(key), escape(str(prepared_form_data.get(key, ""))))
+                    for key in list_keys
+                )
+                sponsorship.web_info = web_info
+                ambassador_match = re.match(
+                    r"^msk_(\d{1,8})",
+                    prepared_form_data.get("consumer_source_text", ""),
+                )
+                event_match = re.match(
+                    r"^msk_(\d{1,8})", prepared_form_data.get("consumer_source", "")
+                )
+                # The sponsorships consumer_source fields were set automatically due
+                # to a redirect from the sponsorship button on the muskathlon page.
+                if ambassador_match and event_match:
+                    ambassador_id = int(ambassador_match.group(1))
+                    event_id = int(event_match.group(1))
+                    sponsorship.update(
+                        {
+                            "ambassador_id": ambassador_id,
+                            "origin_id": self.env["recurring.contract.origin"]
+                            .search([("event_id", "=", event_id)], limit=1)
+                            .id,
+                        }
+                    )
+
+                # Notify staff
+                sponsor_lang = prepared_form_data["lang"][:2]
+                staff_param = "sponsorship_" + sponsor_lang + "_id"
+                staff = self.env["res.config.settings"].sudo().get_param(staff_param)
+                notify_text = (
+                    Markup(
+                        "A new sponsorship was made on the website. Please "
+                        "verify all information and validate the sponsorship "
+                        "on Odoo:<br/><br/><ul>%s</ul>"
+                    )
+                    % web_info
                 )
 
-            # Notify staff
-            sponsor_lang = prepared_form_data["lang"][:2]
-            staff_param = "sponsorship_" + sponsor_lang + "_id"
-            staff = self.env["res.config.settings"].sudo().get_param(staff_param)
-            notify_text = (
-                Markup(
-                    "A new sponsorship was made on the website. Please "
-                    "verify all information and validate the sponsorship "
-                    "on Odoo:<br/><br/><ul>%s</ul>"
+                title = _("New sponsorship from the website")
+                if "writepray" in prepared_form_data:
+                    title = _("New Write&Pray sponsorship from the website")
+                sponsorship.message_post(
+                    body=notify_text,
+                    subject=title,
+                    partner_ids=[staff],
+                    subtype_xmlid="mail.mt_comment",
                 )
-                % web_info
-            )
 
-            title = _("New sponsorship from the website")
-            if "writepray" in prepared_form_data:
-                title = _("New Write&Pray sponsorship from the website")
-            sponsorship.message_post(
-                body=notify_text,
-                subject=title,
-                partner_ids=[staff],
-                subtype_xmlid="mail.mt_comment",
-            )
-
-            sponsorship.correspondent_id.legal_agreement_date = fields.Datetime.now()
-            return sponsorship
-        except BaseException as err:
+                sponsorship.correspondent_id.legal_agreement_date = (
+                    fields.Datetime.now()
+                )
+                return sponsorship
+        except Exception as err:
             # Log the error and send a mail stating that it failed running
             _logger.error("Wordpress create sponsorship job failed", exc_info=True)
             child = self.env["compassion.child"].search(

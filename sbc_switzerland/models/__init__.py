@@ -13,3 +13,4 @@ from . import import_letters_history
 from . import translation_user
 from . import import_letters_line
 from . import correspondence_page
+from . import recurring_contract
