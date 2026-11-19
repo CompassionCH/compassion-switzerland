@@ -16,10 +16,39 @@ const config = [{
             openerp: "readonly",
             owl: "readonly",
             luxon: "readonly",
+            Modal: "readonly",
+            window: "readonly",
+            document: "readonly",
+            console: "readonly",
+            navigator: "readonly",
+            location: "readonly",
+            history: "readonly",
+            localStorage: "readonly",
+            sessionStorage: "readonly",
+            alert: "readonly",
+            confirm: "readonly",
+            fetch: "readonly",
+            setTimeout: "readonly",
+            clearTimeout: "readonly",
+            setInterval: "readonly",
+            clearInterval: "readonly",
+            requestAnimationFrame: "readonly",
+            cancelAnimationFrame: "readonly",
+            URL: "readonly",
+            URLSearchParams: "readonly",
+            FormData: "readonly",
+            FileReader: "readonly",
+            File: "readonly",
+            Blob: "readonly",
+            Image: "readonly",
+            DataTransfer: "readonly",
+            Event: "readonly",
+            CustomEvent: "readonly",
+            MutationObserver: "readonly",
         },
 
         ecmaVersion: 2024,
-        sourceType: "script",
+        sourceType: "module",
     },
 
     rules: {
@@ -133,8 +162,8 @@ const config = [{
         "no-unsafe-finally": "error",
         "no-unused-expressions": "error",
         "no-unused-labels": "error",
-        "no-unused-vars": "error",
-        "no-use-before-define": "error",
+        "no-unused-vars": ["error", {args: "none"}],
+        "no-use-before-define": ["error", {functions: false}],
         "no-useless-call": "warn",
         "no-useless-computed-key": "warn",
         "no-useless-concat": "warn",
@@ -191,11 +220,12 @@ const config = [{
     },
 
 }, {
-    files: ["**/*.esm.js"],
+    // The last file still written against the legacy odoo.define() loader.
+    files: ["account_switzerland/**/*.js"],
 
     languageOptions: {
         ecmaVersion: 2024,
-        sourceType: "module",
+        sourceType: "script",
     },
 }];
 

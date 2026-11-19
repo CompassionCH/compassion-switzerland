@@ -47,7 +47,7 @@ class ResUsers(models.Model):
     def signup(self, values, token=None):
         """Mark acccount activation task done for Muskathlon participant."""
         res = super().signup(values, token)
-        login = res[1]
+        login = res[0]
         user = self.env["res.users"].search([("login", "=", login)])
         registrations = user.partner_id.registration_ids
         registrations.mapped("task_ids").filtered(

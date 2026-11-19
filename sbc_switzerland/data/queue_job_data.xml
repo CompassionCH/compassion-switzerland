@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <!-- The analysis of the scanned letters commits after each letter, in order to
+       keep the letters already read and to free the memory. A queue job must be
+       allowed to do so. -->
+  <record id="job_function_import_letters_run_analyze" model="queue.job.function">
+    <field name="model_id" ref="sbc_compassion.model_import_letters_history" />
+    <field name="method">run_analyze</field>
+    <field name="allow_commit" eval="True" />
+  </record>
+</odoo>

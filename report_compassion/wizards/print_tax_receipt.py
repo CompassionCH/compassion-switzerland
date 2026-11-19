@@ -11,7 +11,7 @@ import base64
 from datetime import date
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.tools.pdf import merge_pdf
 
 
 class PrintTaxReceipt(models.TransientModel):
@@ -51,42 +51,59 @@ class PrintTaxReceipt(models.TransientModel):
         """
         model = "res.partner"
         records = self.env[model].browse(self.env.context.get("active_ids"))
-        data = {
-            "doc_ids": records.ids,
-            "year": self.year,
-        }
-        lang = records.mapped("lang")
-        if len(lang) == 1:
-            data["lang"] = lang[0]
-        else:
-            raise UserError(
-                _(
-                    "You can only generate tax certificate for one language at "
-                    "a time."
+        # Each receipt is in the language of its donor, also when someone
+        # prints it for them from the backend. MyCompassion asks for the
+        # language of the website session instead (tax_receipt_lang).
+        session_lang = self.env.context.get("tax_receipt_lang")
+        partners_by_lang = (
+            {session_lang: records}
+            if session_lang
+            else records.grouped(lambda p: p.lang or self.env.lang)
+        )
+        if not self.pdf and len(partners_by_lang) == 1:
+            lang, partners = next(iter(partners_by_lang.items()))
+            return (
+                self.env.ref("report_compassion.tax_receipt_report")
+                .with_context(lang=lang)
+                .report_action(
+                    partners.ids, data=self._get_data(partners, lang), config=False
                 )
             )
-        report = self.env.ref("report_compassion.tax_receipt_report").with_context(
-            lang=data["lang"]
-        )
-        if self.pdf:
-            pdf_data = (
-                report.with_context(must_skip_send_to_printer=True)
+
+        # A PDF to download: asked for, or several languages, which can't go
+        # in one printing
+        pdf_data = merge_pdf(
+            [
+                self.env["ir.actions.report"]
+                .with_context(lang=lang, must_skip_send_to_printer=True)
                 .sudo()
                 ._render_qweb_pdf(
-                    "report_compassion.tax_receipt_report", records.ids, data=data
+                    "report_compassion.tax_receipt_report",
+                    partners.ids,
+                    data=self._get_data(partners, lang),
                 )[0]
-            )
-            self.pdf_download = base64.encodebytes(pdf_data)
+                for lang, partners in partners_by_lang.items()
+            ]
+        )
+        name_lang = session_lang or (
+            next(iter(partners_by_lang))
+            if len(partners_by_lang) == 1
+            else self.env.lang
+        )
+        self.pdf_download = base64.encodebytes(pdf_data)
+        self.pdf_name = (
+            self.with_context(lang=name_lang).env._("tax_receipt") + f"_{self.year}.pdf"
+        )
+        self.state = "pdf"
+        return {
+            "name": "Download report",
+            "type": "ir.actions.act_window",
+            "res_model": self._name,
+            "res_id": self.id,
+            "view_mode": "form",
+            "target": "new",
+            "context": self.env.context,
+        }
 
-            self.state = "pdf"
-            return {
-                "name": "Download report",
-                "type": "ir.actions.act_window",
-                "res_model": self._name,
-                "res_id": self.id,
-                "view_mode": "form",
-                "target": "new",
-                "context": self.env.context,
-            }
-
-        return report.report_action(records.ids, data=data, config=False)
+    def _get_data(self, partners, lang):
+        return {"doc_ids": partners.ids, "year": self.year, "lang": lang}

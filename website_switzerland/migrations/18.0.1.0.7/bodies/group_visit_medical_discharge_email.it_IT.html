@@ -1,0 +1,68 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t
+    t-set="url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;) + &#x27;/my/events/&#x27; + str(registration.id) + &#x27;/&#x27;"
+  /><t t-set="user" t-value="registration.event_id.user_id" />
+</div>
+<p>
+  <t t-out="partner.informal_salutation" />,
+  <br />
+  <br />
+  La tua registrazione per un viaggio con Compassion ci riempie di gioia. Non
+  vediamo l'ora di mostrarti ciò che il tuo impegno produce nella vita dei
+  bambini sostenuti.
+  <br />
+  <br />
+  Grazie per aver compilato il documento medico per questo viaggio. Questo
+  indica attualmente seguite un trattamento medico. Dato il contesto in cui si
+  svolge il viaggio (differenza climatica, contesto di povertà, ecc.) e al fine
+  di preparare il viaggio nelle migliori condizioni possibili per te, chiedi al
+  tuo medico di compilare e firmare il documento allegato.
+  <br />
+  <br />
+  Quindi scarica semplicemente questa lettera scansionata o fotografata
+  cliccando qui o invialo per posta a Compassion Svizzera, Effingerstrasse 10,
+  3011 Berna.
+  <br />
+  <br />
+</p>
+<div style="margin: 0 auto; text-align: center">
+  <a
+    t-att-href="url"
+    style="
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    title=""
+  >
+    Inviare il documento medico
+  </a>
+</div>
+<br />
+<br />
+Grazie in anticipo e cordiali saluti.
+<br />
+<br />
+<t t-out="user.preferred_name" /> <t t-out="user.lastname" />
+<br />
+<t t-out="user.employee_ids.department_id.name" />
+<br />
+Compassion Svizzera

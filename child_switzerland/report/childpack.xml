@@ -24,10 +24,10 @@
     </record>
 
     <template id="childpack_mini">
+        <t t-set="mini" t-value="1" />
+        <t t-set="disable_header" t-value="1" />
+        <t t-set="disable_footer" t-value="1" />
         <t t-call="web.html_container">
-            <t t-set="mini" t-value="true" />
-            <t t-set="disable_header" t-value="true" />
-            <t t-set="disable_footer" t-value="true" />
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <style>
@@ -53,6 +53,13 @@
                             max-height: 100%;
                             margin: auto;
                         }
+                        .photo .no-photo {
+                            margin-top: 55mm;
+                            text-align: center;
+                            font-style: italic;
+                            font-size: 11pt;
+                            color: #666666;
+                        }
                         .summary {
                             position: absolute;
                             left: 118mm;
@@ -65,6 +72,18 @@
                         .summary .name {
                             font-weight: bold;
                         }
+                        /* Drawn in CSS so that the punctuation is neither exposed as
+                           a translatable term nor spaced out by the HTML whitespace
+                           collapsing */
+                        .summary .name:after {
+                            content: ",";
+                        }
+                        .summary .parenthesis:before {
+                            content: "(";
+                        }
+                        .summary .parenthesis:after {
+                            content: ")";
+                        }
                         .summary .ref {
                             color: black;
                             font-size: 8pt;
@@ -74,24 +93,28 @@
                         <span t-field="o.local_id" />
                     </div>
                     <div class="photo">
-                        <span
-              t-field="o.fullshot"
-              t-options='{"widget": "image"}'
+                        <img
+              t-if="o.fullshot"
+              t-attf-src="data:image/jpg;base64,{{ o.fullshot }}"
             />
+                        <p t-if="not o.fullshot" class="no-photo">
+                            <span>No photo registered for this child</span>
+                        </p>
                     </div>
                     <div class="summary">
-                        <span t-field="o.preferred_name" class="name" />,
+                        <span t-field="o.preferred_name" class="name" />
                         <t t-if="o.gender == 'M'">
-                            boy
+                            <span>boy</span>
                         </t>
                         <t t-if="o.gender == 'F'">
-                            girl
+                            <span>girl</span>
                         </t>
                         <br />
                         <span t-field="o.birthdate" class="birthdate" />
-                        (
-                        <span t-field="o.age" class="age" />
-                        years) <!-- keep space -->
+                        <span class="parenthesis">
+                            <span t-field="o.age" class="age" />
+                            <span>years</span>
+                        </span>
                         <br />
                         <span t-field="o.project_id.country_id.name" />
                         <br />
@@ -100,20 +123,6 @@
                 </t>
             </t>
         </t>
-    </template>
-
-    <template
-    id="childpack_swiss_with_qr"
-    inherit_id="child_compassion.childpack_document"
-  >
-        <xpath expr="//div[@class='photo']" position="before">
-            <img
-        class="qrcode"
-        t-attf-src="data:image/jpg;base64,{{ o.qr_code_data }}"
-        alt="QR Code to online sponsorship form"
-        t-if="full"
-      />
-        </xpath>
     </template>
 
     <template

@@ -121,10 +121,6 @@ class ResPartner(models.Model):
     )
 
     email_copy = fields.Boolean(string="CC e-mails sent to main partner")
-    type = fields.Selection(
-        selection_add=[("email_alias", "Email alias")],
-        ondelete={"email_alias": "set default"},
-    )
 
     # add track on fields from module base
     email = fields.Char(tracking=True)
@@ -173,10 +169,22 @@ class ResPartner(models.Model):
         compute="_compute_is_young",
         help="Tells whether the partner has less than 25 years.",
     )
+    signup_url = fields.Char(
+        compute="_compute_signup_url",
+        help="Kept for our mail templates: Odoo 18 replaced this field by the "
+        "_get_signup_url() method. res.users inherits it through its "
+        "delegation to res.partner.",
+    )
 
     ##########################################################################
     #                             FIELDS METHODS                             #
     ##########################################################################
+    # the token payload holds the linked users, so creating one changes the url
+    @api.depends("signup_type", "user_ids")
+    def _compute_signup_url(self):
+        for partner in self:
+            partner.signup_url = partner._get_signup_url()
+
     def _compute_has_majority(self):
         for record in self:
             record.has_majority = record.age >= self.MAJORITY_AGE
@@ -224,7 +232,9 @@ class ResPartner(models.Model):
     def _compute_address_name(self):
         for partner in self:
             if partner.title and not partner.is_company:
-                partner.address_name = (partner.short_address or "").split("<br/>")[0]
+                # Stored for postal sending: always in the partner's own language
+                short_address = partner.with_context(lang=partner.lang).short_address
+                partner.address_name = (short_address or "").split("<br/>")[0]
             else:
                 partner.address_name = partner.name
 
@@ -276,12 +286,48 @@ class ResPartner(models.Model):
             if not vals:
                 return True
         if vals.get("interested_for_volunteering"):
-            # Notify volunteer staff
-            for partner in self.filtered(lambda p: not p.advocate_details_id):
-                advocate_lang = partner.lang[:2]
-                notify_user = self.env["res.config.settings"].get_param(
-                    f"potential_advocate_{advocate_lang}"
-                )
+            # Notify volunteer staff, once, of a partner who just said yes.
+            #
+            # Only the ones the flag is new for: it is written by more than
+            # the form that asks for it (the Wordpress connector, an import,
+            # a staff member re-saving the record), and re-announcing an
+            # advocate we already know about would put a second todo on
+            # someone's list for nothing.
+            #
+            # This ran on write() only and never on create(), which for
+            # years meant it never ran at all for a web signup - everything
+            # about the partner arrived in one create(). The fast checkout
+            # creates the partner before it knows who they are and writes
+            # the rest afterwards, so this is now a live notification.
+            newly_interested = self.filtered(
+                lambda p: not p.advocate_details_id
+                and not p.interested_for_volunteering
+            )
+            settings = self.env["res.config.settings"]
+            for partner in newly_interested:
+                # lang is deliberately left empty on this model, so a partner
+                # created by a web flow has none of their own - the language
+                # they are being served in is the next best answer.
+                advocate_lang = (partner.lang or self.env.lang or "")[:2]
+                param = f"potential_advocate_{advocate_lang}"
+                if param not in settings._fields:
+                    # There is a recipient setting for French, German and
+                    # Italian and for nothing else, and asking for a setting
+                    # that does not exist raises rather than answering
+                    # (res.config.settings._get_classified_fields). So an
+                    # English-speaking sponsor - or one who has told us no
+                    # language at all - used to take the whole write down
+                    # with them. Logged rather than silently dropped: it
+                    # means a volunteer offer nobody was told about.
+                    logger.warning(
+                        "No potential-volunteer recipient is configured for"
+                        " language %r; partner %s offered to volunteer and"
+                        " no one was notified.",
+                        advocate_lang,
+                        partner.id,
+                    )
+                    continue
+                notify_user = settings.get_param(param)
                 if notify_user:
                     partner.activity_schedule(
                         "mail.mail_activity_data_todo",
@@ -298,6 +344,20 @@ class ResPartner(models.Model):
         if {"country_id", "city", "zip"}.intersection(vals):
             self.geo_localize()
         return res
+
+    def _validate_fields(self, field_names, excluded_names=()):
+        field_names = set(field_names)
+        partners = self
+        if "vat" not in field_names:
+            # The Tax ID is only checked when it is changed. base_vat checks it
+            # again on every change of country (e.g. a new ZIP Location), and
+            # many contacts have an old Tax ID that is not a valid VAT number:
+            # changing their address, or saving another contact that writes
+            # on them, was refused (T3605, T3693).
+            # Done here and not in write(): the context only applies to this
+            # check, not to the contacts saved inside the same write.
+            partners = self.with_context(no_vat_validation=True)
+        return super(ResPartner, partners)._validate_fields(field_names, excluded_names)
 
     @api.returns(None, lambda value: value[0])
     def copy_data(self, default=None):
@@ -326,6 +386,24 @@ class ResPartner(models.Model):
         res = super()._add_missing_default_values(values)
         res.pop("name", False)
         return res
+
+    def _inverse_name(self):
+        """
+        Fix bug changing the firstname and lastname because of automatic name
+        computations. When the written name still matches the stored
+        firstname/lastname combination, we keep them as they are instead of
+        re-splitting the name. This prevents corrupting couple names like
+        "John und Jane Smith" (firstname="John und Jane",
+        lastname="Smith") into firstname="John", lastname="und Jane
+        Smith" when the unchanged name is written back (e.g. by the
+        website checkout during an online donation).
+        """
+        to_split = self.filtered(
+            lambda p: (p.name or "")
+            != (p._get_computed_name(p.lastname, p.firstname) or "")
+        )
+        if to_split:
+            return super(ResPartner, to_split)._inverse_name()
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
@@ -736,9 +814,9 @@ class ResPartner(models.Model):
             mm_vals["active"] = False
         if "opt_out" in vals:
             subscription_ids = sudo.mapped(
-                "mass_mailing_contact_ids.subscription_list_ids"
+                "mass_mailing_contact_ids.subscription_ids"
             ).ids
-            mm_vals["subscription_list_ids"] = [
+            mm_vals["subscription_ids"] = [
                 (1, sub_id, {"opt_out": vals["opt_out"]}) for sub_id in subscription_ids
             ]
         if mm_vals and self.mapped("mass_mailing_contact_ids"):

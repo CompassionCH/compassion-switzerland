@@ -1,0 +1,240 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* child_sync_wp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
+msgid " and %s more"
+msgstr " e altri %s"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
+msgid "%(pushed)s of %(total)s children put on the website."
+msgstr "%(pushed)s bambini su %(total)s pubblicati sul sito web."
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
+msgid "%s children removed from the website."
+msgstr "%s bambini rimossi dal sito web."
+
+#. module: child_sync_wp
+#: model:ir.model,name:child_sync_wp.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/models/child_compassion.py:0
+msgid "Could not remove old children from WordPress"
+msgstr "Impossibile rimuovere i vecchi bambini da WordPress"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__create_uid
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__create_date
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__display_name
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__display_name
+msgid "Display Name"
+msgstr "Visualizza Nome"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
+msgid "French"
+msgstr "Francese"
+
+#. module: child_sync_wp
+#: model:ir.model,name:child_sync_wp.model_compassion_project
+msgid "Frontline Church Partner"
+msgstr "Chiesa partner"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
+msgid "German"
+msgstr "Tedesco"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__id
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
+msgid "Italian"
+msgstr "Italiano"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__write_uid
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Ultima modifica di"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__write_date
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__write_date
+msgid "Last Updated on"
+msgstr "Ultima modifica il"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_reformat_all_phonenumbers__sponsorship_de_id
+#: model:ir.model.fields,field_description:child_sync_wp.field_res_config_settings__sponsorship_de_id
+msgid "New sponsorships (DE)"
+msgstr "Nuovi sostegni (DE)"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_reformat_all_phonenumbers__sponsorship_fr_id
+#: model:ir.model.fields,field_description:child_sync_wp.field_res_config_settings__sponsorship_fr_id
+msgid "New sponsorships (FR)"
+msgstr "Nuovi sostegni (FR)"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_reformat_all_phonenumbers__sponsorship_it_id
+#: model:ir.model.fields,field_description:child_sync_wp.field_res_config_settings__sponsorship_it_id
+msgid "New sponsorships (IT)"
+msgstr "Nuovi sostegni (IT)"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
+msgid "No child could be put on the website: %s"
+msgstr "Nessun bambino ha potuto essere pubblicato sul sito web: %s"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
+msgid "None of the selected children are currently on the website."
+msgstr "Nessuno dei bambini selezionati è attualmente sul sito web."
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
+msgid "None of the selected children can be put on the website."
+msgstr "Nessuno dei bambini selezionati può essere pubblicato sul sito web."
+
+#. module: child_sync_wp
+#: model:ir.actions.act_window,name:child_sync_wp.action_child_on_wordpress_wizard
+#: model:ir.model.fields.selection,name:child_sync_wp.selection__compassion_child__state__i
+msgid "On Wordpress"
+msgstr "Su WordPress"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
+msgid "Put child on internet"
+msgstr "Pubblica il bambino su internet"
+
+#. module: child_sync_wp
+#: model:ir.model,name:child_sync_wp.model_child_on_wordpress_wizard
+msgid "Put children on WordPress"
+msgstr "Pubblica i bambini su WordPress"
+
+#. module: child_sync_wp
+#: model:ir.actions.server,name:child_sync_wp.refresh_wordpress_cron_ir_actions_server
+msgid "Refresh children on Wordpress"
+msgstr "Aggiorna i bambini su WordPress"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
+msgid "Remove child from Wordpress"
+msgstr "Rimuovi il bambino da WordPress"
+
+#. module: child_sync_wp
+#: model:ir.model,name:child_sync_wp.model_child_remove_from_wordpress_wizard
+msgid "Remove children from WordPress"
+msgstr "Rimuovi i bambini da WordPress"
+
+#. module: child_sync_wp
+#: model:ir.actions.act_window,name:child_sync_wp.action_child_remove_from_wordpress_wizard
+msgid "Remove from Wordpress"
+msgstr "Rimuovi da WordPress"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
+msgid ""
+"Select the users to notify when a sponsorship is created on the website for "
+"each language."
+msgstr ""
+"Seleziona gli utenti da avvisare quando viene creato un sostegno sul sito "
+"web, per ciascuna lingua."
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_on_wordpress_wizard__child_ids
+#: model:ir.model.fields,field_description:child_sync_wp.field_child_remove_from_wordpress_wizard__child_ids
+msgid "Selected children"
+msgstr "Bambini selezionati"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
+msgid ""
+"Skipped (missing description or photo, or completing within 2 years): %s"
+msgstr ""
+"Saltati (descrizione o foto mancante, o completamento entro 2 anni): %s"
+
+#. module: child_sync_wp
+#: model:ir.model,name:child_sync_wp.model_compassion_child
+msgid "Sponsored Child"
+msgstr "Bambino sostenuto"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.view_notification_settings_website_form
+msgid "Sponsorships made from the website"
+msgstr "Sostegni effettuati dal sito web"
+
+#. module: child_sync_wp
+#: model:ir.model.fields,field_description:child_sync_wp.field_compassion_child__state
+msgid "State"
+msgstr "Stato"
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
+msgid "The website could not remove the selected children."
+msgstr "Il sito web non ha potuto rimuovere i bambini selezionati."
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
+msgid "Validate"
+msgstr "Convalida"
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.child_on_internet_wizard_view
+msgid "Validate this to put the selected child on the website."
+msgstr "Conferma per pubblicare il bambino selezionato sul sito web."
+
+#. module: child_sync_wp
+#: model_terms:ir.ui.view,arch_db:child_sync_wp.child_remove_from_typo3_view
+msgid "Validate this to remove the selected child from the website."
+msgstr "Conferma per rimuovere il bambino selezionato dal sito web."
+
+#. module: child_sync_wp
+#. odoo-python
+#: code:addons/child_sync_wp/wizards/child_on_wordpress_wizard.py:0
+#: code:addons/child_sync_wp/wizards/child_remove_from_wordpress.py:0
+msgid "Wordpress"
+msgstr "WordPress"

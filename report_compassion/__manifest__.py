@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH PDF-Qweb Reports",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.10",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -41,8 +41,15 @@
         "l10n_ch",
         "crm_request",
         "social_media",
+        "advanced_translation",  # ir.advanced.translation
     ],
-    "external_dependencies": {"python": ["pyquery", "babel"]},
+    "external_dependencies": {
+        "python": [
+            "pyquery",
+            "babel",
+            "rlpycairo",
+        ]
+    },
     "data": [
         "security/ir.model.access.csv",
         "report/compassion_layout.xml",
@@ -55,6 +62,7 @@
         "report/bvr_christmas.xml",
         "report/bvr_fund.xml",
         "report/new_donors_card.xml",
+        "report/church_inspiration_card.xml",
         "report/tax_receipt.xml",
         "report/ending_sponsorship_certificate.xml",
         "report/signatures.xml",
@@ -72,10 +80,9 @@
         "web.report_assets_common": [
             "report_compassion/static/scss/report.scss",
             "report_compassion/static/scss/report_swissqr.scss",
-        ]
+        ],
     },
     "demo": [],
-    "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
 }

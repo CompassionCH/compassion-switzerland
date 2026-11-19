@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Compassion Communities - Welcome and payment information -->
+    <record id="cc_welcome_template" model="mail.template">
+        <field name="name">Compassion Communities - Welcome and payment information</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Welcome and payment information".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_welcome_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Welcome and payment information</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_welcome_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="print_if_not_email">True</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Payment request -->
+    <record id="cc_payment_request_template" model="mail.template">
+        <field name="name">Compassion Communities - Payment request</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Payment request".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_payment_request_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Payment request</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_payment_request_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Church inspiration -->
+    <record id="cc_church_inspiration_template" model="mail.template">
+        <field name="name">Compassion Communities - Church inspiration</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Church inspiration".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_church_inspiration_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Church inspiration</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_church_inspiration_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Tax receipt -->
+    <record id="cc_tax_receipt_template" model="mail.template">
+        <field name="name">Compassion Communities - Tax receipt</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Tax receipt".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_tax_receipt_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Tax receipt</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_tax_receipt_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Annual impact report -->
+    <record id="cc_annual_impact_report_template" model="mail.template">
+        <field name="name">Compassion Communities - Annual impact report</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Annual impact report".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_annual_impact_report_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Annual impact report</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_annual_impact_report_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Virtual connection invitation -->
+    <record id="cc_virtual_connection_invitation_template" model="mail.template">
+        <field name="name">Compassion Communities - Virtual connection invitation</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Virtual connection invitation".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_virtual_connection_invitation_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Virtual connection invitation</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_virtual_connection_invitation_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Virtual connection -->
+    <record id="cc_virtual_connection_template" model="mail.template">
+        <field name="name">Compassion Communities - Virtual connection</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Virtual connection".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_virtual_connection_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Virtual connection</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_virtual_connection_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Call to continue -->
+    <record id="cc_call_to_continue_template" model="mail.template">
+        <field name="name">Compassion Communities - Call to continue</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Call to continue".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_call_to_continue_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Call to continue</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_call_to_continue_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Call to continue yes -->
+    <record id="cc_call_to_continue_yes_template" model="mail.template">
+        <field name="name">Compassion Communities - Call to continue yes</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Call to continue yes".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_call_to_continue_yes_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Call to continue yes</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_call_to_continue_yes_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Compassion Communities - Call to continue no -->
+    <record id="cc_call_to_continue_no_template" model="mail.template">
+        <field name="name">Compassion Communities - Call to continue no</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="use_default_to" eval="True" />
+        <field name="subject">Welcome to the Compassion family!</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Compassion Communities - Call to continue no".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_call_to_continue_no_rule" model="partner.communication.config">
+        <field name="name">Compassion Communities - Call to continue no</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_call_to_continue_no_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="attachments_function">get_sponsorship_payment_slip_attachments</field>
+    </record>
+
+    <!-- Sponsorship - No SUB - Compassion Communities -->
+    <record id="cc_no_sub_template" model="mail.template">
+        <field name="name">Sponsorship - No SUB - Compassion Communities</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job" />
+        <field name="email_from">"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+        <field name="reply_to">info@compassion.ch</field>
+        <field name="partner_to">{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
+        <field name="subject">Your request to end the sponsorship program</field>
+        <field name="body_html" type="html">
+            <p>
+                {{ object.partner_id.salutation }},
+                <br />
+                <br />
+                TODO: text of "Sponsorship - No SUB - Compassion Communities".
+            </p>
+            <t t-if="object.send_mode == 'digital'">
+                <p t-out="object.user_id.signature" />
+            </t>
+        </field>
+    </record>
+    <record id="cc_no_sub_rule" model="partner.communication.config">
+        <field name="name">Sponsorship - No SUB - Compassion Communities</field>
+        <field name="model_id" ref="model_recurring_contract" />
+        <field name="email_template_id" ref="cc_no_sub_template" />
+        <field name="report_id" ref="report_compassion.report_partner_communication" />
+        <field name="send_mode">digital</field>
+        <field name="send_mode_pref_field">global_communication_delivery_preference</field>
+        <field name="print_if_not_email">True</field>
+    </record>
+
+</odoo>

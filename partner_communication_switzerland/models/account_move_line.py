@@ -14,6 +14,15 @@ from odoo import models
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
+    def generate_thank_you(self):
+        """Event thank-you letters must be signed by an employee."""
+        result = super().generate_thank_you()
+        if isinstance(result, list) and result:
+            self.env["partner.communication.job"].browse(
+                result
+            )._ensure_employee_signer()
+        return result
+
     def get_donations(self):
         """
         Gets a tuple for thank_you communication
@@ -23,7 +32,7 @@ class AccountInvoiceLine(models.Model):
         """
         res_name = False
         currency = self.mapped("currency_id")[:1].name
-        total = sum(self.mapped("price_subtotal"))
+        total = self.get_donation_amount()
         total_string = f"{total:,.0f}.-" if total.is_integer() else f"{total:,.2f}"
         total_string = currency + " " + total_string.replace(",", "'")
 

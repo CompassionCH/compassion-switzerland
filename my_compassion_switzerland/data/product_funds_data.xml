@@ -53,9 +53,9 @@
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">1</field>
-            <field name="my_compassion_donation_quantity_medium">3</field>
-            <field name="my_compassion_donation_quantity_high">5</field>
+            <field name="my_compassion_donation_amount_low">8.00</field>
+            <field name="my_compassion_donation_amount_medium">24.00</field>
+            <field name="my_compassion_donation_amount_high">40.00</field>
         </record>
 
         <record
@@ -215,9 +215,9 @@
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">1</field>
-            <field name="my_compassion_donation_quantity_medium">3</field>
-            <field name="my_compassion_donation_quantity_high">5</field>
+            <field name="my_compassion_donation_amount_low">8.00</field>
+            <field name="my_compassion_donation_amount_medium">24.00</field>
+            <field name="my_compassion_donation_amount_high">40.00</field>
         </record>
 
         <record
@@ -345,9 +345,9 @@
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">1</field>
-            <field name="my_compassion_donation_quantity_medium">3</field>
-            <field name="my_compassion_donation_quantity_high">5</field>
+            <field name="my_compassion_donation_amount_low">1.00</field>
+            <field name="my_compassion_donation_amount_medium">3.00</field>
+            <field name="my_compassion_donation_amount_high">5.00</field>
         </record>
 
         <record
@@ -458,9 +458,9 @@
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">1</field>
-            <field name="my_compassion_donation_quantity_medium">2</field>
-            <field name="my_compassion_donation_quantity_high">5</field>
+            <field name="my_compassion_donation_amount_low">20.00</field>
+            <field name="my_compassion_donation_amount_medium">40.00</field>
+            <field name="my_compassion_donation_amount_high">100.00</field>
         </record>
 
         <record
@@ -560,9 +560,9 @@
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">1</field>
-            <field name="my_compassion_donation_quantity_medium">3</field>
-            <field name="my_compassion_donation_quantity_high">5</field>
+            <field name="my_compassion_donation_amount_low">8.00</field>
+            <field name="my_compassion_donation_amount_medium">24.00</field>
+            <field name="my_compassion_donation_amount_high">40.00</field>
         </record>
 
         <record
@@ -669,9 +669,9 @@
       />
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="True" />
-            <field name="my_compassion_donation_quantity_low">1</field>
-            <field name="my_compassion_donation_quantity_medium">3</field>
-            <field name="my_compassion_donation_quantity_high">5</field>
+            <field name="my_compassion_donation_amount_low">8.00</field>
+            <field name="my_compassion_donation_amount_medium">24.00</field>
+            <field name="my_compassion_donation_amount_high">40.00</field>
         </record>
 
         <record id="product_template_fund_nol_info1" model="donation.info.line">
@@ -779,9 +779,9 @@
             <field name="my_compassion_show_impact_statement" eval="True" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">2</field>
-            <field name="my_compassion_donation_quantity_medium">3</field>
-            <field name="my_compassion_donation_quantity_high">8</field>
+            <field name="my_compassion_donation_amount_low">16.00</field>
+            <field name="my_compassion_donation_amount_medium">24.00</field>
+            <field name="my_compassion_donation_amount_high">64.00</field>
         </record>
 
         <record

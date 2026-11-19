@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <data noupdate="1">
+<odoo noupdate="1">
         <record
       id="email_template_volunteer_registration"
       model="mail.template"
@@ -20,26 +19,21 @@
     <p
           >A new volunteer has registered from My Compassion with the following details:</p>
 
-    <p><strong>Title:</strong> ${ctx.get('title') or ''}</p>
+    <p><strong>Title:</strong> <t t-out="ctx.get('title') or ''"/></p>
     <p><strong
-            >Firstname, Lastname:</strong> ${ctx.get('firstname') or ''} ${ctx.get('lastname') or ''}</p>
-    <p><strong>Phone number:</strong> ${ctx.get('phone_number') or ''}</p>
-    <p><strong>Email:</strong> ${ctx.get('email') or ''}</p>
-    <p><strong>Church:</strong> ${ctx.get('church') or ''}</p>
+            >Firstname, Lastname:</strong> <t t-out="ctx.get('firstname') or ''"/> <t t-out="ctx.get('lastname') or ''"/></p>
+    <p><strong>Phone number:</strong> <t t-out="ctx.get('phone_number') or ''"/></p>
+    <p><strong>Email:</strong> <t t-out="ctx.get('email') or ''"/></p>
+    <p><strong>Church:</strong> <t t-out="ctx.get('church') or ''"/></p>
 
     <p><strong>I want to get involved as:</strong></p>
-    % if ctx.get('volunteer_roles'):
-        <ul>
-        % for role in ctx.get('volunteer_roles'):
-            <li>${role or ''}</li>
-        % endfor
-        </ul>
-    % else:
-        <p>No roles selected</p>
-    % endif
+    <ul t-if="ctx.get('volunteer_roles')">
+        <li t-foreach="ctx.get('volunteer_roles')" t-as="role" t-out="role or ''"/>
+    </ul>
+    <p t-else="">No roles selected</p>
 
     <p><strong>Message:</strong><br />
-        ${ctx.get('comments') or ''}
+        <t t-out="ctx.get('comments') or ''"/>
     </p>
 
     <p>Best regards,<br />
@@ -49,5 +43,4 @@
             <field name="email_to">info@compassion.ch</field>
             <field name="auto_delete" eval="True" />
         </record>
-    </data>
 </odoo>

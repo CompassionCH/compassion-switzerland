@@ -6,6 +6,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.bvr_gift_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
+        <field name="print_delay">0</field>
     </record>
     <record id="report_2bvr_gift_sponsorship" model="ir.actions.report">
         <field name="name">Gift Payment Slips 2 BVR</field>
@@ -15,6 +16,7 @@
       name="report_name"
     >report_compassion.2bvr_gift_sponsorship</field>
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
+        <field name="print_delay">0</field>
     </record>
 
     <!-- Top container for 2 BVR sponsorship gift reports iterating over all products selected
@@ -44,10 +46,12 @@
     <!-- 2 BVR page for sponsorship gift -->
     <template id="report_bvr_sponsorship_gift_document_2bvr">
         <t t-foreach="docs" t-as="doc">
+            <!-- MyCompassion passes the website language, backend prints use the donor's -->
             <t
-        t-set="o"
-        t-value="doc.with_context({'lang':doc.partner_id.lang})"
+        t-set="slip_lang"
+        t-value="env.context.get('payment_slip_lang') or doc.gift_partner_id.lang"
       />
+            <t t-set="o" t-value="doc.with_context(lang=slip_lang)" />
             <t t-set="partner" t-value="o.gift_partner_id" />
             <t t-set="partner_address" t-value="partner.short_address" />
             <t
@@ -61,9 +65,10 @@
           t-value="o.get_gift_communication(product)"
         />
                 <t
-          t-set="comm_qr"
-          t-value="communication.replace('&lt;br/&gt;', ', ')"
+          t-set="communication_plain"
+          t-value="o.get_gift_communication(product, plain=True)"
         />
+                <t t-set="comm_qr" t-value="communication_plain" />
                 <t
           t-set="reference"
           t-value="o.get_gift_bvr_reference(product)"
@@ -75,6 +80,7 @@
           />
                     <t
             t-call="report_compassion.report_sponsorship_2bvr_top_slip"
+            t-lang="slip_lang"
           />
                 </t>
                 <t t-else="">
@@ -84,6 +90,7 @@
           />
                     <t
             t-call="report_compassion.report_sponsorship_2bvr_bottom_slip"
+            t-lang="slip_lang"
           />
                 </t>
                 <t t-set="qr_count" t-value="qr_count +1" />
@@ -96,8 +103,12 @@
             <t t-set="swissqr_position_top" t-value="192" />
             <t t-foreach="docs" t-as="doc">
                 <t
+          t-set="slip_lang"
+          t-value="env.context.get('payment_slip_lang') or doc.gift_partner_id.lang"
+        />
+                <t
           t-call="report_compassion.report_bvr_sponsorship_gift_document"
-          t-lang="doc.partner_id.lang"
+          t-lang="slip_lang"
         />
             </t>
         </t>
@@ -109,10 +120,7 @@
             <t t-set="disable_header" t-value="True" />
                 <t t-set="disable_footer" t-value="True" />
             <t t-call="report_compassion.style" />
-            <t
-        t-set="o"
-        t-value="doc.with_context({'lang':doc.partner_id.lang})"
-      />
+            <t t-set="o" t-value="doc.with_context(lang=slip_lang)" />
             <t t-set="partner" t-value="o.gift_partner_id" />
             <t t-set="partner_address" t-value="partner.short_address" />
             <t
@@ -136,7 +144,7 @@
           />
                     <t
             t-set="comm_qr"
-            t-value="communication.replace('&lt;br/&gt;', ', ')"
+            t-value="o.get_gift_communication(product, plain=True)"
           />
                     <t t-set="amount" t-value="False" />
                 </t>

@@ -20,6 +20,15 @@ class ContractGroup(models.Model):
     in invoices"""
 
     _inherit = "recurring.contract.group"
+    # _rec_name is "ref", which is "/" on most groups, while the dropdown shows
+    # what _compute_display_name builds. Search every part of that label, or
+    # typing what is on screen finds nothing (T3411).
+    _rec_names_search = [
+        "ref",
+        "payment_mode_id.name",
+        "bvr_reference",
+        "partner_id.name",
+    ]
 
     ##########################################################################
     #                                 FIELDS                                 #
@@ -57,7 +66,7 @@ class ContractGroup(models.Model):
                 .with_context(lang="en_US")
                 .browse(vals["payment_mode_id"])
             )
-            payment_name = payment_mode.name
+            payment_name = payment_mode.name or ""
             contracts |= self.mapped("contract_ids")
             for group in self:
                 if "LSV" in payment_name or "Postfinance" in payment_name:
@@ -70,10 +79,13 @@ class ContractGroup(models.Model):
 
         if contracts:
             # Update related open invoices to reflect the changes
+            # A cancelled invoice is "not_paid" too: it must stay cancelled,
+            # not be posted again with the new payment mode.
             inv_lines = self.env["account.move.line"].search(
                 [
                     ("contract_id", "in", contracts.ids),
                     ("payment_state", "=", "not_paid"),
+                    ("parent_state", "!=", "cancel"),
                 ]
             )
             invoices = inv_lines.mapped("move_id")
@@ -129,7 +141,11 @@ class ContractGroup(models.Model):
         self, invoicing_date, contracts, skip_suspended=True
     ):
         # Avoids generating invoices for Donors of Compassion in CH
-        if set(contracts.mapped("partner_id.id")).intersection({22585, 560}):
+        if set(contracts.mapped("partner_id.id")).intersection(
+            {
+                22585,
+            }
+        ):
             return True
         return super()._should_skip_invoice_generation(
             invoicing_date, contracts, skip_suspended

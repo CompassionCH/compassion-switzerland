@@ -1,0 +1,160 @@
+.o_quality_test_dashboard {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 48px 32px 64px;
+
+  .o_quality_test_dashboard_header {
+    margin-bottom: 56px;
+  }
+
+  .o_quality_test_dashboard_title {
+    margin-bottom: 6px;
+    color: #2f5be7;
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+  }
+
+  .o_quality_test_dashboard_subtitle {
+    margin: 0;
+    color: #032b69;
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  .o_quality_test_dashboard_cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .o_quality_test_dashboard_card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 400px;
+    padding: 28px 26px 24px;
+    border: 1px solid #d4ddeb;
+    border-top-width: 10px;
+    border-radius: 0 0 18px 18px;
+    background: #fbfcff;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: none;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+
+    &:hover,
+    &:focus {
+      transform: translateY(-2px);
+      border-color: #b8c8e2;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #2f5be7;
+      outline-offset: 3px;
+    }
+  }
+
+  .o_quality_test_dashboard_card--primary {
+    border-top-color: #2f5be7;
+  }
+
+  .o_quality_test_dashboard_card--info {
+    border-top-color: #6b8ef7;
+  }
+
+  .o_quality_test_dashboard_card--success {
+    border-top-color: #ef7a86;
+  }
+
+  .o_quality_test_dashboard_step {
+    margin: 0 0 4px;
+    color: #0b397a;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .o_quality_test_dashboard_card_title {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .o_quality_test_dashboard_card--primary .o_quality_test_dashboard_card_title,
+  .o_quality_test_dashboard_card--primary
+    .o_quality_test_dashboard_metric_value,
+  .o_quality_test_dashboard_card--primary
+    .o_quality_test_dashboard_metric_ratio {
+    color: #2f5be7;
+  }
+
+  .o_quality_test_dashboard_card--info .o_quality_test_dashboard_card_title,
+  .o_quality_test_dashboard_card--info .o_quality_test_dashboard_metric_value,
+  .o_quality_test_dashboard_card--info .o_quality_test_dashboard_metric_ratio {
+    color: #6b8ef7;
+  }
+
+  .o_quality_test_dashboard_card--success .o_quality_test_dashboard_card_title,
+  .o_quality_test_dashboard_card--success
+    .o_quality_test_dashboard_metric_value,
+  .o_quality_test_dashboard_card--success
+    .o_quality_test_dashboard_metric_ratio {
+    color: #ef7a86;
+  }
+
+  .o_quality_test_dashboard_metric_value {
+    font-size: clamp(2.8rem, 4vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .o_quality_test_dashboard_metric_ratio {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .o_quality_test_dashboard_metric_status {
+    margin-top: auto;
+    color: #243b63;
+    font-size: 1rem;
+    line-height: 1.35;
+
+    strong {
+      color: #032b69;
+      font-weight: 800;
+    }
+  }
+
+  .o_quality_test_dashboard_loading {
+    padding: 32px 0;
+    color: var(--body-color, #1f2937);
+    font-size: 1rem;
+  }
+
+  @media (max-width: 1100px) {
+    .o_quality_test_dashboard_cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding: 32px 20px 40px;
+
+    .o_quality_test_dashboard_header {
+      margin-bottom: 32px;
+    }
+
+    .o_quality_test_dashboard_cards {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .o_quality_test_dashboard_card {
+      min-height: 320px;
+    }
+  }
+}

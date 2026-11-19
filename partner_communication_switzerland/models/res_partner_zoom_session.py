@@ -94,7 +94,9 @@ class ZoomSession(models.Model):
         )
 
     def send_reminder_or_link(self):
-        for zoom in self.filtered(lambda z: z.state == "planned"):
+        for zoom in self.filtered(
+            lambda z: z.state == "planned" and not z.date_send_link
+        ):
             for participant in zoom.mapped("participant_ids").filtered(
                 lambda p: p.state in ("invited", "confirmed")
             ):

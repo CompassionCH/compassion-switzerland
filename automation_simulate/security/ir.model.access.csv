@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_automation_simulate_target_user,automation.simulate.target user,model_automation_simulate_target,base.group_user,1,0,0,0
+access_automation_simulate_wizard_user,automation.simulate.wizard user,model_automation_simulate_wizard,base.group_user,1,1,1,1

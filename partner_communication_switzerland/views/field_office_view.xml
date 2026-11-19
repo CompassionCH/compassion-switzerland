@@ -20,6 +20,25 @@
                         <field name="alumni_video_link" />
                     </group>
                 </xpath>
+                <field name="country_director" position="after">
+                    <field name="director_gender" />
+                </field>
+                <xpath expr="//notebook">
+                    <page string="TPL">
+                        <group>
+                            <group>
+                                <field name="tpl_nb_fcps_with_intervention" />
+                                <field name="tpl_nb_years_partnership" />
+                                <field name="tpl_nb_participants" />
+                            </group>
+                            <group>
+                                <field name="tpl_prayer" />
+                                <field name="tpl_praise" />
+                                <field name="tpl_looking_forward" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
 </odoo>

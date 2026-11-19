@@ -41,6 +41,17 @@ portal for Compassion Switzerland, focusing on volunteer engagement.
   language.
 - **Portal Security**: Ensures that only engagement types explicitly
   marked as "Activate for My Compassion" are visible to portal users.
+- **eBill Payment Option**: Injects an "eBill" payment method into the
+  new-sponsorship wizard, backed by the PostFinance
+  recipient-subscription workflow
+  (``ebill_postfinance_recipient_subscription``).
+- **Portal Grafts**: A "Translate a letter" button on the dashboard
+  volunteering vignette for letter translators, a "Together"
+  crowdfunding link in the account menu for campaign participants, and a
+  "How to register?" guide link on the signup page.
+- **Swiss Donation Catalog**: Seeds the fund and gift products (with
+  images, impact statements and translations) shown on the MyCompassion
+  giving pages.
 
 **Table of contents**
 
@@ -86,6 +97,15 @@ To configure the volunteering opportunities displayed on the website:
      like the prayer subscription, while an external link can point to
      another website for more information. If neither is set, the button
      will link to the registration form on the same page.
+
+To enable the eBill option in the new-sponsorship wizard:
+
+1. Configure the PostFinance eBill service (see
+   ``ebill_postfinance_recipient_subscription``: service credentials and
+   the biller identifier system parameter).
+2. Publish the **eBill** payment mode
+   (Invoicing/Configuration/Management/Payment Modes): the wizard only
+   lists published payment modes, so publishing is the go-live switch.
 
 Usage
 =====

@@ -36,17 +36,17 @@ class Correspondence(models.Model):
     ##########################################################################
     #                              ORM METHODS                               #
     ##########################################################################
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
-        correspondence = super().create(vals)
+        correspondences = super().create(vals)
         # Swap pages for L3 layouts as we scan in wrong order
-        if (
-            correspondence.template_id.layout == "CH-A-3S01-1"
-            and correspondence.source in ("letter", "email")
-            and correspondence.store_letter_image
-            and correspondence.direction == "Supporter To Beneficiary"
+        for correspondence in correspondences.filtered(
+            lambda c: c.template_id.layout == "CH-A-3S01-1"
+            and c.source in ("letter", "email")
+            and c.sponsor_letter_scan
+            and c.direction == "Supporter To Beneficiary"
         ):
-            input_pdf = PdfFileReader(BytesIO(correspondence.get_image()))
+            input_pdf = PdfFileReader(BytesIO(correspondence.get_pdf()))
             output_pdf = PdfFileWriter()
             nb_pages = input_pdf.numPages
             if nb_pages >= 2:
@@ -59,14 +59,37 @@ class Correspondence(models.Model):
                 output_pdf.write(letter_data)
                 letter_data.seek(0)
                 correspondence.write(
-                    {"letter_image": base64.b64encode(letter_data.read())}
+                    {"sponsor_letter_scan": base64.b64encode(letter_data.read())}
                 )
-
-        return correspondence
+        return correspondences
 
     ##########################################################################
     #                             PUBLIC METHODS                             #
     ##########################################################################
+    def _compute_report_needs_final_text(self):
+        """
+        When we translated the letter ourselves (e.g. from English to French),
+        the final image coming from GMC only contains the source translation
+        (e.g. English), which the sponsor can't read. In that case, we overlay
+        our translated text on the original image of the letter.
+        """
+        res = super()._compute_report_needs_final_text()
+        for letter in self:
+            letter.report_needs_final_text = letter._has_local_translation_overlay()
+        return res
+
+    def _has_local_translation_overlay(self):
+        self.ensure_one()
+        translation_lang = self.translation_language_id
+        return bool(
+            self.direction == "Beneficiary To Supporter"
+            and self.sponsor_needs_final_letter
+            and self.src_translation_lang_id
+            and translation_lang != self.src_translation_lang_id
+            and translation_lang in self.supporter_languages_ids
+            and self.translated_text
+        )
+
     def merge_letters(self):
         """We have issues with letters that we send and we have an error.
         Then when we try to send it again, we have a duplicate letter because
@@ -88,7 +111,7 @@ class Correspondence(models.Model):
         # Letters longer than 15 pages should be split
         self.ensure_one()
         max_page_num = 15
-        input_pdf = PdfFileReader(BytesIO(self.get_image()))
+        input_pdf = PdfFileReader(BytesIO(self.get_pdf()))
         nb_pages = input_pdf.numPages
         letters = self
         pages = self.mapped("page_ids")
@@ -102,12 +125,14 @@ class Correspondence(models.Model):
                 output_pdf.write(letter_data)
                 letter_data.seek(0)
                 if start_page == 0:
-                    self.write({"letter_image": base64.b64encode(letter_data.read())})
+                    self.write(
+                        {"sponsor_letter_scan": base64.b64encode(letter_data.read())}
+                    )
                     continue
                 letter_vals = self.copy_data()[0]
                 letter_vals.update(
                     {
-                        "letter_image": base64.b64encode(letter_data.read()),
+                        "sponsor_letter_scan": base64.b64encode(letter_data.read()),
                         "page_ids": [
                             (6, 0, pages[start_page : start_page + max_page_num].ids)
                         ],
@@ -123,7 +148,7 @@ class Correspondence(models.Model):
             "type": "ir.actions.act_window",
             "name": "Split Letters",
             "res_model": "correspondence",
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "domain": [("id", "in", letters.ids)],
         }
 

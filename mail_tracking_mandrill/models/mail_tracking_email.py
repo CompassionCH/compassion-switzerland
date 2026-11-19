@@ -15,6 +15,7 @@ class MailTrackingEmail(models.Model):
     def _mandrill_event_type_mapping(self):
         """Map mandrill names to `mail.tracking` names"""
         return {
+            "delivered": "delivered",
             "open": "open",
             "deferral": "deferral",
             "hard_bounce": "hard_bounce",
@@ -49,8 +50,11 @@ class MailTrackingEmail(models.Model):
         msg = event.get("msg", {})
         metadata = msg.get("metadata", {})
         tracking_email_id = metadata.get("tracking_email_id", False)
+        # mail_tracking sends the id as a string and Mandrill returns it as is
+        if isinstance(tracking_email_id, str) and tracking_email_id.isdigit():
+            tracking_email_id = int(tracking_email_id)
         if tracking_email_id and isinstance(tracking_email_id, int):
-            tracking = self.browse(tracking_email_id)
+            tracking = self.browse(tracking_email_id).exists()
         return tracking
 
     def _mandrill_metadata(self, event, metadata):

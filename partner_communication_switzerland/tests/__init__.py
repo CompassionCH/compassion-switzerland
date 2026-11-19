@@ -13,3 +13,7 @@ from . import test_sms_communication
 from . import test_hold_expiration
 from . import test_lifecycle_events
 from . import test_onboarding
+from . import test_new_donor_onboarding
+from . import test_create_a_sponsorship
+from . import test_write_and_pray_sponsorship
+from . import test_write_and_pray_fixes

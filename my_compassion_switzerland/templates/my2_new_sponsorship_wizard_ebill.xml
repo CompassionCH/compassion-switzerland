@@ -1,19 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-Page: My Compassion 2 – New Sponsorship Wizard - Inject eBill Container during Payment Selection
+Page: My Compassion 2 – New Sponsorship Wizard - eBill setup sub-workflow
 
     Description:
-    Injects the eBill setup container into the payment step of the wizard.
-    The block is shown when the user selects "eBill" as payment method.
+    eBill is not a "pay now" method: it is a subscription the sponsor sets up
+    with their own bank (an email address, then a validation code sent to it).
+    That sub-workflow runs inside the checkout, in the containers injected
+    here, and is driven by static/src/js/my2_new_sponsorship_wizard_ebill.js.
 
-    Target:
-    - my_compassion.my2_new_sponsorship_wizard_payment_method
+    Targets:
+    - my_compassion.my2_new_sponsorship_wizard_fast_checkout — the one page of
+      the public fast checkout, where eBill is one of the payment-mode
+      buttons. The email is already on that page, so the setup starts on the
+      validation code directly (see the JS): the sponsor is never asked for
+      their address twice.
+    - my_compassion.my2_new_sponsorship_wizard_payment_method — the dropdown
+      step the logged-in flow still runs. Kept as it was, intro button
+      included: there is no email on that page to start from.
 
     Notes:
-    - Replaces the <div id="ebill_hook"> anchor in the base template.
-    - Provides DOM hooks: #ebill_setup_container, #ebill_content_container, #start_ebill_workflow_btn.
+    - Both anchors provide the same DOM hooks (#ebill_setup_container,
+      #ebill_content_container), because the JS fills them the same way in
+      both flows; only what triggers them differs.
+    - The containers are rendered hidden and revealed by the JS, so a visitor
+      who never picks eBill never sees them.
 -->
 <odoo>
+  <template
+    id="inject_ebill_container_during_fast_checkout"
+    inherit_id="my_compassion.my2_new_sponsorship_wizard_fast_checkout"
+    name="Inject eBill container in the fast checkout"
+  >
+    <!-- Appended to the step rather than anchored on one of its fields: the
+         setup box belongs directly above the payment-mode buttons (which the
+         form-content template renders after this step), and "the end of the
+         step" is the one position that survives the page being re-arranged. -->
+    <xpath expr="." position="inside">
+      <div id="ebill_setup_container" class="my-3 d-none">
+        <div id="ebill_content_container" class="p-4 bg-high-yellow rounded-lg">
+          <div class="my-2">
+            <h1 class="mb-4 mt-0">E-Bill</h1>
+            <p id="ebill_loading">
+              We are sending you a validation code by email. This can take a moment.
+            </p>
+            <p id="ebill_error" class="d-none alert alert-danger text-black">
+              We could not start the E-Bill setup. Please try again, or choose
+              another payment method.
+            </p>
+          </div>
+        </div>
+      </div>
+    </xpath>
+  </template>
   <template
     id="inject_ebill_container_during_payment_selection"
     inherit_id="my_compassion.my2_new_sponsorship_wizard_payment_method"

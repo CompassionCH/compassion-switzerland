@@ -5,56 +5,33 @@
         <field name="model">res.config.settings</field>
         <field
       name="inherit_id"
-      ref="message_center_compassion.notification_settings"
+      ref="message_center_compassion.compassion_settings"
     />
         <field name="arch" type="xml">
-            <xpath
-        expr="//div[@name='compassion_settings']//div[@name='notification_configuration']//div[@name='right_group']"
-        position="inside"
-      >
-                <h3>Engagement from advocates</h3>
-                <div name="advocate_notify" style="min-width:40em;">
-
-                    <label
-            for="advocate_notify_fr_email"
-            class="o_light_label"
-          />
-                    <field
-            name="advocate_notify_fr_email"
-            style="width:20em; max-width:100%;"
-          />
-
-                    <label
-            for="advocate_notify_de_email"
-            class="o_light_label"
-          />
-                    <field
-            name="advocate_notify_de_email"
-            style="width:20em; max-width:100%;"
-          />
-
-                    <label
-            for="advocate_notify_it_email"
-            class="o_light_label"
-          />
-                    <field
-            name="advocate_notify_it_email"
-            style="width:20em; max-width:100%;"
-          />
-
-
-                    <label
-            for="advocate_notify_default_email"
-            class="o_light_label"
-          />
-                    <field
-            name="advocate_notify_default_email"
-            style="width:20em; max-width:100%;"
-          />
-
-
-                </div>
-
+            <xpath expr="//block[@name='notification_configuration']" position="inside">
+                <setting
+          string="Engagement from advocates"
+          help="Email addresses to notify when an advocate engagement form is submitted"
+        >
+                    <div class="content-group">
+                        <div class="row mt16">
+                            <label for="advocate_notify_fr_email" class="col-lg-3 o_light_label"/>
+                            <field name="advocate_notify_fr_email"/>
+                        </div>
+                        <div class="row">
+                            <label for="advocate_notify_de_email" class="col-lg-3 o_light_label"/>
+                            <field name="advocate_notify_de_email"/>
+                        </div>
+                        <div class="row">
+                            <label for="advocate_notify_it_email" class="col-lg-3 o_light_label"/>
+                            <field name="advocate_notify_it_email"/>
+                        </div>
+                        <div class="row">
+                            <label for="advocate_notify_default_email" class="col-lg-3 o_light_label"/>
+                            <field name="advocate_notify_default_email"/>
+                        </div>
+                    </div>
+                </setting>
             </xpath>
         </field>
     </record>

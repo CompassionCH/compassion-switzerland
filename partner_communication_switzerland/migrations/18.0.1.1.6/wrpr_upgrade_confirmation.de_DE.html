@@ -1,0 +1,84 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="sponsorships" t-value="object.get_objects()" />
+  <t t-set="children" t-value="sponsorships.mapped('child_id')" />
+  <t t-set="payer" t-value="sponsorships.filtered('last_paid_invoice_date')" />
+  <t
+    t-set="payment_mode"
+    t-value="sponsorships.mapped('payment_mode_id.name')[0]"
+  />
+  <t
+    t-set="lsv_dd"
+    t-value="'LSV' in payment_mode or 'Postfinance' in payment_mode"
+  />
+  <t
+    t-set="survey"
+    t-value="object.env['ir.config_parameter'].get_param('web.external.url') + object.env.ref('partner_communication_switzerland.wrpr_journey_survey').get_start_url()"
+  />
+  <t
+    t-set="firstname"
+    t-value="children.get_list('preferred_name', translate=False)"
+  />
+  <t
+    t-set="amount"
+    t-value="sponsorships.mapped('group_id')[:1].get_amount('2200-01-01', '2200-02-01', sponsorships)"
+  />
+  <t
+    t-set="plural"
+    t-value="partner.title.plural or partner.title.id == 29 or not partner.title.id"
+  />
+  <t t-set="du" t-value="'ihr' if plural else 'du'" />
+  <t t-set="deine" t-value="'eure' if plural else 'deine'" />
+  <t t-set="dir" t-value="'euch' if plural else 'dir'" />
+  <t
+    t-set="wp_tchat_url"
+    t-value="'https://mycompassion.ch/de_DE/im_livechat/support/2'"
+  />
+</div>
+<p>
+  <t t-out="partner.salutation" />
+</p>
+<p>
+  Wow, wir freuen uns, dass <t t-out="du" /> CHF <t t-out="int(amount)" />.- der
+  finanziellen Unterstützung für <t t-out="firstname" /> übernehmen
+  <t t-out="'möchtet' if plural else 'möchtest'" />.
+</p>
+<div>
+  <t t-if="not lsv_dd">
+    <p>
+      Damit <t t-out="du" /> <t t-out="deine" /> Spende für die
+      <t t-out="children.get('Patenschaft')" />
+      <t t-out="'erhöhen' if payer else 'einrichten'" />
+      <t t-out="'könnt, findet ihr' if plural else 'kannst, findest du'" /> hier
+      den Einzahlungsschein:
+      <a href="https://mycompassion.ch/my/download/sponsorship_bvr"
+        >Einzahlungsschein</a
+      >.
+    </p>
+  </t>
+  <p>
+    <t t-out="deine.title()" /> Rückmeldung zur Write&amp;Pray Patenschaft ist
+    uns wichtig. Es dauert knapp 1 Minute. Vielen Dank für’s Ausfüllen!:
+    <a t-att-href="survey">Link to survey</a>.
+  </p>
+  <t t-if="object.send_mode == 'sms'">
+    <p>
+      Neu werden wir mit <t t-out="dir" /> per E-Mail statt SMS kommunizieren.
+      <t t-if="not partner.email">
+        Danke, dass <t t-out="du" /> uns <t t-out="deine" /> E-Mail-Adresse so
+        schnell wie möglich <t t-out="'mitteilt' if plural else 'mitteilst'" />.
+      </t>
+    </p>
+  </t>
+  <t t-if="object.send_mode == 'digital'">
+    <t t-out="object.user_id.signature" />
+  </t>
+  <t t-else="">
+    <p>
+      Liebe Grüsse<br />
+      Sarah<br />
+      Tel: +41 (0)31 552 21 21<br />
+      Fragen? <a t-att-href="wp_tchat_url" t-out="wp_tchat_url" />
+    </p>
+  </t>
+</div>

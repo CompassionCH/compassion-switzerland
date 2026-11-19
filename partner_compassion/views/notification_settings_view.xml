@@ -36,6 +36,10 @@
                             <label for="advocate_birthday_en_id" class="col-lg-3 o_light_label"/>
                             <field name="advocate_birthday_en_id"/>
                         </div>
+                        <div class="row">
+                            <label for="advocate_birthday_translation_id" class="col-lg-3 o_light_label"/>
+                            <field name="advocate_birthday_translation_id"/>
+                        </div>
                     </div>
                 </setting>
                 <setting string="Potential advocates" help="Define potential advocates">
@@ -51,6 +55,10 @@
                         <div class="row">
                             <label for="potential_advocate_it" class="col-lg-3 o_light_label"/>
                             <field name="potential_advocate_it"/>
+                        </div>
+                        <div class="row">
+                            <label for="potential_advocate_en" class="col-lg-3 o_light_label"/>
+                            <field name="potential_advocate_en"/>
                         </div>
                     </div>
                 </setting>

@@ -44,6 +44,13 @@ class StaffNotificationSettings(models.TransientModel):
     new_donors_user_id = fields.Many2one(
         "res.users", "User to notify on new donors onboarding opt out", readonly=False
     )
+    event_thank_you_default_signer_id = fields.Many2one(
+        "res.users",
+        "Default Event Thank You Signer",
+        config_parameter="partner_communication_switzerland.event_thank_you_default_signer_id",
+        domain=[("employee_ids", "!=", False)],
+        readonly=False,
+    )
     invalid_mail_notify_ids = fields.Many2many(
         comodel_name="res.partner",
         relation="invalid_mail_staff_notify_rel",

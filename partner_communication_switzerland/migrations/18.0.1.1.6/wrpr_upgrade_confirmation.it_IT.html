@@ -1,0 +1,49 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="sponsorships" t-value="object.get_objects()" />
+  <t t-set="children" t-value="sponsorships.mapped('child_id')" />
+  <t t-set="payer" t-value="sponsorships.filtered('last_paid_invoice_date')" />
+  <t
+    t-set="payment_mode"
+    t-value="sponsorships.mapped('payment_mode_id.name')[0]"
+  />
+  <t
+    t-set="lsv_dd"
+    t-value="'LSV' in payment_mode or 'Postfinance' in payment_mode"
+  />
+  <t
+    t-set="survey"
+    t-value="object.env['ir.config_parameter'].get_param('web.external.url') + object.env.ref('partner_communication_switzerland.wrpr_journey_survey').get_start_url()"
+  />
+  <t
+    t-set="firstname"
+    t-value="children.get_list('preferred_name', translate=False)"
+  />
+</div>
+<p>
+  <t t-out="partner.salutation" />
+</p>
+<p>
+  Wow, siamo felici che desideri sostenere finanziariamente
+  <t t-out="firstname" />. Grazie mille!
+</p>
+<p>
+  Per attivare o aumentare la tua donazione per il sostegno, puoi trovare qui il
+  bollettino di versamento:
+  <a href="https://mycompassion.ch/my/download/sponsorship_bvr"
+    >Scarica il bollettino.</a
+  >
+</p>
+<p>
+  Il tuo feedback sul sostegno Write &amp; Pray è importante per noi. Ci vuole
+  circa 1 minuto. Compila il questionario qui:
+  <a t-att-href="survey">Link al sondaggio</a>. Hai cambiato idea? Faccelo
+  sapere e aumenta il tuo contributo a 42 CHF:
+  <a href="https://mycompassion.ch/it_IT/my/donations">link</a>
+</p>
+<p>
+  Comunicheremo con te via e-mail anziché via SMS. Ti preghiamo di inviarci il
+  tuo indirizzo e-mail il prima possibile.
+</p>
+<p>Buona giornata e a presto!</p>
+<p>Il team di Compassion</p>

@@ -4,7 +4,7 @@ from odoo import api, models
 class Partner(models.Model):
     _inherit = "translation.user"
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
         translators = super().create(vals_list)
         if not self.env.context.get("no_translator_invitation"):
@@ -14,8 +14,9 @@ class Partner(models.Model):
         return translators
 
     def toggle_active(self):
-        super().toggle_active()
+        res = super().toggle_active()
         self.send_communication(self.env.ref("sbc_switzerland.translator_goodbye"))
+        return res
 
     def unlink(self):
         self.send_communication(self.env.ref("sbc_switzerland.translator_goodbye"))

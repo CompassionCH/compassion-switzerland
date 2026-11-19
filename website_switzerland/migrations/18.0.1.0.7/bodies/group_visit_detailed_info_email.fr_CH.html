@@ -1,0 +1,76 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+
+  <t t-set="registration" t-value="object.get_objects()" />
+
+  <t t-set="event" t-value="registration.compassion_event_id" />
+
+  <t
+    t-set="url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;) + &#x27;/event/&#x27; + str(event.id) + &#x27;/practical_information&#x27;"
+  />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+</div>
+<p>
+  <t t-out="partner.salutation"></t>
+  <br />
+  <br />
+  Dernière ligne droite: il est temps de préparer ses affaires pour le voyage de
+  Compassion. Afin de vous faciliter la tâche, nous avons prévu un petit dossier
+  à lire dès que vous avez un moment. Il contient des informations :
+</p>
+<ul>
+  <li>sur la rencontre avec votre filleul</li>
+  <li>sur les programmes de Compassion</li>
+  <li>sur le pays, le climat, les coutumes</li>
+  <li>
+    sur vos bagages et les petits cadeaux que vous pourriez emmener avec vous
+  </li>
+</ul>
+<p>
+  Gardez précieusement ce courriel pour accéder aux informations.
+  <b> Pour en savoir plus, il vous suffit de cliquer ici: </b>
+  .
+  <br />
+  <br />
+</p>
+<div style="margin: 0 auto; text-align: center">
+  <a
+    t-attf-href="{{url}}"
+    style="
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+  >
+    Informations pratiques
+  </a>
+</div>
+<br />
+<br />
+<br />
+Merci de votre engagement pour les enfants démunis.
+<br />
+<br />
+Recevez nos chaleureuses salutations.
+<br />
+<br />
+<t t-out="user.preferred_name"></t> <t t-out="user.lastname"></t>
+<br />
+<t t-out="user.employee_ids.department_id.name"></t>
+<br />
+Compassion Suisse

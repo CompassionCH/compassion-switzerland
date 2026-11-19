@@ -45,9 +45,9 @@
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">20</field>
-            <field name="my_compassion_donation_quantity_medium">50</field>
-            <field name="my_compassion_donation_quantity_high">100</field>
+            <field name="my_compassion_donation_amount_low">20.00</field>
+            <field name="my_compassion_donation_amount_medium">50.00</field>
+            <field name="my_compassion_donation_amount_high">100.00</field>
         </record>
     </data>
 
@@ -99,9 +99,9 @@
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">25</field>
-            <field name="my_compassion_donation_quantity_medium">100</field>
-            <field name="my_compassion_donation_quantity_high">500</field>
+            <field name="my_compassion_donation_amount_low">25.00</field>
+            <field name="my_compassion_donation_amount_medium">100.00</field>
+            <field name="my_compassion_donation_amount_high">500.00</field>
         </record>
     </data>
 
@@ -152,9 +152,9 @@
             <field name="my_compassion_show_impact_statement" eval="False" />
             <field name="my_compassion_show_info" eval="False" />
             <field name="my_compassion_show_testimony" eval="False" />
-            <field name="my_compassion_donation_quantity_low">20</field>
-            <field name="my_compassion_donation_quantity_medium">50</field>
-            <field name="my_compassion_donation_quantity_high">100</field>
+            <field name="my_compassion_donation_amount_low">20.00</field>
+            <field name="my_compassion_donation_amount_medium">50.00</field>
+            <field name="my_compassion_donation_amount_high">100.00</field>
         </record>
     </data>
 </odoo>

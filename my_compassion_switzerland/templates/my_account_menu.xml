@@ -2,12 +2,28 @@
     <template
       id="my_account_crowdfunding"
       name="My account Crowdfunding"
-      inherit_id="my_compassion.my_account_menu"
+      inherit_id="portal.user_dropdown"
     >
-      <xpath expr="//a[@href='/my/letter']" position="after">
+      <xpath expr="//div[@id='o_logout_divider']" position="before">
         <t t-if="request.env.user.partner_id.crowdfunding_project_count">
-          <a href="/my/together" role="menuitem" class="dropdown-item">Together</a>
+          <a href="/my/together" role="menuitem" class="dropdown-item ps-3">Together</a>
         </t>
+      </xpath>
+    </template>
+
+    <template
+      id="header_menu_cache_crowdfunding"
+      inherit_id="website.layout"
+      name="MyCompassion Header Menu Cache Key Crowdfunding"
+      priority="17"
+    >
+      <!-- Vary the header cache by the crowdfunding flag too. This replaces
+           the whole key: keep the flags of
+           my_compassion.header_menu_cache_per_role in sync. -->
+      <xpath expr="//header/t[@t-cache]" position="attributes">
+        <attribute
+          name="t-cache"
+        >None if website.is_menu_cache_disabled() else (xmlid, website, website.is_public_user(), not website.is_public_user() and (request.env.user.partner_id.is_sponsor, request.env.user.partner_id.is_donor, bool(request.env.user.partner_id.crowdfunding_project_count)))</attribute>
       </xpath>
     </template>
 </odoo>

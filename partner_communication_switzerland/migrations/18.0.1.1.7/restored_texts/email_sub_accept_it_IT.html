@@ -1,0 +1,236 @@
+<div>
+  <t t-set="sponsorship" t-value="object.get_objects()" />
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="plural" t-value="partner.title.plural or partner.title.id == 29" />
+  <t t-set="Ti" t-value='"Vi" if plural else "Ti"' />
+  <t t-set="te" t-value='"voi" if plural else "te"' />
+  <t t-set="tu" t-value='"voi" if plural else "tu"' />
+  <t t-set="tua" t-value='"vostra" if plural else "tua"' />
+  <t t-set="tuo" t-value='"vostro" if plural else "tuo"' />
+  <t t-set="tue" t-value='"vostre" if plural else "tue"' />
+  <t t-set="sara" t-value='"saranno" if plural else "sarà"' />
+  <t t-set="ha" t-value='"hanno" if plural else "ha"' />
+  <t t-set="hai" t-value='"avete" if plural else "hai"' />
+  <t t-set="trovi" t-value='"trovate" if plural else "trovi"' />
+  <t t-set="potrai" t-value='"potrete" if plural else "potrai"' />
+  <t t-set="presentarti" t-value='"presentarvi" if plural else "presentarti"' />
+  <t t-set="devi" t-value='"dovete" if plural else "devi"' />
+  <t t-set="troverai" t-value='"troverete" if plural else "troverai"' />
+  <t t-set="puoi" t-value='"potete" if plural else "puoi"' />
+  <t t-set="sponsorships" t-value="object.get_objects()" />
+  <t t-set="others" t-value="partner.sponsorship_ids - sponsorships" />
+  <t t-set="child" t-value='sponsorships.mapped("child_id")' />
+  <t
+    t-set="previous"
+    t-value="sponsorships.mapped(&#x27;parent_id.child_id&#x27;)"
+  />
+  <t
+    t-set="previous_name"
+    t-value="previous.get_list(&#x27;preferred_name&#x27;, 3, &#x27;&#x27;, translate=False)"
+  />
+  <t
+    t-set="firstname"
+    t-value='child.get_list("preferred_name", translate=False)'
+  />
+  <t
+    t-set="payment_attachment"
+    t-value="sponsorships.get_payment_type_attachment_string()"
+  />
+  <t t-set="country" t-value="child.mapped(&#x27;field_office_id&#x27;)" />
+  <t
+    t-set="alumni_name"
+    t-value="country.get_list(&#x27;alumni_representative&#x27;)"
+  />
+  <t
+    t-set="alumni_link"
+    t-value="country.get_list(&#x27;alumni_video_link&#x27;, 1, &#x27;https://vimeo.com/showcase/8314999&#x27;)"
+  />
+  <t
+    t-set="multi_link"
+    t-value="alumni_link == &#x27;https://vimeo.com/showcase/8314999&#x27;"
+  />
+  <t t-set="male" t-value="child.gender == &#x27;M&#x27;" />
+  <t
+    t-set="scrivergli"
+    t-value="&#x27;scrivergli&#x27; if male else &#x27;scriverle&#x27;"
+  />
+  <t t-set="il" t-value="&#x27;il&#x27; if male else &#x27;la&#x27;" />
+  <t
+    t-set="bambino"
+    t-value="&#x27;bambino&#x27; if male else &#x27;bambina&#x27;"
+  />
+  <t
+    t-set="sostieni"
+    t-value="&#x27;sostenete&#x27; if plural else &#x27;sostieni&#x27;"
+  />
+  <t t-set="vive" t-value="&#x27;vive&#x27;" />
+
+  <t t-if="len(country) &gt; 1">
+    <t
+      t-set="un_ex_bambino_sostenuto"
+      t-value='"alcuni ex bambini sostenuti"'
+    />
+    <t t-set="vive" t-value="&#x27;vivono&#x27;" /> </t
+  ><t t-elif="child[0].field_office_id.alumni_gender == &#x27;F&#x27;">
+    <t
+      t-set="un_ex_bambino_sostenuto"
+      t-value='"un’ex bambina sostenuta"'
+    /> </t
+  ><t t-else="">
+    <t t-set="un_ex_bambino_sostenuto" t-value='"un ex bambino sostenuto"' />
+  </t>
+</div>
+<p><t t-out="partner.salutation" />,</p>
+<p>
+  Grazie per aver deciso di investire nel migliorare la vita di un altro
+  bambino!
+</p>
+<t t-if='sponsorships[:1].state != "active"'>
+  <t
+    t-if='"Permanent" in sponsorship[:1].with_context(lang=&#x27;en_US&#x27;).payment_mode_id.name'
+  >
+    <p>
+      Se non <t t-out="hai" /> ancora disdetto il <t t-out="tuo" /> ordine
+      permanente, non <t t-out="devi" /> fare nulla. Ci occuperemo noi di tutto
+      affinché il sostegno possa iniziare. Se invece lo <t t-out="hai" /> già
+      disdetto,
+      <b
+        ><t t-out="troverai" /> in allegato un bollettino di pagamento per
+        creare un nuovo ordine permanente.</b
+      >
+    </p> </t
+  ><t t-else="">
+    <p>
+      Se non <t t-out="hai" /> ancora annullato il <t t-out="tuo" /> addebito
+      diretto, non <t t-out="devi" /> fare nulla. Ci occuperemo noi di tutto
+      affinché il nuovo sostegno possa iniziare. Se invece lo
+      <t t-out="hai" /> già annullato,
+      <b
+        ><t t-out="troverai" /> il modulo di addebito diretto in allegato.
+        <t t-out="Ti" /> preghiamo di compilarlo e rispedircelo per posta.</b
+      >
+    </p>
+  </t>
+</t>
+<p>
+  Come per <t t-out="previous_name" />, <t t-out="puoi" /> scrivere le
+  <t t-out="tue" /> lettere e trovare tutte le informazioni e le foto di
+  <t t-out="firstname" /> su MyCompassion.
+</p>
+<t t-if='object.send_mode == "digital"'>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      href="https://mycompassion.ch/it_IT/my/home"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      MyCompassion
+    </a>
+  </div>
+  <p>
+    Vorremmo anche <t t-out="presentarti" /> <t t-out="alumni_name" />,
+    <t t-out="un_ex_bambino_sostenuto" /> da Compassion.
+    <t t-out="vive.title()" /> nello stesso continente di
+    <t t-out="firstname" />.
+  </p>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      t-attf-href="{{ alumni_link }}"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      Scopri la storia di <t t-out="alumni_name" />
+    </a>
+  </div>
+</t>
+<h3 style="color: #0054a6; text-transform: uppercase">
+  <b>Cosa permette il <t t-out="tuo" /> sostegno</b>
+</h3>
+<ul>
+  <li>Accesso alla scuola (tasse, uniformi e materiale)</li>
+  <li>Assistenza medica</li>
+  <li>Formazione (professionale o accademica)</li>
+  <li>Sviluppo spirituale con una comunità locale, insegnamento biblico*</li>
+  <li>Attività per sviluppare i propri talenti</li>
+  <li>Corrispondenza con il sostenitore</li>
+</ul>
+<p style="font-size: smaller">*con il consenso dei genitori</p>
+<p>
+  Il bambino riceve un sostegno personale fino al completamento della
+  formazione, ma non oltre i 22 anni di età.
+</p>
+<t t-if='object.send_mode == "digital"'>
+  <div style="margin: 30px auto; text-align: center; text-transform: uppercase">
+    <a
+      href="https://compassion.ch/compassion-dans-le-monde/"
+      style="
+        padding: 12px 18px;
+        font-size: 14px;
+        line-height: 18px;
+        color: #ffffff;
+        border-color: #0054a6;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        background-image: none;
+        background-color: #0054a6;
+        border: 1px solid #0054a6;
+        border-radius: 3px;
+      "
+      title=""
+    >
+      Scopri di più sul Paese in cui vive <t t-out="firstname" />
+    </a>
+  </div>
+</t>
+<p>
+  Siamo grati per il <t t-out="tuo" /> impegno. Grazie a <t t-out="te" />, un
+  bambino e la sua famiglia possono ritrovare la speranza per il futuro.
+</p>
+<p>Cari saluti,</p>
+<t t-if='object.send_mode == "digital"'>
+  <p>
+    <t t-out="object.user_id.signature" />
+  </p>
+</t>

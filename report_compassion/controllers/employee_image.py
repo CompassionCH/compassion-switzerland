@@ -30,9 +30,9 @@ class EmployeeImageController(http.Controller):
         Raises:
             werkzeug.exceptions.NotFound
         """
-        employee = (
-            request.env["hr.employee"].sudo().search([("uuid", "=", uuid)], limit=1)
-        )
+        # Emails rendered in v14 link to the employee id instead of the uuid
+        domain = [("id", "=", int(uuid))] if uuid.isdecimal() else [("uuid", "=", uuid)]
+        employee = request.env["hr.employee"].sudo().search(domain, limit=1)
         if not employee.image_128:
             raise NotFound()
 

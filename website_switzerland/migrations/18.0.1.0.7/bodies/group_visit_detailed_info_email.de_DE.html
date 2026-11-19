@@ -1,0 +1,78 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+
+  <t t-set="registration" t-value="object.get_objects()" />
+
+  <t t-set="event" t-value="registration.compassion_event_id" />
+
+  <t
+    t-set="base_url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)"
+  />
+  <t
+    t-set="url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;) + &#x27;/event/&#x27; + str(event.id) + &#x27;/practical_information&#x27;"
+  />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+</div>
+<p>
+  <t t-out="partner.informal_salutation"></t>
+  <br />
+  <br />
+  Wir befinden uns auf der Zielgeraden - schon bald ist Packen angesagt! Dazu
+  haben wir dir eine hilfreiche kleine Broschüre erstellt, die du bei
+  Gelegenheit durchlesen kannst. Darin enthalten sind Informationen:
+</p>
+<ul>
+  <li>zum Treffen mit deinem Patenkind</li>
+  <li>zu den Programmen von Compassion</li>
+  <li>über Land und Leute</li>
+  <li>zu Gepäck und Ideen für kleine Mitbringsel</li>
+</ul>
+<p>
+  Bewahre diese E-Mail auf, um auf die darin enthaltenen Informationen
+  zurückgreifen zu können. Hier findest du alle deine gespeicherten Angaben:
+  <b> klicke hier: </b>
+  .
+  <br />
+  <br />
+</p>
+<div style="margin: 0 auto; text-align: center">
+  <a
+    t-attf-href="{{url}}"
+    style="
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+  >
+    Praktische Informationen
+  </a>
+</div>
+<br />
+<br />
+Danke für dein Engagement für Kinder in Armut und bis bald!
+<br />
+<br />
+Herzliche Grüsse
+<br />
+<br />
+<t t-out="user.preferred_name"></t> <t t-out="user.lastname"></t>
+<br />
+<t t-out="user.employee_ids.department_id.name"></t>
+<br />
+Compassion Schweiz

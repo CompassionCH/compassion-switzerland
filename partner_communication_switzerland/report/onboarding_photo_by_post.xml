@@ -21,12 +21,13 @@
       name="report_name"
     >partner_communication_switzerland.onboarding_photo_by_post</field>
         <field name="paperformat_id" ref="paperformat_photo_by_post" />
+        <field name="print_delay">0</field>
     </record>
 
     <template id="onboarding_photo_by_post">
         <t t-call="web.html_container">
             <div class="article">
-                <t t-set="custom_css">
+                <t t-set="custom_css" t-translation="off">
                 .container {
                     font-family: "millerLight";
                     font-size: 10pt;

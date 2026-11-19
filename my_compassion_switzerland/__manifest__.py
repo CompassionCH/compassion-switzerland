@@ -9,7 +9,7 @@
 # pylint: disable=C8101
 {
     "name": "My Compassion Switzerland",
-    "version": "14.0.1.0.1",
+    "version": "18.0.1.0.8",
     "category": "Website",
     "author": "Daniel Palumbo",
     "development_status": "Beta",
@@ -22,6 +22,8 @@
         "ebill_postfinance_recipient_subscription",
         "sponsorship_switzerland",
         "crowdfunding_compassion",
+        "report_compassion",
+        "payment_postfinance_flex",  # paid-addons
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -31,14 +33,33 @@
         "data/product_gifts_data.xml",
         "data/engagement_types_data.xml",
         "data/mail_template_data.xml",
+        "data/ir_config_parameter.xml",
+        "data/communication_config.xml",
         "views/advocate_engagement_view.xml",
+        "templates/postfinance_confirmation.xml",
+        "templates/login_template.xml",
+        "templates/contact_info.xml",
+        "templates/my2_gift_package.xml",
         "templates/my2_dashboard.xml",
         "templates/components/volunteering_card.xml",
         "templates/my2_volunteering.xml",
         "views/advocate_engagement_notification_settings_view.xml",
         "templates/my2_new_sponsorship_wizard_ebill.xml",
-        "templates/assets.xml",
+        "templates/my2_new_sponsorship_wizard.xml",
+        "templates/my2_new_sponsorship_thank_you.xml",
+        "templates/my_account_menu.xml",
+        "templates/my2_signup_form.xml",
+        "templates/my2_user_settings.xml",
+        "templates/my2_donations.xml",
     ],
-    "installable": False,
+    "assets": {
+        "web.assets_frontend": [
+            "my_compassion_switzerland/static/src/css/my2_volunteering.css",
+            "my_compassion_switzerland/static/src/js/my2_volunteering.js",
+            "my_compassion_switzerland/static/src/js/my2_new_sponsorship_wizard_ebill.js",
+            "my_compassion_switzerland/static/src/js/my2_new_sponsorship_wizard_volunteering.js",
+        ],
+    },
+    "installable": True,
     "auto_install": False,
 }

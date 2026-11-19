@@ -1,0 +1,104 @@
+<div>
+    % set partner = object.partner_id
+    % set plural = partner.title.plural or partner.title.id == 29 or not partner.title.id
+    % set year = ctx.get('year', datetime.date.today().year-1)
+    % set donation_amount = partner.get_receipt_text(year)
+    % set tax_link = "https://mycompassion.ch/de_DE/my/login/" + partner.uuid + "/donations"
+    % set donation_amount = partner.get_receipt_text(year)
+
+    % set sponsorships = len(object.env['recurring.contract'].search(['|',('correspondent_id','=',partner.id),('partner_id','=',partner.id)]))
+    % set gifts = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id.categ_id', '=', 5)]).mapped('price_subtotal') or [0])
+    % set moms = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('account_id', '=', 2773)]).mapped('price_subtotal') or [0]) / 15
+    % set houses = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('account_id', '=', 2765)]).mapped('price_subtotal') or [0])
+    % set toilets = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id', 'in', (146,221,41,148,40))]).mapped('price_subtotal') or [0]) / 25
+    % set christmas = sum(object.env['account.move.line'].search([('partner_id','=',partner.id),('payment_state','=','paid'),('due_date', '>=', '2021-01-01'), ('due_date', '<', '2022-01-01'), ('product_id', '=', 31)]).mapped('price_subtotal') or [0]) / 15
+
+    % if moms > 0 and moms <= 1:
+        % set moms = 0
+    % endif
+    % if moms > 1 and moms <= 2:
+        % set moms = 2
+    % endif
+    % if toilets > 0 and toilets <= 1:
+        % set toilets = 0
+    % endif
+    % if toilets > 1 and toilets < 2:
+        % set toilets = 2
+    % endif
+    % if christmas > 0 and christmas <= 1:
+        % set christmas = 0
+    % endif
+    % if christmas > 1 and christmas < 2:
+        % set christmas = 2
+    % endif
+
+    % set donor = sponsorships or moms or houses or toilets or christmas
+    % set impact_link = "https://impact.compassion.ch/de?fname={}&donor={}".format(partner.firstname or partner.name, 'true' if donor else 'false') + ("&sponsorship={}".format(sponsorships) if sponsorships else "") + ("&sp_amount={}".format(str(gifts).split(".")[0]) if gifts else "") + ("&moms={}".format(str(moms).split(".")[0]) if moms else "") + ("&house={}".format(str(houses).split(".")[0]) if houses else "") + ("&toilets_amount={}".format(str(toilets).split(".")[0]) if toilets else "") + ("&gifts_amount={}".format(str(christmas).split(".")[0]) if christmas else "")
+
+    % set du = 'ihr' if plural else 'du'
+    % set dir = 'euch' if plural else 'dir'
+    % set deine = 'eure' if plural else 'deine'
+    % set dein = 'euer' if plural else 'dein'
+    % set Dein = 'Euer' if plural else 'Dein'
+    % set Finde = 'Findet' if plural else 'Finde'
+    % set kannst = 'könnt' if plural else 'kannst'
+
+</div>
+<div>
+    ${partner.salutation}
+    <br>
+    <br>
+    Zuallererst wünschen wir ${dir} ein gesegnetes neues Jahr voll Hoffnung und Zuversicht!
+    <br>
+    <br>
+    Wenn wir einen Blick zurückwerfen, wird deutlich, wie viel wir gemeinsam erreicht haben. Sogar weit darüber hinaus,
+    was wir uns vorgestellt hatten.
+    <br>
+    <br>
+    % if object.send_mode == 'digital':
+        ${Dein} Engagement hat eine grosse Wirkung gezeigt! ${Finde} heraus, was wir gemeinsam im 2021 konkret verändert haben.
+    <br>
+    <br>
+    <div style="margin:0 auto; text-align: center;">
+        <a href="${impact_link}"
+           style="padding: 12px 18px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0054A6; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #0054A6; border: 1px solid #0054A6; border-radius:3px"
+           title="">
+            Ich möchte meinen Impact sehen
+        </a>
+    </div>
+    <br>
+    <br>
+    <b>
+        Wir freuen uns, ${dir} ${deine} Spendenbescheinigung für das Jahr 2021 zukommen zu lassen, damit ${du} diese der Steuererklärung beilegen ${kannst} (Dokument im Anhang).
+    </b>
+    % else:
+        ${Dein} Engagement hat eine grosse Wirkung gezeigt! ${Finde} heraus, was wir gemeinsam im 2021 konkret verändert haben: https://impact.compassion.ch
+        <br>
+        <br>
+        <b>
+            Wir freuen uns, ${dir} ${deine} Spendenbescheinigung für das Jahr 2021 zukommen zu lassen, damit ${du} diese der
+            Steuererklärung beilegen ${kannst}.
+        </b>
+    % endif
+    <br>
+    <br>
+    <h3>
+        Ihre Spenden ${year} betragen CHF ${donation_amount}
+    </h3>
+    <br>
+    Als christliches Hilfswerk zugunsten von Kindern in Armut ist der Verein Compassion Schweiz gemäss Entscheid der Waadtländer Steuerverwaltung vom 24. Mai 2004 als ausschliesslich gemeinnützig anerkannt und steuerbefreit
+    <br>
+    <br>
+    Abgesehen von den letzten beiden Jahren der Pandemie hat der Kampf gegen extreme Armut und Ungerechtigkeit seit den frühen 1990er Jahren grosse Fortschritte gemacht. Der jetzige Botschafter von Haiti in Japan ist ein ehemaliges Patenkind. Der Direktor von Compassion in der Dominikanischen Republik ebenfalls. Viele Kinder, denen die Armut immer wieder gesagt hatte, dass sie nichts wert seien, bewirken heute mit euch und uns Veränderungen.
+    <br>
+    <br>
+    Wir danken ${dir} von Herzen für ${dein} Engagement an unserer Seite.
+    <br>
+    <br>
+    Herzliche Grüsse
+    <br>
+    <br>
+    % if object.send_mode == 'digital':
+        Christian Willi und das Team von Compassion Schweiz
+    % endif
+</div>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Swiss donor-service contact details: the donation surfaces show the donor
+    service line (024) with its opening hours instead of the generic company
+    phone, and the account-deletion help shows the same donor-service contact.
+-->
+<odoo>
+  <!-- oca-hooks:disable=xml-dangerous-qweb-replace-low-priority -->
+  <template
+    id="giving_limits_modal_swiss_contact"
+    inherit_id="my_compassion.GivingLimitsModalComponent"
+  >
+    <xpath expr="//div[@name='donation_contact_phone']" position="replace">
+      <div class="mt-4 tiny-text">
+        <i class="me-1 icon-phone body-small" />
+        <a
+          href="tel:+41244342124"
+          class="text-low-black"
+        >+41 (0)24 434 21 24</a>
+                (Mo-Fri: 9.00-14.00)
+      </div>
+    </xpath>
+  </template>
+  <template
+    id="donation_form_swiss_contact"
+    inherit_id="my_compassion.DonationFormLimitsInfo"
+  >
+    <xpath expr="//div[@name='donation_contact_phone']" position="replace">
+      <div class="mt-3 tiny-text">
+        <i class="me-1 icon-phone body-small" />
+        <a
+          href="tel:+41244342124"
+          class="text-low-black"
+        >+41 (0)24 434 21 24</a>
+                (Mo-Fri: 9.00-14.00)
+      </div>
+    </xpath>
+  </template>
+  <template
+    id="user_settings_swiss_contact"
+    inherit_id="my_compassion.my2_user_settings_page"
+  >
+    <xpath expr="//div[@name='account_deletion_contact']" position="replace">
+      <div class="px-4">
+        <p>
+                    Please contact Compassion for assistance at:
+                    <br />
+                    info@compassion.ch
+                    <br />
+                    024 434 21 24
+                </p>
+      </div>
+    </xpath>
+  </template>
+</odoo>

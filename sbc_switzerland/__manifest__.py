@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "SBC Swizterland",
-    "version": "14.0.1.1.0",
+    "version": "18.0.1.1.0",
     "category": "Other",
     "author": "Compassion Switzerland",
     "license": "AGPL-3",
@@ -39,16 +39,18 @@
         "child_switzerland",
         "sbc_translation",  # compassion-modules
         "child_protection",  # compassion-modules
+        "queue_job",  # OCA/queue
+        "base_automation",
     ],
     "external_dependencies": {
         "python": [
             "PyPDF2",
             "pysftp",
-            "wand",
         ]
     },
     "data": [
         "security/ir.model.access.csv",
+        "data/queue_job_data.xml",
         "data/scan_letter_params.xml",
         "data/import_config_templates.xml",
         "data/nas_parameters.xml",
@@ -56,11 +58,12 @@
         "data/communication_config.xml",
         "data/res.lang.compassion.csv",
         "data/partner_action_rules.xml",
+        "data/letter_followup_rules.xml",
         "views/import_config_view.xml",
         "views/import_letters_history_view.xml",
         "views/s2b_generator_view.xml",
         "reports/translation_reports_view.xml",
     ],
     "demo": [],
-    "installable": False,
+    "installable": True,
 }

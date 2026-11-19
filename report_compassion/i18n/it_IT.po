@@ -1,0 +1,1075 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_compassion
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 19:13+0000\n"
+"PO-Revision-Date: 2026-10-16 19:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__paper_format__report_compassion_2bvr_sponsorship
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__paper_format__report_compassion_2bvr_gift_sponsorship
+msgid "2 BVR"
+msgstr "2 BVR"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_2bvr_gift_sponsorship
+msgid "2QR sponsorship gift report"
+msgstr "Rapporto regali di sostegno 2QR"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_2bvr_sponsorship
+msgid "2QR sponsorship report"
+msgstr "Rapporto sostegno 2QR"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "<span class=\"blue\">MAIL</span>"
+msgstr "<span class=\"blue\">MAIL</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid ""
+"<span class=\"blue\">TEL</span>\n"
+"                    <span> 031 552 21 25</span>"
+msgstr ""
+"<span class=\"blue\">TEL</span>\n"
+"                    <span> 031 552 21 24</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid ""
+"<span class=\"blue\">TÉL</span>\n"
+"                                    <span>.: 031 552 21 25 </span>\n"
+"                                    <span class=\"blue\">MAIL</span>"
+msgstr ""
+"<span class=\"blue\">TEL</span>\n"
+"                                    <span>.: 031 552 21 24 </span>\n"
+"                                    <span class=\"blue\">MAIL</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title title_zone\">Payment part</span>"
+msgstr "<span class=\"swissqr_text title title_zone\">Parte di pagamento</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title title_zone\">Receipt</span>"
+msgstr "<span class=\"swissqr_text title title_zone\">Ricevuta</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Acceptance point</span>"
+msgstr "<span class=\"swissqr_text title\">Punto di accettazione</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Additional information</span>"
+msgstr "<span class=\"swissqr_text title\">Informazioni aggiuntive</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Amount</span>"
+msgstr "<span class=\"swissqr_text title\">Importo</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Currency</span>"
+msgstr "<span class=\"swissqr_text title\">Valuta</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Payable by</span>"
+msgstr "<span class=\"swissqr_text title\">Pagabile da</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Payable to</span>"
+msgstr "<span class=\"swissqr_text title\">Conto / Pagabile a</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "<span class=\"swissqr_text title\">Reference</span>"
+msgstr "<span class=\"swissqr_text title\">Riferimento</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid "<span style=\"font-weight: bold\">Sarah Maria Herrendorff</span>"
+msgstr "<span style=\"font-weight: bold\">Sarah Maria Herrendorff</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "<span> Rue Galilée 3, 1400 Yverdon-les-Bains</span>"
+msgstr "<span> Parkterrasse 10, 3012 Bern</span>"
+
+#. module: report_compassion
+#: model:mail.template,body_html:report_compassion.tax_receipt_template
+msgid ""
+"<span><t t-set=\"year\" t-value=\"year or datetime.date.today().year\"/>\n"
+"                <t t-call=\"report_compassion.tax_receipt_content\"/>\n"
+"            </span>"
+msgstr ""
+"<html>\n"
+"  <body><div>\n"
+"                    <t t-set=\"year\" t-value=\"ctx[&#x27;year&#x27;]\"/>\n"
+"                </div>\n"
+"                <div>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <h3 align=\"center\">Le Sue donazioni nel <t t-out=\"year\"></t> ammontano a <t t-out=\"object.get_receipt_text(year)\"></t> CHF</h3>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <p>L'associazione Compassion Svizzera, organizzazione umanitaria cristiana che sostiene i bambini svantaggiati, è esente da imposte ed è riconosciuta di pubblica utilità, come stabilito dalle autorità fiscali cantonali del Canton Vaud il 24 maggio 2004.\n"
+"                    </p>\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <p>Ancora una volta, grazie per la Sua generosità. Con il Suo aiuto, vogliamo cambiare il mondo, un bambino alla volta. </p>\n"
+"                    <p>Cordiali saluti.</p>\n"
+"                </div>\n"
+"            </body>\n"
+"</html>\n"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid "<span>Rue Galilée 3, 1400 Yverdon-les-Bains, Switzerland</span>"
+msgstr "<span>Parkterrasse 10, 3012 Bern</span>"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+msgid "<span>and the team from Compassion</span>"
+msgstr "<span>e il team di Compassion</span>"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_recurring_contract_group
+msgid "A group of contracts"
+msgstr "Un gruppo di contratti"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_partner_communication
+msgid "A4 Letterhead communication"
+msgstr "A4 Letterhead"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_res_users
+msgid "Adds authentication for users from external platforms."
+msgstr ""
+"Aggiunge l'autenticazione per gli utenti provenienti da piattaforme esterne."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__amount
+msgid "Amount"
+msgstr "Importo"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_anniversary_card
+msgid "Anniversary Card"
+msgstr "Cartolina di anniversario"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_generate_wizard__product_id
+msgid "Attach payment slip for"
+msgstr "Allega il bollettino di pagamento per"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
+msgid "Best regards"
+msgstr "Cordiali saluti,"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__birthday_gift
+msgid "Birthday Gift"
+msgstr "Regalo di compleanno"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_blank_communication
+msgid "Blank communication"
+msgstr "Comunicazione vuota"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+#: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "CH-1400 Yverdon-les-Bains"
+msgstr "CH-3012 Bern"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_childpack_expiration
+msgid "Childpack Expiration"
+msgstr "Scadenza pacchetto bambini"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__commercial_city
+msgid "Commercial City"
+msgstr "Città commerciale"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__commercial_name
+msgid "Commercial Name"
+msgstr "Nome commerciale"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__commercial_phone
+msgid "Commercial Phone"
+msgstr "Telefono commerciale"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__commercial_street
+msgid "Commercial Street"
+msgstr "Via commerciale"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.company_form
+msgid "Commercial Translated Information"
+msgstr "Informazioni commerciali tradotte"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__commercial_zip
+msgid "Commercial Zip"
+msgstr "CAP commerciale"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_attachment
+msgid "Communication Attachment"
+msgstr "Allegato Comunicazione"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_config
+msgid "Communication Configuration"
+msgstr "Configurazione della comunicazione"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_job
+msgid "Communication Job"
+msgstr "Lavoro di comunicazione"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_res_partner
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__create_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__create_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__period_selection__this_year
+msgid "Current year"
+msgstr "Anno corrente"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__date_start
+msgid "Date Start"
+msgstr "Data di inizio"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__date_stop
+msgid "Date Stop"
+msgstr "Data di fine"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_sponsorship_bvr.py:0
+msgid "Date stop must be after date start."
+msgstr "La data di fine deve essere successiva alla data di inizio."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_project_description
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_description_left
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_project_description_left
+msgid "Description Left"
+msgstr "Descrizione a sinistra"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_description_right
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_project_description_right
+msgid "Description Right"
+msgstr "Descrizione a destra"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__display_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__display_name
+msgid "Display Name"
+msgstr "Visualizza Nome"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_config__display_pp
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job__display_pp
+msgid "Display PP"
+msgstr "Mostra PP"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"Do you remember the beginning of your sponsorship?<br/>What a great journey "
+"it has been since then!"
+msgstr ""
+"Ti ricordi l’inizio del tuo sostegno?<br/>Quanta strada abbiamo fatto da "
+"allora!"
+
+#. module: report_compassion
+#: model:mail.template,subject:report_compassion.tax_receipt_template
+msgid "Donation receipt"
+msgstr "Attestato delle donazioni"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+msgid "Download report"
+msgstr "Scarica il rapporto"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_compassion_qr_slip
+msgid "Due date"
+msgstr "Data di scadenza"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_users__signature
+msgid "Email Signature"
+msgstr "Firma dell'e-mail"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_hr_employee
+msgid "Employee"
+msgstr "Dipendente"
+
+#. module: report_compassion
+#: model:ir.model.fields,help:report_compassion.field_res_company__official_signer_id
+msgid ""
+"Employee whose name and signature appear on official documents (e.g. tax "
+"receipts) that are not tied to a specific staff member. Left empty, those "
+"documents fall back to a plain company sign-off with no personal name or "
+"image."
+msgstr ""
+"Dipendente il cui nome e la cui firma compaiono sui documenti ufficiali (ad "
+"es. le ricevute fiscali) che non sono legati a un collaboratore specifico. "
+"Se lasciato vuoto, questi documenti riportano una semplice formula di "
+"chiusura aziendale senza nome o immagine personale."
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_ending_sponsorship_certificate
+msgid "Ending Sponsorship Certificate"
+msgstr "Certificato di fine sostegno"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__social_facebook
+msgid "Facebook Account"
+msgstr "Account Facebook"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__family_gift
+msgid "Family Gift"
+msgstr "Regalo per la famiglia"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__file_download
+msgid "File Download"
+msgstr "Scarica il file"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__file_name
+msgid "File Name"
+msgstr "Nome del file"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid "First invoice is after Date Stop"
+msgstr "La prima fattura è successiva alla data di fine"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__font
+msgid "Font"
+msgstr "Carattere"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_childpack_full
+msgid "Full Childpack"
+msgstr "Pacchetto completo per bambini"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_account_bank_statement_line__gender
+#: model:ir.model.fields,field_description:report_compassion.field_account_move__gender
+#: model:ir.model.fields,field_description:report_compassion.field_recurring_contract_group__gender
+msgid "Gender"
+msgstr "Sesso"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__general_gift
+msgid "General Gift"
+msgstr "Regalo generale"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_gift_sponsorship
+msgid "Gift Payment Slip 1 BVR"
+msgstr "Bollettino di pagamento per regali 1 BVR"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_gift_bvr
+msgid "Gift Payment Slips"
+msgstr "Regali di sostegno"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_2bvr_gift_sponsorship
+msgid "Gift Payment Slips 2 BVR"
+msgstr "Regali di sostegno 2 BVR"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__graduation_gift
+msgid "Graduation Gift"
+msgstr "Regalo per il diploma"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_id
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__id
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__id
+msgid "ID"
+msgstr "ID"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid "ISR"
+msgstr "PV"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid "ISR for standing order"
+msgstr "PV pag.permanente"
+
+#. module: report_compassion
+#: model:ir.model.fields,help:report_compassion.field_partner_communication_config__display_pp
+#: model:ir.model.fields,help:report_compassion.field_partner_communication_job__display_pp
+msgid "If not set, the PP is not printed upper the address."
+msgstr "Se non impostato, il PP non viene stampato sopra l'indirizzo."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_users__image_url
+msgid "Image Url"
+msgstr "URL dell'immagine"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__include_gifts
+msgid "Include Gifts"
+msgstr "Includi i regali"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_account_move
+msgid "Journal Entry"
+msgstr "Registrazione contabile"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_lang
+msgid "Lang"
+msgstr "Lingua"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__write_uid
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__write_uid
+msgid "Last Updated by"
+msgstr "Ultima modifica di"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__write_date
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__write_date
+msgid "Last Updated on"
+msgstr "Ultima modifica il"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
+msgid "May God bless you richly."
+msgstr "Che Dio ti benedica abbondantemente."
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_childpack_mini
+msgid "Mini Childpack"
+msgstr "Mini Childpack"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__res_company__font__neighboursans
+msgid "NeighbourSans"
+msgstr "NeighbourSans"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.new_donors_card_report
+msgid "New Donors Card"
+msgstr "Cartolina per i nuovi donatori"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__period_selection__next_year
+msgid "Next year"
+msgstr "Anno prossimo"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid ""
+"No bank account with a QR-IBAN was found for %(company)s. Please set the QR-"
+"IBAN on the bank account of the company in order to print payment slips."
+msgstr ""
+"Nessun conto bancario con QR-IBAN trovato per %(company)s. Imposta il QR-"
+"IBAN sul conto bancario dell'azienda per poter stampare i bollettini di "
+"pagamento."
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid "No open invoice found !"
+msgstr "Nessuna fattura aperta trovata!"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.company_form
+msgid "Official Documents"
+msgstr "Documenti ufficiali"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__official_signer_id
+msgid "Official Signer"
+msgstr "Firmatario ufficiale"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__output_type
+msgid "Output Type"
+msgstr "Tipo di output"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+#: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "P.P."
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__pdf
+msgid "PDF"
+msgstr "PDF"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__paper_format
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__paper_format
+msgid "Paper Format"
+msgstr "Formato carta"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_partner_communication_generate_wizard
+msgid "Partner Communication Generation Wizard"
+msgstr "Procedura guidata per la generazione di comunicazioni con i partner"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_fund_christmas
+msgid "Payment Slip for Christmas Fund"
+msgstr "Bollettino di pagamento per il fondo di Natale"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_bvr_fund
+#: model:ir.actions.report,name:report_compassion.report_bvr_fund
+msgid "Payment Slip for Fund"
+msgstr "Bollettino di pagamento per un fondo"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+msgid ""
+"Payments for the selected year are not yet registered completely. The tax "
+"receipt may be incomplete."
+msgstr ""
+"I pagamenti dell'anno selezionato non sono ancora stati registrati "
+"completamente. La ricevuta fiscale potrebbe essere incompleta."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__pdf
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__pdf
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__pdf
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__pdf
+msgid "Pdf"
+msgstr "PDF"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__pdf_download
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__pdf_download
+msgid "Pdf Download"
+msgstr "Download PDF"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__pdf_name
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__pdf_name
+msgid "Pdf Name"
+msgstr "Nome PDF"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__period_selection
+msgid "Period Selection"
+msgstr "Selezione del periodo"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+msgid "Please select a product to print the payment slip."
+msgstr "Seleziona un prodotto per stampare il bollettino di pagamento."
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:0
+msgid "Please select at least one gift type."
+msgstr "Seleziona almeno un tipo di regalo."
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+msgid "Please select at least one partner."
+msgstr "Seleziona almeno un partner."
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.anniversary_card
+#: model_terms:ir.ui.view,arch_db:report_compassion.blank_communication
+#: model_terms:ir.ui.view,arch_db:report_compassion.partner_communication_document_page
+msgid "Poste CH SA"
+msgstr "Posta CH SA"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_bvr_fund_view
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship_due
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_sponsorship_gift
+#: model_terms:ir.ui.view,arch_db:report_compassion.print_tax_receipt
+msgid "Print"
+msgstr "Stampa"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_pdf
+msgid "Print background"
+msgstr "Stampa lo sfondo"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_sponsorship_bvr_due
+msgid "Print sponsorship due BVR"
+msgstr "Stampa BVR del sostegno in ritardo"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__product_id
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__project_gift
+msgid "Project Gift"
+msgstr "Regalo per il progetto"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_compassion_child_project_title
+msgid "Project Title"
+msgstr "Titolo del progetto"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_partner_communication_job__product_id
+msgid "QR Bill for fund"
+msgstr "Fattura QR per fondo"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_due
+msgid "QR Sponsorship due report"
+msgstr "Report QR del sostegno in ritardo"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_gift_sponsorship
+msgid "QR sponsorship gift report"
+msgstr "Report QR dei regali di sostegno"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_sponsorship
+msgid "QR sponsorship report"
+msgstr "Report QR del sostegno"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_recurring_contract
+msgid "Recurring contract"
+msgstr "Contratto ricorrente"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_sponsorship_bvr
+msgid ""
+"Select a period and the format for printing payment slips of a sponsorship"
+msgstr ""
+"Seleziona un periodo e il formato per stampare i bollettini di pagamento di "
+"un sostegno"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_sponsorship_gift_bvr
+msgid ""
+"Select a period and the format for printing the payment slips of a "
+"sponsorship"
+msgstr ""
+"Seleziona un periodo e il formato per stampare i bollettini di pagamento di "
+"un sostegno"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_bvr_fund
+msgid "Select a product and print payment slip of a partner"
+msgstr ""
+"Seleziona un prodotto e stampa il bollettino di pagamento di un partner"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_print_tax_receipt
+msgid "Select a tax receipt"
+msgstr "Seleziona una ricevuta fiscale"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/report_bvr_sponsorship.py:0
+msgid "Selection not valid. No active sponsorship found."
+msgstr "Selezione non valida. Nessun sostegno attivo trovato."
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__print
+msgid "Send to printer"
+msgstr "Invia alla stampante"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_users__short_signature
+msgid "Short Signature"
+msgstr "Firma breve"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_users__signature_letter
+msgid "Signature Letter"
+msgstr "Lettera di firma"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__paper_format__report_compassion_single_bvr_sponsorship
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__paper_format__report_compassion_bvr_gift_sponsorship
+msgid "Single BVR"
+msgstr "BVR singolo"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__paper_format__report_compassion_bvr_sponsorship
+msgid "Single BVR A4"
+msgstr "BVR singolo A4"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_single_bvr_sponsorship
+msgid "Single QR sponsorship report"
+msgstr "Report QR singolo del sostegno"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_childpack_small
+msgid "Small Childpack"
+msgstr "Pacchetto bambino piccolo"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__social_vimeo
+msgid "Social Vimeo"
+msgstr "Vimeo social"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid "Sponsored since"
+msgstr "sostenuto"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid "Sponsored since (Female)"
+msgstr "sostenuta"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr_due
+#: model:ir.actions.report,name:report_compassion.report_bvr_due
+msgid "Sponsorship Due"
+msgstr "Sostegno in ritardo"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_bvr_sponsorship
+msgid "Sponsorship Payment Slip 1 BVR"
+msgstr "Bollettino di pagamento del sostegno 1 BVR"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_single_bvr_sponsorship
+msgid "Sponsorship Payment Slip Single BVR"
+msgstr "Bollettino di pagamento del sostegno BVR singolo"
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_sponsorship_bvr
+msgid "Sponsorship Payment Slips"
+msgstr "Bollettini di pagamento dei sostegni"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.report_2bvr_sponsorship
+msgid "Sponsorship Payment Slips 2 BVR"
+msgstr "Bollettini di pagamento dei sostegni 2 BVR"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.report_bvr_due_document
+msgid "Sponsorship due"
+msgstr "Pagamento del sostegno"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_bvr_fund__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_state
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_bvr_due__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_sponsorship_gift_bvr__state
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__state
+msgid "State"
+msgstr "Stato"
+
+#. module: report_compassion
+#: model:ir.actions.report,name:report_compassion.tax_receipt_report
+#: model:mail.template,name:report_compassion.tax_receipt_template
+msgid "Tax Receipt"
+msgstr ""
+
+#. module: report_compassion
+#: model:ir.actions.act_window,name:report_compassion.action_print_tax_receipt
+msgid "Tax receipt"
+msgstr "Ricevuta fiscale"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_tax_receipt
+msgid "Tax receipt report"
+msgstr "Report della ricevuta fiscale"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
+msgid ""
+"The Christian humanitarian organisation Compassion Suisse,\n"
+"                that serves as an advocate for children in poverty, is exempt from taxes.\n"
+"                By a decision taken May 24, 2004 by the cantonal administration of the canton\n"
+"                of Vaud, the association is recognized as a registered non profit organisation."
+msgstr ""
+"L'associazione Compassion Svizzera, organizzazione umanitaria cristiana che "
+"sostiene i bambini svantaggiati, è esente da imposte ed è riconosciuta di "
+"pubblica utilità, come stabilito dalle autorità fiscali cantonali del Canton"
+" Vaud il 24 maggio 2004."
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/res_users.py:0
+msgid "The team of Compassion"
+msgstr "Il team di Compassion"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_childpack_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_hr_employee__uuid
+msgid "UUID"
+msgstr "UUID"
+
+#. module: report_compassion
+#: model:ir.model,name:report_compassion.model_report_report_compassion_bvr_fund
+msgid "Used for preparing data for the BVR report"
+msgstr "Usato per preparare i dati per il report BVR"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"We thank you from the bottom of our hearts for accompanying a child living "
+"in poverty."
+msgstr ""
+"Grazie di cuore per aver accompagnato un bambino che vive in estrema "
+"povertà."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_print_tax_receipt__year
+msgid "Year"
+msgstr "Anno"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+msgid "Year is incomplete"
+msgstr "Anno incompleto"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/report_bvr_fund.py:0
+msgid "You must give a product in data to print this report."
+msgstr "Per stampare questo rapporto devi indicare un prodotto nei dati."
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.ending_sponsorship_certificate
+msgid ""
+"Your precious commitment has given dignity to this child, helped him to "
+"develop in a promising way and allowed him to look forward to the future "
+"with hope."
+msgstr ""
+"Il tuo prezioso impegno gli ha ridato dignità, lo ha aiutato a svilupparsi "
+"in modo promettente e gli ha permesso di guardare al futuro con speranza."
+
+#. module: report_compassion
+#: model:ir.model.fields,field_description:report_compassion.field_res_company__social_youtube
+msgid "Youtube Account"
+msgstr "Account Youtube"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__output_type__zip
+msgid "ZIP File"
+msgstr "File ZIP"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.tax_receipt_content
+msgid "add up to CHF"
+msgstr "ammontano a CHF"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.new_donor_card_page
+msgid "alder"
+msgstr "alder"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "banner"
+msgstr "banner"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__state__download
+msgid "download"
+msgstr "scarica"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "facebook"
+msgstr "facebook"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid "for"
+msgstr "per"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_bvr_fund.py:0
+msgid "fund"
+msgstr "fondo"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_sponsorship_gift_bvr.py:0
+msgid "gift payment slips"
+msgstr "regali di sostegno"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "https://www.compassion.ch"
+msgstr "https://www.compassion.ch"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "info@compassion.ch"
+msgstr "info@compassion.ch"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "instagram"
+msgstr "instagram"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "linkedin"
+msgstr "linkedin"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_bvr_fund__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr_due__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__state__new
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_tax_receipt__state__new
+msgid "new"
+msgstr "nuovo"
+
+#. module: report_compassion
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr__state__pdf
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_bvr_due__state__pdf
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_sponsorship_gift_bvr__state__pdf
+#: model:ir.model.fields.selection,name:report_compassion.selection__print_tax_receipt__state__pdf
+msgid "pdf"
+msgstr "pdf"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "photo-logo"
+msgstr "photo-logo"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/models/contract_group.py:0
+msgid "sponsorships"
+msgstr "sostegni"
+
+#. module: report_compassion
+#. odoo-python
+#: code:addons/report_compassion/wizards/print_tax_receipt.py:0
+msgid "tax_receipt"
+msgstr "ricevuta_fiscale"
+
+#. module: report_compassion
+#: model:ir.model.constraint,message:report_compassion.constraint_hr_employee_uuid_unique
+msgid "uuid should be unique"
+msgstr "L'UUID deve essere univoco"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "vimeo"
+msgstr "vimeo"
+
+#. module: report_compassion
+#: model_terms:ir.ui.view,arch_db:report_compassion.user_signature
+msgid "youtube"
+msgstr "youtube"

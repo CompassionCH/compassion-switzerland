@@ -16,8 +16,6 @@ from gender_guesser.detector import Detector
 
 from odoo import _, api, fields, models
 
-from odoo.addons.auth_signup.models.res_partner import now
-
 _logger = logging.getLogger(__name__)
 
 
@@ -98,6 +96,24 @@ class ResPartner(models.Model):
             )
             partner.dear_firstname = f"{dear} {firstname}"
 
+    @api.depends_context("salutation_preferred_name")
+    def _compute_salutation(self):
+        return super()._compute_salutation()
+
+    def _get_salutation_firstname(self):
+        """Write&Pray communications greet the sponsor by their preferred name,
+        which is enabled with the salutation_preferred_name context key."""
+        self.ensure_one()
+        if self.env.context.get("salutation_preferred_name"):
+            return self.preferred_name or self.firstname
+        return self.firstname
+
+    def _get_salutation_en_US(self):
+        self.ensure_one()
+        if self.firstname:
+            return "Dear " + self._get_salutation_firstname()
+        return super()._get_salutation_en_US()
+
     def _get_salutation_fr_CH(self, informal=False):
         self.ensure_one()
         family_title = self.env.ref("partner_compassion.res_partner_title_family")
@@ -122,10 +138,11 @@ class ResPartner(models.Model):
                 else:
                     return f"{cher} {title.name} {self.lastname}"
             else:
+                firstname = self._get_salutation_firstname()
                 if informal:
-                    return f"Salut {self.firstname}"
+                    return f"Salut {firstname}"
                 else:
-                    return f"{cher} {self.firstname} {self.lastname}"
+                    return f"{cher} {firstname} {self.lastname}"
 
     def _get_salutation_de_DE(self):
         self.ensure_one()
@@ -141,7 +158,7 @@ class ResPartner(models.Model):
         if title == family_title:
             return f"Liebe Familie {self.lastname}"
         elif title == mister_madam_title:
-            return f"Hallo {self.firstname}"
+            return f"Hallo {self._get_salutation_firstname()}"
         elif is_company:
             return "Liebe Freundinnen und Freunde von Compassion"
         else:
@@ -150,7 +167,7 @@ class ResPartner(models.Model):
                 .get("salutation", female=title.gender == "F")
                 .title()
             )
-            return f"{liebe} {self.firstname}"
+            return f"{liebe} {self._get_salutation_firstname()}"
 
     def _get_salutation_it_IT(self):
         self.ensure_one()
@@ -170,8 +187,9 @@ class ResPartner(models.Model):
                 .get("salutation", female=title.gender == "F", plural=title.plural)
                 .title()
             )
-            return f"{cari} {self.firstname}"
+            return f"{cari} {self._get_salutation_firstname()}"
 
+    @api.depends_context("salutation_preferred_name")
     def _compute_informal_salutation(self):
         for partner in self:
             if partner.lang != "fr_CH":
@@ -534,9 +552,8 @@ class ResPartner(models.Model):
         # handle on reset at a time to allow redirection to work properly
         self.ensure_one()
 
-        # use signup prepare to generate a token valid 1 day for password reset
-        expiration = now(days=+1)
-        self.sudo().signup_prepare(signup_type="reset", expiration=expiration)
+        # validity now comes from auth_signup.reset_password.validity.hours
+        self.sudo().signup_prepare(signup_type="reset")
 
         # create but does not send the communication for password reset
         config = self.env.ref("partner_communication_switzerland.reset_password_email")

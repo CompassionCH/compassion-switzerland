@@ -15,7 +15,7 @@ from datetime import date, datetime
 import requests
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -29,6 +29,58 @@ class PartnerCommunication(models.Model):
     currency_id = fields.Many2one(
         "res.currency", compute="_compute_currency", readonly=False
     )
+    child_country_id = fields.Many2one(
+        "res.country",
+        "Child country",
+        store=True,
+        index=True,
+        compute="_compute_child_country",
+    )
+
+    @api.depends("object_ids", "model")
+    def _compute_child_country(self):
+        for job in self:
+            country = self.env["res.country"]
+            if job.model == "compassion.child" and job.object_ids:
+                first_id = job.object_ids.strip("[]").split(",")[0].strip()
+                if first_id.isdigit():
+                    child = self.env["compassion.child"].browse(int(first_id)).exists()
+                    country = child.field_office_id.country_id
+            job.child_country_id = country
+
+    def _compute_content(self):
+        # Write&Pray communications greet the sponsor by their preferred name
+        wrpr_jobs = self.filtered(lambda j: j._is_write_and_pray())
+        super(
+            PartnerCommunication, wrpr_jobs.with_context(salutation_preferred_name=True)
+        )._compute_content()
+        return super(PartnerCommunication, self - wrpr_jobs)._compute_content()
+
+    def _is_write_and_pray(self):
+        """A job is a Write&Pray communication if it uses a Write&Pray rule, or
+        if it is about Write&Pray sponsorships only."""
+        self.ensure_one()
+        config = self.config_id
+        if "wrpr" in config.get_external_id().get(config.id, ""):
+            return True
+        if self.model == "recurring.contract" and self.object_ids:
+            sponsorships = self.get_objects()
+            return bool(sponsorships) and set(sponsorships.mapped("type")) == {"SWP"}
+        return False
+
+    def _print_batch(self):
+        biennial = self.env.ref("partner_communication_compassion.biennial")
+        if biennial in self.mapped("config_id"):
+            biennials = self.filtered(lambda j: j.config_id == biennial).sorted(
+                key=lambda j: (
+                    j.child_country_id.name or "",
+                    j.partner_id.ref or "",
+                    j.partner_id.id,
+                )
+            )
+            others = self.filtered(lambda j: j.config_id != biennial)
+            self = others + biennials
+        return super()._print_batch()
 
     def schedule_call(self):
         self.ensure_one()
@@ -51,6 +103,37 @@ class PartnerCommunication(models.Model):
                     user_id = ambassador.id
 
         return super(PartnerCommunication, self.with_user(user_id)).schedule_call()
+
+    def _ensure_employee_signer(self):
+        """Event thank-you letters must be signed by an employee: the event's
+        Responsible is often external (church rep, partner contact). Fall back
+        to an employee among the event staff, then to the configured default
+        signer, keeping the original user as last resort.
+        """
+        for job in self:
+            if not job.event_id or not job.user_id or job.user_id.employee_ids:
+                continue
+            employee = (
+                self.env["hr.employee"]
+                .sudo()
+                .search([("user_id", "in", job.event_id.user_ids.ids)], limit=1)
+            )
+            if employee.user_id:
+                job.user_id = employee.user_id
+                continue
+            default_signer_id = self.env["res.config.settings"].get_param(
+                "event_thank_you_default_signer_id"
+            )
+            if default_signer_id:
+                job.user_id = default_signer_id
+            else:
+                _logger.warning(
+                    "No employee found to sign the thank you letter for event "
+                    "%s (job #%s) - keeping non-employee user %s as signer.",
+                    job.event_id.display_name,
+                    job.id,
+                    job.user_id.display_name,
+                )
 
     def _compute_currency(self):
         chf = self.env.ref("base.CHF")
@@ -337,11 +420,36 @@ class PartnerCommunication(models.Model):
         report_name = "report_compassion.tax_receipt"
         data = {
             "doc_ids": self.partner_id.ids,
-            "year": self.env.context.get("year", date.today().year - 1),
+            # The year before the receipt's creation, also when the PDF is
+            # made again later (refresh_text)
+            "year": self.env.context.get("year", self._tax_receipt_year()),
             "lang": self.partner_id.lang,
         }
         pdf = self._get_pdf_from_data(data, "report_compassion.tax_receipt_report")
         return {_("tax receipt.pdf"): [report_name, pdf]}
+
+    def _tax_receipt_year(self):
+        """The year a tax receipt is about: the year before its creation, in
+        Swiss time (created on 1 January just after midnight, it is still
+        31 December in UTC)."""
+        self.ensure_one()
+        created = fields.Datetime.context_timestamp(
+            self.with_context(tz=self.env.user.tz or "Europe/Zurich"),
+            self.date or fields.Datetime.now(),
+        )
+        return created.year - 1
+
+    def refresh_text(self):
+        """A tax receipt is about the year before its creation, also when it
+        is made again later, e.g. once a donor who gave only an email gives
+        their name: its text and PDF take the year from the context."""
+        if "year" in self.env.context:
+            return super().refresh_text()
+        config = self.env.ref("partner_communication_switzerland.tax_receipt_config")
+        receipts = self.filtered(lambda j: j.config_id == config)
+        for year, jobs in receipts.grouped(lambda j: j._tax_receipt_year()).items():
+            super(PartnerCommunication, jobs.with_context(year=year)).refresh_text()
+        return super(PartnerCommunication, self - receipts).refresh_text()
 
     def send(self):
         """
@@ -562,12 +670,14 @@ class PartnerCommunication(models.Model):
         Generates PDF payment slips and bank forms for all of a partner's
         sponsorships.
         -  Searches for all active sponsorships
-        -  Filters for all unpaid contracts requiring manual payment
-            (BVR/Permanent Order)
+        -  BVR: includes unpaid contracts (a brand-new sponsorship whose
+            invoice is not generated yet counts as unpaid)
+        -  Permanent Order: includes the full standing order, regardless of
+            paid state
         -  Consolidates these sponsorships into a single payment slip
         -  Renders single or double BVR report based on payment mode
             and force_a4 flag
-        -  Attaches external LSV/DD bank authorization if  applicable
+        -  Attaches external LSV/DD bank authorization if applicable
 
         :param bool force_a4: Force double BVR layout
         :return dict {attachment_name: [report_name, pdf_data]}
@@ -593,48 +703,42 @@ class PartnerCommunication(models.Model):
             ]
         )
 
-        # Sponsorships included for payment slips
-        bv_sponsorships = sponsorships.filtered(
-            # 1. Needs to be payer
-            lambda s: s.partner_id == self.partner_id
-            and
-            # 2. Permanent Order/BVR are always included
-            s.payment_mode_id in (permanent_order, bvr)
-            # The sponsorship amount must be set
-            and s.total_amount
-            # 3. LSV/DD are never included
-            and s.payment_mode_id not in lsv_dd_modes
-            # 4. If already paid they are not included
-            and not s.period_paid
-        )
-
-        # If other sponsorships were already paid by Permanent Order, they
-        # don't need a payment slip (they can update their Order)
-        bv_sponsorships -= (
-            sponsorships.filtered(
-                lambda s: s.partner_id == self.partner_id
-                and s.payment_mode_id == permanent_order
+        slip_sponsorships = sponsorships.filtered(
+            # 1. The sponsorship amount must be set
+            lambda s: s.total_amount
+            and (
+                # 2. Permanent Order is always included (full standing order)
+                s.payment_mode_id == permanent_order
+                # 3. BVR only if not already paid (no posted invoice yet -
+                #    brand-new or cancelled-only - counts as unpaid)
+                or (
+                    s.payment_mode_id == bvr
+                    and not (
+                        s.period_paid
+                        and s.invoice_line_ids.filtered(
+                            lambda line: line.move_id.state == "posted"
+                        )
+                    )
+                )
             )
-            .mapped("group_id.contract_ids")
-            .filtered(
-                lambda s: s.state in ("active", "waiting") and s not in bv_sponsorships
-            )
+            # (LSV/DD are debited automatically and match neither mode above,
+            #  so they are never included)
         )
 
         attachments = {}
         # Payment slips
-        if bv_sponsorships:
+        if slip_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
             report_ref = "report_compassion.report_2bvr_sponsorship"
             if (
-                bv_sponsorships.mapped("payment_mode_id") == permanent_order
+                slip_sponsorships.mapped("payment_mode_id") == permanent_order
                 and not force_a4
             ):
                 # One single slip is enough for permanent order.
                 report_name = "report_compassion.single_bvr_sponsorship"
                 report_ref = "report_compassion.report_single_bvr_sponsorship"
             data = {
-                "doc_ids": bv_sponsorships.ids,
+                "doc_ids": slip_sponsorships.ids,
                 "background": self.send_mode != "physical",
             }
             pdf = self._get_pdf_from_data(data, report_ref)

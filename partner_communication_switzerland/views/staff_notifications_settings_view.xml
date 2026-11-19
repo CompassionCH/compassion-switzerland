@@ -20,6 +20,12 @@
                     <field name="invalid_mail_notify_ids" />
                     <field name="new_donors_user_id" />
                 </setting>
+                <setting
+          string="Default Event Thank You Signer"
+          help="Used to sign event thank you letters when the event's Responsible is not linked to an employee, and no employee is found among the event's staff."
+        >
+                    <field name="event_thank_you_default_signer_id" />
+                </setting>
                 <setting string="Sponsor Video Conferences">
                     <field name="zoom_attendee_fr_id" />
                     <field name="zoom_attendee_de_id" />

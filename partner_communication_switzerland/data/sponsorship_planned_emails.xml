@@ -221,45 +221,63 @@
         name="model_id"
         ref="partner_communication.model_partner_communication_job"
       />
-            <field
-        name="email_from"
-      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="email_from">"{{object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name}}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
-            <field
-        name="partner_to"
-      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
-            <field
-        name="subject"
-      >Wish {{ object.get_objects().get('your sponsored child') }} a Happy Birthday !</field>
+            <field name="partner_to">{{object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
+            <field name="subject">Your sponsor child's birthday is approaching</field>
             <field name="body_html" type="html">
-                <div>
                     <t t-set="sponsorships" t-value="object.get_objects()"/>
                     <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
-                    <t t-set="firstname" t-value="child.get_list('firstname', 3, child.get_number())"/>
-                    <t t-set="his" t-value="child.get('his')"/>
-                    <t t-set="month" t-value="child[0].birthday_month"/>
+                    <t t-set="firstname" t-value="child.get_list('preferred_name', 3, child.get_number(), False)"/>
+                    <t t-set="he" t-value="child.get('he')"/>
+                    <t t-set="him" t-value="child.get('him')"/>
+                    <t t-set="month" t-value="child.get_date('birthdate', 'MMMM d')"/>
                     <t t-set="hold_gifts" t-value="child.get_hold_gifts()"/>
-                </div>
+                    <t t-set="partner" t-value="object.partner_id"/>
+                    <t t-set="already_paid" t-value="sponsorships.mapped('birthday_paid')"/>
+                    <t t-set="send_gifts_to" t-value="sponsorships[:1] and sponsorships.mapped(sponsorships[0].send_gifts_to)[:1]"/>
+                    <t t-set="does_write" t-value="partner == sponsorships[:1].correspondent_id and 23 not in partner.category_id.ids"/>
+                    <t t-set="can_gift" t-value="not hold_gifts and not already_paid and send_gifts_to == partner"/>
+                    <t t-set="mycompassion_url" t-value="'https://www.mycompassion.ch'"/>
+                    <t t-set="gift_form_url" t-value="'https://compassion.ch/de/geschenkformular'"/>
                 <p>
-                    In {{ month }} {{ child.get('your sponsored child') }} will celebrate {{ his }} birthday. We would like to encourage you to write a few lines wishing {{ firstname }} a happy birthday on this special day.
-                    <br />
-                    <br />
-                    In advance, thank you for taking just 2 minutes to express your love to {{ firstname }} .
-                    <br />
-                    <br />
-                    If you want to write online, you can choose a birthday card we have prepared for you and even send a picture. The link (in French) is the following: https://www.compassion.ch/fr/parrainage/ecrire/ecrivez-une-lettre-directement-en-ligne.html
-                    <br />
-                    <br />
-                    Compassion can also write the birthday card on your behalf if you wish. In this case, please contact us.
-                    <br />
-                    <br />
-                    <t t-if="not hold_gifts">
-                        You can also make a little birthday gift if you like. You can make the payment with the payment slip attached or directly online, using this link (in French): https://www.compassion.ch/fr/parrainage/donner.html
-                    </t>
-                    <br />
-                    <br />
-                    Compassion thank you for your precious support toward {{ firstname }} !
+                    <t t-out="partner.salutation"/>,
                 </p>
+                <p>
+                    It's <t t-out="firstname"/>'s birthday on <t t-out="month"/>.
+                </p>
+                <t t-if="len(child) == 1">
+                    <p>
+                        <t t-out="child.get('He')"/> will be <t t-out="child[:1].age + 1"/> years old this year.
+                    </p>
+                </t>
+                <t t-if="does_write">
+                    <p>
+                        We invite you to write a few words of encouragement to <t t-out="him"/> online via <a t-att-href="mycompassion_url">MyCompassion</a>.
+                    </p>
+                    <p>
+                        Imagine the joy when <t t-out="he"/> receives a letter from you!*
+                    </p>
+                </t>
+                <t t-if="can_gift">
+                    <p>
+                        If you would also like to give <t t-out="firstname"/> a present, you can do so <t t-if="object.send_mode == 'physical'">using the attached payment slip or </t><a t-att-href="gift_form_url">online</a>.*
+                    </p>
+                </t>
+                <p>
+                    Thank you for making a difference in <t t-out="firstname"/>'s life.
+                </p>
+                <t t-if="does_write or can_gift">
+                    <blockquote>
+                        <small>*It is possible that this message crossed with your letter or donation.</small>
+                    </blockquote>
+                </t>
+                <p>
+                    Kind regards,
+                </p>
+                <t t-if="object.send_mode == 'digital'">
+                    <p t-out="object.user_id.signature"/>
+                </t>
             </field>
         </record>
 
@@ -299,37 +317,60 @@
         name="model_id"
         ref="partner_communication.model_partner_communication_job"
       />
-            <field
-        name="email_from"
-      >"{{ object.user_id.company_id.name }}" &lt;compassion@compassion.ch&gt;</field>
+            <field name="email_from">"{{object.user_id.company_id.with_context(lang=object.partner_id.lang).commercial_name}}" &lt;compassion@compassion.ch&gt;</field>
             <field name="reply_to">info@compassion.ch</field>
-            <field
-        name="partner_to"
-      >{{ object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
+            <field name="partner_to">{{object.partner_id and object.partner_id.email and object.partner_id.id or False }}</field>
             <field name="subject">Your new sponsorship</field>
             <field name="body_html" type="html">
-                <div>
-                    <t t-set="sponsorships" t-value="object.get_objects()"/>
-                    <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
-                    <t t-set="previous" t-value="sponsorships.mapped('parent_id.child_id')"/>
-                    <t t-set="previous_name" t-value="previous.get_list('preferred_name', 3, '', translate=False)"/>
-                    <t t-set="name" t-value="child.get_list('preferred_name', 3, child.get_number(), False)"/>
-                </div>
+                <t t-set="sponsorships" t-value="object.get_objects()"/>
+                <t t-set="child" t-value="sponsorships.mapped('child_id')"/>
+                <t t-set="one_child" t-value="len(child) == 1"/>
+                <t t-set="previous" t-value="sponsorships.mapped('parent_id.child_id')"/>
+                <t t-set="previous_name" t-value="previous.get_list('preferred_name', 3, '', translate=False)"/>
+                <t t-set="name" t-value="child.get_list('preferred_name', 3, child.get_number(), False)"/>
+                <t t-set="he" t-value="child.get('he')"/>
+                <t t-set="He" t-value="he[:1].upper() + he[1:]"/>
+                <t t-set="his" t-value="child.get('his')"/>
+                <t t-set="him" t-value="child.get('him')"/>
+                <t t-set="payment_term" t-value="(sponsorships.mapped('payment_mode_id.name') or [''])[0]"/>
+                <t t-set="lsv_dd" t-value="'LSV' in payment_term or 'Postfinance' in payment_term"/>
                 <p>
-                    {{ object.partner_id.salutation }},
-                    <br />
-                    <br />
-                    We recently informed you that {{ previous.get('your sponsored child') }}, {{ previous_name }} {{ previous.get('is') }} no longer participating in the sponsorship program.  As mentioned in the previous letter, we are happy to send you the documents for {{ name }}.  {{ child.get('he').title() }} {{ 'lives' if len(child) == 1 else 'live' }} in {{ child.get_list('project_id.country_id.name') }} and like {{ previous_name }}, {{ name }} {{ child.get('is') }} growing up in extreme poverty.  In the documents attached, you will find additional information about {{ child.get('him') }}.
-                    <br />
-                    <br />
-                    For {{ name }}, sponsorship is a great opportunity and we would like to thank you wholeheartedly for investing in {{ child.get('his') }} life.  You will soon receive an introductory letter from {{ name }}.
-                    <br />
-                    <br />
-                    Thank you again for your previous commitment to {{ previous_name }} and your new sponsorship for {{ name }}.  If you have any questions about your sponsorship, please do not hesitate to contact us.  You can reach us by phone at 031 552 21 25 or by e-mail at info@compassion.ch
-                    <br />
-                    <br />
-                    Yours sincerely
+                    <t t-out="object.partner_id.salutation"/>,
                 </p>
+                <p>
+                    <t t-if="previous_name">Thank you so much for investing in the life of <t t-out="previous_name"/>. </t>After a sponsorship ends, one of the most wonderful parts of our work is connecting a child living in extreme poverty with a sponsor.
+                </p>
+                <p>
+                    <b>We are delighted to introduce <t t-out="name"/><t t-if="one_child">, <t t-out="child[:1].age"/> years old</t>, from <t t-out="child.get_list('project_id.country_id.name')"/>.</b> <t t-out="He"/> <t t-out="'is' if one_child else 'are'"/> waiting for a sponsor like you.
+                </p>
+                <p>
+                    Every child is unique and deserves a future full of hope and opportunity. The enclosed information will help you get to know <t t-out="name"/> a little better. See <t t-out="his"/> challenges and dreams, and how you can support <t t-out="him"/>.
+                </p>
+                <p>
+                    Most sponsors decide to support a new child. That is why we have made it as easy as possible to take over the sponsorship of <t t-out="name"/>. <b>Would you be ready to sponsor <t t-out="him"/>?</b>
+                </p>
+                <p>
+                    <t t-if="lsv_dd">
+                        If you have not yet cancelled your direct debit, you do not need to do anything. We will take care of everything so that this sponsorship can start. The sponsorship donation will continue to be debited as usual.
+                    </t>
+                    <t t-else="">
+                        If you have not yet cancelled your standing order, you do not need to do anything. We will take care of everything so that this sponsorship can start.
+                    </t>
+                </p>
+                <p>
+                    <b>
+                        If we should look for another sponsor for <t t-out="name"/>, or if you wish to support another child, please contact us by e-mail or by phone within the next two weeks. If we do not hear from you, we will assume that you wish to support <t t-out="'this child' if one_child else 'these children'"/>, so that you can continue your commitment in the fight against extreme poverty.
+                    </b>
+                </p>
+                <p>
+                    We look forward to announcing the good news of this sponsorship to <t t-out="name"/>. Thank you for investing in the lives of children living in extreme poverty.
+                </p>
+                <p>
+                    Best regards,
+                </p>
+                <t t-if="object.send_mode == &quot;digital&quot;">
+                    <p t-out="object.user_id.signature"/>
+                </t>
             </field>
         </record>
         <record id="email_sponsorship_no_sub" model="mail.template">

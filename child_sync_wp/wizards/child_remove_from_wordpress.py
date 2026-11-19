@@ -9,6 +9,8 @@
 ##############################################################################
 
 from odoo import fields, models
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 
 
 class ChildRemoveFromWordpress(models.TransientModel):
@@ -20,7 +22,6 @@ class ChildRemoveFromWordpress(models.TransientModel):
         compute="_compute_active_ids",
         string="Selected children",
         default=lambda c: c._compute_active_ids(),
-        readonly=False,
     )
 
     def _compute_active_ids(self):
@@ -34,4 +35,22 @@ class ChildRemoveFromWordpress(models.TransientModel):
         return valid_children
 
     def remove_child_from_internet(self):
-        return self.child_ids.remove_from_wordpress()
+        children = self.child_ids
+        if not children:
+            raise UserError(
+                _("None of the selected children are currently on the website.")
+            )
+        children.remove_from_wordpress()
+        still_online = children.filtered(lambda c: c.state == "I")
+        if still_online:
+            raise UserError(_("The website could not remove the selected children."))
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Wordpress"),
+                "message": _("%s children removed from the website.") % len(children),
+                "type": "success",
+                "next": {"type": "ir.actions.act_window_close"},
+            },
+        }

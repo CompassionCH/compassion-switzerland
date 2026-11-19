@@ -1,0 +1,13 @@
+<odoo>
+    <record id="print_childpack_swiss" model="ir.ui.view">
+        <field name="name">print.childpack.form.swiss</field>
+        <field name="model">print.childpack</field>
+        <field name="inherit_id" ref="child_compassion.print_childpack" />
+        <field name="arch" type="xml">
+            <field name="print_qr" position="after">
+                <field name="printer_id" invisible="1" />
+                <field name="printer_tray_id" invisible="pdf" />
+            </field>
+        </field>
+    </record>
+</odoo>

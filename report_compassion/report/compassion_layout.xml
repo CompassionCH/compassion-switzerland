@@ -1,7 +1,7 @@
-<odoo noupdate="1">
+<odoo>
         <!-- Custom css for PDF pages -->
         <template id="style">
-            <style type="text/css">
+            <style type="text/css" t-translation="off">
                 /* Atempt to remove all blanks for wkhtmltopdf and avoid extra pages */
                 html, body, .container, .footer.o_standard_footer, #wrapwrap, container, .article {
                 height: 0;

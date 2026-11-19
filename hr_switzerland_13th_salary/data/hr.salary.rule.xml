@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
     <record id="PROVISION_13" model="hr.salary.rule">
         <field name="amount_select">code</field>
         <field name="appears_on_payslip">False</field>
@@ -7,12 +7,8 @@
         <field name="condition_select">none</field>
         <field name="condition_range_max">999999</field>
         <field name="name">Provision for the 13th salary</field>
-        <field name="amount_python_compute">
-if payslip.wage_type == 'hour':
-    result = contract.wage*payslip.worked_hours*(employee.company_id.yearlySalaries-12)/12
-else:
-    result = contract.wage*payslip.working_rate/100*(employee.company_id.yearlySalaries-12)/12
-        </field>
+        <!-- A twelfth of the basic salary -->
+        <field name="amount_python_compute">result = categories.BASIC / 12</field>
         <field name="quantity">1</field>
         <field name="sequence">50</field>
     </record>

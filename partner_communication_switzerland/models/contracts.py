@@ -43,19 +43,27 @@ class RecurringContract(models.Model):
         help="Trigger for automatic SUB sponsorship validation after 2 weeks"
     )
 
-    @api.onchange("type")
-    def _create_empty_lines_for_correspondence(self):
-        super()._create_empty_lines_for_correspondence()
-        if self.type == "SWP" and not self.correspondent_id.mobile:
+    correspondent_mobile = fields.Char(
+        "Correspondent mobile",
+        related="correspondent_id.mobile",
+        readonly=False,
+        help="Write&Pray communications are sent by SMS to this number.",
+    )
+
+    @api.onchange("type", "correspondent_id")
+    def _onchange_write_and_pray_correspondent(self):
+        if self.type != "SWP" or not self.correspondent_id:
+            return
+        if not self.correspondent_id.mobile:
             return {
                 "warning": {
                     "title": "Write&Pray",
                     "message": "The correspondent doesn't have a mobile phone set. "
-                    "Please check this otherwise he or she won't receive "
-                    "the communications by SMS.",
+                    "Please enter it in the 'Correspondent mobile' field, "
+                    "otherwise he or she won't receive the communications by SMS.",
                 }
             }
-        if self.type == "SWP" and not self.correspondent_id.is_young:
+        if not self.correspondent_id.is_young:
             return {
                 "warning": {
                     "title": "Write&Pray",
@@ -202,7 +210,24 @@ class RecurringContract(models.Model):
 
     @api.model
     def _send_birthday_reminders(self, sponsorships, communication):
+        # The daily cron may fire more than once a day. Skip any
+        # sponsorship that already got this reminder in the last week.
+        recent = fields.Datetime.to_string(datetime.now() - relativedelta(days=7))
+        recent_jobs = self.env["partner.communication.job"].search(
+            [
+                ("config_id", "=", communication.id),
+                ("date", ">=", recent),
+            ]
+        )
+        already_reminded = {
+            int(obj_id)
+            for job in recent_jobs
+            for obj_id in (job.object_ids or "").split(",")
+            if obj_id.strip().isdigit()
+        }
         for sponsorship in sponsorships:
+            if sponsorship.id in already_reminded:
+                continue
             send_to_payer = (
                 sponsorship.send_gifts_to == "partner_id"
                 and sponsorship.partner_id.birthday_reminder
@@ -265,6 +290,7 @@ class RecurringContract(models.Model):
         product_name = products[0].with_context(lang=partner_lang).name
         report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
         pdf_data = report_ref._render_qweb_pdf(
+            report_ref,
             self.ids,
             data={
                 "doc_ids": self.ids,
@@ -356,6 +382,12 @@ class RecurringContract(models.Model):
 
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
+
+        new_sponsorships = self.filtered(
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP", "M2M"]
+            and not c.is_active
+            and c not in mandates_valid
+        )
         res = super().contract_waiting()
 
         for contract in self.filtered("child_id"):
@@ -375,11 +407,6 @@ class RecurringContract(models.Model):
                 # is created from the website so that we can manage partner language
                 self.notify_sds_new_sponsorship()
 
-        new_sponsorships = self.filtered(
-            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
-            and not c.is_active
-            and c not in mandates_valid
-        )
         if new_sponsorships:
             # Invoices must be generated before sending the dossier
             new_sponsorships.with_delay_sh(
@@ -424,12 +451,15 @@ class RecurringContract(models.Model):
         wp = self.filtered(lambda s: s.type in ["SC", "SWP"] and s.state == "draft")
         super().contract_active()
         wp._new_dossier()
+        self.filtered(lambda c: c.type == "M2M").send_communication(
+            self.env.ref("partner_communication_switzerland.cc_church_inspiration_rule")
+        )
         return True
 
     def _contract_terminated(self, vals):
         vals["new_picture"] = False
         self.filtered(lambda c: c.type == "M2M").send_communication(
-            self.env.ref("partner_communication_switzerland.m2m_stop_rule")
+            self.env.ref("partner_communication_switzerland.cc_call_to_continue_rule")
         )
         return super()._contract_terminated(vals)
 
@@ -438,27 +468,55 @@ class RecurringContract(models.Model):
 
     @api.model
     def send_wrpr_letter_reminder(self):
+        # Eligible = W&P sponsorships started more than 1.5 years ago whose
+        # sponsor hasn't written a letter in the last 545 days.
+        limit = fields.Datetime.now() - relativedelta(days=545)
         wrprs = self.search(
             [
                 ("type", "=", "SWP"),
                 ("state", "=", "active"),
+                ("start_date", "<=", limit),
             ]
         )
+        wrote_recently = self.env["correspondence"].read_group(
+            [
+                ("sponsorship_id", "in", wrprs.ids),
+                ("direction", "=", "Supporter To Beneficiary"),
+                ("scanned_date", ">=", limit.date()),
+            ],
+            ["sponsorship_id"],
+            ["sponsorship_id"],
+        )
+        wrote_ids = {group["sponsorship_id"][0] for group in wrote_recently}
+
         letter_reminder = self.env.ref(
             "partner_communication_switzerland.sponsorship_wrpr_reminder"
         )
-        for wrpr in wrprs:
-            start_days = (fields.Datetime.now() - wrpr.start_date).days
-            if wrpr.last_letter > 545 or (
-                not wrpr.sponsor_letter_ids and start_days > 545
-            ):
-                wrpr.with_delay_sh(
-                    "send_communication",
-                    letter_reminder,
-                    channel="root.partner_communication",
-                    identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
-                    priority=50,
-                )
+        eligible = wrprs.filtered(lambda w: w.id not in wrote_ids)
+
+        # At most one letter-writing reminder per correspondent per month.
+        recent_reminders = self.env["partner.communication.job"].search(
+            [
+                ("config_id", "=", letter_reminder.id),
+                ("partner_id", "in", eligible.mapped("correspondent_id").ids),
+                ("state", "!=", "cancel"),
+                ("create_date", ">=", fields.Datetime.now() - relativedelta(months=1)),
+            ]
+        )
+        reminded_partners = set(recent_reminders.mapped("partner_id").ids)
+
+        for wrpr in eligible:
+            correspondent = wrpr.correspondent_id
+            if correspondent.id in reminded_partners:
+                continue
+            reminded_partners.add(correspondent.id)
+            wrpr.with_delay_sh(
+                "send_communication",
+                letter_reminder,
+                channel="root.partner_communication",
+                identity_key=f"{wrpr._name}.send_wrpr_letter_reminder.{wrpr.id}",
+                priority=50,
+            )
         return True
 
     @api.model
@@ -524,6 +582,11 @@ class RecurringContract(models.Model):
         :return: None
         """
         self.ensure_one()
+
+        # This pushes the new 'waiting' state and payment mode from Python cache to SQL
+        self.flush_recordset(["state", "payment_mode_id"])
+        (self.partner_id | self.correspondent_id).flush_recordset()
+
         swiss = "partner_communication_switzerland."
         common = "partner_communication_compassion."
         new_dossier = self.env.ref(swiss + "config_onboarding_sponsorship_confirmation")
@@ -532,14 +595,26 @@ class RecurringContract(models.Model):
         transfer = self.env.ref(common + "new_dossier_transfer")
         child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
-        m2m_welcome = self.env.ref(swiss + "m2m_welcome_rule")
+        cc_welcome = self.env.ref(swiss + "cc_welcome_rule")
         partner = self.correspondent_id if correspondent else self.partner_id
-        if self.parent_id.sds_state == "sub":
+        if self.sub_proposal_date or self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
             # the SUB Accept communication when appropriate
             return True
         elif self.origin_id.type == "transfer":
             configs = transfer
+        elif self.type == "M2M":
+            # Compassion Communities members never receive the child dossier, the
+            # welcome rule prints itself when the partner has no email.
+            configs = cc_welcome
+        elif (
+            self.type == "SWP"
+            and partner.mobile
+            and partner.global_communication_delivery_preference != "physical"
+        ):
+            # Young Write&Pray sponsors often only have a mobile: the welcome
+            # is sent by SMS, no email is needed.
+            configs = wrpr_welcome + child_picture
         elif (
             not partner.email
             or partner.global_communication_delivery_preference == "physical"
@@ -549,8 +624,6 @@ class RecurringContract(models.Model):
             configs = wrpr_welcome + child_picture
         elif self.type == "CSP":
             configs = survival_config
-        elif self.type == "M2M":
-            configs = m2m_welcome
         else:
             configs = new_dossier + child_picture
         for config in configs:
@@ -563,7 +636,17 @@ class RecurringContract(models.Model):
                 ]
             )
             if not already_sent:
-                comms = self.send_communication(config, correspondent)
-                if config == wrpr_welcome:
-                    comms.write({"send_mode": "sms"})
+                try:
+                    with self.env.cr.savepoint():
+                        comms = self.send_communication(config, correspondent)
+                        if config == wrpr_welcome:
+                            comms.write({"send_mode": "sms"})
+                except Exception:
+                    logger.exception(
+                        "Failed to send onboarding communication '%s' for "
+                        "sponsorship %s, continuing with the remaining "
+                        "onboarding communications.",
+                        config.name,
+                        self.id,
+                    )
         return True

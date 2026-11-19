@@ -5,6 +5,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">report_compassion.bvr_fund_christmas</field>
         <field name="paperformat_id" ref="paperformat_single_bvr_sponsorship" />
+        <field name="print_delay">0</field>
     </record>
 
     <template id="bvr_fund_christmas">

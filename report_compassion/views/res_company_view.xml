@@ -12,6 +12,9 @@
                     <field name="commercial_city" />
                     <field name="commercial_phone" />
                 </group>
+                <group name="official_signer" string="Official Documents">
+                    <field name="official_signer_id" />
+                </group>
             </xpath>
             <field name="social_youtube" position="after">
                 <field name="social_vimeo" />

@@ -53,6 +53,17 @@ class StaffNotificationSettings(models.TransientModel):
         ],
         config_parameter="partner_compassion.advocate_birthday_en_id",
     )
+    advocate_birthday_translation_id = fields.Many2one(
+        "res.partner",
+        "Advocate birthday (Translation volunteers)",
+        domain=[
+            ("user_ids", "!=", False),
+            ("user_ids.share", "=", False),
+        ],
+        config_parameter="partner_compassion.advocate_birthday_translation_id",
+        help="Notified for translation-engagement advocates regardless of "
+        "their language, instead of the language-based recipients above.",
+    )
     potential_advocate_fr = fields.Many2one(
         "res.users",
         "Potential advocate FR",
@@ -70,4 +81,15 @@ class StaffNotificationSettings(models.TransientModel):
         "Potential advocate IT",
         domain=[("share", "=", False)],
         config_parameter="partner_communication_switzerland.potential_advocate_it",
+    )
+    potential_advocate_en = fields.Many2one(
+        "res.users",
+        "Potential advocate EN",
+        domain=[("share", "=", False)],
+        config_parameter="partner_communication_switzerland.potential_advocate_en",
+        help="Recipient for English-speaking sponsors specifically - "
+        "including the fast checkout's placeholder partners, who default "
+        "to English until the details form gives them a language. Not a "
+        "catch-all: a sponsor in any other language still notifies no "
+        "one, the same as before this field existed.",
     )

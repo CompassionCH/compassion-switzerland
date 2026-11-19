@@ -48,6 +48,7 @@
         "security/ir.model.access.csv",
     ],
     "demo": [],
+    "post_load": "post_load",
     "installable": True,
     "application": False,
     "auto_install": False,

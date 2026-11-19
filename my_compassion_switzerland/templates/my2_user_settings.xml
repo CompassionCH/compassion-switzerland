@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Swiss communication preferences on the user settings page: newsletter,
+    birthday-reminder and anniversary-card switches plus the tax certificate
+    delivery preference. The controls carry data attributes consumed by the
+    generic communication-settings handler of my_compassion.
+-->
+<odoo>
+  <template
+    id="user_settings_swiss_communication"
+    inherit_id="my_compassion.my2_user_settings_page"
+  >
+    <xpath expr="//div[@name='communication_settings_top']" position="inside">
+      <div class="form-check form-switch mb-2">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="newsletterCheck"
+          data-field="opt_out"
+          data-inverted="1"
+          t-att-checked="not partner.opt_out"
+        />
+        <label class="form-check-label" for="newsletterCheck">
+                                        I would like to receive the Compassion Newsletter
+                                    </label>
+      </div>
+      <div class="form-check form-switch  mb-2">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="birthdaysCheck"
+          data-field="birthday_reminder"
+          t-att-checked="partner.birthday_reminder"
+        />
+        <label class="form-check-label" for="birthdaysCheck">
+                                        I
+                                        would like to receive reminders of the children
+                                        birthdays
+                                    </label>
+      </div>
+      <div class="form-check form-switch  mb-3">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="anniversaryCheck"
+          data-field="sponsorship_anniversary_card"
+          t-att-checked="partner.sponsorship_anniversary_card"
+        />
+        <label class="form-check-label" for="anniversaryCheck">
+                                        I would like to receive the sponsorship anniversary
+                                        card
+                                    </label>
+      </div>
+    </xpath>
+    <xpath
+      expr="//div[@name='communication_settings_bottom']"
+      position="inside"
+    >
+      <t t-call="theme_compassion_2025.FormFieldComponent">
+        <t t-set="label">Tax Delivery Preference</t>
+        <t t-set="top_class" t-value="'w-md-50'" />
+        <t t-call="theme_compassion_2025.SelectComponent">
+          <t t-set="id" t-value="'tax_preference_select'" />
+          <t t-set="data_field" t-value="'tax_certificate'" />
+          <option
+            value="only_email"
+            t-att-selected="partner.tax_certificate == 'only_email'"
+          >
+                                            Email
+                                        </option>
+          <option
+            value="default"
+            t-att-selected="partner.tax_certificate in ['paper', 'default']"
+          >
+                                            Letter
+                                        </option>
+          <option value="no" t-att-selected="partner.tax_certificate == 'no'">
+                                            None
+                                        </option>
+        </t>
+      </t>
+    </xpath>
+  </template>
+</odoo>

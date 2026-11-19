@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH Partner Communications",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.15",
     "category": "Other",
     "author": "Compassion CH",
     "license": "AGPL-3",
@@ -56,8 +56,10 @@
     },
     "data": [
         "security/ir.model.access.csv",
+        "data/report_print_delay.xml",
         "security/access_rules.xml",
         "data/activity_data.xml",
+        "data/auth_signup_parameters.xml",
         "data/other_emails.xml",
         "data/form_data.xml",
         "data/sponsorship_planned_emails.xml",
@@ -69,7 +71,8 @@
         "data/sponsorship_communications_cron.xml",
         "data/ir.advanced.translation.csv",
         "data/sponsorship_action_rules.xml",
-        "data/m2m_sponsorship_comm.xml",
+        "data/compassion_communities_comm.xml",
+        "data/compassion.field.office.csv",
         "report/onboarding_photo_by_post.xml",
         "data/onboarding_process.xml",
         "data/onboarding_survey.xml",
@@ -89,12 +92,21 @@
         "views/staff_notifications_settings_view.xml",
         "views/res_partner_zoom_session.xml",
         "views/field_office_view.xml",
+        "views/compassion_intervention_view.xml",
         "views/communication_test_case_view.xml",
         "views/res_partner_create_portal_wizard.xml",
         "views/link_tracker.xml",
         "templates/zoom_registration_form.xml",
         "templates/onboarding_unsubscribe.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "partner_communication_switzerland/static/src/js/image_float_plugin.js",
+        ],
+        "web.assets_tests": [
+            "partner_communication_switzerland/static/tests/tours/*.js",
+        ],
+    },
     "demo": [],
     "installable": True,
     "auto_install": False,

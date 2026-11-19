@@ -10,6 +10,7 @@
       name="paperformat_id"
       ref="child_compassion.paperformat_child_picture"
     />
+        <field name="print_delay">0</field>
     </record>
 
     <template id="csp_picture">
