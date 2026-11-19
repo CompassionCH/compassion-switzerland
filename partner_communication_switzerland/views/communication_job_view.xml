@@ -20,6 +20,19 @@
         </field>
     </record>
 
+    <!-- The photos of a biennial, one PDF per child, e.g. to send them to a
+         sponsor who gets them by hand (T2244). In the Action menu: a form
+         button would save the communication first, which a biennial without
+         send mode (photo delivery "none") refuses. -->
+    <record id="download_photos_zip_action" model="ir.actions.server">
+        <field name="name">Download photos (ZIP)</field>
+        <field name="model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="binding_model_id" ref="partner_communication.model_partner_communication_job"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_download_photos_zip()</field>
+    </record>
+
     <!--   Add event and ambassador in thank you list view -->
     <record model="ir.ui.view" id="communication_job_tree_event">
         <field name="name">communication.job.list.event</field>
