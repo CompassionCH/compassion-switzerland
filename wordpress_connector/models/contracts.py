@@ -16,6 +16,8 @@ from markupsafe import Markup, escape
 from odoo import _, api, fields, models
 from odoo.tools import config, html2plaintext
 
+from .utm import find_utm
+
 _logger = logging.getLogger(__name__)
 
 # Mapping from Website form fields to res.partner fields in Odoo
@@ -262,14 +264,9 @@ class Contracts(models.Model):
 
         # Check origin
         internet = self.env.ref("utm.utm_medium_website")
-        u_source = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
-        u_campaign = self.env["utm.campaign"].search(
-            [("name", "=", utm_campaign)], limit=1
-        )
-        u_medium = (
-            self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1)
-            or internet
-        )
+        u_source = find_utm(self.env, "utm.source", utm_source)
+        u_campaign = find_utm(self.env, "utm.campaign", utm_campaign)
+        u_medium = find_utm(self.env, "utm.medium", utm_medium) or internet
 
         # Create sponsorship values
         child = self.env["compassion.child"].search(

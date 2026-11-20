@@ -13,6 +13,8 @@ from markupsafe import escape
 
 from odoo import api, fields, models
 
+from .utm import find_utm
+
 _logger = logging.getLogger(__name__)
 
 
@@ -237,9 +239,9 @@ class AccountInvoice(models.Model):
                     f"No sponsorship found for child {child_code} and "
                     f"partner {self.partner_id.ref}"
                 )
-        source_id = self._find_utm("utm.source", utm_source)
-        medium_id = self._find_utm("utm.medium", utm_medium)
-        campaign_id = self._find_utm("utm.campaign", utm_campaign)
+        source_id = find_utm(self.env, "utm.source", utm_source)
+        medium_id = find_utm(self.env, "utm.medium", utm_medium)
+        campaign_id = find_utm(self.env, "utm.campaign", utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
 
         self.with_context(check_move_validity=False).write(
@@ -301,12 +303,3 @@ class AccountInvoice(models.Model):
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).with_delay_sh("reconcile", channel="root.accounting", priority=500)
         return True
-
-    def _find_utm(self, model, name):
-        """UTM record of the name sent by WordPress, none when it sends no
-        name (an empty name matched a source without name: 10'000 donations
-        got it)."""
-        name = (name or "").strip()
-        if not name:
-            return self.env[model]
-        return self.env[model].search([("name", "=", name)], limit=1)
