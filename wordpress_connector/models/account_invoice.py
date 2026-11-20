@@ -237,11 +237,9 @@ class AccountInvoice(models.Model):
                     f"No sponsorship found for child {child_code} and "
                     f"partner {self.partner_id.ref}"
                 )
-        source_id = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
-        medium_id = self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1)
-        campaign_id = self.env["utm.campaign"].search(
-            [("name", "=", utm_campaign)], limit=1
-        )
+        source_id = self._find_utm("utm.source", utm_source)
+        medium_id = self._find_utm("utm.medium", utm_medium)
+        campaign_id = self._find_utm("utm.campaign", utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
 
         self.with_context(check_move_validity=False).write(
@@ -303,3 +301,12 @@ class AccountInvoice(models.Model):
                 [("account_id", "=", account.id), ("reconciled", "=", False)]
             ).with_delay_sh("reconcile", channel="root.accounting", priority=500)
         return True
+
+    def _find_utm(self, model, name):
+        """UTM record of the name sent by WordPress, none when it sends no
+        name (an empty name matched a source without name: 10'000 donations
+        got it)."""
+        name = (name or "").strip()
+        if not name:
+            return self.env[model]
+        return self.env[model].search([("name", "=", name)], limit=1)
