@@ -13,6 +13,8 @@ from markupsafe import escape
 
 from odoo import api, fields, models
 
+from .utm import find_utm
+
 _logger = logging.getLogger(__name__)
 
 
@@ -237,11 +239,9 @@ class AccountInvoice(models.Model):
                     f"No sponsorship found for child {child_code} and "
                     f"partner {self.partner_id.ref}"
                 )
-        source_id = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
-        medium_id = self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1)
-        campaign_id = self.env["utm.campaign"].search(
-            [("name", "=", utm_campaign)], limit=1
-        )
+        source_id = find_utm(self.env, "utm.source", utm_source)
+        medium_id = find_utm(self.env, "utm.medium", utm_medium)
+        campaign_id = find_utm(self.env, "utm.campaign", utm_campaign)
         internet_id = self.env.ref("utm.utm_medium_website").id
 
         self.with_context(check_move_validity=False).write(
