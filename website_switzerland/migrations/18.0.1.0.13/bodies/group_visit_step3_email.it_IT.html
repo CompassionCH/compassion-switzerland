@@ -1,0 +1,70 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env['ir.config_parameter'].sudo().get_param('web.external.url')"
+  />
+</div>
+<p t-out="partner.salutation"></p>
+<p>
+  Abbiamo ricevuto il pagamento dell'acconto per il viaggio Impact
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t>. La tua iscrizione è confermata, grazie
+  di cuore!
+</p>
+<p>
+  Riceverai un'e-mail separata per attivare il tuo account MyCompassion. Sulla
+  pagina del tuo viaggio troverai, passo dopo passo, le informazioni e i
+  documenti da completare.
+</p>
+<p>Cosa ti aspetta concretamente?</p>
+<ol>
+  <li>Le informazioni sui tuoi voli</li>
+  <li>
+    I documenti da completare: contratto di viaggio, carta per la protezione
+    dell'infanzia, copia del passaporto e questionario medico
+  </li>
+  <li>Il pagamento del viaggio e le informazioni su assicurazione e visto</li>
+  <li>L'estratto del casellario giudiziale</li>
+  <li>
+    Informazioni sull'incontro di preparazione, sul paese e il clima, sul lavoro
+    di Compassion e sull'incontro con il bambino che sostieni
+  </li>
+</ol>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-attf-href="{{base_url}}/my/events/{{registration.id}}"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+    >Vedi il mio viaggio</a
+  >
+</div>
+<p>Per qualsiasi domanda, puoi scriverci a <t t-out="user.email"></t>.</p>
+<p>
+  Ancora grazie per il tuo impegno a favore dei bambini nel bisogno.
+  <br />
+  <br />
+  Cari saluti
+</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

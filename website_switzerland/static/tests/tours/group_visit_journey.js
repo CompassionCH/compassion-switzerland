@@ -87,7 +87,6 @@ const MEDICAL_QUESTION = "Do you have a health issue we should know about";
 const MEDICAL_ANSWER = "I have back problems";
 const ALLERGY_QUESTION = "Tell us about your allergies";
 const ALLERGY_ANSWER = "pollen";
-const TRAVEL_DOCUMENTS = "Group visit: travel documents request";
 const FEEDBACK_RATING = "Excellent";
 const FEEDBACK_QUESTION = "Suggestions for improvement";
 const FEEDBACK_ANSWER = "Nothing to improve, it was a life changing trip";
@@ -244,13 +243,18 @@ const openParticipant = () => [
     run: "click",
   },
   {
+    content: "Also show the registrations not confirmed yet",
+    trigger: ".o_searchview_facet .o_facet_remove",
+    run: "click",
+  },
+  {
     content: "Open the participant",
     trigger: `.o_data_row:contains(${participant().lastname}) td[name=email]`,
     run: "click",
   },
 ];
 
-registry.category("web_tour.tours").add("group_visit_confirmation", {
+registry.category("web_tour.tours").add("group_visit_registration_check", {
   steps: () => {
     const { firstname, email, profileName, motto } = participant();
     return [
@@ -306,14 +310,24 @@ registry.category("web_tour.tours").add("group_visit_confirmation", {
         run: () => window.history.back(),
       },
       {
-        content: "The registration is confirmed",
-        trigger: ".o_form_view div[name=state] :contains(Registered)",
+        content: "The registration waits for the fee to be confirmed",
+        trigger: ".o_form_view div[name=state] :contains(Unconfirmed)",
       },
       {
-        content: "The participant now waits for the down payment",
+        content: "The registration confirmation was sent",
         trigger:
-          ".o_statusbar_status button.o_arrow_button_current:contains(Down payment)",
+          ".o_statusbar_status button.o_arrow_button_current:contains(Registered)",
       },
+    ];
+  },
+});
+
+// Published once the fee confirms the registration.
+registry.category("web_tour.tours").add("group_visit_public_profile", {
+  steps: () => {
+    const { motto } = participant();
+    return [
+      ...openParticipant(),
       {
         content: "Open the public profile of the participant",
         trigger: ".o_form_view div[name=is_published] button",
@@ -366,7 +380,7 @@ const uploadDocument = (task, input, document) => [
   taskIsDone(task),
 ];
 
-registry.category("web_tour.tours").add("group_visit_documents", {
+registry.category("web_tour.tours").add("group_visit_account_activation", {
   steps: () => [
     {
       content: "Choose the password of the new MyCompassion account",
@@ -395,6 +409,16 @@ registry.category("web_tour.tours").add("group_visit_documents", {
       run: "click",
       expectUnloadPage: true,
     },
+    {
+      content: "The trip page shows the fundraising of the participant",
+      trigger: "a[href$='/fundraising']",
+    },
+  ],
+});
+
+// The documents asked once the flights are known.
+registry.category("web_tour.tours").add("group_visit_documents", {
+  steps: () => [
     {
       content: "The trip lists what is left to do",
       trigger: "[name=tasks_section] h3",
@@ -447,14 +471,24 @@ registry.category("web_tour.tours").add("group_visit_documents", {
     },
     taskIsDone("Sign child protection agreement"),
     ...uploadDocument("Send a passport copy", "passport", "passport"),
+    {
+      content: "The medical survey is still to fill",
+      trigger: "[name=tasks_section] a:contains(Fill medical survey)",
+    },
+  ],
+});
+
+// The last document, once the trip is paid.
+registry.category("web_tour.tours").add("group_visit_criminal_record", {
+  steps: () => [
     ...uploadDocument(
       "Send certificate of criminal record",
       "criminal_record",
       "criminal-record",
     ),
     {
-      content: "The agreements are behind, the medical survey is next",
-      trigger: "[name=tasks_section] a:contains(Fill medical survey)",
+      content: "Nothing is left to do before the trip",
+      trigger: "[name=tasks_section]:not(:has(a.btn-primary))",
     },
   ],
 });
@@ -519,9 +553,9 @@ registry.category("web_tour.tours").add("group_visit_trip_invoice", {
     },
     ...stepUtils.saveForm(),
     {
-      content: "The participant now owes the trip itself",
+      content: "The documents are filled, the trip is not invoiced yet",
       trigger:
-        ".o_statusbar_status button.o_arrow_button_current:contains(Payment)",
+        ".o_statusbar_status button.o_arrow_button_current:contains(Fill documents)",
     },
     {
       content: "Invoice the trip to the participant",
@@ -533,33 +567,9 @@ registry.category("web_tour.tours").add("group_visit_trip_invoice", {
       trigger: ".o_form_view:not(:has(button[name=create_trip_invoice]))",
     },
     {
-      content: "Choose a communication to send to the participant",
-      trigger: ".o_form_view button[name=button_send_reminder]",
-      run: "click",
-    },
-    {
-      content: "Look for the travel documents request",
-      trigger: ".modal div[name=config_id] input",
-      run: `edit ${TRAVEL_DOCUMENTS}`,
-    },
-    {
-      content: "Select the travel documents request",
-      trigger: `.ui-menu-item a:contains(${TRAVEL_DOCUMENTS})`,
-      run: "click",
-    },
-    {
-      content: "Prepare the travel documents request",
-      trigger: ".modal button[name=button_open_mail_sender]",
-      run: "click",
-    },
-    {
-      content: "Send the travel documents request",
-      trigger: ".modal button[name=send]",
-      run: "click",
-    },
-    {
-      content: "The participant received the travel documents request",
-      trigger: ".o_form_view:not(:has(.modal))",
+      content: "The participant now owes the trip itself",
+      trigger:
+        ".o_statusbar_status button.o_arrow_button_current:contains(Payment)",
     },
   ],
 });

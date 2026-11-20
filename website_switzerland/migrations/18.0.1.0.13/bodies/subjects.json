@@ -1,0 +1,50 @@
+{
+  "group_visit_after_trip_feedback_email": {
+    "de_DE": "Wie war deine Reise {{object.get_objects().compassion_event_id.country_id.in_preposition}} {{object.get_objects().compassion_event_id.country_id.name}}?",
+    "en_US": "How did your trip with Compassion go?",
+    "fr_CH": "Comment s'est passé votre voyage {{object.get_objects().compassion_event_id.country_id.in_preposition}} {{object.get_objects().compassion_event_id.country_id.name}} ?",
+    "it_IT": "Com'è andato il tuo viaggio con Compassion?"
+  },
+  "group_visit_criminal_record_email": {
+    "de_DE": "{{'Eure' if object.partner_id.plural else 'Deine'}} Reise mit Compassion: Strafregisterauszug",
+    "en_US": "Your trip with Compassion: criminal record certificate",
+    "fr_CH": "Votre voyage avec Compassion : extrait de casier judiciaire",
+    "it_IT": "Il tuo viaggio con Compassion: estratto del casellario giudiziale"
+  },
+  "group_visit_flights_email": {
+    "de_DE": "{{'Eure' if object.partner_id.plural else 'Deine'}} Reise mit Compassion: Fluginformationen",
+    "en_US": "Your trip with Compassion: your flight details",
+    "fr_CH": "Votre voyage avec Compassion : vos informations de vol",
+    "it_IT": "Il tuo viaggio con Compassion: informazioni sui voli"
+  },
+  "group_visit_medical_survey_email": {
+    "de_DE": "{{'Eure' if object.partner_id.plural else 'Deine'}} Reise mit Compassion: noch fehlende Dokumente",
+    "en_US": "Your trip with Compassion: documents still to complete",
+    "fr_CH": "Votre voyage avec Compassion : documents à compléter",
+    "it_IT": "Il tuo viaggio con Compassion: documenti da completare"
+  },
+  "group_visit_step1_email": {
+    "de_DE": "Nur noch einen Schritt und du bist definitiv für die Reise mit Compassion angemeldet!",
+    "en_US": "Only one step left to validate your registration to your trip with Compassion",
+    "fr_CH": "Plus qu'une étape pour valider votre inscription au voyage de Compassion",
+    "it_IT": "Manca un solo passo per convalidare la tua iscrizione al viaggio con Compassion"
+  },
+  "group_visit_step2_email": {
+    "de_DE": "{{\"Eure\" if object.partner_id.plural else \"Deine\"}} Reise nach {{object.get_objects().compassion_event_id.country_id.name}} mit Compassion",
+    "en_US": "Your trip to {{object.get_objects().compassion_event_id.country_id.name}} with Compassion",
+    "fr_CH": "Votre voyage Impact {{object.get_objects().compassion_event_id.country_id.in_preposition}} {{object.get_objects().compassion_event_id.country_id.name}} avec Compassion",
+    "it_IT": "Il tuo viaggio {{object.get_objects().compassion_event_id.country_id.in_preposition}} {{object.get_objects().compassion_event_id.country_id.name}} con Compassion"
+  },
+  "group_visit_step3_email": {
+    "de_DE": "Bestätigung deiner Anmeldung zur Reise mit Compassion",
+    "en_US": "Your registration to the trip with Compassion is confirmed",
+    "fr_CH": "Votre inscription au voyage de Compassion est confirmée",
+    "it_IT": "La tua iscrizione al viaggio con Compassion è confermata"
+  },
+  "group_visit_travel_documents_email": {
+    "de_DE": "Deine Reise mit Compassion - Bezahlung und Reisedokumente",
+    "en_US": "Your trip with Compassion - travel documents and payment",
+    "fr_CH": "Votre voyage de Compassion: paiement de votre voyage et documents de voyages",
+    "it_IT": "Il tuo viaggio con Compassion - documenti di viaggio e pagamento"
+  }
+}
