@@ -284,6 +284,14 @@ class RecurringContracts(models.Model):
                     "New sponsorships are not allowed."
                 )
             )
+        # The welcome communication explains how to pay and attaches the slip.
+        if self.filtered(lambda c: c.type == "M2M" and not c.payment_mode_id):
+            raise UserError(
+                _(
+                    "Please set the payment mode before validating a "
+                    "Compassion Communities engagement."
+                )
+            )
         # Notify for special categories
         special_categories = partners.mapped("category_id").filtered("warn_sponsorship")
         # Since we are in workflow, the user is not set in environment.

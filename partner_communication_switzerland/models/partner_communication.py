@@ -715,6 +715,14 @@ class PartnerCommunication(models.Model):
                 ("sds_state", "in", ["active", "sub_waiting", "sub", "sub_accept"]),
             ]
         )
+        # The welcome of a limited-time Compassion Communities engagement only
+        # carries its own slip, as it is paid separately (T3716).
+        if self.config_id == self.env.ref(
+            "partner_communication_switzerland.cc_welcome_rule"
+        ):
+            limited_cc = self.get_objects().filtered(lambda c: c.end_date)
+            if limited_cc:
+                sponsorships &= limited_cc
         # Polish sponsors pay by a standing order set up in their bank: they
         # get its details, not a Swiss slip.
         pl_sponsorships = sponsorships.filtered(
