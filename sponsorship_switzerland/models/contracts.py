@@ -142,7 +142,7 @@ class RecurringContracts(models.Model):
         if self.type == "M2M":
             lang = self.partner_id.lang or self.env.lang
             product = self.env["product.product"].search(
-                [("default_code", "like", "m2m"), ("default_code", "like", lang[:2])],
+                [("default_code", "=like", f"m2m\\_%\\_{lang[:2]}")],
                 limit=1,
             )
             if product:
@@ -282,6 +282,14 @@ class RecurringContracts(models.Model):
                 _(
                     "This partner has the restricted category active. "
                     "New sponsorships are not allowed."
+                )
+            )
+        # The welcome communication explains how to pay and attaches the slip.
+        if self.filtered(lambda c: c.type == "M2M" and not c.payment_mode_id):
+            raise UserError(
+                _(
+                    "Please set the payment mode before validating a "
+                    "Compassion Communities engagement."
                 )
             )
         # Notify for special categories

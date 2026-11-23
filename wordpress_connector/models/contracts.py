@@ -11,6 +11,7 @@ import logging
 import re
 from random import randint
 
+from dateutil.relativedelta import relativedelta
 from markupsafe import Markup, escape
 
 from odoo import _, api, fields, models
@@ -508,13 +509,12 @@ class Contracts(models.Model):
                 ref = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
             else:
                 product = self.env["product.product"].search(
-                    [
-                        ("default_code", "like", "m2m"),
-                        ("default_code", "like", lang_code),
-                    ],
+                    # Suffix match: "de" also matches "m2m_UG1098_fondation_demaurex"
+                    [("default_code", "=like", f"m2m\\_%\\_{lang_code}")],
                     limit=1,
                 )
                 ref = f"M2M-{partner.ref or randint(1000, 9999)}"
+                custom_values.update(self._get_cc_form_values(partner, form_data))
 
             custom_values.update(
                 {
@@ -610,6 +610,20 @@ class Contracts(models.Model):
         language = language_match.group(1) if language_match else ""
         amount = amount_match.group(1) if amount_match else ""
 
+        # Compassion Communities form: "Duration:", "Monthly amount: ... 20.-"
+        # and "Paiement method:" lines.
+        cc_lines = {}
+        for key, label in (
+            ("duration", "Duration"),
+            ("monthly_amount", "Monthly amount"),
+            ("payment_method", "Paiement method"),
+        ):
+            match = re.search(rf"{label}:\s*([^\n]*)", data_string)
+            cc_lines[key] = html2plaintext(match.group(1)).strip() if match else ""
+        if not amount:
+            amount_match = re.search(r"\d+", cc_lines["monthly_amount"])
+            amount = amount_match.group(0) if amount_match else ""
+
         # Return a dictionary with the extracted information
         return {
             "country": html2plaintext(country),
@@ -619,7 +633,39 @@ class Contracts(models.Model):
             "sponsorship_length": html2plaintext(sponsorship_length),
             "language": language,
             "amount": amount,
+            "duration": cc_lines["duration"],
+            "payment_method": cc_lines["payment_method"],
         }
+
+    def _get_cc_form_values(self, partner, form_data):
+        """Contract values read from the Compassion Communities form: an end
+        date for a limited duration (T3715) and the chosen payment mode."""
+        vals = {}
+        months = re.search(r"\d+", form_data["duration"])
+        if months:
+            vals["end_date"] = fields.Datetime.now() + relativedelta(
+                months=int(months.group(0))
+            )
+        if partner and re.search(
+            r"ordre permanent|dauerauftrag|ordine permanente|permanent order",
+            form_data["payment_method"],
+            re.IGNORECASE,
+        ):
+            # Own group, so the payment mode doesn't change the partner's
+            # other contracts.
+            group = self.env["recurring.contract.group"].create(
+                {
+                    "partner_id": partner.id,
+                    "company_id": self.env.company.id,
+                    "payment_mode_id": self.env.ref(
+                        "sponsorship_switzerland.payment_mode_permanent_order"
+                    ).id,
+                }
+            )
+            if partner.ref:
+                group.bvr_reference = group.compute_partner_bvr_ref()
+            vals["group_id"] = group.id
+        return vals
 
     def _get_neediest_csp_country_code(self, continent=None):
         """
