@@ -142,7 +142,7 @@ class RecurringContracts(models.Model):
         if self.type == "M2M":
             lang = self.partner_id.lang or self.env.lang
             product = self.env["product.product"].search(
-                [("default_code", "like", "m2m"), ("default_code", "like", lang[:2])],
+                [("default_code", "=like", f"m2m\\_%\\_{lang[:2]}")],
                 limit=1,
             )
             if product:

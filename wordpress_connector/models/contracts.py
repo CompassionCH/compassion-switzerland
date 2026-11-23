@@ -508,10 +508,8 @@ class Contracts(models.Model):
                 ref = f"CSP-{country_code}-{partner.ref or randint(1000, 9999)}"
             else:
                 product = self.env["product.product"].search(
-                    [
-                        ("default_code", "like", "m2m"),
-                        ("default_code", "like", lang_code),
-                    ],
+                    # Suffix match: "de" also matches "m2m_UG1098_fondation_demaurex"
+                    [("default_code", "=like", f"m2m\\_%\\_{lang_code}")],
                     limit=1,
                 )
                 ref = f"M2M-{partner.ref or randint(1000, 9999)}"
