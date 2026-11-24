@@ -144,6 +144,64 @@ class TestHrSignOca(BaseCommon):
         self.assertEqual(document.datas, request.data)
         self.assertEqual(self.employee.message_ids[0].attachment_ids, document)
 
+    def test_online_then_paper_signature(self):
+        """Two signers: the employee signs online, then HR uploads the paper
+        scan for the other one."""
+        hr_role = self.env["sign.oca.role"].create(
+            {
+                "name": "HR",
+                "partner_selection_policy": "default",
+                "default_partner_id": self.hr_user.partner_id.id,
+            }
+        )
+        self.template.add_item(
+            {
+                "field_id": self.env.ref("sign_oca.sign_field_name").id,
+                "role_id": hr_role.id,
+                "page": 1,
+                "position_x": 50,
+                "position_y": 50,
+                "width": 10,
+                "height": 10,
+                "required": True,
+            }
+        )
+        request = self._generate()
+        employee_signer = request.signer_ids.filtered(lambda s: s.role_id == self.role)
+        hr_signer = request.signer_ids - employee_signer
+        self.assertEqual(hr_signer.partner_id, self.hr_user.partner_id)
+        online = employee_signer.with_user(self.employee_user).sudo()
+        data = {
+            key: dict(item, value="Signing Employee")
+            for key, item in online.get_info()["items"].items()
+            if item["role_id"] == self.role.id
+        }
+        online.action_sign(data)
+        self.assertEqual(request.state, "0_sent")
+        self.assertFalse(self._employee_documents())
+        online_signed_on = employee_signer.signed_on
+        online_hash = employee_signer.inalterable_hash
+
+        wizard = self._paper_wizard(request)
+        self.assertEqual(wizard.signer_ids, hr_signer)
+        wizard.action_confirm()
+
+        self.assertEqual(request.state, "2_signed")
+        # The online signature is kept, its integrity hash still valid
+        self.assertEqual(employee_signer.signed_on, online_signed_on)
+        self.assertEqual(employee_signer.inalterable_hash, online_hash)
+        self.assertFalse(employee_signer.altered_hash)
+        self.assertFalse(hr_signer.altered_hash)
+        self.assertEqual(str(hr_signer.signed_on), "2026-11-20 10:00:00")
+        logs = self.env["sign.oca.request.log"].search(
+            [("request_id", "=", request.id), ("action", "in", ("sign", "paper_sign"))]
+        )
+        self.assertEqual(
+            {(log.signer_id, log.action) for log in logs},
+            {(employee_signer, "sign"), (hr_signer, "paper_sign")},
+        )
+        self.assertEqual(self._employee_documents().raw, self.scan)
+
     def test_scan_must_be_pdf(self):
         request = self._generate()
         with self.assertRaisesRegex(UserError, "PDF"):
