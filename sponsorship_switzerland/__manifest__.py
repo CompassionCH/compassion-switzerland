@@ -43,6 +43,7 @@
         "account_banking_mandate",  # oca_addons/bank-payment
         "partner_compassion",  # compassion-switzerland
         "account_reconcile_compassion_ce",  # compassion-modules/compassion-accounting
+        "account_statement_import_camt54",  # oca_addons/bank-statement-import
         "gift_compassion",  # compassion-modules
         "web_notify",  # oca_addons/web
         "sbc_compassion",  # compassion-modules

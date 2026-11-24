@@ -13,4 +13,5 @@ from . import (
     test_contract_group_switzerland,
     test_contracts_switzerland,
     test_fund_reconcile,
+    test_statement_import_payer,
 )
