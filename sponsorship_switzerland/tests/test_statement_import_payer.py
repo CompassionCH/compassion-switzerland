@@ -61,11 +61,11 @@ class TestStatementImportPayer(TransactionCase):
         partner_id = stmts_vals[0]["transactions"][0].get("partner_id")
         return self.env["res.partner"].browse(partner_id)
 
-    def _payer_invoice(self):
+    def _payer_invoice(self, payer=None):
         invoice = self.env["account.move"].create(
             {
                 "move_type": "out_invoice",
-                "partner_id": self.payer.id,
+                "partner_id": (payer or self.payer).id,
                 "payment_reference": self.qrr,
                 "invoice_line_ids": [
                     Command.create({"name": "Sponsorship", "price_unit": 42.0})
@@ -89,6 +89,12 @@ class TestStatementImportPayer(TransactionCase):
             {"partner_id": self.correspondent.id, "bvr_reference": self.qrr}
         )
         self.assertEqual(self._import_partner(self.qrr), self.payer)
+
+    def test_invoice_payer_before_group_payer(self):
+        # Another group can share the reference: the open invoice tells who pays
+        other_payer = self.env["res.partner"].create({"name": "T3718 Other payer"})
+        self._payer_invoice(other_payer)
+        self.assertEqual(self._import_partner(self.qrr), other_payer)
 
     def test_invoice_payer_matched_by_rule(self):
         invoice = self._payer_invoice()
