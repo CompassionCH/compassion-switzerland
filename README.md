@@ -14,6 +14,7 @@ addon | version | maintainers | summary
 [child_switzerland](child_switzerland/) | 18.0.1.0.0 |  | Compassion CH Children
 [child_sync_wp](child_sync_wp/) | 18.0.1.0.0 |  | Sync Compassion Children with Wordpress website
 [crm_switzerland](crm_switzerland/) | 18.0.1.0.0 |  | Decouple partner and lead email
+[hr_sign_oca](hr_sign_oca/) | 18.0.1.0.0 |  | Compassion CH - HR Sign OCA
 [hr_switzerland](hr_switzerland/) | 18.0.1.0.0 |  | Compassion CH - HR Management
 [hr_switzerland_13th_salary](hr_switzerland_13th_salary/) | 18.0.1.0.0 |  | Compassion CH - HR Management 13th Salary
 [label](label/) | 18.0.1.0.0 |  | Mass Label Reporting

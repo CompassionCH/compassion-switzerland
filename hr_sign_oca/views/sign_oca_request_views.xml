@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sign_oca_request_form_view" model="ir.ui.view">
+        <field name="model">sign.oca.request</field>
+        <field name="inherit_id" ref="sign_oca.sign_oca_request_form_view" />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <button
+                    string="Signed on paper"
+                    name="%(sign_oca_request_paper_action)d"
+                    type="action"
+                    icon="fa-upload"
+                    context="{'default_request_id': id}"
+                    invisible="state not in ('1_draft', '0_sent')"
+                    groups="sign_oca.sign_oca_group_manager"
+                />
+            </field>
+            <field name="record_ref" position="after">
+                <field name="employee_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record id="sign_oca_request_search_view" model="ir.ui.view">
+        <field name="model">sign.oca.request</field>
+        <field name="inherit_id" ref="sign_oca.sign_oca_request_search_view" />
+        <field name="arch" type="xml">
+            <field name="signer_ids" position="after">
+                <field name="employee_id" />
+            </field>
+            <filter name="group_by_state" position="after">
+                <filter
+                    string="Employee"
+                    name="group_by_employee_id"
+                    context="{'group_by': 'employee_id'}"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_sign_oca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 13:02+0000\n"
+"PO-Revision-Date: 2026-11-24 13:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_log__action
+msgid "Action"
+msgstr "Aktion"
+
+#. module: hr_sign_oca
+#: model_terms:ir.ui.view,arch_db:hr_sign_oca.sign_oca_request_paper_view_form
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. module: hr_sign_oca
+#: model_terms:ir.ui.view,arch_db:hr_sign_oca.sign_oca_request_paper_view_form
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__create_uid
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__create_date
+msgid "Created on"
+msgstr "Erstellt am"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__display_name
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: hr_sign_oca
+#: model:ir.model,name:hr_sign_oca.model_hr_employee
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request__employee_id
+#: model_terms:ir.ui.view,arch_db:hr_sign_oca.sign_oca_request_search_view
+msgid "Employee"
+msgstr "Mitarbeiter"
+
+#. module: hr_sign_oca
+#. odoo-python
+#: code:addons/hr_sign_oca/wizards/sign_oca_request_paper.py:0
+msgid "Every signer has already signed."
+msgstr "Alle Unterzeichnenden haben bereits unterschrieben."
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__filename
+msgid "Filename"
+msgstr "Dateiname"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__id
+msgid "ID"
+msgstr "ID"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__write_uid
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__write_date
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: hr_sign_oca
+#: model:ir.model,name:hr_sign_oca.model_sign_oca_request_log
+msgid "Log access and edition on requests"
+msgstr "Protokoll der Zugriffe und Änderungen der Anfragen"
+
+#. module: hr_sign_oca
+#. odoo-python
+#: code:addons/hr_sign_oca/wizards/sign_oca_request_paper.py:0
+msgid "Only a draft or sent request can be signed on paper."
+msgstr ""
+"Nur eine Anfrage im Entwurf oder versendet kann auf Papier unterschrieben "
+"werden."
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,help:hr_sign_oca.field_sign_oca_request_paper__data
+msgid "PDF of the signed paper."
+msgstr "PDF des unterschriebenen Papiers."
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__request_id
+msgid "Request"
+msgstr "Anfrage"
+
+#. module: hr_sign_oca
+#: model:ir.model,name:hr_sign_oca.model_sign_oca_request
+msgid "Sign Request"
+msgstr "Signaturanfrage"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_hr_employee__sign_request_count
+msgid "Sign Request Count"
+msgstr "Anzahl Signaturanfragen"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_hr_employee__sign_request_ids
+msgid "Sign Requests"
+msgstr "Signaturanfragen"
+
+#. module: hr_sign_oca
+#: model:ir.model,name:hr_sign_oca.model_sign_oca_request_paper
+msgid "Sign request signed on paper"
+msgstr "Auf Papier unterschriebene Signaturanfrage"
+
+#. module: hr_sign_oca
+#: model_terms:ir.ui.view,arch_db:hr_sign_oca.view_employee_form
+msgid "Signatures"
+msgstr "Unterschriften"
+
+#. module: hr_sign_oca
+#. odoo-python
+#: code:addons/hr_sign_oca/models/sign_oca_request.py:0
+msgid "Signed document: %s"
+msgstr "Unterschriebenes Dokument: %s"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__signed_on
+msgid "Signed on"
+msgstr "Unterschrieben am"
+
+#. module: hr_sign_oca
+#: model:ir.actions.act_window,name:hr_sign_oca.sign_oca_request_paper_action
+#: model:ir.model.fields.selection,name:hr_sign_oca.selection__sign_oca_request_log__action__paper_sign
+#: model_terms:ir.ui.view,arch_db:hr_sign_oca.sign_oca_request_form_view
+msgid "Signed on paper"
+msgstr "Auf Papier unterschrieben"
+
+#. module: hr_sign_oca
+#. odoo-python
+#: code:addons/hr_sign_oca/wizards/sign_oca_request_paper.py:0
+msgid "Signed on paper by %(signers)s, scan uploaded by %(user)s."
+msgstr ""
+"Auf Papier unterschrieben von %(signers)s, Scan hochgeladen von %(user)s."
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__data
+msgid "Signed scan"
+msgstr "Unterschriebener Scan"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,field_description:hr_sign_oca.field_sign_oca_request_paper__signer_ids
+msgid "Signers"
+msgstr "Unterzeichnende"
+
+#. module: hr_sign_oca
+#: model:ir.model.fields,help:hr_sign_oca.field_sign_oca_request_paper__signer_ids
+msgid ""
+"Signers who have not signed online yet: the scan counts as their signature."
+msgstr ""
+"Unterzeichnende, die noch nicht online unterschrieben haben: der Scan gilt "
+"als ihre Unterschrift."
+
+#. module: hr_sign_oca
+#: model_terms:ir.ui.view,arch_db:hr_sign_oca.sign_oca_request_paper_view_form
+msgid ""
+"The scan replaces the document of the request and every\n"
+"                    signer below is marked as signed. No e-mail is sent to ask\n"
+"                    for a signature."
+msgstr ""
+"Der Scan ersetzt das Dokument der Anfrage und alle unten aufgeführten "
+"Unterzeichnenden werden als unterschrieben markiert. Es wird keine E-Mail "
+"zur Unterschrift versendet."
+
+#. module: hr_sign_oca
+#. odoo-python
+#: code:addons/hr_sign_oca/wizards/sign_oca_request_paper.py:0
+msgid "The signed scan must be a PDF file."
+msgstr "Der unterschriebene Scan muss eine PDF-Datei sein."
