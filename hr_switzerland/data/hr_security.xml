@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <function
+        model="res.partner.bank"
+        name="_hr_switzerland_restrict_private_bank_accounts"
+    />
+</odoo>

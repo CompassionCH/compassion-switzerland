@@ -238,11 +238,15 @@ class AccountInvoice(models.Model):
                     f"partner {self.partner_id.ref}"
                 )
         source_id = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
-        medium_id = self.env["utm.medium"].search([("name", "=", utm_medium)], limit=1)
+        # T3681: keep the medium WordPress sent; no UTM means no medium, not "Website"
+        medium_id = self.env["utm.medium"]
+        if utm_medium and utm_medium.strip():
+            medium_id = self.env["utm.mixin"]._find_or_create_record(
+                "utm.medium", utm_medium
+            )
         campaign_id = self.env["utm.campaign"].search(
             [("name", "=", utm_campaign)], limit=1
         )
-        internet_id = self.env.ref("utm.utm_medium_website").id
 
         self.with_context(check_move_validity=False).write(
             {
@@ -265,7 +269,7 @@ class AccountInvoice(models.Model):
                     ),
                 ],
                 "source_id": source_id.id,
-                "medium_id": medium_id.id or internet_id,
+                "medium_id": medium_id.id,
                 "campaign_id": campaign_id.id,
                 "payment_mode_id": payment_mode_id,
             }

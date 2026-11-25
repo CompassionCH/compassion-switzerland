@@ -498,9 +498,11 @@ class RecurringContract(models.Model):
         wp = self.filtered(lambda s: s.type in ["SC", "SWP"] and s.state == "draft")
         super().contract_active()
         wp._new_dossier()
-        self.filtered(lambda c: c.type == "M2M").send_communication(
-            self.env.ref("partner_communication_switzerland.cc_church_inspiration_rule")
-        )
+        cc = self.filtered(lambda c: c.type == "M2M")
+        for rule in ("cc_app_access_rule", "cc_church_inspiration_rule"):
+            cc.send_communication(
+                self.env.ref(f"partner_communication_switzerland.{rule}")
+            )
         return True
 
     def _contract_terminated(self, vals):

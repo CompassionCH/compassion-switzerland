@@ -485,6 +485,11 @@ msgid "Church Member Count"
 msgstr "Anzahl Gemeindemitglieder"
 
 #. module: partner_compassion
+#: model:advocate.engagement,name:partner_compassion.engagement_church_advocate
+msgid "Church advocate"
+msgstr "Kirchenbotschafter"
+
+#. module: partner_compassion
 #: model:advocate.engagement,name:partner_compassion.engagement_church
 msgid "Church presentation"
 msgstr "Kirchenpräsentation"
@@ -941,6 +946,41 @@ msgstr "Engagement-Typ"
 #: model:ir.ui.menu,name:partner_compassion.menu_engagement_type
 msgid "Engagement types"
 msgstr "Engagement-Typen"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_church_advocate
+msgid "Engagement: Church advocate"
+msgstr "Engagement: Kirchenbotschafter"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_church_presentation
+msgid "Engagement: Church presentation"
+msgstr "Engagement: Kirchenpräsentation"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_events
+msgid "Engagement: Events"
+msgstr "Engagement: Ereignisse"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_office_volunteer
+msgid "Engagement: Office volunteer"
+msgstr "Engagement: Büro-Freiwillige"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_prayer
+msgid "Engagement: Prayer"
+msgstr "Engagement: Gebet"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_sport
+msgid "Engagement: Sport"
+msgstr "Engagement: Sport"
+
+#. module: partner_compassion
+#: model:ir.model.fields,field_description:partner_compassion.field_advocate_details__engaged_translation
+msgid "Engagement: Translation"
+msgstr "Engagement: Übersetzung"
 
 #. module: partner_compassion
 #: model_terms:ir.ui.view,arch_db:partner_compassion.advocate_details_search
@@ -1977,6 +2017,11 @@ msgstr ""
 "Odoo hilft Ihnen alle Aktivitäten im Zusammenhang mit\n"
 "Kunden leicht zu verfolgen: Diskussionen, Geschichte der Geschäftsmöglichkeiten,\n"
 "Dokumente, etc."
+
+#. module: partner_compassion
+#: model:advocate.engagement,name:partner_compassion.engagement_office_volunteer
+msgid "Office volunteer"
+msgstr "Büro-Freiwillige"
 
 #. module: partner_compassion
 #: model:res.partner.category,name:partner_compassion.res_partner_category_old

@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH - HR Management",
-    "version": "18.0.1.0.3",
+    "version": "18.0.1.2.0",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",
@@ -39,6 +39,9 @@
         "security/ir.model.access.csv",
         "views/hr_attendance_view.xml",
         "views/res_users_view.xml",
+        "views/hr_employee_view.xml",
+        "data/ir_cron.xml",
+        "data/hr_security.xml",
     ],
     "assets": {
         "web.assets_backend": [
@@ -49,8 +52,14 @@
         "hr",
         "hr_attendance",
         "hr_holidays_public",  # OCA/hr-holidays
+        "hr_holidays_attendance",
+        "hr_attendance_report_theoretical_time",  # OCA/hr-attendance
+        "hr_employee_calendar_planning",  # OCA/hr
+        "hr_expense",
+        "payroll_account",  # OCA/payroll
     ],
     "demo": [],
+    "uninstall_hook": "uninstall_hook",
     "installable": True,
     "auto_install": False,
 }

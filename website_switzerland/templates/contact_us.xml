@@ -54,9 +54,9 @@
                                 <option value="" disabled="1" selected="1">Please select</option>
                                 <option
                   t-foreach="titles"
-                  t-as="title"
-                  t-att-value="title.shortcut"
-                  t-out="title.name"
+                  t-as="partner_title"
+                  t-att-value="partner_title.shortcut"
+                  t-out="partner_title.name"
                 />
                             </select>
                         </div>
