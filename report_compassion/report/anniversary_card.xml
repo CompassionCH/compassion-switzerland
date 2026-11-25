@@ -20,6 +20,7 @@
 
                 .body {
                     font-family: "NeighbourSans";
+                    padding-top: 10mm;
                     width: 100mm;
                     float: left;
                     box-sizing: border-box;
@@ -45,6 +46,7 @@
 
                 .expedition {
                     width: 84mm;
+                    top: 10mm;
                     float: right;
                     box-sizing: border-box;
                     position: relative;
