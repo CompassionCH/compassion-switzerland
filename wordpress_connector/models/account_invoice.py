@@ -13,6 +13,8 @@ from markupsafe import escape
 
 from odoo import api, fields, models
 
+from .utm import find_utm
+
 _logger = logging.getLogger(__name__)
 
 
@@ -237,16 +239,14 @@ class AccountInvoice(models.Model):
                     f"No sponsorship found for child {child_code} and "
                     f"partner {self.partner_id.ref}"
                 )
-        source_id = self.env["utm.source"].search([("name", "=", utm_source)], limit=1)
+        source_id = find_utm(self.env, "utm.source", utm_source)
         # T3681: keep the medium WordPress sent; no UTM means no medium, not "Website"
         medium_id = self.env["utm.medium"]
         if utm_medium and utm_medium.strip():
             medium_id = self.env["utm.mixin"]._find_or_create_record(
                 "utm.medium", utm_medium
             )
-        campaign_id = self.env["utm.campaign"].search(
-            [("name", "=", utm_campaign)], limit=1
-        )
+        campaign_id = find_utm(self.env, "utm.campaign", utm_campaign)
 
         self.with_context(check_move_validity=False).write(
             {
