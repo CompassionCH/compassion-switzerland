@@ -23,12 +23,17 @@ class HrPayslip(models.Model):
         store=True,
     )
 
-    @api.depends("employee_id", "pay_13_salary", "contract_id", "state")
+    @api.depends("employee_id", "pay_13_salary", "contract_id", "state", "date_from")
     def _compute_13_salary(self):
         for payslip in self:
             if payslip.state == "draft":
                 if payslip.pay_13_salary:
-                    payslip.amount_13_salary = payslip.contract_id.provision_13_salary
+                    # Same amount as the salary rule TOTAL_PROVISION_13
+                    payslip.amount_13_salary = (
+                        payslip.contract_id._get_13_salary_provision(payslip.date_from)
+                        if payslip.contract_id and payslip.date_from
+                        else 0
+                    )
                 else:
                     payslip.amount_13_salary = 0
             else:

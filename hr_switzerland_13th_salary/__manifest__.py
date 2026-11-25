@@ -29,7 +29,7 @@
 # pylint: disable=C8101
 {
     "name": "Compassion CH - HR Management 13th Salary",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.1.0",
     "license": "AGPL-3",
     "category": "HR",
     "author": "Emanuel Cino",

@@ -7,8 +7,9 @@
 #
 ##############################################################################
 
+from datetime import date
+
 from odoo import api, fields, models
-from odoo.osv import expression
 
 
 class HrContract(models.Model):
@@ -37,38 +38,37 @@ class HrContract(models.Model):
             contract.wage = contract.wage_fulltime * (contract.occupation_rate / 100)
 
     def _compute_13_salary(self):
-        account_id = self.env.ref(
-            "hr_switzerland_13th_salary.PROVISION_13"
-        ).account_credit.id
-
+        # Provision accumulated in the current half-year
+        today = fields.Date.context_today(self)
+        half_year_end = (
+            date(today.year, 6, 30) if today.month <= 6 else date(today.year, 12, 31)
+        )
         for contract in self:
-            # Lines of the employee (work contact, partner of the payslip
-            # entries since 18.0) or of their payslips (former partners)
-            employee = contract.employee_id
-            payslip_moves = (
-                self.env["hr.payslip"]
-                .search([("employee_id", "=", employee.id)])
-                .mapped("move_id")
+            contract.provision_13_salary = contract._get_13_salary_provision(
+                half_year_end
             )
-            # A missing contact must not match the lines without partner of
-            # the other employees
-            employee_domains = []
-            if employee.work_contact_id:
-                employee_domains.append(
-                    [("partner_id", "=", employee.work_contact_id.id)]
-                )
-            if payslip_moves:
-                employee_domains.append([("move_id", "in", payslip_moves.ids)])
-            move_lines = self.env["account.move.line"]
-            if employee_domains:
-                move_lines = move_lines.search(
-                    expression.AND(
-                        [
-                            [("account_id", "=", account_id)],
-                            expression.OR(employee_domains),
-                        ]
-                    )
-                )
-            contract.provision_13_salary = sum(move_lines.mapped("credit")) - sum(
-                move_lines.mapped("debit")
-            )
+
+    def _get_13_salary_provision(self, date_to):
+        """Provision of the 13th salary (paid every six months) of the employee:
+        PROVISION_13 of the done payslips of the half-year of `date_to` ending
+        on or before `date_to`, minus CLEAR_PROVISION_13 already paid in it.
+        Same computation as the salary rule TOTAL_PROVISION_13 with OCA
+        payroll's `payslips.sum()`."""
+        self.ensure_one()
+        date_from = date_to.replace(month=1 if date_to.month <= 6 else 7, day=1)
+        lines = self.env["hr.payslip.line"].search(
+            [
+                ("slip_id.employee_id", "=", self.employee_id.id),
+                ("slip_id.state", "=", "done"),
+                ("slip_id.date_from", ">=", date_from),
+                ("slip_id.date_to", "<=", date_to),
+                ("code", "in", ("PROVISION_13", "CLEAR_PROVISION_13")),
+            ]
+        )
+        provision = 0.0
+        for line in lines:
+            sign = -1 if line.slip_id.credit_note else 1
+            if line.code == "CLEAR_PROVISION_13":
+                sign = -sign
+            provision += sign * line.total
+        return provision
