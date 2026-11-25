@@ -6,6 +6,7 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">report_compassion.anniversary_card</field>
             <field name="paperformat_id" ref="paperformat_anniversary_card" />
+            <field name="print_delay">0</field>
         </record>
 
         <template id="anniversary_card">
@@ -19,6 +20,7 @@
 
                 .body {
                     font-family: "NeighbourSans";
+                    padding-top: 10mm;
                     width: 100mm;
                     float: left;
                     box-sizing: border-box;
@@ -44,6 +46,7 @@
 
                 .expedition {
                     width: 84mm;
+                    top: 10mm;
                     float: right;
                     box-sizing: border-box;
                     position: relative;

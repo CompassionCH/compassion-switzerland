@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="account_move_split_wizard_form" model="ir.ui.view">
+        <field name="name">account.move.split.wizard.form</field>
+        <field name="model">account.move.split.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Split Journal Entry">
+                <field name="company_currency_id" invisible="1" />
+                <group>
+                    <field name="move_id" readonly="1" />
+                </group>
+                <div class="alert alert-info" role="alert">
+                    Choose what happens to each journal item:
+                    <ul>
+                        <li><b>Keep</b>: stays in the current entry.</li>
+                        <li><b>Move</b>: goes to the new entry (a copy of the current one).</li>
+                        <li><b>Split (taxes)</b>: the tax item is shared between both entries in proportion to the base items that are moved.</li>
+                        <li><b>Total</b>: the total item (e.g. receivable or payable) is shared between both entries so that each one is balanced. Reconciliations are shared as well.</li>
+                    </ul>
+                </div>
+                <field name="line_ids">
+                    <list editable="bottom" create="0" delete="0">
+                        <field name="move_line_id" column_invisible="1" force_save="1" />
+                        <field name="display_type" column_invisible="1" force_save="1" />
+                        <field name="locked" column_invisible="1" force_save="1" />
+                        <field name="company_currency_id" column_invisible="1" />
+                        <field name="currency_id" column_invisible="1" force_save="1" />
+                        <field name="name" readonly="1" force_save="1" />
+                        <field name="account_id" readonly="1" force_save="1" />
+                        <field name="partner_id" readonly="1" force_save="1" optional="hide" />
+                        <field name="balance" readonly="1" force_save="1" />
+                        <field name="amount_currency" readonly="1" force_save="1" optional="hide" />
+                        <field name="reconciled" readonly="1" force_save="1" optional="show" />
+                        <field name="action" readonly="locked" required="1" />
+                    </list>
+                </field>
+                <footer>
+                    <button
+                        name="action_split"
+                        string="Split"
+                        type="object"
+                        class="btn-primary"
+                        data-hotkey="q"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

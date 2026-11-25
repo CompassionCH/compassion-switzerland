@@ -22,7 +22,7 @@ _logger = logging.getLogger(__name__)
 NUMBER_LIMIT = 80
 
 try:
-    from pdf2image import convert_from_path
+    from pdf2image import convert_from_bytes
 except ImportError:
     _logger.debug("Can not `import pdf2image`.")
 
@@ -107,20 +107,17 @@ class CompassionHold(models.TransientModel):
                 "child_compassion.report_child_picture"
             ).with_context(must_skip_send_to_printer=True)
             pdf_data = report_ref._render_qweb_pdf(
-                children.ids, data={"doc_ids": children.ids}
+                report_ref, children.ids, data={"doc_ids": children.ids}
             )[0]
-            with tempfile.NamedTemporaryFile(delete=True) as pdf_temp_file:
-                pdf_temp_file.write(pdf_data)
-                pages = convert_from_path(pdf_temp_file.name)
-                for child, page in zip(children, pages, strict=False):
-                    country = child.field_office_id.country_id.name or "ZZ"
-                    country = child.field_office_id.country_id.name or "ZZ"
-                    fname = f"{country}_{child.sponsor_ref}_{child.local_id}.jpg"
-                    temp_img_path = os.path.join(tempfile.gettempdir(), fname)
-                    page.save(temp_img_path, "JPEG")
-                    with open(temp_img_path, "rb") as img_file:
-                        zip_data.writestr(fname, img_file.read())
-                    os.remove(temp_img_path)
+            pages = convert_from_bytes(pdf_data)
+            for child, page in zip(children, pages, strict=False):
+                country = child.field_office_id.country_id.name or "ZZ"
+                fname = f"{country}_{child.sponsor_ref}_{child.local_id}.jpg"
+                temp_img_path = os.path.join(tempfile.gettempdir(), fname)
+                page.save(temp_img_path, "JPEG")
+                with open(temp_img_path, "rb") as img_file:
+                    zip_data.writestr(fname, img_file.read())
+                os.remove(temp_img_path)
 
         zip_buffer.seek(0)
         return base64.b64encode(zip_buffer.read())

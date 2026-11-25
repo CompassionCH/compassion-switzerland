@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
+from odoo.tools import format_amount
 
 from odoo.addons.sponsorship_compassion.models.contracts import SPONSORSHIP_TYPE_LIST
 
@@ -43,19 +44,27 @@ class RecurringContract(models.Model):
         help="Trigger for automatic SUB sponsorship validation after 2 weeks"
     )
 
-    @api.onchange("type")
-    def _create_empty_lines_for_correspondence(self):
-        super()._create_empty_lines_for_correspondence()
-        if self.type == "SWP" and not self.correspondent_id.mobile:
+    correspondent_mobile = fields.Char(
+        "Correspondent mobile",
+        related="correspondent_id.mobile",
+        readonly=False,
+        help="Write&Pray communications are sent by SMS to this number.",
+    )
+
+    @api.onchange("type", "correspondent_id")
+    def _onchange_write_and_pray_correspondent(self):
+        if self.type != "SWP" or not self.correspondent_id:
+            return
+        if not self.correspondent_id.mobile:
             return {
                 "warning": {
                     "title": "Write&Pray",
                     "message": "The correspondent doesn't have a mobile phone set. "
-                    "Please check this otherwise he or she won't receive "
-                    "the communications by SMS.",
+                    "Please enter it in the 'Correspondent mobile' field, "
+                    "otherwise he or she won't receive the communications by SMS.",
                 }
             }
-        if self.type == "SWP" and not self.correspondent_id.is_young:
+        if not self.correspondent_id.is_young:
             return {
                 "warning": {
                     "title": "Write&Pray",
@@ -66,6 +75,9 @@ class RecurringContract(models.Model):
             }
 
     def get_payment_type_attachment_string(self):
+        pl_sponsorships = self.filtered(lambda s: s.company_id.country_id.code == "PL")
+        if pl_sponsorships:
+            return pl_sponsorships._get_payment_type_attachment_string_pl()
         payment_mode = (
             self.with_context(lang="en_US").mapped("payment_mode_id")[:1].name
         )
@@ -108,6 +120,49 @@ class RecurringContract(models.Model):
                     "sponsorship payment"
                 )
         return phrase
+
+    def _get_payment_type_attachment_string_pl(self):
+        """Polish sponsors pay by card (PayU) or by a standing order whose
+        details are attached (see _get_standing_order_pl_attachments).
+
+        The attached details give the whole amount of the contract group, as
+        one standing order pays it: a sponsor whose group already has other
+        sponsorships increases the standing order they have by what is added,
+        instead of setting up a new one.
+        """
+        sponsorships = self.filtered("total_amount")
+        currency = (
+            sponsorships[:1].group_id.currency_id
+            or sponsorships[:1].company_id.currency_id
+        )
+        added = sum(sponsorships.mapped("total_amount"))
+        modes = sponsorships.mapped("payment_mode_id")
+        # The provider of a payment mode comes with my_compassion.
+        if (
+            modes
+            and "payment_provider_id" in modes._fields
+            and all(mode.payment_provider_id for mode in modes)
+        ):
+            return _(
+                "Your monthly donation of {amount} will be charged to your card."
+            ).format(amount=format_amount(self.env, added, currency))
+        # The sponsorships the attached standing order details are made of.
+        group_sponsorships = sponsorships.mapped("group_id.contract_ids").filtered(
+            lambda s: s.state in ("active", "waiting") and s.total_amount
+        )
+        total = sum((group_sponsorships | sponsorships).mapped("total_amount"))
+        if group_sponsorships - sponsorships:
+            return _(
+                "Please increase your existing standing order by {added}: the "
+                "attached details give its new monthly amount of {total}."
+            ).format(
+                added=format_amount(self.env, added, currency),
+                total=format_amount(self.env, total, currency),
+            )
+        return _(
+            "Please find attached the details to set up a standing order for "
+            "your monthly donation of {amount}."
+        ).format(amount=format_amount(self.env, total, currency))
 
     def _compute_birthday_paid(self):
         today = datetime.today()
@@ -282,6 +337,7 @@ class RecurringContract(models.Model):
         product_name = products[0].with_context(lang=partner_lang).name
         report_ref = self.env.ref("report_compassion.report_bvr_gift_sponsorship")
         pdf_data = report_ref._render_qweb_pdf(
+            report_ref,
             self.ids,
             data={
                 "doc_ids": self.ids,
@@ -373,6 +429,12 @@ class RecurringContract(models.Model):
 
     def contract_waiting(self):
         mandates_valid = self.filtered(lambda c: c.state == "mandate")
+
+        new_sponsorships = self.filtered(
+            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP", "M2M"]
+            and not c.is_active
+            and c not in mandates_valid
+        )
         res = super().contract_waiting()
 
         for contract in self.filtered("child_id"):
@@ -392,11 +454,6 @@ class RecurringContract(models.Model):
                 # is created from the website so that we can manage partner language
                 self.notify_sds_new_sponsorship()
 
-        new_sponsorships = self.filtered(
-            lambda c: c.type in SPONSORSHIP_TYPE_LIST + ["CSP"]
-            and not c.is_active
-            and c not in mandates_valid
-        )
         if new_sponsorships:
             # Invoices must be generated before sending the dossier
             new_sponsorships.with_delay_sh(
@@ -441,12 +498,17 @@ class RecurringContract(models.Model):
         wp = self.filtered(lambda s: s.type in ["SC", "SWP"] and s.state == "draft")
         super().contract_active()
         wp._new_dossier()
+        cc = self.filtered(lambda c: c.type == "M2M")
+        for rule in ("cc_app_access_rule", "cc_church_inspiration_rule"):
+            cc.send_communication(
+                self.env.ref(f"partner_communication_switzerland.{rule}")
+            )
         return True
 
     def _contract_terminated(self, vals):
         vals["new_picture"] = False
         self.filtered(lambda c: c.type == "M2M").send_communication(
-            self.env.ref("partner_communication_switzerland.m2m_stop_rule")
+            self.env.ref("partner_communication_switzerland.cc_call_to_continue_rule")
         )
         return super()._contract_terminated(vals)
 
@@ -582,14 +644,26 @@ class RecurringContract(models.Model):
         transfer = self.env.ref(common + "new_dossier_transfer")
         child_picture = self.env.ref(swiss + "config_onboarding_photo_by_post")
         survival_config = self.env.ref(swiss + "csp_1") + self.env.ref(swiss + "csp_2a")
-        m2m_welcome = self.env.ref(swiss + "m2m_welcome_rule")
+        cc_welcome = self.env.ref(swiss + "cc_welcome_rule")
         partner = self.correspondent_id if correspondent else self.partner_id
-        if self.parent_id.sds_state == "sub":
+        if self.sub_proposal_date or self.parent_id.sds_state == "sub":
             # No automated communication in this case. The staff can manually send
             # the SUB Accept communication when appropriate
             return True
         elif self.origin_id.type == "transfer":
             configs = transfer
+        elif self.type == "M2M":
+            # Compassion Communities members never receive the child dossier, the
+            # welcome rule prints itself when the partner has no email.
+            configs = cc_welcome
+        elif (
+            self.type == "SWP"
+            and partner.mobile
+            and partner.global_communication_delivery_preference != "physical"
+        ):
+            # Young Write&Pray sponsors often only have a mobile: the welcome
+            # is sent by SMS, no email is needed.
+            configs = wrpr_welcome + child_picture
         elif (
             not partner.email
             or partner.global_communication_delivery_preference == "physical"
@@ -599,8 +673,6 @@ class RecurringContract(models.Model):
             configs = wrpr_welcome + child_picture
         elif self.type == "CSP":
             configs = survival_config
-        elif self.type == "M2M":
-            configs = m2m_welcome
         else:
             configs = new_dossier + child_picture
         for config in configs:

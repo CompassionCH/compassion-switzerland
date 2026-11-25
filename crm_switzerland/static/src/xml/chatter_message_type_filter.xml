@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t
+    t-name="crm_switzerland.ChatterMessageTypeFilter"
+    t-inherit="mail.Chatter"
+    t-inherit-mode="extension"
+>
+    <xpath expr="//button[@aria-label='Search Messages']" position="before">
+        <Dropdown position="'bottom-end'" state="messageTypeFilterDropdown">
+            <button
+                class="btn btn-link text-action"
+                aria-label="Filter Messages"
+                title="Filter messages by type"
+            >
+                <i class="fa fa-filter" role="img" />
+            </button>
+            <t t-set-slot="content">
+                <t
+                    t-foreach="Object.keys(state.visibleMessageTypes)"
+                    t-as="messageType"
+                    t-key="messageType"
+                >
+                    <CheckboxItem
+                        checked="state.visibleMessageTypes[messageType]"
+                        closingMode="'none'"
+                        onSelected="() => this.onToggleMessageTypeVisible(messageType)"
+                    >
+                        <i
+                            class="fa fa-fw me-2"
+                            t-att-class="state.visibleMessageTypes[messageType] ? 'fa-check-square text-primary' : 'fa-square-o'"
+                            role="img"
+                        />
+                        <t t-esc="messageTypeLabels[messageType]" />
+                    </CheckboxItem>
+                </t>
+            </t>
+        </Dropdown>
+    </xpath>
+    <xpath expr="//Thread" position="attributes">
+        <attribute name="visibleMessageTypes">state.visibleMessageTypes</attribute>
+    </xpath>
+</t>
+
+</templates>

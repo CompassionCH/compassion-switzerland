@@ -1,4 +1,6 @@
-from odoo import models
+from dateutil.relativedelta import relativedelta
+
+from odoo import api, fields, models
 
 
 class RegistrationTaskRel(models.Model):
@@ -34,3 +36,37 @@ class RegistrationTaskRel(models.Model):
                 task.task_url = (
                     survey.get_print_url() if task.done else survey.get_start_url()
                 )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        tasks = super().create(vals_list)
+        create_account = self.env.ref("website_switzerland.task_activate_account")
+        child_protection = self.env.ref(
+            "website_switzerland.task_sign_child_protection"
+        )
+        passport = self.env.ref("website_switzerland.task_passport")
+        criminal = self.env.ref("website_switzerland.task_criminal")
+        for task in tasks:
+            if (
+                task.task_id == create_account
+                and task.registration_id.partner_id.user_ids.filtered("login_date")
+            ):
+                task.write({"done": True})
+            if (
+                task.task_id == child_protection
+                and task.registration_id.partner_id.date_agreed_child_protection_charter
+            ):
+                task.write({"done": True})
+            if task.task_id == passport and task.registration_id.passport:
+                task.write({"done": True})
+            if task.task_id == criminal:
+                criminal_record_date = (
+                    task.registration_id.partner_id.criminal_record_date
+                )
+                # The criminal record should be recent
+                today = fields.Date.today()
+                if criminal_record_date and (
+                    criminal_record_date >= today - relativedelta(months=12)
+                ):
+                    task.write({"done": True})
+        return tasks

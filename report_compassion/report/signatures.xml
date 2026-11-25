@@ -19,7 +19,8 @@
                                     <td t-if="employee.image_128" valign="top"
                                         style="margin: 0.1px; padding: 0px 15px 0px 0px;">
                                         <img t-att-src="object.image_url"
-                                             width="74" alt="photo-logo" style="display: block;" />
+                                             width="74" height="74" alt="photo-logo"
+                                             style="display: block; width: 74px; height: 74px; border: 0; border-radius: 50%;" />
                                     </td>
                                     <td style="margin: 0.1px; padding: 0px;">
                                         <table cellpadding="0">
@@ -50,8 +51,8 @@
                                                                 <tr>
                                                                     <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
                                                                         <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/phone.png?t=99"
-                                                                             alt="" width="14"
-                                                                             style="display: block;"/>
+                                                                             alt="" width="14" height="14"
+                                                                             style="display: block; width: 14px; height: 14px; border: 0;"/>
                                                                     </td>
                                                                     <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
                                                                         <a t-attf-href="tel:{{company.commercial_phone.replace(' ', '')}}"
@@ -70,8 +71,8 @@
                                                                 <tr>
                                                                     <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
                                                                         <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/email.png?t=bf"
-                                                                             alt="" width="14"
-                                                                             style="display: block;"/>
+                                                                             alt="" width="14" height="14"
+                                                                             style="display: block; width: 14px; height: 14px; border: 0;"/>
                                                                     </td>
                                                                     <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
                                                                         <a href="https://img.newoldstamp.com/r/539418/e?id=1"
@@ -84,8 +85,8 @@
                                                                     </td>
                                                                     <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
                                                                         <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/website.png?t=7c"
-                                                                             alt="" width="14"
-                                                                             style="display: block;"/>
+                                                                             alt="" width="14" height="14"
+                                                                             style="display: block; width: 14px; height: 14px; border: 0;"/>
                                                                     </td>
                                                                     <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
                                                                         <a href="https://www.compassion.ch"
@@ -105,8 +106,8 @@
                                                                 <tr>
                                                                     <td style="margin: 0.1px; padding: 0px 5px 0px 0px;">
                                                                         <img src="https://img.newoldstamp.com/i/ib/2a5eec/icon105/address.png?t=76"
-                                                                             alt="" width="14"
-                                                                             style="display: block;"/>
+                                                                             alt="" width="14" height="14"
+                                                                             style="display: block; width: 14px; height: 14px; border: 0;"/>
                                                                     </td>
                                                                     <td style="margin: 0.1px; padding: 0px; font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13.1px; line-height: 16.5px; font-family: Arial;">
                                                                         <span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-stretch: normal; font-size: 13px; line-height: normal; font-family: Arial;"><t t-out="company.commercial_street" />, <t t-out="company.commercial_zip" />, <t t-out="company.commercial_city" /></span>
@@ -129,8 +130,8 @@
                                                                         <a t-att-href="company.social_facebook"
                                                                            target="_blank">
                                                                             <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/55.png?t=01"
-                                                                                 width="26"
-                                                                                 valign="top"
+                                                                                 width="26" height="26" border="0"
+                                                                                 style="display: block; width: 26px; height: 26px; border: 0;"
                                                                                  alt="facebook"/>
                                                                         </a>
                                                                     </td>
@@ -138,8 +139,8 @@
                                                                         <a t-att-href="company.social_youtube"
                                                                            target="_blank">
                                                                             <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/224.png?t=5d"
-                                                                                 width="26"
-                                                                                 valign="top"
+                                                                                 width="26" height="26" border="0"
+                                                                                 style="display: block; width: 26px; height: 26px; border: 0;"
                                                                                  alt="youtube"/>
                                                                         </a>
                                                                     </td>
@@ -147,8 +148,8 @@
                                                                         <a t-att-href="company.social_linkedin"
                                                                            target="_blank">
                                                                             <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/106.png?t=5b"
-                                                                                 width="26"
-                                                                                 valign="top"
+                                                                                 width="26" height="26" border="0"
+                                                                                 style="display: block; width: 26px; height: 26px; border: 0;"
                                                                                  alt="linkedin"/>
                                                                         </a>
                                                                     </td>
@@ -156,8 +157,8 @@
                                                                         <a t-att-href="company.social_instagram"
                                                                            target="_blank">
                                                                             <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/98.png?t=87"
-                                                                                 width="26"
-                                                                                 valign="top"
+                                                                                 width="26" height="26" border="0"
+                                                                                 style="display: block; width: 26px; height: 26px; border: 0;"
                                                                                  alt="instagram"/>
                                                                         </a>
                                                                     </td>
@@ -165,8 +166,8 @@
                                                                         <a t-att-href="company.social_vimeo"
                                                                            target="_blank">
                                                                             <img src="https://img.newoldstamp.com/i/26/1/1/2a5eec/205.png?t=b8"
-                                                                                 width="26"
-                                                                                 valign="top"
+                                                                                 width="26" height="26" border="0"
+                                                                                 style="display: block; width: 26px; height: 26px; border: 0;"
                                                                                  alt="vimeo"/>
                                                                         </a>
                                                                     </td>

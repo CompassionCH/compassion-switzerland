@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="compassion_intervention_church_presentation_view" model="ir.ui.view">
+        <field name="name">compassion.intervention.church.presentation</field>
+        <field name="model">compassion.intervention</field>
+        <field
+      name="inherit_id"
+      ref="intervention_compassion.view_compassion_intervention_form"
+    />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='problem_statement']/ancestor::page[1]" position="inside">
+                <group string="Church presentation" name="church_presentation" invisible="type != 'Donor-funded FCP'">
+                    <field
+            name="project_director_photo"
+            widget="image"
+            options="{'preview_image': 'project_director_photo', 'size': [0, 160]}"
+          />
+                    <field name="church_presentation_text" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

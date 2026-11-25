@@ -8,7 +8,6 @@
 #
 ##############################################################################
 import logging
-from datetime import datetime
 
 from odoo import http
 from odoo.http import request
@@ -44,5 +43,5 @@ class B2sControllerSwitzerland(RestController):
         correspondence = correspondence_obj.search([("uuid", "=", uuid)])
         if correspondence.communication_id and request.env.user.share:
             all_letters = correspondence.communication_id.get_objects()
-            all_letters.write({"email_read": datetime.now()})
+            all_letters.mark_email_read()
         return res

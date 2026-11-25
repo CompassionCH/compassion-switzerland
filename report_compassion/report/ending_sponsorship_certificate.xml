@@ -12,6 +12,7 @@
         <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin" />
         <field name="binding_model_id" ref="model_recurring_contract" />
         <field name="binding_type">report</field>
+        <field name="print_delay">0</field>
     </record>
 
     <template id="ending_sponsorship_certificate">
@@ -113,6 +114,9 @@
             }
         </t>
         <t t-call="web.html_container">
+            <!-- No .article div: Odoo sends this to wkhtmltopdf without its <head>,
+                 so declare the encoding here or accents are read as Latin-1. -->
+            <meta charset="utf-8" />
             <t t-foreach="docs" t-as="o">
                 <t t-call="report_compassion.style" />
                 <t t-set="pictures" t-value="o.child_id.pictures_ids" />

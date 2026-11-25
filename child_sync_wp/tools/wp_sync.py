@@ -4,7 +4,9 @@ import requests
 
 _logger = logging.getLogger(__name__)
 
-REQUESTS_TIMEOUT = 3
+REQUESTS_TIMEOUT = 30
+# Bulk deletions on the website take much longer than a single child insert
+REQUESTS_TIMEOUT_LONG = 120
 
 
 def serialize_date(date_obj):
@@ -140,7 +142,7 @@ class WPSync:
                 json=payload,
                 headers=self.get_headers(),
                 verify=True,
-                timeout=REQUESTS_TIMEOUT,
+                timeout=REQUESTS_TIMEOUT_LONG,
             )
             response.raise_for_status()
             res_data = response.json()
@@ -156,7 +158,7 @@ class WPSync:
                 self.base_url + "delete-all-children",
                 headers=self.get_headers(),
                 verify=True,
-                timeout=REQUESTS_TIMEOUT,
+                timeout=REQUESTS_TIMEOUT_LONG,
             )
             response.raise_for_status()
             res_data = response.json()

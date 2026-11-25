@@ -32,7 +32,7 @@ class AccountInvoiceLine(models.Model):
         """
         res_name = False
         currency = self.mapped("currency_id")[:1].name
-        total = sum(self.mapped("price_subtotal"))
+        total = self.get_donation_amount()
         total_string = f"{total:,.0f}.-" if total.is_integer() else f"{total:,.2f}"
         total_string = currency + " " + total_string.replace(",", "'")
 

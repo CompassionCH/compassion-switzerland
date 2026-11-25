@@ -41,7 +41,10 @@ class Contract(models.Model):
         value through escape/unescape.
         """
         self.ensure_one()
-        lang = self.mapped(self.send_gifts_to).lang
+        # Follow the document's rendering language (e.g. the portal viewer's
+        # current interface language) rather than the gift partner's own
+        # stored language, so the whole document stays in one language.
+        lang = self.env.context.get("lang") or self.mapped(self.send_gifts_to).lang
         child = self.child_id.with_context(lang=lang)
         born = {
             "en_US": "Born in",

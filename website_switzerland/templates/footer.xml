@@ -14,52 +14,8 @@
         t-if="not no_footer"
         style=""
       >
-      <section class="s_call_to_action pt48" data-name="Call to Action">
-        <div class="container">
-          <div class="row">
-            <div class="pb24 o_colored_level col-lg-12">
-              <h2 class="text-uppercase text-center">Get involved now</h2>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="s_call_to_action pt48" data-name="Call to Action">
-        <div class="container">
-          <div class="row">
-            <div class="pb24 o_colored_level col-lg-6">
-              <h3
-                  class="text-uppercase font-weight-bold"
-                >Compassion care funds</h3>
-              <p
-                  class="lead"
-                >Our funds help support our sponsored children, their families and their communities.</p>
-              <p class="lead">
-                <a
-                    href="/donate"
-                    class="btn btn-secondary text-uppercase"
-                  >Donate now</a>
-              </p>
-            </div>
-            <div class="pb24 o_colored_level col-lg-6">
-              <h3 class="text-uppercase font-weight-bold">Sponsor a child</h3>
-              <p
-                  class="lead"
-                >Sponsorship is the beginning of a unique bond between you and your sponsored child. With a monthly support of CHF 42, you can begin to transform his or her life.</p>
-              <p class="lead">
-                <a
-                    href="/children/"
-                    class="btn btn-secondary text-uppercase"
-                    data-original-title=""
-                    title=""
-                    aria-describedby="tooltip455306"
-                  >Sponsor a child now</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
       <section
-          class="s_text_block"
+          class="s_text_block pt48"
           data-snippet="s_text_block"
           data-name="Text"
         >
@@ -97,4 +53,8 @@
     </div>
   </xpath>
     </template>
+
+    <!-- The website copies of the footer were edited in the website editor, so
+         they don't follow this template: remove the two blocks from them too (T3599). -->
+    <function model="ir.ui.view" name="_remove_footer_call_to_action" />
 </odoo>

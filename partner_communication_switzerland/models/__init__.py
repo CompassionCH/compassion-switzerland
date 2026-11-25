@@ -23,3 +23,4 @@ from . import res_partner_zoom_attendee
 from . import field_office
 from . import partner_communication_config
 from . import link_tracker
+from . import compassion_intervention

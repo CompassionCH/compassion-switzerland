@@ -53,15 +53,16 @@ class PartnerMergeWizard(models.TransientModel):
                 [("partner_id", "in", removing.ids), ("state", "=", "pending")]
             ).unlink()
 
+        wizard = self.sudo().with_context(no_vat_validation=True)
         old_emails = removing.filtered("email").mapped("email")
         new_email = self.dst_partner_id.email
         for email in old_emails:
             if new_email and email != new_email:
-                self.dst_partner_id.copy(
+                wizard.dst_partner_id.copy(
                     {
                         "parent_id": self.dst_partner_id.id,
                         "email": email,
                         "type": "email_alias",
                     }
                 )
-        return super(PartnerMergeWizard, self.sudo()).action_merge()
+        return super(PartnerMergeWizard, wizard).action_merge()

@@ -1,0 +1,37 @@
+<div style="font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;">
+   % set partner = object.partner_id
+
+% set sponsorships = partner.sponsorship_ids.filtered('is_active')
+% set lang = partner.lang
+% set param = object.env['ir.config_parameter'].sudo()
+  </div>
+  <p style="margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;">
+   ${partner.salutation},
+   <br>
+   <br>
+   % if sponsorships:
+    Grazie per aver investito nella vita di
+   ${sponsorships.get_list('child_id.preferred_name', 3, 'tanti bambini', False)}.
+   <br>
+   <br>
+   <br>
+   <br>
+   % endif
+   <br>
+   <br>
+   % if sponsorships:
+	Il vostro sostegno a un bambino in estrema povertà è prezioso. Compassion crede che il vostro sostegno darà a un bambino l'opportunità di vivere una vita piena di significato.
+   % endif
+${object.success_sentence or ''}
+   <br>
+   <br>
+   Ancora una volta, grazie per il vostro impegno, affinché insieme possiamo cambiare positivamente la vita di oltre 2,3 milioni di bambini in 27 Paesi.
+  </p>
+  <p style="margin:0px 0 1rem 0;font-size:13px;font-family:&quot;Lucida Grande&quot;, Helvetica, Verdana, Arial, sans-serif;">
+   Cordiali saluti,
+% if object.send_mode != 'physical':
+  <br>
+  <br>
+  ${object.user_id.signature | safe}
+% endif
+  </p>

@@ -1,0 +1,63 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+</div>
+<p>
+  <t t-out="partner.salutation"></t>
+  <br />
+  <br />
+  Your journey <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> is fast approaching.
+  <br />
+  <br />
+  An unforgettable experience is being prepared. In this perspective, Compassion
+  invites you to a meeting of the participants [place and time of the meeting].
+  <br />
+  <br />
+  On this occasion, we will present you the work of Compassion
+  <t t-out="event.country_id.in_preposition"></t>
+  <t t-out="event.country_id.name"></t> as well as the detailed program of the
+  trip. There will also be a time for Questions &amp; Answers and an aperitif to
+  get to know each other.
+  <br />
+  <br />
+  <b>Please confirm your participation by clicking here:</b>.
+  <br />
+  <br />
+</p>
+<div style="margin: 0 auto; text-align: center">
+  <a
+    href=""
+    style="
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: #ffffff;
+      border-color: #0054a6;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #0054a6;
+      border: 1px solid #0054a6;
+      border-radius: 3px;
+    "
+  >
+    Accept/Decline invitation
+  </a>
+</div>
+<br />
+<br />
+We look forward to meeting you (or seeing you again) on this occasion.
+<br />
+<br />
+Receive our warmest greetings.
+<br />
+<br />
+<t t-out="object.user_id.signature"></t>

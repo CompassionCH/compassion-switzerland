@@ -11,7 +11,7 @@ from datetime import date, datetime
 
 from babel.dates import format_date
 
-from odoo import models
+from odoo import api, models
 
 
 class ResPartner(models.Model):
@@ -68,11 +68,13 @@ class ResPartner(models.Model):
         except (ValueError, TypeError, AttributeError):
             return 0.0
 
+    @api.depends_context("lang")
     def _compute_date_communication(self):
         """City and date displayed in the top right of a letter for Yverdon"""
         today = datetime.today()
         city = self.env.company.commercial_city
+        lang = self.env.context.get("lang") or self.env.lang
         for partner in self:
-            date = format_date(today, format="long", locale=partner.lang)
-            formatted_date = f"le {date}" if "fr" in partner.lang else date
+            date = format_date(today, format="long", locale=lang)
+            formatted_date = f"le {date}" if "fr" in lang else date
             partner.date_communication = f"{city}, {formatted_date}"

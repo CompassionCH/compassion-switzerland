@@ -1,0 +1,53 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+  <t t-set="registration" t-value="object.get_objects()" />
+  <t t-set="event" t-value="registration.compassion_event_id" />
+  <t
+    t-set="base_url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)"
+  />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+  <t t-set="dir" t-value='partner.get("dir")' />
+  <t t-set="dein" t-value='partner.get("dein")' />
+  <t t-set="deine" t-value='partner.get("deine")' />
+  <t t-set="dich" t-value='partner.get("dich")' />
+</div>
+<p>
+  <t t-out="partner.get(&#x27;salutation&#x27;).title()"></t>
+  <t t-out="partner.preferred_name"></t>
+  <br />
+  <br />
+  Wir freuen uns, <t t-out="dir"></t> hiermit <t t-out="deine"></t> Anmeldung
+  zur Compassion Impact- Reise in die <t t-out="event.country_id.name"></t> zu
+  bestätigen.
+  <br />
+  <br />
+  In den kommenden Wochen werden wir <t t-out="dich"></t> in den weiteren
+  Reisevorbereitungen begleiten, damit <t t-out="deine"></t> Vorfreude mit jedem
+  Schritt grösser wird.
+</p>
+<p>Was erwartet <t t-out="dich"></t> konkret?</p>
+<ol>
+  <li>Gesundheitsinformationen (notwendige Impfungen etc.)</li>
+  <li>Informationen zu <t t-out="deine"></t>m Impact für Mütter und Babys</li>
+  <li>Informationen zu Reise- und Versicherungsdokumenten</li>
+  <li>Information zum Vorbereitungstreffen</li>
+  <li>Informationen zu Land und Klima</li>
+  <li>
+    Informationen zur Arbeit von Compassion und zu einem allfälligen Treffen mit
+    <t t-out="deine"></t>m Patenkind
+  </li>
+</ol>
+<p>
+  Wenn <t t-out="du"></t> dazu Fragen
+  <t t-out='"hast, darfst du" if partner.plural else "habt, dürft ihr"'></t> uns
+  gerne per E-Mail an <t t-out="user.email"></t> kontaktieren.
+  <br />
+  <br />
+  Liebe Grüsse
+  <br />
+  <br />
+</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

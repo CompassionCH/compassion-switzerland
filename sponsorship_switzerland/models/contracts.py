@@ -44,7 +44,7 @@ class RecurringContracts(models.Model):
         ondelete={"mandate": lambda records: records.write({"state": "waiting"})},
     )
     type = fields.Selection(
-        selection_add=[("M2M", "Many2Many Sponsorship")],
+        selection_add=[("M2M", "Compassion Communities")],
         ondelete={"M2M": lambda records: records.write({"type": "O"})},
     )
 
@@ -54,7 +54,9 @@ class RecurringContracts(models.Model):
     def _compute_first_open_invoice(self):
         for contract in self:
             invoices = contract.invoice_line_ids.mapped("move_id").filtered(
-                lambda i: i.payment_state == "not_paid" and i.state == "posted"
+                lambda i: i.move_type == "out_invoice"
+                and i.payment_state == "not_paid"
+                and i.state == "posted"
             )
             if invoices:
                 first_open_invoice = min(i.invoice_date for i in invoices)
@@ -140,7 +142,7 @@ class RecurringContracts(models.Model):
         if self.type == "M2M":
             lang = self.partner_id.lang or self.env.lang
             product = self.env["product.product"].search(
-                [("default_code", "like", "m2m"), ("default_code", "like", lang[:2])],
+                [("default_code", "=like", f"m2m\\_%\\_{lang[:2]}")],
                 limit=1,
             )
             if product:
@@ -190,19 +192,6 @@ class RecurringContracts(models.Model):
         bvr_reference += str(product.sponsorship_gift_type_id.id)
         bvr_reference += "0" * 4
 
-        if self.payment_mode_id and "LSV" in self.payment_mode_id.name:
-            # Get company BVR adherent number
-            user = self.env.user
-            bank_obj = self.env["res.partner.bank"]
-            company_bank = bank_obj.search(
-                [
-                    ("partner_id", "=", user.company_id.partner_id.id),
-                    ("acc_type", "=", "iban"),
-                ],
-                limit=1,
-            )
-            if company_bank:
-                bvr_reference = company_bank.l10n_ch_isrb_id_number + bvr_reference[9:]
         if len(bvr_reference) == 26:
             return mod10r(bvr_reference)
 
@@ -295,6 +284,14 @@ class RecurringContracts(models.Model):
                     "New sponsorships are not allowed."
                 )
             )
+        # The welcome communication explains how to pay and attaches the slip.
+        if self.filtered(lambda c: c.type == "M2M" and not c.payment_mode_id):
+            raise UserError(
+                _(
+                    "Please set the payment mode before validating a "
+                    "Compassion Communities engagement."
+                )
+            )
         # Notify for special categories
         special_categories = partners.mapped("category_id").filtered("warn_sponsorship")
         # Since we are in workflow, the user is not set in environment.
@@ -363,7 +360,7 @@ class RecurringContracts(models.Model):
         """Change state of contract if payment is changed to/from LSV or DD."""
         for i, contract in enumerate(self):
             group = contract.group_id.with_context(lang="en_US")
-            payment_name = group.payment_mode_id.name
+            payment_name = group.payment_mode_id.name or ""
             old_payment_name = old_payment_modes[i].with_context(lang="en_US").name
             if not old_payment_name:
                 continue

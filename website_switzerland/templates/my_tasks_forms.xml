@@ -99,6 +99,11 @@
         name="csrf_token"
         t-att-value="request.csrf_token()"
       />
+            <input
+        type="hidden"
+        name="registration_id"
+        t-att-value="registration.id"
+      />
             <div class="form-check">
               <input
           class="form-check-input"

@@ -1,0 +1,48 @@
+<div>
+  <t t-set="partner" t-value="object.partner_id" />
+
+  <t t-set="registration" t-value="object.get_objects()" />
+
+  <t t-set="event" t-value="registration.compassion_event_id" />
+
+  <t
+    t-set="base_url"
+    t-value="object.env[&#x27;ir.config_parameter&#x27;].sudo().get_param(&#x27;web.external.url&#x27;)"
+  />
+  <t t-set="user" t-value="registration.event_id.user_id" />
+</div>
+<p>
+  <t t-out="partner.salutation"></t>,
+  <br />
+  <br />
+  Nous avons bien reçu le paiement de l'acompte et les documents nécessaires
+  pour l'inscription au voyage Impact de Compassion. Merci de tout coeur !
+  <br />
+  <br />
+  Dans les semaines à venir, vous serez guidé<t
+    t-out="partner.get(&#x27;accord_e&#x27;) or &#x27;&#x27;"
+  ></t>
+  dans les préparatifs de votre voyage. Qu'est-ce qui vous attend concrètement ?
+</p>
+<ol>
+  <li>Infos de santé</li>
+  <li>Infos sur les documents de voyage et d'assurance</li>
+  <li>Infos sur la rencontre d'information et de préparation</li>
+  <li>Infos sur le pays et le climat</li>
+  <li>
+    Infos sur le travail de Compassion et la rencontre avec votre filleul(e)
+  </li>
+</ol>
+<p>
+  N'hésitez pas à nous contacter par courriel à nhanggi@compassion.ch pour toute
+  question.
+  <br />
+  <br />
+  Encore une fois, merci de votre engagement pour les enfants démunis.
+  <br />
+  <br />
+  Meilleures salutations
+</p>
+<div>
+  <t t-out="user.signature"></t>
+</div>

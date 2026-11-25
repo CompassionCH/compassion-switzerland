@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="email_compose_message_wizard_form_edit_note" model="ir.ui.view">
+        <field name="name">mail.compose.message.form.edit.note</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form" />
+        <field name="arch" type="xml">
+            <!-- The field has to be in the view, otherwise default_get never
+                 returns its default_edit_message_id value. -->
+            <field name="subtype_is_log" position="after">
+                <field name="edit_message_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>

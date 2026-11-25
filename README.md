@@ -10,6 +10,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
+[account_switzerland](account_switzerland/) | 18.0.1.0.0 |  | Compassion CH Accounting
 [child_switzerland](child_switzerland/) | 18.0.1.0.0 |  | Compassion CH Children
 [child_sync_wp](child_sync_wp/) | 18.0.1.0.0 |  | Sync Compassion Children with Wordpress website
 [crm_switzerland](crm_switzerland/) | 18.0.1.0.0 |  | Decouple partner and lead email
@@ -27,7 +28,6 @@ Unported addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [account_reconcile_checkout](account_reconcile_checkout/) | 14.0.1.0.0 (unported) |  | Reconcile tools for Compassion CH
-[account_switzerland](account_switzerland/) | 14.0.1.0.0 (unported) |  | Compassion CH Account Move
 [auth_external](auth_external/) | 14.0.1.1.0 (unported) |  | Compassion CH External Auth
 [bank_statement_import_compassion](bank_statement_import_compassion/) | 14.0.0.1.0 (unported) |  | Compassion Bank Account Import
 [base_cron_monitor](base_cron_monitor/) | 14.0.2.0.0 (unported) | <a href='https://github.com/ecino'><img src='https://github.com/ecino.png' width='32' height='32' style='border-radius:50%;' alt='ecino'/></a> | Monitor Scheduled and Automated Actions

@@ -105,7 +105,7 @@ class ContractGroup(models.Model):
             "subject": _("for") + " ",
             "date": "",
         }
-        locale = self.partner_id.lang
+        locale = self.env.context.get("lang") or self.partner_id.lang
         if start and stop:
             start_date = format_date(date_start, format="MMMM yyyy", locale=locale)
             stop_date = format_date(date_stop, format="MMMM yyyy", locale=locale)
