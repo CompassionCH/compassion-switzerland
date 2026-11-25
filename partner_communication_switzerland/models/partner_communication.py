@@ -54,7 +54,20 @@ class PartnerCommunication(models.Model):
         super(
             PartnerCommunication, wrpr_jobs.with_context(salutation_preferred_name=True)
         )._compute_content()
-        return super(PartnerCommunication, self - wrpr_jobs)._compute_content()
+        res = super(PartnerCommunication, self - wrpr_jobs)._compute_content()
+        self._set_company_sender()
+        return res
+
+    def _set_company_sender(self):
+        """The e-mail templates send from the Swiss address. A communication
+        about the records of another company (e.g. Fundacja Compassion Polska)
+        is sent from that company's address, and replies go to it."""
+        main_company = self.env.ref("base.main_company")
+        for job in self:
+            company = job.company_id
+            if company and company != main_company and company.email:
+                job.email_from = company.email_formatted
+                job.reply_to = company.email
 
     def _is_write_and_pray(self):
         """A job is a Write&Pray communication if it uses a Write&Pray rule, or
@@ -702,6 +715,21 @@ class PartnerCommunication(models.Model):
                 ("sds_state", "in", ["active", "sub_waiting", "sub", "sub_accept"]),
             ]
         )
+        # The welcome of a limited-time Compassion Communities engagement only
+        # carries its own slip, as it is paid separately (T3716).
+        if self.config_id == self.env.ref(
+            "partner_communication_switzerland.cc_welcome_rule"
+        ):
+            limited_cc = self.get_objects().filtered(lambda c: c.end_date)
+            if limited_cc:
+                sponsorships &= limited_cc
+        # Polish sponsors pay by a standing order set up in their bank: they
+        # get its details, not a Swiss slip.
+        pl_sponsorships = sponsorships.filtered(
+            lambda s: s.company_id.country_id.code == "PL"
+        )
+        attachments = self._get_standing_order_pl_attachments(pl_sponsorships)
+        sponsorships -= pl_sponsorships
 
         slip_sponsorships = sponsorships.filtered(
             # 1. The sponsorship amount must be set
@@ -725,7 +753,6 @@ class PartnerCommunication(models.Model):
             #  so they are never included)
         )
 
-        attachments = {}
         # Payment slips
         if slip_sponsorships:
             report_name = "report_compassion.2bvr_sponsorship"
@@ -765,6 +792,128 @@ class PartnerCommunication(models.Model):
                 }
             )
         return attachments
+
+    def _get_standing_order_pl_attachments(self, sponsorships):
+        """Standing order details for Polish sponsorships, one per group.
+
+        Sponsorships paid by a payment provider (PayU card) are charged by
+        Compassion, the others are paid by a standing order (zlecenie stałe)
+        the sponsor sets up in their bank: the PDF gives its details and the
+        ZBP QR code banking apps read to fill in the transfer.
+
+        :param sponsorships: recurring.contract of the Polish company
+        :return dict {attachment_name: [report_name, pdf_data]}
+        """
+        self.ensure_one()
+        # The provider of a payment mode comes with my_compassion.
+        modes = self.env["account.payment.mode"]
+        charged = "payment_provider_id" in modes._fields
+        sponsorships = sponsorships.filtered(
+            lambda s: s.total_amount
+            and not (charged and s.payment_mode_id.payment_provider_id)
+        )
+        if not sponsorships:
+            return {}
+        groups = sponsorships.mapped("group_id")
+        data = {
+            "doc_ids": groups.ids,
+            "lang": self.partner_id.lang,
+            "orders": [
+                self._get_standing_order_pl_values(
+                    sponsorships.filtered(lambda s, g=group: s.group_id == g)
+                )
+                for group in groups
+            ],
+        }
+        pdf = self._get_pdf_from_data(
+            data, "partner_communication_switzerland.report_standing_order_pl"
+        )
+        return {
+            _("standing order.pdf"): [
+                "partner_communication_switzerland.standing_order_pl",
+                pdf,
+            ]
+        }
+
+    def _get_standing_order_pl_values(self, sponsorships):
+        """What the sponsor types in their bank for the sponsorships of one
+        group.
+
+        The transfer title is the reference of the group, or failing that of
+        the sponsorships: it is what identifies the payment on the bank
+        statement.
+        """
+        group = sponsorships.mapped("group_id")
+        company = sponsorships.mapped("company_id")[:1]
+        reference = group.ref if group.ref and group.ref.strip() != "/" else ""
+        if not reference:
+            reference = ", ".join(sponsorships.mapped("reference"))
+        bank = group.payment_mode_id.fixed_journal_id.bank_account_id
+        if not bank:
+            bank = (
+                self.env["account.journal"]
+                .search(
+                    [
+                        ("company_id", "=", company.id),
+                        ("type", "=", "bank"),
+                        ("bank_account_id", "!=", False),
+                    ],
+                    limit=1,
+                )
+                .bank_account_id
+            )
+        if not bank:
+            raise UserError(
+                _("The company %s has no bank account for standing orders.")
+                % company.name
+            )
+        account = bank.sanitized_acc_number or ""
+        nrb = account[2:] if account[:2].upper() == "PL" else account
+        amount = sum(sponsorships.mapped("total_amount"))
+        currency = group.currency_id or company.currency_id
+        return {
+            "company": company,
+            "recipient": company.partner_id,
+            "account": " ".join(
+                [nrb[:2]] + [nrb[i : i + 4] for i in range(2, len(nrb), 4)]
+            ),
+            "amount": amount,
+            "currency": currency,
+            "reference": reference,
+            "children": sponsorships.mapped("child_id"),
+            "qr_code": base64.b64encode(
+                self.env["ir.actions.report"].barcode(
+                    "QR",
+                    self._get_zbp_qr_value(company, nrb, amount, reference),
+                    width=300,
+                    height=300,
+                )
+            ).decode(),
+        }
+
+    @api.model
+    def _get_zbp_qr_value(self, company, nrb, amount, title):
+        """Transfer details in the QR code of the Polish Bank Association
+        (ZBP 2D standard), read by Polish banking apps:
+        NIP|country|account|amount in grosze|recipient|title|||
+
+        The recipient is cut to 20 characters and the title to 32, as the
+        standard requires. An amount of 000000 lets the payer type it.
+        """
+        nip = "".join(c for c in company.vat or "" if c.isdigit())
+        grosze = round(amount * 100)
+        fields_values = [
+            nip if len(nip) == 10 else "",
+            "PL",
+            nrb,
+            f"{grosze:06d}" if 0 < grosze <= 999999 else "000000",
+            (company.partner_id.name or "")[:20].strip(),
+            title[:32].strip(),
+            "",
+            "",
+            "",
+        ]
+        return "|".join(v.replace("|", " ") for v in fields_values)
 
     def get_toiletten_tanzania(self):
         self.ensure_one()

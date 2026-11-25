@@ -11,7 +11,7 @@ import base64
 
 from werkzeug.exceptions import NotFound
 
-from odoo import http
+from odoo import http, tools
 from odoo.http import request
 
 
@@ -36,8 +36,13 @@ class EmployeeImageController(http.Controller):
         if not employee.image_128:
             raise NotFound()
 
-        # Decode the base64 image as binary image
-        image_data = base64.b64decode(employee.image_128)
+        # T3484: square crop, else the round signature photo renders oval
+        image_data = tools.image_process(
+            base64.b64decode(employee.image_1920 or employee.image_128),
+            size=(256, 256),
+            crop="center",
+            output_format="PNG",
+        )
 
         # Return the binary image directly as response
         return request.make_response(

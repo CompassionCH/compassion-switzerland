@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Polish sponsors: details of the standing order (zlecenie stałe) to
+         set up in their bank, with the ZBP QR code banking apps read.
+         Rendered from the values of _get_standing_order_pl_values. -->
+    <record id="paperformat_standing_order_pl" model="report.paperformat">
+        <field name="name">A4 without header</field>
+        <field name="default" eval="False" />
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">20</field>
+        <field name="margin_right">20</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="report_standing_order_pl" model="ir.actions.report">
+        <field name="name">Standing order details (Poland)</field>
+        <field name="model">recurring.contract.group</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+      name="report_name"
+    >partner_communication_switzerland.standing_order_pl</field>
+        <field name="paperformat_id" ref="paperformat_standing_order_pl" />
+        <field name="print_delay">0</field>
+    </record>
+
+    <template id="standing_order_pl">
+        <t t-call="web.html_container">
+            <t t-foreach="orders" t-as="order">
+                <t
+          t-call="partner_communication_switzerland.standing_order_pl_document"
+          t-lang="lang"
+        />
+            </t>
+        </t>
+    </template>
+
+    <template id="standing_order_pl_document">
+        <t t-call="web.basic_layout">
+            <t t-set="recipient" t-value="order['recipient']" />
+            <t t-set="th_style" t-value="'text-align: left; vertical-align: top; padding: 6px 12px 6px 0; width: 32%; font-weight: bold;'" />
+            <t t-set="td_style" t-value="'vertical-align: top; padding: 6px 0;'" />
+            <div class="page" style="font-size: 11pt; line-height: 1.4;">
+                <img
+          t-if="order['company'].logo"
+          t-att-src="image_data_uri(order['company'].logo)"
+          style="max-height: 20mm; max-width: 60mm; margin-bottom: 8mm;"
+        />
+                <h2 style="margin-bottom: 4mm;">Your monthly standing order</h2>
+                <p>Thank you for sponsoring with Compassion. Please set up a monthly standing order in your online banking with the details below: it is the simplest way to support your sponsored child every month.</p>
+                <table style="width: 100%; border-collapse: collapse; margin: 6mm 0; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
+                    <tr>
+                        <th t-att-style="th_style">Recipient</th>
+                        <td t-att-style="td_style">
+                            <div t-out="recipient.name" />
+                            <div t-out="recipient.street" />
+                            <div t-if="recipient.street2" t-out="recipient.street2" />
+                            <div>
+                                <span t-out="recipient.zip" />
+                                <span t-out="recipient.city" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th t-att-style="th_style">Account number</th>
+                        <td t-att-style="td_style">
+                            <strong
+                style="font-size: 13pt;"
+                t-out="order['account']"
+              />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th t-att-style="th_style">Amount</th>
+                        <td t-att-style="td_style">
+                            <strong
+                t-out="order['amount']"
+                t-options="{'widget': 'monetary', 'display_currency': order['currency']}"
+              />
+                            <span>every month</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th t-att-style="th_style">Transfer title</th>
+                        <td t-att-style="td_style">
+                            <strong
+                style="font-size: 13pt;"
+                t-out="order['reference']"
+              />
+                            <div style="font-size: 9pt; color: #555;">Please copy it exactly: it lets us assign your gift to your sponsorship.</div>
+                        </td>
+                    </tr>
+                    <tr t-if="order['children']">
+                        <th t-att-style="th_style">Sponsored child</th>
+                        <td t-att-style="td_style">
+                            <div t-foreach="order['children']" t-as="child">
+                                <span t-out="child.preferred_name or child.name" />
+                                (<span t-out="child.local_id" />)
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <h4>How to set up the standing order</h4>
+                <ol>
+                    <li>Log in to your online banking or banking app.</li>
+                    <li>In the transfers menu, choose "Standing order".</li>
+                    <li>Enter the details above, with "every month" as the frequency and the start date of your choice.</li>
+                    <li>Confirm the standing order.</li>
+                </ol>
+
+                <table style="width: 100%; margin-top: 6mm;">
+                    <tr>
+                        <td style="width: 50mm; vertical-align: middle;">
+                            <img
+                t-att-src="'data:image/png;base64,%s' % order['qr_code']"
+                style="width: 42mm; height: 42mm;"
+              />
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <p>Scan this code with your banking app to fill in the first transfer. Most banks then let you save it as a standing order.</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <p
+          style="margin-top: 6mm;"
+          t-if="recipient.email or recipient.phone"
+        >
+                    Any questions? Contact us:
+                    <span t-out="recipient.email" />
+                    <span t-if="recipient.email and recipient.phone"> - </span>
+                    <span t-out="recipient.phone" />
+                </p>
+            </div>
+        </t>
+    </template>
+</odoo>

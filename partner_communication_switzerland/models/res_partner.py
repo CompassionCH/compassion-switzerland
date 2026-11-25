@@ -189,6 +189,20 @@ class ResPartner(models.Model):
             )
             return f"{cari} {self._get_salutation_firstname()}"
 
+    def _get_salutation_pl_PL(self):
+        """Polish salutation, without declining the name: a Polish first name
+        takes the vocative after "Drogi/Droga", which cannot be built
+        reliably, so the greeting is "Dzień dobry"."""
+        self.ensure_one()
+        family_title = self.env.ref("partner_compassion.res_partner_title_family")
+        friends_title = self.env.ref("partner_compassion.res_partner_title_friends")
+        title = self.title
+        if title == family_title:
+            return "Droga Rodzino"
+        if self.is_company or not self.firstname or title == friends_title:
+            return "Drodzy Przyjaciele Compassion"
+        return f"Dzień dobry, {self._get_salutation_firstname()}"
+
     @api.depends_context("salutation_preferred_name")
     def _compute_informal_salutation(self):
         for partner in self:

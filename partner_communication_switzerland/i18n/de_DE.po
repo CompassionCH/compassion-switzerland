@@ -8916,7 +8916,7 @@ msgstr "ora"
 #. odoo-python
 #: code:addons/partner_communication_switzerland/models/partner_communication.py:0
 msgid "sponsorship due.pdf"
-msgstr "Patenschaft Zahlung.pdf"
+msgstr "Patenschaftsspende.pdf"
 
 #. module: partner_communication_switzerland
 #. odoo-python
