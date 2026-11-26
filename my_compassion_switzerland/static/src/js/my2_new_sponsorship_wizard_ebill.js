@@ -181,6 +181,9 @@ NewSponsorshipWizard.include({
    * the step happens by itself once the code validates.
    */
   _onStepClick: function (ev) {
+    // The mode is read off Continue right below, before _super would sync
+    // it with the checked radio.
+    this._mirrorCheckedPaymentMode();
     const isEbillButton =
       $(ev.currentTarget).data("payment-code") === EBILL_PAYMENT_CODE;
     const setupDone =
