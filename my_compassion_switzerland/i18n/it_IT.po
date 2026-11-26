@@ -111,7 +111,7 @@ msgstr ""
 "    Sito web Compassion Svizzera</p>\n"
 "</div>\n"
 "  </body>\n"
-"</html>\n"
+"</html>"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.new_sponsorship_wizard_volunteering
@@ -806,7 +806,7 @@ msgid "New Sponsorship Wizard"
 msgstr "Assistente Nuovo Sostegno"
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_ch_pending_payment_notice
 msgid "No payment has been made yet."
 msgstr "Nessun pagamento è stato ancora effettuato."
 
@@ -1098,7 +1098,7 @@ msgstr ""
 "scegli un altro metodo di pagamento."
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_ch_pending_payment_notice
 msgid ""
 "We will send you the direct debit authorisation to sign and\n"
 "                    return. Once your bank has it, the monthly amount is\n"
@@ -1109,7 +1109,7 @@ msgstr ""
 "automaticamente."
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_ch_pending_payment_notice
 msgid ""
 "We will send you the payment details for the method you\n"
 "                    chose. Your sponsorship starts as soon as we receive the\n"
@@ -1119,7 +1119,7 @@ msgstr ""
 "inizia non appena riceviamo il primo pagamento."
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_ch_pending_payment_notice
 msgid ""
 "We will send you the payment details so you can set up the\n"
 "                    standing order with your bank. Your sponsorship starts as\n"
@@ -1194,7 +1194,7 @@ msgstr ""
 " con Compassion."
 
 #. module: my_compassion_switzerland
-#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_new_sponsorship_thank_you_pending_payment
+#: model_terms:ir.ui.view,arch_db:my_compassion_switzerland.my2_ch_pending_payment_notice
 msgid ""
 "Your E-Bill connection with Compassion is set up. Your first\n"
 "                    invoice will arrive in your bank's E-Bill inbox, where you\n"
@@ -1303,3 +1303,9 @@ msgstr "Abbiamo inviato un codice di validazione a"
 #: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.success_template_content
 msgid "You have successfully subscribed to E-Bill."
 msgstr "L’abbonamento a eBill è attivo."
+
+#. module: my_compassion_switzerland
+#. odoo-javascript
+#: code:addons/my_compassion_switzerland/static/src/js/my2_new_sponsorship_wizard_volunteering.js:0
+msgid "Thank you! Your request has been sent to us."
+msgstr "Grazie! Abbiamo ricevuto la tua richiesta."

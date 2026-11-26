@@ -7,10 +7,11 @@
  * may the sponsorship be finished.
  *
  * Two checkout shapes, one sub-workflow:
- *  - The public fast checkout is a single page holding the email, the consent
- *    and one button per payment mode. Pressing the eBill button opens the
- *    setup inline with the email the sponsor already typed there (never asked
- *    twice), and the wizard is submitted for them once the code validates.
+ *  - The public fast checkout is a single page holding the email, the consent,
+ *    one radio per payment mode and a Continue button that carries the picked
+ *    mode. Pressing Continue with eBill picked opens the setup inline with the
+ *    email the sponsor already typed there (never asked twice), and the wizard
+ *    is submitted for them once the code validates.
  *  - The logged-in flow still selects a mode in the #payment_method dropdown
  *    and finishes with #finish_button. There, the setup is opened by its own
  *    intro button and the finish button stays disabled until it succeeds.
@@ -28,7 +29,8 @@ import { rpc } from "@web/core/network/rpc";
 
 // Account.payment.method code of the eBill payment mode
 // (my_compassion_switzerland.account_payment_method_ebill), carried by both
-// the dropdown options and the fast checkout's mode buttons.
+// the dropdown options and the fast checkout's mode radios (copied onto its
+// Continue button when picked).
 const EBILL_PAYMENT_CODE = "ebill";
 
 NewSponsorshipWizard.include({
@@ -39,6 +41,7 @@ NewSponsorshipWizard.include({
     "click #ebill_content_container button[type='submit']":
       "_onEbillFormSubmit",
     "click #ebill_content_container a[type='submit']": "_onEbillFormSubmit",
+    "input input[name='email']": "_onCheckoutEmailInput",
   },
 
   /**
@@ -53,10 +56,18 @@ NewSponsorshipWizard.include({
   init: function () {
     this._super.apply(this, arguments);
     this._eBill = { has_contract: false, partner: null, contract: null };
-    // The mode button that opened the setup, re-pressed once the code
-    // validates so the wizard finishes through its normal path.
-    this._eBillPendingButton = null;
-    this._eBillDone = false;
+    // The fast checkout's setup in progress: the Continue button that opened
+    // it (re-pressed once the code validates, so the wizard finishes through
+    // its normal path) and the email it was started for. Dropped as soon as
+    // the sponsor picks another mode or edits the email
+    // (_abandonStaleEbillAttempt): a response arriving after that belongs to
+    // nothing on the page any more and is ignored.
+    this._eBillAttempt = null;
+    // The eBill request still out, if any: one at a time, so a second press
+    // of Continue, Subscribe or Validate does not send a second code.
+    this._eBillRequest = null;
+    // The email the fast checkout's setup succeeded for.
+    this._eBillDoneEmail = null;
   },
 
   /**
@@ -163,21 +174,74 @@ NewSponsorshipWizard.include({
   /**
    * @override
    *
-   * The fast checkout's payment-mode buttons both pick a mode and submit the
-   * page. eBill cannot be submitted that way: its setup has to succeed first,
-   * or the sponsorship would be created with an eBill mode no bank knows
-   * about. So the first press opens the setup instead of stepping, and the
-   * step happens by itself once the code validates.
+   * On the fast checkout, Continue submits the payment mode picked in the
+   * radios. eBill cannot be submitted that way: its setup has to succeed
+   * first, or the sponsorship would be created with an eBill mode no bank
+   * knows about. So the first press opens the setup instead of stepping, and
+   * the step happens by itself once the code validates.
    */
   _onStepClick: function (ev) {
+    // The mode is read off Continue right below, before _super would sync
+    // it with the checked radio.
+    this._mirrorCheckedPaymentMode();
     const isEbillButton =
       $(ev.currentTarget).data("payment-code") === EBILL_PAYMENT_CODE;
-    if (isEbillButton && !this._eBillDone && !this._eBill.has_contract) {
+    const setupDone =
+      this._eBillDoneEmail !== null &&
+      this._eBillDoneEmail === this._getCheckoutEmail();
+    if (isEbillButton && !setupDone && !this._eBill.has_contract) {
       ev.preventDefault();
-      this._startEbillSetup($(ev.currentTarget));
+      if (!this._eBillRequest) {
+        this._startEbillSetup($(ev.currentTarget));
+      }
       return undefined;
     }
     return this._super.apply(this, arguments);
+  },
+
+  /**
+   * @override
+   */
+  _onPaymentModeRadioChange: function () {
+    const result = this._super.apply(this, arguments);
+    this._abandonStaleEbillAttempt();
+    return result;
+  },
+
+  /**
+   * The checkout's own email field: the setup in progress was started for
+   * the address it held then.
+   * @private
+   * @param {Event} ev
+   */
+  _onCheckoutEmailInput: function (ev) {
+    const container = this.el.querySelector("#ebill_content_container");
+    if (container && container.contains(ev.currentTarget)) {
+      return;
+    }
+    this._abandonStaleEbillAttempt();
+  },
+
+  /**
+   * Drops the fast checkout's setup in progress once the page no longer
+   * asks for it: another payment mode is picked, or the email changed. Its
+   * box is hidden and a late response is ignored; picking eBill again needs
+   * a fresh press of Continue, which starts a new setup.
+   * @private
+   */
+  _abandonStaleEbillAttempt: function () {
+    const attempt = this._eBillAttempt;
+    if (!attempt) {
+      return;
+    }
+    const stillEbill =
+      attempt.$button.data("payment-code") === EBILL_PAYMENT_CODE;
+    if (stillEbill && this._getCheckoutEmail() === attempt.email) {
+      return;
+    }
+    this._eBillAttempt = null;
+    this._eBillRequest = null;
+    this.$("#ebill_setup_container").addClass("d-none");
   },
 
   /**
@@ -185,11 +249,11 @@ NewSponsorshipWizard.include({
    * code: the email of the page is what the code is sent to, so there is
    * nothing left to ask before it.
    *
-   * The page is validated first, exactly as pressing any other mode button
+   * The page is validated first, exactly as Continue with any other mode
    * would - an eBill setup started from an empty or malformed email address
    * would only send the code into the void.
    * @private
-   * @param {jQuery} $button - The mode button that was pressed.
+   * @param {jQuery} $button - The Continue button that was pressed.
    */
   _startEbillSetup: function ($button) {
     if (!this._validateForm()) {
@@ -199,7 +263,10 @@ NewSponsorshipWizard.include({
     if (!email) {
       return;
     }
-    this._eBillPendingButton = $button;
+    const attempt = { $button, email };
+    const request = {};
+    this._eBillAttempt = attempt;
+    this._eBillRequest = request;
     this.$("#ebill_setup_container").removeClass("d-none");
     this.$("#ebill_error").addClass("d-none");
     this.$("#ebill_loading").removeClass("d-none");
@@ -209,12 +276,21 @@ NewSponsorshipWizard.include({
     }
     this._postEbillForm("/ebill/subscribe", { is_integrated: true, email })
       .then((html) => {
-        this._setEbillFragment(html);
+        if (attempt === this._eBillAttempt) {
+          this._setEbillFragment(html);
+        }
       })
       .catch((err) => {
         console.error(err);
-        this.$("#ebill_loading").addClass("d-none");
-        this.$("#ebill_error").removeClass("d-none");
+        if (attempt === this._eBillAttempt) {
+          this.$("#ebill_loading").addClass("d-none");
+          this.$("#ebill_error").removeClass("d-none");
+        }
+      })
+      .finally(() => {
+        if (this._eBillRequest === request) {
+          this._eBillRequest = null;
+        }
       });
   },
 
@@ -246,19 +322,29 @@ NewSponsorshipWizard.include({
    */
   _onStartEbillWorkflow: function (ev) {
     ev.preventDefault();
+    if (this._eBillRequest) {
+      return;
+    }
 
     const params = {
       is_integrated: true,
       email: this._eBill.partner?.email || this._getCheckoutEmail(),
     };
 
+    const request = {};
+    this._eBillRequest = request;
     this._postEbillForm("/ebill/subscribe", params)
       .then((html) => {
         this.$("#ebill_setup_container").show();
         this._setEbillFragment(html);
         this.$("#finish_button").prop("disabled", true);
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        if (this._eBillRequest === request) {
+          this._eBillRequest = null;
+        }
+      });
   },
 
   /**
@@ -278,6 +364,9 @@ NewSponsorshipWizard.include({
 
     ev.preventDefault();
     ev.stopPropagation();
+    if (this._eBillRequest) {
+      return;
+    }
 
     const action = ev.currentTarget.dataset.action;
 
@@ -302,36 +391,58 @@ NewSponsorshipWizard.include({
         this._getEbillFragmentValue("#email") || this._getCheckoutEmail();
     }
 
+    // The fast checkout's setup this request belongs to; none in the
+    // dropdown flow.
+    const attempt = this._eBillAttempt;
+    const request = {};
+    this._eBillRequest = request;
     this._postEbillForm(action, params)
       .then((html) => {
+        if (attempt !== this._eBillAttempt) {
+          return;
+        }
         this._setEbillFragment(html);
         const doneSuccessfully =
           this.$("#ebill_content_container #ebill-success-marker").length > 0;
         if (doneSuccessfully) {
-          this._eBillDone = true;
+          this._eBillDoneEmail = attempt ? attempt.email : null;
           this.$("#finish_button").prop("disabled", false);
           this._continueAfterEbill();
         }
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        if (this._eBillRequest === request) {
+          this._eBillRequest = null;
+        }
+      });
   },
 
   /**
    * Finishes the fast checkout once the eBill setup succeeded.
    *
-   * Presses the mode button the sponsor pressed to get here, so the step goes
-   * through the wizard's own path (the eBill mode travels with it) instead of
-   * a second, parallel way of submitting the page. No-op in the dropdown
-   * flow, which has its own finish button and a sponsor to press it.
+   * Presses the Continue button the sponsor pressed to get here, so the step
+   * goes through the wizard's own path (the eBill mode travels with it)
+   * instead of a second, parallel way of submitting the page. Only while
+   * that button still carries eBill and the email is the one the setup was
+   * for: otherwise the sponsor did not ask for this submit, and is left to
+   * press Continue themselves. No-op in the dropdown flow, which has its own
+   * finish button and a sponsor to press it.
    * @private
    */
   _continueAfterEbill: function () {
-    const $button = this._eBillPendingButton;
-    if (!$button || !$button.length) {
+    const attempt = this._eBillAttempt;
+    this._eBillAttempt = null;
+    if (!attempt || !attempt.$button.length) {
       return;
     }
-    this._eBillPendingButton = null;
-    $button.trigger("click");
+    if (
+      attempt.$button.data("payment-code") !== EBILL_PAYMENT_CODE ||
+      this._getCheckoutEmail() !== attempt.email
+    ) {
+      return;
+    }
+    attempt.$button.trigger("click");
   },
 
   /**
