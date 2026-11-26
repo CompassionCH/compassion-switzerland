@@ -159,6 +159,16 @@ class TestPendingPaymentCopy(HttpCase, SwissCheckoutCase):
             html.index("/my2/new-sponsorship/complete-details"),
         )
 
+    def test_the_details_form_page_shows_the_notice_once(self):
+        """Once, in the form's left column under its desktop title (the
+        top-level title is hidden on desktop there); on mobile it opens the
+        column, under the page title."""
+        html = self._thank_you(self._make_ch_signup(self.ebill_mode))
+        self.assertIn("/my2/new-sponsorship/complete-details", html)
+        self.assertEqual(html.count(NOTICE), 1)
+        self.assertLess(html.index("ns-left-title"), html.index(NOTICE))
+        self.assertLess(html.index(NOTICE), html.index("ns-letter-card"))
+
     def test_a_settled_signup_is_not_told_a_payment_is_pending(self):
         """The notice is about the payment, not about the missing name.
 

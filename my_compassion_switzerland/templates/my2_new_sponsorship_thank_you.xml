@@ -16,10 +16,14 @@ Page: My Compassion 2 – New Sponsorship Thank You - no payment taken yet
     recurring.contract._my2_ch_pending_payment_kind (models/contracts.py).
 
     Targets:
-    - my_compassion.my2_new_sponsorship_thank_you_page - right after the
-      top-level title, on every branch that shows that title: the "Who shall
-      we thank?" form, the "details emailed" confirmation and the logged-in
-      sponsor's page.
+    - my_compassion.my2_new_sponsorship_thank_you_page, under the title the
+      sponsor sees:
+      - the "Who shall we thank?" form: in its left column, right after the
+        desktop title. On desktop that puts it under the column's title; on
+        mobile that title is hidden, so the notice opens the column, right
+        under the page title above it.
+      - the "details emailed" confirmation and the logged-in sponsor's page:
+        right after the top-level title.
     - my_compassion.my2_new_sponsorship_all_set - the "All set" branch, which
       has no top-level title: inside its right-hand column (ns-aside-item),
       below the sponsorship summary box.
@@ -81,19 +85,27 @@ Page: My Compassion 2 – New Sponsorship Thank You - no payment taken yet
     inherit_id="my_compassion.my2_new_sponsorship_thank_you_page"
     name="New Sponsorship Thank You - Payment Still To Come (under the title)"
   >
-    <!-- The first match is the top-level title block. Its condition is
-         repeated here because this node is its sibling, not its child: the
-         "All set" branch has no top-level title and shows the notice in its
-         own column instead (my2_new_sponsorship_thank_you_pending_payment). -->
+    <!-- The first match is the top-level title block. This node is its
+         sibling, not its child, so it states its own condition: the title's
+         branches except the details form, which shows the notice in its
+         left column (below). "All set" has no top-level title and shows the
+         notice in its own column (my2_new_sponsorship_thank_you_pending_payment). -->
     <xpath
       expr="//t[@t-call='my_compassion.my2_new_sponsorship_thank_you_title']/.."
       position="after"
     >
       <t
-        t-if="details_token or details_emailed or not request.env.user._is_public()"
+        t-if="not details_token and (details_emailed or not request.env.user._is_public())"
         t-call="my_compassion_switzerland.my2_ch_pending_payment_notice"
       >
         <t t-set="notice_class" t-value="'mx-4'" />
+      </t>
+    </xpath>
+    <!-- The details form's left column: its desktop title block exists only
+         in that branch. -->
+    <xpath expr="//div[hasclass('ns-left-title')]" position="after">
+      <t t-call="my_compassion_switzerland.my2_ch_pending_payment_notice">
+        <t t-set="notice_class" t-value="'w-100'" />
       </t>
     </xpath>
   </template>
