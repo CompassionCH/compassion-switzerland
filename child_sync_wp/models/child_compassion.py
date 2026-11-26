@@ -47,11 +47,10 @@ class CompassionChild(models.Model):
         res.append("I")
         return res
 
-    def add_to_wordpress(self, company_id=None, wp=None):
+    def _filter_publishable(self):
         in_two_years = date.today() + relativedelta(years=2)
-        valid_children = self.filtered(
-            lambda c: c.state == "N"
-            and c.description_de
+        return self.filtered(
+            lambda c: c.description_de
             and c.description_fr
             and c.description_it
             and c.project_id.description_fr
@@ -60,6 +59,9 @@ class CompassionChild(models.Model):
             and c.fullshot
             and (not c.completion_date or c.completion_date > in_two_years)
         )
+
+    def add_to_wordpress(self, company_id=None, wp=None):
+        valid_children = self.filtered(lambda c: c.state == "N")._filter_publishable()
 
         error = self - valid_children
         if error:
@@ -196,21 +198,25 @@ class CompassionChild(models.Model):
     def _own_children_for_quota(self, field_office, take, exclude):
         """GMC never returns children we already hold (e.g. a yearly country
         reservation): top up the quota with ours, not shown last week first."""
-        own = self.search(
-            [
-                ("id", "not in", exclude.ids),
-                ("state", "in", ["N", "I"]),
-                ("project_id.field_office_id", "=", field_office.id),
-                ("hold_id.type", "=", HoldType.CONSIGNMENT_HOLD.value),
-                ("hold_id.event_id", "=", False),
-                ("hold_id.ambassador", "=", False),
-                (
-                    "hold_id.expiration_date",
-                    ">",
-                    fields.Datetime.now() + relativedelta(days=7),
-                ),
-            ]
-        ).sorted(lambda c: c.state == "I")[:take]
+        own = (
+            self.search(
+                [
+                    ("id", "not in", exclude.ids),
+                    ("state", "in", ["N", "I"]),
+                    ("project_id.field_office_id", "=", field_office.id),
+                    ("hold_id.type", "=", HoldType.CONSIGNMENT_HOLD.value),
+                    ("hold_id.event_id", "=", False),
+                    ("hold_id.ambassador", "=", False),
+                    (
+                        "hold_id.expiration_date",
+                        ">",
+                        fields.Datetime.now() + relativedelta(days=7),
+                    ),
+                ]
+            )
+            ._filter_publishable()
+            .sorted(lambda c: c.state == "I")[:take]
+        )
         # Back to "N" so the refresh re-uploads them instead of removing them.
         own.filtered(lambda c: c.state == "I").write({"state": "N"})
         if own:
@@ -228,15 +234,16 @@ class CompassionChild(models.Model):
             global_pool = self.with_company(company_id)._create_diverse_children_pool(
                 take
             )
-            new_children = self._hold_children(global_pool)
-            new_children |= self.with_company(company_id)._hold_country_quotas()
-            valid_new_children = new_children._update_information_and_filter_invalid()
+            # Before the quotas: they set reused online children back to "N".
             old_children = self.search(
                 [
                     ("state", "=", "I"),
                     ("hold_id.type", "!=", HoldType.NO_MONEY_HOLD.value),
                 ]
             )
+            new_children = self._hold_children(global_pool)
+            new_children |= self.with_company(company_id)._hold_country_quotas()
+            valid_new_children = new_children._update_information_and_filter_invalid()
             self._replace_children_in_wordpress(
                 company_id, wp, old_children, valid_new_children
             )
@@ -343,8 +350,9 @@ class CompassionChild(models.Model):
                 f"No new child uploaded: {restored}/{len(old_children)} "
                 "previous children restored."
             )
-        elif old_children:
-            old_children.with_delay_sh(
+        elif old_children - new_children:
+            # Reused quota children are online again: keep their "I".
+            (old_children - new_children).with_delay_sh(
                 "write", {"state": "N"}, channel="root.child_compassion"
             )
 
