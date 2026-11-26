@@ -1267,7 +1267,7 @@ msgstr "Erneut versuchen"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.subscribe_template_content
 msgid "Subscribe to E-Bill"
-msgstr "eBill abonnieren"
+msgstr "eBill aktivieren"
 
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.success_template_content
@@ -1292,7 +1292,7 @@ msgstr "Wir haben einen Bestätigungscode gesendet an"
 #. module: my_compassion_switzerland
 #: model_terms:ir.ui.view,arch_db:ebill_postfinance_recipient_subscription.success_template_content
 msgid "You have successfully subscribed to E-Bill."
-msgstr "Du hast eBill erfolgreich abonniert."
+msgstr "Du hast eBill erfolgreich aktiviert."
 
 #. module: my_compassion_switzerland
 #. odoo-javascript
