@@ -180,14 +180,46 @@ class CompassionChild(models.Model):
             pool = self.env["compassion.childpool.search"].create(
                 {"take": int(take), "field_office_ids": [(6, 0, field_office.ids)]}
             )
+            new = self.browse()
             try:
                 pool.do_search()
             except UserError:
                 logger.warning("WordPress quota: no available children in %s", code)
-                continue
             if pool.global_child_ids:
-                children |= self._hold_children(pool)
+                new = self._hold_children(pool)
+            children |= new
+            missing = int(take) - len(new)
+            if missing > 0:
+                children |= self._own_children_for_quota(field_office, missing, new)
         return children
+
+    def _own_children_for_quota(self, field_office, take, exclude):
+        """GMC never returns children we already hold (e.g. a yearly country
+        reservation): top up the quota with ours, not shown last week first."""
+        own = self.search(
+            [
+                ("id", "not in", exclude.ids),
+                ("state", "in", ["N", "I"]),
+                ("project_id.field_office_id", "=", field_office.id),
+                ("hold_id.type", "=", HoldType.CONSIGNMENT_HOLD.value),
+                ("hold_id.event_id", "=", False),
+                ("hold_id.ambassador", "=", False),
+                (
+                    "hold_id.expiration_date",
+                    ">",
+                    fields.Datetime.now() + relativedelta(days=7),
+                ),
+            ]
+        ).sorted(lambda c: c.state == "I")[:take]
+        # Back to "N" so the refresh re-uploads them instead of removing them.
+        own.filtered(lambda c: c.state == "I").write({"state": "N"})
+        if own:
+            logger.info(
+                "WordPress quota: %s held children added for %s",
+                len(own),
+                field_office.field_office_id,
+            )
+        return own
 
     def _hold_and_push_to_wordpress(self, company_id, take):
         try:
