@@ -94,7 +94,9 @@ class SwissCheckoutCase(DigitalSeamCase):
                 }
             )
         )
-        contract.my2_signup = True
+        # what the wizard sets on a fast-checkout signup: the partner it
+        # created is the one whose details are still awaited
+        contract.write({"my2_signup": True, "my2_details_awaited_partner": partner.id})
         return contract
 
     def _potential_volunteer_activities(self, partner):

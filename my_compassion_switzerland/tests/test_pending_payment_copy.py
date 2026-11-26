@@ -9,6 +9,10 @@
 from odoo.tests import tagged
 from odoo.tests.common import HttpCase
 
+from odoo.addons.my_compassion.controllers.my2_sponsorships import (
+    OWN_SIGNUPS_SESSION_KEY,
+)
+
 from .common import SwissCheckoutCase
 
 NOTICE = 'id="ch_pending_payment_notice"'
@@ -82,12 +86,31 @@ class TestPendingPaymentKind(SwissCheckoutCase):
 class TestPendingPaymentCopy(HttpCase, SwissCheckoutCase):
     """The copy itself, on the page the sponsor actually lands on."""
 
-    def _thank_you(self, signup):
+    def _own_signup(self, signup):
+        """Be the browser that went through the checkout of `signup`.
+
+        The thank-you page only shows a signup to its own checkout session or
+        to the logged-in sponsor; a bare sponsorship id gets a 404.
+        """
+        self.authenticate(
+            None, None, session_extra={OWN_SIGNUPS_SESSION_KEY: [signup.id]}
+        )
+
+    def _thank_you(self, signup, own=True):
+        if own:
+            self._own_signup(signup)
         page = self.url_open(
             f"/my2/new-sponsorship/thank-you?sponsorship_id={signup.id}"
         )
         self.assertEqual(page.status_code, 200)
         return page.text
+
+    def _settle(self, signup):
+        """The sponsor has given their name: the page is "All set" for a
+        visitor and the plain thank-you for the logged-in sponsor."""
+        signup.partner_id._my2_replace_placeholder_name("Jeanne", "Dupont")
+        self.assertFalse(signup._my2_details_pending())
+        return signup
 
     def test_ebill_page_says_nothing_is_debited_yet(self):
         html = self._thank_you(self._make_ch_signup(self.ebill_mode))
@@ -136,6 +159,16 @@ class TestPendingPaymentCopy(HttpCase, SwissCheckoutCase):
             html.index("/my2/new-sponsorship/complete-details"),
         )
 
+    def test_the_details_form_page_shows_the_notice_once(self):
+        """Once, in the form's left column under its desktop title (the
+        top-level title is hidden on desktop there); on mobile it opens the
+        column, under the page title."""
+        html = self._thank_you(self._make_ch_signup(self.ebill_mode))
+        self.assertIn("/my2/new-sponsorship/complete-details", html)
+        self.assertEqual(html.count(NOTICE), 1)
+        self.assertLess(html.index("ns-left-title"), html.index(NOTICE))
+        self.assertLess(html.index(NOTICE), html.index("ns-letter-card"))
+
     def test_a_settled_signup_is_not_told_a_payment_is_pending(self):
         """The notice is about the payment, not about the missing name.
 
@@ -143,11 +176,36 @@ class TestPendingPaymentCopy(HttpCase, SwissCheckoutCase):
         the same bank payment, so it still says so - keying it on the details
         form instead would have made the message disappear halfway through.
         """
-        signup = self._make_ch_signup(self.ebill_mode)
-        signup.partner_id._my2_replace_placeholder_name("Jeanne", "Dupont")
-        self.assertFalse(signup._my2_details_pending())
+        signup = self._settle(self._make_ch_signup(self.ebill_mode))
         html = self._thank_you(signup)
         self.assertIn(NOTICE, html)
+
+    def test_all_set_shows_the_notice_once(self):
+        """ "All set" has no top-level title, so only its own column says it."""
+        signup = self._settle(self._make_ch_signup(self.permanent_order_mode))
+        html = self._thank_you(signup)
+        self.assertIn("ns-all-set-columns", html)
+        self.assertEqual(html.count(NOTICE), 1)
+
+    def test_the_logged_in_sponsor_is_told_too(self):
+        """The sponsor who signed up while logged in lands on the plain
+        thank-you page, with the same bank payment still to come."""
+        signup = self._settle(self._make_ch_signup(self.postfinance_dd_mode))
+        login = "ch-logged-in-sponsor@example.org"
+        self.env["res.users"].with_context(no_reset_password=True).create(
+            {
+                "login": login,
+                "password": login,
+                "partner_id": signup.partner_id.id,
+                "groups_id": [(6, 0, [self.env.ref("base.group_portal").id])],
+            }
+        )
+        self.authenticate(login, login)
+        html = self._thank_you(signup, own=False)
+        self.assertIn("/my2/user_settings?current_tab=communication-settings", html)
+        # rendered in the sponsor's language (French), so only the notice
+        # itself is looked for
+        self.assertEqual(html.count(NOTICE), 1)
 
 
 @tagged("post_install", "-at_install")

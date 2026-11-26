@@ -7,11 +7,12 @@
 #
 ##############################################################################
 from odoo.tests import tagged
-from odoo.tests.common import HttpCase
+from odoo.tests.common import HttpCase, TransactionCase
 
 from odoo.addons.my_compassion.controllers.my2_sponsorships import (
     OWN_SIGNUPS_SESSION_KEY,
 )
+from odoo.addons.website.tools import MockRequest
 
 from .common import SwissCheckoutCase
 
@@ -290,3 +291,17 @@ class TestVolunteeringWizardSeam(SwissCheckoutCase):
         wizard = self._wizard()
         wizard.update({"volunteering": "1", "action": "next"})
         self.assertTrue(wizard.volunteering)
+
+
+@tagged("post_install", "-at_install")
+class TestFrontendTranslations(TransactionCase):
+    """The toast of the opt-in, and the volunteering page's messages, are
+    translated in the browser: the website only sends the translations of
+    the modules it is told about."""
+
+    def test_this_module_is_sent_to_the_browser(self):
+        website = self.env["website"].search([], limit=1)
+        with MockRequest(self.env, website=website) as request:
+            request.registry = self.env.registry
+            modules = self.env["ir.http"].get_translation_frontend_modules()
+        self.assertIn("my_compassion_switzerland", modules)
