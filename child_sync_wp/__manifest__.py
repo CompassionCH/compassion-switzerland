@@ -37,6 +37,7 @@
     "depends": [
         "mail",
         "sponsorship_compassion",
+        "crm_compassion",
         "child_switzerland",
         "wordpress_configuration",
     ],
