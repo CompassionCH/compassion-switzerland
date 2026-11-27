@@ -113,7 +113,10 @@
                     <li>Confirm the standing order.</li>
                 </ol>
 
-                <table style="width: 100%; margin-top: 6mm;">
+                <table
+          style="width: 100%; margin-top: 6mm;"
+          t-if="order['qr_code']"
+        >
                     <tr>
                         <td style="width: 50mm; vertical-align: middle;">
                             <img

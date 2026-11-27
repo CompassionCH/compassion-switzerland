@@ -21,6 +21,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
+# Characters of the transfer title in the ZBP QR code
+ZBP_TITLE_SIZE = 32
+
+
 class PartnerCommunication(models.Model):
     _inherit = "partner.communication.job"
 
@@ -842,7 +846,8 @@ class PartnerCommunication(models.Model):
         The transfer title is "darowizna" (donation, asked by Compassion
         Polska) and the reference of the group, or failing that of the
         sponsorships: the reference identifies the payment on the bank
-        statement.
+        statement. The QR code is left out when the title is longer than the
+        ZBP standard allows: a cut title would lose a reference.
         """
         group = sponsorships.mapped("group_id")
         company = sponsorships.mapped("company_id")[:1]
@@ -884,7 +889,8 @@ class PartnerCommunication(models.Model):
             "reference": reference,
             "title": title,
             "children": sponsorships.mapped("child_id"),
-            "qr_code": base64.b64encode(
+            "qr_code": len(title) <= ZBP_TITLE_SIZE
+            and base64.b64encode(
                 self.env["ir.actions.report"].barcode(
                     "QR",
                     self._get_zbp_qr_value(company, nrb, amount, title),
@@ -911,7 +917,7 @@ class PartnerCommunication(models.Model):
             nrb,
             f"{grosze:06d}" if 0 < grosze <= 999999 else "000000",
             (company.partner_id.name or "")[:20].strip(),
-            title[:32].strip(),
+            title[:ZBP_TITLE_SIZE].strip(),
             "",
             "",
             "",
