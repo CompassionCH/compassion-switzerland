@@ -125,6 +125,7 @@ class TestStandingOrderPl(TransactionCase):
         self.assertEqual(values["account"], "16 1050 1214 1000 0090 8755 1132")
         self.assertEqual(values["amount"], 150.0)
         self.assertEqual(values["reference"], "2033880 - 359095")
+        self.assertEqual(values["title"], "darowizna, 2033880 - 359095")
         self.assertEqual(values["children"], self.child)
         self.assertTrue(base64.b64decode(values["qr_code"]).startswith(b"\x89PNG"))
 
@@ -133,6 +134,22 @@ class TestStandingOrderPl(TransactionCase):
             self.group.ref = ref
             values = self.job._get_standing_order_pl_values(self.sponsorship)
             self.assertEqual(values["reference"], self.sponsorship.reference)
+
+    def test_qr_code_has_the_transfer_title(self):
+        job_class = type(self.job)
+        with mock.patch.object(
+            job_class, "_get_zbp_qr_value", autospec=True, return_value="qr"
+        ) as qr_value:
+            self.job._get_standing_order_pl_values(self.sponsorship)
+        self.assertEqual(qr_value.call_args.args[-1], "darowizna, 2033880 - 359095")
+
+    def test_no_qr_code_for_a_title_too_long(self):
+        self.group.ref = "CON00001, CON00002, CON00003"
+        values = self.job._get_standing_order_pl_values(self.sponsorship)
+        self.assertEqual(values["title"], "darowizna, CON00001, CON00002, CON00003")
+        self.assertFalse(values["qr_code"])
+        pdf = self.job._get_standing_order_pl_attachments(self.sponsorship)
+        self.assertEqual(len(pdf), 1)
 
     def test_zbp_qr_value(self):
         value = self.job._get_zbp_qr_value(

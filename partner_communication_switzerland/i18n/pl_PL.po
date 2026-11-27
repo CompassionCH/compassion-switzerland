@@ -72,7 +72,7 @@ msgid ""
 "Please copy it exactly: it lets us assign your gift to your sponsorship."
 msgstr ""
 "Prosimy przepisać go dokładnie – dzięki temu przypiszemy wpłatę do Twojego "
-"sponsoringu."
+"patronatu."
 
 #. module: partner_communication_switzerland
 #. odoo-python
@@ -111,7 +111,7 @@ msgstr ""
 #. module: partner_communication_switzerland
 #: model_terms:ir.ui.view,arch_db:partner_communication_switzerland.standing_order_pl_document
 msgid "Sponsored child"
-msgstr "Sponsorowane dziecko"
+msgstr "Dziecko objęte patronatem"
 
 #. module: partner_communication_switzerland
 #: model:ir.actions.report,name:partner_communication_switzerland.report_standing_order_pl
@@ -125,10 +125,10 @@ msgid ""
 "order in your online banking with the details below: it is the simplest way "
 "to support your sponsored child every month."
 msgstr ""
-"Dziękujemy za objęcie dziecka sponsoringiem w Compassion. Prosimy o "
+"Dziękujemy za objęcie dziecka patronatem w Compassion. Prosimy o "
 "ustawienie w bankowości internetowej comiesięcznego zlecenia stałego z "
 "poniższymi danymi – to najprostszy sposób, aby co miesiąc wspierać "
-"sponsorowane dziecko."
+"Twoje dziecko."
 
 #. module: partner_communication_switzerland
 #. odoo-python

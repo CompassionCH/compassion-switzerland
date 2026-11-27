@@ -89,7 +89,7 @@
                         <td t-att-style="td_style">
                             <strong
                 style="font-size: 13pt;"
-                t-out="order['reference']"
+                t-out="order['title']"
               />
                             <div style="font-size: 9pt; color: #555;">Please copy it exactly: it lets us assign your gift to your sponsorship.</div>
                         </td>
@@ -113,7 +113,10 @@
                     <li>Confirm the standing order.</li>
                 </ol>
 
-                <table style="width: 100%; margin-top: 6mm;">
+                <table
+          style="width: 100%; margin-top: 6mm;"
+          t-if="order['qr_code']"
+        >
                     <tr>
                         <td style="width: 50mm; vertical-align: middle;">
                             <img
@@ -133,7 +136,7 @@
         >
                     Any questions? Contact us:
                     <span t-out="recipient.email" />
-                    <span t-if="recipient.email and recipient.phone"> - </span>
+                    <span t-if="recipient.email and recipient.phone"> / </span>
                     <span t-out="recipient.phone" />
                 </p>
             </div>
