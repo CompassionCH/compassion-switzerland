@@ -18,3 +18,4 @@ from . import test_create_a_sponsorship
 from . import test_write_and_pray_sponsorship
 from . import test_write_and_pray_fixes
 from . import test_standing_order_pl
+from . import test_retired_website_reminder

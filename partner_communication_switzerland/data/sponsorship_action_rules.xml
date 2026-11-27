@@ -9,26 +9,6 @@
     (new sponsorship is active after 50 days)     - sub_accept / sub_reject
     -->
 
-    <!-- Rule for sending reminder after SMS request received but step 2 is not completed. -->
-    <record id="sms_sponsorship_reminder_action" model="ir.actions.server">
-        <field name="name">Website Sponsorship: Remind sponsorship confirmation</field>
-        <field name="model_id" ref="model_recurring_contract" />
-        <field name="state">communication</field>
-        <field name="usage">base_automation</field>
-        <field name="config_id" ref="partner_communication_switzerland.sms_registration_reminder" />
-        <field name="partner_field">partner_id</field>
-    </record>
-    <record id="sms_sponsorship_reminder" model="base.automation">
-        <field name="name">Website Sponsorship: Remind sponsorship confirmation</field>
-        <field name="model_id" ref="model_recurring_contract" />
-        <field name="trigger">on_time</field>
-        <field name="trg_date_id" ref="recurring_contract.field_recurring_contract__create_date" />
-        <field name="filter_domain" eval="[('medium_id', '=', ref('utm.utm_medium_website')), ('group_id.payment_mode_id', '=', False), ('state', '=', 'draft')]" />
-        <field name="trg_date_range">1</field>
-        <field name="trg_date_range_type">day</field>
-        <field name="action_server_ids" eval="[(6, 0, [ref('sms_sponsorship_reminder_action')])]" />
-    </record>
-
     <!-- Rule for sending unread B2S letters by post -->
     <record id="unread_b2s_by_post_rule_action" model="ir.actions.server">
         <field name="name">B2S letter: send unread letters by post</field>
