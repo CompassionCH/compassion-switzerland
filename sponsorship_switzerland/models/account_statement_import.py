@@ -9,7 +9,10 @@
 import re
 
 from odoo import models
+from odoo.tools import mod10r
 
+# QR (BVR) reference: 26 digits + check digit
+QRR = re.compile(r"\d{27}")
 # Sponsorship QRR reference: 9 digits + partner ref (7) + group counter (5)
 # + type 0 + 0000 + check digit (see recurring.contract.group
 # compute_partner_bvr_ref). Gift (1-6) and fund (6 + fund id) references
@@ -25,7 +28,10 @@ class AccountStatementImport(models.TransientModel):
         group. The partner ref inside it is the one of the partner the group
         was first made for (e.g. the correspondent, or a former sponsor), not
         always the payer, but camt54 sets the partner from it. Set the payer
-        instead, so that the invoice matching rule finds the open invoices."""
+        instead, so that the invoice matching rule finds the open invoices.
+        T3724 Older standing orders pay with a QRR reference of another
+        layout, with no partner ref inside: the open invoices carrying it
+        tell the payer."""
         stmts_vals = super()._complete_stmts_vals(stmts_vals, journal, account_number)
         company = journal.company_id or self.env.company
         for st_vals in stmts_vals:
@@ -36,15 +42,18 @@ class AccountStatementImport(models.TransientModel):
         return stmts_vals
 
     def _get_sponsorship_payer(self, line_vals, company):
-        """Payer of the open invoices, or else of the sponsorship group,
-        carrying the QRR reference of the line. The bank puts the reference
-        in the label, or in the reference when the donor wrote a message.
+        """Payer of the open invoices carrying the QRR reference of the line,
+        whatever its layout, or else, for a sponsorship reference, of the
+        sponsorship group. The bank puts the reference in the label, or in
+        the reference when the donor wrote a message.
+        A gift or fund reference has no open invoice: it keeps its partner,
+        and its QR reconcile rule decodes it.
         :return: res.partner, empty if not found or not unique
         """
         partner_obj = self.env["res.partner"]
         for ref in (line_vals.get("payment_ref"), line_vals.get("ref")):
             ref = (ref or "").strip()
-            if not SPONSORSHIP_QRR.fullmatch(ref):
+            if not QRR.fullmatch(ref) or mod10r(ref[:-1]) != ref:
                 continue
             invoices = self.env["account.move"].search(
                 [
@@ -56,7 +65,7 @@ class AccountStatementImport(models.TransientModel):
                 ]
             )
             payer = invoices.mapped("partner_id.commercial_partner_id")
-            if not payer:
+            if not payer and SPONSORSHIP_QRR.fullmatch(ref):
                 groups = (
                     self.env["recurring.contract.group"]
                     .search(
