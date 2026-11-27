@@ -426,7 +426,9 @@ class ExternalAuthUsers(models.Model):
             token = authorization_header.split(" ", 1)[1]
             with contextlib.closing(cls.pool.cursor()) as cr:
                 env = api.Environment(cr, uid, {})
-                user = env["res.users"].browse(uid)
+                # sudo like core check(): the user's record rules (e.g. on
+                # partners) would run on every RPC call and can cost ~1 s.
+                user = env["res.users"].sudo().browse(uid)
                 if not user.exists() or not user.active:
                     raise AccessDenied()
                 try:
