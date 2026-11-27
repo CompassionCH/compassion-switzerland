@@ -839,8 +839,9 @@ class PartnerCommunication(models.Model):
         """What the sponsor types in their bank for the sponsorships of one
         group.
 
-        The transfer title is the reference of the group, or failing that of
-        the sponsorships: it is what identifies the payment on the bank
+        The transfer title is "darowizna" (donation, asked by Compassion
+        Polska) and the reference of the group, or failing that of the
+        sponsorships: the reference identifies the payment on the bank
         statement.
         """
         group = sponsorships.mapped("group_id")
@@ -848,6 +849,7 @@ class PartnerCommunication(models.Model):
         reference = group.ref if group.ref and group.ref.strip() != "/" else ""
         if not reference:
             reference = ", ".join(sponsorships.mapped("reference"))
+        title = f"darowizna, {reference}"
         bank = group.payment_mode_id.fixed_journal_id.bank_account_id
         if not bank:
             bank = (
@@ -880,11 +882,12 @@ class PartnerCommunication(models.Model):
             "amount": amount,
             "currency": currency,
             "reference": reference,
+            "title": title,
             "children": sponsorships.mapped("child_id"),
             "qr_code": base64.b64encode(
                 self.env["ir.actions.report"].barcode(
                     "QR",
-                    self._get_zbp_qr_value(company, nrb, amount, reference),
+                    self._get_zbp_qr_value(company, nrb, amount, title),
                     width=300,
                     height=300,
                 )
