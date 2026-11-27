@@ -513,6 +513,7 @@ class Contracts(models.Model):
                 ref = f"M2M-{partner.ref or randint(1000, 9999)}"
                 custom_values.update(self._get_cc_form_values(partner, form_data))
 
+            ref = self._get_free_reference(ref)
             custom_values.update(
                 {
                     "partner_id": partner.id,
@@ -553,6 +554,21 @@ class Contracts(models.Model):
                 message_type="email",
             )
         return contract
+
+    def _get_free_reference(self, ref):
+        """A donor can sign up again (renewal, second engagement): suffix the
+        reference instead of failing on its unique constraint (T3727)."""
+        taken = (
+            self.with_context(active_test=False)
+            .search(["|", ("reference", "=", ref), ("reference", "=like", f"{ref}-%")])
+            .mapped("reference")
+        )
+        if not taken:
+            return ref
+        suffixes = [
+            int(r[len(ref) + 1 :]) for r in taken if r[len(ref) + 1 :].isdigit()
+        ]
+        return f"{ref}-{max(suffixes, default=1) + 1}"
 
     def _parse_wp_sponsorship_form(self, data_string):
         """
