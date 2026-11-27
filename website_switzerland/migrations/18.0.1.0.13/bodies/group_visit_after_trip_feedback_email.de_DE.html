@@ -1,0 +1,86 @@
+<t t-set="partner" t-value="object.partner_id" />
+<t t-set="registration" t-value="object.get_objects()" />
+<t t-set="event" t-value="registration.compassion_event_id" />
+<t
+  t-set="survey"
+  t-value="registration.feedback_survey_id or registration.event_id.feedback_survey_id"
+/>
+<t t-set="user" t-value="registration.event_id.user_id" />
+<t t-set="base_url" t-value="registration.website_id.domain" />
+<t t-set="url" t-value="base_url + survey.sudo().get_start_url()" />
+<t
+  t-set="children_in_poverty"
+  t-value="object.get_snippet('children_in_poverty', strip_html=True)"
+/>
+<p>
+  <t t-out="partner.informal_salutation" />
+  <br />
+  <br />
+  Wir hoffen, dass du nach der Reise mit Compassion wieder gut nach Hause
+  gekommen bist und dass das Erlebte für dich in jederlei Hinsicht eine
+  Bereicherung war.
+  <br />
+  <br />
+  Hast du drei Minuten, uns deine Meinung zur Reise mitzuteilen?
+  <br />
+  <br />
+</p>
+<div style="margin: 40px auto; text-align: center">
+  <a
+    t-att-href="url"
+    style="
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 18px;
+      color: white;
+      display: inline-block;
+      margin-bottom: 0px;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      white-space: nowrap;
+      background-image: none;
+      background-color: #2a5eec;
+      border: 1px solid #2a5eec;
+      border-radius: 3px;
+    "
+  >
+    Feedback senden
+  </a>
+</div>
+
+<p>
+  Deine Reise kann noch weitreichende Auswirkungen haben. Wusstest du das? Wenn
+  du deinen Freunden und Bekannten von deinen Erlebnissen und der Begegnung mit
+  deinem Patenkind berichtest, werden manche daraufhin deinem Beispiel folgen,
+  eine Patenschaft übernehmen und so ihrerseits das Leben eines Kindes
+  verändern.
+  <br />
+  <br />
+  Ermutige deine Freunde, Pate eines Kindes zu werden! Dazu können sie eine
+  gratis SMS mit dem Text "1 Kind" an 959 senden oder aber sie gehen direkt auf
+  www.compassion.ch /jetzt : Dort findet ihr Kinder, für die wir gerade dringend
+  einen Paten suchen.
+  <br />
+  <br />
+  Möchtest du Compassion bei einem kleinen Freundestreffen bei dir zu Hause
+  vorstellen und brauchst du dazu unsere Unterstützung bzw. Material, dann
+  melden dich ungeniert! Ruf' uns an 024 434 21 24 oder schreibe uns an
+  events@compassion.ch .
+  <br />
+  <br />
+  Wir von Compassion glauben daran, dass es möglich ist, die Welt zu verändern -
+  ein Kind nach dem anderen. Auch wenn extreme Armut abnimmt- was eine gute
+  Nachricht ist - leben noch immer <t t-out="children_in_poverty" /> Millionen
+  Kinder in extremer Armut.
+  <br />
+  <br />
+  Von Herzen danke, dass du dich Seite an Seite mit uns engagierst, um das Leben
+  möglichst vieler Kinder zu verändern!
+  <br />
+  <br />
+  Herzliche Grüsse
+</p>
+<t t-out="user.signature" />

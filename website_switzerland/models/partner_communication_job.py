@@ -8,11 +8,24 @@
 ##############################################################################
 import base64
 
-from odoo import _, models
+from odoo import _, api, models
 
 
 class CommunicationJob(models.Model):
     _inherit = "partner.communication.job"
+
+    @api.model
+    def _get_dynamic_user(self, config, object_ids_str):
+        """The event registration e-mails are signed by the event Responsible.
+        When it is not an employee (admin, church rep), keep the signer of the
+        communication rule.
+        """
+        user = super()._get_dynamic_user(config, object_ids_str)
+        if config.model == "event.registration" and not (
+            user and user.sudo().employee_ids
+        ):
+            return config.user_id or user
+        return user
 
     def get_trip_down_payment_attachment(self):
         """
@@ -69,6 +82,19 @@ class CommunicationJob(models.Model):
                 registration.partner_id.ids, report_vals
             )
         }
+
+    def _job_sent(self, send_mode):
+        """The registration confirmation (step1) moves the registration to
+        Registered once it is sent."""
+        res = super()._job_sent(send_mode)
+        step1 = self.env.ref("website_switzerland.group_visit_step1_config")
+        sent = self.filtered(lambda job: job.state == "done" and job.config_id == step1)
+        task = self.env.ref("website_switzerland.task_step1_sent")
+        for job in sent:
+            job.get_objects().task_ids.filtered(
+                lambda rel: rel.task_id == task and not rel.done
+            ).write({"done": True})
+        return res
 
     def _render_payment_slip(self, partner_ids, report_vals):
         """The payment slip of a trip, as an attachment of the communication."""
